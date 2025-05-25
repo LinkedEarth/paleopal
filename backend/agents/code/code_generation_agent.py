@@ -1,0 +1,145 @@
+"""
+Code Generation Agent - Produces Python code snippets / notebooks for data analysis tasks.
+Updated to use LangGraph and unified state management.
+"""
+
+import logging
+from typing import Dict, Any, Optional
+
+from agents.base_langgraph_agent import BaseLangGraphAgent
+from agents.base_agent import AgentRequest, AgentResponse, AgentStatus, AgentCapability
+from agents.code.state import CodeAgentState, CodeAgentConfig
+from services.service_manager import service_manager
+
+# Import LangGraph workflow creator
+from agents.code.agent import create_agent
+
+logger = logging.getLogger(__name__)
+
+
+class CodeGenerationAgent(BaseLangGraphAgent):
+    """Agent that generates Python code for paleoclimate analysis workflows using LangGraph."""
+
+    def __init__(self):
+        super().__init__(
+            agent_type="code",
+            name="Code Generation Agent",
+            description="Generates Python code (notebooks / scripts) for data-analysis tasks using PyLiPD / Pyleoclim",
+            state_class=CodeAgentState
+        )
+        self._register_capabilities()
+
+    def _register_capabilities(self):
+        """Register code generation capabilities."""
+        generate_cap = AgentCapability(
+            name="generate_code",
+            description="Generate Python code (notebook/script) for the requested analysis",
+            input_schema={
+                "type": "object",
+                "properties": {
+                    "analysis_request": {"type": "string"},
+                    "data_context": {"type": "object"},
+                    "analysis_type": {
+                        "type": "string",
+                        "enum": [
+                            "spectral",
+                            "correlation",
+                            "visualization",
+                            "filtering",
+                            "statistics",
+                            "general",
+                        ],
+                    },
+                    "output_format": {
+                        "type": "string",
+                        "enum": ["notebook", "script", "function"],
+                        "default": "notebook",
+                    },
+                    "clarification_responses": {
+                        "type": "array",
+                        "items": {"type": "object"},
+                        "description": "Responses to clarification questions"
+                    }
+                },
+                "required": ["analysis_request"],
+            },
+            output_schema={
+                "type": "object",
+                "properties": {
+                    "generated_code": {"type": "string"},
+                    "analysis_description": {"type": "string"},
+                    "code_examples_used": {"type": "array"},
+                    "required_libraries": {"type": "array"},
+                    "expected_outputs": {"type": "array"},
+                    "needs_clarification": {"type": "boolean"},
+                    "clarification_questions": {"type": "array"}
+                },
+            },
+            requires_conversation=True,
+        )
+        self.register_capability(generate_cap)
+
+    def _build_graph(self) -> None:
+        """Build the Code Generation LangGraph workflow."""
+        try:
+            self._graph = create_agent()
+        except Exception as e:
+            logger.error("Failed to build code generation graph: %s", e)
+            self._graph = None
+
+    def _create_agent_config(self, request: AgentRequest) -> CodeAgentConfig:
+        """Create code generation specific configuration from request."""
+        llm_provider = request.metadata.get("llm_provider", "openai")
+        llm_model = request.metadata.get("model")
+        
+        # Get LLM from service manager
+        llm = service_manager.get_llm_provider(
+            provider=llm_provider,
+            model=llm_model
+        )
+        
+        # Get code embedding service
+        code_embeddings = service_manager.get_code_embeddings()
+        
+        return CodeAgentConfig(
+            llm=llm,
+            code_embedding_service=code_embeddings,
+        )
+
+    def _create_result_from_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
+        """Create code generation specific result from state."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
+        return {
+            "generated_code": get_state_value("generated_code", ""),
+            "analysis_description": get_state_value("analysis_description", ""),
+            "code_examples_used": get_state_value("code_examples_used", []),
+            "required_libraries": get_state_value("required_libraries", []),
+            "expected_outputs": get_state_value("expected_outputs", []),
+            "needs_clarification": get_state_value("needs_clarification", False),
+        }
+
+    def _create_execution_info_from_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
+        """Create code generation specific execution info from state."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
+        required_libraries = get_state_value("required_libraries", [])
+        expected_outputs = get_state_value("expected_outputs", [])
+        execution_results = get_state_value('execution_results', [])
+        
+        return {
+            "language": "python",
+            "result_count": len(execution_results) if isinstance(execution_results, list) else 0,
+            "libraries": required_libraries,
+            "expected_outputs": expected_outputs,
+        } 

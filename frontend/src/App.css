@@ -1,0 +1,43 @@
+/* Reset root wrapper */
+.app-root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Retain other potential variables */
+:root {
+  --primary-color: #10a37f;
+}
+
+/* Remove old .app styles but keep for backward compatibility */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.app-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.app-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+} 

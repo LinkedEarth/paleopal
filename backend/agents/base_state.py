@@ -1,0 +1,180 @@
+"""
+Base state definitions for all agents using Pydantic models.
+This provides a unified state structure that can be extended by specific agents.
+"""
+
+from typing import Annotated, Dict, Any, List, Optional, Union
+from pydantic import BaseModel, Field
+from langgraph.graph import add_messages
+from langchain.chat_models.base import BaseChatModel
+
+# Constants
+MAX_REFINEMENTS = 3  # Maximum number of refinement attempts for any agent
+
+class BaseAgentState(BaseModel):
+    """Base state for all agents using Pydantic."""
+    
+    # Core conversation management
+    messages: Annotated[List[Any], add_messages] = Field(
+        default_factory=list,
+        description="Conversation messages"
+    )
+    conversation_id: Optional[str] = Field(
+        None,
+        description="Unique conversation identifier"
+    )
+    
+    # User input and context
+    user_input: str = Field(
+        default="",
+        description="Current user input/query"
+    )
+    user_query: str = Field(
+        default="",
+        description="Extracted/processed user query"
+    )
+    
+    # Agent configuration
+    agent_type: str = Field(
+        default="",
+        description="Type of agent handling this request"
+    )
+    capability: str = Field(
+        default="",
+        description="Specific capability being executed"
+    )
+    llm_provider: str = Field(
+        default="openai",
+        description="LLM provider to use"
+    )
+    
+    # Request context
+    context: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Shared context from other agents"
+    )
+    notebook_context: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Notebook variables and cell context"
+    )
+    metadata: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Additional request metadata"
+    )
+    
+    # Clarification handling
+    needs_clarification: bool = Field(
+        default=False,
+        description="Whether the request needs clarification"
+    )
+    clarification_questions: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="List of clarification questions"
+    )
+    clarification_responses: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="User responses to clarification questions"
+    )
+    clarification_processed: bool = Field(
+        default=False,
+        description="Whether clarification has been processed"
+    )
+    clarification_ambiguities: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="List of detected ambiguities"
+    )
+    clarification_response: str = Field(
+        default="",
+        description="Single clarification response (legacy)"
+    )
+    clarification_sequence: int = Field(
+        default=0,
+        description="Counter to track number of clarifications processed"
+    )
+    
+    # Generation results
+    generated_code: str = Field(
+        default="",
+        description="Generated code (SPARQL, Python, etc.)"
+    )
+    execution_results: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Results from code execution"
+    )
+    
+    # Error handling
+    error_message: Optional[str] = Field(
+        None,
+        description="Error message if any"
+    )
+    
+    # Processing flags
+    is_refinement: bool = Field(
+        default=False,
+        description="Whether this is a refinement request"
+    )
+    refinement_count: int = Field(
+        default=0,
+        description="Number of refinements attempted"
+    )
+    
+    # Refinement specific fields
+    refinement_request: str = Field(
+        default="",
+        description="The user's refinement request"
+    )
+    previous_query: str = Field(
+        default="",
+        description="Previous query/code for context"
+    )
+    previous_results: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Previous execution results for context"
+    )
+    
+    # Similar examples/queries (useful for both SPARQL and code generation)
+    similar_code: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Similar code/queries from database (SPARQL queries or Python code)"
+    )
+    entity_matches: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Entity matches from database (for SPARQL) or relevant concepts (for code)"
+    )
+    
+    # Agent-specific extensions (can be overridden by subclasses)
+    agent_specific_data: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Agent-specific state data"
+    )
+
+    class Config:
+        """Pydantic configuration."""
+        arbitrary_types_allowed = True
+        extra = "allow"  # Allow additional fields for agent-specific data
+
+
+class BaseAgentConfig(BaseModel):
+    """Base configuration for all agents."""
+    
+    llm: BaseChatModel = Field(
+        ...,
+        description="Language model instance"
+    )
+    
+    # Common services that most agents might need
+    embedding_service: Optional[Any] = Field(
+        None,
+        description="Embedding service for semantic search"
+    )
+    
+    # Agent-specific config extensions
+    agent_specific_config: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Agent-specific configuration"
+    )
+
+    class Config:
+        """Pydantic configuration."""
+        arbitrary_types_allowed = True
+        extra = "allow"  # Allow additional fields for agent-specific config 
