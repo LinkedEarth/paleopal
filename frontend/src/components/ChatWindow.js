@@ -14,18 +14,18 @@ const LLM_PROVIDERS = [
 
 const AGENT_TYPES = [
   { 
-    id: 'sparql', 
-    name: 'SPARQL Query Generator',
-    capability: 'generate_query',
-    description: 'Generate SPARQL queries for paleoclimate data',
-    placeholder: 'Ask a question to generate a SPARQL query...'
-  },
-  { 
     id: 'code', 
     name: 'Code Generator',
     capability: 'generate_code', 
     description: 'Generate Python code for data analysis',
     placeholder: 'Describe the analysis you want to perform...'
+  },  
+  { 
+    id: 'sparql', 
+    name: 'SPARQL Query Generator',
+    capability: 'generate_query',
+    description: 'Generate SPARQL queries for paleoclimate data',
+    placeholder: 'Ask a question to generate a SPARQL query...'
   }
 ];
 
@@ -525,7 +525,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   const [waitingForClarification, setWaitingForClarification] = useState(false);
   const [clarificationQuestions, setClarificationQuestions] = useState([]);
   const [llmProvider, setLlmProvider] = useState('google');
-  const [selectedAgent, setSelectedAgent] = useState('sparql');
+  const [selectedAgent, setSelectedAgent] = useState('code');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   // Track answers to clarification questions

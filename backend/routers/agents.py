@@ -10,6 +10,7 @@ from agents.base_agent import AgentRequest, AgentResponse, AgentStatus
 from services.agent_registry import agent_registry
 from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
 from agents.code import CodeGenerationAgent
+from agents.workflow.workflow_manager_agent import WorkflowManagerAgent
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +28,10 @@ def initialize_agents():
         # Register Code Generation agent
         code_agent = CodeGenerationAgent()
         agent_registry.register_agent(code_agent)
+        
+        # Register Workflow Manager agent
+        workflow_agent = WorkflowManagerAgent()
+        agent_registry.register_agent(workflow_agent)
         
         logger.info("All agents initialized successfully")
     except Exception as e:

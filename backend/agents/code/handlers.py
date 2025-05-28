@@ -78,7 +78,7 @@ def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) ->
             return {"error_message": "Code embedding service not available"}
         
         search_query = f"{analysis_request} {analysis_type}"
-        examples = code_embedding_service.search_examples(query=search_query, limit=3)
+        examples = code_embedding_service.search_examples(query=search_query, limit=10)
         
         logger.info(f"Found {len(examples)} relevant code examples")
         
