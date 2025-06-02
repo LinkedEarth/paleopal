@@ -1,0 +1,255 @@
+{
+  "paper_title": "Bioinformatic and ATR-FTIR Analysis of Ambrosia Pollen",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bioinformatic Analysis of Ambrosia Transcripts",
+      "description": "This method involves the analysis of 454-read sets to assemble and quantify expression levels of Ambrosia transcripts, identify orthologous gene pairs, and perform sequence similarity searches.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The fraction of small 454-reads (24%) was removed and excluded from the assembly process.",
+          "searchable_summary": "filter out small 454-reads from dataset",
+          "inputs": [
+            "454-read sets"
+          ],
+          "outputs": [
+            "filtered 454-read sets"
+          ],
+          "keywords": [
+            "read filtering",
+            "454-reads",
+            "assembly"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For the assemblies, the Newbler v.2.5.3 transcriptome assembly (-cDNA option) and default parameters were used.",
+          "searchable_summary": "assemble reads using Newbler v.2.5.3 with cDNA option",
+          "inputs": [
+            "filtered 454-read sets"
+          ],
+          "outputs": [
+            "assembled isotigs"
+          ],
+          "keywords": [
+            "Newbler",
+            "transcriptome assembly",
+            "cDNA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The available 454-reads of the individual samples were aligned to the assembled isotigs by using vmatch v2.1.7 (-l 40 -e 1 -identity 98).",
+          "searchable_summary": "align reads to isotigs using vmatch",
+          "inputs": [
+            "454-reads",
+            "assembled isotigs"
+          ],
+          "outputs": [
+            "alignments"
+          ],
+          "keywords": [
+            "alignment",
+            "vmatch",
+            "isotigs"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Returned alignments were filtered and for each read only alignments with maximum e-value were considered for further analysis.",
+          "searchable_summary": "filter alignments by maximum e-value",
+          "inputs": [
+            "alignments"
+          ],
+          "outputs": [
+            "filtered alignments"
+          ],
+          "keywords": [
+            "alignment filtering",
+            "e-value"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Transcript expression levels were quantified in reads per kilobase of exon model per million mapped reads (RPKM).",
+          "searchable_summary": "calculate RPKM for transcript expression levels",
+          "inputs": [
+            "filtered alignments"
+          ],
+          "outputs": [
+            "RPKM values"
+          ],
+          "keywords": [
+            "RPKM",
+            "expression quantification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Putative orthologous gene pairs between assembled Ambrosia genes and Arabidopsis (TAIR10) were identified based on a two level homology search.",
+          "searchable_summary": "identify orthologous gene pairs using BLASTP",
+          "inputs": [
+            "assembled Ambrosia genes",
+            "Arabidopsis TAIR10 gene set"
+          ],
+          "outputs": [
+            "orthologous gene pairs"
+          ],
+          "keywords": [
+            "orthologous genes",
+            "BLASTP",
+            "homology search"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Sequence similarity searches against the NCBI nonredundant protein database and known allergen sets were performed.",
+          "searchable_summary": "perform sequence similarity search using BLASTP and BLASTN",
+          "inputs": [
+            "Ambrosia sequences"
+          ],
+          "outputs": [
+            "similarity search results"
+          ],
+          "keywords": [
+            "sequence similarity",
+            "BLASTP",
+            "BLASTN",
+            "NCBI"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "ATR-FTIR Analysis of Ragweed Pollen",
+      "description": "This method involves the use of ATR-FTIR spectroscopy to analyze the chemical composition of Ambrosia pollen treated with elevated ozone compared to control samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The ATR-FTIR spectra of Ambrosia pollen treated with elevated ozone compared to the control are shown in Figure 2.",
+          "searchable_summary": "analyze ATR-FTIR spectra of pollen samples",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "spectral analysis results"
+          ],
+          "keywords": [
+            "ATR-FTIR",
+            "spectroscopy",
+            "pollen analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The two strong absorption bands located at ,2850 and ,2920 cm 21 originate from the asymmetric and symmetric stretching vibrations of the methyl and methylene groups.",
+          "searchable_summary": "identify absorption bands for methyl and methylene groups",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "identified absorption bands"
+          ],
+          "keywords": [
+            "absorption bands",
+            "methyl groups",
+            "methylene groups"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The minor IR absorption band recorded at ,1470 cm 21 may be assigned to methylene deformation vibrations.",
+          "searchable_summary": "assign IR absorption band to methylene deformation",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "assigned IR bands"
+          ],
+          "keywords": [
+            "IR absorption",
+            "methylene deformation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Absorptions recorded between 1660-1500 cm 21 corresponded to the aromatic domain of the samples.",
+          "searchable_summary": "analyze aromatic domain absorptions",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "aromatic domain analysis"
+          ],
+          "keywords": [
+            "aromatic domain",
+            "IR absorption"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The proteins' amid I absorption was recorded between 1680-1620 cm 21.",
+          "searchable_summary": "record amid I absorption for proteins",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "amid I absorption data"
+          ],
+          "keywords": [
+            "amid I",
+            "protein absorption"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "A set of different absorption bands were recorded in the 1200-950 cm 21 region.",
+          "searchable_summary": "record absorption bands in 1200-950 cm 21 region",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "absorption bands data"
+          ],
+          "keywords": [
+            "absorption bands",
+            "pectin",
+            "polysaccharides"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The absorption bands at ,1770 and ,1740 cm 21 may originate from the C = O stretching vibration of the carbonyl group.",
+          "searchable_summary": "analyze C=O stretching vibration bands",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "carbonyl group analysis"
+          ],
+          "keywords": [
+            "C=O stretching",
+            "carbonyl group"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/36200657.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

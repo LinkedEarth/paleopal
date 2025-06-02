@@ -1,0 +1,121 @@
+{
+  "paper_title": "Field observations and spatial analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spatial Analysis of Digital Elevation Models",
+      "description": "This method involves the use of digital elevation models (DEMs) to analyze geomorphic features and reconstruct the extent and volume of eroded Quaternary alluvial fill deposits. It is used to determine the longitudinal river profile, terrace heights, and pre-incision surfaces for volume reconstruction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A 5 m DEM of the catchment, provided by the Hellenic Cadastre SA, was used to determine the longitudinal river profile and the heights of the terraces above the modern channel elevation.",
+          "searchable_summary": "use 5 m DEM to determine river profile and terrace heights",
+          "inputs": [
+            "5 m DEM from Hellenic Cadastre SA"
+          ],
+          "outputs": [
+            "longitudinal river profile",
+            "terrace heights"
+          ],
+          "keywords": [
+            "DEM",
+            "river profile",
+            "terrace heights"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The DEM was also used to reconstruct the extent and volume of eroded Quaternary alluvial fill deposits.",
+          "searchable_summary": "reconstruct extent and volume of eroded deposits using DEM",
+          "inputs": [
+            "5 m DEM"
+          ],
+          "outputs": [
+            "extent of eroded deposits",
+            "volume of eroded deposits"
+          ],
+          "keywords": [
+            "DEM",
+            "volume reconstruction",
+            "eroded deposits"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We used elevation data from mapped geomorphic units that exhibited little erosion to model a given deposit's pre-incision surface for the volume reconstruction.",
+          "searchable_summary": "model pre-incision surface using elevation data from stable geomorphic units",
+          "inputs": [
+            "elevation data from stable geomorphic units"
+          ],
+          "outputs": [
+            "pre-incision surface model"
+          ],
+          "keywords": [
+            "pre-incision surface",
+            "elevation data",
+            "geomorphic units"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "These pre-incision surfaces were constructed via spline (regularised; weight 0.1) interpolation in ArcGIS.",
+          "searchable_summary": "construct pre-incision surfaces using spline interpolation in ArcGIS",
+          "inputs": [
+            "pre-incision surface model"
+          ],
+          "outputs": [
+            "interpolated pre-incision surfaces"
+          ],
+          "keywords": [
+            "spline interpolation",
+            "ArcGIS",
+            "pre-incision surfaces"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "To determine eroded volumes and the original extent of the deposits, we subtracted the modern DEM from the interpolated pre-incision surfaces.",
+          "searchable_summary": "subtract modern DEM from interpolated surfaces to find eroded volumes",
+          "inputs": [
+            "modern DEM",
+            "interpolated pre-incision surfaces"
+          ],
+          "outputs": [
+            "eroded volumes",
+            "original extent of deposits"
+          ],
+          "keywords": [
+            "volume calculation",
+            "DEM subtraction",
+            "eroded volumes"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "A reconstruction of the pre-deposition valley bedrock morphology was created by subtracting the mapped thicknesses of individual deposits from the modern DEM.",
+          "searchable_summary": "reconstruct valley bedrock morphology by subtracting deposit thicknesses from DEM",
+          "inputs": [
+            "modern DEM",
+            "mapped thicknesses of deposits"
+          ],
+          "outputs": [
+            "pre-deposition valley bedrock morphology"
+          ],
+          "keywords": [
+            "bedrock morphology",
+            "DEM",
+            "deposit thickness"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233439593.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

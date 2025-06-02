@@ -1,0 +1,85 @@
+{
+  "paper_title": "Combining the Monthly Drought Code and Paleoecological Data to Assess Holocene Climate Impact on Mediterranean Fire Regime",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Paleoclimate Data Extraction and Downscaling",
+      "description": "This method involves extracting paleoclimate conditions from HadCM3B-M1 simulations and downscaling these data to reconstruct past climate for each Holocene millennium at the whole island scale of Corsica.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Paleoclimate conditions were extracted from HadCM3B-M1 simulations.",
+          "searchable_summary": "extract paleoclimate conditions from HadCM3B-M1 simulations",
+          "inputs": [
+            "HadCM3B-M1 simulation data"
+          ],
+          "outputs": [
+            "paleoclimate conditions"
+          ],
+          "keywords": [
+            "paleoclimate",
+            "HadCM3B-M1",
+            "climate model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Compute climate normals (monthly means) for main variables (i.e., air temperature and precipitation) from the simulation data.",
+          "searchable_summary": "compute climate normals for temperature and precipitation",
+          "inputs": [
+            "paleoclimate conditions"
+          ],
+          "outputs": [
+            "climate normals"
+          ],
+          "keywords": [
+            "climate normals",
+            "temperature",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Compute temperature and precipitation anomalies for each millennium using the climate normals.",
+          "searchable_summary": "compute temperature and precipitation anomalies",
+          "inputs": [
+            "climate normals"
+          ],
+          "outputs": [
+            "temperature anomalies",
+            "precipitation anomalies"
+          ],
+          "keywords": [
+            "anomalies",
+            "temperature",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Downscale these anomalies by applying them to the current period climate normals computed from the ERA-Interim dataset.",
+          "searchable_summary": "downscale anomalies using ERA-Interim dataset",
+          "inputs": [
+            "temperature anomalies",
+            "precipitation anomalies",
+            "ERA-Interim dataset"
+          ],
+          "outputs": [
+            "downscaled climate data"
+          ],
+          "keywords": [
+            "downscaling",
+            "ERA-Interim",
+            "climate reconstruction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/216533342.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,128 @@
+{
+  "paper_title": "Global Coupled Ionosphere-Thermosphere-Electrodynamics Model Simulation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "GCITEM-IGGCAS Simulation",
+      "description": "This method involves using the Global Coupled Ionosphere-Thermosphere-Electrodynamics Model (GCITEM-IGGCAS) to simulate the effects of geomagnetic field, CO2 levels, and solar activity on the thermosphere from 9455 BC to 2015 AD.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use the GCITEM-IGGCAS model to solve energy, momentum, and continuity equations of neutrals and ions between 90 and 600 km altitude.",
+          "searchable_summary": "run GCITEM-IGGCAS model for ionosphere-thermosphere simulation",
+          "inputs": [
+            "spherical harmonic coefficients",
+            "geomagnetic field data"
+          ],
+          "outputs": [
+            "simulation results of neutrals and ions"
+          ],
+          "keywords": [
+            "GCITEM-IGGCAS",
+            "ionosphere",
+            "thermosphere",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Run each simulation for an interval of 15 days to remove effects of initial conditions, using the final day results for further analysis.",
+          "searchable_summary": "process simulation data to remove initial condition effects",
+          "inputs": [
+            "simulation data"
+          ],
+          "outputs": [
+            "processed simulation data"
+          ],
+          "keywords": [
+            "data processing",
+            "initial conditions",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Use geomagnetic field data from CALS10k.2 and IGRF models, CO2 concentration data from ice cores and Mauna Loa Observatory, and F10.7 index data from sunspot numbers and modern measurements.",
+          "searchable_summary": "fetch geomagnetic, CO2, and solar activity data",
+          "inputs": [
+            "CALS10k.2 data",
+            "IGRF data",
+            "ice core CO2 data",
+            "Mauna Loa CO2 data",
+            "F10.7 index data"
+          ],
+          "outputs": [
+            "geomagnetic field data",
+            "CO2 concentration data",
+            "solar activity data"
+          ],
+          "keywords": [
+            "data fetch",
+            "geomagnetic field",
+            "CO2 concentration",
+            "solar activity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Implement four control runs (CR1-CR4) to identify effects of geomagnetic field, CO2, and solar activity on thermospheric evolution.",
+          "searchable_summary": "conduct control runs to analyze effects on thermosphere",
+          "inputs": [
+            "simulation parameters",
+            "control run configurations"
+          ],
+          "outputs": [
+            "control run results"
+          ],
+          "keywords": [
+            "control runs",
+            "thermosphere",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze simulation results to determine the influence of CO2, geomagnetic field, and solar activity on thermosphere evolution.",
+          "searchable_summary": "analyze simulation results for thermosphere influences",
+          "inputs": [
+            "simulation results"
+          ],
+          "outputs": [
+            "analysis of thermosphere influences"
+          ],
+          "keywords": [
+            "data analysis",
+            "thermosphere",
+            "influence analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Visualize global mean and zonal mean neutral density and temperature as a function of altitude and year.",
+          "searchable_summary": "visualize thermosphere data over time and altitude",
+          "inputs": [
+            "neutral density data",
+            "temperature data"
+          ],
+          "outputs": [
+            "visualization of thermosphere data"
+          ],
+          "keywords": [
+            "visualization",
+            "neutral density",
+            "temperature",
+            "thermosphere"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258519586.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

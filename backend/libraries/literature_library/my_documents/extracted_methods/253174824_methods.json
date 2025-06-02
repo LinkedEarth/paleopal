@@ -1,0 +1,88 @@
+{
+  "paper_title": "Grain-Size Analysis and Endmember Modeling in Quaternary Oxbow Lake Sedimentation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Grain-Size Distribution Analysis",
+      "description": "Process for obtaining grain-size distributions (GSDs) of pretreated sediment core samples using laser diffraction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "GSDs of the pretreated sediment core samples were obtained at one cm intervals for 42 grain-size classes ranging from 0.1 to 500 µm by laser diffraction using the Easysizer20 laser particle analyzer (OMEC).",
+          "searchable_summary": "obtain grain-size distributions using laser diffraction",
+          "inputs": [
+            "pretreated sediment core samples"
+          ],
+          "outputs": [
+            "grain-size distributions"
+          ],
+          "keywords": [
+            "grain-size distribution",
+            "laser diffraction",
+            "Easysizer20"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Endmember Modeling (EMM)",
+      "description": "Unmixing of measured grain-size distributions into unimodal endmembers using the AnalySize v.1.2.0 EMM algorithm.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The unmixing of the measured GSDs was performed using the AnalySize v.1.2.0 EMM algorithm, a freely available MATLAB-based graphic user interface (GUI) software.",
+          "searchable_summary": "unmix grain-size distributions using AnalySize EMM algorithm",
+          "inputs": [
+            "measured grain-size distributions"
+          ],
+          "outputs": [
+            "unimodal endmembers"
+          ],
+          "keywords": [
+            "endmember modeling",
+            "AnalySize",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The optimum number of the EMs is determined based on the coefficient of determination (R 2 ) and the angular deviation (θ) between the endmembers and the GSDs.",
+          "searchable_summary": "determine optimum number of endmembers using R2 and angular deviation",
+          "inputs": [
+            "unimodal endmembers",
+            "grain-size distributions"
+          ],
+          "outputs": [
+            "optimum number of endmembers"
+          ],
+          "keywords": [
+            "coefficient of determination",
+            "angular deviation",
+            "optimum endmembers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The parameterization method used is the General Weibull Distribution function.",
+          "searchable_summary": "apply General Weibull Distribution function for parameterization",
+          "inputs": [
+            "unimodal endmembers"
+          ],
+          "outputs": [
+            "parameterized endmembers"
+          ],
+          "keywords": [
+            "Weibull Distribution",
+            "parameterization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/253174824.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

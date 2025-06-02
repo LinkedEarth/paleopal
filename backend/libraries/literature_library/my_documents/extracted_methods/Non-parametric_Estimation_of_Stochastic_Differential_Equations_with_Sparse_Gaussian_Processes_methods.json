@@ -1,0 +1,254 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Stepwise Regression Method",
+      "description": "The stepwise regression method uses a bidirectional elimination approach to model the drift and diffusion functions by adding or removing predictors based on AIC improvement.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Start with no predictors for the drift function.",
+          "searchable_summary": "initialize model with no predictors",
+          "inputs": [],
+          "outputs": [
+            "initial model"
+          ],
+          "keywords": [
+            "model initialization",
+            "drift function"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "At each step until convergence, add or remove an orthonormal polynomial term by comparing the AIC improvement.",
+          "searchable_summary": "add or remove polynomial terms based on AIC",
+          "inputs": [
+            "current model",
+            "AIC values"
+          ],
+          "outputs": [
+            "updated model"
+          ],
+          "keywords": [
+            "AIC",
+            "polynomial terms",
+            "model optimization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Stop when no more predictors can be added or removed from the model.",
+          "searchable_summary": "finalize model when no further AIC improvement",
+          "inputs": [
+            "updated model"
+          ],
+          "outputs": [
+            "final model"
+          ],
+          "keywords": [
+            "model convergence",
+            "AIC"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Repeat the method for the diffusion term.",
+          "searchable_summary": "apply stepwise regression to diffusion term",
+          "inputs": [
+            "final model for drift"
+          ],
+          "outputs": [
+            "final model for diffusion"
+          ],
+          "keywords": [
+            "diffusion term",
+            "stepwise regression"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "SGP Method Application",
+      "description": "The SGP method is applied to capture the physical states of time series and estimate a state-dependent diffusion model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Select the same kernel for estimating both the drift and diffusion terms.",
+          "searchable_summary": "choose kernel for drift and diffusion estimation",
+          "inputs": [
+            "kernel parameters"
+          ],
+          "outputs": [
+            "selected kernel"
+          ],
+          "keywords": [
+            "kernel selection",
+            "drift",
+            "diffusion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Estimate the mean transition time between DO events using the SGP method.",
+          "searchable_summary": "estimate mean transition time with SGP",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "mean transition time"
+          ],
+          "keywords": [
+            "SGP method",
+            "transition time",
+            "DO events"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Provide evidence supporting a novel state-dependent diffusion model for DO events.",
+          "searchable_summary": "support state-dependent diffusion model",
+          "inputs": [
+            "SGP estimates"
+          ],
+          "outputs": [
+            "state-dependent diffusion model"
+          ],
+          "keywords": [
+            "diffusion model",
+            "state-dependent",
+            "DO events"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Validation on Synthetic Data",
+      "description": "Validation of the SGP method by comparing its performance with other methods using simulated SDEs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Compare SGP method performance with kernel-based and orthonormal polynomials methods using simulated SDEs.",
+          "searchable_summary": "compare SGP with KBR and POLY on simulated SDEs",
+          "inputs": [
+            "simulated SDEs",
+            "KBR method",
+            "POLY method"
+          ],
+          "outputs": [
+            "performance comparison"
+          ],
+          "keywords": [
+            "SGP method",
+            "validation",
+            "simulated SDEs"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Use tests to investigate the impact of the number of pseudo-inputs on the estimates.",
+          "searchable_summary": "test impact of pseudo-inputs on estimates",
+          "inputs": [
+            "number of pseudo-inputs",
+            "estimates"
+          ],
+          "outputs": [
+            "impact analysis"
+          ],
+          "keywords": [
+            "pseudo-inputs",
+            "impact analysis",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Generate 100 time series with a length of 104 samples for each model.",
+          "searchable_summary": "generate time series for validation",
+          "inputs": [
+            "model parameters"
+          ],
+          "outputs": [
+            "time series data"
+          ],
+          "keywords": [
+            "time series generation",
+            "validation",
+            "synthetic data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Application to Real Data",
+      "description": "Application of the SGP method to real-world data, including financial and paleoclimatology data, to illustrate its applicability.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Construct daily logarithmic increments of the oil price to obtain a stationary time series.",
+          "searchable_summary": "calculate log-returns for oil price",
+          "inputs": [
+            "oil price data"
+          ],
+          "outputs": [
+            "stationary time series"
+          ],
+          "keywords": [
+            "log-returns",
+            "stationary time series",
+            "financial data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Apply the SGP method using m = 10 inducing points and two squared exponential kernels.",
+          "searchable_summary": "apply SGP method with specified parameters",
+          "inputs": [
+            "stationary time series",
+            "inducing points",
+            "kernels"
+          ],
+          "outputs": [
+            "SGP estimates"
+          ],
+          "keywords": [
+            "SGP method",
+            "inducing points",
+            "kernels"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Select final estimates using the lower bound.",
+          "searchable_summary": "select final estimates based on lower bound",
+          "inputs": [
+            "SGP estimates"
+          ],
+          "outputs": [
+            "final estimates"
+          ],
+          "keywords": [
+            "lower bound",
+            "estimate selection",
+            "SGP method"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Non-parametric_Estimation_of_Stochastic_Differential_Equations_with_Sparse_Gaussian_Processes.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

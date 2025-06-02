@@ -1,0 +1,204 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Taxonomic Unit Grouping and Analysis",
+      "description": "This method involves grouping 16S rRNA gene clone sequences into taxonomic units to evaluate taxon-environment associations within Cell counts Profiling of Woeseiales assemblages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Download from the SILVA SSUref database an alignment of the near full length 16S rRNA gene clone sequences assigned to JTB255-MBG.",
+          "searchable_summary": "download 16S rRNA gene clone sequences from SILVA SSUref database",
+          "inputs": [
+            "SILVA SSUref database"
+          ],
+          "outputs": [
+            "16S rRNA gene clone sequences"
+          ],
+          "keywords": [
+            "SILVA",
+            "16S rRNA",
+            "gene sequences"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter out sequences with homopolymeric regions of eight or more nucleotides, resulting in a set of 994 sequences.",
+          "searchable_summary": "filter sequences with homopolymeric regions",
+          "inputs": [
+            "16S rRNA gene clone sequences"
+          ],
+          "outputs": [
+            "filtered sequences"
+          ],
+          "keywords": [
+            "filtering",
+            "homopolymeric regions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculate uncorrected pairwise distances between the 994 clone sequences remaining in the alignment.",
+          "searchable_summary": "calculate uncorrected pairwise distances",
+          "inputs": [
+            "filtered sequences"
+          ],
+          "outputs": [
+            "pairwise distances"
+          ],
+          "keywords": [
+            "pairwise distances",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Apply hierarchical furthest-neighbor clustering at 96% sequence identity using mothur v1.37.6 to produce a total of 171 phylotypes.",
+          "searchable_summary": "perform hierarchical clustering using mothur",
+          "inputs": [
+            "pairwise distances"
+          ],
+          "outputs": [
+            "phylotypes"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "mothur",
+            "phylotypes"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Pick one sequence per phylotype for subsequent phylogenetic analyses.",
+          "searchable_summary": "select representative sequence per phylotype",
+          "inputs": [
+            "phylotypes"
+          ],
+          "outputs": [
+            "representative sequences"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "sequence selection"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Retrieve descriptions of the environmental origin of the sequences within each phylotype and lineage from SILVA by parsing the attributes 'isolation source' and 'reference title'.",
+          "searchable_summary": "retrieve environmental origin descriptions from SILVA",
+          "inputs": [
+            "SILVA database",
+            "phylotypes"
+          ],
+          "outputs": [
+            "environmental origin descriptions"
+          ],
+          "keywords": [
+            "environmental origin",
+            "SILVA",
+            "data parsing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Classify the sampling sites of 933 clone sequences into one of the three environmental categories: deep-sea, coastal, or continental.",
+          "searchable_summary": "classify sampling sites into environmental categories",
+          "inputs": [
+            "environmental origin descriptions"
+          ],
+          "outputs": [
+            "classified sampling sites"
+          ],
+          "keywords": [
+            "environmental classification",
+            "sampling sites"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Perform a correspondence analysis (CA) of an environment × phylotype matrix to investigate associations between phylotypes and environmental categories.",
+          "searchable_summary": "perform correspondence analysis on environment-phylotype matrix",
+          "inputs": [
+            "environment × phylotype matrix"
+          ],
+          "outputs": [
+            "correspondence analysis results"
+          ],
+          "keywords": [
+            "correspondence analysis",
+            "environmental associations"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Oligotype Grouping and Evolutionary Placement",
+      "description": "This method compares the composition of Woeseiales bacteria assemblages in deep-sea and coastal environments and evaluates the evolutionary placement of oligotypes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Group the 16S amplicon sequences into oligotypes for higher taxonomic resolution.",
+          "searchable_summary": "group 16S amplicon sequences into oligotypes",
+          "inputs": [
+            "16S amplicon sequences"
+          ],
+          "outputs": [
+            "oligotypes"
+          ],
+          "keywords": [
+            "oligotypes",
+            "taxonomic resolution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Evaluate the evolutionary placement of the Woeseiales oligotypes using the evolutionary placement algorithm implemented in RAxML v8.2.X.",
+          "searchable_summary": "perform evolutionary placement using RAxML",
+          "inputs": [
+            "oligotypes"
+          ],
+          "outputs": [
+            "evolutionary placement results"
+          ],
+          "keywords": [
+            "evolutionary placement",
+            "RAxML",
+            "oligotypes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Assign the oligotypes to the phylotypes and lineages defined based on near full-length 16S rRNA gene sequences.",
+          "searchable_summary": "assign oligotypes to phylotypes and lineages",
+          "inputs": [
+            "evolutionary placement results",
+            "phylotypes",
+            "lineages"
+          ],
+          "outputs": [
+            "assigned oligotypes"
+          ],
+          "keywords": [
+            "oligotype assignment",
+            "phylotypes",
+            "lineages"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/210925958.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

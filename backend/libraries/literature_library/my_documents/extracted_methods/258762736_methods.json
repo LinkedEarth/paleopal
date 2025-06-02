@@ -1,0 +1,161 @@
+{
+  "paper_title": "CS-TRD: a Cross Sections Tree Ring Detection method",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Preprocessing of Tree Slice Image",
+      "description": "This method preprocesses a segmented image of a tree slice to enhance the performance of tree ring detection algorithms. It involves resizing the image, converting it to grayscale, and applying histogram equalization.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Resize the input image to a standard size of 1500x1500 pixels.",
+          "searchable_summary": "resize image to 1500x1500 pixels using Pillow library",
+          "inputs": [
+            "Im_in",
+            "height_output",
+            "width_output",
+            "cy",
+            "cx"
+          ],
+          "outputs": [
+            "Im_r",
+            "cy_output",
+            "cx_output"
+          ],
+          "keywords": [
+            "image resizing",
+            "Pillow library",
+            "standard size"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Convert the RGB image to grayscale using OpenCV.",
+          "searchable_summary": "convert RGB image to grayscale using OpenCV",
+          "inputs": [
+            "Im_r"
+          ],
+          "outputs": [
+            "Im_g"
+          ],
+          "keywords": [
+            "grayscale conversion",
+            "OpenCV",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply histogram equalization to enhance contrast using CLAHE method.",
+          "searchable_summary": "apply CLAHE for histogram equalization using OpenCV",
+          "inputs": [
+            "Im_g"
+          ],
+          "outputs": [
+            "Im_pre"
+          ],
+          "keywords": [
+            "histogram equalization",
+            "CLAHE",
+            "OpenCV"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Edge Detection using Canny-Devernay",
+      "description": "This method applies the Canny-Devernay edge detector to identify pixel chains representing edges in the preprocessed image. It distinguishes between different types of edges, such as those formed by tree growth and other phenomena.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply the Canny-Devernay edge detector to the preprocessed image.",
+          "searchable_summary": "apply Canny-Devernay edge detection on preprocessed image",
+          "inputs": [
+            "Im_pre",
+            "σ",
+            "th_low",
+            "th_high"
+          ],
+          "outputs": [
+            "m_ch_e",
+            "G_x",
+            "G_y"
+          ],
+          "keywords": [
+            "edge detection",
+            "Canny-Devernay",
+            "image gradients"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Filtering Edge Chains",
+      "description": "This method filters out edge points based on the angle between the gradient vector and the direction of the ray touching that point. It aims to retain only relevant edges for tree ring detection.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Compute the angle between vector cp_i and the gradient G_p_i at point p_i.",
+          "searchable_summary": "compute angle between vector and gradient at edge point",
+          "inputs": [
+            "m_ch_e",
+            "G_x",
+            "G_y",
+            "c",
+            "α"
+          ],
+          "outputs": [
+            "θ"
+          ],
+          "keywords": [
+            "angle computation",
+            "gradient vector",
+            "edge filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter out edge points where the angle is greater than α.",
+          "searchable_summary": "filter edge points based on angle threshold",
+          "inputs": [
+            "θ",
+            "α"
+          ],
+          "outputs": [
+            "X_edges_filtered"
+          ],
+          "keywords": [
+            "edge filtering",
+            "angle threshold",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Convert filtered edges to curve objects.",
+          "searchable_summary": "convert filtered edges to curve objects",
+          "inputs": [
+            "X_edges_filtered"
+          ],
+          "outputs": [
+            "l_ch_f"
+          ],
+          "keywords": [
+            "curve conversion",
+            "edge processing",
+            "shapely"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258762736.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,1015 @@
+{
+  "paper_title": "Inferred Paper Title",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Protein Extraction and Expression Analysis",
+      "description": "This method describes the process for extracting total protein from plant ovary samples, separating proteins using 2D-PAGE (SDS-PAGE followed by isoelectric focusing and a second dimension separation), detecting and quantifying protein spots, and identifying differential proteins using MALDI-TOF/TOF mass spectrometry and database searching.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The SP and OP ovaries at 48 h were frozen and ground to power.",
+          "searchable_summary": "freeze and grind plant tissue samples",
+          "inputs": [
+            "SP ovaries (48h)",
+            "OP ovaries (48h)"
+          ],
+          "outputs": [
+            "Ground ovary powder"
+          ],
+          "keywords": [
+            "freeze",
+            "grind",
+            "tissue processing",
+            "plant sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "1 g of the sample was used for protein extraction.",
+          "searchable_summary": "extract protein from ground plant tissue",
+          "inputs": [
+            "Ground ovary powder (1g)"
+          ],
+          "outputs": [
+            "Protein extract"
+          ],
+          "keywords": [
+            "protein extraction",
+            "plant protein",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Then, 10 μg samples were run on 12% SDS-PAGE gel.",
+          "searchable_summary": "run protein samples on SDS-PAGE gel",
+          "inputs": [
+            "Protein extract (10 μg)",
+            "12% SDS-PAGE gel"
+          ],
+          "outputs": [
+            "Separated proteins on SDS-PAGE gel"
+          ],
+          "keywords": [
+            "SDS-PAGE",
+            "gel electrophoresis",
+            "protein separation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "visualized by CBB stain.",
+          "searchable_summary": "stain SDS-PAGE gel with Coomassie Brilliant Blue",
+          "inputs": [
+            "SDS-PAGE gel with separated proteins",
+            "Coomassie Brilliant Blue (CBB) stain"
+          ],
+          "outputs": [
+            "Stained SDS-PAGE gel with visible protein bands"
+          ],
+          "keywords": [
+            "CBB stain",
+            "Coomassie Brilliant Blue",
+            "protein staining",
+            "gel visualization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Gel images with 300 dots per inch were scanned using an image scanner (GE Healthcare, USA).",
+          "searchable_summary": "scan stained gel images",
+          "inputs": [
+            "Stained SDS-PAGE gel",
+            "Image scanner"
+          ],
+          "outputs": [
+            "Digital gel images (300 dpi)"
+          ],
+          "keywords": [
+            "gel scanning",
+            "image acquisition",
+            "scanner"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "A total of 450 μl solution with 1500 μg protein sample was used to finish isoelectric focusing with the following parameters: 50uA per strip, rehydration at 50 V for 8 h, 100 V for 1 h, 200 V for 1 h, 500 V for 1 h, 1000 V for 1 h, 1000-10,000 V (gradient) for 1 h, 10,000 V for 13 h, 500 V for 12 h, temperature, 20 °C.",
+          "searchable_summary": "perform isoelectric focusing (IEF) on protein sample",
+          "inputs": [
+            "Protein sample (1500 μg in 450 μl solution)",
+            "IEF strip",
+            "IEF apparatus",
+            "IEF parameters (voltage, time, current, temperature)"
+          ],
+          "outputs": [
+            "Proteins separated by isoelectric point on IEF strip"
+          ],
+          "keywords": [
+            "isoelectric focusing",
+            "IEF",
+            "2D-PAGE",
+            "protein separation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The Ettan-DALT-Six system was run for 45 min at 100 V and then at 300 V for 6-8 h.",
+          "searchable_summary": "perform second dimension separation using Ettan-DALT-Six system",
+          "inputs": [
+            "IEF strip with separated proteins",
+            "Ettan-DALT-Six system",
+            "SDS-PAGE gel (second dimension)",
+            "Running buffer",
+            "Electrophoresis parameters (voltage, time)"
+          ],
+          "outputs": [
+            "Proteins separated by molecular weight on 2D gel"
+          ],
+          "keywords": [
+            "2D-PAGE",
+            "Ettan-DALT-Six",
+            "second dimension electrophoresis",
+            "protein separation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Using PDquest 8.0 software, all gel images were processed in three steps: spot detection, volumetric quantification, and matching.",
+          "searchable_summary": "process 2D gel images for spot detection, quantification, and matching using PDquest software",
+          "inputs": [
+            "Digital 2D gel images",
+            "PDquest 8.0 software"
+          ],
+          "outputs": [
+            "Detected protein spots",
+            "Quantified spot volumes",
+            "Matched spots across gels"
+          ],
+          "keywords": [
+            "2D gel analysis",
+            "spot detection",
+            "protein quantification",
+            "gel matching",
+            "PDquest"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The differential protein spots were selected using two thresholds (p ≤ 0.05, fold change ≥ 2 or ≤ 0.5).",
+          "searchable_summary": "select differential protein spots based on statistical significance and fold change thresholds",
+          "inputs": [
+            "Quantified and matched protein spots",
+            "Statistical analysis results (p-values)",
+            "Fold change values",
+            "Thresholds (p ≤ 0.05, fold change ≥ 2 or ≤ 0.5)"
+          ],
+          "outputs": [
+            "List of differential protein spots"
+          ],
+          "keywords": [
+            "differential protein analysis",
+            "fold change",
+            "statistical significance",
+            "thresholding",
+            "proteomics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_fetch",
+          "description": "An ABI 5800 MALDI-TOF/TOF Plus mass spectrometer (Applied Biosystems, Foster City, USA) was used for peptide MS and MS/MS detection.",
+          "searchable_summary": "perform peptide mass spectrometry (MS) and tandem mass spectrometry (MS/MS) using MALDI-TOF/TOF",
+          "inputs": [
+            "Differential protein spots (digested into peptides)",
+            "MALDI-TOF/TOF mass spectrometer"
+          ],
+          "outputs": [
+            "Peptide mass spectra (MS)",
+            "Peptide fragmentation spectra (MS/MS)"
+          ],
+          "keywords": [
+            "MALDI-TOF/TOF",
+            "mass spectrometry",
+            "peptide mass fingerprinting",
+            "peptide sequencing",
+            "proteomics"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "other",
+          "description": "Cal-Mix5 was used to calibrate the instrument (ABI5800 Calibration Mixture).",
+          "searchable_summary": "calibrate mass spectrometer using standard mixture",
+          "inputs": [
+            "MALDI-TOF/TOF mass spectrometer",
+            "Cal-Mix5 calibration mixture"
+          ],
+          "outputs": [
+            "Calibrated mass spectrometer"
+          ],
+          "keywords": [
+            "mass spectrometry calibration",
+            "instrument calibration",
+            "Cal-Mix5"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_processing",
+          "description": "GPS Explorer V3.6 software (Applied Biosystems, USA) with default parameters was used for data integration.",
+          "searchable_summary": "integrate mass spectrometry data using GPS Explorer software",
+          "inputs": [
+            "Peptide mass spectra (MS)",
+            "Peptide fragmentation spectra (MS/MS)",
+            "GPS Explorer V3.6 software"
+          ],
+          "outputs": [
+            "Integrated MS/MS data for protein identification"
+          ],
+          "keywords": [
+            "mass spectrometry data processing",
+            "data integration",
+            "GPS Explorer",
+            "proteomics software"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "the proteins were identified using the MASCOT V2.3 search engine (Matrix Science Ltd., London, U.K.).",
+          "searchable_summary": "identify proteins by searching mass spectrometry data against a database using MASCOT search engine",
+          "inputs": [
+            "Integrated MS/MS data",
+            "Protein sequence database",
+            "MASCOT V2.3 search engine"
+          ],
+          "outputs": [
+            "Identified proteins",
+            "Protein scores",
+            "Peptide matches"
+          ],
+          "keywords": [
+            "protein identification",
+            "database search",
+            "MASCOT",
+            "mass spectrometry data analysis",
+            "proteomics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcriptome and Proteome Association Analysis",
+      "description": "This method describes the process of integrating and comparing transcriptome and proteome data, including identifying corresponding genes/proteins, performing correlation analysis, GO enrichment analysis, and visualizing results using heatmaps.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The corresponding transcripts were identified using the gene ID of the proteome, and the corresponding relationship between the protein and the transcript was determined.",
+          "searchable_summary": "map protein identifiers to corresponding transcript identifiers",
+          "inputs": [
+            "List of identified proteins (with gene IDs)",
+            "Transcriptome data (with gene IDs)"
+          ],
+          "outputs": [
+            "Mapping between proteins and transcripts"
+          ],
+          "keywords": [
+            "data integration",
+            "omics integration",
+            "protein-transcript mapping",
+            "gene ID"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Correlation analysis was conducted on the fold change (taken as log2) of genes (proteins) identified by transcriptome and proteome analyses in the two omics stydies.",
+          "searchable_summary": "calculate correlation between log2 fold changes of corresponding genes and proteins",
+          "inputs": [
+            "Log2 fold change values for genes (transcriptome)",
+            "Log2 fold change values for corresponding proteins (proteome)"
+          ],
+          "outputs": [
+            "Correlation coefficients",
+            "P-values for correlation"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "omics integration",
+            "transcriptome-proteome correlation",
+            "log2 fold change"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "The drawing process was implemented using Python.",
+          "searchable_summary": "generate plots for correlation analysis results using Python",
+          "inputs": [
+            "Correlation analysis results"
+          ],
+          "outputs": [
+            "Correlation plots"
+          ],
+          "keywords": [
+            "plotting",
+            "visualization",
+            "Python",
+            "correlation plot"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The different multiples of the corresponding transcriptome genes were determined in the two omics studies. The difference multiples were taken as log2.",
+          "searchable_summary": "calculate log2 fold change for corresponding transcriptome genes",
+          "inputs": [
+            "Transcriptome expression data for corresponding genes"
+          ],
+          "outputs": [
+            "Log2 fold change values for corresponding transcriptome genes"
+          ],
+          "keywords": [
+            "fold change calculation",
+            "log2 transformation",
+            "transcriptome analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "then plotted using the ComplexHeatmap of the R package.",
+          "searchable_summary": "generate heatmap of log2 fold changes for corresponding transcriptome genes using ComplexHeatmap R package",
+          "inputs": [
+            "Log2 fold change values for corresponding transcriptome genes",
+            "ComplexHeatmap R package"
+          ],
+          "outputs": [
+            "Heatmap of transcriptome fold changes"
+          ],
+          "keywords": [
+            "heatmap",
+            "visualization",
+            "R package",
+            "ComplexHeatmap",
+            "transcriptome analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "GO annotation of the transcriptome and proteome was used for GO function enrichment using the tool wego (http:// wego. genom ics. org. cn/).",
+          "searchable_summary": "perform GO function enrichment analysis using wego tool with transcriptome and proteome GO annotations",
+          "inputs": [
+            "GO annotations for transcriptome",
+            "GO annotations for proteome",
+            "wego tool"
+          ],
+          "outputs": [
+            "GO enrichment analysis results"
+          ],
+          "keywords": [
+            "GO enrichment analysis",
+            "Gene Ontology",
+            "functional enrichment",
+            "omics integration",
+            "wego tool"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Clustering heat map analysis of GO/KEGG function enrichment was conducted using the fold change (taken as log2) of DEPs identified using the proteome and corresponding transcriptome genes.",
+          "searchable_summary": "perform clustering heatmap analysis of GO/KEGG enrichment using log2 fold changes of DEPs and corresponding DEGs",
+          "inputs": [
+            "GO/KEGG enrichment analysis results",
+            "Log2 fold change of DEPs (proteome)",
+            "Log2 fold change of corresponding DEGs (transcriptome)"
+          ],
+          "outputs": [
+            "Clustered data for heatmap"
+          ],
+          "keywords": [
+            "clustering analysis",
+            "heatmap data preparation",
+            "GO enrichment",
+            "KEGG enrichment",
+            "differential expression"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "The drawing process was implemented using ComplexHeatmap.",
+          "searchable_summary": "generate clustering heatmap of GO/KEGG enrichment using ComplexHeatmap",
+          "inputs": [
+            "Clustered data for heatmap",
+            "ComplexHeatmap R package"
+          ],
+          "outputs": [
+            "Clustering heatmap of GO/KEGG enrichment"
+          ],
+          "keywords": [
+            "heatmap",
+            "visualization",
+            "ComplexHeatmap",
+            "GO enrichment",
+            "KEGG enrichment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Plant Material Collection and Pollination",
+      "description": "This method describes the source, handling, and preparation of plant materials (cultivars 'JO59' and 'YX1'), the procedure for performing self-pollination (SP) and outcross-pollination (OP), and the collection and storage of ovary and style samples at various time points after pollination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Two cultivars, 'JO59' and 'YX1' , grown in Lanxi nursery, Zhejiang province, China, were used in this study.",
+          "searchable_summary": "select and obtain specific plant cultivars",
+          "inputs": [],
+          "outputs": [
+            "Plant cultivars 'JO59' and 'YX1'"
+          ],
+          "keywords": [
+            "plant material",
+            "cultivar selection",
+            "sample source"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The scions were collected from selected trees of the natural forest of S. superba from Jianou and Youxi in Fujian; they were then grafted on local stock and maintained in Lanxi until 2013.",
+          "searchable_summary": "collect scions, graft onto stock, and maintain plants",
+          "inputs": [
+            "Selected S. superba trees (Jianou, Youxi)",
+            "Local stock"
+          ],
+          "outputs": [
+            "Grafted S. superba plants"
+          ],
+          "keywords": [
+            "scion collection",
+            "grafting",
+            "plant propagation",
+            "plant maintenance"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "In May 2019, at 9:00-11:00 am on sunny days, we performed pollination [self-pollination (SP) was 'JO59' × 'JO59' , outcross-pollination (OP) was 'JO59' × 'YX1'].",
+          "searchable_summary": "perform controlled pollination (self and outcross) on plants",
+          "inputs": [
+            "Flowering 'JO59' plants",
+            "Flowering 'YX1' plants"
+          ],
+          "outputs": [
+            "Pollinated flowers (SP and OP)"
+          ],
+          "keywords": [
+            "pollination",
+            "self-pollination",
+            "outcross-pollination",
+            "plant breeding"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The styles and ovaries were collected at different intervals (2,4,8,12,16,24,36,48,60,72,84,96, and 120 h after pollination).",
+          "searchable_summary": "collect plant tissues (styles and ovaries) at multiple time points after pollination",
+          "inputs": [
+            "Pollinated flowers (SP and OP)",
+            "Time points (2h, 4h, ..., 120h)"
+          ],
+          "outputs": [
+            "Collected styles and ovaries (time-series samples)"
+          ],
+          "keywords": [
+            "sample collection",
+            "plant tissue",
+            "time series",
+            "pollination response"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Then, the styles and ovaries of each sample with three replications were frozen in liquid nitrogen.",
+          "searchable_summary": "flash freeze collected plant samples in liquid nitrogen",
+          "inputs": [
+            "Collected styles and ovaries",
+            "Liquid nitrogen"
+          ],
+          "outputs": [
+            "Flash-frozen styles and ovaries"
+          ],
+          "keywords": [
+            "flash freezing",
+            "liquid nitrogen",
+            "sample preservation",
+            "plant tissue"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "and stored at − 80 °C for enzyme activity, hormone, amino acid, protein, and RNA-seq analysis.",
+          "searchable_summary": "store frozen plant samples at -80°C",
+          "inputs": [
+            "Flash-frozen styles and ovaries",
+            "-80°C freezer"
+          ],
+          "outputs": [
+            "Stored plant samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "-80C freezer",
+            "long-term storage",
+            "sample bank"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Defense-Related Enzyme Activity Assays",
+      "description": "This method describes the procedures for measuring the enzymatic activity of three defense-related enzymes: peroxidase (POD), catalase (CAT), and superoxide dismutase (SOD) in plant ovary samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Three defense-related enzymes, peroxidase (POD), catalase (CAT), and superoxide dismutase (SOD), were analyzed using SP and OP ovaries from 24 to 120 h.",
+          "searchable_summary": "select plant ovary samples for enzyme activity analysis",
+          "inputs": [
+            "Stored SP ovaries (24-120h)",
+            "Stored OP ovaries (24-120h)"
+          ],
+          "outputs": [
+            "Ovary samples for enzyme assays"
+          ],
+          "keywords": [
+            "sample selection",
+            "enzyme assay",
+            "plant tissue"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "POD activity was determined using the guaiacol-catalase activity method 55 .",
+          "searchable_summary": "measure peroxidase (POD) enzyme activity using guaiacol method",
+          "inputs": [
+            "Ovary samples",
+            "Reagents for guaiacol-catalase method"
+          ],
+          "outputs": [
+            "POD activity measurements"
+          ],
+          "keywords": [
+            "enzyme activity assay",
+            "peroxidase",
+            "POD",
+            "guaiacol method",
+            "spectrophotometry"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "SOD activity was measured using inhibition in the photoreduction of www.nature.com/scientificreports/ nitro blue tetrazolium (NBT) 56 .",
+          "searchable_summary": "measure superoxide dismutase (SOD) enzyme activity using NBT photoreduction inhibition method",
+          "inputs": [
+            "Ovary samples",
+            "Reagents for NBT photoreduction method"
+          ],
+          "outputs": [
+            "SOD activity measurements"
+          ],
+          "keywords": [
+            "enzyme activity assay",
+            "superoxide dismutase",
+            "SOD",
+            "NBT method",
+            "spectrophotometry"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "CAT activity was measured spectrophotometrically by monitoring the decrease in absorbance at 240 nm 57 .",
+          "searchable_summary": "measure catalase (CAT) enzyme activity spectrophotometrically by monitoring absorbance decrease at 240 nm",
+          "inputs": [
+            "Ovary samples",
+            "Reagents for CAT assay",
+            "Spectrophotometer"
+          ],
+          "outputs": [
+            "CAT activity measurements"
+          ],
+          "keywords": [
+            "enzyme activity assay",
+            "catalase",
+            "CAT",
+            "spectrophotometry",
+            "absorbance measurement"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hormone Extraction and Determination by HPLC-MS/MS",
+      "description": "This method describes the process for extracting plant hormones (auxin, abscisic acid, zeatin) from ovary samples and quantifying their levels using High-Performance Liquid Chromatography coupled with tandem Mass Spectrometry (HPLC-MS/MS).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The SP and OP ovaries (0.1 g fresh weight), with three biological replicates from 24 to 120 h, were selected to extract the hormone.",
+          "searchable_summary": "select plant ovary samples for hormone extraction",
+          "inputs": [
+            "Stored SP ovaries (24-120h)",
+            "Stored OP ovaries (24-120h)",
+            "Biological replicates (n=3)"
+          ],
+          "outputs": [
+            "Ovary samples (0.1g fresh weight) for hormone analysis"
+          ],
+          "keywords": [
+            "sample selection",
+            "hormone analysis",
+            "plant tissue",
+            "biological replicates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "and HPLC-MS/MS analysis was performed (Agilent 1290).",
+          "searchable_summary": "extract hormones from plant ovary samples",
+          "inputs": [
+            "Ovary samples (0.1g fresh weight)",
+            "Extraction solvents/reagents"
+          ],
+          "outputs": [
+            "Hormone extract"
+          ],
+          "keywords": [
+            "hormone extraction",
+            "plant hormones",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "HPLC analysis was carried out using a poroshell 120 SB-C18 column (2.1 mm × 150 mm; 2.7 μm). The parameters were set as follows: spray voltage, + 4500 V; automizing temperature, 400 °C; the pressure of the air curtain, nebulizer, and aux gas were 15, 65, and 70 psi, respectively.",
+          "searchable_summary": "perform HPLC-MS/MS analysis with specified column and parameters",
+          "inputs": [
+            "Hormone extract",
+            "Agilent 1290 HPLC-MS/MS system",
+            "poroshell 120 SB-C18 column",
+            "HPLC-MS/MS parameters (voltages, temperatures, pressures)"
+          ],
+          "outputs": [
+            "HPLC-MS/MS raw data"
+          ],
+          "keywords": [
+            "HPLC-MS/MS",
+            "hormone determination",
+            "liquid chromatography",
+            "mass spectrometry",
+            "quantitative analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "SAS v8.0 (SAS Institute, Cary, NC, USA) was used to analyze the data.",
+          "searchable_summary": "analyze HPLC-MS/MS data using SAS software",
+          "inputs": [
+            "HPLC-MS/MS raw data",
+            "SAS v8.0 software"
+          ],
+          "outputs": [
+            "Quantified hormone levels",
+            "Statistical analysis results"
+          ],
+          "keywords": [
+            "data analysis",
+            "statistical analysis",
+            "SAS software",
+            "HPLC-MS/MS data analysis",
+            "hormone quantification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcriptome Analysis",
+      "description": "This method describes the process for analyzing the transcriptome of plant ovary samples, including RNA extraction, quality control, library preparation, sequencing, raw data processing, transcript assembly, gene annotation, expression estimation, and differential expression analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The total RNA from the S48 and O48 ovaries was extracted using an RNAprep pure Plant Kit (Dingguo, Beijing, China).",
+          "searchable_summary": "extract total RNA from plant ovary samples using a commercial kit",
+          "inputs": [
+            "S48 ovaries",
+            "O48 ovaries",
+            "RNAprep pure Plant Kit"
+          ],
+          "outputs": [
+            "Total RNA extract"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "total RNA",
+            "plant RNA",
+            "RNA extraction kit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "RNA quality and quantity were verified using 1% agarose gels and Agilent 2100 (Agilent Technologies, CA, USA).",
+          "searchable_summary": "verify RNA quality and quantity using agarose gel electrophoresis and bioanalyzer",
+          "inputs": [
+            "Total RNA extract",
+            "1% agarose gel",
+            "Agilent 2100 Bioanalyzer"
+          ],
+          "outputs": [
+            "RNA quality metrics (e.g., RIN)",
+            "RNA quantity measurements"
+          ],
+          "keywords": [
+            "RNA quality control",
+            "RNA quantification",
+            "agarose gel electrophoresis",
+            "Agilent Bioanalyzer",
+            "RIN"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The mRNA was enriched and purified by magnetic beads with oligo T (dT), cleaved and synthesized first-strand cDNA using random hexamers.",
+          "searchable_summary": "enrich mRNA, fragment RNA, and synthesize first-strand cDNA for sequencing library preparation",
+          "inputs": [
+            "Total RNA extract",
+            "Magnetic beads with oligo T(dT)",
+            "Random hexamer primers",
+            "Reverse transcriptase"
+          ],
+          "outputs": [
+            "First-strand cDNA"
+          ],
+          "keywords": [
+            "mRNA enrichment",
+            "cDNA synthesis",
+            "RNA fragmentation",
+            "library preparation",
+            "transcriptomics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The double-strand cDNA libraries were then purified using the AMPure XP system (Beckman Coulter, Beverly, USA).",
+          "searchable_summary": "synthesize double-strand cDNA and purify sequencing libraries",
+          "inputs": [
+            "First-strand cDNA",
+            "DNA polymerase",
+            "AMPure XP system"
+          ],
+          "outputs": [
+            "Purified double-strand cDNA library"
+          ],
+          "keywords": [
+            "double-strand cDNA synthesis",
+            "library purification",
+            "AMPure XP",
+            "sequencing library preparation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Transcriptome sequencing was performed using the Illumina HiSeq™ 2000 sequencing platform in Novogene (Tianjin, China).",
+          "searchable_summary": "perform transcriptome sequencing using Illumina platform",
+          "inputs": [
+            "Purified double-strand cDNA library",
+            "Illumina HiSeq 2000 sequencing platform"
+          ],
+          "outputs": [
+            "Raw sequencing reads (FASTQ files)"
+          ],
+          "keywords": [
+            "RNA sequencing",
+            "transcriptome sequencing",
+            "Illumina sequencing",
+            "HiSeq 2000"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The adaptor and low-quality sequences (Q < 20 or less than 35 bp) were removed in raw reads.",
+          "searchable_summary": "trim sequencing adaptors and filter low-quality reads",
+          "inputs": [
+            "Raw sequencing reads (FASTQ files)",
+            "Quality score threshold (Q < 20)",
+            "Length threshold (< 35 bp)"
+          ],
+          "outputs": [
+            "Clean sequencing reads"
+          ],
+          "keywords": [
+            "read trimming",
+            "quality filtering",
+            "sequencing data processing",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Then the clean reads were assembled using Trinity assembler 59 .",
+          "searchable_summary": "assemble clean sequencing reads into transcripts using Trinity",
+          "inputs": [
+            "Clean sequencing reads",
+            "Trinity assembler"
+          ],
+          "outputs": [
+            "Assembled transcripts (unigenes)"
+          ],
+          "keywords": [
+            "transcript assembly",
+            "de novo assembly",
+            "Trinity",
+            "transcriptomics",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The functions of the unigenes were annotated using Blastx searches with 1e-5 against the protein databases.",
+          "searchable_summary": "annotate assembled transcripts by searching against protein databases using Blastx",
+          "inputs": [
+            "Assembled transcripts (unigenes)",
+            "Protein databases",
+            "Blastx",
+            "E-value threshold (1e-5)"
+          ],
+          "outputs": [
+            "Functional annotations for unigenes"
+          ],
+          "keywords": [
+            "functional annotation",
+            "Blastx",
+            "database search",
+            "protein database",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Blast2GO software 60 was used for gene Ontology (GO) term analysis.",
+          "searchable_summary": "perform Gene Ontology (GO) term analysis using Blast2GO",
+          "inputs": [
+            "Blastx annotation results",
+            "Blast2GO software"
+          ],
+          "outputs": [
+            "GO term assignments for unigenes"
+          ],
+          "keywords": [
+            "Gene Ontology",
+            "GO term analysis",
+            "functional classification",
+            "Blast2GO",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "The plant Transcription Factor Database (PlnTFDB) (version 3.0) was used to determine the transcription factors (TFs) 61 .",
+          "searchable_summary": "identify transcription factors (TFs) using Plant Transcription Factor Database (PlnTFDB)",
+          "inputs": [
+            "Assembled transcripts (unigenes)",
+            "Plant Transcription Factor Database (PlnTFDB)"
+          ],
+          "outputs": [
+            "Identified transcription factors"
+          ],
+          "keywords": [
+            "transcription factors",
+            "TF identification",
+            "PlnTFDB",
+            "bioinformatics",
+            "database search"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "FPKM was used to estimate the expression of each gene 62 .",
+          "searchable_summary": "estimate gene expression levels using FPKM method",
+          "inputs": [
+            "Clean sequencing reads",
+            "Assembled transcripts (unigenes)"
+          ],
+          "outputs": [
+            "Gene expression levels (FPKM values)"
+          ],
+          "keywords": [
+            "gene expression estimation",
+            "FPKM",
+            "transcriptomics",
+            "RNA-seq analysis",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "and the DESeq R package 1.10.1 was used to estimate the differential expression between the two treatments 63 .",
+          "searchable_summary": "estimate differential gene expression between treatments using DESeq R package",
+          "inputs": [
+            "Gene expression levels (e.g., read counts)",
+            "Treatment groups (SP, OP)",
+            "DESeq R package"
+          ],
+          "outputs": [
+            "Differential expression analysis results (fold changes, p-values)"
+          ],
+          "keywords": [
+            "differential gene expression",
+            "RNA-seq analysis",
+            "DESeq",
+            "R package",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "DEGs were determined with an adjusted p value < 0.05 determined by DESeq.",
+          "searchable_summary": "identify differentially expressed genes (DEGs) based on adjusted p-value threshold",
+          "inputs": [
+            "Differential expression analysis results (adjusted p-values)",
+            "Adjusted p-value threshold (< 0.05)"
+          ],
+          "outputs": [
+            "List of differentially expressed genes (DEGs)"
+          ],
+          "keywords": [
+            "differentially expressed genes",
+            "DEG identification",
+            "adjusted p-value",
+            "statistical significance",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_fetch",
+          "description": "The R-seq data were uploaded to the sequence read archive (accession no. SUB6596208).",
+          "searchable_summary": "upload RNA-seq data to public repository (SRA)",
+          "inputs": [
+            "Raw sequencing reads (FASTQ files)"
+          ],
+          "outputs": [
+            "SRA accession number (SUB6596208)"
+          ],
+          "keywords": [
+            "data deposition",
+            "data sharing",
+            "SRA",
+            "sequence read archive",
+            "RNA-seq data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252334059.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

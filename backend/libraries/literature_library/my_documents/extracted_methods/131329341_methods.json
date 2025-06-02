@@ -1,0 +1,139 @@
+{
+  "paper_title": "Glacier Dynamics and Modeling in the Cordillera Blanca",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Glacier Mass Balance Model: Cellular Automata",
+      "description": "This method models the glacier dynamics 160 years back to the Little Ice Age (LIA) using a cellular automata technique in MATLAB. It simulates glacier flow and dynamics based on landscape evolution and hydrologic water balance models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Model the glacier dynamics 160 years back to the LIA using a cellular automata technique in MATLAB.",
+          "searchable_summary": "simulate glacier dynamics using cellular automata in MATLAB",
+          "inputs": [
+            "DEM model",
+            "glacier boundary of the initial year",
+            "initial year of ELA",
+            "initial year of mass balance maximum gradient",
+            "time of simulation",
+            "time increment",
+            "valley topography"
+          ],
+          "outputs": [
+            "glacier dynamics simulation results"
+          ],
+          "keywords": [
+            "glacier dynamics",
+            "cellular automata",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Verify the accuracy of the model by comparing the results of the test run with 1962 glacier polygons over both YAN and QUE.",
+          "searchable_summary": "validate model accuracy by comparing with historical glacier data",
+          "inputs": [
+            "1962 glacier polygons",
+            "historical terminus position records"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "model validation",
+            "historical data comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cellular Automata Model Setup",
+      "description": "This method sets up the cellular automata model by discretizing the landscape into a hexagonal lattice and defining the rules for glacier particle motion and mass balance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Discretize the landscape into a regular hexagonal lattice computed from 100-m resolution DEMs.",
+          "searchable_summary": "create hexagonal lattice from DEMs for model setup",
+          "inputs": [
+            "100-m resolution DEMs"
+          ],
+          "outputs": [
+            "hexagonal lattice"
+          ],
+          "keywords": [
+            "hexagonal lattice",
+            "DEMs",
+            "model setup"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Set the ELA as the median glacier altitude for each glacier model run.",
+          "searchable_summary": "set ELA as median glacier altitude for model",
+          "inputs": [
+            "median glacier altitude"
+          ],
+          "outputs": [
+            "ELA parameter"
+          ],
+          "keywords": [
+            "ELA",
+            "glacier altitude",
+            "model parameter"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Define the rules for glacier particle motion and mass balance, including plasticity and yield stress.",
+          "searchable_summary": "define glacier particle motion and mass balance rules",
+          "inputs": [
+            "plasticity",
+            "yield stress",
+            "precipitation",
+            "ablation"
+          ],
+          "outputs": [
+            "glacier motion rules"
+          ],
+          "keywords": [
+            "glacier motion",
+            "mass balance",
+            "plasticity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Volume and Surface Area (V-S) Scaling from the Model",
+      "description": "This method performs volume and surface area scaling for individual glaciers using a power law relationship to relate glacier volume to surface area.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform V-S scaling for individual glaciers using a power law relationship with empirically computed scaling coefficients.",
+          "searchable_summary": "apply V-S scaling using power law relationship",
+          "inputs": [
+            "glacier volume",
+            "glacier surface area",
+            "scaling coefficients"
+          ],
+          "outputs": [
+            "scaled glacier volume and surface area"
+          ],
+          "keywords": [
+            "V-S scaling",
+            "power law",
+            "glacier volume"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/131329341.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,201 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection",
+      "description": "Process for collecting sediment samples from the Vistula Lagoon to analyze faunal composition and environmental conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The samples were collected at two sites, in the eastern (54.39190°N, 19.68360°E) and in the middle (54.35010°N, 19.48480°E) part of the open-water area of the Polish part of the lagoon at a depth of approximately 3 m.",
+          "searchable_summary": "collect sediment samples from specified coordinates in Vistula Lagoon",
+          "inputs": [
+            "coordinates",
+            "depth"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "sediment",
+            "Vistula Lagoon"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Invertebrate Identification and Density Calculation",
+      "description": "Identification of invertebrate species and calculation of their density in sediment samples to understand faunal composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Tubificinae and the majority of chironomid larvae were identified according to Timm (1999) and Andersen et al. (2013), respectively.",
+          "searchable_summary": "identify invertebrate species using reference guides",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "identified species"
+          ],
+          "keywords": [
+            "species identification",
+            "Tubificinae",
+            "chironomid larvae"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The species affiliation of Chironomus was adopted based on karyological studies by Markiyanova (2018).",
+          "searchable_summary": "determine Chironomus species using karyological studies",
+          "inputs": [
+            "Chironomus samples"
+          ],
+          "outputs": [
+            "species affiliation"
+          ],
+          "keywords": [
+            "Chironomus",
+            "karyological studies"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The density of invertebrates in subsequent layers was expressed per sediment L to allow comparison of invertebrates abundance.",
+          "searchable_summary": "calculate invertebrate density per sediment liter",
+          "inputs": [
+            "identified species",
+            "sediment volume"
+          ],
+          "outputs": [
+            "invertebrate density"
+          ],
+          "keywords": [
+            "density calculation",
+            "invertebrates"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the collected data, including tests for co-occurrence, associations, and effects of sediment depth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pearson's Chi-Square Test for 2 × 2 tables was performed to check the significance of co-occurrence of the groups.",
+          "searchable_summary": "perform Pearson's Chi-Square Test for co-occurrence significance",
+          "inputs": [
+            "species occurrence data"
+          ],
+          "outputs": [
+            "chi-square test result"
+          ],
+          "keywords": [
+            "Pearson's Chi-Square Test",
+            "co-occurrence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Associations between densities of the fauna and maximum burrowing depth was identified using linear regression.",
+          "searchable_summary": "perform linear regression for fauna density and burrowing depth",
+          "inputs": [
+            "fauna density",
+            "burrowing depth"
+          ],
+          "outputs": [
+            "regression analysis result"
+          ],
+          "keywords": [
+            "linear regression",
+            "fauna density",
+            "burrowing depth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Shapiro-Wilk test for normal distribution and Levene test for equal population variances were conducted.",
+          "searchable_summary": "conduct Shapiro-Wilk and Levene tests for distribution and variance",
+          "inputs": [
+            "data set"
+          ],
+          "outputs": [
+            "normality and variance test results"
+          ],
+          "keywords": [
+            "Shapiro-Wilk test",
+            "Levene test",
+            "normal distribution",
+            "variance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Kruskal-Wallis test was applied for the determination of the effect of sediment depth on the content of organic matter and densities of bacteria.",
+          "searchable_summary": "apply Kruskal-Wallis test for sediment depth effects",
+          "inputs": [
+            "sediment depth data",
+            "organic matter content",
+            "bacteria densities"
+          ],
+          "outputs": [
+            "Kruskal-Wallis test result"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "sediment depth",
+            "organic matter",
+            "bacteria"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Friedman test was applied to test the effect of sediment depth on the density of C. balatonicus and Tubificinae.",
+          "searchable_summary": "apply Friedman test for sediment depth effects on species density",
+          "inputs": [
+            "sediment depth data",
+            "species density"
+          ],
+          "outputs": [
+            "Friedman test result"
+          ],
+          "keywords": [
+            "Friedman test",
+            "sediment depth",
+            "species density"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Wilcoxon signed-rank test was applied to check the significance of differences in the densities of C. balatonicus and Tubificinae between two sampling years.",
+          "searchable_summary": "apply Wilcoxon signed-rank test for density differences between years",
+          "inputs": [
+            "species density data from two years"
+          ],
+          "outputs": [
+            "Wilcoxon test result"
+          ],
+          "keywords": [
+            "Wilcoxon signed-rank test",
+            "density differences",
+            "sampling years"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235532576.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

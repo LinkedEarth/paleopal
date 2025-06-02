@@ -1,0 +1,353 @@
+{
+  "paper_title": "LGM and Deglacial Climate Simulations",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Base LGM Simulation Setup and Spin-up (CTRL)",
+      "description": "Process for setting up and spinning up the base Last Glacial Maximum (LGM) climate simulation using the HadCM3 model following the PMIP4 protocol with the GLAC-1D ice sheet reconstruction. This simulation serves as the initial condition for subsequent experiments and as a reference climate state (CTRL).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The new HadCM3 LGM simulation was initialized from a chain of existing multi-millennial HadCM3 PMIP3 LGM simulations, which were started from multi-millennial continuations of earlier HadCM3 LGM simulations, giving a pre-PMIP4 LGM spin-up of several thousand years.",
+          "searchable_summary": "Initialize climate model simulation from previous simulation states",
+          "inputs": [
+            "Existing HadCM3 PMIP3 LGM simulation states",
+            "HadCM3 model setup"
+          ],
+          "outputs": [
+            "Initialized HadCM3 LGM simulation state"
+          ],
+          "keywords": [
+            "HadCM3",
+            "PMIP3",
+            "LGM",
+            "climate model",
+            "initialization",
+            "simulation state"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The new PMIP4 GLAC-1D set-up was integrated for 3,500 years, and the end of this final spin-up phase provides the initial condition for all simulations presented here.",
+          "searchable_summary": "Run climate model simulation for a specified spin-up period",
+          "inputs": [
+            "Initialized HadCM3 LGM simulation state",
+            "PMIP4 protocol",
+            "GLAC-1D ice sheet reconstruction",
+            "HadCM3 model setup"
+          ],
+          "outputs": [
+            "Spun-up HadCM3 LGM simulation state (initial condition)"
+          ],
+          "keywords": [
+            "HadCM3",
+            "PMIP4",
+            "GLAC-1D",
+            "spin-up",
+            "climate model",
+            "integration",
+            "initial condition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "We continued the LGM simulation for a further 4,000 years in parallel with our other experiments to provide a reference climate state (CTRL) for comparison to the other simulations.",
+          "searchable_summary": "Continue base LGM simulation as a reference run",
+          "inputs": [
+            "Spun-up HadCM3 LGM simulation state (initial condition)",
+            "HadCM3 model setup"
+          ],
+          "outputs": [
+            "CTRL simulation output (climate state over 4000 years)"
+          ],
+          "keywords": [
+            "HadCM3",
+            "LGM",
+            "CTRL",
+            "reference simulation",
+            "climate model",
+            "integration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The starting year of CTRL is defined as year 0.",
+          "searchable_summary": "Define simulation start time reference",
+          "inputs": [],
+          "outputs": [
+            "Time reference (Year 0)"
+          ],
+          "keywords": [
+            "simulation time",
+            "reference year"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fixed-Forcing Meltwater Simulation Setup",
+      "description": "Method for setting up and running six equilibrium-type climate simulations using HadCM3, starting from the base LGM state, forced with constant meltwater discharge scenarios derived from a transient deglacial history. This approach investigates the sensitivity of the glacial ocean and surface climate to early deglacial freshwater inputs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A transient meltwater history was derived from GLAC-1D's representation of the deglaciation (Section S2 in Supporting Information S1).",
+          "searchable_summary": "Derive transient meltwater history from ice sheet reconstruction data",
+          "inputs": [
+            "GLAC-1D ice sheet reconstruction data"
+          ],
+          "outputs": [
+            "Transient meltwater history data"
+          ],
+          "keywords": [
+            "GLAC-1D",
+            "deglaciation",
+            "meltwater history",
+            "ice sheet reconstruction",
+            "data derivation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We examined the triggering of abrupt climate changes using a simpler approach; by selecting six different, fixed-forcing scenarios (our \"snapshots\"), that allow us to investigate the sensitivity of the glacial ocean and surface climate to early deglacial freshwater inputs (Figure 1a). The snapshots were identified for their ability to collectively capture a broad range of possible situations that may have led to changes in ocean circulation and surface climate. The six scenarios correspond to different modes of discharge and are named after the period they were extracted from (see Figure 1a); see Figure 1c for the spatial distribution of the fluxes.",
+          "searchable_summary": "Select specific time slices from transient meltwater history as fixed forcing scenarios",
+          "inputs": [
+            "Transient meltwater history data"
+          ],
+          "outputs": [
+            "Six fixed meltwater forcing scenarios (spatial distribution, rate, time period name)"
+          ],
+          "keywords": [
+            "meltwater forcing",
+            "snapshot scenarios",
+            "deglaciation",
+            "data selection",
+            "forcing scenarios"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "These six snapshots of the deglacial meltwater history were used as forcing for six new equilibrium-type (i.e., constant-forcing) simulations, started from year 0.",
+          "searchable_summary": "Configure climate model simulations with constant meltwater forcing",
+          "inputs": [
+            "HadCM3 model setup",
+            "Six fixed meltwater forcing scenarios"
+          ],
+          "outputs": [
+            "Configured HadCM3 simulations"
+          ],
+          "keywords": [
+            "HadCM3",
+            "climate model",
+            "forcing",
+            "meltwater",
+            "constant forcing",
+            "equilibrium simulation",
+            "model configuration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "started from year 0.",
+          "searchable_summary": "Initialize new simulations from a common initial state",
+          "inputs": [
+            "Configured HadCM3 simulations",
+            "Initial condition state (from Base LGM Simulation Setup, Step 2)"
+          ],
+          "outputs": [
+            "Initialized HadCM3 simulations ready to run"
+          ],
+          "keywords": [
+            "initialization",
+            "climate model",
+            "initial condition"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The meltwater was discharged into the surface layer of the ocean and kept constant throughout the runs.",
+          "searchable_summary": "Apply constant meltwater forcing to ocean surface layer during simulation integration",
+          "inputs": [
+            "Initialized HadCM3 simulations",
+            "Fixed meltwater forcing scenarios"
+          ],
+          "outputs": [
+            "Running HadCM3 simulations with meltwater forcing"
+          ],
+          "keywords": [
+            "HadCM3",
+            "meltwater discharge",
+            "ocean surface forcing",
+            "constant forcing",
+            "climate model integration"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Global Mean Salinity Restoration (VFLUX)",
+      "description": "Method used to counteract global freshening caused by the long-term continuous freshwater forcing in the meltwater simulations by imposing a constant global mean salinity target, following the VFLUX method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "To avoid long-term drifts in mean ocean salinity caused by the long freshwater forcing, we impose a constant global mean salinity target (following the VFLUX method of Dentith et al. [2019]) commensurate with the starting condition for each \"snapshot\" (Table 1).",
+          "searchable_summary": "Set global mean salinity target for each simulation based on starting conditions",
+          "inputs": [
+            "Starting condition salinity for each snapshot simulation",
+            "VFLUX method parameters"
+          ],
+          "outputs": [
+            "Global mean salinity target value for each simulation"
+          ],
+          "keywords": [
+            "salinity target",
+            "VFLUX method",
+            "global mean salinity",
+            "climate model configuration",
+            "ocean salinity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The salinity target conserves water in relation to terrestrial ice volume (applied as relative to the present day) and thus, in the context of these simulations, counteracts global freshening by removing the excess water as a very small proportion of freshwater from every ocean grid cell at every ocean model timestep (1 hr).",
+          "searchable_summary": "Apply salinity restoration by removing excess freshwater globally at each model timestep",
+          "inputs": [
+            "Current ocean salinity state",
+            "Global mean salinity target",
+            "Ocean model timestep (1 hr)"
+          ],
+          "outputs": [
+            "Adjusted ocean salinity state"
+          ],
+          "keywords": [
+            "salinity restoration",
+            "freshwater removal",
+            "ocean model",
+            "timestep",
+            "VFLUX method",
+            "water conservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Simulation Runtime and Termination",
+      "description": "Procedure for determining the duration of the climate model simulations based on standard practice, observed stability, and analysis requirements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Most simulations were run for 10,000 years; long enough to characterize their climate behaviors.",
+          "searchable_summary": "Run climate model simulations for a standard duration of 10,000 years",
+          "inputs": [
+            "Initialized and configured simulations"
+          ],
+          "outputs": [
+            "Simulation output for 10,000 years"
+          ],
+          "keywords": [
+            "simulation runtime",
+            "climate model integration",
+            "long simulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "However, like CTRL, two simulations (21.5k and 20.7k), were terminated after 4,000 years. At this point, little was changing in those simulations, and since no further time series were required for the analysis, we opted to conserve the computing resource.",
+          "searchable_summary": "Terminate specific simulations early based on stability and analysis needs",
+          "inputs": [
+            "Simulation output (e.g., time series of key variables)",
+            "Analysis requirements",
+            "Computational resources"
+          ],
+          "outputs": [
+            "Terminated simulation output (4,000 years)"
+          ],
+          "keywords": [
+            "simulation termination",
+            "early termination",
+            "stability criteria",
+            "analysis requirements",
+            "resource conservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Numerical Instability Handling",
+      "description": "Procedure to identify and resolve numerical instability observed in some simulations, specifically a stream function runaway off the coast of the Philippines.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Some simulations experienced numerical instability after a few thousand years observed through a stream function runaway off the coast of the Philippines.",
+          "searchable_summary": "Monitor simulation output for signs of numerical instability, such as stream function runaway",
+          "inputs": [
+            "Simulation output (e.g., stream function data)"
+          ],
+          "outputs": [
+            "Identification of instability location and time"
+          ],
+          "keywords": [
+            "numerical instability",
+            "stream function",
+            "simulation monitoring",
+            "validation",
+            "debugging"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "This quirk was resolved by smoothing the bathymetry in the region of the instability",
+          "searchable_summary": "Modify model bathymetry data by smoothing in a specific region",
+          "inputs": [
+            "Model bathymetry data",
+            "Instability location"
+          ],
+          "outputs": [
+            "Modified model bathymetry data (smoothed)"
+          ],
+          "keywords": [
+            "bathymetry smoothing",
+            "model configuration",
+            "data modification",
+            "geophysical data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "and restarting the run a few years before the instability arose.",
+          "searchable_summary": "Restart simulation from a previous stable state after model configuration modification",
+          "inputs": [
+            "Modified model configuration (bathymetry)",
+            "Simulation state from before instability"
+          ],
+          "outputs": [
+            "Restarted simulation run"
+          ],
+          "keywords": [
+            "simulation restart",
+            "model debugging",
+            "numerical stability",
+            "climate model integration"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252800782.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

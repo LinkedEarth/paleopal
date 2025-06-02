@@ -1,0 +1,262 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Analysis",
+      "description": "Statistical procedures used to analyze the collected pollen data, including conversion to proportions, linear modeling, correlation analysis, and species richness estimation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Convert all values to proportions of the total sample to control for differences in sample size.",
+          "searchable_summary": "convert data values to proportions of total sample",
+          "inputs": [
+            "raw data values"
+          ],
+          "outputs": [
+            "proportional data values"
+          ],
+          "keywords": [
+            "data normalization",
+            "proportions",
+            "sample size control"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Pair observations by consolidating datasets based on species composition and extract equivalent sample and species abundance.",
+          "searchable_summary": "consolidate datasets based on species composition",
+          "inputs": [
+            "species composition data",
+            "sample data"
+          ],
+          "outputs": [
+            "consolidated datasets"
+          ],
+          "keywords": [
+            "data consolidation",
+            "species composition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Analyze data using general linear models and gauge model strength using adjusted R2 value.",
+          "searchable_summary": "perform general linear modeling and calculate adjusted R2",
+          "inputs": [
+            "consolidated datasets"
+          ],
+          "outputs": [
+            "linear model results",
+            "adjusted R2 values"
+          ],
+          "keywords": [
+            "linear modeling",
+            "R2 value",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Plot corresponding linear models using ggplot2.",
+          "searchable_summary": "plot linear models using ggplot2",
+          "inputs": [
+            "linear model results"
+          ],
+          "outputs": [
+            "linear model plots"
+          ],
+          "keywords": [
+            "data visualization",
+            "ggplot2",
+            "linear models"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Evaluate rank-based correlations using Spearman's method and product-moment correlations using Pearson's method.",
+          "searchable_summary": "calculate Spearman and Pearson correlations",
+          "inputs": [
+            "consolidated datasets"
+          ],
+          "outputs": [
+            "Spearman correlation results",
+            "Pearson correlation results"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "Spearman",
+            "Pearson"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Explore species richness estimates by generating species accumulation curves and plotting rarefaction curves.",
+          "searchable_summary": "generate and plot species accumulation and rarefaction curves",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "species accumulation curves",
+            "rarefaction plots"
+          ],
+          "keywords": [
+            "species richness",
+            "accumulation curves",
+            "rarefaction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Convert relative proportions to binary presence/absence values and generate rate of agreement between methods.",
+          "searchable_summary": "convert proportions to binary values and calculate agreement rate",
+          "inputs": [
+            "proportional data values"
+          ],
+          "outputs": [
+            "binary presence/absence data",
+            "agreement rate"
+          ],
+          "keywords": [
+            "binary conversion",
+            "method agreement"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Processing",
+      "description": "Procedures for processing sequence data, including trimming, pairing, filtering, and preparing data for barcoding assignments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Trim primers, pair forward and reverse reads, filter out low quality reads and sequencing errors, and group identical sequences under unique ASVs.",
+          "searchable_summary": "trim, pair, filter reads, and group sequences into ASVs",
+          "inputs": [
+            "sequence data"
+          ],
+          "outputs": [
+            "processed sequence data",
+            "ASVs"
+          ],
+          "keywords": [
+            "sequence trimming",
+            "ASV grouping",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Align forward and reverse reads and remove misaligned sequences and chimeras.",
+          "searchable_summary": "align reads and remove misaligned sequences and chimeras",
+          "inputs": [
+            "paired sequence data"
+          ],
+          "outputs": [
+            "aligned sequence data"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "chimera removal"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Perform quality control and format output into a matrix with abundance values for each ASV and sample.",
+          "searchable_summary": "perform quality control and format data into abundance matrix",
+          "inputs": [
+            "aligned sequence data"
+          ],
+          "outputs": [
+            "abundance matrix"
+          ],
+          "keywords": [
+            "quality control",
+            "data formatting",
+            "abundance matrix"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Build a database linking species to unique sequences using the Meta-Curator method.",
+          "searchable_summary": "build species-sequence database using Meta-Curator",
+          "inputs": [
+            "sequence data",
+            "NCBI reference sequences"
+          ],
+          "outputs": [
+            "species-sequence database"
+          ],
+          "keywords": [
+            "Meta-Curator",
+            "species database",
+            "sequence curation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Parse sequence data to identify species associated with each ASV, setting a similarity threshold.",
+          "searchable_summary": "identify species for each ASV with similarity threshold",
+          "inputs": [
+            "species-sequence database",
+            "ASV data"
+          ],
+          "outputs": [
+            "species identification results"
+          ],
+          "keywords": [
+            "species identification",
+            "similarity threshold"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Consolidate classifications at genus and family levels and prepare data for filtering.",
+          "searchable_summary": "consolidate classifications and prepare data for filtering",
+          "inputs": [
+            "species identification results"
+          ],
+          "outputs": [
+            "consolidated classification data"
+          ],
+          "keywords": [
+            "classification consolidation",
+            "data preparation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Filter data to remove mistag-associated false detections using negative controls.",
+          "searchable_summary": "filter data to remove mistag-associated false detections",
+          "inputs": [
+            "consolidated classification data",
+            "negative controls"
+          ],
+          "outputs": [
+            "filtered data"
+          ],
+          "keywords": [
+            "data filtering",
+            "mistag removal",
+            "negative controls"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/264998729.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

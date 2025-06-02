@@ -1,0 +1,164 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Experimental Verification of Vibration Attenuation",
+      "description": "This method involves the experimental verification of the bandgaps and vibration attenuation performance of a typical lattice plate and a SPLCRR plate. The experiment aims to validate the numerical predictions made using FEM by comparing the measured vibration suppression ranges with the predicted bandgaps.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The specimens contain 7 × 7 units (360 mm × 360 mm) with the same unit geometry and material parameters as in the FEM in Section 3.1.",
+          "searchable_summary": "prepare specimens with specified geometry and material parameters",
+          "inputs": [
+            "unit geometry",
+            "material parameters"
+          ],
+          "outputs": [
+            "specimens"
+          ],
+          "keywords": [
+            "specimen preparation",
+            "geometry",
+            "material parameters"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Two end sides of the specimen are simply supported by foam materials to mimic the simply supported boundary condition.",
+          "searchable_summary": "set up boundary conditions using foam supports",
+          "inputs": [
+            "specimens",
+            "foam materials"
+          ],
+          "outputs": [
+            "supported specimens"
+          ],
+          "keywords": [
+            "boundary conditions",
+            "foam support"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The vibration transmission spectra of the sandwich plates specimen were obtained by collecting the impact hammer (Brüel and Kjaer, 8206-002) of the exciting point and the vibration acceleration (Brüel and Kjaer, 4507) responses of the acquisition point with data acquisition (Brüel and Kjaer, 3040).",
+          "searchable_summary": "collect vibration transmission spectra using impact hammer and accelerometer",
+          "inputs": [
+            "impact hammer",
+            "accelerometer",
+            "data acquisition system"
+          ],
+          "outputs": [
+            "vibration transmission spectra"
+          ],
+          "keywords": [
+            "vibration measurement",
+            "impact hammer",
+            "accelerometer"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "It was observed that the measured vibration suppression ranges exhibited a strong agreement with both the predicted bandgaps and the previous FEM simulation.",
+          "searchable_summary": "compare measured vibration suppression with predicted bandgaps",
+          "inputs": [
+            "measured vibration suppression ranges",
+            "predicted bandgaps"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "validation",
+            "bandgaps",
+            "FEM simulation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "FEM Analysis for Bandgap Investigation",
+      "description": "This method involves using the Finite Element Method (FEM) to calculate the dispersion relations and investigate the bandgaps of the proposed SPLCRR plate. The method uses the Solid Mechanics Module of COMSOL to derive the dispersion curves and identify the band structure of the plate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A series of calculations of dispersion relations are conducted with the FEM based on Solid Mechanics Module of the COMSOL.",
+          "searchable_summary": "perform FEM calculations for dispersion relations using COMSOL",
+          "inputs": [
+            "Solid Mechanics Module",
+            "COMSOL"
+          ],
+          "outputs": [
+            "dispersion relations"
+          ],
+          "keywords": [
+            "FEM",
+            "dispersion relations",
+            "COMSOL"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Based on the periodicity of the proposed plate, we assumed that in both the x and y directions, a single unit cell was considered.",
+          "searchable_summary": "model single unit cell based on periodicity",
+          "inputs": [
+            "periodicity",
+            "unit cell dimensions"
+          ],
+          "outputs": [
+            "unit cell model"
+          ],
+          "keywords": [
+            "periodicity",
+            "unit cell",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "By modulating the wave vector k within the first irreducible Brillouin zone, derive the dispersion curves of the unit cell with respect to its wave number and frequency.",
+          "searchable_summary": "derive dispersion curves by modulating wave vector",
+          "inputs": [
+            "wave vector k",
+            "Brillouin zone"
+          ],
+          "outputs": [
+            "dispersion curves"
+          ],
+          "keywords": [
+            "dispersion curves",
+            "wave vector",
+            "Brillouin zone"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "To further verify the bandgap properties of the SPLCRR, the vibration attenuation characteristics of this plate were calculated by FEM.",
+          "searchable_summary": "calculate vibration attenuation characteristics using FEM",
+          "inputs": [
+            "SPLCRR plate model",
+            "FEM"
+          ],
+          "outputs": [
+            "vibration attenuation characteristics"
+          ],
+          "keywords": [
+            "vibration attenuation",
+            "FEM",
+            "bandgap properties"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/257873120.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

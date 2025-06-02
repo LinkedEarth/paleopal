@@ -1,0 +1,173 @@
+{
+  "paper_title": "Urticaceae Pollen Image Classification and Data Augmentation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Collection and Preparation",
+      "description": "Process for collecting and preparing pollen samples from Urticaceae species for imaging and analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Pollen grains were collected from all five species of Urticaceae found in the Netherlands.",
+          "searchable_summary": "collect pollen grains from Urticaceae species in the Netherlands",
+          "inputs": [
+            "Urticaceae species locations",
+            "botanist assistance"
+          ],
+          "outputs": [
+            "collected pollen grains"
+          ],
+          "keywords": [
+            "pollen collection",
+            "Urticaceae",
+            "botany"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Fresh material was collected with the help of an experienced botanist during the nettle flowering seasons of 2018 and 2019.",
+          "searchable_summary": "collect fresh pollen material during flowering seasons",
+          "inputs": [
+            "flowering season timing",
+            "botanist"
+          ],
+          "outputs": [
+            "fresh pollen material"
+          ],
+          "keywords": [
+            "fresh collection",
+            "flowering season"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To produce palynological reference slides, thecae of open flowers were carefully opened on a microscopic slide using tweezers.",
+          "searchable_summary": "prepare palynological reference slides from open flower thecae",
+          "inputs": [
+            "open flower thecae",
+            "microscopic slide"
+          ],
+          "outputs": [
+            "palynological reference slides"
+          ],
+          "keywords": [
+            "palynology",
+            "reference slides"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The pollen grains were mounted using a glycerin:water:gelatin (7:6:1) solution with 2% phenol and stained with Safranin (0.002% w/v).",
+          "searchable_summary": "mount and stain pollen grains for microscopy",
+          "inputs": [
+            "pollen grains",
+            "glycerin:water:gelatin solution",
+            "Safranin"
+          ],
+          "outputs": [
+            "mounted and stained pollen slides"
+          ],
+          "keywords": [
+            "pollen staining",
+            "microscopy"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "The system used for imaging was a Zeiss Observer Z1 linked to a Hamamatsu EM-CCD Digital Camera.",
+          "searchable_summary": "capture images of pollen slides using microscopy system",
+          "inputs": [
+            "Zeiss Observer Z1",
+            "Hamamatsu EM-CCD Digital Camera"
+          ],
+          "outputs": [
+            "grayscale pollen images"
+          ],
+          "keywords": [
+            "microscopy imaging",
+            "digital camera"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Augmentation for Deep Learning",
+      "description": "Data augmentation techniques applied to increase the variety of pollen images used as input for training a deep learning model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We selected the augmentation options brightness and flip.",
+          "searchable_summary": "apply brightness and flip augmentations to images",
+          "inputs": [
+            "pollen images"
+          ],
+          "outputs": [
+            "augmented pollen images"
+          ],
+          "keywords": [
+            "data augmentation",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Brightness range was set from 0.1 to 2, with < 1 corresponding to a darker image and > 1 to a brighter image.",
+          "searchable_summary": "adjust image brightness within specified range",
+          "inputs": [
+            "pollen images",
+            "brightness range"
+          ],
+          "outputs": [
+            "brightness-adjusted images"
+          ],
+          "keywords": [
+            "brightness adjustment",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Horizontal-and vertical flip were also applied randomly.",
+          "searchable_summary": "apply random horizontal and vertical flips to images",
+          "inputs": [
+            "pollen images"
+          ],
+          "outputs": [
+            "flipped images"
+          ],
+          "keywords": [
+            "image flipping",
+            "random transformation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "In addition, we applied L2 regularization and dropout in our neural network structures to prevent overfitting.",
+          "searchable_summary": "apply L2 regularization and dropout to neural network",
+          "inputs": [
+            "neural network model"
+          ],
+          "outputs": [
+            "regularized neural network"
+          ],
+          "keywords": [
+            "L2 regularization",
+            "dropout",
+            "neural networks"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235267567.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

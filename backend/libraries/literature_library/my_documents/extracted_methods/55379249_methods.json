@@ -1,0 +1,276 @@
+{
+  "paper_title": "Coastline and River Profile Models for Ebro Delta",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Coastline Evolution Model",
+      "description": "This method studies the morphologic evolution of the Ebro Delta plain using the Coastline Evolution Model (CEM), which is a process-based one-contour-line model. It simulates shoreline changes by discretizing the coastal zone into cells and calculating sediment transport and shoreline accretion or erosion.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Discretize the plan-view coastal zone into 50 m square cells that are either filled (land), empty (water), or partially filled (coastline).",
+          "searchable_summary": "discretize coastal zone into grid cells",
+          "inputs": [
+            "coastal zone data"
+          ],
+          "outputs": [
+            "grid cells"
+          ],
+          "keywords": [
+            "discretization",
+            "grid cells",
+            "coastal modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Refract and shoal incoming deep-water waves across parallel contours from the toe of the shoreface up to the breaking wave depth.",
+          "searchable_summary": "simulate wave refraction and shoaling",
+          "inputs": [
+            "deep-water wave data"
+          ],
+          "outputs": [
+            "wave characteristics"
+          ],
+          "keywords": [
+            "wave refraction",
+            "shoaling",
+            "wave modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Compute alongshore sediment transport using the CERC formula and adjust with a factor based on calibration studies.",
+          "searchable_summary": "calculate alongshore sediment transport",
+          "inputs": [
+            "wave characteristics",
+            "CERC formula parameters"
+          ],
+          "outputs": [
+            "sediment transport rates"
+          ],
+          "keywords": [
+            "sediment transport",
+            "CERC formula",
+            "calibration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Relate the divergence of alongshore sediment transport to shoreline accretion or erosion using the shoreline Exner equation.",
+          "searchable_summary": "apply Exner equation for shoreline change",
+          "inputs": [
+            "sediment transport rates",
+            "shoreline data"
+          ],
+          "outputs": [
+            "shoreline change rates"
+          ],
+          "keywords": [
+            "Exner equation",
+            "shoreline change",
+            "erosion",
+            "accretion"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Set shoreface and shelf slopes based on offshore geometry and include a shelf slope in CEM.",
+          "searchable_summary": "set shoreface and shelf slopes",
+          "inputs": [
+            "offshore geometry data"
+          ],
+          "outputs": [
+            "slope parameters"
+          ],
+          "keywords": [
+            "shoreface slope",
+            "shelf slope",
+            "CEM"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Simulate overwash when shoreline erosion causes a neck of a spit to reach a critical width.",
+          "searchable_summary": "simulate overwash for spit erosion",
+          "inputs": [
+            "shoreline data",
+            "critical width"
+          ],
+          "outputs": [
+            "overwash events"
+          ],
+          "keywords": [
+            "overwash",
+            "spit erosion",
+            "shoreline modeling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Testing Alongshore Sediment Transport Model Assumptions",
+      "description": "This method tests the assumptions of the alongshore sediment transport model using historical data and calculated sediment transport rates to validate the model's predictions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use aerial photographs and beach profile measurements to calculate historical Ebro coastline change.",
+          "searchable_summary": "analyze historical coastline change from photographs",
+          "inputs": [
+            "aerial photographs",
+            "beach profile data"
+          ],
+          "outputs": [
+            "historical coastline change rates"
+          ],
+          "keywords": [
+            "coastline change",
+            "historical data",
+            "aerial photographs"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calculate alongshore sediment transport using the back-refracted CERC formula from deep-water wave characteristics.",
+          "searchable_summary": "calculate sediment transport with CERC formula",
+          "inputs": [
+            "deep-water wave data",
+            "CERC formula parameters"
+          ],
+          "outputs": [
+            "sediment transport rates"
+          ],
+          "keywords": [
+            "CERC formula",
+            "sediment transport",
+            "wave modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compute net alongshore sediment transport for different wave sources and correct for shadowing by the delta coastline.",
+          "searchable_summary": "compute net sediment transport and correct for shadowing",
+          "inputs": [
+            "wave source data",
+            "shoreline data"
+          ],
+          "outputs": [
+            "net sediment transport rates"
+          ],
+          "keywords": [
+            "sediment transport",
+            "wave sources",
+            "shadowing correction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Compare computed sediment transport trends with observed beach change to validate model assumptions.",
+          "searchable_summary": "validate model with observed beach change",
+          "inputs": [
+            "computed sediment transport",
+            "observed beach change"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "model validation",
+            "beach change",
+            "sediment transport"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "River Profile Model",
+      "description": "This method investigates the response timescales of the river basin to climate and land-use changes using a 1-D river profile model. It models sediment transport and bed elevation interactions to study morphodynamic equilibrium.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Model sediment interaction with bed elevation to reach a longitudinal profile in morphodynamic equilibrium.",
+          "searchable_summary": "simulate sediment-bed interaction for equilibrium profile",
+          "inputs": [
+            "sediment data",
+            "bed elevation data"
+          ],
+          "outputs": [
+            "longitudinal profile"
+          ],
+          "keywords": [
+            "morphodynamic equilibrium",
+            "sediment interaction",
+            "river profile"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use a 1-D river profile model to simulate bed material load and ignore finer grained washload.",
+          "searchable_summary": "simulate bed material load with 1-D river model",
+          "inputs": [
+            "river profile data",
+            "sediment load data"
+          ],
+          "outputs": [
+            "bed material load"
+          ],
+          "keywords": [
+            "1-D river model",
+            "bed material load",
+            "sediment transport"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calculate fluvial bed-material load using the Meyer-Peter and Muller equation.",
+          "searchable_summary": "calculate bed-material load with Meyer-Peter and Muller equation",
+          "inputs": [
+            "sediment properties",
+            "flow data"
+          ],
+          "outputs": [
+            "bed-material load"
+          ],
+          "keywords": [
+            "Meyer-Peter and Muller equation",
+            "bed-material load",
+            "sediment transport"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Estimate flood intermittency and its impact on fluvial sediment load estimates.",
+          "searchable_summary": "estimate flood intermittency for sediment load",
+          "inputs": [
+            "flood data",
+            "sediment load data"
+          ],
+          "outputs": [
+            "flood intermittency estimates"
+          ],
+          "keywords": [
+            "flood intermittency",
+            "sediment load",
+            "river modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55379249.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

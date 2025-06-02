@@ -1,0 +1,342 @@
+{
+  "paper_title": "Vegetation Reconstruction From Siberia and the Tibetan Plateau Using Modern Analogue Technique–Comparing Sedimentary (Ancient) DNA and Pollen Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Modern Site Vegetation Type Determination",
+      "description": "Process for determining the dominant vegetation type surrounding modern sampling sites using a ring-buffer analysis based on vegetation atlases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The dominant vegetation type surrounding each sampled lake was extracted from a site-specific ring-buffer using the \"buffer()\" function in the \"raster\" package (Hijmans, 2020).",
+          "searchable_summary": "Create spatial buffer around points using R raster package",
+          "inputs": [
+            "Modern sampling site coordinates",
+            "Buffer distance/parameters",
+            "raster R package"
+          ],
+          "outputs": [
+            "Spatial buffer polygons for each site"
+          ],
+          "keywords": [
+            "R",
+            "raster package",
+            "buffer function",
+            "spatial analysis",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The dominant vegetation type surrounding each sampled lake was extracted from a site-specific ring-buffer...",
+          "searchable_summary": "Extract dominant feature from spatial layer within buffer polygon",
+          "inputs": [
+            "Spatial buffer polygons (from Step 1)",
+            "Vegetation map layer (derived from atlases of China and Russia)"
+          ],
+          "outputs": [
+            "Dominant vegetation type for each modern site"
+          ],
+          "keywords": [
+            "GIS",
+            "spatial analysis",
+            "zonal statistics",
+            "vegetation map",
+            "dominant type extraction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Metabarcoding Data Processing and Filtering",
+      "description": "Procedures for processing raw DNA metabarcoding data using OBITools, taxonomic assignment against reference databases, and filtering based on sequence abundance, identity, and ecological relevance to produce a curated list of taxa for each sample.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We used the OBITools package (Boyer et al., 2016) to analyse the DNA metabarcoding data.",
+          "searchable_summary": "Process raw DNA metabarcoding data using OBITools",
+          "inputs": [
+            "Raw DNA metabarcoding sequence data",
+            "OBITools package"
+          ],
+          "outputs": [
+            "Processed sequence data (e.g., demultiplexed, merged reads)"
+          ],
+          "keywords": [
+            "DNA metabarcoding",
+            "OBITools",
+            "bioinformatics",
+            "sequence processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "...which were converted for usage with the \"ecotag\" function implemented in OBITools (Boyer et al., 2016).",
+          "searchable_summary": "Format reference sequence databases for OBITools ecotag",
+          "inputs": [
+            "Arctic and Boreal vascular plant and bryophyte reference library",
+            "European Molecular Biology Laboratory (EMBL) Nucleotide Database",
+            "OBITools package"
+          ],
+          "outputs": [
+            "OBITools-compatible reference databases"
+          ],
+          "keywords": [
+            "OBITools",
+            "ecotag",
+            "reference database formatting",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "For the taxonomic assignment we applied two publicly available reference databases... which were converted for usage with the \"ecotag\" function implemented in OBITools (Boyer et al., 2016).",
+          "searchable_summary": "Assign taxonomy to DNA sequences using OBITools ecotag and reference databases",
+          "inputs": [
+            "Processed sequence data (from Step 1)",
+            "OBITools-compatible reference databases (from Step 2)",
+            "OBITools package"
+          ],
+          "outputs": [
+            "Taxonomically assigned sequence data"
+          ],
+          "keywords": [
+            "OBITools",
+            "ecotag",
+            "taxonomic assignment",
+            "sequence identification",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "To further improve the quality of the modern sedDNA and sedaDNA data, sequences occurring <10 times in each sediment sample were ignored.",
+          "searchable_summary": "Filter DNA sequences based on minimum count per sample",
+          "inputs": [
+            "Taxonomically assigned sequence data (from Step 3)",
+            "Minimum count threshold (10)"
+          ],
+          "outputs": [
+            "Filtered sequence data (minimum count)"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "abundance threshold",
+            "bioinformatics",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We only include terrestrial seed plants (Spermatophyta) sequences that had a 100% identity match to each of the references databases...",
+          "searchable_summary": "Filter DNA sequences by taxonomic group and identity match percentage",
+          "inputs": [
+            "Filtered sequence data (from Step 4)",
+            "Taxonomic group (Spermatophyta)",
+            "Identity match threshold (100%)"
+          ],
+          "outputs": [
+            "Filtered sequence data (taxonomic group and identity)"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "taxonomic filtering",
+            "identity match",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "...and occurred at least in two independent PCR reactions. Since PCR replicates of samples from Omoloy lakes were amplified with same tagcombination, those sequences that were present in one sediment sample were kept.",
+          "searchable_summary": "Filter DNA sequences based on occurrence in multiple PCR replicates, with specific exception for Omoloy lakes",
+          "inputs": [
+            "Filtered sequence data (from Step 5)",
+            "PCR replicate information",
+            "Exception criteria (Omoloy lakes)"
+          ],
+          "outputs": [
+            "Filtered sequence data (PCR replicates)"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "PCR replicates",
+            "data quality control",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Wetland taxa (e.g., Carex aquatilis, Comarum palustre, Sium suave) were excluded from all datasets.",
+          "searchable_summary": "Exclude specified wetland taxa from DNA sequence data",
+          "inputs": [
+            "Filtered sequence data (from Step 6)",
+            "List of wetland taxa to exclude"
+          ],
+          "outputs": [
+            "Filtered sequence data (wetland taxa excluded)"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "taxonomic exclusion",
+            "wetland taxa",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Furthermore, to avoid false positives (Ficetola et al., 2015), we excluded 0.3% taxa that should not be naturally found in our study area according to our vegetation surveys, the vegetation atlases of China and Russia, or iFlora of China (v. 2019, Brach andSong, 2006 1 ).",
+          "searchable_summary": "Exclude taxa from DNA sequence data based on geographical/ecological expectation",
+          "inputs": [
+            "Filtered sequence data (from Step 7)",
+            "Vegetation survey data",
+            "Vegetation atlases of China and Russia",
+            "iFlora of China data",
+            "List of unexpected taxa"
+          ],
+          "outputs": [
+            "Final curated DNA sequence data (sedDNA/sedaDNA) for analysis"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "ecological filtering",
+            "false positives",
+            "bioinformatics",
+            "data curation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Modern Analogue Technique (MAT) Threshold Determination",
+      "description": "Using Receiver Operating Characteristic (ROC) curve analysis on modern training sets (sedDNA and pollen) to determine optimal dissimilarity thresholds (d crit) for identifying good analogues in the Modern Analogue Technique (MAT).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Prepare modern sedDNA training set data.",
+          "searchable_summary": "Prepare modern sedDNA data for ROC analysis",
+          "inputs": [
+            "Filtered modern sedDNA data (from DNA Metabarcoding Data Processing and Filtering)",
+            "Vegetation type information for modern sites (from Modern Site Vegetation Type Determination)"
+          ],
+          "outputs": [
+            "Structured modern sedDNA training set data suitable for ROC analysis"
+          ],
+          "keywords": [
+            "data preparation",
+            "training set",
+            "sedDNA",
+            "modern data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "For the modern sedDNA... training-sets... the ROC curve analyses give the d crit of 0.930...",
+          "searchable_summary": "Perform ROC curve analysis on modern sedDNA training data",
+          "inputs": [
+            "Structured modern sedDNA training set data (from Step 1)"
+          ],
+          "outputs": [
+            "ROC curve analysis results for sedDNA"
+          ],
+          "keywords": [
+            "ROC curve analysis",
+            "sedDNA",
+            "modern analogue technique",
+            "threshold determination",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "...the ROC curve analyses give the d crit of 0.930...",
+          "searchable_summary": "Extract optimal dissimilarity threshold (d crit) from ROC analysis results for sedDNA",
+          "inputs": [
+            "ROC curve analysis results for sedDNA (from Step 2)"
+          ],
+          "outputs": [
+            "Optimal d crit value for sedDNA MAT (0.930)"
+          ],
+          "keywords": [
+            "ROC curve analysis",
+            "d crit",
+            "threshold determination",
+            "sedDNA",
+            "modern analogue technique"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Prepare modern pollen training set data.",
+          "searchable_summary": "Prepare modern pollen data for ROC analysis",
+          "inputs": [
+            "Modern pollen data",
+            "Vegetation type information for modern sites (from Modern Site Vegetation Type Determination)"
+          ],
+          "outputs": [
+            "Structured modern pollen training set data suitable for ROC analysis"
+          ],
+          "keywords": [
+            "data preparation",
+            "training set",
+            "pollen",
+            "modern data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "For the modern... pollen training-sets... the ROC curve analyses give the d crit of... 0.289,",
+          "searchable_summary": "Perform ROC curve analysis on modern pollen training data",
+          "inputs": [
+            "Structured modern pollen training set data (from Step 4)"
+          ],
+          "outputs": [
+            "ROC curve analysis results for pollen"
+          ],
+          "keywords": [
+            "ROC curve analysis",
+            "pollen",
+            "modern analogue technique",
+            "threshold determination",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "...the ROC curve analyses give the d crit of... 0.289,",
+          "searchable_summary": "Extract optimal dissimilarity threshold (d crit) from ROC analysis results for pollen",
+          "inputs": [
+            "ROC curve analysis results for pollen (from Step 5)"
+          ],
+          "outputs": [
+            "Optimal d crit value for pollen MAT (0.289)"
+          ],
+          "keywords": [
+            "ROC curve analysis",
+            "d crit",
+            "threshold determination",
+            "pollen",
+            "modern analogue technique"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234773381.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

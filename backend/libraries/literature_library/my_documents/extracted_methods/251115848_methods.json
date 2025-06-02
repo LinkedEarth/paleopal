@@ -1,0 +1,105 @@
+{
+  "paper_title": "Paleoclimatic Reconstruction Method",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Paleoclimatic Reconstruction using δ18O and Reference Models",
+      "description": "Method for reconstructing paleoclimatic values for a specific period at an archaeological or fossil site. It utilizes benthic foraminiferal δ18O data from the site and compares it to δ18O values and associated paleoclimatic factors from established glacial and interglacial reference periods. The method assumes that the site's paleoclimate lies proportionally between the reference glacial and interglacial states based on its δ18O value.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The δ 18 O -content values of the benthic foraminifera related to the selected glacial (G) and interglacial (IG) reference paleoclimatic models can be used as the lowest and highest temperature reference base in the determination of the former paleoclimatic conditions.",
+          "searchable_summary": "Obtain δ18O values and associated paleoclimatic factors from reference glacial and interglacial paleoclimate models.",
+          "inputs": [
+            "Names/identifiers of reference glacial and interglacial periods (e.g., LGM, MIS19)",
+            "Source database (e.g., PaleoClim.org)"
+          ],
+          "outputs": [
+            "δ18O value for the reference glacial period (δ18O_G)",
+            "δ18O value for the reference interglacial period (δ18O_IG)",
+            "Paleoclimatic factor(s) for the reference glacial period (f_k,G)",
+            "Paleoclimatic factor(s) for the reference interglacial period (f_k,IG)"
+          ],
+          "keywords": [
+            "paleoclimate model",
+            "δ18O",
+            "benthic foraminifera",
+            "glacial",
+            "interglacial",
+            "reference data",
+            "data retrieval",
+            "paleoclimatic factor"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Then, the archaeological or the fossil site's age-related δ 18 O -values should be determined.",
+          "searchable_summary": "Obtain age-related δ18O values for the specific archaeological or fossil site.",
+          "inputs": [
+            "Archaeological/fossil site identifier",
+            "Age of the site/period of interest"
+          ],
+          "outputs": [
+            "δ18O value for the site at the given age (δ18O_site)"
+          ],
+          "keywords": [
+            "δ18O",
+            "archaeological site",
+            "fossil site",
+            "age dating",
+            "data retrieval"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Finally, a modifier factor can be calculated based on the δ 18 O -values of the glacial and interglacial reference periods and the age of the archaeological or fossil sites. (Note: The specific formula for the modifier factor 'm' is not provided in the text, but it is calculated based on the relative position of the site's δ18O value between the reference glacial and interglacial δ18O values.)",
+          "searchable_summary": "Calculate a modifier factor based on site δ18O and reference δ18O values.",
+          "inputs": [
+            "δ18O_G",
+            "δ18O_IG",
+            "δ18O_site"
+          ],
+          "outputs": [
+            "Modifier factor (m)"
+          ],
+          "keywords": [
+            "modifier factor",
+            "calculation",
+            "δ18O",
+            "interpolation",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "and finally, based on the bioclimatic factors of the reference glacial and interglacial periods and modifier factor, the proportional paleoclimatic factor of the site in the given period was calculated according to the following formula: rf k,N = f k,G + m * (f k,IG - f k,G).",
+          "searchable_summary": "Calculate the reconstructed paleoclimatic factor using reference factors and the modifier.",
+          "inputs": [
+            "Modifier factor (m)",
+            "Paleoclimatic factor(s) for the reference glacial period (f_k,G)",
+            "Paleoclimatic factor(s) for the reference interglacial period (f_k,IG)"
+          ],
+          "outputs": [
+            "Reconstructed paleoclimatic factor for the site at the given period (rf_k,N)"
+          ],
+          "keywords": [
+            "paleoclimatic factor",
+            "reconstruction",
+            "formula",
+            "calculation",
+            "interpolation",
+            "glacial",
+            "interglacial",
+            "modifier"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251115848.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

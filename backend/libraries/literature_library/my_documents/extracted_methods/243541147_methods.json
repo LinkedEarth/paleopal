@@ -1,0 +1,154 @@
+{
+  "paper_title": "A simplified palaeoceanography archiving system (PARIS) and GUI for storage and visualisation of marine sediment core proxy data vs age and depth.",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Storage in PARIS",
+      "description": "Process for storing isotope and other palaeoclimate proxy data in the PARIS system against core depth, allowing for future application of new geochronologies and comparison of proxy data vs multiple geochronologies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Store isotope and other palaeoclimate proxy data against core depth as the primary format.",
+          "searchable_summary": "store proxy data against core depth",
+          "inputs": [
+            "isotope data",
+            "palaeoclimate proxy data"
+          ],
+          "outputs": [
+            "data stored against core depth"
+          ],
+          "keywords": [
+            "data storage",
+            "core depth",
+            "proxy data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Assign two depth values (depth1 and depth2) to each data point to represent the top and bottom of a core interval.",
+          "searchable_summary": "assign depth1 and depth2 to data points",
+          "inputs": [
+            "data point"
+          ],
+          "outputs": [
+            "depth1",
+            "depth2"
+          ],
+          "keywords": [
+            "depth values",
+            "core interval"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use NaN for depth2 if not provided, assuming depth2 is 1 cm greater than depth1.",
+          "searchable_summary": "handle missing depth2 with NaN",
+          "inputs": [
+            "depth1"
+          ],
+          "outputs": [
+            "depth2"
+          ],
+          "keywords": [
+            "NaN",
+            "depth handling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Structure data in a tab-delimited ASCII text format with specified column numbers for depth, measurement value, and measurement uncertainty.",
+          "searchable_summary": "format data in tab-delimited ASCII",
+          "inputs": [
+            "depth",
+            "measurement value",
+            "measurement uncertainty"
+          ],
+          "outputs": [
+            "formatted data file"
+          ],
+          "keywords": [
+            "ASCII format",
+            "data structuring"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Enter NaN as a placeholder for missing values to ensure structural integrity and machine-readability.",
+          "searchable_summary": "use NaN for missing values",
+          "inputs": [
+            "data sample"
+          ],
+          "outputs": [
+            "complete data file"
+          ],
+          "keywords": [
+            "NaN",
+            "missing values"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age-Depth Model File Management",
+      "description": "Management of age-depth model files within the PARIS system to assign age and age uncertainty to raw data stored against depth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Store age-depth model files in a 'master' folder within the 'age models' directory.",
+          "searchable_summary": "store age-depth model files in master folder",
+          "inputs": [
+            "age-depth model files"
+          ],
+          "outputs": [
+            "organized age-depth model files"
+          ],
+          "keywords": [
+            "age-depth model",
+            "file management"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Allow different age model scenarios to be stored and accessed from the GUI.",
+          "searchable_summary": "enable storage of multiple age model scenarios",
+          "inputs": [
+            "age model scenarios"
+          ],
+          "outputs": [
+            "accessible age model scenarios"
+          ],
+          "keywords": [
+            "age model scenarios",
+            "GUI access"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use the 'Undatable' output file format by default, with the option to adjust to other formats by editing the admodelformat.m file.",
+          "searchable_summary": "use and adjust age-depth model file formats",
+          "inputs": [
+            "age-depth model files",
+            "admodelformat.m"
+          ],
+          "outputs": [
+            "formatted age-depth model files"
+          ],
+          "keywords": [
+            "file format",
+            "age-depth model"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/243541147.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

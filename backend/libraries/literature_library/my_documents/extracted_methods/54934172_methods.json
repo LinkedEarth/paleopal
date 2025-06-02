@@ -1,0 +1,181 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Depth Measurements",
+      "description": "Process for measuring the depth of ice cores to ensure all analyses are on the same reference depth scale, addressing issues such as broken cores and depth offsets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Measure the depth of an ice core from the logging of the ice cores.",
+          "searchable_summary": "log ice core depth measurements",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "logged depth data"
+          ],
+          "keywords": [
+            "ice core",
+            "depth measurement",
+            "logging"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Correct for depth offsets due to core inclination, expansion, temperature differences, and gauge calibration.",
+          "searchable_summary": "correct depth offsets in logged data",
+          "inputs": [
+            "logged depth data"
+          ],
+          "outputs": [
+            "corrected depth data"
+          ],
+          "keywords": [
+            "depth correction",
+            "offsets",
+            "glaciological models"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "ECM Data Collection",
+      "description": "Procedure for collecting and processing ECM data from ice cores to analyze electrical conductivity, ensuring data consistency across different field seasons.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Preheat ice sections overnight at −15°C and cut a 1 cm slice using a horizontal saw.",
+          "searchable_summary": "prepare ice sections for ECM measurement",
+          "inputs": [
+            "ice core sections"
+          ],
+          "outputs": [
+            "prepared ice slices"
+          ],
+          "keywords": [
+            "ECM",
+            "ice core preparation",
+            "preheating"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Perform ECM measurements using electrodes with a 1500 V potential difference, recording the signal.",
+          "searchable_summary": "conduct ECM measurements on ice slices",
+          "inputs": [
+            "prepared ice slices"
+          ],
+          "outputs": [
+            "ECM signal data"
+          ],
+          "keywords": [
+            "ECM",
+            "electrodes",
+            "signal recording"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Remove aberrant events corresponding to ice core breaks and resample data every centimeter.",
+          "searchable_summary": "clean and resample ECM data",
+          "inputs": [
+            "ECM signal data"
+          ],
+          "outputs": [
+            "cleaned and resampled ECM data"
+          ],
+          "keywords": [
+            "data cleaning",
+            "resampling",
+            "ECM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Transfer depths from VK-BH8 and VK-BH7 to VK-5G depth using common volcanic events.",
+          "searchable_summary": "align ECM depths using volcanic events",
+          "inputs": [
+            "VK-BH8 data",
+            "VK-BH7 data",
+            "VK-5G data"
+          ],
+          "outputs": [
+            "aligned ECM depth data"
+          ],
+          "keywords": [
+            "depth alignment",
+            "volcanic events",
+            "ECM"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Stable Isotope Data Collection",
+      "description": "Method for measuring deuterium and oxygen-18 contents in ice cores to infer past temperature changes, ensuring precision and consistency across samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extract samples from a band along the ice cores for isotope measurement.",
+          "searchable_summary": "extract ice core samples for isotope analysis",
+          "inputs": [
+            "ice cores"
+          ],
+          "outputs": [
+            "ice core samples"
+          ],
+          "keywords": [
+            "isotope analysis",
+            "sample extraction",
+            "ice cores"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Conduct isotope measurements using the uranium reduction technique with automatic injection device.",
+          "searchable_summary": "perform isotope measurements using uranium reduction",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "isotope measurement data"
+          ],
+          "keywords": [
+            "isotope measurement",
+            "uranium reduction",
+            "automatic injection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Follow protocol of four injections per water sample with at least two independent measurements for precision.",
+          "searchable_summary": "ensure precision in isotope measurements",
+          "inputs": [
+            "isotope measurement data"
+          ],
+          "outputs": [
+            "precise isotope data"
+          ],
+          "keywords": [
+            "precision",
+            "isotope analysis",
+            "injections"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54934172.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

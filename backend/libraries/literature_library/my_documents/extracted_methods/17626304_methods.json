@@ -1,0 +1,674 @@
+{
+  "paper_title": "Radiocarbon Dating and Population Dynamics Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Radiocarbon Data Collection and Filtering",
+      "description": "Process for collating radiocarbon dates and their contexts from publications and public databases, including criteria for excluding invalid or incorrect dates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A database of 13,658 radiocarbon dates and their contexts from the western half of temperate Europe in the period 10,000-3,500 cal. BP was collated from publications and public databases [33][34][35][36][37][38][39][40][41]   Rhone valley and adjacent areas; Jutland; the Danish Islands; Scania (southernmost Sweden); northern Germany; the lower Rhine-Hesse region; central Germany; and southern Germany, including the adjacent loess areas of eastern France.",
+          "searchable_summary": "Collect radiocarbon dates and context information from specified sources for a defined geographic area and time period.",
+          "inputs": [
+            "Publications",
+            "Public databases",
+            "Geographic regions (Western temperate Europe)",
+            "Time period (10,000-3,500 cal. BP)"
+          ],
+          "outputs": [
+            "Database of radiocarbon dates and contexts"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "data collection",
+            "archaeological database",
+            "data collation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Similar to Collard et al. 17 , we took an inclusive approach to date selection from the available sources and excluded dates regarded as invalid by the laboratory, and those that were clearly incorrect in relation to the cultural context they claimed to be dating.",
+          "searchable_summary": "Filter collected radiocarbon dates, excluding those marked as invalid by the lab or clearly inconsistent with cultural context.",
+          "inputs": [
+            "Database of radiocarbon dates and contexts"
+          ],
+          "outputs": [
+            "Filtered database of radiocarbon dates"
+          ],
+          "keywords": [
+            "data filtering",
+            "data cleaning",
+            "radiocarbon dating",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All others were included on the grounds that the inclusion of imprecise dates and others that might not survive rigorous 'chronometric hygiene' tests would tend to obscure and smear any real fluctuations in population densities of interest to us, rather than accentuating them, and so have a conservative effect on hypothesis tests.",
+          "searchable_summary": "Include all remaining dates after initial filtering, accepting potential imprecision for a conservative analysis.",
+          "inputs": [
+            "Filtered database of radiocarbon dates"
+          ],
+          "outputs": [
+            "Final dataset of radiocarbon dates for analysis"
+          ],
+          "keywords": [
+            "data selection",
+            "inclusive approach",
+            "radiocarbon dating"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Date Calibration and Site Phase Grouping",
+      "description": "Process for calibrating radiocarbon dates and grouping them into non-overlapping site phases to correct for investigator bias and oversampling within sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Radiocarbon dates and their associated errors were calibrated using scripts written in the 'R' programming language (http://www.rproject.org/) and the IntCal09 calibration curve 42 . We used an arithmetical approach for reasons of speed, and because we were not considering stratigraphic information or using site-phase order as a Bayesian prior.",
+          "searchable_summary": "Calibrate radiocarbon dates and errors using R scripts, IntCal09 curve, and an arithmetical method.",
+          "inputs": [
+            "Radiocarbon dates",
+            "Associated errors",
+            "IntCal09 calibration curve"
+          ],
+          "outputs": [
+            "Calibrated date probability distributions"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "IntCal09",
+            "R programming",
+            "probability distribution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To correct for investigator bias and oversampling within sites, we grouped multiple dates from individual sites into non-overlapping phases, such that after ordering the dates at a site, the next date was only assigned to a new phase (or bin) if there were more than 200 14 C years between it and the previous date.",
+          "searchable_summary": "Group radiocarbon dates from the same site into non-overlapping phases based on a minimum time difference (e.g., 200 14C years) between consecutive dates.",
+          "inputs": [
+            "Calibrated date probability distributions",
+            "Site information",
+            "Date ordering"
+          ],
+          "outputs": [
+            "Grouped dates by site phase"
+          ],
+          "keywords": [
+            "data grouping",
+            "site phase",
+            "oversampling correction",
+            "radiocarbon dating"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calibrated date probability distributions of samples from the same site phase were summed and normalized to unity, and the resulting distributions were then summed across site phases for a given region and again normalized to unity.",
+          "searchable_summary": "Sum and normalize calibrated date probability distributions for samples within each site phase, then sum and normalize these distributions across all site phases for a region to create a Summed Calibrated Date Probability Distribution (SCDPD).",
+          "inputs": [
+            "Grouped dates by site phase",
+            "Calibrated date probability distributions"
+          ],
+          "outputs": [
+            "Summed Calibrated Date Probability Distribution (SCDPD) per region"
+          ],
+          "keywords": [
+            "probability distribution",
+            "summation",
+            "normalization",
+            "SCDPD",
+            "site phase"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Significance Testing of SCDPD Features",
+      "description": "Statistical tests based on generating simulated SCDPDs under a null hypothesis of no exponential trend departures to identify features in observed SCDPDs that are statistically significant.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We fitted an exponential GLM with a quasi-Poisson distributed error to a SCDPD constructed from all 14 C dates from the entire study area, using the wider date range of 4,000-10,000 cal. BP (Fig. 2, Supplementary Table S1).",
+          "searchable_summary": "Fit an exponential Generalized Linear Model (GLM) with quasi-Poisson error to the overall SCDPD for the entire study area over a wide date range.",
+          "inputs": [
+            "Overall SCDPD for study area",
+            "Date range (4,000-10,000 cal. BP)"
+          ],
+          "outputs": [
+            "Fitted exponential GLM model"
+          ],
+          "keywords": [
+            "GLM",
+            "Generalized Linear Model",
+            "exponential model",
+            "quasi-Poisson",
+            "statistical modeling",
+            "SCDPD"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Simulated SCDPDs (50,000) for each demographic region were generated by sampling n calendar dates from under the fitted GLM where n is the number of site phases in each region, and then converting to n 14 C dates by sampling from the calibration curve error at the corresponding calendar date.",
+          "searchable_summary": "Generate simulated calendar dates by sampling from the fitted GLM distribution, then convert them to simulated 14C dates by sampling from the calibration curve error.",
+          "inputs": [
+            "Fitted exponential GLM model",
+            "Number of site phases per region (n)",
+            "Calibration curve error distribution"
+          ],
+          "outputs": [
+            "Simulated calendar dates",
+            "Simulated 14C dates"
+          ],
+          "keywords": [
+            "simulation",
+            "sampling",
+            "GLM",
+            "calibration curve",
+            "14C dating"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The simulated 14 C dates were rounded using a Monte Carlo method to give the same proportion of different date roundings as that used by 14 C laboratories, assigned errors by sampling with replacement from observed 14 C data errors, and then calibrated using the same procedure as for the observed data.",
+          "searchable_summary": "Apply Monte Carlo rounding to simulated 14C dates, assign errors by resampling observed errors, and calibrate the simulated dates using the standard procedure.",
+          "inputs": [
+            "Simulated 14C dates",
+            "Observed 14C date rounding proportions",
+            "Observed 14C data errors",
+            "Calibration procedure (Method 2 steps 1, 4-7)"
+          ],
+          "outputs": [
+            "Simulated calibrated date probability distributions"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "data rounding",
+            "error assignment",
+            "radiocarbon calibration",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Finally, the simulated calibrated date probability distributions were summed and normalized to unity.",
+          "searchable_summary": "Sum and normalize the simulated calibrated date probability distributions to create simulated SCDPDs.",
+          "inputs": [
+            "Simulated calibrated date probability distributions"
+          ],
+          "outputs": [
+            "Simulated SCDPDs (e.g., 50,000 per region)"
+          ],
+          "keywords": [
+            "probability distribution",
+            "summation",
+            "normalization",
+            "SCDPD",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To test whether our observed SCDPDs contain features that deviate from expectation under the null hypothesis, we first calculated the local (10-year bins) mean of the 50,000 simulations, which we used to perform a local Z-score transformation on SCDPDs of both the observed data and each of the simulations.",
+          "searchable_summary": "Calculate the local mean of simulated SCDPDs in time bins, then perform a local Z-score transformation on observed and simulated SCDPDs using this mean.",
+          "inputs": [
+            "Observed SCDPDs",
+            "Simulated SCDPDs",
+            "Bin size (10 years)"
+          ],
+          "outputs": [
+            "Local mean of simulated SCDPDs",
+            "Observed Z-scores",
+            "Simulated Z-scores"
+          ],
+          "keywords": [
+            "statistical analysis",
+            "Z-score",
+            "local mean",
+            "time series analysis",
+            "SCDPD"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Finally, local 95% confidence intervals (CIs) of the Z-scores and regions where the Z-scores exceeded the CIs were highlighted on the SCDPD.",
+          "searchable_summary": "Calculate local 95% confidence intervals for Z-scores from simulated Z-scores and identify regions in the observed SCDPD where Z-scores exceed these CIs.",
+          "inputs": [
+            "Simulated Z-scores",
+            "Observed Z-scores"
+          ],
+          "outputs": [
+            "Local 95% Z-score CIs",
+            "Identified regions of deviation in observed SCDPD"
+          ],
+          "keywords": [
+            "confidence interval",
+            "statistical significance",
+            "Z-score",
+            "time series analysis",
+            "SCDPD"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The global statistic we chose was the sum of the Z-scores that exceeded the constructed CI.",
+          "searchable_summary": "Calculate a global statistic for observed and simulated data: the sum of Z-scores that exceed the local CIs.",
+          "inputs": [
+            "Observed Z-scores",
+            "Simulated Z-scores",
+            "Local 95% Z-score CIs"
+          ],
+          "outputs": [
+            "Observed global statistic",
+            "Simulated global statistics"
+          ],
+          "keywords": [
+            "statistical analysis",
+            "global statistic",
+            "Z-score",
+            "summation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "This global statistic calculated from the observed data was compared with the 95% CI in a one-tailed test using a distribution constructed from the same global statistic applied to the 50,000 simulations, which by definition were false positives.",
+          "searchable_summary": "Perform a one-tailed test comparing the observed global statistic against the 95% confidence interval derived from the distribution of simulated global statistics.",
+          "inputs": [
+            "Observed global statistic",
+            "Simulated global statistics"
+          ],
+          "outputs": [
+            "P-value for global test",
+            "Initial significance determination"
+          ],
+          "keywords": [
+            "statistical test",
+            "one-tailed test",
+            "confidence interval",
+            "hypothesis testing",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "To account for the multiple testing of 12 independent regions, a more rigorous CI was applied using the Šidák correction, which approximates to 99.51% CI (Table 1).",
+          "searchable_summary": "Apply the Šidák correction to the confidence interval for the global test to adjust for multiple comparisons across regions.",
+          "inputs": [
+            "Initial significance level (e.g., 95% CI)",
+            "Number of regions (12)"
+          ],
+          "outputs": [
+            "Adjusted confidence interval (e.g., 99.51% CI)",
+            "Final significance determination (P < 0.0051)"
+          ],
+          "keywords": [
+            "multiple testing correction",
+            "Šidák correction",
+            "statistical significance",
+            "hypothesis testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Correlation Analysis",
+      "description": "Testing for correlations between the demographic proxy (SCDPD residuals) and various climate proxies, accounting for uncertainty and multiple testing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In addition to identifying significant features in the SCDPDs, we were also interested in testing for correlations between this demographic proxy and seven climate proxies (GICC05 (ref. 44   P-values are reported using the absolute value of the largest correlation coefficient at any lag between 0 and 1,000. When the lower limit of the statistical method's precision is exceeded P-values are listed as 'o0.0001'. A statistically significant correlation is indicated by '*' when the reported P-value is smaller than Po0.0051, the 95% confidence level calculated using the Šidák correction (see Methods). precipitation record from the Aspvatnet glacial lake in northern Norway 47 and two separate North Atlantic sea surface temperature proxies, RAPiD-12-1K 48 and GIK 23258-2 (ref. 49)).",
+          "searchable_summary": "Obtain multiple climate proxy records.",
+          "inputs": [
+            "Climate proxy sources (GICC05, Aspvatnet, RAPiD-12-1K, GIK 23258-2, etc.)"
+          ],
+          "outputs": [
+            "Climate proxy time series data"
+          ],
+          "keywords": [
+            "climate proxy",
+            "paleoclimate",
+            "data fetch",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To account for uncertainty in the calibration curve, both simulated and real residuals were cross-correlated with the climate proxies, all interpolated to the 10-year resolution of the demography for consistency...",
+          "searchable_summary": "Interpolate observed and simulated SCDPD residuals and climate proxies to a consistent time resolution (e.g., 10 years).",
+          "inputs": [
+            "Observed SCDPD residuals",
+            "Simulated SCDPD residuals",
+            "Climate proxy time series data",
+            "Target resolution (10 years)"
+          ],
+          "outputs": [
+            "Interpolated time series data"
+          ],
+          "keywords": [
+            "data interpolation",
+            "time series",
+            "data processing",
+            "resampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "...both simulated and real residuals were cross-correlated with the climate proxies...",
+          "searchable_summary": "Perform cross-correlation analysis between observed SCDPD residuals and each climate proxy, and between simulated SCDPD residuals and each climate proxy.",
+          "inputs": [
+            "Interpolated observed SCDPD residuals",
+            "Interpolated simulated SCDPD residuals",
+            "Interpolated climate proxy time series data"
+          ],
+          "outputs": [
+            "Observed cross-correlation coefficients (at various lags)",
+            "Simulated cross-correlation coefficients (at various lags)"
+          ],
+          "keywords": [
+            "cross-correlation",
+            "time series analysis",
+            "statistical analysis",
+            "lag analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "...and 95% CIs were calculated from simulated correlation coefficients.",
+          "searchable_summary": "Calculate 95% confidence intervals for correlation coefficients from the distribution of simulated cross-correlation coefficients.",
+          "inputs": [
+            "Simulated cross-correlation coefficients"
+          ],
+          "outputs": [
+            "95% CIs for correlation coefficients"
+          ],
+          "keywords": [
+            "confidence interval",
+            "simulation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To take into account the possibility of false positives, each region's cross-correlation distribution was then tested for significance in a one-tailed test that compared a single global statistic (the absolute value of the largest correlation coefficient) from each simulation with the real data, by considering whether this statistic falls outside the 95% CI of the simulated distribution of the same statistic for that single region.",
+          "searchable_summary": "For each region and climate proxy, calculate a global statistic (absolute value of the largest correlation coefficient at any lag) for observed data and for each simulation. Perform a one-tailed test comparing the observed global statistic against the 95% CI of the simulated global statistic distribution for that region/proxy.",
+          "inputs": [
+            "Observed cross-correlation coefficients",
+            "Simulated cross-correlation coefficients",
+            "Lag range (0-1000 years)"
+          ],
+          "outputs": [
+            "Observed global statistic (max abs correlation)",
+            "Simulated global statistics (max abs correlation)",
+            "P-value for regional climate correlation test"
+          ],
+          "keywords": [
+            "statistical test",
+            "one-tailed test",
+            "global statistic",
+            "cross-correlation",
+            "simulation",
+            "hypothesis testing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "To account for the multiple tests of 12 data sets, we again applied the Šidák correction ( Table 2 and Supplementary Fig. S2).",
+          "searchable_summary": "Apply the Šidák correction to the significance level for the regional climate correlation tests to adjust for multiple comparisons across regions and climate proxies.",
+          "inputs": [
+            "Initial significance level (e.g., 95% CI)",
+            "Number of tests (regions * proxies)"
+          ],
+          "outputs": [
+            "Adjusted confidence interval (P < 0.0051)",
+            "Final significance determination for climate correlation"
+          ],
+          "keywords": [
+            "multiple testing correction",
+            "Šidák correction",
+            "statistical significance",
+            "hypothesis testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Historic Climate and Demographic Comparison",
+      "description": "Comparing historic instrumental climate data and inferred demographic patterns in adjacent regions to assess the role of climate variation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To further investigate the relationship between population and climate, we also compared historic (1 October 1972-14 January 1996) spatial variation in temperature and precipitation from weather station instrumental data of three closely adjacent regions at the same latitude-Jutland, Scania and the Danish Islands ( Supplementary Fig. S3, Supplementary Table S2).",
+          "searchable_summary": "Obtain historic instrumental temperature and precipitation data from weather stations for specified adjacent regions and time period.",
+          "inputs": [
+            "Weather station data sources",
+            "Regions (Jutland, Scania, Danish Islands)",
+            "Time period (1972-1996)"
+          ],
+          "outputs": [
+            "Historic temperature data",
+            "Historic precipitation data"
+          ],
+          "keywords": [
+            "climate data",
+            "instrumental data",
+            "weather station",
+            "data fetch",
+            "historic climate"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Their historic temperature and precipitation patterns are all highly correlated ( Supplementary  Figs S4-S6, Supplementary Table S3)...",
+          "searchable_summary": "Calculate correlations between historic temperature patterns across the selected regions. Calculate correlations between historic precipitation patterns across the selected regions.",
+          "inputs": [
+            "Historic temperature data",
+            "Historic precipitation data"
+          ],
+          "outputs": [
+            "Temperature correlation matrix",
+            "Precipitation correlation matrix"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "statistical analysis",
+            "climate patterns"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "...and although the inferred demographic patterns of the first two regions have similar trajectories, the third is very different (Fig. 3), indicating that climatic variation cannot account for the differences between them.",
+          "searchable_summary": "Obtain and compare the inferred demographic patterns (e.g., SCDPDs) for the same regions.",
+          "inputs": [
+            "Inferred demographic patterns (e.g., SCDPDs) for selected regions"
+          ],
+          "outputs": [
+            "Comparison of demographic trajectories"
+          ],
+          "keywords": [
+            "demographic patterns",
+            "time series comparison",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Autocorrelation Analysis of Demographic Residuals",
+      "description": "Analyzing the autocorrelation of demographic residuals to identify evidence of endogenous cyclicity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "In the light of the negative results of the climate analysis, an autocorrelation analysis of the demographic series was carried out on each region's residuals to see whether they provided evidence of endogenous cyclicity ( Supplementary Fig. S7).",
+          "searchable_summary": "Perform autocorrelation analysis on the demographic residuals for each region.",
+          "inputs": [
+            "Demographic residuals per region (e.g., from GLM fitting)"
+          ],
+          "outputs": [
+            "Autocorrelation function (ACF) per region"
+          ],
+          "keywords": [
+            "autocorrelation",
+            "time series analysis",
+            "statistical analysis",
+            "residuals"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "This analysis was performed to explore lags between 0 and 1,000 years by using a 'sliding window' of 3,000 years to avoid imputing data outside the window of overlap.",
+          "searchable_summary": "Apply a sliding window approach (e.g., 3000 years) to the autocorrelation analysis, exploring lags within a specified range (e.g., 0-1000 years).",
+          "inputs": [
+            "Demographic residuals per region",
+            "Window size (3000 years)",
+            "Lag range (0-1000 years)"
+          ],
+          "outputs": [
+            "Windowed autocorrelation function (ACF)"
+          ],
+          "keywords": [
+            "autocorrelation",
+            "sliding window",
+            "time series analysis",
+            "lag analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "CIs were generated by repeating this process on each of the 50,000 simulations and estimating the local 95% CI.",
+          "searchable_summary": "Repeat the windowed autocorrelation analysis on each of the simulated demographic series and estimate local 95% confidence intervals for autocorrelation at each lag.",
+          "inputs": [
+            "Simulated demographic series (from Method 3)",
+            "Window size",
+            "Lag range"
+          ],
+          "outputs": [
+            "Simulated autocorrelation functions",
+            "Local 95% CIs for autocorrelation"
+          ],
+          "keywords": [
+            "autocorrelation",
+            "simulation",
+            "confidence interval",
+            "time series analysis",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "No evidence of cyclicity (typically characterized by at least one peak of positive correlation preceded by a peak of negative correlation at half the wavelength) was observed. In some regions, a positive correlation outside 95% CI was observed, suggesting a broad long-term autocorrelation because of a long-term increase or decrease.",
+          "searchable_summary": "Compare observed autocorrelation results with simulated CIs to identify significant autocorrelation and look for patterns indicative of cyclicity.",
+          "inputs": [
+            "Observed windowed ACF",
+            "Local 95% CIs for autocorrelation"
+          ],
+          "outputs": [
+            "Assessment of cyclicity",
+            "Identification of significant long-term autocorrelation"
+          ],
+          "keywords": [
+            "autocorrelation",
+            "cyclicity",
+            "statistical significance",
+            "time series analysis",
+            "pattern detection"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bootstrap Analysis for SCDPD Uncertainty",
+      "description": "Applying a bootstrap procedure to illustrate uncertainty in estimated population density (SCDPDs) due to sampling error.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Within each region, uncalibrated dates were repeatedly sampled with replacement...",
+          "searchable_summary": "For each region, repeatedly sample the uncalibrated radiocarbon dates with replacement (bootstrap resampling).",
+          "inputs": [
+            "Uncalibrated radiocarbon dates per region"
+          ],
+          "outputs": [
+            "Bootstrapped samples of uncalibrated dates"
+          ],
+          "keywords": [
+            "bootstrap",
+            "resampling",
+            "sampling with replacement",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "...calibrated and plotted to construct a running CI through calendar time.",
+          "searchable_summary": "Calibrate each bootstrapped sample of dates using the standard procedure (Method 2 steps 1, 4-7).",
+          "inputs": [
+            "Bootstrapped samples of uncalibrated dates",
+            "Calibration procedure (Method 2 steps 1, 4-7)"
+          ],
+          "outputs": [
+            "Bootstrapped calibrated date probability distributions (bootstrapped SCDPDs)"
+          ],
+          "keywords": [
+            "bootstrap",
+            "radiocarbon calibration",
+            "SCDPD",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "...calibrated and plotted to construct a running CI through calendar time.",
+          "searchable_summary": "Construct and plot a running confidence interval (CI) through calendar time based on the distribution of the bootstrapped SCDPDs.",
+          "inputs": [
+            "Bootstrapped SCDPDs"
+          ],
+          "outputs": [
+            "Running CI for SCDPD",
+            "Plot of SCDPD with CI"
+          ],
+          "keywords": [
+            "bootstrap",
+            "confidence interval",
+            "visualization",
+            "plotting",
+            "SCDPD",
+            "uncertainty estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/17626304.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

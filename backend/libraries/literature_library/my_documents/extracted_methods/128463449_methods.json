@@ -1,0 +1,205 @@
+{
+  "paper_title": "Pollen, biomes, forest successions and climate at Lake Barombi Mbo (Cameroon) during the last ca. 33 000 cal yr BP - a numerical approach",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Modern Analogues Technique (MAT)",
+      "description": "This method is used to reconstruct climate parameters from fossil assemblages along sedimentary sequences or for key periods. It involves calculating a chord distance to measure dissimilarity between fossil and modern spectra, identifying best modern analogues, and averaging climatic parameters with a weighting inverse to the distance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Replace values of the taxa percentages with values of the PFTs scores.",
+          "searchable_summary": "convert taxa percentages to PFT scores",
+          "inputs": [
+            "taxa percentages"
+          ],
+          "outputs": [
+            "PFT scores"
+          ],
+          "keywords": [
+            "PFT scores",
+            "taxa percentages"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate a score for each PFT for both modern and fossil spectra.",
+          "searchable_summary": "calculate PFT scores for spectra",
+          "inputs": [
+            "PFT scores"
+          ],
+          "outputs": [
+            "PFT scores for spectra"
+          ],
+          "keywords": [
+            "PFT scores",
+            "spectra analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculate chord distance to measure dissimilarity between each fossil spectrum and all modern ones.",
+          "searchable_summary": "compute chord distance between fossil and modern spectra",
+          "inputs": [
+            "fossil spectra",
+            "modern spectra"
+          ],
+          "outputs": [
+            "chord distance"
+          ],
+          "keywords": [
+            "chord distance",
+            "dissimilarity measure"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify modern spectra with the smallest distance as the best modern analogues for each fossil pollen spectrum.",
+          "searchable_summary": "find best modern analogues based on smallest chord distance",
+          "inputs": [
+            "chord distance"
+          ],
+          "outputs": [
+            "best modern analogues"
+          ],
+          "keywords": [
+            "modern analogues",
+            "spectra comparison"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Average climatic parameters associated with best analogues with a weighting inverse to the distance.",
+          "searchable_summary": "average climatic parameters with inverse distance weighting",
+          "inputs": [
+            "best modern analogues",
+            "chord distance"
+          ],
+          "outputs": [
+            "climatic estimate"
+          ],
+          "keywords": [
+            "climatic parameters",
+            "inverse distance weighting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Artificial Neural Networks technique (ANN)",
+      "description": "This method uses artificial neural networks to calibrate non-linear relationships between plant functional types (PFTs) and climatic variables. It is considered more robust than taxon-climate calibration and is used to infer climatic variables from fossil PFT scores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Transfer pollen counts into PFT scores.",
+          "searchable_summary": "convert pollen counts to PFT scores",
+          "inputs": [
+            "pollen counts"
+          ],
+          "outputs": [
+            "PFT scores"
+          ],
+          "keywords": [
+            "PFT scores",
+            "pollen counts"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calibrate PFT scores derived from modern pollen data in terms of climatic parameters using an artificial neural network.",
+          "searchable_summary": "calibrate PFT scores with neural network",
+          "inputs": [
+            "modern PFT scores"
+          ],
+          "outputs": [
+            "calibrated climatic parameters"
+          ],
+          "keywords": [
+            "neural network",
+            "PFT calibration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Apply neural network coefficients to fossil PFT scores to infer climatic variables.",
+          "searchable_summary": "apply neural network to infer climatic variables",
+          "inputs": [
+            "neural network coefficients",
+            "fossil PFT scores"
+          ],
+          "outputs": [
+            "inferred climatic variables"
+          ],
+          "keywords": [
+            "neural network",
+            "climatic inference"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fossil Pollen Data Calibration",
+      "description": "This method involves extracting fossil data from sedimentary sequences, calibrating radiocarbon dates into calendar ages, and establishing a polynomial-age model to cover the sedimentary sequence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extract fossil data from the sedimentary sequence BM-6.",
+          "searchable_summary": "extract fossil data from sedimentary sequence",
+          "inputs": [
+            "sedimentary sequence BM-6"
+          ],
+          "outputs": [
+            "fossil data"
+          ],
+          "keywords": [
+            "fossil data",
+            "sedimentary sequence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calibrate radiocarbon dates into calendar ages using CALIB 5.0.1 software.",
+          "searchable_summary": "calibrate radiocarbon dates to calendar ages",
+          "inputs": [
+            "radiocarbon dates"
+          ],
+          "outputs": [
+            "calendar ages"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "calendar ages"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Establish a second-order polynomial-age model along the sequence.",
+          "searchable_summary": "create polynomial-age model for sequence",
+          "inputs": [
+            "calendar ages"
+          ],
+          "outputs": [
+            "polynomial-age model"
+          ],
+          "keywords": [
+            "age model",
+            "polynomial model"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/128463449.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,294 @@
+{
+  "paper_title": "Phylogenetic and Population Genetic Analysis of A. morrisonia",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "This method involves the analysis of genetic sequences to determine the phylogenetic relationships among different haplotypes of the Cytb and COI genes, as well as a combined dataset. It uses various phylogenetic tree estimation methods to identify major clades and evaluate relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained 642 bp of the partial Cytb gene from 156 individuals and 594 bp of the partial COI gene from 153 individuals.",
+          "searchable_summary": "obtain Cytb and COI gene sequences from individuals",
+          "inputs": [
+            "individual samples"
+          ],
+          "outputs": [
+            "Cytb sequences",
+            "COI sequences"
+          ],
+          "keywords": [
+            "Cytb gene",
+            "COI gene",
+            "sequence data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Modeltest indicated that the best substitution models were HKY+G and TIM+I for Cytb and COI respectively.",
+          "searchable_summary": "determine best substitution models using Modeltest",
+          "inputs": [
+            "Cytb sequences",
+            "COI sequences"
+          ],
+          "outputs": [
+            "substitution models"
+          ],
+          "keywords": [
+            "Modeltest",
+            "substitution model",
+            "HKY+G",
+            "TIM+I"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Phylogenetic trees estimated by three methods (MP, ML and BI) for haplotypes of Cytb, COI and the combined dataset.",
+          "searchable_summary": "estimate phylogenetic trees using MP, ML, and BI methods",
+          "inputs": [
+            "haplotypes",
+            "substitution models"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "maximum parsimony",
+            "maximum likelihood",
+            "Bayesian inference"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Non-parametric bootstrapping (1000 replicates) performed in the programs PAUP* 4.10b (MP) and PHYML was used to evaluate nodal support among branches.",
+          "searchable_summary": "perform non-parametric bootstrapping to evaluate nodal support",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "nodal support values"
+          ],
+          "keywords": [
+            "bootstrapping",
+            "nodal support",
+            "PAUP*",
+            "PHYML"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Bayesian analyses were performed with MrBayes 3.1 with default parameters.",
+          "searchable_summary": "perform Bayesian analysis using MrBayes",
+          "inputs": [
+            "haplotypes",
+            "substitution models"
+          ],
+          "outputs": [
+            "Bayesian phylogenetic trees"
+          ],
+          "keywords": [
+            "Bayesian analysis",
+            "MrBayes",
+            "phylogenetic tree"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Population Genetic Analysis",
+      "description": "This method involves analyzing genetic diversity and structure among populations using haplotype and nucleotide diversity measures, AMOVA, and other statistical tests to understand genetic variation and geographical associations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The numbers of haplotypes (H), and values of haplotype diversity (h) and nucleotide diversity for each sample site, were computed on the basis of the combined sequence dataset in Dnasp, version 4.0.",
+          "searchable_summary": "compute haplotype and nucleotide diversity using Dnasp",
+          "inputs": [
+            "combined sequence dataset"
+          ],
+          "outputs": [
+            "haplotype numbers",
+            "haplotype diversity",
+            "nucleotide diversity"
+          ],
+          "keywords": [
+            "haplotype diversity",
+            "nucleotide diversity",
+            "Dnasp"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A hierarchical analysis of molecular variance (AMOVA) was performed using pairwise differences.",
+          "searchable_summary": "perform AMOVA using pairwise differences",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "AMOVA results"
+          ],
+          "keywords": [
+            "AMOVA",
+            "molecular variance",
+            "pairwise differences"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The correlations between genetic and geographic distances were tested by both the Mantel test in Arlequin and in the isolation by Distance Web Service.",
+          "searchable_summary": "test correlations between genetic and geographic distances using Mantel test",
+          "inputs": [
+            "genetic distances",
+            "geographic distances"
+          ],
+          "outputs": [
+            "correlation results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "genetic distance",
+            "geographic distance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "A maximum parsimony network was constructed using TCS 1.21 with a 95% connection limit.",
+          "searchable_summary": "construct maximum parsimony network using TCS",
+          "inputs": [
+            "haplotypes"
+          ],
+          "outputs": [
+            "parsimony network"
+          ],
+          "keywords": [
+            "maximum parsimony network",
+            "TCS",
+            "haplotypes"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The null hypothesis of no geographical associations between tip and interior clades was tested using nested clade analysis (NCPA) implemented in Geodis 2.0.",
+          "searchable_summary": "perform nested clade analysis using Geodis",
+          "inputs": [
+            "clade data"
+          ],
+          "outputs": [
+            "NCPA results"
+          ],
+          "keywords": [
+            "nested clade analysis",
+            "Geodis",
+            "geographical association"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and Molecular Data Collection",
+      "description": "This method describes the collection of bird samples and the extraction and amplification of genetic material for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "One hundred and sixty birds were collected from 29 localities during 2004 to 2007.",
+          "searchable_summary": "collect bird samples from various localities",
+          "inputs": [
+            "localities"
+          ],
+          "outputs": [
+            "bird samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "birds",
+            "localities"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Total genomic DNA was extracted from blood or tissue samples using the QIAamp DNA Mini Kit (QIAGEN).",
+          "searchable_summary": "extract genomic DNA using QIAamp DNA Mini Kit",
+          "inputs": [
+            "blood samples",
+            "tissue samples"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "QIAamp DNA Mini Kit",
+            "genomic DNA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "A partial cytochrome b (Cytb) gene was amplified with the primer pair OSCL1 and OSCH2.",
+          "searchable_summary": "amplify Cytb gene using specific primers",
+          "inputs": [
+            "genomic DNA",
+            "primers OSCL1 and OSCH2"
+          ],
+          "outputs": [
+            "amplified Cytb gene"
+          ],
+          "keywords": [
+            "gene amplification",
+            "Cytb",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The thermocycling program consisted of an initial denaturation at 94°C for 5 min, followed by 40 cycles of 94°C for 40 s, 53°C for 40 s and 72°C for 40 s, plus a final extension at 72°C for 5 min.",
+          "searchable_summary": "perform PCR with specified thermocycling conditions",
+          "inputs": [
+            "PCR reagents",
+            "DNA template"
+          ],
+          "outputs": [
+            "PCR product"
+          ],
+          "keywords": [
+            "PCR",
+            "thermocycling",
+            "gene amplification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Sequences were assembled using Seqman II (DNASTAR) and proofread against the original chromatograms.",
+          "searchable_summary": "assemble and proofread sequences using Seqman II",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "assembled sequences"
+          ],
+          "keywords": [
+            "sequence assembly",
+            "Seqman II",
+            "chromatograms"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/12935494.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

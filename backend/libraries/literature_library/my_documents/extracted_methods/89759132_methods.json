@@ -1,0 +1,277 @@
+{
+  "paper_title": "Chironomid Taxa Analysis in Enol Lake",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Chironomid Data Analysis",
+      "description": "Statistical procedures used to analyze chironomid taxa distribution and environmental characteristics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The general distribution of the chironomid taxa along depth was represented by the program Psimpoll, using the mean of the relative abundances of each taxa per depth.",
+          "searchable_summary": "represent chironomid taxa distribution using Psimpoll",
+          "inputs": [
+            "chironomid taxa data",
+            "depth information"
+          ],
+          "outputs": [
+            "distribution representation"
+          ],
+          "keywords": [
+            "Psimpoll",
+            "chironomid",
+            "distribution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Rare taxa, defined by those that did not reach a relative abundance of ≥2% in at least two samples, were removed from the analyses.",
+          "searchable_summary": "filter out rare taxa with <2% abundance",
+          "inputs": [
+            "chironomid taxa data"
+          ],
+          "outputs": [
+            "filtered taxa data"
+          ],
+          "keywords": [
+            "filtering",
+            "rare taxa"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For the statistical analyses, we used total abundances, which were previously transformed to log (x+1).",
+          "searchable_summary": "transform abundances to log(x+1)",
+          "inputs": [
+            "total abundances"
+          ],
+          "outputs": [
+            "log-transformed abundances"
+          ],
+          "keywords": [
+            "log transformation",
+            "abundance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Assemblage ordination was explored through Non-metric Multidimensional Scaling (NMDS) of the species matrix using the function 'metaMDS' of the R package 'vegan' and the Bray Curtis dissimilarity index.",
+          "searchable_summary": "perform NMDS using 'metaMDS' and Bray Curtis index",
+          "inputs": [
+            "species matrix"
+          ],
+          "outputs": [
+            "ordination results"
+          ],
+          "keywords": [
+            "NMDS",
+            "vegan",
+            "ordination"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "We classified the samples in 3 groups through a k-means clustering.",
+          "searchable_summary": "perform k-means clustering on samples",
+          "inputs": [
+            "ordination results"
+          ],
+          "outputs": [
+            "clustered groups"
+          ],
+          "keywords": [
+            "k-means",
+            "clustering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Indicator taxa of each group were identified through an IndVal analysis using the 'multipatt' function in the R package 'indicspecies'.",
+          "searchable_summary": "identify indicator taxa using IndVal analysis",
+          "inputs": [
+            "clustered groups"
+          ],
+          "outputs": [
+            "indicator taxa"
+          ],
+          "keywords": [
+            "IndVal",
+            "indicator species"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The differences in the environmental characteristics of each group were tested using ANOVA and Tukey tests for pairwise comparisons.",
+          "searchable_summary": "perform ANOVA and Tukey tests on environmental characteristics",
+          "inputs": [
+            "environmental data",
+            "group classifications"
+          ],
+          "outputs": [
+            "ANOVA results",
+            "Tukey test results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "Tukey test",
+            "environmental analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Temporal variations in the chironomid assemblages were explored through a Redundancy Analysis (RDA) at 5 depths with forward selection of explanatory variables.",
+          "searchable_summary": "perform RDA with forward selection",
+          "inputs": [
+            "chironomid assemblages",
+            "environmental variables"
+          ],
+          "outputs": [
+            "RDA results"
+          ],
+          "keywords": [
+            "RDA",
+            "redundancy analysis",
+            "temporal variation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Spearman correlation matrices were calculated to discard variables that were significantly correlated (ρ≥0.85).",
+          "searchable_summary": "calculate Spearman correlation matrices",
+          "inputs": [
+            "environmental variables"
+          ],
+          "outputs": [
+            "correlation matrices"
+          ],
+          "keywords": [
+            "Spearman correlation",
+            "correlation analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling Procedure",
+      "description": "Method for collecting chironomid samples and environmental data from Enol Lake.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Samplings were performed in two consecutive years (2013 and 2014), in May, July, September and November of each year.",
+          "searchable_summary": "schedule sampling campaigns",
+          "inputs": [
+            "year",
+            "month"
+          ],
+          "outputs": [
+            "sampling schedule"
+          ],
+          "keywords": [
+            "sampling",
+            "schedule"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "In every sampling campaign, both littoral and bottom samples were collected.",
+          "searchable_summary": "collect littoral and bottom samples",
+          "inputs": [
+            "sampling location"
+          ],
+          "outputs": [
+            "littoral samples",
+            "bottom samples"
+          ],
+          "keywords": [
+            "littoral",
+            "bottom",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Samples were collected using the kick-sampling method with a 250 µm mesh net and preserved in formaldehyde at 4%.",
+          "searchable_summary": "perform kick-sampling and preserve samples",
+          "inputs": [
+            "mesh net",
+            "formaldehyde"
+          ],
+          "outputs": [
+            "preserved samples"
+          ],
+          "keywords": [
+            "kick-sampling",
+            "preservation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "In the sublittoral and profundal zones, an Ekman grab was used with three replicates per sample following a depth transect.",
+          "searchable_summary": "use Ekman grab for sublittoral and profundal sampling",
+          "inputs": [
+            "Ekman grab",
+            "depth transect"
+          ],
+          "outputs": [
+            "sublittoral samples",
+            "profundal samples"
+          ],
+          "keywords": [
+            "Ekman grab",
+            "sublittoral",
+            "profundal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "In the laboratory, Chironomidae larvae were sorted up to a maximum of 300 individuals and identified using an optical microscope.",
+          "searchable_summary": "sort and identify Chironomidae larvae",
+          "inputs": [
+            "preserved samples"
+          ],
+          "outputs": [
+            "identified larvae"
+          ],
+          "keywords": [
+            "sorting",
+            "identification",
+            "microscope"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Environmental variables were collected by researchers using a multiparametric sensor and water samples were analyzed in the laboratory.",
+          "searchable_summary": "collect and analyze environmental variables",
+          "inputs": [
+            "multiparametric sensor",
+            "water samples"
+          ],
+          "outputs": [
+            "environmental data"
+          ],
+          "keywords": [
+            "environmental variables",
+            "analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/89759132.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

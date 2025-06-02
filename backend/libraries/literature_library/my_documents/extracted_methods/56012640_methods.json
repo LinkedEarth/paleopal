@@ -1,0 +1,238 @@
+{
+  "paper_title": "Chironomid Larvae Study in Vallcebre Catchment",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Analysis of Chironomid Larvae",
+      "description": "Statistical analysis of chironomid larvae abundance data to explore spatial and temporal variability, and to describe ecological niches using various statistical methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Abundance data of identified genera and species of chironomid larvae were reported as density values (individuals m -2), and hydraulic variables were standardized.",
+          "searchable_summary": "Standardize abundance data and hydraulic variables",
+          "inputs": [
+            "abundance data",
+            "hydraulic variables"
+          ],
+          "outputs": [
+            "standardized abundance data",
+            "standardized hydraulic variables"
+          ],
+          "keywords": [
+            "standardization",
+            "density values",
+            "hydraulic variables"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Discriminat Correspondence Analysis (DCA) on chironomid larvae log-abundance to explore spatial and temporal variability.",
+          "searchable_summary": "Perform DCA on log-abundance data",
+          "inputs": [
+            "log-abundance data"
+          ],
+          "outputs": [
+            "DCA ordination space"
+          ],
+          "keywords": [
+            "DCA",
+            "ordination",
+            "spatial variability",
+            "temporal variability"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Statistical differences among the levels of each factor of classification were assessed by means of Monte-Carlo randomization tests using 999 permutations.",
+          "searchable_summary": "Conduct Monte-Carlo randomization tests",
+          "inputs": [
+            "DCA ordination space",
+            "classification factors"
+          ],
+          "outputs": [
+            "statistical differences"
+          ],
+          "keywords": [
+            "Monte-Carlo",
+            "randomization test",
+            "permutations"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Use Outlying Mean Index (OMI) method for niche analysis, with hydraulic variables and substrate types as descriptors.",
+          "searchable_summary": "Apply OMI method for niche analysis",
+          "inputs": [
+            "species abundance",
+            "environmental data"
+          ],
+          "outputs": [
+            "niche parameters"
+          ],
+          "keywords": [
+            "OMI",
+            "niche analysis",
+            "gradient studies"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Evaluate statistical significance of marginality with a Monte Carlo permutation test (n=999).",
+          "searchable_summary": "Perform Monte Carlo permutation test for marginality",
+          "inputs": [
+            "niche parameters"
+          ],
+          "outputs": [
+            "marginality significance"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "permutation test",
+            "marginality"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Decompose niches into spring and summer sub-niches using the Within Outlying Mean Index (WitOMI).",
+          "searchable_summary": "Use WitOMI for sub-niche decomposition",
+          "inputs": [
+            "OMI niches"
+          ],
+          "outputs": [
+            "spring and summer sub-niches"
+          ],
+          "keywords": [
+            "WitOMI",
+            "sub-niche",
+            "seasonal decomposition"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Estimate niche overlap using reduced PCA dimensions of OMI niches and kernel density functions.",
+          "searchable_summary": "Calculate niche overlap with PCA and kernel density",
+          "inputs": [
+            "PCA dimensions",
+            "OMI niches"
+          ],
+          "outputs": [
+            "niche overlap values"
+          ],
+          "keywords": [
+            "niche overlap",
+            "PCA",
+            "kernel density"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Perform null model permutation tests (n=999) to assess statistical niche differences between species.",
+          "searchable_summary": "Conduct null model permutation tests for niche differences",
+          "inputs": [
+            "niche overlap values"
+          ],
+          "outputs": [
+            "niche difference significance"
+          ],
+          "keywords": [
+            "null model",
+            "permutation test",
+            "niche differences"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and Microhabitat Characterization",
+      "description": "Collection of chironomid larvae samples and measurement of physicochemical and hydraulic variables to characterize microhabitats.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect 20 minisurbers per site and season in the years 2009 and 2010.",
+          "searchable_summary": "Collect minisurber samples for chironomid larvae",
+          "inputs": [
+            "site",
+            "season"
+          ],
+          "outputs": [
+            "minisurber samples"
+          ],
+          "keywords": [
+            "sampling",
+            "minisurber",
+            "chironomid larvae"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Measure physicochemical variables including water temperature, dissolved oxygen, pH, and conductivity at each site.",
+          "searchable_summary": "Measure physicochemical variables at sampling sites",
+          "inputs": [
+            "sampling site"
+          ],
+          "outputs": [
+            "water temperature",
+            "dissolved oxygen",
+            "pH",
+            "conductivity"
+          ],
+          "keywords": [
+            "physicochemical variables",
+            "water quality",
+            "portable probes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Measure water depth and velocity at every point where a minisurber sample was taken.",
+          "searchable_summary": "Measure water depth and velocity at sampling points",
+          "inputs": [
+            "sampling point"
+          ],
+          "outputs": [
+            "water depth",
+            "velocity"
+          ],
+          "keywords": [
+            "hydraulic variables",
+            "depth",
+            "velocity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate Reynolds and Froude numbers using depth, velocity, and temperature-dependent kinematic viscosity.",
+          "searchable_summary": "Compute Reynolds and Froude numbers",
+          "inputs": [
+            "depth",
+            "velocity",
+            "kinematic viscosity"
+          ],
+          "outputs": [
+            "Reynolds number",
+            "Froude number"
+          ],
+          "keywords": [
+            "Reynolds number",
+            "Froude number",
+            "hydraulic analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56012640.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

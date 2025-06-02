@@ -1,0 +1,181 @@
+{
+  "paper_title": "Gene Expression Analysis in Rice Pollen",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Affymetrix GeneChip Hybridization and Data Analysis",
+      "description": "This method involves the preparation and analysis of RNA samples using Affymetrix GeneChip technology to study gene expression profiles. It includes RNA labeling, hybridization, data collection, normalization, and statistical analysis to identify gene expression patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "8 μg of total RNA was used for making biotin-labeled cRNA targets.",
+          "searchable_summary": "prepare biotin-labeled cRNA targets from total RNA",
+          "inputs": [
+            "total RNA"
+          ],
+          "outputs": [
+            "biotin-labeled cRNA targets"
+          ],
+          "keywords": [
+            "RNA labeling",
+            "cRNA synthesis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All the procedures for cDNA and cRNA synthesis, cRNA fragmentation, hybridization, washing and staining, and scanning were conducted according to the GeneChip Standard Protocol.",
+          "searchable_summary": "conduct cDNA and cRNA synthesis, fragmentation, hybridization, washing, staining, and scanning",
+          "inputs": [
+            "cRNA targets"
+          ],
+          "outputs": [
+            "scanned GeneChip data"
+          ],
+          "keywords": [
+            "GeneChip protocol",
+            "hybridization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Information about the GeneChip ® Rice Genome Array (MAS 5.0) could be accessed from the Affymetrix website.",
+          "searchable_summary": "access GeneChip Rice Genome Array information from Affymetrix website",
+          "inputs": [
+            "Affymetrix website URL"
+          ],
+          "outputs": [
+            "GeneChip Rice Genome Array information"
+          ],
+          "keywords": [
+            "GeneChip",
+            "Affymetrix"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "GCOS software was used for data collection and normalization.",
+          "searchable_summary": "use GCOS software for data collection and normalization",
+          "inputs": [
+            "scanned GeneChip data"
+          ],
+          "outputs": [
+            "normalized data"
+          ],
+          "keywords": [
+            "GCOS software",
+            "data normalization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Overall intensities of all probe sets of each array were scaled to 500 to guarantee that hybridization intensity of all arrays was equivalent.",
+          "searchable_summary": "scale probe set intensities to 500 for equivalence",
+          "inputs": [
+            "normalized data"
+          ],
+          "outputs": [
+            "scaled data"
+          ],
+          "keywords": [
+            "intensity scaling",
+            "probe sets"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Each probe set was assigned a 'P' (present), 'A' (absent) or 'M' (missing) value and p-value from algorithms in GCOS.",
+          "searchable_summary": "assign presence/absence/missing values and p-values to probe sets",
+          "inputs": [
+            "scaled data"
+          ],
+          "outputs": [
+            "probe set values and p-values"
+          ],
+          "keywords": [
+            "probe set analysis",
+            "p-value"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Correlation coefficient values were calculated for replicate experiments of different tissues.",
+          "searchable_summary": "calculate correlation coefficients for replicate experiments",
+          "inputs": [
+            "probe set values"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "replicates"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The Z-score transformation normalization method was used to compare expression levels of genes from pollen at individual stages and sporophytic tissues.",
+          "searchable_summary": "apply Z-score transformation for gene expression comparison",
+          "inputs": [
+            "gene expression data"
+          ],
+          "outputs": [
+            "Z-scores"
+          ],
+          "keywords": [
+            "Z-score",
+            "normalization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis of Cis-acting Regulatory Elements",
+      "description": "This method identifies cis-acting regulatory elements in the upstream regions of rice pollen stage-enriched genes to understand transcription regulation during pollen development.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Identified cis-acting regulatory elements from 2-kb regions upstream of the start codon of the development stage-enriched genes using the PLACE database.",
+          "searchable_summary": "identify cis-acting regulatory elements using PLACE database",
+          "inputs": [
+            "2-kb upstream regions",
+            "PLACE database"
+          ],
+          "outputs": [
+            "identified cis-elements"
+          ],
+          "keywords": [
+            "cis-elements",
+            "PLACE database"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyzed the distribution and diversity of identified cis-elements across different pollen stages.",
+          "searchable_summary": "analyze distribution and diversity of cis-elements",
+          "inputs": [
+            "identified cis-elements"
+          ],
+          "outputs": [
+            "distribution and diversity analysis"
+          ],
+          "keywords": [
+            "cis-element analysis",
+            "pollen stages"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15699070.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

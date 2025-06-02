@@ -1,0 +1,351 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Microbial Data",
+      "description": "Statistical procedures used to analyze microbial data, including transformations, model selection, and redundancy analysis to understand variance and clustering.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Log-transform with zero-replacement all columns on all levels to resolve the closed composition of the microbial data and remove any forced correlations.",
+          "searchable_summary": "apply log transformation with zero-replacement to microbial data",
+          "inputs": [
+            "microbial data columns"
+          ],
+          "outputs": [
+            "log-transformed microbial data"
+          ],
+          "keywords": [
+            "log transformation",
+            "zero-replacement",
+            "microbial data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Subject context data to column-wise Hellinger transformation to ameliorate variability.",
+          "searchable_summary": "perform Hellinger transformation on context data",
+          "inputs": [
+            "context data columns"
+          ],
+          "outputs": [
+            "Hellinger-transformed context data"
+          ],
+          "keywords": [
+            "Hellinger transformation",
+            "context data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform PCA on phylum, class, and order levels.",
+          "searchable_summary": "conduct PCA on microbial data at various taxonomic levels",
+          "inputs": [
+            "microbial data at phylum, class, order levels"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "principal component analysis",
+            "microbial data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Use the iterative ordistep function in the R package vegan to determine the subset of context variables that best explain the variance expressed by the microbial community.",
+          "searchable_summary": "select context variables using ordistep function in R",
+          "inputs": [
+            "context variables",
+            "microbial community data"
+          ],
+          "outputs": [
+            "minimum adequate model"
+          ],
+          "keywords": [
+            "ordistep",
+            "model selection",
+            "R package vegan"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Run the ordistep function 100 times for each core and taxonomic level to ensure robust model selection.",
+          "searchable_summary": "validate model selection by running ordistep 100 times",
+          "inputs": [
+            "ordistep function",
+            "core data",
+            "taxonomic levels"
+          ],
+          "outputs": [
+            "validated model selection"
+          ],
+          "keywords": [
+            "model validation",
+            "ordistep",
+            "R package vegan"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Control selected models for variance inflation using the vif.cca function in vegan.",
+          "searchable_summary": "check for variance inflation using vif.cca in R",
+          "inputs": [
+            "selected models"
+          ],
+          "outputs": [
+            "variance inflation factors"
+          ],
+          "keywords": [
+            "variance inflation",
+            "vif.cca",
+            "R package vegan"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Perform Redundancy Analysis (RDA) on the microbial data using the selected minimum adequate model variables as constraints.",
+          "searchable_summary": "conduct RDA using selected model variables",
+          "inputs": [
+            "microbial data",
+            "minimum adequate model variables"
+          ],
+          "outputs": [
+            "RDA results"
+          ],
+          "keywords": [
+            "RDA",
+            "redundancy analysis",
+            "constrained analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Use Hierarchical Cluster Analysis with Euclidean distance and the square root of Ward's agglomeration criterion to assess sample clustering.",
+          "searchable_summary": "perform hierarchical clustering on samples",
+          "inputs": [
+            "RDA results"
+          ],
+          "outputs": [
+            "clustered samples"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "Euclidean distance",
+            "Ward's criterion"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Perform analysis of similarities between groups of samples using the anosim function with 9999 permutations in the R package vegan.",
+          "searchable_summary": "analyze similarities using anosim in R",
+          "inputs": [
+            "grouped sample data"
+          ],
+          "outputs": [
+            "similarity analysis results"
+          ],
+          "keywords": [
+            "anosim",
+            "similarity analysis",
+            "R package vegan"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Correlate primary and secondary eigenvectors of PCA and RDA using Spearman's rho to quantify compliance between analyses.",
+          "searchable_summary": "correlate PCA and RDA eigenvectors using Spearman's rho",
+          "inputs": [
+            "PCA eigenvectors",
+            "RDA eigenvectors"
+          ],
+          "outputs": [
+            "Spearman's rho correlation"
+          ],
+          "keywords": [
+            "Spearman's rho",
+            "eigenvector correlation",
+            "PCA",
+            "RDA"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "Correlate variance in the unconstrained microbial community structure with variance in selected geochemical variables.",
+          "searchable_summary": "correlate microbial community variance with geochemical variance",
+          "inputs": [
+            "microbial community structure",
+            "geochemical variables"
+          ],
+          "outputs": [
+            "variance correlation results"
+          ],
+          "keywords": [
+            "variance correlation",
+            "microbial community",
+            "geochemical variables"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microbial Sampling and DNA Processing",
+      "description": "Procedures for sampling microbial communities, extracting DNA, and processing sequences for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Subsample cores at regular depth intervals using sterile cut-off syringes.",
+          "searchable_summary": "subsample cores using sterile syringes",
+          "inputs": [
+            "cores"
+          ],
+          "outputs": [
+            "subsamples"
+          ],
+          "keywords": [
+            "subsampling",
+            "sterile syringes",
+            "cores"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Extract genomic DNA from approximately 0.5 g of sediments using the FastDNA R spin kit for soil.",
+          "searchable_summary": "extract DNA from sediments using FastDNA kit",
+          "inputs": [
+            "sediments"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "FastDNA kit",
+            "sediments"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Prepare 16S rRNA gene amplicon libraries by PCR amplification using specific primers.",
+          "searchable_summary": "amplify 16S rRNA genes using PCR",
+          "inputs": [
+            "extracted DNA",
+            "primers"
+          ],
+          "outputs": [
+            "amplicon libraries"
+          ],
+          "keywords": [
+            "PCR amplification",
+            "16S rRNA",
+            "amplicon libraries"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Pool all libraries in a 1:1 ratio based on DNA concentration and sequence using an Ion Torrent Personal Genome Machine.",
+          "searchable_summary": "pool and sequence libraries using Ion Torrent",
+          "inputs": [
+            "amplicon libraries"
+          ],
+          "outputs": [
+            "sequenced data"
+          ],
+          "keywords": [
+            "library pooling",
+            "Ion Torrent",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Filter and cluster reads denovo at 97% similarity into OTUs using USEARCH and UPARSE algorithms.",
+          "searchable_summary": "cluster reads into OTUs using USEARCH and UPARSE",
+          "inputs": [
+            "sequenced reads"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "USEARCH",
+            "UPARSE"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Trim sequences to 220 base pairs and perform taxonomic classification using CREST with the SilvaMod reference database.",
+          "searchable_summary": "classify OTUs using CREST and SilvaMod",
+          "inputs": [
+            "OTUs"
+          ],
+          "outputs": [
+            "taxonomic classification"
+          ],
+          "keywords": [
+            "sequence trimming",
+            "CREST",
+            "SilvaMod"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Discard OTUs based on contamination control criteria using blank samples.",
+          "searchable_summary": "apply contamination control to OTUs",
+          "inputs": [
+            "OTUs",
+            "blank samples"
+          ],
+          "outputs": [
+            "filtered OTUs"
+          ],
+          "keywords": [
+            "contamination control",
+            "OTU filtering",
+            "blank samples"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Remove singletons and subsample to 15058 reads.",
+          "searchable_summary": "remove singletons and rarefy samples",
+          "inputs": [
+            "filtered OTUs"
+          ],
+          "outputs": [
+            "rarefied samples"
+          ],
+          "keywords": [
+            "singleton removal",
+            "rarefaction",
+            "OTUs"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221470762.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

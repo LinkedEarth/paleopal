@@ -1,0 +1,386 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Data Analysis",
+      "description": "This method describes the process of analyzing sequence data to identify and classify bacterial communities from samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Forward and reverse reads were joined with fastq-join and accepted only if longer than 250 bp.",
+          "searchable_summary": "join forward and reverse reads using fastq-join, filter by length > 250 bp",
+          "inputs": [
+            "forward reads",
+            "reverse reads"
+          ],
+          "outputs": [
+            "joined reads"
+          ],
+          "keywords": [
+            "fastq-join",
+            "sequence joining",
+            "read length filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Quality filtering (Emax = 1, no ambiguous characters), dereplication (including filtering of singletons), denoising (including chimera removal), and clustering at 97% identity were performed with USEARCH v10.",
+          "searchable_summary": "perform quality filtering, dereplication, denoising, and clustering using USEARCH v10",
+          "inputs": [
+            "joined reads"
+          ],
+          "outputs": [
+            "clustered sequences"
+          ],
+          "keywords": [
+            "USEARCH",
+            "quality filtering",
+            "dereplication",
+            "denoising",
+            "clustering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Assigned taxonomies using the RDP v16 reference database using the same software.",
+          "searchable_summary": "assign taxonomies using RDP v16 database",
+          "inputs": [
+            "clustered sequences"
+          ],
+          "outputs": [
+            "taxonomy assignments"
+          ],
+          "keywords": [
+            "taxonomy assignment",
+            "RDP database"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The dataset was further analyzed in R 3.2.4 using the packages phyloseq, ggplot2, microbiome, MASS, and vegan.",
+          "searchable_summary": "analyze dataset in R using phyloseq, ggplot2, microbiome, MASS, and vegan",
+          "inputs": [
+            "taxonomy assignments"
+          ],
+          "outputs": [
+            "analysis results"
+          ],
+          "keywords": [
+            "R",
+            "phyloseq",
+            "ggplot2",
+            "microbiome",
+            "MASS",
+            "vegan"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Taxa assigned as chloroplasts, mitochondria, or unclassified were removed.",
+          "searchable_summary": "remove chloroplast, mitochondria, and unclassified taxa",
+          "inputs": [
+            "analysis results"
+          ],
+          "outputs": [
+            "filtered analysis results"
+          ],
+          "keywords": [
+            "taxa filtering",
+            "chloroplast",
+            "mitochondria",
+            "unclassified"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Computed the Shannon diversity for all samples, and an ANOVA test was conducted to compare these between healthy and deceased larvae.",
+          "searchable_summary": "compute Shannon diversity and perform ANOVA test",
+          "inputs": [
+            "filtered analysis results"
+          ],
+          "outputs": [
+            "diversity indices",
+            "ANOVA results"
+          ],
+          "keywords": [
+            "Shannon diversity",
+            "ANOVA",
+            "diversity analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "Data were relativized, and differences in community composition were visualized with Bray-Curtis-based non-metric multidimensional scaling (NMDS).",
+          "searchable_summary": "visualize community composition using NMDS",
+          "inputs": [
+            "diversity indices"
+          ],
+          "outputs": [
+            "NMDS plot"
+          ],
+          "keywords": [
+            "NMDS",
+            "Bray-Curtis",
+            "community composition"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Bacterial communities between larvae and respective community distance matrices for larvae and respective pollen provisions were compared with Mantel tests based on Pearson's correlation.",
+          "searchable_summary": "perform Mantel tests to compare bacterial communities",
+          "inputs": [
+            "community distance matrices"
+          ],
+          "outputs": [
+            "Mantel test results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "Pearson's correlation",
+            "community comparison"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Permutational multivariate analysis of variance (PERMANOVA) and betadisper were used to assess overlap and variability between and within sample groups.",
+          "searchable_summary": "perform PERMANOVA and betadisper analysis",
+          "inputs": [
+            "community distance matrices"
+          ],
+          "outputs": [
+            "PERMANOVA results",
+            "betadisper results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "betadisper",
+            "variance analysis"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "To find co-occurrences between bacterial taxa in deceased larvae, we used the program SparCC for pairwise correlations with 1000 bootstrap replicates to calculate pseudo p-values.",
+          "searchable_summary": "use SparCC for pairwise correlations and calculate pseudo p-values",
+          "inputs": [
+            "bacterial taxa data"
+          ],
+          "outputs": [
+            "correlation coefficients",
+            "pseudo p-values"
+          ],
+          "keywords": [
+            "SparCC",
+            "pairwise correlations",
+            "bootstrap"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "modeling",
+          "description": "Performed a linear discriminant (LD) analysis with treatment type set as the discriminative class.",
+          "searchable_summary": "perform linear discriminant analysis with treatment type",
+          "inputs": [
+            "treatment data"
+          ],
+          "outputs": [
+            "LD analysis results"
+          ],
+          "keywords": [
+            "linear discriminant analysis",
+            "treatment effect"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and Provisioning Experiment",
+      "description": "This method outlines the experimental setup for collecting and processing samples from artificial trap nests to study the bacterial communities in O. bicornis larvae.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sampling took place in northern Bavaria, Germany. Artificial trap nests were established on the sites in April 2016 and thereafter checked regularly.",
+          "searchable_summary": "establish and monitor artificial trap nests in northern Bavaria",
+          "inputs": [
+            "location data",
+            "trap nest materials"
+          ],
+          "outputs": [
+            "occupied nests"
+          ],
+          "keywords": [
+            "sampling",
+            "trap nests",
+            "Bavaria"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Occupied nests were collected in the time frame from 25 May 2016 to 30 June 2016.",
+          "searchable_summary": "collect occupied nests between May and June 2016",
+          "inputs": [
+            "occupied nests"
+          ],
+          "outputs": [
+            "collected nests"
+          ],
+          "keywords": [
+            "nest collection",
+            "sampling period"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Nests were opened horizontally in order to not disrupt the nest chambers.",
+          "searchable_summary": "open nests horizontally to preserve chambers",
+          "inputs": [
+            "collected nests"
+          ],
+          "outputs": [
+            "opened nests"
+          ],
+          "keywords": [
+            "nest opening",
+            "chamber preservation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Removed the rearmost deceased female larva, its respective remaining pollen provision, and the soil separator from each nest.",
+          "searchable_summary": "remove rearmost deceased female larva and associated materials",
+          "inputs": [
+            "opened nests"
+          ],
+          "outputs": [
+            "larvae samples",
+            "pollen provisions",
+            "soil separators"
+          ],
+          "keywords": [
+            "sample collection",
+            "larvae",
+            "pollen",
+            "soil"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Transferred samples into sterile 1.5-mL tubes and stored at −25°C until further processing.",
+          "searchable_summary": "store samples in sterile tubes at −25°C",
+          "inputs": [
+            "larvae samples",
+            "pollen provisions",
+            "soil separators"
+          ],
+          "outputs": [
+            "stored samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "sterile conditions"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Divided 31 larvae into three groups for different treatments in a microbiological safety cabinet.",
+          "searchable_summary": "divide larvae into treatment groups",
+          "inputs": [
+            "healthy larvae"
+          ],
+          "outputs": [
+            "treatment groups"
+          ],
+          "keywords": [
+            "treatment groups",
+            "microbiological safety"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Group A larvae were placed on untreated pollen clumps.",
+          "searchable_summary": "place group A larvae on untreated pollen",
+          "inputs": [
+            "group A larvae",
+            "untreated pollen"
+          ],
+          "outputs": [
+            "group A setup"
+          ],
+          "keywords": [
+            "untreated pollen",
+            "group A"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Group B larvae were placed on sterilized pollen clumps.",
+          "searchable_summary": "place group B larvae on sterilized pollen",
+          "inputs": [
+            "group B larvae",
+            "sterilized pollen"
+          ],
+          "outputs": [
+            "group B setup"
+          ],
+          "keywords": [
+            "sterilized pollen",
+            "group B"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Group C larvae were placed on pollen provisions inoculated with a Bacillus sp. strain.",
+          "searchable_summary": "place group C larvae on Bacillus-inoculated pollen",
+          "inputs": [
+            "group C larvae",
+            "Bacillus-inoculated pollen"
+          ],
+          "outputs": [
+            "group C setup"
+          ],
+          "keywords": [
+            "Bacillus inoculation",
+            "group C"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "After feeding for five days, larvae were transferred into sterile 1.5-mL tubes and stored at −25°C.",
+          "searchable_summary": "store fed larvae in sterile tubes at −25°C",
+          "inputs": [
+            "fed larvae"
+          ],
+          "outputs": [
+            "stored fed larvae"
+          ],
+          "keywords": [
+            "feeding period",
+            "sample storage"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219939639.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

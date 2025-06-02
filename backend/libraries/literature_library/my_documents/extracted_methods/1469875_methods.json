@@ -1,0 +1,128 @@
+{
+  "paper_title": "Coupled Climate Model Simulation of Holocene Cooling Events",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Model Simulation",
+      "description": "This method involves using the ECBilt-CLIO-VECODE global climate model to simulate climate conditions over the last 9000 years, focusing on the impact of solar and other forcings on climate dynamics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We present results using version 3 of the ECBilt-CLIO-VECODE global climate model, consisting of three main components describing the coupled atmosphere-ocean-vegetation system in three dimensions.",
+          "searchable_summary": "initialize ECBilt-CLIO-VECODE climate model with three-dimensional components",
+          "inputs": [
+            "ECBilt-CLIO-VECODE model version 3"
+          ],
+          "outputs": [
+            "initialized climate model"
+          ],
+          "keywords": [
+            "climate model",
+            "ECBilt",
+            "CLIO",
+            "VECODE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "We performed a 5-member ensemble simulation forced by time-varying forcings for the last 9000 years: orbital forcing, atmospheric trace gas concentrations, and TSI variations.",
+          "searchable_summary": "run ensemble simulation with time-varying forcings for 9000 years",
+          "inputs": [
+            "orbital forcing data",
+            "atmospheric trace gas concentrations",
+            "TSI variations"
+          ],
+          "outputs": [
+            "ensemble simulation results"
+          ],
+          "keywords": [
+            "ensemble simulation",
+            "orbital forcing",
+            "trace gas",
+            "TSI"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To reduce the short-term noise in the forcing TSI series, we applied a 55-yr running mean filter.",
+          "searchable_summary": "apply 55-year running mean filter to TSI series",
+          "inputs": [
+            "TSI series data"
+          ],
+          "outputs": [
+            "smoothed TSI series"
+          ],
+          "keywords": [
+            "TSI",
+            "running mean filter",
+            "noise reduction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "TSI Variation Reconstruction",
+      "description": "This method reconstructs Total Solar Irradiance (TSI) variations using solar modulation parameters and historical data to study solar influence on climate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "TSI variations are prescribed as an anomaly of the solar constant and are based on the 14C production rate derived from the tree-ring 14C record.",
+          "searchable_summary": "calculate TSI variations from 14C production rate",
+          "inputs": [
+            "14C production rate data",
+            "solar constant"
+          ],
+          "outputs": [
+            "TSI variations"
+          ],
+          "keywords": [
+            "TSI",
+            "14C production",
+            "solar constant"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To correct for the non-linear relationship between solar magnetic shielding, geomagnetic dipole field intensity and 14C production rate, we used model results to infer the solar modulation function.",
+          "searchable_summary": "infer solar modulation function from model results",
+          "inputs": [
+            "model results",
+            "geomagnetic field data"
+          ],
+          "outputs": [
+            "solar modulation function"
+          ],
+          "keywords": [
+            "solar modulation",
+            "geomagnetic field",
+            "14C"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To avoid introducing an artificial trend in our solar forcing record, we removed the long-term trend in the solar modulation parameter by subtracting a 5th order polynomial fitted to the data.",
+          "searchable_summary": "remove long-term trend using 5th order polynomial fit",
+          "inputs": [
+            "solar modulation parameter data"
+          ],
+          "outputs": [
+            "detrended solar modulation parameter"
+          ],
+          "keywords": [
+            "trend removal",
+            "polynomial fit",
+            "solar modulation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/1469875.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

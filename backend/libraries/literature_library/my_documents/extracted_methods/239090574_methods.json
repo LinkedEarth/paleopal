@@ -1,0 +1,365 @@
+{
+  "paper_title": "Simulated Individual Foraminifera Analysis Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Simulated Sediment Archive and Virtual IFA Generation",
+      "description": "This method uses a coupled climate and sediment model approach to simulate the process of foraminifera accumulating in sediment and then being sampled from discrete depth intervals, generating virtual individual foraminifera analysis (IFA) data under best-case conditions. It involves forcing a sediment accumulation simulator (SEAMUS) with climate model output (TRACE-21ka) and simulating sedimentation, bioturbation, and virtual sampling.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain monthly SST from the TRACE-21ka climate model.",
+          "searchable_summary": "Obtain monthly sea surface temperature data from TRACE-21ka climate model output.",
+          "inputs": [
+            "TRACE-21ka climate model output files/data"
+          ],
+          "outputs": [
+            "Monthly SST time series data"
+          ],
+          "keywords": [
+            "climate model",
+            "TRACE-21ka",
+            "SST",
+            "sea surface temperature",
+            "time series",
+            "data fetch"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Force a single-foraminifera sediment accumulation simulator (SEAMUS) run at a monthly timestep resolution, forced with monthly SST from the TRACE-21ka climate model.",
+          "searchable_summary": "Use monthly SST data as input forcing for the SEAMUS sediment accumulation simulator.",
+          "inputs": [
+            "Monthly SST time series data",
+            "SEAMUS model parameters (e.g., location, time period)"
+          ],
+          "outputs": [
+            "SEAMUS model simulation setup"
+          ],
+          "keywords": [
+            "sediment model",
+            "SEAMUS",
+            "model forcing",
+            "simulation setup",
+            "transient model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Simulated single foraminifera are incorporated into synthetic sediment archives.",
+          "searchable_summary": "Run the SEAMUS model to simulate the accumulation of individual foraminifera over time, incorporating them into a synthetic sediment column.",
+          "inputs": [
+            "SEAMUS model setup",
+            "Simulated foraminifera properties (e.g., perfect SST recording assumption)"
+          ],
+          "outputs": [
+            "Simulated sediment archive containing individual foraminifera with associated properties (e.g., recorded SST, age, depth)"
+          ],
+          "keywords": [
+            "sediment accumulation",
+            "simulation",
+            "SEAMUS",
+            "foraminifera",
+            "synthetic sediment",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Employ best-case sedimentation conditions whereby representative values for SAR and BD are both kept temporally constant.",
+          "searchable_summary": "Configure the sediment simulation to use constant sedimentation accumulation rate (SAR) and bioturbation depth (BD).",
+          "inputs": [
+            "SEAMUS model parameters",
+            "Desired constant SAR and BD values"
+          ],
+          "outputs": [
+            "SEAMUS model configuration with constant sedimentation parameters"
+          ],
+          "keywords": [
+            "sedimentation rate",
+            "SAR",
+            "bioturbation depth",
+            "BD",
+            "model parameters",
+            "best-case scenario"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Assume a best-case scenario where foraminifera perfectly record monthly SST (in this case the TRACE-21ka SST).",
+          "searchable_summary": "Implement the assumption that simulated foraminifera perfectly record the monthly SST at the time they lived.",
+          "inputs": [
+            "Simulated foraminifera data",
+            "Monthly SST time series"
+          ],
+          "outputs": [
+            "Simulated foraminifera data with perfectly recorded SST values"
+          ],
+          "keywords": [
+            "foraminifera proxy",
+            "SST recording",
+            "perfect proxy",
+            "modeling assumption"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Assume the existence of an ideal proxy method that allows for perfect retrieval of SST data from the single foraminifera.",
+          "searchable_summary": "Implement the assumption that SST can be retrieved perfectly from simulated foraminifera without analytical error.",
+          "inputs": [
+            "Simulated foraminifera data with recorded SST"
+          ],
+          "outputs": [
+            "Simulated foraminifera data where retrieved SST equals recorded SST (no analytical error)"
+          ],
+          "keywords": [
+            "proxy method",
+            "SST retrieval",
+            "ideal proxy",
+            "analytical error",
+            "modeling assumption"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Carry out the sediment archive and bioturbation simulation.",
+          "searchable_summary": "Apply a bioturbation process simulation to the synthetic sediment archive, mixing foraminifera within the mixed layer.",
+          "inputs": [
+            "Simulated sediment archive",
+            "Bioturbation depth (BD)",
+            "Bioturbation model parameters"
+          ],
+          "outputs": [
+            "Simulated sediment archive with foraminifera mixed by bioturbation"
+          ],
+          "keywords": [
+            "bioturbation",
+            "sediment mixing",
+            "simulation",
+            "SEAMUS",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Synthetic single foraminifera are randomly picked from each discrete-depth cm interval of simulated core.",
+          "searchable_summary": "Sample a specified number of individual foraminifera randomly from each 1 cm depth slice of the simulated sediment core.",
+          "inputs": [
+            "Simulated sediment archive with foraminifera (including depth and recorded SST)",
+            "Discrete depth interval size (1 cm)",
+            "Sample size per interval"
+          ],
+          "outputs": [
+            "Dataset of sampled individual foraminifera for each discrete depth interval, including their simulated SST values"
+          ],
+          "keywords": [
+            "sampling",
+            "discrete depth",
+            "sediment core",
+            "foraminifera",
+            "random sampling",
+            "data extraction"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Resulting in virtual IFA.",
+          "searchable_summary": "Compile the sampled foraminifera data from each depth interval into a dataset representing virtual individual foraminifera analysis (IFA) results.",
+          "inputs": [
+            "Dataset of sampled individual foraminifera per depth interval"
+          ],
+          "outputs": [
+            "Virtual IFA dataset (e.g., list of SST values for each foraminifera within each depth interval)"
+          ],
+          "keywords": [
+            "virtual IFA",
+            "simulated data",
+            "data generation",
+            "foraminifera analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis of Simulated IFA SST Distributions",
+      "description": "This method involves analyzing the statistical characteristics and reproducibility of the simulated individual foraminifera analysis (IFA) sea surface temperature (SST) data generated from the sediment model. It compares the simulated IFA distributions to the original input SST and evaluates the impact of various factors like sample size, analytical error, abundance, and sedimentation rate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "The output of the best-case virtual IFA retrieved from the sediment depth domain can subsequently be directly compared to the inputted SST in the time domain (i.e. TRACE-21ka SST).",
+          "searchable_summary": "Compare the distribution of simulated IFA SST values from a discrete depth interval to the distribution of the original monthly TRACE-21ka SST values corresponding to the age range of that interval.",
+          "inputs": [
+            "Virtual IFA dataset (simulated SST per foraminifera per depth)",
+            "TRACE-21ka monthly SST time series",
+            "Age model for simulated core"
+          ],
+          "outputs": [
+            "Comparison results (e.g., statistical metrics, plots)"
+          ],
+          "keywords": [
+            "data comparison",
+            "validation",
+            "IFA",
+            "SST",
+            "time series",
+            "age model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Compare the monthly TRACE-21ka SST data for the 18 ka to 17 ka period to our 100 ensembles of simulated IFA SST for our 10 cm ka -1 scenario, taking in each ensemble the 1 cm discrete-depth with a median age closest to 17.5 ka.",
+          "searchable_summary": "Filter the simulated IFA and TRACE-21ka data to focus on a specific time range (18-17 ka) and a corresponding discrete depth interval (1 cm with median age closest to 17.5 ka) for analysis.",
+          "inputs": [
+            "Virtual IFA dataset",
+            "TRACE-21ka SST data",
+            "Age model",
+            "Specified time period (18-17 ka)",
+            "Criterion for depth selection (median age closest to 17.5 ka)"
+          ],
+          "outputs": [
+            "Filtered IFA data for selected depth",
+            "Filtered TRACE-21ka SST data for selected time period"
+          ],
+          "keywords": [
+            "data filtering",
+            "time slice",
+            "depth interval",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Show 100 ensembles with no analytical error and constant abundance (Fig. 5), 100 ensembles with ±1° C analytical error and constant abundance ( Fig. 6), 100 ensembles with ±1° C analytical error and dynamic abundance (Fig. 7), and 100 ensembles with ±1° C analytical error and dynamic abundance (Fig. 8).",
+          "searchable_summary": "Generate multiple ensembles (e.g., 100) of simulated IFA SST for various simulation scenarios (e.g., varying analytical error levels, abundance patterns, SARs).",
+          "inputs": [
+            "Simulated sediment archive",
+            "Sampling parameters",
+            "Scenario parameters (analytical error, abundance model, SAR values)",
+            "Number of ensembles (100)"
+          ],
+          "outputs": [
+            "Multiple virtual IFA datasets (ensembles) for each scenario"
+          ],
+          "keywords": [
+            "ensemble simulation",
+            "scenario analysis",
+            "analytical error",
+            "species abundance",
+            "SAR",
+            "reproducibility"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Focussed on analysing the shape of said distribution using various statistical tools.",
+          "searchable_summary": "Apply statistical methods to characterize the shape of the distribution of simulated IFA SST values within a discrete depth interval.",
+          "inputs": [
+            "Simulated IFA SST data for a discrete depth interval"
+          ],
+          "outputs": [
+            "Statistical measures describing the distribution shape (e.g., skewness, kurtosis)"
+          ],
+          "keywords": [
+            "distribution analysis",
+            "statistical analysis",
+            "IFA",
+            "SST",
+            "data shape"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Including skewness analysis of histograms.",
+          "searchable_summary": "Calculate the skewness of the histogram of simulated IFA SST values for a discrete depth interval.",
+          "inputs": [
+            "Simulated IFA SST data for a discrete depth interval"
+          ],
+          "outputs": [
+            "Skewness value",
+            "Histogram plot"
+          ],
+          "keywords": [
+            "skewness",
+            "histogram",
+            "statistical analysis",
+            "distribution shape"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "As well as quantile-quantile (Q-Q) plots.",
+          "searchable_summary": "Generate quantile-quantile plots comparing the distribution of simulated IFA SST values to the distribution of input TRACE-21ka SST or a theoretical distribution (e.g., normal).",
+          "inputs": [
+            "Simulated IFA SST data for a discrete depth interval",
+            "Corresponding TRACE-21ka SST data or theoretical distribution parameters"
+          ],
+          "outputs": [
+            "Q-Q plot",
+            "Interpretation of plot (e.g., deviation from theoretical/input distribution)"
+          ],
+          "keywords": [
+            "quantile-quantile plot",
+            "Q-Q plot",
+            "distribution comparison",
+            "visualization",
+            "statistical plot"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Find that sample sizes typically associated with IFA in the field (50-100 foraminifera) produce high levels of noise, leading to low reproducibility from one ensemble to the next.",
+          "searchable_summary": "Assess how consistent the results (e.g., distribution shape, mean, standard deviation) are across multiple virtual IFA ensembles generated from the same simulation scenario.",
+          "inputs": [
+            "Multiple virtual IFA ensembles for one or more scenarios"
+          ],
+          "outputs": [
+            "Metrics of reproducibility (e.g., variance across ensembles)"
+          ],
+          "keywords": [
+            "reproducibility",
+            "ensemble analysis",
+            "statistical validation",
+            "noise analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "As expected, the 5 and 40 cm ka -1 scenarios (see supplemental figures) result in lower and higher reproducibility, respectably.",
+          "searchable_summary": "Compare the analysis results (e.g., reproducibility, distribution characteristics) obtained from simulations run with different sedimentation accumulation rates (SARs).",
+          "inputs": [
+            "Analysis results (from steps 4-7) for scenarios with different SAR values (e.g., 5, 10, 40 cm/ka)"
+          ],
+          "outputs": [
+            "Comparison of analysis results across different SAR scenarios"
+          ],
+          "keywords": [
+            "sedimentation rate",
+            "SAR",
+            "scenario comparison",
+            "validation",
+            "reproducibility"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/239090574.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

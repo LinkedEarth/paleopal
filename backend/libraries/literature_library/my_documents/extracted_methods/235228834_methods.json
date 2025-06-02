@@ -1,0 +1,118 @@
+{
+  "paper_title": "Deep Learning Methods for Improving Pollen Monitoring",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "SimpleModel Training and Evaluation",
+      "description": "Describes the architecture, training setup, and process for training and evaluating a convolutional neural network (SimpleModel) from scratch on the ABCPollen dataset for birch, alder, and hazel pollen grain classification. This model was created during the initial stage of the study.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the SimpleModel convolutional neural network architecture. The network consists of three convolutional layers, each with 4x4 filters. Input image dimensions are set to 200x200 pixels. This architecture is a modification of a model presented in a CNN tutorial [28].",
+          "searchable_summary": "Define a CNN model architecture with three convolutional layers, 4x4 filters, and 200x200 input size.",
+          "inputs": [],
+          "outputs": [
+            "SimpleModel architecture definition"
+          ],
+          "keywords": [
+            "CNN",
+            "convolutional neural network",
+            "model architecture",
+            "deep learning",
+            "Keras",
+            "PyTorch",
+            "TensorFlow"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Select the Adam optimizer for training the network [29].",
+          "searchable_summary": "Choose and configure the Adam optimizer for model training.",
+          "inputs": [
+            "SimpleModel architecture"
+          ],
+          "outputs": [
+            "Configured SimpleModel ready for training"
+          ],
+          "keywords": [
+            "optimizer",
+            "Adam",
+            "deep learning training",
+            "Keras",
+            "PyTorch",
+            "TensorFlow"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Split the ABCPollen dataset into training and test sets. 1224 randomly chosen images are used for training, while the test set contained the remaining 50 samples of ABCPollen data. The number of test items was determined by the small number of images in the ABCPollen database.",
+          "searchable_summary": "Split a dataset into training (1224 images) and test (50 images) subsets.",
+          "inputs": [
+            "ABCPollen dataset (images and labels)"
+          ],
+          "outputs": [
+            "Training dataset (1224 images)",
+            "Test dataset (50 images)"
+          ],
+          "keywords": [
+            "dataset split",
+            "train-test split",
+            "data partitioning",
+            "machine learning",
+            "deep learning"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Perform the SimpleModel training process using the training set (1224 images).",
+          "searchable_summary": "Train the SimpleModel using the training dataset.",
+          "inputs": [
+            "Configured SimpleModel",
+            "Training dataset (1224 images)"
+          ],
+          "outputs": [
+            "Trained SimpleModel"
+          ],
+          "keywords": [
+            "model training",
+            "deep learning training",
+            "CNN training",
+            "fit model",
+            "Keras",
+            "PyTorch",
+            "TensorFlow"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Evaluate the performance of the trained SimpleModel using the test set (50 images).",
+          "searchable_summary": "Evaluate the trained SimpleModel on the test dataset.",
+          "inputs": [
+            "Trained SimpleModel",
+            "Test dataset (50 images)"
+          ],
+          "outputs": [
+            "Model performance metrics (e.g., accuracy)"
+          ],
+          "keywords": [
+            "model evaluation",
+            "model testing",
+            "deep learning evaluation",
+            "evaluate model",
+            "accuracy",
+            "Keras",
+            "PyTorch",
+            "TensorFlow"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235228834.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

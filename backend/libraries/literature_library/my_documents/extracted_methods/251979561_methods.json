@@ -1,0 +1,212 @@
+{
+  "paper_title": "Quasi-Classical Trajectory Simulations and Machine Learning for Atom + Diatom Collisions",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Quasi-Classical Trajectory Simulations",
+      "description": "This method involves running quasi-classical trajectory (QCT) simulations to generate data for machine learning models characterizing atom + diatom collisions. The simulations help in comparing different approaches and understanding the dynamics of the collisions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Initial conditions for QCT simulations were generated from semiclassical quantization.",
+          "searchable_summary": "generate initial conditions for QCT simulations using semiclassical quantization",
+          "inputs": [
+            "semiclassical quantization parameters"
+          ],
+          "outputs": [
+            "initial conditions for QCT simulations"
+          ],
+          "keywords": [
+            "QCT simulations",
+            "semiclassical quantization",
+            "initial conditions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "After propagation of a specific initial condition (E trans, v, j) for a given impact parameter b, the final states (v', j') for the diatomic need to be determined and the final translational energy E trans is obtained from the relative velocities and reduced masses of the products.",
+          "searchable_summary": "determine final states and translational energy from propagated initial conditions",
+          "inputs": [
+            "initial conditions",
+            "impact parameter",
+            "relative velocities",
+            "reduced masses"
+          ],
+          "outputs": [
+            "final states (v', j')",
+            "final translational energy"
+          ],
+          "keywords": [
+            "final states",
+            "translational energy",
+            "QCT simulations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Assigning (v', j') quantum numbers is based on final momenta and positions which are transformed to suitable coordinates.",
+          "searchable_summary": "assign quantum numbers based on final momenta and positions",
+          "inputs": [
+            "final momenta",
+            "final positions"
+          ],
+          "outputs": [
+            "quantum numbers (v', j')"
+          ],
+          "keywords": [
+            "quantum numbers",
+            "final momenta",
+            "final positions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The internal final angular momentum j' = q × p for the product diatomic species is determined from the final position q and momentum p.",
+          "searchable_summary": "calculate final angular momentum from position and momentum",
+          "inputs": [
+            "final position q",
+            "final momentum p"
+          ],
+          "outputs": [
+            "final angular momentum j'"
+          ],
+          "keywords": [
+            "angular momentum",
+            "position",
+            "momentum"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Solve the quadratic equation to determine the rotational quantum number (j') as a non-integer number.",
+          "searchable_summary": "solve quadratic equation for rotational quantum number",
+          "inputs": [
+            "quadratic equation parameters"
+          ],
+          "outputs": [
+            "rotational quantum number j'"
+          ],
+          "keywords": [
+            "rotational quantum number",
+            "quadratic equation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Using semiclassical mechanics, the non-integer vibrational quantum number (v') of the final diatomic species is calculated.",
+          "searchable_summary": "calculate vibrational quantum number using semiclassical mechanics",
+          "inputs": [
+            "semiclassical mechanics parameters"
+          ],
+          "outputs": [
+            "vibrational quantum number v'"
+          ],
+          "keywords": [
+            "vibrational quantum number",
+            "semiclassical mechanics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Integer ro-vibrational quantum numbers are then assigned as the nearest integers (v', j') using histogram binning.",
+          "searchable_summary": "assign integer ro-vibrational quantum numbers using histogram binning",
+          "inputs": [
+            "non-integer quantum numbers"
+          ],
+          "outputs": [
+            "integer quantum numbers (v', j')"
+          ],
+          "keywords": [
+            "histogram binning",
+            "integer quantum numbers"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "To ensure conservation of total energy, the ro-vibrational energy E int is recomputed from semiclassical quantization using the integer quantum numbers (v', j') and the final translational energy for the atom+diatom system is adjusted.",
+          "searchable_summary": "recompute ro-vibrational energy and adjust final translational energy",
+          "inputs": [
+            "integer quantum numbers",
+            "final translational energy"
+          ],
+          "outputs": [
+            "adjusted translational energy"
+          ],
+          "keywords": [
+            "energy conservation",
+            "ro-vibrational energy",
+            "translational energy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Preparation for Machine Learning",
+      "description": "This method involves preparing data for machine learning models by selecting and processing the data to ensure it is suitable for training predictive models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Assess whether a reliable and predictive STD model E int versus E trans can be designed.",
+          "searchable_summary": "assess reliability of STD model for E int versus E trans",
+          "inputs": [
+            "E int data",
+            "E trans data"
+          ],
+          "outputs": [
+            "assessment of STD model reliability"
+          ],
+          "keywords": [
+            "STD model",
+            "E int",
+            "E trans"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compare the final translational energy distributions P (E trans,SC ) and P (E trans,MH ).",
+          "searchable_summary": "compare translational energy distributions from SC and MH",
+          "inputs": [
+            "P (E trans,SC )",
+            "P (E trans,MH )"
+          ],
+          "outputs": [
+            "comparison of energy distributions"
+          ],
+          "keywords": [
+            "translational energy",
+            "SC",
+            "MH"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze the absolute differences between the two distributions.",
+          "searchable_summary": "analyze absolute differences between energy distributions",
+          "inputs": [
+            "energy distribution comparison"
+          ],
+          "outputs": [
+            "absolute differences analysis"
+          ],
+          "keywords": [
+            "absolute differences",
+            "energy distributions"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251979561.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

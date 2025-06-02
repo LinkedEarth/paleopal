@@ -1,0 +1,183 @@
+{
+  "paper_title": "Climate Data and Reconstruction Model Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Data Collection",
+      "description": "Process for obtaining and preparing climate data from various sources for analysis, focusing on precipitation, temperature, and climate indices relevant to northwest Australian climate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained the Climatic Research Unit's (CRU) precipitation and maximum temperature data (version 3.22) and the self-calibrating Palmer drought severity index (scPDSI, version 3.22) data from KNMI Climate Explorer.",
+          "searchable_summary": "download CRU precipitation and temperature data and scPDSI data from KNMI Climate Explorer",
+          "inputs": [
+            "CRU data version 3.22",
+            "scPDSI data version 3.22"
+          ],
+          "outputs": [
+            "CRU precipitation data",
+            "CRU temperature data",
+            "scPDSI data"
+          ],
+          "keywords": [
+            "CRU",
+            "scPDSI",
+            "KNMI Climate Explorer",
+            "data download"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Precipitation data from weather stations in the Pilbara region are strongly correlated (r > 0.80) with regionally-averaged CRU precipitation data showing that the CRU gridded data provide a reliable representation of instrumental climate records in the region.",
+          "searchable_summary": "analyze correlation between Pilbara weather station data and CRU precipitation data",
+          "inputs": [
+            "Pilbara weather station data",
+            "CRU precipitation data"
+          ],
+          "outputs": [
+            "correlation coefficient"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "CRU",
+            "Pilbara"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We also obtained data for broad-scale climate indices known to influence northwest Australian climate from KNMI Climate Explorer.",
+          "searchable_summary": "download broad-scale climate indices data from KNMI Climate Explorer",
+          "inputs": [
+            "KNMI Climate Explorer"
+          ],
+          "outputs": [
+            "broad-scale climate indices data"
+          ],
+          "keywords": [
+            "climate indices",
+            "KNMI Climate Explorer",
+            "data download"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We calculated a Ningaloo Niño index from anomalies of sea surface temperatures averaged over the region: 108°-116°E and 22°-28°S.",
+          "searchable_summary": "calculate Ningaloo Niño index from SST anomalies",
+          "inputs": [
+            "NOAA ERSST data",
+            "region coordinates"
+          ],
+          "outputs": [
+            "Ningaloo Niño index"
+          ],
+          "keywords": [
+            "Ningaloo Niño",
+            "SST anomalies",
+            "index calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Reconstruction Model Development",
+      "description": "Development and validation of a linear model to reconstruct summer-autumn precipitation using detrended ring-width chronology and various statistical tests.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A linear model was used to reconstruct summer-autumn precipitation as a function of the detrended ring-width chronology.",
+          "searchable_summary": "develop linear model using detrended ring-width chronology to reconstruct precipitation",
+          "inputs": [
+            "detrended ring-width chronology"
+          ],
+          "outputs": [
+            "linear model"
+          ],
+          "keywords": [
+            "linear model",
+            "ring-width chronology",
+            "precipitation reconstruction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Split-period calibration/verification analysis was used to test the robustness of the model.",
+          "searchable_summary": "perform split-period calibration/verification analysis on model",
+          "inputs": [
+            "linear model",
+            "observed data"
+          ],
+          "outputs": [
+            "model robustness metrics"
+          ],
+          "keywords": [
+            "calibration",
+            "verification",
+            "model robustness"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Two rigorous tests of fit, the reduction of error (RE) and the coefficient of efficiency (CE) were used to verify the model.",
+          "searchable_summary": "verify model using RE and CE tests",
+          "inputs": [
+            "linear model",
+            "observed data"
+          ],
+          "outputs": [
+            "RE test result",
+            "CE test result"
+          ],
+          "keywords": [
+            "reduction of error",
+            "coefficient of efficiency",
+            "model verification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "We then used the full period (1910-2012) of observed data to develop the final linear model to reconstruct summer-autumn precipitation back to 1802.",
+          "searchable_summary": "develop final linear model using full observed data period",
+          "inputs": [
+            "observed data 1910-2012"
+          ],
+          "outputs": [
+            "final linear model"
+          ],
+          "keywords": [
+            "final model",
+            "full period data",
+            "precipitation reconstruction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We rescaled the variance of the reconstructed data to match the variance of the instrumental data.",
+          "searchable_summary": "rescale variance of reconstructed data to match instrumental data",
+          "inputs": [
+            "reconstructed data",
+            "instrumental data"
+          ],
+          "outputs": [
+            "variance-matched reconstructed data"
+          ],
+          "keywords": [
+            "variance rescaling",
+            "data matching",
+            "instrumental data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7571544.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

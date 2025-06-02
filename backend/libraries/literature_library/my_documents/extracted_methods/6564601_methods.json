@@ -1,0 +1,333 @@
+{
+  "paper_title": "Grass Pollen Allergy Study Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Patient Recruitment and Data Collection",
+      "description": "Process for selecting patients with grass pollen allergy and collecting health-related quality of life (HRQL) questionnaires and daily symptom diaries.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Children aged 7-18 with grass pollen allergy were consecutively selected from May 2009-01-01 until 2009-03-31.",
+          "searchable_summary": "select patients based on age and allergy type",
+          "inputs": [
+            "patient population data",
+            "age range (7-18)",
+            "allergy type (grass pollen)",
+            "recruitment period (May 1, 2009 - March 31, 2009)"
+          ],
+          "outputs": [
+            "list of potential study participants"
+          ],
+          "keywords": [
+            "patient selection",
+            "recruitment",
+            "inclusion criteria",
+            "grass pollen allergy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The diagnosis of grass pollen allergy was, in addition to the clinical history, ascertained by a positive skin prick test or by the presence of allergy specific IgE in the blood.",
+          "searchable_summary": "confirm allergy diagnosis using clinical tests",
+          "inputs": [
+            "clinical history",
+            "skin prick test results",
+            "allergy specific IgE blood test results"
+          ],
+          "outputs": [
+            "confirmed grass pollen allergy diagnosis for participants"
+          ],
+          "keywords": [
+            "diagnosis confirmation",
+            "skin prick test",
+            "IgE blood test",
+            "allergy testing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Patients were excluded if they had allergic symptoms caused by other allergens during the grass pollen season.",
+          "searchable_summary": "exclude patients based on exclusion criteria",
+          "inputs": [
+            "list of potential study participants with confirmed diagnosis",
+            "information on other allergies/symptoms during grass pollen season"
+          ],
+          "outputs": [
+            "final list of eligible study participants"
+          ],
+          "keywords": [
+            "patient exclusion",
+            "exclusion criteria",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The children filled out a HRQL questionnaire at the end of the week for every week until mid-July.",
+          "searchable_summary": "collect weekly HRQL questionnaire data",
+          "inputs": [
+            "eligible study participants",
+            "HRQL questionnaire instrument"
+          ],
+          "outputs": [
+            "weekly HRQL data per participant"
+          ],
+          "keywords": [
+            "data collection",
+            "questionnaire",
+            "HRQL",
+            "health-related quality of life",
+            "weekly data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Every day during the study period (1 st June -12 rd July) they filled out a diary for symptom severity.",
+          "searchable_summary": "collect daily symptom severity diary data",
+          "inputs": [
+            "eligible study participants",
+            "symptom diary instrument",
+            "study period (June 1 - July 12)"
+          ],
+          "outputs": [
+            "daily symptom severity data per participant"
+          ],
+          "keywords": [
+            "data collection",
+            "diary",
+            "symptom severity",
+            "daily data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "The study was approved by the local ethics committee and informed consent was obtained from parents and subjects.",
+          "searchable_summary": "obtain ethical approval and informed consent",
+          "inputs": [],
+          "outputs": [
+            "ethical approval documentation",
+            "signed informed consent forms"
+          ],
+          "keywords": [
+            "ethics approval",
+            "informed consent",
+            "study protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Procedures used to analyze the collected data, including mixed models for associations between pollen counts, symptoms, HRQL, and lag effects, and Loess fitting for breaking points in symptom scores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To estimate the association between pollen counts symptoms, HRQL and lag effects mixed models on repeated observations were performed.",
+          "searchable_summary": "perform mixed models analysis on repeated measures data",
+          "inputs": [
+            "daily symptom severity data",
+            "weekly HRQL data",
+            "pollen count data",
+            "time/day information"
+          ],
+          "outputs": [
+            "mixed model results (associations, lag effects)"
+          ],
+          "keywords": [
+            "mixed models",
+            "repeated measures analysis",
+            "longitudinal data analysis",
+            "association analysis",
+            "lag effects"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Three different symptoms (nose, eye and lung), the mean of the three different symptoms (total) and HRQL were used as outcome. The outcomes were on ordinal scales; the symptoms 0-3 and HRQL 0-6.",
+          "searchable_summary": "define and scale outcome variables for analysis",
+          "inputs": [
+            "daily symptom severity data (nose, eye, lung)",
+            "weekly HRQL data"
+          ],
+          "outputs": [
+            "processed outcome variables (individual symptoms, total symptom score, HRQL) with defined ordinal scales"
+          ],
+          "keywords": [
+            "outcome variables",
+            "data scaling",
+            "ordinal data",
+            "symptom score",
+            "HRQL"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The pollen counts were tested as fixed effect and were analysed both as continuous and categorical variables (threshold levels).",
+          "searchable_summary": "analyze pollen counts as continuous and categorical fixed effects in mixed models",
+          "inputs": [
+            "pollen count data",
+            "mixed model setup"
+          ],
+          "outputs": [
+            "mixed model results with pollen count as continuous fixed effect",
+            "mixed model results with pollen count as categorical fixed effect (based on thresholds)"
+          ],
+          "keywords": [
+            "fixed effects",
+            "continuous variable",
+            "categorical variable",
+            "threshold analysis",
+            "mixed models"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Lag effects were also tested.",
+          "searchable_summary": "test for lag effects in mixed models",
+          "inputs": [
+            "pollen count data",
+            "symptom/HRQL data",
+            "time/day information",
+            "mixed model setup"
+          ],
+          "outputs": [
+            "mixed model results showing lag effects"
+          ],
+          "keywords": [
+            "lag effects",
+            "time series analysis",
+            "mixed models"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The analyses were performed on the whole period (day 1-42) and on three sub-periods (day 8-17, 18-27 and day [28][29][30][31][32][33][34][35][36][37]).",
+          "searchable_summary": "perform analyses on full study period and defined sub-periods",
+          "inputs": [
+            "daily symptom/HRQL data",
+            "pollen count data",
+            "period definitions (day 1-42, 8-17, 18-27, 28-37)"
+          ],
+          "outputs": [
+            "analysis results for each specified period"
+          ],
+          "keywords": [
+            "period analysis",
+            "sub-period analysis",
+            "time window analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The change in reactivity to pollen exposure during the pollen season were analyzed for two periods (day 1-7 and 36-42). Period (1 = day 1-7 and 2 = 36-42) was added to the model.",
+          "searchable_summary": "analyze change in reactivity between two specific periods using mixed models",
+          "inputs": [
+            "daily symptom/HRQL data",
+            "pollen count data",
+            "period definitions (day 1-7, 36-42)",
+            "mixed model setup"
+          ],
+          "outputs": [
+            "mixed model results showing change in reactivity between periods"
+          ],
+          "keywords": [
+            "reactivity analysis",
+            "seasonal change",
+            "period comparison",
+            "mixed models"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The estimates were obtained by the procedure GENMOD in SAS.",
+          "searchable_summary": "obtain mixed model estimates using SAS GENMOD procedure",
+          "inputs": [
+            "mixed model specifications",
+            "data for analysis"
+          ],
+          "outputs": [
+            "mixed model parameter estimates"
+          ],
+          "keywords": [
+            "SAS",
+            "GENMOD procedure",
+            "mixed models",
+            "parameter estimation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Breaking points for the symptom score (nose, eye, lung and total) were obtained by the fitting method Loess in SPSS.",
+          "searchable_summary": "calculate breaking points for symptom scores using Loess fitting",
+          "inputs": [
+            "daily symptom severity data (nose, eye, lung, total)",
+            "time/day information"
+          ],
+          "outputs": [
+            "breaking points for each symptom score"
+          ],
+          "keywords": [
+            "Loess fitting",
+            "breaking points",
+            "non-parametric regression",
+            "SPSS",
+            "symptom score"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "50% of points to fit and kernel Epanechnikov were used.",
+          "searchable_summary": "specify Loess fitting parameters (span, kernel)",
+          "inputs": [
+            "Loess fitting method",
+            "symptom score data"
+          ],
+          "outputs": [
+            "Loess model fitted to data"
+          ],
+          "keywords": [
+            "Loess parameters",
+            "span",
+            "kernel function",
+            "Epanechnikov kernel"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "A p-value below 0.05 was considered statistically significant.",
+          "searchable_summary": "set statistical significance level",
+          "inputs": [
+            "statistical test results (p-values)"
+          ],
+          "outputs": [
+            "determination of statistical significance"
+          ],
+          "keywords": [
+            "statistical significance",
+            "p-value",
+            "alpha level"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/6564601.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

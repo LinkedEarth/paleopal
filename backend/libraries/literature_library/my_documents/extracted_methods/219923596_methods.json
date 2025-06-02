@@ -1,0 +1,150 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "AFT Method",
+      "description": "The AFT method is based on the quantification of damage to the crystal lattice (tracks) that results from the spontaneous fission of 238 U. These tracks are partially annealed at temperatures between ~60°C and 120°C; this interval is known as the apatite partial annealing zone (APAZ). Fission tracks shorten within the APAZ; therefore, the track length distribution (TLD) and the mean track length (MTL) values can be used as proxies to reconstruct the thermal history within the APAZ. The fission-track annealing resistance depends strongly on the kinetics of the apatite crystal. A useful kinetic indicator is the resistance of the crystal to the acid used to reveal the tracks (etching). Therefore, the diameter of the fission-track etch pit (Dpar) can be used as a proxy to quantify resistance to annealing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Quantify damage to the crystal lattice (tracks) from the spontaneous fission of 238 U.",
+          "searchable_summary": "quantify crystal lattice damage from 238 U fission",
+          "inputs": [
+            "apatite samples"
+          ],
+          "outputs": [
+            "track length distribution",
+            "mean track length"
+          ],
+          "keywords": [
+            "fission track",
+            "apatite",
+            "thermal history"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Measure the diameter of the fission-track etch pit (Dpar) to quantify resistance to annealing.",
+          "searchable_summary": "measure Dpar for annealing resistance",
+          "inputs": [
+            "etched apatite samples"
+          ],
+          "outputs": [
+            "Dpar values"
+          ],
+          "keywords": [
+            "etching",
+            "Dpar",
+            "annealing resistance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "AHe Method",
+      "description": "AHe thermochronology quantifies the production and accumulation of helium formed by the alpha decay of U, Th, and Sm. The temperature interval in which apatite retains helium is known as the apatite partial retention zone (APRZ). The AHe closure temperature is controlled by the helium retentivity of the crystal, which can be affected by accumulated radiation damage and the effective uranium content (eU). The size and geometry of the crystals also affect helium retentivity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Quantify helium production and accumulation from alpha decay of U, Th, and Sm.",
+          "searchable_summary": "quantify helium from alpha decay",
+          "inputs": [
+            "apatite samples"
+          ],
+          "outputs": [
+            "helium concentration"
+          ],
+          "keywords": [
+            "AHe thermochronology",
+            "helium production",
+            "alpha decay"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze the effect of accumulated radiation damage and effective uranium content (eU) on helium retentivity.",
+          "searchable_summary": "analyze radiation damage and eU effect on helium retentivity",
+          "inputs": [
+            "helium concentration",
+            "eU values"
+          ],
+          "outputs": [
+            "helium retentivity analysis"
+          ],
+          "keywords": [
+            "radiation damage",
+            "effective uranium",
+            "helium retentivity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Summary of AFT and AHe Data",
+      "description": "Inverse modeling with the QTQt program to extract the most probable thermal history from robust data sets. AHe single grain ages that cannot be explained by available diffusion models are identified and excluded from the thermal history models. The radiation damage model from Flowers et al. (2009) for AHe data and the annealing model of Ketcham et al. (2007) for AFT data are used.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform inverse modeling with the QTQt program using a Bayesian transdimensional statistical approach.",
+          "searchable_summary": "perform inverse modeling with QTQt for thermal history",
+          "inputs": [
+            "AFT data",
+            "AHe data"
+          ],
+          "outputs": [
+            "thermal history models"
+          ],
+          "keywords": [
+            "QTQt",
+            "inverse modeling",
+            "thermal history"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Identify and exclude AHe single grain ages that cannot be explained by available diffusion models.",
+          "searchable_summary": "exclude unexplained AHe ages from models",
+          "inputs": [
+            "AHe single grain ages"
+          ],
+          "outputs": [
+            "filtered AHe ages"
+          ],
+          "keywords": [
+            "AHe ages",
+            "diffusion models",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use the radiation damage model from Flowers et al. (2009) for AHe data and the annealing model of Ketcham et al. (2007) for AFT data.",
+          "searchable_summary": "apply radiation damage and annealing models",
+          "inputs": [
+            "AHe data",
+            "AFT data"
+          ],
+          "outputs": [
+            "modeled thermal histories"
+          ],
+          "keywords": [
+            "radiation damage model",
+            "annealing model",
+            "AHe",
+            "AFT"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219923596.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

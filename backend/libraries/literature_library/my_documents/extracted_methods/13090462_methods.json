@@ -1,0 +1,198 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Transient Simulation Setup",
+      "description": "A transient simulation spanning 8000 years starting at the mid-Holocene to study natural vegetation and fire occurrence, excluding anthropogenic influences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform a transient simulation starting at 8000 cal yr BP with initial conditions from a control simulation with CLIMBA.",
+          "searchable_summary": "initialize and run transient simulation with CLIMBA starting at 8000 cal yr BP",
+          "inputs": [
+            "initial conditions from control simulation",
+            "CLIMBA model"
+          ],
+          "outputs": [
+            "transient simulation data"
+          ],
+          "keywords": [
+            "transient simulation",
+            "CLIMBA",
+            "Holocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Include orbital forcing, fixed greenhouse gases, and aerosol concentration, ignoring changes in sea level and land ice.",
+          "searchable_summary": "apply orbital forcing and fixed greenhouse gases to simulation",
+          "inputs": [
+            "orbital forcing data",
+            "greenhouse gases data",
+            "aerosol concentration"
+          ],
+          "outputs": [
+            "adjusted simulation parameters"
+          ],
+          "keywords": [
+            "orbital forcing",
+            "greenhouse gases",
+            "aerosol concentration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Restrict reconstructions and model data to between 8000 and 200 cal yr BP to exclude industrialization impacts.",
+          "searchable_summary": "filter simulation data to exclude post-industrialization period",
+          "inputs": [
+            "simulation data"
+          ],
+          "outputs": [
+            "filtered simulation data"
+          ],
+          "keywords": [
+            "data filtering",
+            "industrialization exclusion"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Output Processing for Charcoal Data Comparison",
+      "description": "Processing model output to compare with palaeofire reconstructions using two approaches: absolute values and Z-score transformations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Use grid box values to calculate regional numbers by weighting with area and summing up.",
+          "searchable_summary": "calculate regional fire activity by area-weighted summation",
+          "inputs": [
+            "grid box values",
+            "area data"
+          ],
+          "outputs": [
+            "regional fire activity data"
+          ],
+          "keywords": [
+            "area weighting",
+            "regional aggregation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Derive Z-score transformed time series and average them to achieve regional time series.",
+          "searchable_summary": "transform and average time series to Z-scores for regional analysis",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "regional Z-score time series"
+          ],
+          "keywords": [
+            "Z-score transformation",
+            "time series averaging"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply a 250-year running mean filter to reduce high year-to-year variability.",
+          "searchable_summary": "apply running mean filter to smooth time series data",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "smoothed time series data"
+          ],
+          "keywords": [
+            "running mean filter",
+            "data smoothing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Use Box-Cox transformation and normalization for reconstructions and model data over the full period.",
+          "searchable_summary": "apply Box-Cox transformation and normalization to data",
+          "inputs": [
+            "reconstruction data",
+            "model data"
+          ],
+          "outputs": [
+            "transformed and normalized data"
+          ],
+          "keywords": [
+            "Box-Cox transformation",
+            "data normalization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "CLIMBA Model Configuration",
+      "description": "Configuration and execution of the CLIMBA model to simulate global carbon cycle dynamics and fire occurrence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Run JS-BACH offline for one model-year with climate and orbital forcing.",
+          "searchable_summary": "execute JS-BACH model with climate and orbital forcing",
+          "inputs": [
+            "climate data",
+            "orbital forcing"
+          ],
+          "outputs": [
+            "JS-BACH model output"
+          ],
+          "keywords": [
+            "JS-BACH",
+            "climate forcing",
+            "orbital forcing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Simulate potential burned area as a function of fuel moisture and wind speed.",
+          "searchable_summary": "simulate burned area based on fuel moisture and wind speed",
+          "inputs": [
+            "fuel moisture data",
+            "wind speed data"
+          ],
+          "outputs": [
+            "potential burned area"
+          ],
+          "keywords": [
+            "burned area simulation",
+            "fuel moisture",
+            "wind speed"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calculate carbon emissions as a function of area burned and available fuel load.",
+          "searchable_summary": "calculate carbon emissions from burned area and fuel load",
+          "inputs": [
+            "burned area",
+            "fuel load"
+          ],
+          "outputs": [
+            "carbon emissions"
+          ],
+          "keywords": [
+            "carbon emissions",
+            "fuel load"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/13090462.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

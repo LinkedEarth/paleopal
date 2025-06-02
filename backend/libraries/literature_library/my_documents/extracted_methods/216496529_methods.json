@@ -1,0 +1,124 @@
+{
+  "paper_title": "DFT study of methane catalytic combustion on Pd-based diatomic catalysts",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Structural Optimization and Frequency Analysis",
+      "description": "Process for optimizing the structures of reactants, products, intermediates, and transition states using DFT calculations, and performing frequency analysis to confirm the nature of these structures.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The structural towards all reactants, products, intermediates and transition states (TSs) are initially optimized at the B3LYP/6-311G(d, p)+LANL2DZ level.",
+          "searchable_summary": "optimize molecular structures using B3LYP/6-311G(d, p)+LANL2DZ",
+          "inputs": [
+            "reactants",
+            "products",
+            "intermediates",
+            "transition states"
+          ],
+          "outputs": [
+            "optimized structures"
+          ],
+          "keywords": [
+            "DFT",
+            "B3LYP",
+            "optimization",
+            "LANL2DZ"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The optimized structures of reactants, products and intermediates are no imaginary frequency, whereas TSs are only one imaginary vibration frequency.",
+          "searchable_summary": "perform frequency analysis to confirm structure nature",
+          "inputs": [
+            "optimized structures"
+          ],
+          "outputs": [
+            "frequency analysis results"
+          ],
+          "keywords": [
+            "frequency analysis",
+            "imaginary frequency",
+            "transition states"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Single Point Energy Calculations",
+      "description": "Perform single point energy calculations on optimized structures to obtain more accurate energy values.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All the single point calculations are performed with B3LYP/6-311++G(d, p)+SDD level.",
+          "searchable_summary": "perform single point energy calculations using B3LYP/6-311++G(d, p)+SDD",
+          "inputs": [
+            "optimized structures"
+          ],
+          "outputs": [
+            "single point energy values"
+          ],
+          "keywords": [
+            "single point calculation",
+            "B3LYP",
+            "energy calculation",
+            "SDD"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Intrinsic Reaction Coordinate (IRC) Calculations",
+      "description": "Calculate the intrinsic reaction coordinate to confirm that the optimized transition states correctly connect the relevant reactants and products.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The calculations of intrinsic reaction coordinate (IRC) are made to confirm that the optimized TSs correctly connect the relevant reactants and products.",
+          "searchable_summary": "perform IRC calculations to verify transition states",
+          "inputs": [
+            "optimized transition states"
+          ],
+          "outputs": [
+            "IRC paths"
+          ],
+          "keywords": [
+            "IRC",
+            "transition states",
+            "reaction path"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Activation Energy Calculation",
+      "description": "Calculate the activation energy using transition state theory, considering the reaction temperature and other thermodynamic parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "According to the transition state theory, the activation energy (Ea) is defined as: (1) Where T is reaction temperature, R is the gas constant, ∆H ≠ is the difference in enthalpies between the transition state and the initial state.",
+          "searchable_summary": "calculate activation energy using transition state theory",
+          "inputs": [
+            "reaction temperature",
+            "enthalpy difference",
+            "gas constant"
+          ],
+          "outputs": [
+            "activation energy"
+          ],
+          "keywords": [
+            "activation energy",
+            "transition state theory",
+            "enthalpy"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/216496529.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,191 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Frequency Spectrum Analysis",
+      "description": "This method involves computing the frequency spectrum of time series data to identify periodic cycles and external astronomical forcing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Compute the frequency spectrum of all four time series.",
+          "searchable_summary": "compute frequency spectrum of time series data",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "frequency spectrum"
+          ],
+          "keywords": [
+            "frequency spectrum",
+            "time series analysis",
+            "periodic cycles"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter external forcing by subtracting a running average from each time series.",
+          "searchable_summary": "apply high-pass filter to time series data",
+          "inputs": [
+            "time series data",
+            "running average"
+          ],
+          "outputs": [
+            "filtered time series"
+          ],
+          "keywords": [
+            "high-pass filter",
+            "running average",
+            "external forcing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Preparation",
+      "description": "This method prepares time series data for analysis by interpolating to a consistent temporal resolution and normalizing fluctuations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Interpolate the time series to an evenly-spaced temporal resolution using the Akima method.",
+          "searchable_summary": "interpolate time series using Akima method",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "interpolated time series"
+          ],
+          "keywords": [
+            "interpolation",
+            "Akima method",
+            "temporal resolution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Remove slow-varying mean behavior using a Gaussian filter.",
+          "searchable_summary": "apply Gaussian filter to remove slow-varying mean",
+          "inputs": [
+            "interpolated time series"
+          ],
+          "outputs": [
+            "fluctuation time series"
+          ],
+          "keywords": [
+            "Gaussian filter",
+            "mean removal",
+            "fluctuations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Normalize the fluctuation time series to have a standard deviation of unity.",
+          "searchable_summary": "normalize time series to standard deviation of one",
+          "inputs": [
+            "fluctuation time series"
+          ],
+          "outputs": [
+            "normalized time series"
+          ],
+          "keywords": [
+            "normalization",
+            "standard deviation",
+            "time series"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "One-variable Model",
+      "description": "This method models a single time series using a non-autonomous Ornstein-Uhlenbeck process to analyze stability and noise.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the periodic deterministic term ai(t) and noise intensity Ni(t) for the time series.",
+          "searchable_summary": "define periodic terms for Ornstein-Uhlenbeck model",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "ai(t)",
+            "Ni(t)"
+          ],
+          "keywords": [
+            "Ornstein-Uhlenbeck",
+            "stochastic process",
+            "periodic terms"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Solve for ai(t) and Ni(t) using the modified procedure from Moon and Wettlaufer.",
+          "searchable_summary": "solve for model parameters using Moon and Wettlaufer procedure",
+          "inputs": [
+            "time series data",
+            "model equations"
+          ],
+          "outputs": [
+            "model parameters"
+          ],
+          "keywords": [
+            "model parameters",
+            "Moon and Wettlaufer",
+            "stochastic modeling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Four-variable Model",
+      "description": "This method extends the one-dimensional model to incorporate multiple time series with coupling terms to analyze interactions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Introduce coupling terms to represent the influence between time series variables.",
+          "searchable_summary": "add coupling terms to multi-variable model",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "coupled model"
+          ],
+          "keywords": [
+            "coupling terms",
+            "multi-variable model",
+            "time series interactions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Develop a four-variable model to incorporate CO2, CH4, N2O, and temperature time series.",
+          "searchable_summary": "develop four-variable model for climate data",
+          "inputs": [
+            "CO2 data",
+            "CH4 data",
+            "N2O data",
+            "temperature data"
+          ],
+          "outputs": [
+            "four-variable model"
+          ],
+          "keywords": [
+            "four-variable model",
+            "climate data",
+            "time series modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Stochastic_Paleoclimatology_Modeling_the_EPICA_Ice_Core_Climate_Records.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

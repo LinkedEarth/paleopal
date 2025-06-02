@@ -1,0 +1,127 @@
+{
+  "paper_title": "Ice-core and Radiocarbon Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Data Collection and Analysis",
+      "description": "This method involves collecting and analyzing ice-core data to study radionuclide concentrations and their relationship with climate changes. The data is linked to the GICC05 timescale and includes records from Greenland and Antarctic ice cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The ice-core 10 Be and 36 Cl data used in this study are shown in Fig. 1.",
+          "searchable_summary": "fetch ice-core 10 Be and 36 Cl data",
+          "inputs": [
+            "ice-core data sources"
+          ],
+          "outputs": [
+            "ice-core data"
+          ],
+          "keywords": [
+            "ice-core",
+            "10 Be",
+            "36 Cl",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "By calculating fluxes we make a first-order correction for the changing snow accumulation rates between stadials and interstadials and their influence on radionuclide concentrations.",
+          "searchable_summary": "calculate fluxes to correct for snow accumulation rate changes",
+          "inputs": [
+            "ice-core data",
+            "snow accumulation rates"
+          ],
+          "outputs": [
+            "corrected radionuclide concentrations"
+          ],
+          "keywords": [
+            "flux calculation",
+            "snow accumulation",
+            "radionuclide correction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "For each ice core we calculated multiple linear regression models using δ 18 O and snow accumulation rates as predictors for 10 Be (36 Cl) fluxes and subtracted the obtained model from the 10 Be (36 Cl) data.",
+          "searchable_summary": "perform multiple linear regression to model 10 Be and 36 Cl fluxes",
+          "inputs": [
+            "δ 18 O data",
+            "snow accumulation rates"
+          ],
+          "outputs": [
+            "climate-corrected flux"
+          ],
+          "keywords": [
+            "linear regression",
+            "climate correction",
+            "10 Be",
+            "36 Cl"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To combine all ice-core records, we calculated their mean (denoted as 'stack') using Monte Carlo bootstrapping.",
+          "searchable_summary": "calculate mean of ice-core records using Monte Carlo bootstrapping",
+          "inputs": [
+            "ice-core records"
+          ],
+          "outputs": [
+            "stacked ice-core record"
+          ],
+          "keywords": [
+            "Monte Carlo bootstrapping",
+            "data stacking",
+            "ice-core"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Data Collection and Analysis",
+      "description": "This method focuses on collecting and analyzing absolutely dated radiocarbon records to study production rate changes over centennial-to-millennial timescales.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "For the purpose of this study we have to focus on radiocarbon records that are absolutely dated.",
+          "searchable_summary": "fetch absolutely dated radiocarbon records",
+          "inputs": [
+            "radiocarbon data sources"
+          ],
+          "outputs": [
+            "radiocarbon records"
+          ],
+          "keywords": [
+            "radiocarbon",
+            "absolute dating",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The timescale of the Lake Suigetsu record is based on varve counting, corrected for long-term systematic errors by matching its 14 C record to the 14 C variations in speleothems.",
+          "searchable_summary": "correct Lake Suigetsu timescale using varve counting and speleothem matching",
+          "inputs": [
+            "Lake Suigetsu record",
+            "speleothem 14 C data"
+          ],
+          "outputs": [
+            "corrected Lake Suigetsu timescale"
+          ],
+          "keywords": [
+            "varve counting",
+            "timescale correction",
+            "speleothem matching"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55681758.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

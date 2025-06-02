@@ -1,0 +1,247 @@
+{
+  "paper_title": "A reconstruction of Atlantic Central African biomes and forest succession stages",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Modern Pollen Data Collection and Preparation",
+      "description": "Compilation of a modern pollen data set from surface soil/litter samples collected using the Wright method, including standardization of pollen nomenclature. This data set serves as the input for the biomisation method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 199 modern pollen spectra were compiled in a data set.",
+          "searchable_summary": "compile modern pollen spectra into a data set",
+          "inputs": [
+            "individual modern pollen spectra records"
+          ],
+          "outputs": [
+            "compiled modern pollen data set (199 spectra)"
+          ],
+          "keywords": [
+            "data compilation",
+            "pollen data",
+            "data set creation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "They all have been exclusively extracted from surface soil (in savanna) or litter (in forest) samples.",
+          "searchable_summary": "extract samples from surface soil or litter based on vegetation type",
+          "inputs": [
+            "sampling sites",
+            "vegetation type at sampling site"
+          ],
+          "outputs": [
+            "sample material (surface soil or litter)"
+          ],
+          "keywords": [
+            "sampling",
+            "soil sampling",
+            "litter sampling",
+            "field collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "collected following the Wright method (1967) widely used in African modern pollen studies.",
+          "searchable_summary": "collect samples using the Wright method",
+          "inputs": [
+            "sampling sites",
+            "Wright method protocol"
+          ],
+          "outputs": [
+            "collected pollen samples"
+          ],
+          "keywords": [
+            "sampling",
+            "pollen sampling",
+            "Wright method",
+            "field collection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "All samples come from vegetation formations occurring on well-drained soils excluding riparian and swampy formations since these formations are not directly linked to climate but rather to local hydrological conditions.",
+          "searchable_summary": "filter collected samples based on soil drainage and hydrology criteria",
+          "inputs": [
+            "collected pollen samples",
+            "site metadata (soil drainage, hydrology)"
+          ],
+          "outputs": [
+            "filtered list of samples from well-drained, non-riparian/swampy sites"
+          ],
+          "keywords": [
+            "data filtering",
+            "sample selection",
+            "site characteristics",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The pollen data set comprises a total of 272 pollen taxa which nomenclature was standardized following the list of taxa available in Vincens et al. (2007) and on the African Pollen Data base web site (2008).",
+          "searchable_summary": "standardize pollen taxa nomenclature using specified list and database",
+          "inputs": [
+            "raw pollen taxa names from samples",
+            "Vincens et al. (2007) taxa list",
+            "African Pollen Data base (2008)"
+          ],
+          "outputs": [
+            "standardized pollen taxa names"
+          ],
+          "keywords": [
+            "data standardization",
+            "nomenclature",
+            "pollen taxonomy",
+            "data cleaning"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biomisation Method",
+      "description": "The biomisation method classifies plant taxa from pollen assemblages into plant functional types (PFTs), calculates affinity scores for different biomes based on characteristic PFTs, and assigns each pollen sample to the biome with the highest affinity. This method was applied here for reconstructing modern potential biomes and potential succession stages of forest regeneration.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "classifies the plant taxa represented in the pollen assemblages into a number of plant functional types (PFTs) which are broad classes of plants defined by life form (e.g. tree/shrub/lianas/herbs), leaf form (e.g. broadleaved/needle-leaved), phenology (e.g. evergreen/deciduous) and bioclimatic factors.",
+          "searchable_summary": "classify pollen taxa into plant functional types (PFTs)",
+          "inputs": [
+            "list of pollen taxa",
+            "definitions of plant functional types (PFTs)"
+          ],
+          "outputs": [
+            "mapping of pollen taxa to PFTs"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "plant functional types",
+            "classification",
+            "ecological traits"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Pollen taxa are assigned to one or more PFTs.",
+          "searchable_summary": "assign pollen taxa to one or more PFTs based on classification",
+          "inputs": [
+            "list of pollen taxa",
+            "PFT definitions",
+            "taxa-PFT classification rules/mapping"
+          ],
+          "outputs": [
+            "taxa-PFT assignments"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "plant functional types",
+            "assignment",
+            "data mapping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "affinity scores are calculated for each biome in turn based on its list of characteristic PFTs.",
+          "searchable_summary": "calculate biome affinity scores based on characteristic PFTs and taxa-PFT assignments",
+          "inputs": [
+            "taxa-PFT assignments for a pollen sample",
+            "list of characteristic PFTs for each biome"
+          ],
+          "outputs": [
+            "affinity score for each biome for the sample"
+          ],
+          "keywords": [
+            "biome reconstruction",
+            "affinity score",
+            "quantitative analysis",
+            "ecological modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The pollen sample is assigned to the biome to which it has the highest affinity.",
+          "searchable_summary": "assign pollen sample to the biome with the highest calculated affinity score",
+          "inputs": [
+            "biome affinity scores for a pollen sample"
+          ],
+          "outputs": [
+            "assigned biome for the pollen sample"
+          ],
+          "keywords": [
+            "biome reconstruction",
+            "classification",
+            "highest affinity",
+            "decision rule"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "the reconstruction of modern potential biomes (see 4.1)",
+          "searchable_summary": "reconstruct modern potential biomes using the biomisation results for multiple samples",
+          "inputs": [
+            "assigned biome for each pollen sample"
+          ],
+          "outputs": [
+            "reconstructed map or list of modern potential biomes"
+          ],
+          "keywords": [
+            "biome reconstruction",
+            "spatial modeling",
+            "ecological modeling"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "the reconstruction of potential succession stages of forest regeneration (see 4.2)",
+          "searchable_summary": "reconstruct potential forest succession stages using the biomisation results for multiple samples",
+          "inputs": [
+            "assigned biome/PFT composition for each pollen sample"
+          ],
+          "outputs": [
+            "reconstructed map or list of potential forest succession stages"
+          ],
+          "keywords": [
+            "forest succession",
+            "ecological modeling",
+            "vegetation dynamics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Comparisons with local or more regional botanical data were performed in the aim to test the level of confidence of our reconstructions, and particularly of our taxa-PFT assignments.",
+          "searchable_summary": "compare biomisation reconstructions and taxa-PFT assignments with independent botanical data for validation",
+          "inputs": [
+            "reconstructed modern potential biomes",
+            "reconstructed potential forest succession stages",
+            "taxa-PFT assignments",
+            "local or regional botanical data"
+          ],
+          "outputs": [
+            "validation results",
+            "confidence assessment of reconstructions and assignments"
+          ],
+          "keywords": [
+            "validation",
+            "comparison",
+            "botanical data",
+            "accuracy assessment",
+            "confidence level"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56035074.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,222 @@
+{
+  "paper_title": "Reconstruction of Relative Sea-Level Changes in Prydz Bay",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Compilation and Re-evaluation of RSL Data",
+      "description": "This method involves compiling previously published relative sea-level (RSL) data from the Prydz Bay region, re-evaluating them in terms of maximum and minimum sea-level constraints, and recalibrating all radiocarbon dates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Compilation of previously published RSL data from the Larsemann Hills and Vestfold Hills.",
+          "searchable_summary": "compile RSL data from published sources",
+          "inputs": [
+            "published RSL data"
+          ],
+          "outputs": [
+            "compiled RSL dataset"
+          ],
+          "keywords": [
+            "RSL data",
+            "Prydz Bay",
+            "Larsemann Hills",
+            "Vestfold Hills"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Re-evaluation of RSL data in terms of maximum and minimum sea-level constraints.",
+          "searchable_summary": "re-evaluate RSL data for sea-level constraints",
+          "inputs": [
+            "compiled RSL dataset"
+          ],
+          "outputs": [
+            "re-evaluated RSL dataset"
+          ],
+          "keywords": [
+            "sea-level constraints",
+            "RSL data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Recalibration of all radiocarbon dates.",
+          "searchable_summary": "recalibrate radiocarbon dates",
+          "inputs": [
+            "radiocarbon dates"
+          ],
+          "outputs": [
+            "recalibrated radiocarbon dates"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "RSL data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Validation of RSL Constraint in Rauer Islands",
+      "description": "This method validates a potential submarine RSL constraint in the Rauer Islands using high-resolution diatom analysis and radiocarbon dating of a sediment core.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "High-resolution diatom analysis of the 1087-900 cm section of the Co1011 sediment core.",
+          "searchable_summary": "analyze diatom samples from sediment core",
+          "inputs": [
+            "Co1011 sediment core"
+          ],
+          "outputs": [
+            "diatom analysis results"
+          ],
+          "keywords": [
+            "diatom analysis",
+            "sediment core",
+            "Rauer Islands"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Radiocarbon dating of the sediment core section.",
+          "searchable_summary": "perform radiocarbon dating on sediment core",
+          "inputs": [
+            "sediment core section"
+          ],
+          "outputs": [
+            "radiocarbon dates"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "sediment core"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Generate stratigraphic plots using Tilia and TGView software.",
+          "searchable_summary": "create stratigraphic plots with Tilia and TGView",
+          "inputs": [
+            "diatom analysis results"
+          ],
+          "outputs": [
+            "stratigraphic plots"
+          ],
+          "keywords": [
+            "stratigraphic plots",
+            "Tilia",
+            "TGView"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform constrained cluster analysis using CONISS.",
+          "searchable_summary": "conduct constrained cluster analysis with CONISS",
+          "inputs": [
+            "stratigraphic data"
+          ],
+          "outputs": [
+            "cluster analysis results"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "CONISS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Ordinations of log-transformed species data using CANOCO 4.5.",
+          "searchable_summary": "perform ordination analysis with CANOCO",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "ordination results"
+          ],
+          "keywords": [
+            "ordination analysis",
+            "CANOCO"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Chronology Derivation for Sediment Core",
+      "description": "This method derives a chronology for the sediment core section using AMS radiocarbon dates and calibration curves, applying reservoir corrections and interpolating ages with a smooth spline age-depth model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calibrate AMS radiocarbon dates using Calib 7.1 with SHCal13.14c and Marine13.14c calibration curves.",
+          "searchable_summary": "calibrate radiocarbon dates with Calib 7.1",
+          "inputs": [
+            "AMS radiocarbon dates"
+          ],
+          "outputs": [
+            "calibrated radiocarbon dates"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "Calib 7.1"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Apply local marine carbon reservoir effect correction of 900 years.",
+          "searchable_summary": "apply marine reservoir correction",
+          "inputs": [
+            "calibrated radiocarbon dates"
+          ],
+          "outputs": [
+            "corrected radiocarbon dates"
+          ],
+          "keywords": [
+            "reservoir correction",
+            "marine sediments"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply composite reservoir effect of 665 years at lacustrine-marine transition.",
+          "searchable_summary": "apply composite reservoir correction",
+          "inputs": [
+            "corrected radiocarbon dates"
+          ],
+          "outputs": [
+            "further corrected radiocarbon dates"
+          ],
+          "keywords": [
+            "reservoir correction",
+            "lacustrine-marine transition"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Derive interpolated ages using a smooth spline age-depth model with CLAM software.",
+          "searchable_summary": "interpolate ages with smooth spline model in CLAM",
+          "inputs": [
+            "corrected radiocarbon dates"
+          ],
+          "outputs": [
+            "interpolated ages"
+          ],
+          "keywords": [
+            "age-depth model",
+            "CLAM software"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55015564.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

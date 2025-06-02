@@ -1,0 +1,257 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Survival Analysis",
+      "description": "Statistical analysis of beetle survival using life table methods to evaluate survival rates over time.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Beetle survival was tested using the life table method (PROC LIFETEST).",
+          "searchable_summary": "perform life table survival analysis using PROC LIFETEST",
+          "inputs": [
+            "beetle survival data"
+          ],
+          "outputs": [
+            "survival analysis results"
+          ],
+          "keywords": [
+            "life table",
+            "PROC LIFETEST",
+            "survival analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Data were right-censored after 40 days (experiment 1) or 42 days (experiment 6).",
+          "searchable_summary": "apply right-censoring to survival data",
+          "inputs": [
+            "survival data",
+            "censoring time"
+          ],
+          "outputs": [
+            "censored survival data"
+          ],
+          "keywords": [
+            "right-censoring",
+            "survival data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Multiple comparisons of survivorship functions used the log-rank test.",
+          "searchable_summary": "conduct log-rank test for survivorship function comparisons",
+          "inputs": [
+            "survivorship functions"
+          ],
+          "outputs": [
+            "log-rank test results"
+          ],
+          "keywords": [
+            "log-rank test",
+            "survivorship functions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "95% CI on hazard rates were used to evaluate interval-specific mortality.",
+          "searchable_summary": "calculate 95% confidence intervals for hazard rates",
+          "inputs": [
+            "hazard rates"
+          ],
+          "outputs": [
+            "confidence intervals"
+          ],
+          "keywords": [
+            "confidence intervals",
+            "hazard rates"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "ANOVA and Mixed-Model Analysis",
+      "description": "Analysis of variance and mixed-model design to test beetle population size, egg production, and cannibalism rates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Beetle population size, egg production, and cannibalism rates were tested by analysis of variance (ANOVA).",
+          "searchable_summary": "perform ANOVA on beetle population data",
+          "inputs": [
+            "population size data",
+            "egg production data",
+            "cannibalism rates"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "population size",
+            "egg production",
+            "cannibalism"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Assumptions of normality were evaluated by visual examination of residual plots and homogeneity of variances by Levene's test.",
+          "searchable_summary": "evaluate normality and homogeneity of variances",
+          "inputs": [
+            "residual plots",
+            "variance data"
+          ],
+          "outputs": [
+            "normality and variance evaluation"
+          ],
+          "keywords": [
+            "normality",
+            "Levene's test",
+            "residual plots"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Data were transformed where necessary to meet these assumptions.",
+          "searchable_summary": "transform data to meet normality and variance assumptions",
+          "inputs": [
+            "raw data"
+          ],
+          "outputs": [
+            "transformed data"
+          ],
+          "keywords": [
+            "data transformation",
+            "normality",
+            "variance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Net egg production and cannibalism of eggs by adults were tested using a repeated-measures, mixed-model design (PROC MIXED).",
+          "searchable_summary": "conduct repeated-measures mixed-model analysis using PROC MIXED",
+          "inputs": [
+            "egg production data",
+            "cannibalism data"
+          ],
+          "outputs": [
+            "mixed-model analysis results"
+          ],
+          "keywords": [
+            "mixed-model",
+            "PROC MIXED",
+            "repeated-measures"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Selection of covariance structure was based on graphical analysis and information criteria (AIC, SBC).",
+          "searchable_summary": "select covariance structure using AIC and SBC",
+          "inputs": [
+            "covariance data",
+            "AIC",
+            "SBC"
+          ],
+          "outputs": [
+            "selected covariance structure"
+          ],
+          "keywords": [
+            "covariance structure",
+            "AIC",
+            "SBC"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Logistic Regression and Contingency Table Analysis",
+      "description": "Logistic regression and contingency table analysis for testing population stage-structure and hatching success.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Population stage-structure was tested using ordered logistic regression (PROC LOGISTIC).",
+          "searchable_summary": "perform ordered logistic regression on population stage-structure",
+          "inputs": [
+            "stage-structure data"
+          ],
+          "outputs": [
+            "logistic regression results"
+          ],
+          "keywords": [
+            "ordered logistic regression",
+            "PROC LOGISTIC",
+            "stage-structure"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Hatching success was tested by contingency table analysis (PROC FREQ) or logistic regression (PROC LOGISTIC).",
+          "searchable_summary": "conduct contingency table analysis or logistic regression on hatching success",
+          "inputs": [
+            "hatching success data"
+          ],
+          "outputs": [
+            "contingency table or logistic regression results"
+          ],
+          "keywords": [
+            "contingency table",
+            "logistic regression",
+            "hatching success"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Post-hoc Analysis",
+      "description": "Post-hoc analysis for multiple pairwise comparisons using Tukey adjustment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Post-hoc, multiple pairwise comparisons used the Tukey adjustment.",
+          "searchable_summary": "perform Tukey adjustment for multiple pairwise comparisons",
+          "inputs": [
+            "pairwise comparison data"
+          ],
+          "outputs": [
+            "adjusted comparison results"
+          ],
+          "keywords": [
+            "Tukey adjustment",
+            "pairwise comparisons",
+            "post-hoc analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Selection of minimal display letter combinations for pairwise comparisons was based on a published algorithm.",
+          "searchable_summary": "select minimal display letter combinations for pairwise comparisons",
+          "inputs": [
+            "pairwise comparison results"
+          ],
+          "outputs": [
+            "display letter combinations"
+          ],
+          "keywords": [
+            "display letter combinations",
+            "pairwise comparisons"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/5851220.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

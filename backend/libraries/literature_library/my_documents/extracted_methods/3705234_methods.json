@@ -1,0 +1,246 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spectral Analysis",
+      "description": "Conduct spectral analyses on benthic foraminiferal δ13C and δ18O and CaCO3 datasets to identify dominant periodicities and phase relationships using statistical software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Resample CaCO3 content and stable isotope data at 2 and 5 cm in the depth domain and at 2.5 and 3.0 kyr in the age domain.",
+          "searchable_summary": "resample data at specified intervals",
+          "inputs": [
+            "CaCO3 content data",
+            "stable isotope data"
+          ],
+          "outputs": [
+            "resampled data"
+          ],
+          "keywords": [
+            "resampling",
+            "data preprocessing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Remove trends longer than 6 m, or 600 kyr, using a notch filter.",
+          "searchable_summary": "apply notch filter to remove long trends",
+          "inputs": [
+            "resampled data"
+          ],
+          "outputs": [
+            "filtered data"
+          ],
+          "keywords": [
+            "notch filter",
+            "trend removal"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Use Blackman-Tukey spectral analysis to identify dominant periodicities.",
+          "searchable_summary": "perform Blackman-Tukey spectral analysis",
+          "inputs": [
+            "filtered data"
+          ],
+          "outputs": [
+            "dominant periodicities"
+          ],
+          "keywords": [
+            "Blackman-Tukey",
+            "spectral analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Filter identified periodicities using Gaussian filters.",
+          "searchable_summary": "apply Gaussian filters to periodicities",
+          "inputs": [
+            "dominant periodicities"
+          ],
+          "outputs": [
+            "filtered periodicities"
+          ],
+          "keywords": [
+            "Gaussian filter",
+            "periodicity filtering"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Apply cross-spectral analysis to identify coherency and phase relationships between eccentricity and CaCO3, δ18O, and δ13C chronologies.",
+          "searchable_summary": "perform cross-spectral analysis for coherency and phase relationships",
+          "inputs": [
+            "filtered periodicities",
+            "eccentricity data"
+          ],
+          "outputs": [
+            "coherency and phase relationships"
+          ],
+          "keywords": [
+            "cross-spectral analysis",
+            "coherency",
+            "phase relationships"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Compute evolutive spectral analyses using a sliding fast Fourier transform (FFT) with MATLAB.",
+          "searchable_summary": "compute evolutive spectral analyses using FFT",
+          "inputs": [
+            "filtered periodicities"
+          ],
+          "outputs": [
+            "evolutive spectral analysis results"
+          ],
+          "keywords": [
+            "FFT",
+            "evolutive spectral analysis",
+            "MATLAB"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Initial Age Model",
+      "description": "Develop an initial magnetostratigraphic age model based on chron reversal ages to assess eccentricity influence on geological records.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use an initial magnetostratigraphic age model based on chron reversal ages of the 2012 geologic timescale.",
+          "searchable_summary": "develop initial age model using chron reversal ages",
+          "inputs": [
+            "chron reversal ages",
+            "GTS2012"
+          ],
+          "outputs": [
+            "initial age model"
+          ],
+          "keywords": [
+            "magnetostratigraphy",
+            "age model",
+            "chron reversal"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Demonstrate that CaCO3 content and benthic foraminiferal δ18O and δ13C records are dominated by ∼110 and 405 kyr eccentricity-paced cycles.",
+          "searchable_summary": "analyze records for eccentricity-paced cycles",
+          "inputs": [
+            "initial age model",
+            "CaCO3 content",
+            "δ18O and δ13C records"
+          ],
+          "outputs": [
+            "eccentricity-paced cycle analysis"
+          ],
+          "keywords": [
+            "eccentricity cycles",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Filter ∼110 and 405 kyr cycles of the CaCO3 content and δ13C records.",
+          "searchable_summary": "filter specific cycles from records",
+          "inputs": [
+            "CaCO3 content",
+            "δ13C records"
+          ],
+          "outputs": [
+            "filtered cycles"
+          ],
+          "keywords": [
+            "cycle filtering",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Count the number of cycles in the eccentricity solution for the interval approximately between 21.9 and 24.1 Ma.",
+          "searchable_summary": "count cycles in eccentricity solution",
+          "inputs": [
+            "eccentricity solution"
+          ],
+          "outputs": [
+            "cycle count"
+          ],
+          "keywords": [
+            "cycle counting",
+            "eccentricity solution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age Model Comparison",
+      "description": "Compare final eccentricity tuned age models to identify differences in cycle counts and phase relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Identify differences in the number of ∼110 kyr cycles between δ13C tuned age model and CaCO3 content record.",
+          "searchable_summary": "compare cycle counts between age models",
+          "inputs": [
+            "δ13C tuned age model",
+            "CaCO3 content record"
+          ],
+          "outputs": [
+            "cycle count differences"
+          ],
+          "keywords": [
+            "age model comparison",
+            "cycle count"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Assess phase relationships between proxy records and eccentricity to account for age differences.",
+          "searchable_summary": "analyze phase relationships for age differences",
+          "inputs": [
+            "proxy records",
+            "eccentricity data"
+          ],
+          "outputs": [
+            "phase relationship analysis"
+          ],
+          "keywords": [
+            "phase relationships",
+            "age differences"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Evaluate the impact of different phase assumptions on age model interpretations.",
+          "searchable_summary": "evaluate phase assumptions impact on age models",
+          "inputs": [
+            "phase assumptions",
+            "age models"
+          ],
+          "outputs": [
+            "impact evaluation"
+          ],
+          "keywords": [
+            "phase assumptions",
+            "age model interpretation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/3705234.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

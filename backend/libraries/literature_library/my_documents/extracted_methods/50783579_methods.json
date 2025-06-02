@@ -1,0 +1,174 @@
+{
+  "paper_title": "Climate and Vegetation Data for the Past",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Data Downscaling and Bias Correction",
+      "description": "This method involves downscaling and bias-correcting coarse-resolution climate model outputs to create a high-resolution dataset that aligns with present-day observations. The delta method is used to adjust the model outputs based on observed data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The mean climate change signal, that is, past snapshot minus present-day snapshot, is added to the observations.",
+          "searchable_summary": "apply delta method to adjust climate model outputs",
+          "inputs": [
+            "past climate snapshot",
+            "present-day climate snapshot",
+            "observations"
+          ],
+          "outputs": [
+            "adjusted climate data"
+          ],
+          "keywords": [
+            "delta method",
+            "climate model",
+            "bias correction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The 'delta' is interpolated to the high resolution and then added to the high-resolution present data.",
+          "searchable_summary": "interpolate delta to high resolution and adjust present data",
+          "inputs": [
+            "delta",
+            "high-resolution present data"
+          ],
+          "outputs": [
+            "high-resolution climate data"
+          ],
+          "keywords": [
+            "interpolation",
+            "high resolution",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Spatial downscaling and bias correction was applied to the HadCM3 climate variables.",
+          "searchable_summary": "apply spatial downscaling and bias correction to climate variables",
+          "inputs": [
+            "HadCM3 climate variables"
+          ],
+          "outputs": [
+            "downscaled and bias-corrected climate variables"
+          ],
+          "keywords": [
+            "spatial downscaling",
+            "bias correction",
+            "HadCM3"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Vegetation Model Simulation",
+      "description": "This method uses the BIOME4 model to simulate equilibrium vegetation types and net primary productivity (NPP) based on climate data inputs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "BIOME4 simulates the competition between different plant functional types (PFTs) and assigns biomes based on the most successful and second most successful PFT and their leaf area index.",
+          "searchable_summary": "simulate vegetation types using BIOME4 model",
+          "inputs": [
+            "latitude",
+            "atmospheric CO2 concentration",
+            "monthly mean precipitation",
+            "near-surface air temperature",
+            "cloud cover"
+          ],
+          "outputs": [
+            "equilibrium vegetation types",
+            "NPP"
+          ],
+          "keywords": [
+            "BIOME4",
+            "vegetation model",
+            "plant functional types"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Paleoecology Analysis of Horses",
+      "description": "This method involves associating radiocarbon dates with paleoclimatic reconstructions and analyzing the ecological niches of horses using PCA and niche overlap metrics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Each radiocarbon date available was associated to its nearest paleoclimatic reconstruction, and the corresponding environmental variables and biome/vegetation coverage estimation for the location.",
+          "searchable_summary": "associate radiocarbon dates with paleoclimatic reconstructions",
+          "inputs": [
+            "radiocarbon dates",
+            "paleoclimatic reconstructions"
+          ],
+          "outputs": [
+            "associated environmental variables",
+            "biome/vegetation coverage"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "paleoclimatic reconstruction",
+            "biome estimation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Visualized the overlap between the observed climatic niches in Asia and Europe using a PCA performed in R.",
+          "searchable_summary": "perform PCA to visualize climatic niche overlap",
+          "inputs": [
+            "climatic conditions data"
+          ],
+          "outputs": [
+            "PCA plot"
+          ],
+          "keywords": [
+            "PCA",
+            "climatic niche",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Quantified the niche overlap of the two subpopulations (European and Asian) in environmental space using Schoener's D.",
+          "searchable_summary": "calculate niche overlap using Schoener's D",
+          "inputs": [
+            "environmental variables",
+            "subpopulation data"
+          ],
+          "outputs": [
+            "niche overlap metric"
+          ],
+          "keywords": [
+            "niche overlap",
+            "Schoener's D",
+            "ecospat"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Randomly subsampled the horse occurrences of Europe in each time interval to match the number of available occurrences in the Asian database.",
+          "searchable_summary": "subsample European horse occurrences for comparison",
+          "inputs": [
+            "European horse occurrences",
+            "Asian horse occurrences"
+          ],
+          "outputs": [
+            "subsampled occurrences"
+          ],
+          "keywords": [
+            "subsampling",
+            "occurrence data",
+            "bias correction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/50783579.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

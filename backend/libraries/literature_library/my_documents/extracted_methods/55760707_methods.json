@@ -1,0 +1,225 @@
+{
+  "paper_title": "Genetic Analysis of Maize Using Diallel Crosses",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Trials and Controlled Pollination",
+      "description": "Field trials were conducted to evaluate parental and F1 progeny generations using a randomized complete-block design. Controlled pollination was used to prevent pollen contamination among genotypes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Field trials were conducted at the Dardanos Research and Application Center of Çanakkale Onsekiz Mart University, Northwest Turkey.",
+          "searchable_summary": "conduct field trials at specified research center",
+          "inputs": [
+            "location",
+            "genotypes"
+          ],
+          "outputs": [
+            "field trial data"
+          ],
+          "keywords": [
+            "field trials",
+            "genotypes",
+            "research center"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Field experiments were arranged in a randomized complete-block design with three replications.",
+          "searchable_summary": "arrange field experiments in randomized complete-block design",
+          "inputs": [
+            "field trial data"
+          ],
+          "outputs": [
+            "arranged field trial data"
+          ],
+          "keywords": [
+            "randomized complete-block design",
+            "replications"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Controlled pollination was used to prevent pollen contamination among the genotypes.",
+          "searchable_summary": "apply controlled pollination to prevent contamination",
+          "inputs": [
+            "genotypes"
+          ],
+          "outputs": [
+            "pollinated genotypes"
+          ],
+          "keywords": [
+            "controlled pollination",
+            "pollen contamination"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein and Oil Content Analysis",
+      "description": "Protein and oil contents of maize kernel samples were determined using a near-infrared (NIR) instrument after grinding and sieving the samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Kernel samples were ground in a laboratory mill and passed through a 0.5 mm sieve.",
+          "searchable_summary": "grind and sieve kernel samples",
+          "inputs": [
+            "kernel samples"
+          ],
+          "outputs": [
+            "ground and sieved samples"
+          ],
+          "keywords": [
+            "grinding",
+            "sieving",
+            "kernel samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Ground samples were placed in a rotary sample cup of the NIR instrument, and then scanned between 1200 and 2400 nm.",
+          "searchable_summary": "scan samples using NIR instrument",
+          "inputs": [
+            "ground samples"
+          ],
+          "outputs": [
+            "NIR scan data"
+          ],
+          "keywords": [
+            "NIR instrument",
+            "scanning",
+            "protein content",
+            "oil content"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "A local calibration was used to estimate protein and oil contents of the samples using Infostar software.",
+          "searchable_summary": "estimate protein and oil contents using Infostar software",
+          "inputs": [
+            "NIR scan data"
+          ],
+          "outputs": [
+            "protein content",
+            "oil content"
+          ],
+          "keywords": [
+            "Infostar software",
+            "calibration",
+            "protein estimation",
+            "oil estimation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diallel Analysis",
+      "description": "Diallel analyses were performed to estimate general combining ability (GCA) and specific combining ability (SCA) using Griffing's methods and a fixed-effects model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Diallel analyses were performed via DIALLEL-SAS05 program using SAS Version 8.",
+          "searchable_summary": "perform diallel analysis using DIALLEL-SAS05 in SAS",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "GCA estimates",
+            "SCA estimates"
+          ],
+          "keywords": [
+            "diallel analysis",
+            "SAS",
+            "GCA",
+            "SCA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Griffing's diallel methods were used to estimate GCA of parents and SCA of hybrid combinations.",
+          "searchable_summary": "estimate GCA and SCA using Griffing's methods",
+          "inputs": [
+            "diallel analysis data"
+          ],
+          "outputs": [
+            "GCA values",
+            "SCA values"
+          ],
+          "keywords": [
+            "Griffing's methods",
+            "GCA",
+            "SCA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The t-test was used to examine the significance of estimated combining ability effects.",
+          "searchable_summary": "perform t-test on combining ability effects",
+          "inputs": [
+            "GCA values",
+            "SCA values"
+          ],
+          "outputs": [
+            "significance results"
+          ],
+          "keywords": [
+            "t-test",
+            "significance",
+            "combining ability"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Correlation and Heterosis Analysis",
+      "description": "Spearman's rank correlations were computed to evaluate relationships between genetic components, and midparent heterosis (MPH) was calculated to assess hybrid performance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The PROC CORR statement of SAS package was used to compute Spearman's rank correlations.",
+          "searchable_summary": "compute Spearman's rank correlations using PROC CORR in SAS",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Spearman's rank correlation",
+            "SAS",
+            "PROC CORR"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Midparent heterosis (MPH) was computed by dividing the difference between parental means and hybrid value by parental mean.",
+          "searchable_summary": "calculate midparent heterosis",
+          "inputs": [
+            "parental means",
+            "hybrid value"
+          ],
+          "outputs": [
+            "MPH values"
+          ],
+          "keywords": [
+            "midparent heterosis",
+            "MPH calculation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55760707.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

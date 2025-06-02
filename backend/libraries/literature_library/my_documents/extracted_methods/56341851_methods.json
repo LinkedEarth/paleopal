@@ -1,0 +1,233 @@
+{
+  "paper_title": "XRF Analysis and Core Sampling at Lake Karakul",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "XRF Analysis",
+      "description": "High-resolution non-destructive XRF measurements were performed to analyze the elemental composition of sediment cores. This method is used to identify and quantify elements present in the core samples, which helps in understanding the sedimentary processes and environmental conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "After levelling and cleaning the core surface, the sediment core halves were covered with a 4 µm transparent film (Ultralene, USA).",
+          "searchable_summary": "Prepare sediment core surface for XRF scanning",
+          "inputs": [
+            "sediment core"
+          ],
+          "outputs": [
+            "prepared core surface"
+          ],
+          "keywords": [
+            "core preparation",
+            "XRF scanning"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "X-ray voltage of 10 kV for major elements and 30 kV for minor elements with a Rh X-ray tube at 1 mA was applied at 2 mm resolution.",
+          "searchable_summary": "Apply X-ray voltage for element detection",
+          "inputs": [
+            "prepared core surface"
+          ],
+          "outputs": [
+            "element signals"
+          ],
+          "keywords": [
+            "X-ray voltage",
+            "element detection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Element signals were measured in counts per second, converted to XRF peak area intensities and averaged over each cm after outliers were eliminated.",
+          "searchable_summary": "Convert element signals to XRF peak area intensities",
+          "inputs": [
+            "element signals"
+          ],
+          "outputs": [
+            "XRF peak area intensities"
+          ],
+          "keywords": [
+            "signal conversion",
+            "peak area intensities"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Due to high mean errors expressed as chi squared (χ 2 ), only results of elements with a reasonable low χ 2 were included in the interpretation.",
+          "searchable_summary": "Filter elements based on chi squared error",
+          "inputs": [
+            "XRF peak area intensities"
+          ],
+          "outputs": [
+            "filtered element data"
+          ],
+          "keywords": [
+            "chi squared",
+            "error filtering"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "To calibrate the XRF scanner data, 26 samples at 30-40 cm intervals from the core KK12-1 were freeze-dried, ground, melted into tablets and analysed with XRF using a PANalytial Axios WDXRF (1 kW) spectrometer.",
+          "searchable_summary": "Calibrate XRF scanner data with reference samples",
+          "inputs": [
+            "core samples"
+          ],
+          "outputs": [
+            "calibrated XRF data"
+          ],
+          "keywords": [
+            "calibration",
+            "WDXRF spectrometer"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The single sample measurements were used to determine linear regressions in cross plots in order to calculate percentage values from scanner data.",
+          "searchable_summary": "Perform linear regression to calculate percentage values",
+          "inputs": [
+            "calibrated XRF data"
+          ],
+          "outputs": [
+            "percentage values"
+          ],
+          "keywords": [
+            "linear regression",
+            "percentage calculation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Due to good correlation between TOC and XRF Br, we quantified TOC Br from the peak area intensities of Br as a high-resolution proxy for the organic carbon content.",
+          "searchable_summary": "Quantify TOC Br as proxy for organic carbon content",
+          "inputs": [
+            "XRF Br peak area intensities"
+          ],
+          "outputs": [
+            "TOC Br values"
+          ],
+          "keywords": [
+            "TOC Br",
+            "organic carbon proxy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Core Sampling and Dating",
+      "description": "This method involves the collection and dating of sediment core samples to establish a chronological framework for the sedimentary record. Radiocarbon dating is used to determine the age of organic materials within the cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sediment core segments were split into two halves along the long axis.",
+          "searchable_summary": "Split sediment core segments for analysis",
+          "inputs": [
+            "sediment core segments"
+          ],
+          "outputs": [
+            "archive half",
+            "work half"
+          ],
+          "keywords": [
+            "core splitting",
+            "sediment analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The 'archive' halves were used for smear slide analysis and non-destructive work such as initial core description and X-ray fluorescence (XRF) scanning.",
+          "searchable_summary": "Use archive halves for non-destructive analysis",
+          "inputs": [
+            "archive half"
+          ],
+          "outputs": [
+            "smear slide analysis data",
+            "XRF scanning data"
+          ],
+          "keywords": [
+            "non-destructive analysis",
+            "XRF scanning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The 'work' halves were subsampled for radiocarbon dating and sedimentological analyses (e.g., CNS, TOC, grain-size distribution).",
+          "searchable_summary": "Subsample work halves for radiocarbon dating",
+          "inputs": [
+            "work half"
+          ],
+          "outputs": [
+            "radiocarbon dating samples",
+            "sedimentological analysis samples"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "sedimentological analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Radiocarbon ages were corrected for the 'lake reservoir effect' of Lake Karakul based on the published lake reservoir effect and the apparent age of the newly collected macro-algae.",
+          "searchable_summary": "Correct radiocarbon ages for lake reservoir effect",
+          "inputs": [
+            "radiocarbon ages",
+            "lake reservoir effect data"
+          ],
+          "outputs": [
+            "corrected radiocarbon ages"
+          ],
+          "keywords": [
+            "lake reservoir effect",
+            "age correction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The mean lake reservoir effect of 1368 years was used in the age-depth model created using the Bacon package in R.",
+          "searchable_summary": "Create age-depth model using Bacon package",
+          "inputs": [
+            "corrected radiocarbon ages"
+          ],
+          "outputs": [
+            "age-depth model"
+          ],
+          "keywords": [
+            "age-depth model",
+            "Bacon package"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The uppermost dated sediment sample from KK12-1 was excluded from the age-depth model as the sediment was probably deposited during and after the nuclear bomb testing period with highly variable F 14 C values.",
+          "searchable_summary": "Exclude uppermost sample from age-depth model",
+          "inputs": [
+            "age-depth model",
+            "uppermost sediment sample"
+          ],
+          "outputs": [
+            "validated age-depth model"
+          ],
+          "keywords": [
+            "sample exclusion",
+            "model validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56341851.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,157 @@
+{
+  "paper_title": "Climate and Fire-Season Analysis in Quebec-Labrador",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Data Processing and Fire-Season Length Calculation",
+      "description": "This method involves processing climate simulation data to compute fire-season lengths over the last 7000 years using the HadCM3 climate model. It includes downscaling climate data, reconstructing time series, and calculating the Drought Code index to assess fire risks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Compute the twelve monthly temperature and precipitation anomalies for each millennium of the HadCM3 dataset compared to the pre-industrial control (1750 AD).",
+          "searchable_summary": "calculate monthly temperature and precipitation anomalies from HadCM3 dataset",
+          "inputs": [
+            "HadCM3 dataset",
+            "pre-industrial control data"
+          ],
+          "outputs": [
+            "monthly temperature anomalies",
+            "monthly precipitation anomalies"
+          ],
+          "keywords": [
+            "climate anomalies",
+            "HadCM3",
+            "temperature",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Downscale the Holocene datasets at 0.5° resolution by applying HadCM3 temperature and precipitation anomalies to modern 1971-2000 climate normals.",
+          "searchable_summary": "downscale Holocene datasets using HadCM3 anomalies and modern climate normals",
+          "inputs": [
+            "Holocene datasets",
+            "HadCM3 anomalies",
+            "1971-2000 climate normals"
+          ],
+          "outputs": [
+            "downscaled climate data"
+          ],
+          "keywords": [
+            "downscaling",
+            "climate normals",
+            "spatial resolution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Reconstruct 30-year time series for each 0.5° pixel using Gaussian distribution for temperature and Gamma distribution for precipitation.",
+          "searchable_summary": "reconstruct 30-year climate time series using statistical distributions",
+          "inputs": [
+            "downscaled monthly mean",
+            "modern variance"
+          ],
+          "outputs": [
+            "30-year time series"
+          ],
+          "keywords": [
+            "time series reconstruction",
+            "Gaussian distribution",
+            "Gamma distribution"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Apply the weather generator to derive daily values from the reconstructed 30-year monthly temperature and precipitation time-series.",
+          "searchable_summary": "generate daily climate data from monthly time series",
+          "inputs": [
+            "30-year monthly time series"
+          ],
+          "outputs": [
+            "daily temperature data",
+            "daily precipitation data"
+          ],
+          "keywords": [
+            "weather generator",
+            "daily climate data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Compute the Drought Code index (DC index) using the daily values to assess fire risks.",
+          "searchable_summary": "calculate Drought Code index from daily climate data",
+          "inputs": [
+            "daily temperature data",
+            "daily precipitation data"
+          ],
+          "outputs": [
+            "Drought Code index"
+          ],
+          "keywords": [
+            "Drought Code index",
+            "fire risk assessment"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate the fire-season length based on the cumulative number of days with mean DC index value >80 units.",
+          "searchable_summary": "determine fire-season length using DC index threshold",
+          "inputs": [
+            "Drought Code index"
+          ],
+          "outputs": [
+            "fire-season length"
+          ],
+          "keywords": [
+            "fire-season length",
+            "DC index threshold"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Determine spring fire onset, summer fire termination, and fire season length in spring, summer, and over the year.",
+          "searchable_summary": "identify fire season onset and termination periods",
+          "inputs": [
+            "fire-season length"
+          ],
+          "outputs": [
+            "spring fire onset",
+            "summer fire termination",
+            "annual fire season length"
+          ],
+          "keywords": [
+            "fire season onset",
+            "fire season termination"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Compute correlations between reconstructed climate outputs and fire indices using Pearson's correlation coefficients and permutation tests.",
+          "searchable_summary": "calculate correlations between climate data and fire indices",
+          "inputs": [
+            "reconstructed climate outputs",
+            "fire indices"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "Pearson's correlation",
+            "permutation tests"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/157686901.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

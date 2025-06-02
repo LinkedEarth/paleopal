@@ -1,0 +1,190 @@
+{
+  "paper_title": "Ice Core Annual Layer Counting",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Batch Processing Strategy for HMM Layer Detection",
+      "description": "Strategy to divide large ice core data series into smaller, overlapping batches, apply the Hidden Markov Model (HMM) layer detection algorithm to each batch individually, and then stitch the results together by convolving the resulting layer probability distributions. This approach is used to handle non-stationarity in the data and manage computational complexity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "divide the total data series into smaller batches",
+          "searchable_summary": "divide time series data into smaller segments or batches",
+          "inputs": [
+            "total_data_series"
+          ],
+          "outputs": [
+            "data_batches"
+          ],
+          "keywords": [
+            "data segmentation",
+            "batching",
+            "time series splitting"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "apply the layer detection algorithm to one of these at a time",
+          "searchable_summary": "apply Hidden Markov Model algorithm for layer detection to each data batch",
+          "inputs": [
+            "data_batches",
+            "HMM_model",
+            "model_parameters"
+          ],
+          "outputs": [
+            "batch_layer_probabilities",
+            "batch_layer_boundaries"
+          ],
+          "keywords": [
+            "Hidden Markov Model",
+            "HMM",
+            "layer detection",
+            "time series analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "subsequently stitch them together by convolving the resulting layer probability distributions",
+          "searchable_summary": "combine layer probability distributions from successive batches using convolution",
+          "inputs": [
+            "batch_layer_probabilities"
+          ],
+          "outputs": [
+            "stitched_layer_probabilities"
+          ],
+          "keywords": [
+            "data stitching",
+            "convolution",
+            "probability distribution combination"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "choosing data batches in consecutive order and in an overlapping fashion",
+          "searchable_summary": "select data batches with overlap for sequential processing",
+          "inputs": [
+            "total_data_series",
+            "batch_size",
+            "overlap_size"
+          ],
+          "outputs": [
+            "overlapping_data_batches"
+          ],
+          "keywords": [
+            "overlapping batches",
+            "data segmentation",
+            "time series processing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "some of the information inferred from the layering in one batch of data may be incorporated into the next",
+          "searchable_summary": "incorporate results or information from previous batch into processing of the next batch",
+          "inputs": [
+            "current_batch_data",
+            "previous_batch_results"
+          ],
+          "outputs": [
+            "processed_current_batch_results"
+          ],
+          "keywords": [
+            "sequential processing",
+            "information transfer",
+            "batch processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "HMM Parameter Optimization using EM",
+      "description": "Process to optimize the parameters (θ) of the Hidden Markov Model used for annual layer detection. This is achieved by evaluating the likelihood of the current parameters based on the appearance of inferred layers in the observation sequence and iteratively updating the parameters using the Expectation-Maximization (EM) algorithm. This allows the model to adapt to temporal changes in annual layer appearance and thickness distribution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "evaluating the likelihood of the employed set of model parameters based on the appearance of inferred layers in the observation sequence",
+          "searchable_summary": "evaluate likelihood of HMM parameters based on inferred layer probabilities from Forward-Backward algorithm output",
+          "inputs": [
+            "observation_sequence",
+            "HMM_model",
+            "model_parameters",
+            "forward_backward_output"
+          ],
+          "outputs": [
+            "parameter_likelihood_evaluation"
+          ],
+          "keywords": [
+            "parameter likelihood",
+            "model evaluation",
+            "Forward-Backward algorithm",
+            "HMM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "By normalizing the posterior probabilities, the likelihood of the applied model parameters can be determined",
+          "searchable_summary": "normalize posterior probabilities to determine parameter likelihood",
+          "inputs": [
+            "posterior_probabilities"
+          ],
+          "outputs": [
+            "normalized_parameter_likelihood"
+          ],
+          "keywords": [
+            "probability normalization",
+            "parameter likelihood"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "implement a learning process, which can select the model parameters best suited for modelling the observations",
+          "searchable_summary": "implement iterative parameter optimization using Expectation-Maximization (EM) algorithm",
+          "inputs": [
+            "observation_sequence",
+            "initial_model_parameters",
+            "parameter_likelihood_evaluation"
+          ],
+          "outputs": [
+            "optimized_model_parameters"
+          ],
+          "keywords": [
+            "parameter optimization",
+            "Expectation-Maximization",
+            "EM algorithm",
+            "model training",
+            "HMM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The EM algorithm presents an efficient iterative method for obtaining a point estimate of the (possibly local) maximum likelihood set of parameters. See Appendix A for update equations of the respective model parameters.",
+          "searchable_summary": "iteratively update HMM model parameters using EM update equations",
+          "inputs": [
+            "current_model_parameters",
+            "observation_sequence",
+            "EM_update_equations"
+          ],
+          "outputs": [
+            "updated_model_parameters"
+          ],
+          "keywords": [
+            "parameter update",
+            "EM algorithm",
+            "iterative optimization",
+            "HMM"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54841651.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

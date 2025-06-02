@@ -1,0 +1,173 @@
+{
+  "paper_title": "Species Localities and Climate Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Species Locality Data Collection and Correction",
+      "description": "This method involves collecting and correcting species locality records from various sources to ensure accurate georeferencing for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Bat-sampling locality records with decimal latitude and longitude coordinates were obtained from the Global Biodiversity Information Facility (GBIF; www.gbif.org) and from the literature.",
+          "searchable_summary": "fetch species locality records from GBIF and literature",
+          "inputs": [
+            "GBIF database",
+            "literature sources"
+          ],
+          "outputs": [
+            "species locality records"
+          ],
+          "keywords": [
+            "GBIF",
+            "species locality",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We plotted all points in ArcGIS v10.2 (ESRI, Redlands, CA) to assess the quality of the spatial data and we corrected localities that were clearly erroneously georeferenced (e.g., lying in the ocean).",
+          "searchable_summary": "plot and correct georeferenced locality data using ArcGIS",
+          "inputs": [
+            "species locality records"
+          ],
+          "outputs": [
+            "corrected species locality records"
+          ],
+          "keywords": [
+            "ArcGIS",
+            "georeferencing",
+            "data correction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Localities georeferenced from the literature were recorded at a resolution of 0.0001 decimal degrees, while points obtained from GBIF were kept at their original resolution.",
+          "searchable_summary": "standardize resolution of georeferenced localities",
+          "inputs": [
+            "corrected species locality records"
+          ],
+          "outputs": [
+            "standardized species locality records"
+          ],
+          "keywords": [
+            "georeferencing",
+            "data standardization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Information on fossil localities was obtained from the literature and from collections held at Florida Museum of Natural History, and localities were subsequently georeferenced.",
+          "searchable_summary": "fetch and georeference fossil locality data",
+          "inputs": [
+            "literature sources",
+            "museum collections"
+          ],
+          "outputs": [
+            "georeferenced fossil locality records"
+          ],
+          "keywords": [
+            "fossil localities",
+            "georeferencing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Data Collection and Analysis",
+      "description": "This method involves collecting climate data, performing correlation analysis to select uncorrelated variables, and extracting climate information for species localities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We used climate data from 19 WorldClim variables at 30 sec (ca. 1 km 2 ) spatial resolution for current, mid-Holocene (HOL, ca. 6 ka), and Last Glacial Maximum (LGM, ca. 21 ka) climate (Hijmans et al., 2005).",
+          "searchable_summary": "fetch WorldClim climate data for different time periods",
+          "inputs": [
+            "WorldClim database"
+          ],
+          "outputs": [
+            "climate data variables"
+          ],
+          "keywords": [
+            "WorldClim",
+            "climate data",
+            "temporal resolution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We performed a Pearson correlation analysis in ENMTools v1.4.3 (Warren et al., 2010) on the 19 climate variables to avoid issues with collinearity and chose seven uncorrelated variables to represent regional temperature and precipitation.",
+          "searchable_summary": "perform Pearson correlation analysis to select uncorrelated climate variables",
+          "inputs": [
+            "climate data variables"
+          ],
+          "outputs": [
+            "selected uncorrelated climate variables"
+          ],
+          "keywords": [
+            "Pearson correlation",
+            "climate variables",
+            "collinearity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We extracted climate information for our species localities using ArcGIS v10.2.",
+          "searchable_summary": "extract climate data for species localities using ArcGIS",
+          "inputs": [
+            "selected uncorrelated climate variables",
+            "species locality records"
+          ],
+          "outputs": [
+            "climate data for species localities"
+          ],
+          "keywords": [
+            "ArcGIS",
+            "climate data extraction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "To correct for this, we ran models by randomly sampling 3000 background localities within the Caribbean region.",
+          "searchable_summary": "sample background localities for climate modeling",
+          "inputs": [
+            "Caribbean region data"
+          ],
+          "outputs": [
+            "background locality samples"
+          ],
+          "keywords": [
+            "background sampling",
+            "climate modeling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We used a 2 km buffer around species locality points and removed background points located within this buffer to prevent bias in our background climate dataset.",
+          "searchable_summary": "apply buffer to remove biased background points",
+          "inputs": [
+            "background locality samples",
+            "species locality records"
+          ],
+          "outputs": [
+            "unbiased background climate dataset"
+          ],
+          "keywords": [
+            "buffer",
+            "bias correction",
+            "climate dataset"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/85818323.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

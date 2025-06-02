@@ -1,0 +1,192 @@
+{
+  "paper_title": "Glacier Mass Balance and ELA Sensitivity Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Glacier Mass Balance Model",
+      "description": "A simple glacier mass balance model was applied to explore regional differences in the Equilibrium Line Altitude (ELA) between the Mid-Holocene (MH) and Pre-Industrial (PI) periods in the southern mid-latitudes. The model calculates mass balance gradients based on daily temperature and precipitation data as a function of elevation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain daily temperature and precipitation data from PMIP2 simulations.",
+          "searchable_summary": "fetch daily temperature and precipitation data from PMIP2 simulations",
+          "inputs": [
+            "PMIP2 simulation data"
+          ],
+          "outputs": [
+            "daily temperature data",
+            "daily precipitation data"
+          ],
+          "keywords": [
+            "PMIP2",
+            "temperature data",
+            "precipitation data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate mass balance for each elevation using daily temperature and precipitation data.",
+          "searchable_summary": "compute mass balance using temperature and precipitation data",
+          "inputs": [
+            "daily temperature data",
+            "daily precipitation data",
+            "elevation data"
+          ],
+          "outputs": [
+            "mass balance data"
+          ],
+          "keywords": [
+            "mass balance",
+            "elevation",
+            "temperature",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Define accumulation as the portion of daily precipitation that falls as snow when the daily average temperature is below a certain threshold (T crit).",
+          "searchable_summary": "define snow accumulation based on temperature threshold",
+          "inputs": [
+            "daily temperature data",
+            "daily precipitation data",
+            "T crit"
+          ],
+          "outputs": [
+            "accumulation data"
+          ],
+          "keywords": [
+            "accumulation",
+            "temperature threshold",
+            "snow"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Calculate ablation using mean daily temperature when it is positive, using a degree day factor (DDF).",
+          "searchable_summary": "calculate ablation using positive daily temperature and DDF",
+          "inputs": [
+            "mean daily temperature",
+            "DDF"
+          ],
+          "outputs": [
+            "ablation data"
+          ],
+          "keywords": [
+            "ablation",
+            "degree day factor",
+            "temperature"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Validate model results by comparing with existing glacier mass balance data from Mocho Glacier.",
+          "searchable_summary": "validate model results against Mocho Glacier data",
+          "inputs": [
+            "model results",
+            "Mocho Glacier data"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "validation",
+            "Mocho Glacier",
+            "mass balance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Inputs: PMIP2",
+      "description": "Use daily GCM temperature and precipitation values from PMIP2 simulations to drive the glacier mass balance model. Compare PI outputs with gridded temperature and precipitation data from CRU TS3.10 and weather station observations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Fetch daily GCM temperature and precipitation values from PMIP2 simulations.",
+          "searchable_summary": "retrieve daily GCM data from PMIP2",
+          "inputs": [
+            "PMIP2 simulations"
+          ],
+          "outputs": [
+            "daily GCM temperature data",
+            "daily GCM precipitation data"
+          ],
+          "keywords": [
+            "PMIP2",
+            "GCM",
+            "temperature",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compare PI outputs with CRU TS3.10 gridded data and weather station observations.",
+          "searchable_summary": "compare PI outputs with CRU TS3.10 and weather station data",
+          "inputs": [
+            "PI outputs",
+            "CRU TS3.10 data",
+            "weather station data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "CRU TS3.10",
+            "weather station",
+            "comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "ELA Sensitivity to Model Parameters",
+      "description": "Perform sensitivity analysis to assess the robustness of the model results by varying precipitation lapse rate and degree day factor (DDF) for snow and ice.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Assess sensitivity of ELA to precipitation lapse rate values of 0, 0.001, and 0.02 mm m−1.",
+          "searchable_summary": "evaluate ELA sensitivity to precipitation lapse rate",
+          "inputs": [
+            "precipitation lapse rate values"
+          ],
+          "outputs": [
+            "ELA sensitivity results"
+          ],
+          "keywords": [
+            "ELA",
+            "sensitivity analysis",
+            "precipitation lapse rate"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Assess sensitivity of ELA to DDF values of 4, 8, and 10 mm d−1 °C−1 for ice and 2 and 4 mm d−1 °C−1 for snow.",
+          "searchable_summary": "evaluate ELA sensitivity to DDF values",
+          "inputs": [
+            "DDF values for ice",
+            "DDF values for snow"
+          ],
+          "outputs": [
+            "ELA sensitivity results"
+          ],
+          "keywords": [
+            "ELA",
+            "sensitivity analysis",
+            "degree day factor"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/44209361.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

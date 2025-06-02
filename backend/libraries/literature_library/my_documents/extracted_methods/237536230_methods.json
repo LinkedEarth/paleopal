@@ -1,0 +1,522 @@
+{
+  "paper_title": "Analysis of Antarctic Freshwater Diatom Flora Evolution",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample-based Richness Interpolation",
+      "description": "To compare Miocene genus-and species-level richness with modern diatom floras, we performed a sample-based interpolation on both the GDGD and PDSD using Vegan's specaccum function with 1000 permutations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene samples subset (from GDGD/PDSD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene samples subset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "performed a sample-based interpolation on both the GDGD and PDSD using Vegan's specaccum function with 1000 permutations.",
+          "searchable_summary": "perform sample-based richness interpolation",
+          "inputs": [
+            "GDGD dataset (potentially filtered)",
+            "PDSD dataset (potentially filtered)",
+            "number of permutations (1000)"
+          ],
+          "outputs": [
+            "richness accumulation curves",
+            "interpolated richness estimates"
+          ],
+          "keywords": [
+            "sample-based interpolation",
+            "richness estimation",
+            "specaccum",
+            "vegan",
+            "R",
+            "biodiversity analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Community Composition Overlap Analysis (Venn Diagrams)",
+      "description": "In addition, we used Venn diagrams on the GDGD to detect the degree of overlap in genus-level community composition between the Miocene diatom flora and the major biogeographical regions outlined above (Fig. 1).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "distinguished between major biogeographical and climatological zones following (28): Antarctica, the Arctic (i.e., latitudes >60°N), and temperate and (sub)-alpine sites in the Northern and Southern Hemisphere (Fig. 1).",
+          "searchable_summary": "group data by major biogeographical regions",
+          "inputs": [
+            "GDGD dataset",
+            "biogeographical zone definitions (28)"
+          ],
+          "outputs": [
+            "GDGD dataset with regional labels"
+          ],
+          "keywords": [
+            "data grouping",
+            "biogeographical zones",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene flora subset (from GDGD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene flora subset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "used Venn diagrams on the GDGD to detect the degree of overlap in genus-level community composition between the Miocene diatom flora and the major biogeographical regions outlined above (Fig. 1).",
+          "searchable_summary": "generate Venn diagram for community composition overlap",
+          "inputs": [
+            "GDGD dataset (with regional labels)",
+            "Filtered Miocene flora subset"
+          ],
+          "outputs": [
+            "Venn diagram visualization"
+          ],
+          "keywords": [
+            "Venn diagram",
+            "community composition",
+            "overlap analysis",
+            "visualization",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Higher-Order Taxonomic Richness Calculation",
+      "description": "Using the higher-order diatom classification in (69), we further calculated the number of genera per diatom order, while making a distinction between the major biogeographical regions (Fig. 1). This enabled the detection of differences in diatom richness between regions on a higher taxonomic level, which is reflective of fundamental differences in community composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "distinguished between major biogeographical and climatological zones following (28): Antarctica, the Arctic (i.e., latitudes >60°N), and temperate and (sub)-alpine sites in the Northern and Southern Hemisphere (Fig. 1).",
+          "searchable_summary": "group data by major biogeographical regions",
+          "inputs": [
+            "GDGD dataset",
+            "biogeographical zone definitions (28)"
+          ],
+          "outputs": [
+            "GDGD dataset with regional labels"
+          ],
+          "keywords": [
+            "data grouping",
+            "biogeographical zones",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Using the higher-order diatom classification in (69), we further calculated the number of genera per diatom order, while making a distinction between the major biogeographical regions (Fig. 1).",
+          "searchable_summary": "calculate number of genera per taxonomic order by region",
+          "inputs": [
+            "GDGD dataset (with regional labels)",
+            "higher-order diatom classification (69)"
+          ],
+          "outputs": [
+            "table/dataframe of genera counts per order per region"
+          ],
+          "keywords": [
+            "taxonomic richness",
+            "higher-order classification",
+            "genera count",
+            "data aggregation",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Species per Genus Visualization (Bar Plots)",
+      "description": "We further applied bar plots to visualize the number of species per genus in the Miocene and modern samples of the PDSD, making a distinction between aquatic and aerophilic genera, and different biogeographic regions. This allowed us to detect differences in the dominant habitat type of diatom floras in different polar regions. To this end, we first lumped the diatom genera in the PDSD to the same taxonomic resolution as the GDGD (table S7).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "first lumped the diatom genera in the PDSD to the same taxonomic resolution as the GDGD (table S7).",
+          "searchable_summary": "standardize taxonomic resolution of genera",
+          "inputs": [
+            "PDSD dataset",
+            "GDGD taxonomic resolution standard",
+            "mapping table (S7)"
+          ],
+          "outputs": [
+            "PDSD dataset with standardized genus resolution"
+          ],
+          "keywords": [
+            "taxonomic standardization",
+            "data lumping",
+            "data processing",
+            "PDSD",
+            "GDGD"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "distinguished between major biogeographical and climatological zones following (28): Antarctica, the Arctic (i.e., latitudes >60°N), and temperate and (sub)-alpine sites in the Northern and Southern Hemisphere (Fig. 1).",
+          "searchable_summary": "group data by major biogeographical regions",
+          "inputs": [
+            "PDSD dataset (standardized resolution)",
+            "biogeographical zone definitions (28)"
+          ],
+          "outputs": [
+            "PDSD dataset with regional labels"
+          ],
+          "keywords": [
+            "data grouping",
+            "biogeographical zones",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene samples subset (from PDSD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene samples subset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "applied bar plots to visualize the number of species per genus in the Miocene and modern samples of the PDSD, making a distinction between aquatic and aerophilic genera, and different biogeographic regions.",
+          "searchable_summary": "generate bar plots for species per genus counts by habitat and region",
+          "inputs": [
+            "PDSD dataset (with regional labels)",
+            "Filtered Miocene samples subset",
+            "modern samples subset",
+            "aquatic/aerophilic habitat classification"
+          ],
+          "outputs": [
+            "bar plot visualizations"
+          ],
+          "keywords": [
+            "bar plot",
+            "species per genus",
+            "habitat type",
+            "biogeographical regions",
+            "visualization",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Community Composition Affinity Analysis (CAP)",
+      "description": "To evaluate the affinity of the Miocene Antarctic diatom flora with modern temperate and polar diatom floras from around the world, we visualized the variation in genus-level community composition in the GDGD via CAP, using 999 permutations and Bray-Curtis dissimilarity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene Antarctic flora subset (from GDGD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene Antarctic flora subset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "visualized the variation in genus-level community composition in the GDGD via CAP, using 999 permutations and Bray-Curtis dissimilarity.",
+          "searchable_summary": "perform Constrained Analysis of Principal Coordinates (CAP)",
+          "inputs": [
+            "GDGD dataset",
+            "Filtered Miocene Antarctic flora subset",
+            "modern temperate/polar floras subset",
+            "Bray-Curtis dissimilarity",
+            "number of permutations (999)"
+          ],
+          "outputs": [
+            "CAP ordination results",
+            "ordination plot data"
+          ],
+          "keywords": [
+            "CAP",
+            "Constrained Analysis of Principal Coordinates",
+            "community composition",
+            "ordination",
+            "Bray-Curtis dissimilarity",
+            "permutation test",
+            "vegan",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Community Composition Affinity Visualization (Heatmap)",
+      "description": "To gain a more detailed view on the affinity of Miocene Antarctica with modern and (sub)fossil polar floras, we build a heatmap of the PDSD using Bray-Curtis dissimilarity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene Antarctica subset (from PDSD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene Antarctica subset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "using Bray-Curtis dissimilarity.",
+          "searchable_summary": "calculate Bray-Curtis dissimilarity matrix",
+          "inputs": [
+            "PDSD dataset",
+            "Filtered Miocene Antarctica subset",
+            "modern/fossil polar floras subset"
+          ],
+          "outputs": [
+            "Bray-Curtis dissimilarity matrix"
+          ],
+          "keywords": [
+            "Bray-Curtis dissimilarity",
+            "distance matrix",
+            "community composition",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "build a heatmap of the PDSD",
+          "searchable_summary": "generate heatmap of community dissimilarity",
+          "inputs": [
+            "Bray-Curtis dissimilarity matrix"
+          ],
+          "outputs": [
+            "heatmap visualization"
+          ],
+          "keywords": [
+            "heatmap",
+            "community composition",
+            "affinity",
+            "visualization",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hierarchical Clustering (Antarctic - Modern/Pleistocene/Holocene)",
+      "description": "To evaluate the affinity of the Antarctic core samples with modern samples from the same regions, we performed a Ward's hierarchical cluster analysis with Euclidian distances on the modern and Pleistocene/Holocene Antarctic samples of the PDSD. The Miocene samples were not included in the first analysis because most diatom taxa identified in the Miocene material were not conspecific with more recent Antarctic samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "performed a Ward's hierarchical cluster analysis with Euclidian distances on the modern and Pleistocene/Holocene Antarctic samples of the PDSD.",
+          "searchable_summary": "perform hierarchical clustering analysis",
+          "inputs": [
+            "PDSD dataset",
+            "modern Antarctic samples subset",
+            "Pleistocene/Holocene Antarctic samples subset",
+            "Euclidian distance",
+            "Ward's method"
+          ],
+          "outputs": [
+            "clustering dendrogram",
+            "cluster assignments"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "Ward's method",
+            "Euclidian distance",
+            "community affinity",
+            "clustering",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hierarchical Clustering (Antarctic - Miocene)",
+      "description": "We repeated the Ward's hierarchical cluster analysis for the Miocene dataset, allowing the detection of affinities between the Miocene samples from different localities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene dataset (from PDSD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene dataset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "repeated the Ward's hierarchical cluster analysis for the Miocene dataset, allowing the detection of affinities between the Miocene samples from different localities.",
+          "searchable_summary": "perform hierarchical clustering analysis on Miocene data",
+          "inputs": [
+            "Filtered Miocene dataset",
+            "Ward's method"
+          ],
+          "outputs": [
+            "clustering dendrogram",
+            "cluster assignments"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "Ward's method",
+            "community affinity",
+            "clustering",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Per-Sample Species Diversity Visualization",
+      "description": "Last, we visualized species-level diversity per sample in the Miocene, Pleistocene, and Holocene Antarctic samples of the PDSD by means of bar plots and beeswarm plots, which allowed the detection of shifts in per sample species richness in Antarctica since the Miocene. The fact that, in all cases, ~400 diatom valves were counted per sample (with exception of James Ross Island, maritime Antarctica, for which 300 valves per sample were counted) ensured that per sample species richness could be compared between sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Unless otherwise indicated in the figure captions, the analyses of the Miocene samples only included taxa encountered during the counts, whereas additional taxa detected afterward were not included.",
+          "searchable_summary": "filter Miocene samples to include only taxa from initial counts",
+          "inputs": [
+            "Miocene Antarctic samples subset (from PDSD)",
+            "list of taxa from initial counts"
+          ],
+          "outputs": [
+            "Filtered Miocene Antarctic samples subset"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxa inclusion criteria",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "calculated species-level diversity per sample",
+          "searchable_summary": "calculate species-level diversity per sample",
+          "inputs": [
+            "Filtered Miocene Antarctic samples subset",
+            "Pleistocene Antarctic samples subset",
+            "Holocene Antarctic samples subset",
+            "PDSD dataset"
+          ],
+          "outputs": [
+            "species diversity metric per sample"
+          ],
+          "keywords": [
+            "species diversity",
+            "species richness",
+            "per sample diversity",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "visualized species-level diversity per sample in the Miocene, Pleistocene, and Holocene Antarctic samples of the PDSD by means of bar plots",
+          "searchable_summary": "generate bar plots for per-sample species diversity",
+          "inputs": [
+            "species diversity metric per sample"
+          ],
+          "outputs": [
+            "bar plot visualizations"
+          ],
+          "keywords": [
+            "species diversity",
+            "species richness",
+            "per sample diversity",
+            "bar plot",
+            "visualization",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "visualized species-level diversity per sample in the Miocene, Pleistocene, and Holocene Antarctic samples of the PDSD by means of ... beeswarm plots",
+          "searchable_summary": "generate beeswarm plots for per-sample species diversity",
+          "inputs": [
+            "species diversity metric per sample"
+          ],
+          "outputs": [
+            "beeswarm plot visualizations"
+          ],
+          "keywords": [
+            "species diversity",
+            "species richness",
+            "per sample diversity",
+            "beeswarm plot",
+            "visualization",
+            "R"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237536230.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

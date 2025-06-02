@@ -1,0 +1,164 @@
+{
+  "paper_title": "High resolution orthophotos and a digital surface model of the Roman city of Pollentia (Mallorca, Spain) using RPAS imagery, aerial images, and open data archives",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ground Control Points and Checkpoints Generation",
+      "description": "This method involves generating ground control points (GCP) and checkpoints (CHP) for use in image triangulation and validation. GCPs are used in triangulation, while CHPs are used for validation. The coordinates of these points are obtained using image triangulation techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The GCP and CHP are observed both in aerial and RPAS imagery.",
+          "searchable_summary": "observe GCP and CHP in aerial and RPAS imagery",
+          "inputs": [
+            "aerial imagery",
+            "RPAS imagery"
+          ],
+          "outputs": [
+            "observed GCP and CHP"
+          ],
+          "keywords": [
+            "GCP",
+            "CHP",
+            "RPAS imagery",
+            "aerial imagery"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The coordinates of these points are obtained using image triangulation techniques.",
+          "searchable_summary": "obtain coordinates using image triangulation",
+          "inputs": [
+            "observed GCP and CHP"
+          ],
+          "outputs": [
+            "coordinates of GCP and CHP"
+          ],
+          "keywords": [
+            "image triangulation",
+            "coordinates"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Aerial Triangulation and Validation",
+      "description": "This method involves the aerial triangulation of RPAS imagery using image coordinates, initial orientation, and ground coordinates from GCP. The exterior orientation and camera calibration parameters are estimated using a bundle adjustment approach, validated using RMSE.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Perform aerial triangulation of RPAS imagery using image coordinates of homologous points, initial orientation from GNSS, and ground coordinates from GCP.",
+          "searchable_summary": "perform aerial triangulation using image coordinates and GNSS data",
+          "inputs": [
+            "RPAS imagery",
+            "image coordinates",
+            "GNSS data",
+            "GCP coordinates"
+          ],
+          "outputs": [
+            "triangulated image data"
+          ],
+          "keywords": [
+            "aerial triangulation",
+            "GNSS",
+            "GCP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Estimate exterior orientation and camera calibration parameters using a bundle adjustment approach.",
+          "searchable_summary": "estimate orientation and calibration using bundle adjustment",
+          "inputs": [
+            "triangulated image data"
+          ],
+          "outputs": [
+            "exterior orientation",
+            "camera calibration parameters"
+          ],
+          "keywords": [
+            "bundle adjustment",
+            "camera calibration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Validate the triangulation using RMSE between estimated coordinates of checkpoints and ground coordinates.",
+          "searchable_summary": "validate triangulation using RMSE",
+          "inputs": [
+            "estimated coordinates",
+            "ground coordinates"
+          ],
+          "outputs": [
+            "RMSE value"
+          ],
+          "keywords": [
+            "validation",
+            "RMSE",
+            "checkpoints"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Dense Point Cloud, DSM, and Orthophoto Generation",
+      "description": "This method involves generating a dense point cloud, digital surface model (DSM), and orthophotos using photogrammetric software tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Generate dense point cloud using photogrammetric software tools.",
+          "searchable_summary": "generate dense point cloud",
+          "inputs": [
+            "triangulated image data"
+          ],
+          "outputs": [
+            "dense point cloud"
+          ],
+          "keywords": [
+            "dense point cloud",
+            "photogrammetry"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Generate DSM from the dense point cloud.",
+          "searchable_summary": "generate DSM from dense point cloud",
+          "inputs": [
+            "dense point cloud"
+          ],
+          "outputs": [
+            "DSM"
+          ],
+          "keywords": [
+            "DSM",
+            "digital surface model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Generate orthophotos from the DSM.",
+          "searchable_summary": "generate orthophotos from DSM",
+          "inputs": [
+            "DSM"
+          ],
+          "outputs": [
+            "orthophotos"
+          ],
+          "keywords": [
+            "orthophotos",
+            "photogrammetry"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/218597570.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

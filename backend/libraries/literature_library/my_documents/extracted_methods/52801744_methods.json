@@ -1,0 +1,316 @@
+{
+  "paper_title": "Molecular and Morphological Analysis of Snake Specimens",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Molecular Phylogeny and Analysis",
+      "description": "This method involves extracting genomic DNA, amplifying specific genes, and performing phylogenetic analysis to elucidate the evolutionary relationships of snake species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Genomic DNA was extracted using Qiagen DNeasy TM Tissue kits.",
+          "searchable_summary": "extract genomic DNA using Qiagen DNeasy Tissue kits",
+          "inputs": [
+            "tissue samples"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "Qiagen DNeasy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Amplification of three mitochondrial (12s & ND4 for two specimens & 16s for only the one specimen) and one nuclear genes (c-mos for two specimens) following Pyron et al.",
+          "searchable_summary": "amplify mitochondrial and nuclear genes using PCR",
+          "inputs": [
+            "genomic DNA",
+            "primers"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "PCR",
+            "gene amplification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR reaction of 10μl were set containing 4μl Qiagen TM Taq PCR Master Mix, 3μl water, 0.5μl of each forward and reverse primer and 2μl of genomic DNA were set on a temperature gradient for temperature optimization using a Eppendorf Mastercycler Nexus GSX1.",
+          "searchable_summary": "set up PCR reaction with temperature gradient optimization",
+          "inputs": [
+            "Qiagen Taq PCR Master Mix",
+            "water",
+            "primers",
+            "genomic DNA"
+          ],
+          "outputs": [
+            "optimized PCR reaction"
+          ],
+          "keywords": [
+            "PCR",
+            "temperature gradient"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "PRC products were cleaned with QIAquick PCR Purification Kit and were sequenced with a 3730 DNA Analyzer.",
+          "searchable_summary": "clean PCR products and sequence DNA",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "sequenced DNA"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "PCR purification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Sequences of protein coding genes were aligned using MACSE to check for frameshifts and codons and were concatenated with non-coding gene sequences in Geneious R6 v.6.18.",
+          "searchable_summary": "align and concatenate gene sequences",
+          "inputs": [
+            "sequenced DNA"
+          ],
+          "outputs": [
+            "aligned and concatenated sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MACSE",
+            "Geneious"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Performed a Maximum Likelihood analysis of 410 species of snakes based on~570bp of cmos gene.",
+          "searchable_summary": "perform Maximum Likelihood analysis on snake species",
+          "inputs": [
+            "cmos gene sequences"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "Maximum Likelihood",
+            "phylogenetic analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Concatenated data of five genes and performed a Maximum Likelihood analysis in RAxML v. 8.0.0 for 48 taxa.",
+          "searchable_summary": "perform Maximum Likelihood analysis with RAxML",
+          "inputs": [
+            "concatenated gene data"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "RAxML",
+            "phylogenetic analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Bayesian analysis was performed with BEAST v.1.7.3 with concatenated cmos and cytb sequences for Bayesian tree with posterior probability support.",
+          "searchable_summary": "perform Bayesian analysis with BEAST",
+          "inputs": [
+            "concatenated cmos and cytb sequences"
+          ],
+          "outputs": [
+            "Bayesian tree"
+          ],
+          "keywords": [
+            "BEAST",
+            "Bayesian analysis"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "visualization",
+          "description": "The tree output file was visualized and edited in FigTree v1.3.1.",
+          "searchable_summary": "visualize phylogenetic tree with FigTree",
+          "inputs": [
+            "tree output file"
+          ],
+          "outputs": [
+            "visualized phylogenetic tree"
+          ],
+          "keywords": [
+            "FigTree",
+            "tree visualization"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Ancestral area reconstruction was performed on Bayesian tree with RASP.",
+          "searchable_summary": "perform ancestral area reconstruction with RASP",
+          "inputs": [
+            "Bayesian tree"
+          ],
+          "outputs": [
+            "ancestral area reconstruction"
+          ],
+          "keywords": [
+            "RASP",
+            "ancestral reconstruction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Morphology and Other Analysis",
+      "description": "This method involves the morphological examination of snake specimens, including measurements, scale counts, and imaging, to provide detailed physical descriptions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Specimens were fixed in 4% formalin and later stored in 70% ethanol.",
+          "searchable_summary": "fix and store specimens in formalin and ethanol",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "preserved specimens"
+          ],
+          "keywords": [
+            "specimen preservation",
+            "formalin",
+            "ethanol"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Measurements were taken with a Mitutoyo TM digital caliper to the nearest 0.01mm and total length was measured using a thread.",
+          "searchable_summary": "measure specimens with digital caliper and thread",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "specimen measurements"
+          ],
+          "keywords": [
+            "measurement",
+            "digital caliper"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Ventral scales were counted following Dowling and scale reduction method follows Dowling with modifications.",
+          "searchable_summary": "count ventral scales and apply scale reduction method",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "scale counts"
+          ],
+          "keywords": [
+            "scale counting",
+            "Dowling method"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Maxillary and palatine bones were dissected from the holotype to study the number and nature of dentition.",
+          "searchable_summary": "dissect bones to study dentition",
+          "inputs": [
+            "holotype specimen"
+          ],
+          "outputs": [
+            "dentition data"
+          ],
+          "keywords": [
+            "dissection",
+            "dentition"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Images were taken with the help of a Canon 70D mounted with a Canon 100mm macro and illuminated with the help of a two Canon 430EXII speedlight.",
+          "searchable_summary": "capture images of specimens with Canon 70D and macro lens",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "specimen images"
+          ],
+          "keywords": [
+            "imaging",
+            "Canon 70D",
+            "macro photography"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Illustrations were prepared by RVS.",
+          "searchable_summary": "prepare illustrations of specimens",
+          "inputs": [
+            "specimen data"
+          ],
+          "outputs": [
+            "illustrations"
+          ],
+          "keywords": [
+            "illustration",
+            "specimen drawing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Sea level rise imagery were taken from http://calculatedearth.com/ to ascertain isolation of Saurashtra from mainland India.",
+          "searchable_summary": "fetch sea level rise imagery from calculatedearth.com",
+          "inputs": [
+            "calculatedearth.com"
+          ],
+          "outputs": [
+            "sea level rise imagery"
+          ],
+          "keywords": [
+            "sea level rise",
+            "imagery"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "These images were recreated in Adobe Photoshop CS6 and QGIS for publication.",
+          "searchable_summary": "recreate images in Adobe Photoshop and QGIS",
+          "inputs": [
+            "sea level rise imagery"
+          ],
+          "outputs": [
+            "processed images"
+          ],
+          "keywords": [
+            "Adobe Photoshop",
+            "QGIS",
+            "image processing"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/52801744.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

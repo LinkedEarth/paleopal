@@ -1,0 +1,179 @@
+{
+  "paper_title": "Transient Simulations and Model Analysis of Past Climate Dynamics",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Time-Splitting Technique for Transient Simulations",
+      "description": "A method to perform transient simulations of the past 3 million years using the CLIMBER-2 model by splitting the simulations into shorter intervals to avoid long-term drifts and manage computational resources.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Run many model simulations for 500 ka starting at different times from 3.25 Ma ago until 150 ka ago at time intervals of 100 ka.",
+          "searchable_summary": "execute multiple 500 ka model simulations at staggered intervals",
+          "inputs": [
+            "initial conditions",
+            "time intervals"
+          ],
+          "outputs": [
+            "ensemble of model simulations"
+          ],
+          "keywords": [
+            "transient simulations",
+            "time-splitting",
+            "CLIMBER-2"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Initialize all model runs using identical preindustrial interglacial conditions.",
+          "searchable_summary": "initialize model runs with preindustrial conditions",
+          "inputs": [
+            "preindustrial interglacial conditions"
+          ],
+          "outputs": [
+            "initialized model runs"
+          ],
+          "keywords": [
+            "initial conditions",
+            "model initialization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Discard the initial 100 ka of each simulation as model spin-up and analyze the remaining 400 ka.",
+          "searchable_summary": "analyze model output after discarding initial spin-up period",
+          "inputs": [
+            "model simulation data"
+          ],
+          "outputs": [
+            "analyzed simulation data"
+          ],
+          "keywords": [
+            "model spin-up",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Compute the mean over the ensemble members at each point in time to derive a continuous time series.",
+          "searchable_summary": "calculate mean of ensemble simulations for continuous time series",
+          "inputs": [
+            "ensemble simulation data"
+          ],
+          "outputs": [
+            "continuous time series"
+          ],
+          "keywords": [
+            "ensemble mean",
+            "time series"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transient Model Simulations for Quaternary Analysis",
+      "description": "A technique to perform multiple simulations covering the entire Quaternary period using the CLIMBER-2 model, focusing on the robustness of glacial cycles and reducing model drifts.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform more than 1000 model simulations, each 500 ka long, starting from the same initial conditions but at different points in time.",
+          "searchable_summary": "conduct over 1000 simulations of 500 ka each from varied start points",
+          "inputs": [
+            "initial conditions",
+            "start points"
+          ],
+          "outputs": [
+            "multiple model simulations"
+          ],
+          "keywords": [
+            "Quaternary simulations",
+            "model robustness"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Analyze the robustness of glacial cycles by testing whether different simulations converge to the same solution.",
+          "searchable_summary": "validate convergence of glacial cycle simulations",
+          "inputs": [
+            "simulation results"
+          ],
+          "outputs": [
+            "convergence analysis"
+          ],
+          "keywords": [
+            "glacial cycles",
+            "convergence testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Configuration and Application",
+      "description": "Configuration and application of the CLIMBER-2 model, including the SICOPOLIS ice sheet model, to simulate past climate dynamics with a focus on the carbon cycle and radiative forcing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use the Earth system model CLIMBER-2, incorporating the SICOPOLIS ice sheet model, to simulate the last eight glacial cycles.",
+          "searchable_summary": "simulate glacial cycles using CLIMBER-2 and SICOPOLIS",
+          "inputs": [
+            "CLIMBER-2 model",
+            "SICOPOLIS model"
+          ],
+          "outputs": [
+            "glacial cycle simulations"
+          ],
+          "keywords": [
+            "CLIMBER-2",
+            "SICOPOLIS",
+            "glacial cycles"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Compute the effective CO2 concentration used in the radiative scheme to account for methane and nitrous oxide effects.",
+          "searchable_summary": "calculate effective CO2 concentration for radiative forcing",
+          "inputs": [
+            "CO2 data",
+            "methane data",
+            "nitrous oxide data"
+          ],
+          "outputs": [
+            "effective CO2 concentration"
+          ],
+          "keywords": [
+            "radiative forcing",
+            "greenhouse gases"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Estimate benthic δ18O from modeled sea level and deep ocean temperature.",
+          "searchable_summary": "estimate benthic δ18O from sea level and temperature",
+          "inputs": [
+            "modeled sea level",
+            "deep ocean temperature"
+          ],
+          "outputs": [
+            "benthic δ18O estimates"
+          ],
+          "keywords": [
+            "benthic δ18O",
+            "sea level",
+            "temperature"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/93003395.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

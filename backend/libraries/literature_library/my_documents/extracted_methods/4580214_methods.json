@@ -1,0 +1,350 @@
+{
+  "paper_title": "Genetic Analysis of A. bamfordi Populations",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Nuclear Microsatellite Genotyping and Data Analysis",
+      "description": "This method involves genotyping microsatellite markers to assess genetic diversity and structure among populations of A. bamfordi. It includes tests for linkage disequilibrium, calculation of allelic richness, and analysis of genetic structure using Bayesian clustering.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Genotyping of the 11 microsatellite markers was carried out according to Nistelberger et al.",
+          "searchable_summary": "perform genotyping of microsatellite markers",
+          "inputs": [
+            "microsatellite markers"
+          ],
+          "outputs": [
+            "genotype data"
+          ],
+          "keywords": [
+            "genotyping",
+            "microsatellite markers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We checked all pairwise combinations of loci for linkage disequilibrium by performing exact tests in Genepop v.1.2 and applying a sequential Bonferroni correction to determine significance.",
+          "searchable_summary": "check linkage disequilibrium using Genepop",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "linkage disequilibrium results"
+          ],
+          "keywords": [
+            "linkage disequilibrium",
+            "Genepop",
+            "Bonferroni correction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Rarefied allelic richness was calculated in HP-Rare v 1.0.",
+          "searchable_summary": "calculate rarefied allelic richness",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "allelic richness"
+          ],
+          "keywords": [
+            "allelic richness",
+            "HP-Rare"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The partitioning of genetic diversity amongst BIF populations was assessed using an Analysis of Molecular Variance (AMOVA) implemented in Arlequin with significance determined with 10000 permutations.",
+          "searchable_summary": "perform AMOVA in Arlequin",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "AMOVA results"
+          ],
+          "keywords": [
+            "AMOVA",
+            "Arlequin",
+            "genetic diversity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "An analysis of genetic structure across the five BIF populations was assessed using a Bayesian clustering algorithm implemented in TESS ver. 2.3.",
+          "searchable_summary": "perform Bayesian clustering in TESS",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "genetic structure analysis"
+          ],
+          "keywords": [
+            "Bayesian clustering",
+            "TESS",
+            "genetic structure"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Structure output graphics were created using DISTRUCT.",
+          "searchable_summary": "create structure output graphics using DISTRUCT",
+          "inputs": [
+            "clustering results"
+          ],
+          "outputs": [
+            "structure graphics"
+          ],
+          "keywords": [
+            "visualization",
+            "DISTRUCT",
+            "structure graphics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "To further reconstruct the phylogenetic relationships of populations using microsatellite data we generated Cavalli-Sforza chord distances between populations and determined support using 100 bootstrap replications in the program Populations 1.2.30.",
+          "searchable_summary": "generate Cavalli-Sforza chord distances and bootstrap support",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "phylogenetic distances"
+          ],
+          "keywords": [
+            "Cavalli-Sforza",
+            "phylogenetic analysis",
+            "bootstrap"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "Distances were imported into TreeView for visualisation.",
+          "searchable_summary": "visualize phylogenetic distances in TreeView",
+          "inputs": [
+            "phylogenetic distances"
+          ],
+          "outputs": [
+            "phylogenetic tree visualization"
+          ],
+          "keywords": [
+            "TreeView",
+            "visualization",
+            "phylogenetic tree"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "To assess isolation by distance within BIF populations using microsatellite data we correlated pairwise population matrices of genetic distance and geographic distance and tested for significance using a Mantel test with 9999 permutations in the program IBDWS v 3.23.",
+          "searchable_summary": "perform Mantel test for isolation by distance",
+          "inputs": [
+            "genetic distance matrix",
+            "geographic distance matrix"
+          ],
+          "outputs": [
+            "Mantel test results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "isolation by distance",
+            "IBDWS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mitochondrial DNA Analysis",
+      "description": "This method involves analyzing mitochondrial DNA to determine genetic diversity and phylogenetic relationships among populations. It includes sequence alignment, AMOVA, Bayesian analysis, and tests for isolation by distance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sequence data were aligned using Clustal W in the program BioEdit and finalised by eye with all mutations checked against raw sequence data.",
+          "searchable_summary": "align sequence data using Clustal W",
+          "inputs": [
+            "raw sequence data"
+          ],
+          "outputs": [
+            "aligned sequence data"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "Clustal W",
+            "BioEdit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used AMOVA, implemented in Arlequin v. 3.5 to determine the structuring of mitochondrial DNA diversity amongst BIF populations using the number of pairwise base-pair differences and tested for significance with 10000 permutations.",
+          "searchable_summary": "perform AMOVA for mitochondrial DNA in Arlequin",
+          "inputs": [
+            "aligned sequence data"
+          ],
+          "outputs": [
+            "AMOVA results"
+          ],
+          "keywords": [
+            "AMOVA",
+            "mitochondrial DNA",
+            "Arlequin"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Bayesian analysis was used to visualise genetic relationships and to estimate coalescence times of the populations in BEAST v. 1.7.5.",
+          "searchable_summary": "perform Bayesian analysis in BEAST",
+          "inputs": [
+            "aligned sequence data"
+          ],
+          "outputs": [
+            "Bayesian analysis results"
+          ],
+          "keywords": [
+            "Bayesian analysis",
+            "BEAST",
+            "coalescence times"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To distinguish between incomplete lineage sorting and migration for the two populations that were paraphyletic, we performed nested model likelihood ratio tests of various isolation versus migration models in 'L mode' in the program IMa2.",
+          "searchable_summary": "perform likelihood ratio tests in IMa2",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "likelihood ratio test results"
+          ],
+          "keywords": [
+            "likelihood ratio test",
+            "IMa2",
+            "isolation vs migration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To assess the historical stability of BIF population sizes we performed tests of neutrality that can also serve as a measure of demographic expansion or contraction. Estimates of Tajima's D were calculated in Arlequin.",
+          "searchable_summary": "calculate Tajima's D in Arlequin",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "Tajima's D results"
+          ],
+          "keywords": [
+            "Tajima's D",
+            "neutrality test",
+            "Arlequin"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Diversity statistics including haplotype diversity, nucleotide diversity (Pi), and nucleotide divergence (Jukes and Cantor) between populations were calculated in DnaSP v. 5.10.",
+          "searchable_summary": "calculate diversity statistics in DnaSP",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "diversity statistics"
+          ],
+          "keywords": [
+            "haplotype diversity",
+            "nucleotide diversity",
+            "DnaSP"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "To test for isolation by distance within BIF populations using the combined sequence data, we conducted mantel tests in R using the Vegan package.",
+          "searchable_summary": "perform Mantel test in R using Vegan",
+          "inputs": [
+            "sequence data",
+            "geographic distance matrix"
+          ],
+          "outputs": [
+            "Mantel test results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "isolation by distance",
+            "R",
+            "Vegan"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and DNA Extraction",
+      "description": "This method describes the collection of A. bamfordi specimens from various BIFs and the extraction of DNA for genetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Specimens from the Windarling and Koolyanobbing Ranges, preserved in 100% ethanol were available from the Western Australian Museum's Department of Terrestrial Zoology collection.",
+          "searchable_summary": "obtain preserved specimens from museum collection",
+          "inputs": [
+            "museum collection"
+          ],
+          "outputs": [
+            "specimens"
+          ],
+          "keywords": [
+            "specimen collection",
+            "museum",
+            "ethanol preservation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "For the remaining BIFs (DH, MTJ and HA) sampling was spread across the geographic extent of each BIF as far as was practical to avoid sampling closely related individuals.",
+          "searchable_summary": "conduct field sampling across BIFs",
+          "inputs": [
+            "field locations"
+          ],
+          "outputs": [
+            "collected specimens"
+          ],
+          "keywords": [
+            "field sampling",
+            "BIF",
+            "specimen collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "DNA was extracted from the legs or from the crushed heads of juvenile specimens stored in 100% ethanol using a Qiagen DNeasy Kit, or a salt-based DNA extraction protocol.",
+          "searchable_summary": "extract DNA using Qiagen DNeasy Kit or salt-based protocol",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "Qiagen DNeasy",
+            "salt-based protocol"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4580214.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

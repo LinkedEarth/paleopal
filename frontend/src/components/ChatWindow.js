@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -13,6 +13,13 @@ const LLM_PROVIDERS = [
 ];
 
 const AGENT_TYPES = [
+  { 
+    id: 'workflow_manager', 
+    name: 'Workflow Planner',
+    capability: 'plan_workflow', 
+    description: 'Plan multi-step paleoclimate analysis workflows',
+    placeholder: 'Describe the analysis workflow you want to plan...'
+  },
   { 
     id: 'code', 
     name: 'Code Generator',
@@ -330,32 +337,35 @@ const SparqlQueryDisplay = ({ query }) => {
 const GeneratedCodeDisplay = ({ code }) => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      // Could add a toast notification here
+      // Simple feedback - you could enhance this with a toast notification
+      console.log('Code copied to clipboard');
     }).catch(err => {
-      console.error('Failed to copy text: ', err);
+      console.error('Failed to copy code:', err);
     });
   };
 
   return (
     <div className="generated-code-display">
       <div className="code-header">
-        <span className="code-label">Generated Python Code:</span>
+        <h4>Generated Python Code</h4>
         <button 
-          className="copy-button" 
+          className="copy-code-button"
           onClick={() => copyToClipboard(code)}
           title="Copy code to clipboard"
         >
           📋 Copy
         </button>
       </div>
-      <div className="code-content">
+      <div className="code-block">
         <SyntaxHighlighter 
           language="python" 
           style={tomorrow}
+          showLineNumbers={true}
+          wrapLines={true}
           customStyle={{
             margin: 0,
-            borderRadius: '0.5rem',
-            fontSize: '0.9rem'
+            borderRadius: '8px',
+            fontSize: '14px'
           }}
         >
           {code}
@@ -365,21 +375,369 @@ const GeneratedCodeDisplay = ({ code }) => {
   );
 };
 
-// Component to render combined query and results
-const QueryAndResultsMessage = ({ query, results, error, generatedCode }) => {
-  console.log('QueryAndResultsMessage called with:', {
-    hasQuery: !!query,
-    hasResults: !!results,
-    hasError: !!error,
-    hasGeneratedCode: !!generatedCode,
-    generatedCodeLength: generatedCode?.length
-  });
+// Component to display workflow plans
+const WorkflowPlanDisplay = ({ workflowPlan, workflowId, onExecuteWorkflow }) => {
+  const [showExamplesModal, setShowExamplesModal] = useState(false);
+  const [modalExamples, setModalExamples] = useState([]);
+  const [modalType, setModalType] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      console.log('Workflow plan copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy workflow plan:', err);
+    });
+  };
+
+  const handleShowWorkflowExamples = () => {
+    const examples = workflowPlan.context_used?.workflow_examples || [];
+    setModalExamples(examples);
+    setModalType('workflows');
+    setModalTitle(`Workflow Examples (${examples.length})`);
+    setShowExamplesModal(true);
+  };
+
+  const handleShowMethodExamples = () => {
+    const examples = workflowPlan.context_used?.method_examples || [];
+    setModalExamples(examples);
+    setModalType('methods');
+    setModalTitle(`Method Examples (${examples.length})`);
+    setShowExamplesModal(true);
+  };
+
+  const formatWorkflowPlan = (plan) => {
+    let output = `Workflow Plan (ID: ${workflowId})\n`;
+    output += `===========================================\n\n`;
+    
+    if (plan.context_used) {
+      output += `Context Used:\n`;
+      output += `- Workflows found: ${plan.context_used.workflows_found}\n`;
+      output += `- Methods found: ${plan.context_used.methods_found}\n\n`;
+    }
+    
+    output += `Steps:\n`;
+    plan.steps.forEach((step, index) => {
+      output += `${index + 1}. [${step.agent_type.toUpperCase()}] ${step.user_input}\n`;
+      if (step.dependencies && step.dependencies.length > 0) {
+        output += `   Dependencies: ${step.dependencies.join(', ')}\n`;
+      }
+      if (step.rationale) {
+        output += `   Rationale: ${step.rationale}\n`;
+      }
+      output += `\n`;
+    });
+    
+    return output;
+  };
   
   return (
-    <div className="query-and-results-message">
+    <div className="workflow-plan-display">
+      <div className="workflow-header">
+        <h4>Workflow Plan</h4>
+        <div className="workflow-actions">
+          <button 
+            className="copy-workflow-button"
+            onClick={() => copyToClipboard(formatWorkflowPlan(workflowPlan))}
+            title="Copy workflow plan to clipboard"
+          >
+            📋 Copy
+          </button>
+          <button 
+            className="execute-workflow-button"
+            onClick={() => onExecuteWorkflow(workflowId)}
+            title="Execute this workflow"
+          >
+            ▶️ Instantiate
+          </button>
+        </div>
+      </div>
+      
+      <div className="workflow-content">
+        {workflowPlan.context_used && (
+          <div className="workflow-context">
+            <h5>Context Used:</h5>
+            <div className="context-stats">
+              <button 
+                className="context-stat clickable"
+                onClick={handleShowWorkflowExamples}
+                title="Click to view workflow examples"
+                disabled={!workflowPlan.context_used.workflow_examples || workflowPlan.context_used.workflow_examples.length === 0}
+              >
+                📊 {workflowPlan.context_used.workflows_found} workflow examples
+              </button>
+              <button 
+                className="context-stat clickable"
+                onClick={handleShowMethodExamples}
+                title="Click to view method examples"
+                disabled={!workflowPlan.context_used.method_examples || workflowPlan.context_used.method_examples.length === 0}
+              >
+                📄 {workflowPlan.context_used.methods_found} method examples
+              </button>
+            </div>
+          </div>
+        )}
+        
+        <div className="workflow-steps">
+          <h5>Planned Steps:</h5>
+          {workflowPlan.steps.map((step, index) => (
+            <div key={step.step_id || index} className="workflow-step">
+              <div className="step-header">
+                <span className="step-number">{index + 1}</span>
+                <span className={`step-agent-type ${step.agent_type}`}>
+                  {step.agent_type === 'sparql' ? '🔍 SPARQL' : '🐍 CODE'}
+                </span>
+                <span className="step-id">{step.step_id}</span>
+              </div>
+              <div className="step-content">
+                <div className="step-description">{step.user_input}</div>
+                {step.dependencies && step.dependencies.length > 0 && (
+                  <div className="step-dependencies">
+                    <strong>Dependencies:</strong> {step.dependencies.join(', ')}
+                  </div>
+                )}
+                {step.rationale && (
+                  <div className="step-rationale">
+                    <strong>Rationale:</strong> {step.rationale}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Examples Modal */}
+      <ExamplesModal
+        isOpen={showExamplesModal}
+        onClose={() => setShowExamplesModal(false)}
+        examples={modalExamples}
+        type={modalType}
+        title={modalTitle}
+      />
+    </div>
+  );
+};
+
+// Component to display workflow execution results
+const WorkflowExecutionDisplay = ({ executionResults, failedSteps, workflowId }) => {
+  const [expandedSteps, setExpandedSteps] = useState(new Set());
+
+  const toggleStepExpansion = (stepId) => {
+    setExpandedSteps(prev => {
+      const newExpanded = new Set(prev);
+      if (newExpanded.has(stepId)) {
+        newExpanded.delete(stepId);
+      } else {
+        newExpanded.add(stepId);
+      }
+      return newExpanded;
+    });
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      console.log('Execution results copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy execution results:', err);
+    });
+  };
+
+  const copyStepCode = (code, stepId) => {
+    navigator.clipboard.writeText(code).then(() => {
+      console.log(`Step ${stepId} code copied to clipboard`);
+    }).catch(err => {
+      console.error(`Failed to copy step ${stepId} code:`, err);
+    });
+  };
+
+  const formatExecutionResults = (results, failed) => {
+    let output = `Workflow Execution Results (ID: ${workflowId})\n`;
+    output += `====================================================\n\n`;
+    
+    if (results && results.length > 0) {
+      output += `Successful Steps:\n`;
+      results.forEach((result, index) => {
+        output += `${index + 1}. Step ${result.step_id}: ${result.status}\n`;
+        if (result.result && result.result.generated_code) {
+          output += `   Generated code:\n${result.result.generated_code}\n`;
+        }
+        output += `\n`;
+      });
+    }
+    
+    if (failed && failed.length > 0) {
+      output += `Failed Steps:\n`;
+      failed.forEach((failure, index) => {
+        output += `${index + 1}. Step ${failure.step_id}: ${failure.error}\n`;
+      });
+    }
+    
+    return output;
+  };
+
+  const totalSteps = (executionResults?.length || 0) + (failedSteps?.length || 0);
+  const successfulSteps = executionResults?.length || 0;
+
+  return (
+    <div className="workflow-execution-display">
+      <div className="execution-header">
+        <h4>Workflow Execution Results</h4>
+        <div className="execution-actions">
+          <button 
+            className="copy-execution-button"
+            onClick={() => copyToClipboard(formatExecutionResults(executionResults, failedSteps))}
+            title="Copy execution results to clipboard"
+          >
+            📋 Copy
+          </button>
+        </div>
+      </div>
+      
+      <div className="execution-content">
+        <div className="execution-summary">
+          <div className={`execution-status ${failedSteps && failedSteps.length > 0 ? 'has-failures' : 'success'}`}>
+            {failedSteps && failedSteps.length > 0 ? '⚠️' : '✅'} 
+            {successfulSteps}/{totalSteps} steps completed successfully
+          </div>
+        </div>
+        
+        {executionResults && executionResults.length > 0 && (
+          <div className="successful-steps">
+            <h5>Successful Steps:</h5>
+            {executionResults.map((result, index) => {
+              const stepId = result.step_id;
+              const isExpanded = expandedSteps.has(stepId);
+              const hasCode = result.result && result.result.generated_code;
+              const generatedCode = hasCode ? result.result.generated_code : '';
+              
+              // Detect if this is a SPARQL step or code step based on content
+              const isSparqlStep = generatedCode.trim().toLowerCase().includes('prefix') || 
+                                  generatedCode.trim().toLowerCase().includes('select') ||
+                                  generatedCode.trim().toLowerCase().includes('sparql');
+              
+              return (
+                <div key={stepId} className="execution-step success">
+                  <div className="step-header">
+                    <span className="step-number">{index + 1}</span>
+                    <span className="step-id">{stepId}</span>
+                    <span className="step-status success">✅ {result.status}</span>
+                    {hasCode && (
+                      <button 
+                        className="expand-step-button"
+                        onClick={() => toggleStepExpansion(stepId)}
+                        title={isExpanded ? "Collapse code" : "Expand code"}
+                      >
+                        {isExpanded ? '📄 Collapse' : '📄 View Code'}
+                      </button>
+                    )}
+                  </div>
+                  
+                  {result.result && (
+                    <div className="step-result">
+                      {hasCode && (
+                        <div className="generated-code-section">
+                          <div className="code-section-header">
+                            <strong>{isSparqlStep ? 'Generated SPARQL Query:' : 'Generated Python Code:'}</strong>
+                            <button 
+                              className="copy-step-code-button"
+                              onClick={() => copyStepCode(generatedCode, stepId)}
+                              title="Copy code to clipboard"
+                            >
+                              📋 Copy Code
+                            </button>
+                          </div>
+                          
+                          {isExpanded ? (
+                            <div className="full-code-display">
+                              <SyntaxHighlighter
+                                language={isSparqlStep ? "sparql" : "python"}
+                                style={tomorrow}
+                                showLineNumbers={true}
+                                wrapLines={true}
+                                customStyle={{
+                                  margin: 0,
+                                  borderRadius: '8px',
+                                  fontSize: '13px',
+                                  maxHeight: '400px',
+                                  overflow: 'auto'
+                                }}
+                              >
+                                {generatedCode}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <div className="code-preview-collapsed">
+                              <pre className="code-preview">
+                                {generatedCode.substring(0, 200)}
+                                {generatedCode.length > 200 ? '...' : ''}
+                              </pre>
+                              {generatedCode.length > 200 && (
+                                <div className="code-preview-hint">
+                                  Click "View Code" to see the full {isSparqlStep ? 'query' : 'code'} ({generatedCode.length} characters)
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {result.result.execution_results && (
+                        <div className="execution-info">
+                          <strong>Results:</strong> {JSON.stringify(result.result.execution_results).substring(0, 100)}...
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+        
+        {failedSteps && failedSteps.length > 0 && (
+          <div className="failed-steps">
+            <h5>Failed Steps:</h5>
+            {failedSteps.map((failure, index) => (
+              <div key={failure.step_id} className="execution-step failure">
+                <div className="step-header">
+                  <span className="step-number">{executionResults.length + index + 1}</span>
+                  <span className="step-id">{failure.step_id}</span>
+                  <span className="step-status failure">❌ {failure.status}</span>
+                </div>
+                <div className="step-error">
+                  <strong>Error:</strong> {failure.error}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Component to render combined query and results
+const QueryAndResultsMessage = ({ query, results, error, generatedCode, workflowPlan, workflowId, executionResults, failedSteps, onExecuteWorkflow }) => {
+  return (
+    <div className="query-results-container">
       {query && <SparqlQueryDisplay query={query} />}
       {generatedCode && <GeneratedCodeDisplay code={generatedCode} />}
-      {query && <QueryResultsDisplay results={results} error={error} />}
+      {workflowPlan && workflowId && (
+        <WorkflowPlanDisplay 
+          workflowPlan={workflowPlan} 
+          workflowId={workflowId} 
+          onExecuteWorkflow={onExecuteWorkflow}
+        />
+      )}
+      {(executionResults || failedSteps) && workflowId && (
+        <WorkflowExecutionDisplay 
+          executionResults={executionResults}
+          failedSteps={failedSteps}
+          workflowId={workflowId}
+        />
+      )}
+      {results && <QueryResultsDisplay results={results} error={error} />}
     </div>
   );
 };
@@ -511,6 +869,119 @@ const parseClarificationQuestions = (content) => {
   return questions;
 };
 
+// Component to display workflow examples in a modal
+const ExamplesModal = ({ isOpen, onClose, examples, type, title }) => {
+  if (!isOpen) return null;
+
+  const copyExample = (example) => {
+    const text = type === 'workflows' 
+      ? `Workflow: ${example.title || 'Unknown'}\nSteps: ${example.step_count || 'Unknown'}\nDescription: ${example.description || 'N/A'}`
+      : `Method: ${example.method_name || 'Unknown'}\nPaper: ${example.paper_title || 'Unknown'}\nSummary: ${example.searchable_summary || 'N/A'}`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+      console.log('Example copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy example:', err);
+    });
+  };
+
+  return (
+    <div className="examples-modal-overlay" onClick={onClose}>
+      <div className="examples-modal-content" onClick={e => e.stopPropagation()}>
+        <div className="examples-modal-header">
+          <h3>{title}</h3>
+          <button className="examples-modal-close" onClick={onClose}>×</button>
+        </div>
+        
+        <div className="examples-modal-body">
+          {examples.length === 0 ? (
+            <p>No examples found.</p>
+          ) : (
+            examples.map((example, index) => (
+              <div key={index} className="example-item">
+                <div className="example-header">
+                  <span className="example-number">#{index + 1}</span>
+                  {type === 'workflows' ? (
+                    <h4 className="example-title">{example.title || 'Unknown Workflow'}</h4>
+                  ) : (
+                    <h4 className="example-title">{example.method_name || 'Unknown Method'}</h4>
+                  )}
+                  <button 
+                    className="example-copy-button"
+                    onClick={() => copyExample(example)}
+                    title="Copy example details"
+                  >
+                    📋
+                  </button>
+                </div>
+                
+                <div className="example-content">
+                  {type === 'workflows' ? (
+                    <>
+                      <div className="example-meta">
+                        <span className="meta-item">
+                          <strong>Similarity:</strong> {(example.similarity_score || 0).toFixed(3)}
+                        </span>
+                        <span className="meta-item">
+                          <strong>Steps:</strong> {example.step_count || 'Unknown'}
+                        </span>
+                      </div>
+                      
+                      {example.workflow_steps && example.workflow_steps.length > 0 && (
+                        <div className="workflow-steps">
+                          <strong>Steps:</strong>
+                          <ul>
+                            {example.workflow_steps.map((step, stepIndex) => (
+                              <li key={stepIndex}>
+                                {typeof step === 'string' ? step : step.step_description || step}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {example.description && (
+                        <div className="example-description">
+                          <strong>Description:</strong> {example.description}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className="example-meta">
+                        <span className="meta-item">
+                          <strong>Similarity:</strong> {(example.similarity_score || 0).toFixed(3)}
+                        </span>
+                        {example.paper_title && (
+                          <span className="meta-item">
+                            <strong>From Paper:</strong> {example.paper_title}
+                          </span>
+                        )}
+                      </div>
+                      
+                      {example.searchable_summary && (
+                        <div className="example-description">
+                          <strong>Summary:</strong> {example.searchable_summary}
+                        </div>
+                      )}
+                      
+                      {example.category && (
+                        <div className="example-category">
+                          <strong>Category:</strong> {example.category}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   // Use conversation data if provided, otherwise default greeting
   const defaultGreeting = [{
@@ -522,35 +993,108 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   const [messages, setMessages] = useState(conversation.messages?.length ? conversation.messages : defaultGreeting);
   const [inputValue, setInputValue] = useState('');
   const [stateId, setStateId] = useState(conversation.stateId || null);
-  const [waitingForClarification, setWaitingForClarification] = useState(false);
-  const [clarificationQuestions, setClarificationQuestions] = useState([]);
-  const [llmProvider, setLlmProvider] = useState('google');
-  const [selectedAgent, setSelectedAgent] = useState('code');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [waitingForClarification, setWaitingForClarification] = useState(conversation.waitingForClarification || false);
+  const [clarificationQuestions, setClarificationQuestions] = useState(conversation.clarificationQuestions || []);
+  const [llmProvider, setLlmProvider] = useState(conversation.llmProvider || 'google');
+  const [selectedAgent, setSelectedAgent] = useState(conversation.selectedAgent || 'workflow_manager');
+  const [isLoading, setIsLoading] = useState(conversation.isLoading || false);
+  const [error, setError] = useState(conversation.error || null);
   // Track answers to clarification questions
-  const [clarificationAnswers, setClarificationAnswers] = useState({});
+  const [clarificationAnswers, setClarificationAnswers] = useState(conversation.clarificationAnswers || {});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  // Track the original request context when clarification is needed
+  const [originalRequestContext, setOriginalRequestContext] = useState(conversation.originalRequestContext || null);
+  
+  // Clarification settings
+  const [enableClarification, setEnableClarification] = useState(conversation.enableClarification ?? true);
+  const [clarificationThreshold, setClarificationThreshold] = useState(conversation.clarificationThreshold || 'conservative');
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Effect to notify parent about conversation updates
-  useEffect(() => {
-    if (onConversationUpdate && typeof onConversationUpdate === 'function') {
-      // Derive title – first user message or default
+  // Keep track of when we're updating from conversation prop to avoid loops
+  const updatingFromPropRef = useRef(false);
+  
+  // Previous conversation ID to detect conversation switches
+  const prevConversationIdRef = useRef(conversation.id);
+  
+  // Memoize conversation data to prevent unnecessary updates
+  const conversationData = useMemo(() => {
       const firstUserMsg = messages.find((m) => m.role === 'user');
       const title = firstUserMsg ? firstUserMsg.content.slice(0, 50) : conversation.title || 'New Chat';
 
-      onConversationUpdate({
+    return {
         id: conversation.id,
         title,
         messages,
         stateId,
-      });
+      waitingForClarification,
+      clarificationQuestions,
+      clarificationAnswers,
+      originalRequestContext,
+      llmProvider,
+      selectedAgent,
+      isLoading,
+      error,
+      enableClarification,
+      clarificationThreshold,
+    };
+  }, [conversation.id, conversation.title, messages, stateId, waitingForClarification, 
+      clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, selectedAgent, isLoading, error, enableClarification, clarificationThreshold]);
+
+  // Effect to notify parent about conversation updates
+  useEffect(() => {
+    // Only update parent if we're not currently updating from props (avoid circular updates)
+    if (!updatingFromPropRef.current && onConversationUpdate && typeof onConversationUpdate === 'function') {
+      onConversationUpdate(conversationData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages, stateId]);
+  }, [conversationData, onConversationUpdate]);
+
+  // Effect to sync with conversation prop changes (when switching conversations)
+  useEffect(() => {
+    // Only sync when the conversation ID actually changes (conversation switch)
+    if (conversation.id && conversation.id !== prevConversationIdRef.current) {
+      updatingFromPropRef.current = true;
+      
+      // If we're switching away from a conversation with an active request,
+      // we need to be more careful about state management
+      const isNewConversation = !conversation.messages || conversation.messages.length === 0;
+      
+      // Update messages if the conversation has different messages
+      if (conversation.messages?.length) {
+        setMessages(conversation.messages);
+      } else {
+        setMessages(defaultGreeting);
+      }
+      
+      // Restore all states from conversation
+      setStateId(conversation.stateId || null);
+      setWaitingForClarification(conversation.waitingForClarification || false);
+      setClarificationQuestions(conversation.clarificationQuestions || []);
+      setClarificationAnswers(conversation.clarificationAnswers || {});
+      setOriginalRequestContext(conversation.originalRequestContext || null);
+      setLlmProvider(conversation.llmProvider || 'google');
+      setSelectedAgent(conversation.selectedAgent || 'workflow_manager');
+      setEnableClarification(conversation.enableClarification ?? true);
+      setClarificationThreshold(conversation.clarificationThreshold || 'conservative');
+      
+      // For new conversations, force loading to false regardless of stored state
+      // This prevents loading state from carrying over when creating new conversations
+      setIsLoading(isNewConversation ? false : (conversation.isLoading || false));
+      setError(conversation.error || null);
+      
+      // Clear input value when switching conversations
+      setInputValue('');
+      
+      // Update ref to track current conversation
+      prevConversationIdRef.current = conversation.id;
+      
+      // Reset the flag after a brief delay to allow state updates to settle
+      setTimeout(() => {
+        updatingFromPropRef.current = false;
+      }, 0);
+    }
+  }, [conversation.id, defaultGreeting]);
 
   // Scroll to bottom whenever messages change or loading state changes
   useEffect(() => {
@@ -570,15 +1114,34 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     setLlmProvider(e.target.value);
   };
 
-  const handleAgentChange = (e) => {
-    setSelectedAgent(e.target.value);
+  const handleEnableClarificationChange = (e) => {
+    setEnableClarification(e.target.checked);
+  };
+
+  const handleClarificationThresholdChange = (e) => {
+    setClarificationThreshold(e.target.value);
+  };
+
+  const handleAgentChange = useCallback((e) => {
+    const newAgent = e.target.value;
+    
+    // Batch state updates to prevent multiple re-renders
+    updatingFromPropRef.current = true;
+    
+    setSelectedAgent(newAgent);
     // Reset conversation state when switching agents
     setStateId(null);
     setWaitingForClarification(false);
     setClarificationQuestions([]);
     setClarificationAnswers({});
+    setOriginalRequestContext(null);
     setError(null);
-  };
+    
+    // Reset the flag after state updates complete
+    setTimeout(() => {
+      updatingFromPropRef.current = false;
+    }, 0);
+  }, []);
 
   // Start a new query conversation
   const handleNewQuery = () => {
@@ -586,6 +1149,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     setWaitingForClarification(false);
     setClarificationQuestions([]);
     setClarificationAnswers({});
+    setOriginalRequestContext(null);
     setError(null);
     
     // Add a separator message to show new conversation
@@ -632,6 +1196,132 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     } catch (error) {
       console.error('Error parsing clarification options:', error);
       return [];
+    }
+  };
+
+  // Handle workflow execution
+  const handleExecuteWorkflow = async (workflowId) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Add user message to show workflow execution request
+    const userMessage = {
+      id: Date.now(),
+      role: 'user',
+      content: `Execute workflow: ${workflowId}`
+    };
+    setMessages(prev => [...prev, userMessage]);
+
+    try {
+      // Prepare request for workflow execution
+      const agentRequest = {
+        agent_type: 'workflow_manager',
+        capability: 'execute_workflow',
+        user_input: workflowId,
+        conversation_id: stateId,
+        context: { workflow_id: workflowId },
+        metadata: {
+          llm_provider: llmProvider,
+          workflow_id: workflowId,
+          enable_clarification: enableClarification,
+          clarification_threshold: clarificationThreshold
+        }
+      };
+
+      console.log('Executing workflow:', agentRequest);
+
+      // Send request to execute workflow
+      const response = await axios.post('/agents/request', agentRequest);
+      const data = response.data;
+
+      console.log('Workflow execution response:', data);
+
+      if (data.status === 'needs_clarification') {
+        // Handle clarification for workflow execution
+        setStateId(data.conversation_id);
+        setWaitingForClarification(true);
+        setClarificationAnswers({});
+        
+        // Store the original request context for workflow execution
+        setOriginalRequestContext({
+          agentType: 'workflow_manager',
+          capability: 'execute_workflow',
+          workflowId: workflowId,
+          context: { workflow_id: workflowId },
+          metadata: {
+            llm_provider: llmProvider,
+            workflow_id: workflowId,
+            enable_clarification: enableClarification,
+            clarification_threshold: clarificationThreshold
+          }
+        });
+        
+        if (data.clarification_questions && data.clarification_questions.length > 0) {
+          setClarificationQuestions(data.clarification_questions);
+        } else {
+          const parsedQuestions = parseClarificationQuestions(data.message);
+          setClarificationQuestions(parsedQuestions);
+        }
+        
+        const assistantMessage = { 
+          id: Date.now(), 
+          role: 'assistant', 
+          content: data.message,
+          needsClarification: true,
+          clarificationQuestions: data.clarification_questions
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      } else if (data.status === 'success') {
+        // Handle successful workflow execution
+        setStateId(data.conversation_id);
+        
+        const executionResults = data.result?.execution_results;
+        const failedSteps = data.result?.failed_steps;
+        
+        const resultsMessage = {
+          id: Date.now(),
+          role: 'assistant',
+          content: data.message || 'Workflow executed successfully!',
+          hasWorkflowExecution: true,
+          workflowId: workflowId,
+          executionResults: executionResults,
+          failedSteps: failedSteps
+        };
+        
+        setMessages(prev => [...prev, resultsMessage]);
+        setOriginalRequestContext(null);
+      } else {
+        // Handle error
+        console.error('Workflow execution error:', data.status);
+        setError(data.message || 'Error executing workflow');
+        
+        const errorMessage = {
+          id: Date.now(),
+          role: 'assistant',
+          content: `Sorry, I encountered an error executing the workflow: ${data.message || 'Unknown error'}`,
+          isError: true
+        };
+        setMessages(prev => [...prev, errorMessage]);
+      }
+    } catch (error) {
+      console.error('Error executing workflow:', error);
+      setError(error.response?.data?.detail || 'Error executing workflow');
+      
+      const errorMessage = {
+        id: Date.now(),
+        role: 'assistant',
+        content: `Sorry, I encountered an error executing the workflow: ${error.response?.data?.detail || error.message}`,
+        isError: true
+      };
+      setMessages(prev => [...prev, errorMessage]);
+      
+      // Reset clarification state on error but keep conversation state
+      setWaitingForClarification(false);
+      setClarificationQuestions([]);
+      setClarificationAnswers({});
+      setOriginalRequestContext(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -686,6 +1376,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       setWaitingForClarification(false);
       setClarificationQuestions([]);
       setClarificationAnswers({});
+      // Clear original request context immediately to prevent it from affecting subsequent requests
+      setOriginalRequestContext(null);
     } else {
       // Regular query - don't proceed if no input
       if (!currentUserInput) return;
@@ -702,27 +1394,57 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     setError(null);
     
     try {
-      // Get the selected agent configuration
+      // For clarification responses, use the original request context
+      let agentType, capability;
+      let tempOriginalContext = null;
+      
+      if (waitingForClarification && originalRequestContext && clarificationResponses.length > 0) {
+        // Use original context only when we have clarification responses
+        tempOriginalContext = originalRequestContext;
+        agentType = originalRequestContext.agentType;
+        capability = originalRequestContext.capability;
+      } else {
+        // Get the selected agent configuration for new requests
       const agentConfig = AGENT_TYPES.find(agent => agent.id === selectedAgent);
       if (!agentConfig) {
         throw new Error('Invalid agent selected');
+        }
+        agentType = selectedAgent;
+        capability = agentConfig.capability;
       }
 
       // Prepare request payload for the new multi-agent API
       const agentRequest = {
-        agent_type: selectedAgent,
-        capability: agentConfig.capability,
+        agent_type: agentType,
+        capability: capability,
         user_input: currentUserInput,
         conversation_id: stateId,
         context: {},
         metadata: {
-          llm_provider: llmProvider
+          llm_provider: llmProvider,
+          enable_clarification: enableClarification,
+          clarification_threshold: clarificationThreshold
         }
       };
       
       // If we have clarification responses to send, add them
       if (clarificationResponses.length > 0) {
         agentRequest.metadata.clarification_responses = clarificationResponses;
+      }
+      
+      // If this is a clarification response for workflow execution, preserve the workflow context
+      if (tempOriginalContext) {
+        // Only override user_input for the main workflow execution capability, not for individual steps
+        if (tempOriginalContext.workflowId && capability === 'execute_workflow') {
+          agentRequest.user_input = tempOriginalContext.workflowId;
+        }
+        // Merge the original context and metadata
+        if (tempOriginalContext.context) {
+          agentRequest.context = { ...agentRequest.context, ...tempOriginalContext.context };
+        }
+        if (tempOriginalContext.metadata) {
+          agentRequest.metadata = { ...agentRequest.metadata, ...tempOriginalContext.metadata };
+        }
       }
       
       console.log('Sending agent request:', agentRequest);
@@ -745,6 +1467,14 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         setStateId(data.conversation_id);
         setWaitingForClarification(true);
         setClarificationAnswers({});
+        
+        // Store the original request context for when clarification is provided
+        if (!originalRequestContext) {
+          setOriginalRequestContext({
+            agentType: agentType,
+            capability: capability
+          });
+        }
         
         // Handle clarification questions
         if (data.clarification_questions && data.clarification_questions.length > 0) {
@@ -772,6 +1502,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         setWaitingForClarification(false);
         setClarificationQuestions([]);
         setClarificationAnswers({});
+        setOriginalRequestContext(null);
         
         // Keep the conversation_id from the response for continued conversation
         if (data.conversation_id) {
@@ -784,6 +1515,12 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         const queryError = data.result?.error;
         const executionInfo = data.result?.execution_info;
         
+        // Workflow planning results
+        const workflowPlan = data.result?.workflow_plan;
+        const workflowId = data.result?.workflow_id;
+        const executionResults = data.result?.execution_results;
+        const failedSteps = data.result?.failed_steps;
+        
         console.log('Processing success response:', {
           generatedContent: !!generatedContent,
           generatedContentLength: generatedContent?.length,
@@ -791,20 +1528,34 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
           queryResultsLength: queryResults?.length,
           queryError: !!queryError,
           executionInfo: !!executionInfo,
+          workflowPlan: !!workflowPlan,
+          workflowId: !!workflowId,
+          executionResults: !!executionResults,
+          failedSteps: !!failedSteps,
           selectedAgent,
           fullData: data
         });
         
-        if (generatedContent) {
-          // Always show the generated content if we have it
+        // Get agent config for the agent that was actually used
+        const usedAgentConfig = AGENT_TYPES.find(agent => agent.id === agentType) || 
+                                AGENT_TYPES.find(agent => agent.id === selectedAgent);
+        
+        if (generatedContent || workflowPlan || executionResults || failedSteps) {
+          // Show results for code/SPARQL generation, workflow planning, or workflow execution
           const resultsMessage = { 
             id: Date.now() + 1, 
             role: 'assistant', 
-            content: data.message || `${agentConfig.name} completed successfully!`,
-            hasQueryResults: selectedAgent === 'sparql',
-            hasGeneratedCode: selectedAgent === 'code',
-            sparqlQuery: selectedAgent === 'sparql' ? generatedContent : undefined,
-            generatedCode: selectedAgent === 'code' ? generatedContent : undefined,
+            content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`,
+            hasQueryResults: agentType === 'sparql' && !!generatedContent,
+            hasGeneratedCode: agentType === 'code' && !!generatedContent,
+            hasWorkflowPlan: agentType === 'workflow_manager' && !!workflowPlan,
+            hasWorkflowExecution: agentType === 'workflow_manager' && !!(executionResults || failedSteps),
+            sparqlQuery: agentType === 'sparql' ? generatedContent : undefined,
+            generatedCode: agentType === 'code' ? generatedContent : undefined,
+            workflowPlan: workflowPlan,
+            workflowId: workflowId,
+            executionResults: executionResults,
+            failedSteps: failedSteps,
             queryResults: queryResults,
             queryError: queryError
           };
@@ -812,30 +1563,59 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
           console.log('Creating results message:', {
             hasQueryResults: resultsMessage.hasQueryResults,
             hasGeneratedCode: resultsMessage.hasGeneratedCode,
+            hasWorkflowPlan: resultsMessage.hasWorkflowPlan,
+            hasWorkflowExecution: resultsMessage.hasWorkflowExecution,
             sparqlQuery: !!resultsMessage.sparqlQuery,
             generatedCode: !!resultsMessage.generatedCode,
-            generatedCodeLength: resultsMessage.generatedCode?.length,
+            workflowPlan: !!resultsMessage.workflowPlan,
+            workflowId: resultsMessage.workflowId,
             selectedAgent: selectedAgent,
             messageStructure: resultsMessage
           });
           
           setMessages(prev => [...prev, resultsMessage]);
           
-          // Add a helpful message encouraging refinement
-          const refinementMessage = {
+          // Add agent-specific helpful messages
+          let refinementMessage = null;
+          if (agentType === 'sparql') {
+            refinementMessage = {
             id: Date.now() + 2,
             role: 'assistant',
-            content: selectedAgent === 'sparql' 
-              ? "You can ask me to refine this query further! For example:\n• \"Add a filter for temperature > 20°C\"\n• \"Show only data from the last 100 years\"\n• \"Include location information\"\n• \"Sort by date descending\""
-              : "You can ask me to modify this code! For example:\n• \"Add error handling\"\n• \"Include data visualization\"\n• \"Add comments to explain the code\"\n• \"Optimize for performance\""
-          };
+              content: "You can ask me to refine this query further! For example:\n• \"Add a filter for temperature > 20°C\"\n• \"Show only data from the last 100 years\"\n• \"Include location information\"\n• \"Sort by date descending\""
+            };
+          } else if (agentType === 'code') {
+            refinementMessage = {
+              id: Date.now() + 2,
+              role: 'assistant',
+              content: "You can ask me to modify this code! For example:\n• \"Add error handling\"\n• \"Include data visualization\"\n• \"Add comments to explain the code\"\n• \"Optimize for performance\""
+            };
+          } else if (agentType === 'workflow_manager' && workflowPlan) {
+            refinementMessage = {
+              id: Date.now() + 2,
+              role: 'assistant',
+              content: "Your workflow plan is ready! You can:\n• Click the \"Execute\" button to run the workflow\n• Ask me to modify the plan: \"Add a data visualization step\"\n• Request a different approach: \"Use a different statistical method\"\n• Plan a new workflow with a different request"
+            };
+          } else if (agentType === 'workflow_manager' && (executionResults || failedSteps)) {
+            const successCount = executionResults?.length || 0;
+            const totalSteps = successCount + (failedSteps?.length || 0);
+            refinementMessage = {
+              id: Date.now() + 2,
+              role: 'assistant',
+              content: failedSteps && failedSteps.length > 0 
+                ? `Workflow completed with ${successCount}/${totalSteps} steps successful. You can:\n• Ask me to retry failed steps\n• Request modifications to the workflow\n• Plan a new workflow based on the results`
+                : `Workflow completed successfully! All ${successCount} steps executed. You can:\n• Plan a follow-up workflow\n• Request analysis of the results\n• Ask for modifications or improvements`
+            };
+          }
+          
+          if (refinementMessage) {
           setMessages(prev => [...prev, refinementMessage]);
+          }
         } else {
           // Add assistant message to chat
           const assistantMessage = { 
             id: Date.now(), 
             role: 'assistant', 
-            content: data.message || `${agentConfig.name} completed successfully!`
+            content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`
           };
           setMessages(prev => [...prev, assistantMessage]);
         }
@@ -857,6 +1637,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         setWaitingForClarification(false);
         setClarificationQuestions([]);
         setClarificationAnswers({});
+        setOriginalRequestContext(null);
       }
       
     } catch (error) {
@@ -876,6 +1657,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       setWaitingForClarification(false);
       setClarificationQuestions([]);
       setClarificationAnswers({});
+      setOriginalRequestContext(null);
     } finally {
       setIsLoading(false);
     }
@@ -1124,6 +1906,37 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
               ))}
             </select>
           </div>
+          
+          <div className="clarification-settings">
+            <div className="clarification-enable">
+              <label htmlFor="enable-clarification">
+                <input
+                  id="enable-clarification"
+                  type="checkbox"
+                  checked={enableClarification}
+                  onChange={handleEnableClarificationChange}
+                  className="clarification-checkbox"
+                />
+                Enable Clarifications
+              </label>
+            </div>
+            
+            {enableClarification && (
+              <div className="clarification-threshold">
+                <label htmlFor="clarification-threshold">Threshold:</label>
+                <select 
+                  id="clarification-threshold" 
+                  value={clarificationThreshold} 
+                  onChange={handleClarificationThresholdChange}
+                  className="clarification-threshold-select"
+                >
+                  <option value="permissive">Permissive</option>
+                  <option value="conservative">Conservative</option>
+                  <option value="strict">Strict</option>
+                </select>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       
@@ -1131,16 +1944,21 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         {messages.map(message => (
           <div 
             key={message.id} 
-            className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''} ${message.needsClarification ? 'clarification-message' : ''} ${message.isCombinedAnswers ? 'clarification-response-message' : ''} ${(message.hasQueryResults || message.hasGeneratedCode) ? 'query-results-message' : ''} ${message.isNewConversation ? 'new-conversation-message' : ''}`}
+            className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''} ${message.needsClarification ? 'clarification-message' : ''} ${message.isCombinedAnswers ? 'clarification-response-message' : ''} ${(message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? 'query-results-message' : ''} ${message.isNewConversation ? 'new-conversation-message' : ''}`}
           >
             {message.isCombinedAnswers ? (
               <ClarificationResponseMessage content={message.content} />
-            ) : (message.hasQueryResults || message.hasGeneratedCode) ? (
+            ) : (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? (
               <QueryAndResultsMessage 
                 query={message.sparqlQuery}
                 results={message.queryResults}
                 error={message.queryError}
                 generatedCode={message.generatedCode}
+                workflowPlan={message.workflowPlan}
+                workflowId={message.workflowId}
+                executionResults={message.executionResults}
+                failedSteps={message.failedSteps}
+                onExecuteWorkflow={handleExecuteWorkflow}
               />
             ) : message.needsClarification && waitingForClarification ? (
               // Don't show detailed clarification in chat when UI is active

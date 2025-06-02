@@ -1,0 +1,261 @@
+{
+  "paper_title": "Study on Ceratina Species and Pollen Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Experiment Setup",
+      "description": "Installation of artificial nesting opportunities in a grassland to study the nesting biology of Ceratina species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "We installed artificial nesting opportunities in the grassland following the methods used in previous research at the study site.",
+          "searchable_summary": "install artificial nesting opportunities in grassland",
+          "inputs": [
+            "grassland area",
+            "Solidago canadensis stems",
+            "bamboo sticks"
+          ],
+          "outputs": [
+            "artificial nests"
+          ],
+          "keywords": [
+            "nesting",
+            "Ceratina",
+            "field experiment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The artificial nesting opportunities consisted of sheaves containing 20 cut stems of Solidago canadensis.",
+          "searchable_summary": "prepare sheaves with Solidago canadensis stems",
+          "inputs": [
+            "Solidago canadensis stems"
+          ],
+          "outputs": [
+            "sheaves"
+          ],
+          "keywords": [
+            "Solidago canadensis",
+            "sheaves"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "We installed ca. 1,300 sheaves as nesting opportunities in April before the beginning of the nesting season.",
+          "searchable_summary": "install sheaves in field before nesting season",
+          "inputs": [
+            "sheaves",
+            "bamboo sticks"
+          ],
+          "outputs": [
+            "installed nests"
+          ],
+          "keywords": [
+            "installation",
+            "nesting season"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Data Analysis",
+      "description": "Statistical procedures to analyze pollen composition and resource partitioning among Ceratina species using R.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We used the Pianka's overlap index as a measure of similarity in pollen composition among nests, brood cells, and samples from individual foraging bouts.",
+          "searchable_summary": "calculate Pianka's overlap index for pollen composition",
+          "inputs": [
+            "pollen composition data"
+          ],
+          "outputs": [
+            "overlap index values"
+          ],
+          "keywords": [
+            "Pianka's overlap index",
+            "similarity",
+            "pollen"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used non-metric multidimensional scaling (NMDS) and ANOSIM to test interspecific resource partitioning among the three Ceratina species.",
+          "searchable_summary": "perform NMDS and ANOSIM for resource partitioning",
+          "inputs": [
+            "overlap index values"
+          ],
+          "outputs": [
+            "NMDS results",
+            "ANOSIM results"
+          ],
+          "keywords": [
+            "NMDS",
+            "ANOSIM",
+            "resource partitioning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We used generalised linear models (GLM) to compare Shannon's H index among the three Ceratina species.",
+          "searchable_summary": "apply GLM to compare Shannon's H index",
+          "inputs": [
+            "Shannon's H index data"
+          ],
+          "outputs": [
+            "GLM results"
+          ],
+          "keywords": [
+            "GLM",
+            "Shannon's H index"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "We used repeatability analysis to evaluate individual-level differences in specialization and foraging preferences.",
+          "searchable_summary": "conduct repeatability analysis for foraging preferences",
+          "inputs": [
+            "foraging data"
+          ],
+          "outputs": [
+            "repeatability results"
+          ],
+          "keywords": [
+            "repeatability analysis",
+            "foraging preferences"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "We evaluated individual-level variation in pollen samples using two-tailed partial Mantel tests.",
+          "searchable_summary": "perform partial Mantel tests on pollen samples",
+          "inputs": [
+            "pollen sample data"
+          ],
+          "outputs": [
+            "Mantel test results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "pollen variation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Sequencing Data Processing",
+      "description": "Bioinformatic processing of metabarcoding data using Obitools to filter, clean, and identify DNA sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We first merged the forward and reverse reads and removed low-quality reads.",
+          "searchable_summary": "merge and filter DNA sequencing reads",
+          "inputs": [
+            "forward reads",
+            "reverse reads"
+          ],
+          "outputs": [
+            "filtered reads"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "read merging",
+            "quality filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We assigned the reads to samples based on the tag sequences and removed reads shorter than 100 bp.",
+          "searchable_summary": "assign reads to samples and filter by length",
+          "inputs": [
+            "tagged reads"
+          ],
+          "outputs": [
+            "sample-assigned reads"
+          ],
+          "keywords": [
+            "tag sequences",
+            "read assignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We dereplicated the reads to obtain the list of unique sequences and their abundance.",
+          "searchable_summary": "dereplicate reads to find unique sequences",
+          "inputs": [
+            "sample-assigned reads"
+          ],
+          "outputs": [
+            "unique sequences"
+          ],
+          "keywords": [
+            "dereplication",
+            "unique sequences"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We used the ecotag function in Obitools to identify ITS2 sequences from the samples.",
+          "searchable_summary": "identify ITS2 sequences using ecotag",
+          "inputs": [
+            "unique sequences",
+            "reference database"
+          ],
+          "outputs": [
+            "identified sequences"
+          ],
+          "keywords": [
+            "ecotag",
+            "ITS2",
+            "sequence identification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We updated our reference database with sequences identified using BLAST.",
+          "searchable_summary": "update reference database with BLAST-identified sequences",
+          "inputs": [
+            "unidentified sequences"
+          ],
+          "outputs": [
+            "updated reference database"
+          ],
+          "keywords": [
+            "BLAST",
+            "reference database"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "We compared the three independent PCR replicates for each sample to identify unreliable replicates.",
+          "searchable_summary": "compare PCR replicates for consistency",
+          "inputs": [
+            "PCR replicates"
+          ],
+          "outputs": [
+            "consistent replicates"
+          ],
+          "keywords": [
+            "PCR replicates",
+            "consistency check"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236917494.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

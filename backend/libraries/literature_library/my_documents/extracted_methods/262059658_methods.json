@@ -1,0 +1,228 @@
+{
+  "paper_title": "Phylogenetic Analysis of Polleniidae and Rhinophorinae",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA Extraction and Amplification",
+      "description": "Process for extracting DNA from ethanol-preserved specimens and amplifying specific genes for phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Three legs were removed from ethanol-preserved specimens and stored in ethanol until extraction.",
+          "searchable_summary": "remove and store specimen legs for DNA extraction",
+          "inputs": [
+            "ethanol-preserved specimens"
+          ],
+          "outputs": [
+            "specimen legs stored in ethanol"
+          ],
+          "keywords": [
+            "specimen preparation",
+            "DNA extraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Extractions were performed using the DNeasy Blood and Tissue Kit with modifications: legs were placed entire in the digestion buffer and Buffer ATL was replaced with a modified digestion buffer.",
+          "searchable_summary": "perform DNA extraction with modified protocol",
+          "inputs": [
+            "specimen legs",
+            "DNeasy Blood and Tissue Kit"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "DNeasy kit",
+            "protocol modification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR amplification reactions were composed of deionized water, HOT FIREPol Blend Master Mix, primers, and DNA solution.",
+          "searchable_summary": "prepare PCR amplification reactions",
+          "inputs": [
+            "extracted DNA",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "PCR amplified DNA"
+          ],
+          "keywords": [
+            "PCR amplification",
+            "DNA amplification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The most effective PCR protocol was an initial denaturation at 95˚C, 35 cycles of denaturation, annealing, and extension, followed by a final extension.",
+          "searchable_summary": "execute PCR protocol for DNA amplification",
+          "inputs": [
+            "PCR reaction mixture"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "PCR protocol",
+            "DNA amplification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequencing and Alignment",
+      "description": "Sequencing of PCR products and alignment of sequences for phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "PCR products were sent to Macrogen Europe for PCR product cleanup and sequencing.",
+          "searchable_summary": "send PCR products for sequencing",
+          "inputs": [
+            "PCR amplified DNA"
+          ],
+          "outputs": [
+            "sequencing output files"
+          ],
+          "keywords": [
+            "sequencing",
+            "PCR product cleanup"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequencing output files were assembled and trimmed using Geneious 9.1.8.",
+          "searchable_summary": "assemble and trim sequencing output files",
+          "inputs": [
+            "sequencing output files"
+          ],
+          "outputs": [
+            "trimmed sequence files"
+          ],
+          "keywords": [
+            "sequence assembly",
+            "sequence trimming",
+            "Geneious"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "FASTA files of sequences were aligned using MAFFT with the G-INS-i algorithm.",
+          "searchable_summary": "align sequences using MAFFT",
+          "inputs": [
+            "trimmed sequence files"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MAFFT",
+            "G-INS-i algorithm"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Alignments were checked for accuracy by looking for stop codons and spurious gaps.",
+          "searchable_summary": "check alignments for accuracy",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "verified alignments"
+          ],
+          "keywords": [
+            "alignment verification",
+            "stop codons",
+            "spurious gaps"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Single-gene alignments were concatenated using the 'Concatenate alignments' tool in Geneious.",
+          "searchable_summary": "concatenate single-gene alignments",
+          "inputs": [
+            "verified alignments"
+          ],
+          "outputs": [
+            "concatenated alignments"
+          ],
+          "keywords": [
+            "alignment concatenation",
+            "Geneious"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "Analysis of sequence data to determine phylogenetic relationships using partitioning and likelihood methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "PartitionFinder was used to find the best-fitting partitioning scheme and select substitution models.",
+          "searchable_summary": "determine partitioning scheme and substitution models",
+          "inputs": [
+            "concatenated alignments"
+          ],
+          "outputs": [
+            "partitioning scheme",
+            "substitution models"
+          ],
+          "keywords": [
+            "PartitionFinder",
+            "substitution models",
+            "BIC"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Likelihood analyses were conducted using RAxML on XSEDE through the CIPRES Science Gateway.",
+          "searchable_summary": "perform likelihood analyses using RAxML",
+          "inputs": [
+            "partitioning scheme",
+            "substitution models"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "RAxML",
+            "likelihood analysis",
+            "phylogenetic trees"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Trees from all analyses were visualized using FigTree.",
+          "searchable_summary": "visualize phylogenetic trees",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "visualized trees"
+          ],
+          "keywords": [
+            "tree visualization",
+            "FigTree"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/262059658.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

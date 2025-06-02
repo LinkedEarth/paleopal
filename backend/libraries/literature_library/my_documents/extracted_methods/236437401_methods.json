@@ -1,0 +1,379 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bioinformatical and Statistical Analysis",
+      "description": "This method involves processing raw sequence data to analyze the microbial community structure using bioinformatics tools and statistical methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw sequences were de-multiplexed based on barcodes.",
+          "searchable_summary": "de-multiplex raw sequences using barcodes",
+          "inputs": [
+            "raw sequences",
+            "barcodes"
+          ],
+          "outputs": [
+            "de-multiplexed sequences"
+          ],
+          "keywords": [
+            "de-multiplexing",
+            "barcodes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "MiSeq overhangs, primers, and barcodes were removed, and sequences were quality-checked, trimmed (maximum length adjusted to 550 bp), and aligned using Mothur.",
+          "searchable_summary": "remove overhangs, primers, barcodes, quality-check, trim, and align sequences using Mothur",
+          "inputs": [
+            "de-multiplexed sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "Mothur",
+            "sequence alignment",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Chimeric sequences were removed in Mothur using the UCHIME algorithm.",
+          "searchable_summary": "remove chimeric sequences using UCHIME in Mothur",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "non-chimeric sequences"
+          ],
+          "keywords": [
+            "UCHIME",
+            "chimeric sequences"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Taxonomy was assigned against the SILVA reference database.",
+          "searchable_summary": "assign taxonomy using SILVA database",
+          "inputs": [
+            "non-chimeric sequences"
+          ],
+          "outputs": [
+            "taxonomically assigned sequences"
+          ],
+          "keywords": [
+            "taxonomy assignment",
+            "SILVA database"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "OTU tables created in Mothur were analyzed in R using the package phyloseq.",
+          "searchable_summary": "analyze OTU tables using phyloseq in R",
+          "inputs": [
+            "OTU tables"
+          ],
+          "outputs": [
+            "phyloseq analysis results"
+          ],
+          "keywords": [
+            "OTU tables",
+            "phyloseq",
+            "R"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Non-metric multidimensional scaling (nMDS) was used to visualize the separation of foraminiferal species and bacterial groups.",
+          "searchable_summary": "perform nMDS for visualization",
+          "inputs": [
+            "phyloseq analysis results"
+          ],
+          "outputs": [
+            "nMDS plot"
+          ],
+          "keywords": [
+            "nMDS",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "PERMANOVA test using the adonis2 function in Vegan was used to analyze significant variables.",
+          "searchable_summary": "perform PERMANOVA using adonis2 in Vegan",
+          "inputs": [
+            "phyloseq analysis results"
+          ],
+          "outputs": [
+            "PERMANOVA results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "adonis2",
+            "Vegan"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Alpha diversity estimates were calculated using untrimmed and non-normalized data to calculate Shannon diversity and Pielou's evenness indices.",
+          "searchable_summary": "calculate Shannon diversity and Pielou's evenness indices",
+          "inputs": [
+            "untrimmed data"
+          ],
+          "outputs": [
+            "diversity indices"
+          ],
+          "keywords": [
+            "Shannon diversity",
+            "Pielou's evenness",
+            "alpha diversity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Processing and Extraction of Living Foraminifera",
+      "description": "This method describes the process of slicing sediment cores and extracting living foraminifera for microbiome analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Cores were sliced down to 5 cm depth, first 2 cm with 0.5 cm intervals, and then with 1 cm intervals.",
+          "searchable_summary": "slice sediment cores at specified intervals",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "sliced sediment"
+          ],
+          "keywords": [
+            "sediment slicing",
+            "core processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Subsamples of sediment were taken and stored for bacterial community analysis.",
+          "searchable_summary": "take subsamples for bacterial analysis",
+          "inputs": [
+            "sliced sediment"
+          ],
+          "outputs": [
+            "sediment subsamples"
+          ],
+          "keywords": [
+            "subsampling",
+            "bacterial community"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Living foraminifera were retrieved, sieved, and picked under a microscope.",
+          "searchable_summary": "retrieve and sieve living foraminifera",
+          "inputs": [
+            "sediment subsamples"
+          ],
+          "outputs": [
+            "living foraminifera"
+          ],
+          "keywords": [
+            "foraminifera extraction",
+            "sieving"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Foraminifera were washed and stored in RNAlater solution for DNA preservation.",
+          "searchable_summary": "wash and store foraminifera in RNAlater",
+          "inputs": [
+            "living foraminifera"
+          ],
+          "outputs": [
+            "preserved foraminifera"
+          ],
+          "keywords": [
+            "RNAlater",
+            "DNA preservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Denitrification and Nitrate Pool Measurements",
+      "description": "This method measures denitrification activity and intracellular nitrate quantity in foraminifera.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Foraminifera were pooled and tested for denitrification activity.",
+          "searchable_summary": "pool foraminifera and test for denitrification",
+          "inputs": [
+            "foraminifera specimens"
+          ],
+          "outputs": [
+            "denitrification activity data"
+          ],
+          "keywords": [
+            "denitrification",
+            "foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Nitrate respiration rates were determined using N2O micro electrode.",
+          "searchable_summary": "determine nitrate respiration rates",
+          "inputs": [
+            "foraminifera specimens"
+          ],
+          "outputs": [
+            "nitrate respiration rates"
+          ],
+          "keywords": [
+            "nitrate respiration",
+            "N2O micro electrode"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Intracellular nitrate was extracted and measured using the vanadium (III) chloride reduction method.",
+          "searchable_summary": "extract and measure intracellular nitrate",
+          "inputs": [
+            "foraminifera specimens"
+          ],
+          "outputs": [
+            "nitrate concentration"
+          ],
+          "keywords": [
+            "nitrate extraction",
+            "vanadium chloride method"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Sampling",
+      "description": "This method describes the collection of sediment samples using a mini-multiple corer.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Samples were taken with a mini-multiple corer equipped with four cores.",
+          "searchable_summary": "collect sediment samples using mini-multiple corer",
+          "inputs": [
+            "sediment location"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "mini-multiple corer"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cores were kept cool and transported to the laboratory for further processing.",
+          "searchable_summary": "transport cores to laboratory",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "cores in laboratory"
+          ],
+          "keywords": [
+            "core transport",
+            "laboratory processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pore Water Sampling and Analyses",
+      "description": "This method involves extracting and analyzing pore water from sediment cores for elemental and nutrient content.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Pore water was extracted using Rhizons™ and syringes.",
+          "searchable_summary": "extract pore water using Rhizons and syringes",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "pore water samples"
+          ],
+          "keywords": [
+            "pore water extraction",
+            "Rhizons"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were acidified and stored for elemental analyses.",
+          "searchable_summary": "acidify and store samples for analysis",
+          "inputs": [
+            "pore water samples"
+          ],
+          "outputs": [
+            "acidified samples"
+          ],
+          "keywords": [
+            "sample acidification",
+            "elemental analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Oxygen profiling was performed using an oxygen microsensor.",
+          "searchable_summary": "perform oxygen profiling with microsensor",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "oxygen profiles"
+          ],
+          "keywords": [
+            "oxygen profiling",
+            "microsensor"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Nutrient analyses were carried out using a continuous-flow analyzer.",
+          "searchable_summary": "analyze nutrients with continuous-flow analyzer",
+          "inputs": [
+            "pore water samples"
+          ],
+          "outputs": [
+            "nutrient concentrations"
+          ],
+          "keywords": [
+            "nutrient analysis",
+            "continuous-flow analyzer"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236437401.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

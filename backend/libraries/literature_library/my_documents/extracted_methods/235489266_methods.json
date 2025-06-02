@@ -1,0 +1,176 @@
+{
+  "paper_title": "Aerobiological and Meteorological Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the collected aerobiological and meteorological data, including trend estimation using linear regression and testing statistical dependence between pollen season characteristics and meteorological variables using Spearman correlation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To estimate the increasing or decreasing trends of the aerobiological and meteorological parameters, we performed linear regression analysis.",
+          "searchable_summary": "perform linear regression to estimate trends in time series data",
+          "inputs": [
+            "aerobiological parameters (time series)",
+            "meteorological parameters (time series)"
+          ],
+          "outputs": [
+            "linear regression model results (e.g., slope, p-value, R-squared) for trends"
+          ],
+          "keywords": [
+            "linear regression",
+            "trend analysis",
+            "time series analysis",
+            "statistical modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Spearman correlation analyses were conducted between the MPS characteristics (start, end and length dates of the MPS, pollen integral, pollen peak concentration and pollen peak day) and the meteorological variables (maximum, minimum and average temperatures, rainfall and relative humidity) to test the statistical dependence.",
+          "searchable_summary": "calculate Spearman correlation between two sets of variables",
+          "inputs": [
+            "Main Pollen Season (MPS) characteristics (start date, end date, length, pollen integral, peak concentration, peak day)",
+            "meteorological variables (maximum temperature, minimum temperature, average temperature, rainfall, relative humidity)"
+          ],
+          "outputs": [
+            "Spearman correlation coefficients",
+            "p-values for correlation significance"
+          ],
+          "keywords": [
+            "Spearman correlation",
+            "non-parametric correlation",
+            "statistical dependence",
+            "bivariate analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "For the statistical analyses, IBM SPSS Statistics 24.0 software was applied.",
+          "searchable_summary": "specify software used for statistical analysis",
+          "inputs": [
+            "statistical analysis tasks (linear regression, Spearman correlation)"
+          ],
+          "outputs": [
+            "software used (IBM SPSS Statistics 24.0)"
+          ],
+          "keywords": [
+            "SPSS",
+            "statistical software",
+            "data analysis tool"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Airborne Pollen Data Collection and Processing",
+      "description": "Methodology for collecting airborne pollen data using volumetric traps, processing samples according to a standardized protocol, calculating daily pollen concentrations and Annual Pollen Integral (API), and determining Main Pollen Season (MPS) parameters using specialized software and a specific modeling approach.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Airborne pollen was collected using Lanzoni VPPS-2000 volumetric traps [32], from 1995 to 2019 in Vigo and Ourense (Northwest Iberian Peninsula) and from 2003 to 2019 in Toledo (central Iberian Peninsula).",
+          "searchable_summary": "collect airborne pollen data using volumetric traps over specified periods and locations",
+          "inputs": [
+            "Lanzoni VPPS-2000 volumetric traps",
+            "study locations (Vigo, Ourense, Toledo)",
+            "time periods (1995-2019, 2003-2019)"
+          ],
+          "outputs": [
+            "raw pollen samples collected on filters or tapes"
+          ],
+          "keywords": [
+            "pollen collection",
+            "aerobiology",
+            "volumetric trap",
+            "Lanzoni VPPS-2000",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The samples obtained were processed following the standardized methodology of the Spanish Aerobiological Network [33].",
+          "searchable_summary": "process raw pollen samples according to a standard methodology",
+          "inputs": [
+            "raw pollen samples",
+            "Spanish Aerobiological Network standard methodology"
+          ],
+          "outputs": [
+            "processed pollen samples (e.g., prepared slides or filters ready for analysis)"
+          ],
+          "keywords": [
+            "pollen processing",
+            "sample preparation",
+            "standard methodology",
+            "aerobiology network"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Pollen data were expressed as pollen grains per cubic meter of air for the Annual Pollen Integral (API) and the daily pollen concentrations [34].",
+          "searchable_summary": "calculate daily pollen concentration and annual pollen integral from processed data",
+          "inputs": [
+            "processed pollen data (e.g., counts from microscopy)",
+            "air volume sampled by the trap"
+          ],
+          "outputs": [
+            "daily pollen concentrations (grains/m^3)",
+            "Annual Pollen Integral (API)"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "Annual Pollen Integral",
+            "data normalization",
+            "aerobiological metrics",
+            "data calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To calculate the Main Pollen Season (MPS) parameters, we used the AeRobiology software package [35].",
+          "searchable_summary": "calculate main pollen season parameters using specified software",
+          "inputs": [
+            "daily pollen concentrations",
+            "AeRobiology software package"
+          ],
+          "outputs": [
+            "Main Pollen Season (MPS) parameters (start date, end date, length, pollen integral within MPS, peak concentration, peak day)"
+          ],
+          "keywords": [
+            "Main Pollen Season",
+            "MPS calculation",
+            "aerobiology software",
+            "AeRobiology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The MPS was calculated using a pollen emission model that fits a nonlinear logistic regression model to the values of the accumulated sum of daily airborne pollen concentration sampled over a year [36,37].",
+          "searchable_summary": "fit a nonlinear logistic regression model to accumulated daily pollen sum to determine MPS",
+          "inputs": [
+            "accumulated sum of daily airborne pollen concentration over a year"
+          ],
+          "outputs": [
+            "Main Pollen Season (MPS) parameters (derived from the fitted model)"
+          ],
+          "keywords": [
+            "pollen emission model",
+            "nonlinear regression",
+            "logistic regression",
+            "accumulated pollen sum",
+            "MPS calculation",
+            "statistical modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235489266.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

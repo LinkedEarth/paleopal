@@ -1,0 +1,257 @@
+{
+  "paper_title": "Inferred Title or Filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Null Model Analysis",
+      "description": "This method calculates climate matching (l) and climate filtering (d) metrics using a null model to compare how taxa match their climate relative to expectations from sampling a regional pool.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate l and d metrics using a null model.",
+          "searchable_summary": "calculate climate matching and filtering metrics using null model",
+          "inputs": [
+            "assemblage climate data",
+            "regional pool data"
+          ],
+          "outputs": [
+            "l metric",
+            "d metric"
+          ],
+          "keywords": [
+            "climate matching",
+            "climate filtering",
+            "null model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Define D as the median distance between assemblage-inferred climate and random samples of niche values from taxa present in the assemblage.",
+          "searchable_summary": "calculate median distance for assemblage-inferred climate",
+          "inputs": [
+            "assemblage-inferred climate",
+            "niche values"
+          ],
+          "outputs": [
+            "D metric"
+          ],
+          "keywords": [
+            "median distance",
+            "assemblage-inferred climate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Define L as the vector between assemblage-inferred climate and observed climate.",
+          "searchable_summary": "calculate vector between inferred and observed climate",
+          "inputs": [
+            "assemblage-inferred climate",
+            "observed climate"
+          ],
+          "outputs": [
+            "L metric"
+          ],
+          "keywords": [
+            "vector calculation",
+            "assemblage-inferred climate",
+            "observed climate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Generate a null distribution of D and L by sampling assemblages of equal richness from the regional pool.",
+          "searchable_summary": "generate null distribution for D and L metrics",
+          "inputs": [
+            "regional pool data",
+            "assemblage richness"
+          ],
+          "outputs": [
+            "null distribution of D",
+            "null distribution of L"
+          ],
+          "keywords": [
+            "null distribution",
+            "sampling",
+            "assemblage richness"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Obtain standardized climate deviations (d and l) by comparing observed values of D and L to those generated under the regional expectation via z-transformation.",
+          "searchable_summary": "standardize climate deviations using z-transformation",
+          "inputs": [
+            "observed D and L values",
+            "null distribution"
+          ],
+          "outputs": [
+            "standardized d",
+            "standardized l"
+          ],
+          "keywords": [
+            "z-transformation",
+            "standardization",
+            "climate deviation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Regional Pool Analysis",
+      "description": "This method defines two regional pools (basic and rare) to test the influence of common taxa on assembly signals and climate matching.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Define basic and rare regional pools to test the influence of common taxa.",
+          "searchable_summary": "define basic and rare regional pools",
+          "inputs": [
+            "taxa data"
+          ],
+          "outputs": [
+            "basic regional pool",
+            "rare regional pool"
+          ],
+          "keywords": [
+            "regional pool",
+            "common taxa",
+            "assembly signals"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compare assemblages from basic and rare pools for climate matching over the past 21,000 years.",
+          "searchable_summary": "compare climate matching in basic and rare pools",
+          "inputs": [
+            "basic pool assemblages",
+            "rare pool assemblages"
+          ],
+          "outputs": [
+            "climate matching comparison"
+          ],
+          "keywords": [
+            "climate matching",
+            "assemblage comparison",
+            "temporal analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze the influence of broad-leaved taxa on climate filtering and permissiveness.",
+          "searchable_summary": "analyze broad-leaved taxa influence on climate filtering",
+          "inputs": [
+            "broad-leaved taxa data",
+            "climate data"
+          ],
+          "outputs": [
+            "climate filtering analysis"
+          ],
+          "keywords": [
+            "broad-leaved taxa",
+            "climate filtering",
+            "permissiveness"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Occurrence and Climate Data Collection",
+      "description": "This method involves obtaining and processing pollen assemblage composition data and climate data for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain pollen assemblage composition data from Maguire et al. (2016).",
+          "searchable_summary": "fetch pollen assemblage data from Maguire et al. (2016)",
+          "inputs": [
+            "Maguire et al. (2016)"
+          ],
+          "outputs": [
+            "pollen assemblage data"
+          ],
+          "keywords": [
+            "pollen data",
+            "data collection",
+            "Maguire et al."
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Process pollen data to identify count data to at least the genus level.",
+          "searchable_summary": "process pollen data to genus level",
+          "inputs": [
+            "pollen assemblage data"
+          ],
+          "outputs": [
+            "genus-level pollen data"
+          ],
+          "keywords": [
+            "data processing",
+            "genus level",
+            "pollen data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate the relative abundance of each genus/taxon relative to the total pollen sum.",
+          "searchable_summary": "calculate relative abundance of pollen taxa",
+          "inputs": [
+            "genus-level pollen data"
+          ],
+          "outputs": [
+            "relative abundance data"
+          ],
+          "keywords": [
+            "relative abundance",
+            "pollen taxa",
+            "data calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Linearly interpolate relative abundance data to estimate abundance at 500-year intervals.",
+          "searchable_summary": "interpolate abundance data to 500-year intervals",
+          "inputs": [
+            "relative abundance data"
+          ],
+          "outputs": [
+            "interpolated abundance data"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "abundance estimation",
+            "temporal intervals"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Apply a taxon-and site-specific variable threshold corresponding to 5% of the maximum abundance recorded for each pollen type.",
+          "searchable_summary": "apply variable threshold to pollen abundance data",
+          "inputs": [
+            "interpolated abundance data"
+          ],
+          "outputs": [
+            "thresholded abundance data"
+          ],
+          "keywords": [
+            "variable threshold",
+            "pollen abundance",
+            "data filtering"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/203887954.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

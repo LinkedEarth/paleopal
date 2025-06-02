@@ -1,0 +1,127 @@
+{
+  "paper_title": "Evaluating Alternative Metacommunity Hypotheses for Diatoms in the McMurdo Dry Valleys Using Simulations and Remote Sensing Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "MCSim Metacommunity Model Simulation",
+      "description": "The MCSim metacommunity model is a spatially explicit, zero-sum lottery model based on Hubbell's neutral model, modified to include a dispersal kernel and an environmental filter. It simulates metacommunity dynamics over generations to study diatom community composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the dispersal kernel W(r) as the probability of a successful dispersal event, where r is the distance between source and sink patches, and w is the slope of the dispersal kernel.",
+          "searchable_summary": "define dispersal kernel function for metacommunity model",
+          "inputs": [
+            "distance r",
+            "slope w"
+          ],
+          "outputs": [
+            "dispersal probability W(r)"
+          ],
+          "keywords": [
+            "dispersal kernel",
+            "metacommunity model",
+            "probability function"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calculate the recruitment probabilities using the environmental filter λ(E), which re-weights taxon abundance based on local environmental state E, taxon's optimal value µ, niche-breadth σ, and constant C niche.",
+          "searchable_summary": "calculate recruitment probabilities with environmental filter",
+          "inputs": [
+            "local environmental state E",
+            "optimal value µ",
+            "niche-breadth σ",
+            "constant C niche"
+          ],
+          "outputs": [
+            "re-weighted taxon abundance"
+          ],
+          "keywords": [
+            "environmental filter",
+            "recruitment probability",
+            "niche model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Simulate metacommunity dynamics over generations using initial taxon abundances and patch attributes, allowing J M lottery recruitment events per time step.",
+          "searchable_summary": "simulate metacommunity dynamics over generations",
+          "inputs": [
+            "initial taxon abundances",
+            "patch attributes"
+          ],
+          "outputs": [
+            "metacommunity dynamics over time"
+          ],
+          "keywords": [
+            "metacommunity dynamics",
+            "lottery model",
+            "simulation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Incorporating Environmental Filtering and Dispersal Traits",
+      "description": "This method involves refining the modeling approach to test predictions about community composition by incorporating environmental filtering using chlorophyll-a concentrations and considering diatom functional traits for dispersal abilities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Implement environmental filtering in MCSim using chlorophyll-a concentrations as a proxy for local stream harshness.",
+          "searchable_summary": "use chlorophyll-a as proxy for environmental filtering",
+          "inputs": [
+            "chlorophyll-a concentrations"
+          ],
+          "outputs": [
+            "filtered community composition"
+          ],
+          "keywords": [
+            "environmental filtering",
+            "chlorophyll-a",
+            "proxy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use empirically observed diatom occurrence data in the OMI analysis to determine habitat preferences for each taxon in the environmental filtering process.",
+          "searchable_summary": "determine habitat preferences using OMI analysis",
+          "inputs": [
+            "diatom occurrence data"
+          ],
+          "outputs": [
+            "habitat preferences"
+          ],
+          "keywords": [
+            "OMI analysis",
+            "habitat preferences",
+            "diatom data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Incorporate diatom functional traits to provide variation in dispersal abilities in the next generation of metacommunity models.",
+          "searchable_summary": "incorporate functional traits for dispersal variation",
+          "inputs": [
+            "diatom functional traits"
+          ],
+          "outputs": [
+            "dispersal variation in models"
+          ],
+          "keywords": [
+            "functional traits",
+            "dispersal abilities",
+            "metacommunity models"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221910578.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

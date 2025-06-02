@@ -1,0 +1,195 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Analysis and Molecular Diversity",
+      "description": "This method involves checking and aligning DNA sequences, combining markers, and estimating genetic variability to understand the molecular diversity of the samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "For each marker, both forward and reverse strands were checked using Chromas and aligned manually in GeneDoc.",
+          "searchable_summary": "Check and align DNA sequences using Chromas and GeneDoc",
+          "inputs": [
+            "DNA marker sequences"
+          ],
+          "outputs": [
+            "aligned DNA sequences"
+          ],
+          "keywords": [
+            "DNA alignment",
+            "Chromas",
+            "GeneDoc"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The two markers were combined in a single concatenated set.",
+          "searchable_summary": "Concatenate two DNA markers into a single set",
+          "inputs": [
+            "aligned DNA sequences"
+          ],
+          "outputs": [
+            "concatenated DNA sequence set"
+          ],
+          "keywords": [
+            "concatenation",
+            "DNA markers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All insertion/deletion events (indels) that involved poly A/T were eliminated from the analyses.",
+          "searchable_summary": "Remove poly A/T indels from DNA sequence analysis",
+          "inputs": [
+            "concatenated DNA sequence set"
+          ],
+          "outputs": [
+            "filtered DNA sequence set"
+          ],
+          "keywords": [
+            "indels",
+            "poly A/T",
+            "DNA filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Contiguous indels of more than one base pair (bp) were treated as one mutational event.",
+          "searchable_summary": "Treat contiguous indels as single mutational events",
+          "inputs": [
+            "filtered DNA sequence set"
+          ],
+          "outputs": [
+            "processed DNA sequence set"
+          ],
+          "keywords": [
+            "indels",
+            "mutational events"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Descriptive statistics of genetic variability, such as haplotype (h) and nucleotide (π) diversities, were estimated in Arlequin 3.5.",
+          "searchable_summary": "Estimate genetic variability using Arlequin 3.5",
+          "inputs": [
+            "processed DNA sequence set"
+          ],
+          "outputs": [
+            "genetic variability statistics"
+          ],
+          "keywords": [
+            "genetic variability",
+            "haplotype diversity",
+            "nucleotide diversity",
+            "Arlequin"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Population Structure and Spatial Genetic Analysis",
+      "description": "This method analyzes the genetic variance among and within populations, and explores the spatial genetic structure using AMOVA, Mantel test, and Samova analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A two-level AMOVA (i.e., subpopulations vs. the total population) resulted in an estimate of 66% of the total genetic variance found among populations.",
+          "searchable_summary": "Perform two-level AMOVA to estimate genetic variance",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "AMOVA results"
+          ],
+          "keywords": [
+            "AMOVA",
+            "genetic variance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The Mantel test indicated a non-significant association between genetic and geographic distances for populations.",
+          "searchable_summary": "Conduct Mantel test for genetic and geographic distance association",
+          "inputs": [
+            "genetic data",
+            "geographic data"
+          ],
+          "outputs": [
+            "Mantel test results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "genetic distance",
+            "geographic distance"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The Samova analysis suggested that three groups (K = 3) maximize the genetic structure in the among-group level.",
+          "searchable_summary": "Perform Samova analysis to determine genetic structure groups",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "Samova analysis results"
+          ],
+          "keywords": [
+            "Samova",
+            "genetic structure",
+            "group analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Discrete Phylogeographical Analysis",
+      "description": "This method models geography through a discrete phylogeographic diffusion model and uses Bayesian stochastic search variable selection (BSSVS) in Beast to classify sampling locations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "For the phylogeographic reconstruction, we modeled geography through the discrete phylogeographic diffusion model and used the Bayesian stochastic search variable selection (BSSVS) procedure in Beast.",
+          "searchable_summary": "Model geography using discrete phylogeographic diffusion and BSSVS in Beast",
+          "inputs": [
+            "geographic data",
+            "genetic data"
+          ],
+          "outputs": [
+            "phylogeographic model"
+          ],
+          "keywords": [
+            "phylogeographic diffusion",
+            "BSSVS",
+            "Beast"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We classified sampling locations in four discrete states: southern coastal plain (Southern), northern coastal plain (Northern)...",
+          "searchable_summary": "Classify sampling locations into discrete geographic states",
+          "inputs": [
+            "sampling location data"
+          ],
+          "outputs": [
+            "classified geographic states"
+          ],
+          "keywords": [
+            "geographic classification",
+            "sampling locations"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/255793101.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

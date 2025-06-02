@@ -1,0 +1,224 @@
+{
+  "paper_title": "High-resolution XRF scanning and age-depth model",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "High-resolution XRF Core Scanning",
+      "description": "Process for obtaining high-resolution Sr/Ca records from split sediment core surfaces (M1-A and M2) using X-ray fluorescence (XRF) scanning at 1-cm and 2-mm resolutions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The Sr/Ca records were obtained by high-resolution XRF core scanning at split core surfaces in 1-cm and 2-mm resolutions.",
+          "searchable_summary": "Perform high-resolution XRF core scanning on sediment cores at specified resolutions to obtain Sr/Ca records.",
+          "inputs": [
+            "Split sediment cores (M1-A, M2)",
+            "XRF scanner",
+            "Desired resolutions (1-cm, 2-mm)"
+          ],
+          "outputs": [
+            "Sr/Ca records at 1-cm and 2-mm resolutions"
+          ],
+          "keywords": [
+            "XRF scanning",
+            "core scanning",
+            "sediment core",
+            "Sr/Ca",
+            "elemental analysis",
+            "high-resolution",
+            "1-cm resolution",
+            "2-mm resolution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sr/Ca Data Comparison for Robustness",
+      "description": "Comparing the obtained Sr/Ca data and ratios between the two investigated cores (M1-A and M2) to confirm robustness of our record and to exclude any potential analytical artefacts.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We compared the Sr/Ca data and ratios between the two investigated cores (M1-A and M2) to confirm robustness of our record and to exclude any potential analytical artefacts.",
+          "searchable_summary": "Compare Sr/Ca data and ratios between two sediment core datasets to assess robustness and identify artifacts.",
+          "inputs": [
+            "Sr/Ca records from Core M1-A",
+            "Sr/Ca records from Core M2"
+          ],
+          "outputs": [
+            "Comparison results (data and ratios)",
+            "Assessment of data robustness",
+            "Identification of potential analytical artefacts"
+          ],
+          "keywords": [
+            "data comparison",
+            "data validation",
+            "quality control",
+            "Sr/Ca",
+            "ratio comparison",
+            "analytical artefacts",
+            "robustness"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age-Depth Model Construction for Core M2",
+      "description": "Building a geochronological age-depth model for sediment Core M2 based on multiple dating methods including a radiocarbon date, tephra layer correlations, and a correlated lithological boundary date.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The geochronological age of Core M2 is based on one plant remain sample, which was dated by radiocarbon methodology.",
+          "searchable_summary": "Incorporate a radiocarbon date from a plant remain sample into the age model.",
+          "inputs": [
+            "Radiocarbon date (age and depth) from Core M2 plant remain"
+          ],
+          "outputs": [
+            "Datum point for age-depth model"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "age datum",
+            "age-depth model",
+            "geochronology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Additional three datums were included in the age-depth model of this core. Two of these ages are based on visible tephra layers correlated to the known volcanic eruptions previously recognized in Core M1-A 26 .",
+          "searchable_summary": "Incorporate two tephra layer dates correlated from another core into the age model.",
+          "inputs": [
+            "Dates and depths of two tephra layers in Core M2",
+            "Correlation information to Core M1-A",
+            "Known volcanic eruption dates"
+          ],
+          "outputs": [
+            "Two datum points for age-depth model"
+          ],
+          "keywords": [
+            "tephrochronology",
+            "tephra dating",
+            "age datum",
+            "age-depth model",
+            "stratigraphic correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The third date corresponds to a time of marine intrusion into the lake, which is marked by a sharp boundary between lithological units three and four ( Figure 2) in both cores. It was radiometrically dated in Core M1-A 26 .",
+          "searchable_summary": "Incorporate a date from a lithological boundary correlated from another core into the age model.",
+          "inputs": [
+            "Depth of the marine intrusion boundary in Core M2",
+            "Correlation information to Core M1-A",
+            "Radiometric date from Core M1-A for the boundary"
+          ],
+          "outputs": [
+            "One datum point for age-depth model"
+          ],
+          "keywords": [
+            "stratigraphic dating",
+            "lithological boundary",
+            "age datum",
+            "age-depth model",
+            "radiometric dating",
+            "stratigraphic correlation",
+            "Figure 2"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The geochronological age of Core M2 is based on one plant remain sample... Additional three datums were included in the age-depth model of this core.",
+          "searchable_summary": "Build an age-depth model for Core M2 using the collected datum points.",
+          "inputs": [
+            "Datum points (age and depth) from steps 1-3"
+          ],
+          "outputs": [
+            "Age-depth model for Core M2"
+          ],
+          "keywords": [
+            "age-depth model",
+            "geochronology",
+            "sediment dating",
+            "modeling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Date Calibration",
+      "description": "Calibration of individual radiocarbon dates to calendar ages using the R package rbacon.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Individual radiocarbon dates were calibrated using the R package rbacon 33 .",
+          "searchable_summary": "Calibrate radiocarbon dates using the rbacon R package.",
+          "inputs": [
+            "Individual radiocarbon dates (e.g., 14C age, error)"
+          ],
+          "outputs": [
+            "Calibrated calendar ages"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "date calibration",
+            "R package",
+            "rbacon",
+            "geochronology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Visual Comparison of Sr/Ca Features",
+      "description": "Visual comparison of major peaks and throughs in the Sr/Ca records from Core M1-A and Core M2 (Figure 3) to assess similarity despite lower resolution in Core M2.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Despite lower resolution of the Core M2 record it is evident that major peaks and throughs in Sr/Ca are well presented in both datasets ( Figure 3).",
+          "searchable_summary": "Plot and visually inspect Sr/Ca time series data from two cores.",
+          "inputs": [
+            "Sr/Ca records from Core M1-A",
+            "Sr/Ca records from Core M2"
+          ],
+          "outputs": [
+            "Visual representation of Sr/Ca records (e.g., plot)"
+          ],
+          "keywords": [
+            "data visualization",
+            "time series plot",
+            "Sr/Ca",
+            "visual inspection",
+            "Figure 3"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Despite lower resolution of the Core M2 record it is evident that major peaks and throughs in Sr/Ca are well presented in both datasets ( Figure 3).",
+          "searchable_summary": "Identify and compare major peaks and troughs in the two Sr/Ca records.",
+          "inputs": [
+            "Visual representation of Sr/Ca records"
+          ],
+          "outputs": [
+            "Observation of similarity in major features (peaks, throughs)"
+          ],
+          "keywords": [
+            "peak detection",
+            "trough detection",
+            "feature comparison",
+            "time series analysis",
+            "Sr/Ca"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234612097.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

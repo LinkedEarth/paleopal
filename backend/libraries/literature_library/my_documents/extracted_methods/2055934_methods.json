@@ -1,0 +1,268 @@
+{
+  "paper_title": "Inferred from section titles",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Cluster Analysis of Co-expressed DEGs",
+      "description": "Analysis of expression patterns of 125 co-expressed differentially expressed genes (DEGs) in CK-VS-LT and CK-VS-NO libraries using cluster analysis to classify genes into groups based on similar expression patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform a cluster analysis of the gene expression patterns between CK-VS-LT and CK-VS-NO libraries for the 125 co-expressed DEGs.",
+          "searchable_summary": "perform cluster analysis on gene expression data",
+          "inputs": [
+            "Expression data for 125 co-expressed DEGs",
+            "List of 125 co-expressed DEGs (Additional file 8: Table S7)"
+          ],
+          "outputs": [
+            "Clustering results of gene expression patterns"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "gene expression",
+            "DEGs",
+            "bioinformatics",
+            "transcriptomics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Classify these genes into three groups based on the cluster analysis results.",
+          "searchable_summary": "classify genes into groups based on clustering",
+          "inputs": [
+            "Clustering results from step 1"
+          ],
+          "outputs": [
+            "Grouped list of 125 co-expressed DEGs (e.g., Group 1, Group 3)"
+          ],
+          "keywords": [
+            "gene grouping",
+            "classification",
+            "clustering results"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "De Novo Transcriptome Assembly and Data Filtering",
+      "description": "Processing raw sequencing reads to remove low-quality data and adapters, assembling clean reads into unigenes and homologous transcript clusters, and annotating the assembled sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Remove dirty reads containing unknown or low-quality bases and adapters from raw sequencing reads.",
+          "searchable_summary": "filter raw sequencing reads for quality and adapters",
+          "inputs": [
+            "Raw sequencing reads"
+          ],
+          "outputs": [
+            "Reads with adapters and low-quality bases removed"
+          ],
+          "keywords": [
+            "read filtering",
+            "adapter trimming",
+            "quality control",
+            "sequencing data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Remove reads with more than 5 % unknown nucleotides.",
+          "searchable_summary": "filter sequencing reads based on unknown nucleotide percentage",
+          "inputs": [
+            "Reads from step 1"
+          ],
+          "outputs": [
+            "Reads with <= 5% unknown nucleotides"
+          ],
+          "keywords": [
+            "read filtering",
+            "unknown nucleotides",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Remove low-quality reads (>20 % read rate with a quality value ≤ 10).",
+          "searchable_summary": "filter sequencing reads based on quality score",
+          "inputs": [
+            "Reads from step 2"
+          ],
+          "outputs": [
+            "Clean reads for subsequent analysis"
+          ],
+          "keywords": [
+            "read filtering",
+            "quality score",
+            "quality control",
+            "Phred score"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Use Trinity software to assemble clean reads into unigenes.",
+          "searchable_summary": "perform de novo transcriptome assembly using Trinity",
+          "inputs": [
+            "Clean reads from step 3"
+          ],
+          "outputs": [
+            "Unigenes (assembled sequences)"
+          ],
+          "keywords": [
+            "de novo assembly",
+            "transcriptome assembly",
+            "Trinity",
+            "unigenes",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Use TGICL software to further account for splicing and redundancy, assembling unigenes into homologous transcript clusters.",
+          "searchable_summary": "cluster unigenes and remove redundancy using TGICL",
+          "inputs": [
+            "Unigenes from step 4"
+          ],
+          "outputs": [
+            "Homologous transcript clusters (CL sequences) and singletons (unigenes)"
+          ],
+          "keywords": [
+            "clustering",
+            "redundancy removal",
+            "splicing",
+            "TGICL",
+            "transcriptome assembly"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Apply the same process (steps 1-5) to all three samples to obtain the longest possible non-redundant unigenes.",
+          "searchable_summary": "process multiple samples and obtain non-redundant unigenes",
+          "inputs": [
+            "Raw sequencing reads from all three samples"
+          ],
+          "outputs": [
+            "Longest possible non-redundant unigenes across all samples"
+          ],
+          "keywords": [
+            "multi-sample processing",
+            "non-redundant sequences",
+            "transcriptome assembly"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Align unigenes by BLASTX (E-value < 0.00001) to protein databases (in order of priority) NR, Swiss-Prot, KEGG and COG.",
+          "searchable_summary": "align unigenes to protein databases using BLASTX",
+          "inputs": [
+            "Non-redundant unigenes from step 6",
+            "NR protein database",
+            "Swiss-Prot protein database",
+            "KEGG protein database",
+            "COG protein database"
+          ],
+          "outputs": [
+            "BLASTX alignment results (hits, E-values)"
+          ],
+          "keywords": [
+            "BLASTX",
+            "sequence alignment",
+            "protein databases",
+            "annotation",
+            "bioinformatics",
+            "NR",
+            "Swiss-Prot",
+            "KEGG",
+            "COG"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Use the proteins showing the highest ranks in the results of BLAST search to determine the coding region sequences of the unigenes.",
+          "searchable_summary": "determine coding region sequences based on best BLAST hits",
+          "inputs": [
+            "BLASTX alignment results from step 7",
+            "Protein sequences from databases"
+          ],
+          "outputs": [
+            "Predicted coding region sequences (CDS) for unigenes"
+          ],
+          "keywords": [
+            "CDS prediction",
+            "coding region",
+            "annotation",
+            "BLAST results"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Use ESTS software to determine the sequence direction, if a unigene could not align with any of the above databases.",
+          "searchable_summary": "determine sequence direction using ESTS for unannotated unigenes",
+          "inputs": [
+            "Unigenes that did not align to protein databases in step 7",
+            "ESTS software"
+          ],
+          "outputs": [
+            "Sequence direction (5' to 3') for unannotated unigenes"
+          ],
+          "keywords": [
+            "sequence direction",
+            "ESTS",
+            "annotation",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Produce the nucleotide sequence in the direction from 5' to 3' and the amino sequence of the predicted coding region.",
+          "searchable_summary": "generate nucleotide and amino acid sequences from predicted CDS",
+          "inputs": [
+            "Predicted coding region sequences from step 8",
+            "Sequence direction from step 9 (if applicable)"
+          ],
+          "outputs": [
+            "Nucleotide sequences (5' to 3')",
+            "Amino acid sequences of predicted proteins"
+          ],
+          "keywords": [
+            "nucleotide sequence",
+            "amino acid sequence",
+            "CDS translation",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_fetch",
+          "description": "Deposit all sequencing data at the sequence read archive of NCBI (Accession number SRR3270364, SRR3270376, SRR3270829, SRR3270928, SRR3270974, SRR3270993, SRR3270997, SRR3271001 and SRR3271002).",
+          "searchable_summary": "deposit sequencing data to NCBI SRA",
+          "inputs": [
+            "Raw sequencing data from all samples"
+          ],
+          "outputs": [
+            "NCBI SRA accession numbers"
+          ],
+          "keywords": [
+            "data deposition",
+            "NCBI SRA",
+            "sequencing data",
+            "data sharing"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/2055934.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

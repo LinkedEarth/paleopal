@@ -1,0 +1,181 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Data Processing and Alignment",
+      "description": "This method involves editing, assembling, and aligning raw sequences to check for stop codons, ensuring data quality for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw sequences were edited and assembled in SeqMan (DNASTAR).",
+          "searchable_summary": "edit and assemble raw sequences using SeqMan",
+          "inputs": [
+            "raw sequences"
+          ],
+          "outputs": [
+            "assembled sequences"
+          ],
+          "keywords": [
+            "sequence editing",
+            "SeqMan",
+            "DNASTAR"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequences were aligned using MUSCLE implemented in MEGA X to check stop codons.",
+          "searchable_summary": "align sequences using MUSCLE in MEGA X",
+          "inputs": [
+            "assembled sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MUSCLE",
+            "MEGA X"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Public Data Integration",
+      "description": "This method involves integrating public records of Tanytarsus from the Barcode of Life Data System (BOLD) into the current database.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Search available public Tanytarsus records from China in the Barcode of Life Data System (BOLD).",
+          "searchable_summary": "fetch Tanytarsus records from BOLD",
+          "inputs": [
+            "BOLD database"
+          ],
+          "outputs": [
+            "Tanytarsus records"
+          ],
+          "keywords": [
+            "BOLD",
+            "data integration",
+            "Tanytarsus"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Assign 298 records with COI barcode of Chinese Tanytarsus to the present database.",
+          "searchable_summary": "assign COI barcode records to database",
+          "inputs": [
+            "Tanytarsus records"
+          ],
+          "outputs": [
+            "updated database"
+          ],
+          "keywords": [
+            "COI barcode",
+            "data assignment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Distribution Mapping",
+      "description": "This method creates a distribution map of Tanytarsus records using R packages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Create a distribution map of the 298 records from China using the packages 'ggplot2' and 'mapdata' with R (version 3.5.2).",
+          "searchable_summary": "generate distribution map using ggplot2 and mapdata in R",
+          "inputs": [
+            "Tanytarsus records",
+            "R packages"
+          ],
+          "outputs": [
+            "distribution map"
+          ],
+          "keywords": [
+            "distribution map",
+            "ggplot2",
+            "mapdata",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Barcode Gap Analysis",
+      "description": "This method calculates sequence divergences using the Barcode Gap Analysis tool on BOLD to assess genetic distances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Use the 'Barcode Gap Analysis' tool on BOLD to calculate sequence divergences for the present dataset.",
+          "searchable_summary": "calculate sequence divergences using Barcode Gap Analysis on BOLD",
+          "inputs": [
+            "present dataset"
+          ],
+          "outputs": [
+            "sequence divergences"
+          ],
+          "keywords": [
+            "Barcode Gap Analysis",
+            "sequence divergence",
+            "BOLD"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Barcode Index Number (BIN) System Application",
+      "description": "This method applies the BIN system on BOLD to cluster DNA barcodes and generate OTUs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Apply all 298 barcode sequences to the Barcode Index Number (BIN) system on BOLD.",
+          "searchable_summary": "apply barcode sequences to BIN system on BOLD",
+          "inputs": [
+            "barcode sequences"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "BIN system",
+            "OTUs",
+            "BOLD"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Neighbour Joining Tree Construction",
+      "description": "This method constructs a neighbour joining tree using the Kimura 2-Parameter model to analyze genetic relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Construct a neighbour joining (NJ) tree based on the aligned dataset using the Kimura 2-Parameter (K2P) model with 1,000 bootstrap replicates and pairwise deletion in MEGA X.",
+          "searchable_summary": "construct NJ tree using K2P model in MEGA X",
+          "inputs": [
+            "aligned dataset"
+          ],
+          "outputs": [
+            "NJ tree"
+          ],
+          "keywords": [
+            "neighbour joining tree",
+            "Kimura 2-Parameter",
+            "MEGA X"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/230600674.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -4,15 +4,19 @@ Workflow Manager Agent
 This agent plans multi-step workflows and coordinates execution by delegating
 steps to specialised agents (e.g. `sparql`, `code`).
 
-Current implementation keeps logic lightweight and heuristic-based – enough to
-support the demos in `multi_agent_integration_demo.py` and to illustrate the
-architecture described in the discussion.
+Enhanced version uses LLM-based planning with context from:
+1. Notebook workflow library (high weight) 
+2. Literature methods library (lower weight, loose guidance)
+3. Paleoclimatology domain knowledge
 """
 
 from __future__ import annotations
 
 import logging
 import uuid
+import json
+import os
+from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 from pydantic import Field, BaseModel
@@ -25,9 +29,17 @@ from agents.base_agent import (
     AgentStatus,
 )
 from services.agent_registry import agent_registry
+from services.search_integration_service import search_service
+from services.service_manager import service_manager
+
+# Import the utility function to handle custom agent creation
+from utils.agent_utils import route_agent_request_with_custom_config
 
 logger = logging.getLogger(__name__)
 
+# Workflow storage directory
+WORKFLOW_STORE_DIR = Path("data/workflows")
+WORKFLOW_STORE_FILE = WORKFLOW_STORE_DIR / "workflow_plans.json"
 
 class WorkflowPlan(BaseModel):
     """Model for a workflow plan returned by the *plan_workflow* capability."""
@@ -43,24 +55,30 @@ class WorkflowPlan(BaseModel):
 
 
 class WorkflowManagerAgent(BaseAgent):
-    """Simple workflow-manager agent that plans & executes notebook workflows."""
+    """Advanced workflow-manager agent that plans & executes notebook workflows using LLM and contextual search."""
 
     def __init__(self):
         super().__init__(
             agent_type="workflow_manager",
             name="Workflow Manager Agent",
-            description="Breaks down user requests into ordered steps and calls specialised agents.",
+            description="Breaks down user requests into ordered steps using LLM with notebook and literature context.",
         )
 
         # capability: plan_workflow
         self.register_capability(
             AgentCapability(
                 name="plan_workflow",
-                description="Analyse user request and produce an ordered execution plan.",
+                description="Analyse user request with contextual search and produce an LLM-generated execution plan.",
                 input_schema={
                     "type": "object",
                     "properties": {
                         "user_input": {"type": "string"},
+                        "llm_provider": {
+                            "type": "string", 
+                            "enum": ["openai", "anthropic", "google", "xai", "ollama"], 
+                            "default": "openai"
+                        },
+                        "model": {"type": "string", "default": None}
                     },
                     "required": ["user_input"],
                 },
@@ -106,6 +124,9 @@ class WorkflowManagerAgent(BaseAgent):
 
         # Internal store for workflow plans keyed by workflow_id
         self._workflow_store: Dict[str, WorkflowPlan] = {}
+        
+        # Load existing workflows from disk on startup
+        self._load_workflows()
 
     # ---------------------------------------------------------------------
     # Core request handler
@@ -142,14 +163,193 @@ class WorkflowManagerAgent(BaseAgent):
         pass  # not used for now
 
     # ------------------------------------------------------------------
-    # Capability implementations
+    # Enhanced LLM-based planning
     # ------------------------------------------------------------------
 
     async def _handle_plan_workflow(self, request: AgentRequest) -> AgentResponse:
-        """Generate a naive plan based on heuristics (placeholder for LLM)."""
+        """Generate an LLM-based plan using contextual search for guidance."""
         user_request = request.user_input.strip()
         workflow_id = str(uuid.uuid4())
 
+        try:
+            # Get context from notebook workflows and literature methods
+            logger.info("Searching for contextual guidance for workflow planning...")
+            context = await search_service.get_context_for_planning(user_request)
+            
+            # Format context for LLM
+            context_text = search_service.format_context_for_llm(context)
+            
+            # Create LLM prompt for workflow planning
+            planning_prompt = self._create_planning_prompt(user_request, context_text)
+            
+            # Get LLM response using service manager
+            try:
+                # Get LLM provider from service manager (same pattern as code generation agent)
+                llm_provider = getattr(request, 'llm_provider', None) or (request.metadata.get('llm_provider') if request.metadata else None) or 'openai'
+                model = getattr(request, 'model', None) or (request.metadata.get('model') if request.metadata else None)
+                
+                llm = service_manager.get_llm_provider(
+                    provider=llm_provider,
+                    model=model
+                )
+                
+                # Generate response using LangChain model with error handling
+                llm_response = llm._call(planning_prompt)
+                
+                # Handle different response types (some models return AIMessage objects)
+                if hasattr(llm_response, 'content'):
+                    llm_response_text = llm_response.content
+                elif hasattr(llm_response, 'text'):
+                    llm_response_text = llm_response.text
+                else:
+                    llm_response_text = str(llm_response)
+                
+                # Parse LLM response to extract workflow steps
+                steps, agents_involved = self._parse_llm_workflow_response(llm_response_text)
+                
+            except Exception as e:
+                logger.warning(f"LLM planning failed, falling back to heuristic planning: {e}")
+                # Fallback to simplified heuristic planning
+                steps, agents_involved = self._fallback_heuristic_planning(user_request)
+
+            workflow_plan = {
+                "steps": steps,
+                "context_used": {
+                    "workflows_found": len(context.get("workflows", [])),
+                    "methods_found": len(context.get("methods", [])),
+                    "context_summary": context_text[:500] + "..." if len(context_text) > 500 else context_text,
+                    # Include the actual examples for frontend display
+                    "workflow_examples": context.get("workflows", []),
+                    "method_examples": context.get("methods", [])
+                }
+            }
+
+            self._store_workflow(workflow_id, WorkflowPlan(
+                workflow_id=workflow_id,
+                steps=steps,
+                estimated_steps=len(steps),
+                agents_involved=agents_involved,
+            ))
+
+            logger.info("Planned workflow %s with %d steps using %d workflow examples and %d method examples", 
+                       workflow_id, len(steps), len(context.get("workflows", [])), len(context.get("methods", [])))
+
+            return AgentResponse(
+                status=AgentStatus.SUCCESS,
+                message="Workflow planned successfully using contextual search and LLM",
+                result={
+                    "workflow_id": workflow_id,
+                    "workflow_plan": workflow_plan,
+                    "estimated_steps": len(steps),
+                    "agents_involved": agents_involved,
+                },
+            )
+            
+        except Exception as e:
+            logger.error(f"Error in workflow planning: {e}")
+            return AgentResponse(
+                status=AgentStatus.ERROR,
+                message=f"Failed to plan workflow: {str(e)}",
+                result=None,
+            )
+
+    def _create_planning_prompt(self, user_request: str, context_text: str) -> str:
+        """Create the LLM prompt for workflow planning."""
+        
+        prompt = f"""You are an expert paleoclimatology workflow planner. Break down the user's request into actionable code steps that can be executed as notebook cells.
+
+CONTEXT GUIDANCE:
+{context_text}
+
+USER REQUEST:
+{user_request}
+
+INSTRUCTIONS:
+1. Analyze the user request and relevant context above
+2. Give HIGHER WEIGHT to workflow examples (follow their patterns closely)
+3. Use scientific methods as LOOSE GUIDANCE only (adapt concepts, don't copy exactly)
+4. Apply your paleoclimatology domain knowledge to fill gaps
+5. Break the task into 3-7 actionable steps that can be coded
+6. Each step should be implementable as a notebook cell
+7. Identify if steps need SPARQL (data fetching) or CODE (analysis/processing) agents
+
+OUTPUT FORMAT (return JSON only):
+{{
+  "reasoning": "Brief explanation of your planning approach and how you used the context",
+  "steps": [
+    {{
+      "step_id": "t0",
+      "agent_type": "sparql|code",
+      "user_input": "Clear instruction for what this step should accomplish",
+      "dependencies": [],
+      "rationale": "Why this step is needed"
+    }},
+    {{
+      "step_id": "t1", 
+      "agent_type": "sparql|code",
+      "user_input": "Clear instruction for the next step",
+      "dependencies": ["t0"],
+      "rationale": "Why this step follows the previous"
+    }}
+  ]
+}}
+
+AGENT TYPES:
+- "sparql": For discovering and fetching paleoclimate datasets (coral, ice core, sediment records)
+- "code": For data analysis, visualization, modeling, statistical analysis
+
+PALEOCLIMATOLOGY CONTEXT:
+- Common data types: coral δ18O, ice core records, sediment cores, tree rings
+- Common analyses: time series analysis, spectral analysis, correlation with climate indices
+- Common climate indices: ENSO, AMO, NAO, PDO
+- Typical workflows: data discovery → data loading → quality control → analysis → visualization
+- Key periods: Holocene, Last Glacial Maximum, Medieval Warm Period, Little Ice Age
+
+Return only the JSON object, no additional text."""
+
+        return prompt
+
+    def _parse_llm_workflow_response(self, llm_response: str) -> tuple[List[Dict[str, Any]], List[str]]:
+        """Parse the LLM response to extract workflow steps."""
+        import json
+        import re
+        
+        try:
+            # Try to extract JSON from the response
+            json_match = re.search(r'\{.*\}', llm_response, re.DOTALL)
+            if json_match:
+                workflow_data = json.loads(json_match.group())
+            else:
+                workflow_data = json.loads(llm_response)
+            
+            steps = workflow_data.get("steps", [])
+            agents_involved = []
+            
+            # Extract unique agent types
+            for step in steps:
+                agent_type = step.get("agent_type")
+                if agent_type and agent_type not in agents_involved:
+                    agents_involved.append(agent_type)
+            
+            # Validate and clean up steps
+            cleaned_steps = []
+            for step in steps:
+                cleaned_step = {
+                    "step_id": step.get("step_id", f"t{len(cleaned_steps)}"),
+                    "agent_type": step.get("agent_type", "code"),
+                    "user_input": step.get("user_input", ""),
+                    "dependencies": step.get("dependencies", []),
+                }
+                cleaned_steps.append(cleaned_step)
+            
+            return cleaned_steps, agents_involved
+            
+        except Exception as e:
+            logger.error(f"Failed to parse LLM workflow response: {e}")
+            raise
+
+    def _fallback_heuristic_planning(self, user_request: str) -> tuple[List[Dict[str, Any]], List[str]]:
+        """Fallback to simple heuristic planning if LLM fails."""
         steps: List[Dict[str, Any]] = []
         agents_involved: List[str] = []
 
@@ -245,29 +445,7 @@ class WorkflowManagerAgent(BaseAgent):
                 if agent_type not in agents_involved:
                     agents_involved.append(agent_type)
 
-        workflow_plan = {
-            "steps": steps,
-        }
-
-        self._workflow_store[workflow_id] = WorkflowPlan(
-            workflow_id=workflow_id,
-            steps=steps,
-            estimated_steps=len(steps),
-            agents_involved=agents_involved,
-        )
-
-        logger.info("Planned workflow %s with %d steps", workflow_id, len(steps))
-
-        return AgentResponse(
-            status=AgentStatus.SUCCESS,
-            message="Workflow planned successfully",
-            result={
-                "workflow_id": workflow_id,
-                "workflow_plan": workflow_plan,
-                "estimated_steps": len(steps),
-                "agents_involved": agents_involved,
-            },
-        )
+        return steps, agents_involved
 
     async def _handle_execute_workflow(self, request: AgentRequest) -> AgentResponse:
         """Execute a stored workflow plan step-by-step."""
@@ -280,7 +458,7 @@ class WorkflowManagerAgent(BaseAgent):
                 message="workflow_id not provided in context or input",
             )
 
-        plan = self._workflow_store.get(workflow_id)
+        plan = self._get_workflow(workflow_id)
         if not plan:
             return AgentResponse(
                 status=AgentStatus.ERROR,
@@ -305,10 +483,24 @@ class WorkflowManagerAgent(BaseAgent):
 
             # Build AgentRequest for this step
             step_metadata = request.metadata.copy() if request.metadata else {}
+            
+            # Preserve clarification configuration settings from the original request
+            # These should be passed to all individual agent steps
+            enable_clarification = request.metadata.get("enable_clarification") if request.metadata else None
+            clarification_threshold = request.metadata.get("clarification_threshold") if request.metadata else None
+            if enable_clarification is not None:
+                step_metadata["enable_clarification"] = enable_clarification
+            if clarification_threshold is not None:
+                step_metadata["clarification_threshold"] = clarification_threshold
+            
+            # Remove clarification responses from step metadata by default
+            # They will only be added back if specifically intended for this step
+            if "clarification_responses" in step_metadata:
+                del step_metadata["clarification_responses"]
 
-            # If this is a follow-up with clarification responses for this step, attach them
-            if clarification_responses and (target_step_id is None or target_step_id == step_id):
-                step_metadata = {**step_metadata, "clarification_responses": clarification_responses}
+            # If this is a follow-up with clarification responses for this specific step, attach them
+            if clarification_responses and target_step_id is not None and target_step_id == step_id:
+                step_metadata["clarification_responses"] = clarification_responses
                 # consume so it's not reused
                 clarification_responses = None
                 target_step_id = None
@@ -325,7 +517,7 @@ class WorkflowManagerAgent(BaseAgent):
                 conversation_id=conversation_id,
             )
 
-            response = await agent_registry.route_request(agent_request)
+            response = await route_agent_request_with_custom_config(agent_request)
 
             # Persist conversation id for potential follow-ups
             if response.conversation_id:
@@ -345,7 +537,7 @@ class WorkflowManagerAgent(BaseAgent):
             elif response.status == AgentStatus.NEEDS_CLARIFICATION:
                 # Store waiting step and propagate clarification outward
                 plan.waiting_step = step_id
-                self._workflow_store[workflow_id] = plan  # update
+                self._store_workflow(workflow_id, plan)  # update with persistence
 
                 return AgentResponse(
                     status=AgentStatus.NEEDS_CLARIFICATION,
@@ -376,4 +568,54 @@ class WorkflowManagerAgent(BaseAgent):
                 "execution_results": execution_results,
                 "failed_steps": failed_steps,
             },
-        ) 
+        )
+
+    def _save_workflows(self) -> None:
+        """Save workflow plans to disk."""
+        try:
+            # Ensure directory exists
+            WORKFLOW_STORE_DIR.mkdir(parents=True, exist_ok=True)
+            
+            # Convert WorkflowPlan objects to dictionaries for JSON serialization
+            serializable_store = {}
+            for workflow_id, plan in self._workflow_store.items():
+                serializable_store[workflow_id] = plan.model_dump()
+            
+            # Save to file
+            with open(WORKFLOW_STORE_FILE, 'w') as f:
+                json.dump(serializable_store, f, indent=2)
+                
+            logger.debug(f"Saved {len(self._workflow_store)} workflows to {WORKFLOW_STORE_FILE}")
+            
+        except Exception as e:
+            logger.error(f"Failed to save workflows: {e}")
+
+    def _load_workflows(self) -> None:
+        """Load workflow plans from disk."""
+        try:
+            if not WORKFLOW_STORE_FILE.exists():
+                logger.debug("No existing workflow file found, starting with empty store")
+                return
+                
+            with open(WORKFLOW_STORE_FILE, 'r') as f:
+                serializable_store = json.load(f)
+            
+            # Convert dictionaries back to WorkflowPlan objects
+            for workflow_id, plan_data in serializable_store.items():
+                self._workflow_store[workflow_id] = WorkflowPlan(**plan_data)
+                
+            logger.info(f"Loaded {len(self._workflow_store)} workflows from {WORKFLOW_STORE_FILE}")
+            
+        except Exception as e:
+            logger.error(f"Failed to load workflows: {e}")
+            # Continue with empty store if loading fails
+            self._workflow_store = {}
+
+    def _store_workflow(self, workflow_id: str, plan: WorkflowPlan) -> None:
+        """Store a workflow plan and persist to disk."""
+        self._workflow_store[workflow_id] = plan
+        self._save_workflows()
+
+    def _get_workflow(self, workflow_id: str) -> Optional[WorkflowPlan]:
+        """Get a workflow plan from storage."""
+        return self._workflow_store.get(workflow_id) 

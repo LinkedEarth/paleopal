@@ -1,0 +1,137 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "End-member Analysis",
+      "description": "This method involves obtaining IRM acquisition curves and applying a combined end-member unmixing analysis to separate different magnetic contributions according to distinct coercivities. The goal is to decompose the magnetic signal into parts representing specific provenances that provide information on different environmental processes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained IRM acquisition curves, cumulative coercivity distributions of the integral magnetic mineral assemblage using an in-line pulse magnetizer and an external pulse magnetizer (Automated 2G Superconducting Rock Magnetometer 755 R) with 30 steps up to 2700 mT using the device from the Center for Marine Environmental Sciences (MARUM), in the Bremen University.",
+          "searchable_summary": "obtain IRM acquisition curves using pulse magnetizers",
+          "inputs": [
+            "in-line pulse magnetizer",
+            "external pulse magnetizer",
+            "rock samples"
+          ],
+          "outputs": [
+            "IRM acquisition curves"
+          ],
+          "keywords": [
+            "IRM acquisition",
+            "pulse magnetizer",
+            "magnetic mineral assemblage"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We applied a combined end-member (EM) unmixing analysis to 449 IRM acquisition curves aiming to separate the different magnetic contributions according to distinct coercivities.",
+          "searchable_summary": "apply end-member unmixing analysis to IRM curves",
+          "inputs": [
+            "IRM acquisition curves"
+          ],
+          "outputs": [
+            "separated magnetic contributions"
+          ],
+          "keywords": [
+            "end-member unmixing",
+            "magnetic coercivities"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "We modelled each magnetic contribution using a linear mixture of cumulative log-Gaussian (CLG) functions to represent independent magnetic coercivity components using a software developed by Heslop and Dillon (2007).",
+          "searchable_summary": "model magnetic contributions using CLG functions",
+          "inputs": [
+            "separated magnetic contributions"
+          ],
+          "outputs": [
+            "modeled magnetic contributions"
+          ],
+          "keywords": [
+            "CLG functions",
+            "magnetic modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "We used the IRM-CLG fitting program of Kruiver et al. (2001) to quantifying the magnetic coercivity components present in each end-member.",
+          "searchable_summary": "quantify magnetic coercivity components using IRM-CLG fitting",
+          "inputs": [
+            "modeled magnetic contributions"
+          ],
+          "outputs": [
+            "quantified magnetic coercivity components"
+          ],
+          "keywords": [
+            "IRM-CLG fitting",
+            "magnetic coercivity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age Model Construction",
+      "description": "This method involves establishing an age model for sediment cores by correlating sedimentation rates with known climatic events and temporal markers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Correlation with core GeoB3912-1 enabled to establish the age model for core GeoB3913-3.",
+          "searchable_summary": "establish age model by correlating with reference core",
+          "inputs": [
+            "core GeoB3912-1 data",
+            "core GeoB3913-3 data"
+          ],
+          "outputs": [
+            "age model for core GeoB3913-3"
+          ],
+          "keywords": [
+            "age model",
+            "core correlation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sedimentation rates vary significantly for cores GeoB3913-3 and GeoB3912-1 between ~ 5 cm/kyr and 25 cm/kyr.",
+          "searchable_summary": "analyze sedimentation rates for cores",
+          "inputs": [
+            "sedimentation data for cores GeoB3913-3 and GeoB3912-1"
+          ],
+          "outputs": [
+            "sedimentation rate analysis"
+          ],
+          "keywords": [
+            "sedimentation rates",
+            "core analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Intervals of increased sedimentation rates coincide with the climatic events Younger Dryas (YD) and the last eight Heinrich Events (HE).",
+          "searchable_summary": "identify sedimentation rate peaks corresponding to climatic events",
+          "inputs": [
+            "sedimentation rate analysis",
+            "climatic event data"
+          ],
+          "outputs": [
+            "correlation of sedimentation peaks with climatic events"
+          ],
+          "keywords": [
+            "climatic events",
+            "sedimentation peaks"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/134684438.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

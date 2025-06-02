@@ -1,0 +1,129 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and Preparation",
+      "description": "Process of collecting and preparing genomic data from 426 individuals across 10 distinct populations, utilizing publicly available data and the Indonesian Genome Diversity Project.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We examined 426 individuals from 10 distinct populations, taking advantage of publicly available data from previous genomic studies, and a recent effort to sequence hundreds of Indonesian genomes through the Indonesian Genome Diversity Project.",
+          "searchable_summary": "collect genomic data from 426 individuals using public databases and IGDP",
+          "inputs": [
+            "public genomic databases",
+            "Indonesian Genome Diversity Project data"
+          ],
+          "outputs": [
+            "genomic data of 426 individuals"
+          ],
+          "keywords": [
+            "genomic data",
+            "public databases",
+            "Indonesian Genome Diversity Project"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Preparation",
+      "description": "Preparation of genomic data including SNP calling, quality control, and phasing, as described in Jacobs et al.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "For a description of data preparation (SNP calling, QC, phasing) see Jacobs et al.",
+          "searchable_summary": "prepare genomic data with SNP calling, quality control, and phasing",
+          "inputs": [
+            "raw genomic data"
+          ],
+          "outputs": [
+            "prepared genomic data"
+          ],
+          "keywords": [
+            "SNP calling",
+            "quality control",
+            "phasing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "HMMArchaic Analysis",
+      "description": "Application of the HMMArchaic method to phased genomic data to identify introgressed haplotypes with high confidence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The model was trained and implemented on phased data, which was obtained as described in Jacobs et al.",
+          "searchable_summary": "train and implement HMMArchaic model on phased genomic data",
+          "inputs": [
+            "phased genomic data"
+          ],
+          "outputs": [
+            "HMMArchaic model results"
+          ],
+          "keywords": [
+            "HMMArchaic",
+            "phased data",
+            "model training"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used a 1,000bp sliding-window approach, as performed in the original implementation of the method, to allow fine-scale resolution of introgressed fragments.",
+          "searchable_summary": "apply 1,000bp sliding-window approach for fine-scale resolution of introgressed fragments",
+          "inputs": [
+            "HMMArchaic model results"
+          ],
+          "outputs": [
+            "fine-scale resolution data"
+          ],
+          "keywords": [
+            "sliding-window",
+            "introgressed fragments",
+            "fine-scale resolution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The HMMArchaic method outputs a posterior probability of introgression for each 1,000 bp window along each chromosome copy of each individual sample.",
+          "searchable_summary": "calculate posterior probability of introgression for each 1,000 bp window",
+          "inputs": [
+            "fine-scale resolution data"
+          ],
+          "outputs": [
+            "posterior probability data"
+          ],
+          "keywords": [
+            "posterior probability",
+            "introgression",
+            "chromosome"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We decided to drop archaic blocks with posterior probability support <=0.95 to focus on high-confidence introgressed blocks.",
+          "searchable_summary": "filter archaic blocks with posterior probability <=0.95",
+          "inputs": [
+            "posterior probability data"
+          ],
+          "outputs": [
+            "high-confidence introgressed blocks"
+          ],
+          "keywords": [
+            "filtering",
+            "high-confidence",
+            "introgressed blocks"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/220835991.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

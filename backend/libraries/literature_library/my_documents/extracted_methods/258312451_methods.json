@@ -1,0 +1,154 @@
+{
+  "paper_title": "Mitogenome Sequence Data Analysis and Genetic Data on Black Bears",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Mitogenome Sequence Data Analysis",
+      "description": "This method involves the analysis of mitogenome sequences from ancient and modern bear samples to understand their evolutionary history and divergence times.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Reads from an additional 19 samples were downloaded from the NCBI Sequence Reads Archive (SRA) and their mitogenomes assembled using the same pipeline as for the modern mitogenomes generated for this study.",
+          "searchable_summary": "download and assemble mitogenome sequences from NCBI SRA",
+          "inputs": [
+            "NCBI SRA identifiers for 19 samples"
+          ],
+          "outputs": [
+            "assembled mitogenomes"
+          ],
+          "keywords": [
+            "NCBI SRA",
+            "mitogenome assembly",
+            "sequence data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Three separate data sets were created, all including modern and ancient bears from Eurasia and North America.",
+          "searchable_summary": "create three datasets of bear mitogenomes",
+          "inputs": [
+            "assembled mitogenomes"
+          ],
+          "outputs": [
+            "data set 553",
+            "data set 513",
+            "data set 485"
+          ],
+          "keywords": [
+            "dataset creation",
+            "mitogenome data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The sequences were aligned in MAFFT, with manual adjustment in Geneious Prime to exclude tandem repeats from the control region.",
+          "searchable_summary": "align sequences using MAFFT and adjust in Geneious Prime",
+          "inputs": [
+            "bear mitogenome sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MAFFT",
+            "Geneious Prime"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "To make all sequences within the alignments of similar lengths, 24 base pairs from the beginning and 45 at the end of the alignment were trimmed.",
+          "searchable_summary": "trim sequences to uniform length",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "trimmed sequences"
+          ],
+          "keywords": [
+            "sequence trimming",
+            "alignment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Maximum-likelihood analyses of all three data sets were performed using RAxML with 1000 bootstraps using the GTR substitution model.",
+          "searchable_summary": "perform maximum-likelihood analysis with RAxML",
+          "inputs": [
+            "trimmed sequences",
+            "GTR model"
+          ],
+          "outputs": [
+            "maximum-likelihood trees"
+          ],
+          "keywords": [
+            "maximum-likelihood analysis",
+            "RAxML",
+            "phylogenetic tree"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "A Bayesian tree was generated from the data set 553 using BEAST with the GTR + G + I substitution model and a constant-size coalescent model.",
+          "searchable_summary": "generate Bayesian tree using BEAST",
+          "inputs": [
+            "data set 553",
+            "GTR + G + I model"
+          ],
+          "outputs": [
+            "Bayesian tree"
+          ],
+          "keywords": [
+            "Bayesian analysis",
+            "BEAST",
+            "phylogenetic tree"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "To obtain estimated divergence dates, BEAST analysis was performed on the data sets containing mitogenomes with a minimum depth of 5× and calibrated radiocarbon dates.",
+          "searchable_summary": "estimate divergence dates using BEAST",
+          "inputs": [
+            "data sets 513 and 485",
+            "calibrated radiocarbon dates"
+          ],
+          "outputs": [
+            "estimated divergence dates"
+          ],
+          "keywords": [
+            "divergence estimation",
+            "BEAST",
+            "radiocarbon dating"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Two additional data sets were created and used to generate statistical parsimony networks using the TCS algorithm as implemented in PopART.",
+          "searchable_summary": "generate statistical parsimony networks using TCS in PopART",
+          "inputs": [
+            "U. americanus data set",
+            "U. arctos with ABC haplotype data set"
+          ],
+          "outputs": [
+            "statistical parsimony networks"
+          ],
+          "keywords": [
+            "parsimony network",
+            "TCS algorithm",
+            "PopART"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258312451.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,200 @@
+{
+  "paper_title": "Using Astragalus to Model Body Mass, Habitat Preference, and Population Density of Prehistoric Bovid Duboisia santeng (Dubois, 1891) in Eastern Java island in The Early Pleistocene",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Astragalus Bone Measurement",
+      "description": "Procedure for locating, collecting, and measuring specific morphometric parameters (width and lateral length) of fossilized astragalus bones.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The fossils in the form of astragalus bones were found in Trinil area located near the river bank ( Figure 1) in the north of Ngawi.",
+          "searchable_summary": "Locate and collect astragalus bone fossils from the Trinil area.",
+          "inputs": [
+            "Study area location (Trinil area)"
+          ],
+          "outputs": [
+            "Collected astragalus bones"
+          ],
+          "keywords": [
+            "fossil collection",
+            "paleontology",
+            "field survey",
+            "bone sampling",
+            "Trinil"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The bones then were measured following Degusta and Drba (2013). The parameters taken from the bones measurements were width (W) and lateral length (LI) in mm ( Figure 3).",
+          "searchable_summary": "Measure width (W) and lateral length (Ll) of collected astragalus bones.",
+          "inputs": [
+            "Collected astragalus bones",
+            "Measurement protocol (Degusta and Drba 2013)"
+          ],
+          "outputs": [
+            "Measured parameters (Width, Lateral Length) for each bone (in mm)"
+          ],
+          "keywords": [
+            "bone measurement",
+            "morphometrics",
+            "paleontology",
+            "data collection",
+            "width",
+            "lateral length",
+            "mm"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Body Mass Estimation from Astragalus",
+      "description": "Estimating the body mass of D. santeng using measured astragalus lateral length and an allometric equation derived from Tsubamoto (2014). Includes a comparative step with extant species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "First, this step is by comparing the D. santeng width and lateral length with other extant Bovid species. By using this comparison, D. santeng can be compared whether the body mass related to which living Bovids.",
+          "searchable_summary": "Compare D. santeng astragalus measurements (W, Ll) with measurements from extant Bovid species.",
+          "inputs": [
+            "D. santeng astragalus measurements (W, Ll)",
+            "Database/measurements of extant Bovid astragalus (W, Ll)"
+          ],
+          "outputs": [
+            "Comparison results",
+            "Insights into relatedness to extant Bovids"
+          ],
+          "keywords": [
+            "comparative anatomy",
+            "morphometric comparison",
+            "extant species",
+            "bovid",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Then, the body mass was estimated by using allometric equation developed by Tsubamoto (2014).",
+          "searchable_summary": "Apply allometric equation to estimate body mass from astragalus measurements.",
+          "inputs": [
+            "Astragalus measurements (Ll)",
+            "Allometric equation parameters (from Tsubamoto 2014)"
+          ],
+          "outputs": [
+            "Estimated body mass"
+          ],
+          "keywords": [
+            "allometric equation",
+            "body mass estimation",
+            "paleontology",
+            "regression model",
+            "Tsubamoto 2014"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The astragalus lateral length (Ll) -body mass linear model was using slope value of 2.789 and intercept of 2.078. In this linear model, the lateral length was used as the predictor and the body mass was the result.",
+          "searchable_summary": "Calculate body mass using the linear model: Body Mass = 2.789 * Ll + 2.078.",
+          "inputs": [
+            "Astragalus lateral length (Ll, in mm)",
+            "Slope (2.789)",
+            "Intercept (2.078)"
+          ],
+          "outputs": [
+            "Estimated body mass (in kg)"
+          ],
+          "keywords": [
+            "linear regression",
+            "body mass calculation",
+            "allometric model",
+            "formula application",
+            "kg",
+            "mm"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Population Density Estimation from Body Mass",
+      "description": "Estimating the population density of D. santeng using the estimated body mass and a linear model developed by Damuth (1981).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The linear model was also used to estimate the population density of D. santeng. The model was followed model developed by Damuth (1981).",
+          "searchable_summary": "Apply linear model to estimate population density from estimated body mass.",
+          "inputs": [
+            "Estimated body mass",
+            "Linear model parameters (from Damuth 1981)"
+          ],
+          "outputs": [
+            "Estimated population density"
+          ],
+          "keywords": [
+            "population density estimation",
+            "linear model",
+            "ecological modeling",
+            "regression model",
+            "Damuth 1981"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The body mass -population density linear model was using slope value of -0.75 and intercept of 4.23. In this linear model, the body mass was used as the predictor (Tsubamoto 2014) and the population density (individuals/km 2 ) was the result.",
+          "searchable_summary": "Calculate population density using the linear model: Population Density = -0.75 * Body Mass + 4.23.",
+          "inputs": [
+            "Estimated body mass (in kg)",
+            "Slope (-0.75)",
+            "Intercept (4.23)"
+          ],
+          "outputs": [
+            "Estimated population density (in individuals/km²)"
+          ],
+          "keywords": [
+            "linear regression",
+            "population density calculation",
+            "ecological model",
+            "formula application",
+            "individuals/km²",
+            "kg"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial Population Density Modeling",
+      "description": "Modeling the spatial distribution of the estimated population density across the Ngawi landscape as a function of forest cover.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The spatial model of the population density in Ngawi landscape was the function of forest covers. The whole process of population density using the astragalus bones can be seen in Figure 4.",
+          "searchable_summary": "Model the spatial distribution of estimated population density based on forest cover data.",
+          "inputs": [
+            "Estimated population density",
+            "Forest cover data for Ngawi landscape"
+          ],
+          "outputs": [
+            "Spatial model of population density distribution"
+          ],
+          "keywords": [
+            "spatial modeling",
+            "GIS",
+            "ecological modeling",
+            "habitat suitability",
+            "forest cover",
+            "landscape analysis",
+            "Ngawi"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/222338280.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

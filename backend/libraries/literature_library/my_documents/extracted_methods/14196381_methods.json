@@ -1,0 +1,293 @@
+{
+  "paper_title": "Inferring late-Holocene climate in the Ecuadorian Andes using a chironomid-based temperature inference model",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Chironomid-Based Temperature Inference Model Development and Validation",
+      "description": "This method details the process of analyzing a chironomid calibration dataset, selecting relevant environmental variables, developing quantitative temperature inference models using Weighted Averaging (WA) and Bayesian approaches, and rigorously evaluating their predictive performance and potential biases using techniques like jackknifing and residual analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Remove explanatory variables with Variance Inflation Factors (VIFs) > 20.",
+          "searchable_summary": "Filter environmental variables based on VIF threshold",
+          "inputs": [
+            "Calibration dataset with environmental variables and chironomid assemblages",
+            "VIF threshold (20)"
+          ],
+          "outputs": [
+            "Filtered set of explanatory environmental variables"
+          ],
+          "keywords": [
+            "VIF",
+            "variable selection",
+            "multicollinearity",
+            "environmental data",
+            "calibration dataset",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform Canonical Correspondence Analysis (CCA) using the filtered explanatory variables and chironomid assemblage data.",
+          "searchable_summary": "Perform CCA on chironomid and environmental data",
+          "inputs": [
+            "Filtered environmental variables",
+            "Chironomid assemblage data"
+          ],
+          "outputs": [
+            "CCA results (variance explained by variables/axes, eigenvalues)"
+          ],
+          "keywords": [
+            "CCA",
+            "Canonical Correspondence Analysis",
+            "ordination",
+            "community ecology",
+            "environmental gradients",
+            "multivariate analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze the variance explained by the explanatory variables and the first two CCA axes. Identify variables explaining most variance (e.g., MAT).",
+          "searchable_summary": "Analyze CCA output for variance explanation and variable importance",
+          "inputs": [
+            "CCA results from Step 2"
+          ],
+          "outputs": [
+            "Variance explained percentages",
+            "Variable importance metrics (e.g., lambda ratio)"
+          ],
+          "keywords": [
+            "CCA analysis",
+            "variance explained",
+            "eigenvalues",
+            "variable importance",
+            "MAT",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform Detrended Canonical Correspondence Analysis (DCCA) constrained by Mean Annual Temperature (MAT).",
+          "searchable_summary": "Perform DCCA constrained by MAT",
+          "inputs": [
+            "Chironomid assemblage data",
+            "Mean Annual Temperature (MAT) data"
+          ],
+          "outputs": [
+            "DCCA results (assemblage shift in SD units)"
+          ],
+          "keywords": [
+            "DCCA",
+            "Detrended Canonical Correspondence Analysis",
+            "constrained ordination",
+            "MAT",
+            "assemblage shift",
+            "community change"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze the distribution of chironomid taxa along the temperature gradient (MAT).",
+          "searchable_summary": "Analyze taxon distribution along temperature gradient",
+          "inputs": [
+            "Chironomid assemblage data",
+            "Mean Annual Temperature (MAT) data"
+          ],
+          "outputs": [
+            "Description of taxon distribution patterns (e.g., abundance peaks, presence/absence ranges)"
+          ],
+          "keywords": [
+            "Taxon distribution",
+            "temperature gradient",
+            "chironomid ecology",
+            "community composition",
+            "ecological niche"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Calculate weighted average (WA) and Bayesian optima and tolerance for each chironomid taxon based on the calibration data.",
+          "searchable_summary": "Calculate taxon optima and tolerances using WA and Bayesian methods",
+          "inputs": [
+            "Chironomid assemblage data",
+            "Mean Annual Temperature (MAT) data"
+          ],
+          "outputs": [
+            "Taxon optima (weighted average, Bayesian)",
+            "Taxon tolerances (weighted average, Bayesian)"
+          ],
+          "keywords": [
+            "Weighted Averaging",
+            "Bayesian modeling",
+            "taxon optima",
+            "taxon tolerance",
+            "calibration dataset",
+            "ecological modeling",
+            "paleolimnology"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Develop a Weighted Averaging (inverse) temperature inference model using the calibration dataset.",
+          "searchable_summary": "Develop WA inverse inference model",
+          "inputs": [
+            "Chironomid assemblage data",
+            "Mean Annual Temperature (MAT) data"
+          ],
+          "outputs": [
+            "A trained Weighted Averaging (inverse) inference model object"
+          ],
+          "keywords": [
+            "Weighted Averaging",
+            "WA inverse",
+            "inference model",
+            "paleoclimate reconstruction",
+            "calibration dataset",
+            "regression model"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Develop a Bayesian temperature inference model using the calibration dataset.",
+          "searchable_summary": "Develop Bayesian inference model",
+          "inputs": [
+            "Chironomid assemblage data",
+            "Mean Annual Temperature (MAT) data"
+          ],
+          "outputs": [
+            "A trained Bayesian inference model object"
+          ],
+          "keywords": [
+            "Bayesian modeling",
+            "inference model",
+            "paleoclimate reconstruction",
+            "calibration dataset",
+            "statistical model"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "Evaluate the predictive performance of the Weighted Averaging (inverse) model using leave-one-out jackknifing. Calculate performance statistics: R^2 jack, RMSEP jack, mean bias jack, max bias jack.",
+          "searchable_summary": "Evaluate WA model performance using jackknifing",
+          "inputs": [
+            "Trained WA inverse model object",
+            "Calibration dataset (chironomid assemblages, observed MAT)"
+          ],
+          "outputs": [
+            "Performance statistics for the WA model (R^2 jack, RMSEP jack, mean bias jack, max bias jack)"
+          ],
+          "keywords": [
+            "Model validation",
+            "jackknifing",
+            "leave-one-out cross-validation",
+            "R-squared",
+            "RMSEP",
+            "bias",
+            "WA model performance",
+            "predictive accuracy"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "Evaluate the predictive performance of the Bayesian model using leave-one-out jackknifing. Calculate performance statistics: R^2 jack, RMSEP jack, mean bias jack, max bias jack.",
+          "searchable_summary": "Evaluate Bayesian model performance using jackknifing",
+          "inputs": [
+            "Trained Bayesian model object",
+            "Calibration dataset (chironomid assemblages, observed MAT)"
+          ],
+          "outputs": [
+            "Performance statistics for the Bayesian model (R^2 jack, RMSEP jack, mean bias jack, max bias jack)"
+          ],
+          "keywords": [
+            "Model validation",
+            "jackknifing",
+            "leave-one-out cross-validation",
+            "R-squared",
+            "RMSEP",
+            "bias",
+            "Bayesian model performance",
+            "predictive accuracy"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "Compare the calculated performance statistics (R^2 jack, RMSEP jack, bias) between the Weighted Averaging (inverse) and Bayesian models.",
+          "searchable_summary": "Compare performance metrics of different inference models",
+          "inputs": [
+            "Performance statistics for WA model (Step 9)",
+            "Performance statistics for Bayesian model (Step 10)"
+          ],
+          "outputs": [
+            "A comparison of model performance metrics"
+          ],
+          "keywords": [
+            "Model comparison",
+            "performance metrics",
+            "WA model",
+            "Bayesian model",
+            "statistical comparison"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "validation",
+          "description": "Analyze the residuals (difference between observed and predicted MAT) of the inference models to identify patterns of underestimation or overestimation across the temperature gradient.",
+          "searchable_summary": "Analyze model residuals",
+          "inputs": [
+            "Trained inference model objects (WA, Bayesian)",
+            "Calibration dataset (observed MAT, predicted MAT from models)"
+          ],
+          "outputs": [
+            "Residual analysis results (e.g., plot of residuals vs observed/predicted values)"
+          ],
+          "keywords": [
+            "Residual analysis",
+            "model bias",
+            "underestimation",
+            "overestimation",
+            "temperature gradient",
+            "model diagnostics"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "validation",
+          "description": "Assess potential factors that may influence model performance and introduce bias, such as the uneven distribution of calibration sites along the temperature gradient, low chironomid head capsule counts in some samples, the presence and abundance of eurythermic taxa, and potential \"edge effects\" caused by gaps in the temperature gradient.",
+          "searchable_summary": "Assess factors affecting model performance and bias",
+          "inputs": [
+            "Characteristics of the calibration dataset (e.g., site distribution, head capsule counts per sample)",
+            "Characteristics of chironomid taxa (e.g., tolerance of eurythermic taxa)",
+            "Results from residual analysis (Step 12)"
+          ],
+          "outputs": [
+            "Identification and discussion of potential sources of error and bias in the inference models"
+          ],
+          "keywords": [
+            "Model performance",
+            "bias",
+            "uneven sampling",
+            "low counts",
+            "eurythermic taxa",
+            "edge effects",
+            "calibration dataset quality",
+            "model limitations"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14196381.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

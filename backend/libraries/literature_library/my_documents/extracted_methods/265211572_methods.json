@@ -1,0 +1,291 @@
+{
+  "paper_title": "Algal Culture and Statistical Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Algal Culture and Maintenance",
+      "description": "This method describes the process for obtaining, identifying, rendering axenic, and maintaining cultures of the polar Thalassiosira gravida and temperate Thalassiosira rotula strains under controlled climate conditions for experimental use.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The polar Thalassiosira gravida (central Arctic Ocean) was obtained from the Norwegian culture collection of algae (NORCCA strain number UIO 478).The temperate Thalassiosira rotula from the German bight, was provided by the Harder Lab (University of Bremen; strain T. rotula_S16).",
+          "searchable_summary": "obtain specific algal strains from culture collections",
+          "inputs": [
+            "NORCCA culture collection",
+            "Harder Lab (University of Bremen)"
+          ],
+          "outputs": [
+            "Thalassiosira gravida strain UIO 478",
+            "Thalassiosira rotula strain T. rotula_S16"
+          ],
+          "keywords": [
+            "algae culture",
+            "strain acquisition",
+            "Thalassiosira gravida",
+            "Thalassiosira rotula",
+            "NORCCA",
+            "culture collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Both strains were identified by their ITS1 sequences (electronic supplementary material, figure S1)",
+          "searchable_summary": "identify algal strains using ITS1 sequencing",
+          "inputs": [
+            "algal strains",
+            "ITS1 sequences"
+          ],
+          "outputs": [
+            "identified algal strains"
+          ],
+          "keywords": [
+            "strain identification",
+            "ITS1 sequencing",
+            "molecular identification",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "an axenic culture was rendered following the protocol of Mönnich et al. [15].",
+          "searchable_summary": "render algal cultures axenic",
+          "inputs": [
+            "algal cultures",
+            "protocol of Mönnich et al. [15]"
+          ],
+          "outputs": [
+            "axenic algal cultures"
+          ],
+          "keywords": [
+            "axenic culture",
+            "sterilization",
+            "microbial contamination removal",
+            "algal culture techniques"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Axenicity of a culture was referred to as continuous absence of any contaminants stained with SYBR Green by regular (i.e.every 5-7 days) epifluorescence microscopy at 400× magnification (electronic supplementary material, figure S2).",
+          "searchable_summary": "verify axenicity of cultures using SYBR Green staining and epifluorescence microscopy",
+          "inputs": [
+            "algal cultures",
+            "SYBR Green stain",
+            "epifluorescence microscope"
+          ],
+          "outputs": [
+            "axenicity status of cultures"
+          ],
+          "keywords": [
+            "axenicity test",
+            "SYBR Green",
+            "epifluorescence microscopy",
+            "contamination check",
+            "microbial detection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "All cultures were maintained in climate chambers at a photoperiod of 16 : 8 h, a light intensity of 50 µmol photons m −2 s −1 and a temperature of 4°C and 15°C for the polar and temperate strains, respectively.",
+          "searchable_summary": "maintain algal cultures in climate chambers under specific light and temperature conditions",
+          "inputs": [
+            "axenic algal cultures",
+            "climate chamber",
+            "16:8 h photoperiod",
+            "50 µmol photons m −2 s −1 light intensity",
+            "4°C (polar strain)",
+            "15°C (temperate strain)"
+          ],
+          "outputs": [
+            "algal cultures maintained under controlled conditions"
+          ],
+          "keywords": [
+            "algal culture maintenance",
+            "climate chamber",
+            "photoperiod",
+            "light intensity",
+            "temperature control",
+            "controlled environment"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "Cultures were grown in filter-sterilized artificial seawater medium (ESAW) containing 1/5 of the vitamin concentration proposed by Harrison et al. [16]",
+          "searchable_summary": "grow algal cultures in modified ESAW medium",
+          "inputs": [
+            "algal cultures",
+            "filter-sterilized artificial seawater medium (ESAW)",
+            "modified vitamin concentration (1/5 of Harrison et al. [16])"
+          ],
+          "outputs": [
+            "algal cultures growing in specific medium"
+          ],
+          "keywords": [
+            "algal growth medium",
+            "ESAW medium",
+            "artificial seawater",
+            "nutrient concentration",
+            "filter sterilization"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "and kept in exponential growth by semi-continuous dilution.",
+          "searchable_summary": "maintain cultures in exponential growth phase using semi-continuous dilution",
+          "inputs": [
+            "algal cultures in growth medium"
+          ],
+          "outputs": [
+            "algal cultures in exponential growth"
+          ],
+          "keywords": [
+            "exponential growth",
+            "semi-continuous culture",
+            "dilution rate",
+            "algal culture techniques"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Growth Rates",
+      "description": "This method details the statistical procedures used to analyze the maximum growth rates (µ max) of the algal strains, including data cleaning, model fitting, ANOVA, post-hoc tests, and effect size calculation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "After blank values of fluorescence in the growth medium were subtracted from the raw experimental fluorescence data, maximum growth rates (µ max ) were calculated for each experimental unit by fitting nonlinear models to the data using the 'growthrates' package [17].",
+          "searchable_summary": "subtract blank fluorescence values and calculate maximum growth rates by fitting nonlinear models using R package 'growthrates'",
+          "inputs": [
+            "raw experimental fluorescence data",
+            "blank fluorescence values",
+            "growthrates R package"
+          ],
+          "outputs": [
+            "maximum growth rates (µ max) for each experimental unit"
+          ],
+          "keywords": [
+            "data cleaning",
+            "blank subtraction",
+            "growth rate calculation",
+            "nonlinear model fitting",
+            "R package growthrates",
+            "fluorescence data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "To test for main and interactive effects, a three-way ANOVA (type III SS) was conducted for T. gravida and T. rotula, respectively, with µ max as dependent, and temperature, photoperiod and the presence/absence of the native microbiome as independent variables.",
+          "searchable_summary": "perform three-way ANOVA (Type III SS) on maximum growth rates with temperature, photoperiod, and microbiome as independent variables",
+          "inputs": [
+            "maximum growth rates (µ max)",
+            "temperature data",
+            "photoperiod data",
+            "microbiome presence/absence data"
+          ],
+          "outputs": [
+            "ANOVA results (main and interaction effects)"
+          ],
+          "keywords": [
+            "ANOVA",
+            "three-way ANOVA",
+            "Type III SS",
+            "statistical test",
+            "main effects",
+            "interaction effects",
+            "dependent variable",
+            "independent variables"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Groups were weighted by the inverse of their variance to account for heteroscedasticity.",
+          "searchable_summary": "apply inverse variance weighting to groups to address heteroscedasticity",
+          "inputs": [
+            "ANOVA model",
+            "group variances"
+          ],
+          "outputs": [
+            "weighted ANOVA model"
+          ],
+          "keywords": [
+            "weighting",
+            "inverse variance weighting",
+            "heteroscedasticity",
+            "statistical modeling",
+            "ANOVA assumptions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Post-hoc analyses were conducted with Games-Howell tests.",
+          "searchable_summary": "perform Games-Howell post-hoc tests",
+          "inputs": [
+            "ANOVA results"
+          ],
+          "outputs": [
+            "Games-Howell post-hoc test results"
+          ],
+          "keywords": [
+            "post-hoc test",
+            "Games-Howell test",
+            "multiple comparisons",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The effect sizes of the main effects and the three-way interaction were calculated with the 'variancePartition' package [18] which reports the fraction of explained variance to be attributed to each variable while correcting for all other variables.",
+          "searchable_summary": "calculate effect sizes (fraction of explained variance) using R package 'variancePartition'",
+          "inputs": [
+            "ANOVA model",
+            "variancePartition R package"
+          ],
+          "outputs": [
+            "effect sizes (fraction of explained variance)"
+          ],
+          "keywords": [
+            "effect size",
+            "explained variance",
+            "variance partitioning",
+            "R package variancePartition",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "All statistical analyses and graphs were performed with the R environment 4.2.2 [19].",
+          "searchable_summary": "perform all statistical analyses and generate graphs using R environment",
+          "inputs": [
+            "processed data",
+            "statistical analysis methods",
+            "R environment 4.2.2"
+          ],
+          "outputs": [
+            "statistical analysis results",
+            "graphs"
+          ],
+          "keywords": [
+            "R programming language",
+            "statistical software",
+            "data visualization",
+            "statistical analysis environment"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/265211572.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

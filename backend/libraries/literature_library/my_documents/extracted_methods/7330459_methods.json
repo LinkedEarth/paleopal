@@ -1,0 +1,195 @@
+{
+  "paper_title": "Inferred Title: Phylogenetic Analysis of Diatom MT Proteins",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Exclusive Phyletic Association Analysis",
+      "description": "This method identifies putative homologs for MT proteins by using a simplified reciprocal BLAST approach to find significant sequence similarities, inferring exclusive phyletic associations between diatoms and other taxa.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We adopted a simplified reciprocal BLAST approach to identify putative homologs for each of these MT proteins based on significant sequence similarity (BLASTP; e-value #10 210).",
+          "searchable_summary": "perform reciprocal BLAST to find homologs of MT proteins",
+          "inputs": [
+            "MT protein sequences",
+            "BLASTP parameters"
+          ],
+          "outputs": [
+            "putative homologs"
+          ],
+          "keywords": [
+            "BLASTP",
+            "homologs",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The 1,014 proteins were used to query against a broadly sampled local database that consists of all annotated and predicted proteins from GenBank RefSeq release 45 and JGI, respectively, EST data from all available sources of algae and microbial eukaryotes as available from dbEST and TBestDB, as well as predicted proteins from the two mesophilic red algae, Porphyridium cruentum and Calliarthron tuberculosum, and the stramenopile Ectocarpus siliculosus.",
+          "searchable_summary": "query local database with MT proteins",
+          "inputs": [
+            "MT protein sequences",
+            "local database"
+          ],
+          "outputs": [
+            "database query results"
+          ],
+          "keywords": [
+            "database query",
+            "GenBank",
+            "JGI",
+            "dbEST"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Diatom MTs that have hits only in diatoms and one other taxon based on our BLASTP analysis are inferred as instance of exclusive phyletic association between the two taxa.",
+          "searchable_summary": "analyze BLASTP results for exclusive phyletic association",
+          "inputs": [
+            "BLASTP results"
+          ],
+          "outputs": [
+            "exclusive phyletic associations"
+          ],
+          "keywords": [
+            "phyletic association",
+            "BLASTP analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenomic Analysis",
+      "description": "This method involves using a simplified reciprocal BLASTP approach to group sequence hits into putative protein homologs, followed by sequence alignment and phylogeny reconstruction using maximum likelihood methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "For each of the top five BLASTP hits (or fewer, if there were fewer than five hits) for a diatom MT protein (query), we generated a list of hits via BLASTP searches against our database.",
+          "searchable_summary": "generate list of BLASTP hits for diatom MT proteins",
+          "inputs": [
+            "diatom MT protein sequences",
+            "BLASTP parameters"
+          ],
+          "outputs": [
+            "list of BLASTP hits"
+          ],
+          "keywords": [
+            "BLASTP",
+            "protein hits"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The sequence hits that were found in all of these lists (including the original diatom query) were grouped into a set of putative protein homologs.",
+          "searchable_summary": "group sequence hits into putative homologs",
+          "inputs": [
+            "list of BLASTP hits"
+          ],
+          "outputs": [
+            "putative protein homologs"
+          ],
+          "keywords": [
+            "protein homologs",
+            "sequence grouping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sequence alignment for each protein set was generated using MUSCLE version 3.8, and refined using GBLOCKS version 0.91b with the options b3 = 20, b4 = 8, and b5 = h to remove divergent, ambiguously aligned blocks.",
+          "searchable_summary": "align and refine protein sequences using MUSCLE and GBLOCKS",
+          "inputs": [
+            "putative protein homologs"
+          ],
+          "outputs": [
+            "aligned protein sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MUSCLE",
+            "GBLOCKS"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "We used a maximum likelihood (ML) approach, RAxML for phylogeny reconstruction, under the assumption of WAG amino acid substitution model and a discrete gamma distribution, with non-parametric bootstrap of 100.",
+          "searchable_summary": "reconstruct phylogeny using RAxML with WAG model",
+          "inputs": [
+            "aligned protein sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogeny reconstruction",
+            "RAxML",
+            "WAG model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Two-phase Phylogeny Sorting",
+      "description": "This method involves a two-phase approach for sorting phylogenies, starting with computational screening for monophyletic clades and followed by manual inspection for gene origins in diatoms.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The first phase of our approach constitutes the preliminary computational screening of all phylogenies in NEWICK format using a simple text-parsing tool (PERL script available on request).",
+          "searchable_summary": "screen phylogenies using text-parsing tool",
+          "inputs": [
+            "phylogenies in NEWICK format"
+          ],
+          "outputs": [
+            "screened phylogenies"
+          ],
+          "keywords": [
+            "phylogeny screening",
+            "text-parsing",
+            "NEWICK"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "In this screening step, we searched among the 697 trees for strongly supported monophyletic clade (based on nonparametric bootstrap support at $70%) between the diatoms and one other taxon.",
+          "searchable_summary": "identify monophyletic clades with bootstrap support",
+          "inputs": [
+            "screened phylogenies"
+          ],
+          "outputs": [
+            "monophyletic clades"
+          ],
+          "keywords": [
+            "monophyletic clade",
+            "bootstrap support"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "The sorted trees are then subjected to the second phase of our approach, during which we manually inspected the sorted trees with respect to gene origins in diatoms.",
+          "searchable_summary": "manually inspect sorted trees for gene origins",
+          "inputs": [
+            "sorted phylogenies"
+          ],
+          "outputs": [
+            "inspected phylogenies"
+          ],
+          "keywords": [
+            "manual inspection",
+            "gene origins"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7330459.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

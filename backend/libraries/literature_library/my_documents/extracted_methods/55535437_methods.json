@@ -1,0 +1,201 @@
+{
+  "paper_title": "Field and Laboratory Methods for Diatom Assemblage and PMSE Reconstruction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Modern Diatom Assemblage Sampling",
+      "description": "Process for collecting modern diatom assemblages from sediment samples to create a training set for relative sea-level reconstruction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sample the top 1 cm of sediment at regular vertical intervals during low tide.",
+          "searchable_summary": "collect sediment samples at specified intervals",
+          "inputs": [
+            "sediment location",
+            "sampling interval"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "diatom assemblage",
+            "low tide"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Take samples along transects perpendicular to tidal inundation direction.",
+          "searchable_summary": "collect samples along transects",
+          "inputs": [
+            "transect location",
+            "tidal direction"
+          ],
+          "outputs": [
+            "transect samples"
+          ],
+          "keywords": [
+            "transect sampling",
+            "tidal inundation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Level each sample location to a benchmark and relate to mean sea level using tidal measurements.",
+          "searchable_summary": "level samples to mean sea level",
+          "inputs": [
+            "sample location",
+            "benchmark",
+            "tide gauge data"
+          ],
+          "outputs": [
+            "leveled sample data"
+          ],
+          "keywords": [
+            "benchmarking",
+            "mean sea level",
+            "tide gauge"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Convert sample elevations to a standardized water level index (SWLI).",
+          "searchable_summary": "calculate SWLI for samples",
+          "inputs": [
+            "sample elevation",
+            "mean sea level",
+            "mean higher high water"
+          ],
+          "outputs": [
+            "SWLI values"
+          ],
+          "keywords": [
+            "SWLI",
+            "elevation conversion"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Analysis and Dating",
+      "description": "Analysis of diatom samples and dating of sediment layers to confirm historical events such as earthquakes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Prepare samples for diatom analysis following standard methods.",
+          "searchable_summary": "prepare diatom samples for analysis",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "prepared diatom samples"
+          ],
+          "keywords": [
+            "diatom preparation",
+            "sample processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Count a minimum of 250 diatom valves per sample.",
+          "searchable_summary": "count diatom valves in samples",
+          "inputs": [
+            "prepared diatom samples"
+          ],
+          "outputs": [
+            "diatom count data"
+          ],
+          "keywords": [
+            "diatom counting",
+            "valve analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Confirm sedimentary couplets relate to the 1960 earthquake using radiocarbon dating and caesium-137 concentrations.",
+          "searchable_summary": "validate sedimentary couplets with dating methods",
+          "inputs": [
+            "sediment samples",
+            "radiocarbon data",
+            "caesium-137 data"
+          ],
+          "outputs": [
+            "validated earthquake evidence"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "caesium-137",
+            "earthquake validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "PMSE Reconstruction Without Local Data",
+      "description": "Method for reconstructing past mean sea-level changes in the absence of local modern diatom data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Evaluate model performance at sites without local modern diatom data.",
+          "searchable_summary": "assess model performance without local data",
+          "inputs": [
+            "regional model",
+            "site data"
+          ],
+          "outputs": [
+            "model performance metrics"
+          ],
+          "keywords": [
+            "model evaluation",
+            "regional model",
+            "diatom data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Investigate elevation optima of principal diatom species.",
+          "searchable_summary": "analyze elevation optima of diatom species",
+          "inputs": [
+            "diatom species data"
+          ],
+          "outputs": [
+            "elevation optima"
+          ],
+          "keywords": [
+            "elevation optima",
+            "diatom species"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use regional models to find modern analogues for fossil samples.",
+          "searchable_summary": "find modern analogues using regional models",
+          "inputs": [
+            "fossil samples",
+            "regional model"
+          ],
+          "outputs": [
+            "modern analogues"
+          ],
+          "keywords": [
+            "modern analogues",
+            "regional model",
+            "fossil samples"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55535437.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,242 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Modeling Source Water δ18O",
+      "description": "The oxygen isotope ratio of source water (R_s) was modeled using a mass balance approach for the soil rooting zone. This method helps in understanding the water budget and isotopic composition in the rooting zone, which is crucial for ecological and hydrological studies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "dW_soil/dt was derived from soil moisture measurements assuming a root zone depth of 0.2 m.",
+          "searchable_summary": "derive soil moisture change rate from measurements",
+          "inputs": [
+            "soil moisture measurements",
+            "root zone depth"
+          ],
+          "outputs": [
+            "dW_soil/dt"
+          ],
+          "keywords": [
+            "soil moisture",
+            "root zone depth",
+            "derivation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "E_tot was available from eddy covariance.",
+          "searchable_summary": "fetch total evapotranspiration from eddy covariance data",
+          "inputs": [
+            "eddy covariance data"
+          ],
+          "outputs": [
+            "E_tot"
+          ],
+          "keywords": [
+            "evapotranspiration",
+            "eddy covariance"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "P was measured.",
+          "searchable_summary": "measure precipitation",
+          "inputs": [
+            "precipitation data"
+          ],
+          "outputs": [
+            "P"
+          ],
+          "keywords": [
+            "precipitation",
+            "measurement"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Apply Eq. (S16) at a daily timescale to solve D.",
+          "searchable_summary": "solve for drainage using mass balance equation",
+          "inputs": [
+            "W_soil",
+            "P",
+            "E_tot",
+            "dW_soil/dt"
+          ],
+          "outputs": [
+            "D"
+          ],
+          "keywords": [
+            "mass balance",
+            "drainage",
+            "equation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Solve R_s from the budget of the rooting zone water 18O.",
+          "searchable_summary": "calculate source water isotopic ratio",
+          "inputs": [
+            "R_rain",
+            "D",
+            "E_tot"
+          ],
+          "outputs": [
+            "R_s"
+          ],
+          "keywords": [
+            "isotopic ratio",
+            "source water",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Compare the resulting source water δ18O composition against the values observed for twig water.",
+          "searchable_summary": "validate model results with observed twig water data",
+          "inputs": [
+            "R_s",
+            "twig water δ18O"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "validation",
+            "comparison",
+            "twig water"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Derivation of Eqs. 10-12",
+      "description": "This method involves deriving equations for the isotopic ratio of sugars over time, considering the sugar pool size as constant. It simplifies the formulation for calculating isotopic ratios in ecological studies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Solve for the isotopic ratio of sugars at time t using Eq. S19.",
+          "searchable_summary": "calculate isotopic ratio of sugars at time t",
+          "inputs": [
+            "A_n",
+            "r_d",
+            "R_t_assimilates",
+            "S_sug",
+            "Δt",
+            "R_t-1_sug"
+          ],
+          "outputs": [
+            "R_t_sug"
+          ],
+          "keywords": [
+            "isotopic ratio",
+            "sugars",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Define α = (A_n + r_d)/(S_sug/Δt + A_n + r_d) to simplify the formulation.",
+          "searchable_summary": "define alpha for equation simplification",
+          "inputs": [
+            "A_n",
+            "r_d",
+            "S_sug",
+            "Δt"
+          ],
+          "outputs": [
+            "α"
+          ],
+          "keywords": [
+            "alpha",
+            "simplification",
+            "equation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Insert the same formulation for the isotopic ratio of sugars at previous times into Eq. S20.",
+          "searchable_summary": "apply recursive formulation for isotopic ratio",
+          "inputs": [
+            "α",
+            "R_t_assimilates"
+          ],
+          "outputs": [
+            "R_t_sug"
+          ],
+          "keywords": [
+            "recursive",
+            "formulation",
+            "isotopic ratio"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Calculate weighted mean of past time instances using Eq. S21.",
+          "searchable_summary": "compute weighted mean of past isotopic ratios",
+          "inputs": [
+            "w_n",
+            "R_t-n_assimilates"
+          ],
+          "outputs": [
+            "weighted mean"
+          ],
+          "keywords": [
+            "weighted mean",
+            "past instances",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Cut off the sum in Eq. S22 at τ so that the sum of weights is approximately 0.95.",
+          "searchable_summary": "truncate sum of weights for calculation",
+          "inputs": [
+            "w_n",
+            "τ"
+          ],
+          "outputs": [
+            "truncated sum"
+          ],
+          "keywords": [
+            "truncation",
+            "weights",
+            "sum"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Add the sum to the denominator resulting in the formulation of Eq. 12.",
+          "searchable_summary": "adjust equation with truncated sum",
+          "inputs": [
+            "truncated sum",
+            "w_n",
+            "R_t-n_assimilates"
+          ],
+          "outputs": [
+            "final equation"
+          ],
+          "keywords": [
+            "adjustment",
+            "denominator",
+            "equation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248813042.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

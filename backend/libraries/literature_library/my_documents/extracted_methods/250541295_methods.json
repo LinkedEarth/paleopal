@@ -1,0 +1,251 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Model Data Processing",
+      "description": "Process for preparing and analyzing climate model simulation data, focusing on surface temperature, precipitation, and isotopic compositions, to compare with speleothem records.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All simulation runs are cut to cover the time period from 850 to 1850 CE.",
+          "searchable_summary": "trim simulation data to 850-1850 CE",
+          "inputs": [
+            "simulation data"
+          ],
+          "outputs": [
+            "trimmed simulation data"
+          ],
+          "keywords": [
+            "data trimming",
+            "time period selection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Convert latent heat to potential evaporation for simulations lacking evaporation as a diagnostic.",
+          "searchable_summary": "convert latent heat to potential evaporation",
+          "inputs": [
+            "latent heat data"
+          ],
+          "outputs": [
+            "potential evaporation data"
+          ],
+          "keywords": [
+            "latent heat",
+            "evaporation conversion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Remove outliers by comparing each modelled value with its eight neighbors in time and space.",
+          "searchable_summary": "remove outliers based on neighbor comparison",
+          "inputs": [
+            "3D-output data matrix"
+          ],
+          "outputs": [
+            "outlier-free data"
+          ],
+          "keywords": [
+            "outlier removal",
+            "neighbor comparison"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate δ 18 O iw using precipitation amount and evaporation.",
+          "searchable_summary": "calculate δ 18 O iw from precipitation and evaporation",
+          "inputs": [
+            "precipitation data",
+            "evaporation data"
+          ],
+          "outputs": [
+            "δ 18 O iw values"
+          ],
+          "keywords": [
+            "isotopic calculation",
+            "δ 18 O iw"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Block-average all simulations to the same spatial resolution as ECHAM5-wiso-run.",
+          "searchable_summary": "block-average simulations to ECHAM5-wiso resolution",
+          "inputs": [
+            "simulation data"
+          ],
+          "outputs": [
+            "block-averaged data"
+          ],
+          "keywords": [
+            "block-averaging",
+            "spatial resolution"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Extract data at speleothem cave sites via bi-linear interpolation.",
+          "searchable_summary": "perform bi-linear interpolation for cave site data extraction",
+          "inputs": [
+            "simulation data",
+            "cave site locations"
+          ],
+          "outputs": [
+            "interpolated cave site data"
+          ],
+          "keywords": [
+            "bi-linear interpolation",
+            "data extraction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Average simulated monthly data to annual mean values at cave locations.",
+          "searchable_summary": "average monthly data to annual means",
+          "inputs": [
+            "monthly simulation data"
+          ],
+          "outputs": [
+            "annual mean data"
+          ],
+          "keywords": [
+            "annual averaging",
+            "temporal resolution"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Block-average simulated variables to the irregular temporal resolution of speleothems.",
+          "searchable_summary": "block-average to speleothem temporal resolution",
+          "inputs": [
+            "simulated variables",
+            "speleothem resolution"
+          ],
+          "outputs": [
+            "block-averaged variables"
+          ],
+          "keywords": [
+            "temporal averaging",
+            "speleothem resolution"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Determine the relationship between δ 18 O speleo and simulated climate variables across latitude bands.",
+          "searchable_summary": "analyze δ 18 O speleo relationship with climate variables",
+          "inputs": [
+            "δ 18 O speleo data",
+            "climate variables"
+          ],
+          "outputs": [
+            "relationship analysis"
+          ],
+          "keywords": [
+            "relationship analysis",
+            "latitude bands"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Perform power spectral analysis on time series.",
+          "searchable_summary": "conduct power spectral analysis on time series",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "power spectral density"
+          ],
+          "keywords": [
+            "spectral analysis",
+            "frequency spectrum"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Interpolate irregularly sampled time series to their mean resolution.",
+          "searchable_summary": "interpolate time series to mean resolution",
+          "inputs": [
+            "irregular time series"
+          ],
+          "outputs": [
+            "interpolated time series"
+          ],
+          "keywords": [
+            "time series interpolation",
+            "mean resolution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis of Extreme Events",
+      "description": "Examine the factors influencing δ 18 O speleo and δ 13 C speleo by analyzing synchronous extreme events and their relation to volcanic activity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Analyze the similarity of δ 18 O speleo and δ 13 C speleo signals.",
+          "searchable_summary": "analyze similarity between δ 18 O and δ 13 C speleo",
+          "inputs": [
+            "δ 18 O speleo data",
+            "δ 13 C speleo data"
+          ],
+          "outputs": [
+            "similarity analysis"
+          ],
+          "keywords": [
+            "signal similarity",
+            "isotope correlation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Test for synchronous extreme events between isotopes and volcanic forcing.",
+          "searchable_summary": "test for synchronous extreme events with volcanic forcing",
+          "inputs": [
+            "isotope data",
+            "volcanic forcing data"
+          ],
+          "outputs": [
+            "synchronous event analysis"
+          ],
+          "keywords": [
+            "extreme events",
+            "volcanic forcing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compare δ 18 O iw at cave locations to volcanic forcing.",
+          "searchable_summary": "compare δ 18 O iw with volcanic forcing",
+          "inputs": [
+            "δ 18 O iw data",
+            "volcanic forcing data"
+          ],
+          "outputs": [
+            "comparison analysis"
+          ],
+          "keywords": [
+            "volcanic comparison",
+            "δ 18 O iw"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/250541295.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

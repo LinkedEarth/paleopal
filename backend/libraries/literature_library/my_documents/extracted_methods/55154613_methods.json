@@ -1,0 +1,185 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Age-Depth Model Creation",
+      "description": "This method involves creating age-depth models for sediment cores using two different interpolation techniques: linear interpolation and smoothing spline. These models help in understanding sedimentation rates and chronological relationships in sediment cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Create age-depth models using the R-code CLAM version 2.2.",
+          "searchable_summary": "use CLAM R package to create age-depth models",
+          "inputs": [
+            "control points",
+            "sediment core data"
+          ],
+          "outputs": [
+            "age-depth models"
+          ],
+          "keywords": [
+            "age-depth modeling",
+            "CLAM",
+            "R package"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Apply linear interpolation method to connect control points with straight lines.",
+          "searchable_summary": "apply linear interpolation to control points",
+          "inputs": [
+            "control points"
+          ],
+          "outputs": [
+            "linear interpolation model"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "sedimentation rates"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use smoothing spline with a default smoothing factor of 0.3 for age model creation.",
+          "searchable_summary": "apply smoothing spline with factor 0.3",
+          "inputs": [
+            "control points"
+          ],
+          "outputs": [
+            "smoothing spline model"
+          ],
+          "keywords": [
+            "smoothing spline",
+            "sedimentation process"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Optically Stimulated Luminescence Dating",
+      "description": "This method involves using Optically Stimulated Luminescence (OSL) to date sediment cores, providing a chronology for periods where other dating methods may not be applicable.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use OSL to date sediment cores at Ciama 2 in Brazil and Potrok Aike lake in Patagonia.",
+          "searchable_summary": "apply OSL dating to sediment cores",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "OSL dates"
+          ],
+          "keywords": [
+            "OSL",
+            "sediment dating",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Combine OSL with tephra and 14C to establish chronology for Potrok Aike lake.",
+          "searchable_summary": "integrate OSL, tephra, and 14C for chronology",
+          "inputs": [
+            "OSL dates",
+            "tephra data",
+            "14C data"
+          ],
+          "outputs": [
+            "integrated chronology"
+          ],
+          "keywords": [
+            "chronology",
+            "multi-proxy",
+            "sediment core"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Data Correction and Reporting",
+      "description": "This method outlines the process of correcting and reporting radiocarbon (14C) data, including mass fractionation corrections and reservoir age adjustments, to ensure accurate chronological data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply δ13C-based correction for mass fractionation with a default value of −25 ‰.",
+          "searchable_summary": "apply δ13C correction for mass fractionation",
+          "inputs": [
+            "radiocarbon concentrations"
+          ],
+          "outputs": [
+            "corrected radiocarbon data"
+          ],
+          "keywords": [
+            "mass fractionation",
+            "δ13C correction",
+            "radiocarbon"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Implement marine reservoir correction using a global ocean reservoir correction of c. 400 years.",
+          "searchable_summary": "apply marine reservoir correction",
+          "inputs": [
+            "radiocarbon data"
+          ],
+          "outputs": [
+            "corrected marine radiocarbon data"
+          ],
+          "keywords": [
+            "marine reservoir",
+            "radiocarbon correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age Model Generation and Evaluation",
+      "description": "This method involves generating and evaluating age models for pollen records using updated calibration curves and assessing their temporal resolution and quality.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Extract sites from Neotrop-ChronDB and recalibrate control points to rebuild age models.",
+          "searchable_summary": "recalibrate control points and rebuild age models",
+          "inputs": [
+            "Neotrop-ChronDB data",
+            "control points"
+          ],
+          "outputs": [
+            "recalibrated age models"
+          ],
+          "keywords": [
+            "age model",
+            "recalibration",
+            "Neotrop-ChronDB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Evaluate age models using the star classification system based on temporal uncertainty analysis.",
+          "searchable_summary": "evaluate age models with star classification",
+          "inputs": [
+            "recalibrated age models"
+          ],
+          "outputs": [
+            "star classification results"
+          ],
+          "keywords": [
+            "age model evaluation",
+            "star classification"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55154613.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

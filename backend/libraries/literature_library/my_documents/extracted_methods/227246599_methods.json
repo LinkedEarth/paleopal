@@ -1,0 +1,1022 @@
+{
+  "paper_title": "Classification of Bee Pollen and Prediction of Sensory and Colorimetric Attributes—A Sensometric Fusion Approach by e-Nose, e-Tongue and NIR",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis and Data Processing",
+      "description": "This method encompasses various statistical procedures used for analyzing spectral colour, sensory attributes, and instrumental data (NIR, e-tongue, e-nose), including data preprocessing, fusion, and multivariate modeling.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "For the evaluation of spectral colour measurement, the mean tristimulus values L*, a*, b* coordinates of bee pollen were compared using one-way analysis of variance (α = 0.05), and the pair comparison was done using Tukey HSD post-hoc test.",
+          "searchable_summary": "perform one-way ANOVA and Tukey HSD post-hoc test on L*, a*, b* color coordinates",
+          "inputs": [
+            "mean L* values",
+            "mean a* values",
+            "mean b* values"
+          ],
+          "outputs": [
+            "ANOVA results (p-values)",
+            "Tukey HSD pairwise comparison results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "one-way ANOVA",
+            "Tukey HSD",
+            "post-hoc test",
+            "statistical test",
+            "color analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The sensory attributes of the pollens were evaluated separately. The mean values were compared by 2-way analysis of variance when evaluating the sensory attributes of the products (α = 0.05). The pair comparison was done via Tukey HSD post-hoc test.",
+          "searchable_summary": "perform two-way ANOVA and Tukey HSD post-hoc test on mean sensory attribute values",
+          "inputs": [
+            "mean sensory attribute scores"
+          ],
+          "outputs": [
+            "2-way ANOVA results (p-values)",
+            "Tukey HSD pairwise comparison results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "two-way ANOVA",
+            "Tukey HSD",
+            "post-hoc test",
+            "statistical test",
+            "sensory analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The performance monitoring of the panel was carried out according to the workflow of the PanelCheck v1.4.2 software (Ålesund, Norway) using one-and multi-way statistical methods [60,61].",
+          "searchable_summary": "monitor sensory panel performance using PanelCheck software workflow and statistical methods",
+          "inputs": [
+            "sensory panel data"
+          ],
+          "outputs": [
+            "panel performance metrics"
+          ],
+          "keywords": [
+            "sensory panel",
+            "panel performance",
+            "PanelCheck",
+            "statistical methods",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The performance of the trained sensory panel was analysed by mixed assessor model-control of assessor performance (MAM-CAP) table method for testing discrimination, agreement, repeatability, and scaling at the panel. The MAM-CAP table was created in the R-project software v4.0.2 (Vienna, Austria) with MAM-CAP-package [62,63].",
+          "searchable_summary": "analyze sensory panel performance using MAM-CAP method in R for discrimination, agreement, repeatability, scaling",
+          "inputs": [
+            "sensory panel data"
+          ],
+          "outputs": [
+            "MAM-CAP table",
+            "panel performance analysis results (discrimination, agreement, repeatability, scaling)"
+          ],
+          "keywords": [
+            "sensory panel",
+            "panel performance",
+            "MAM-CAP",
+            "R package",
+            "discrimination",
+            "agreement",
+            "repeatability",
+            "scaling",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "For the NIR spectroscopy data set, Savitzky-Golay smoothing (2nd order polynomial, 21 filter length, no derivation) was used to decrease the noise of the acquired spectra, and multiplicative scatter correction (MSC) was applied to avoid baseline shift.",
+          "searchable_summary": "apply Savitzky-Golay smoothing and Multiplicative Scatter Correction (MSC) to NIR spectra",
+          "inputs": [
+            "raw NIR spectra"
+          ],
+          "outputs": [
+            "smoothed and scatter-corrected NIR spectra"
+          ],
+          "keywords": [
+            "NIR spectroscopy",
+            "data preprocessing",
+            "Savitzky-Golay smoothing",
+            "Multiplicative Scatter Correction",
+            "MSC",
+            "spectral processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The truncated spectral range between the 950-1650 nm interval was used for the NIR data processing to avoid the noisy ranges at the ends of the spectrum.",
+          "searchable_summary": "truncate NIR spectra to the 950-1650 nm range",
+          "inputs": [
+            "preprocessed NIR spectra"
+          ],
+          "outputs": [
+            "truncated NIR spectra"
+          ],
+          "keywords": [
+            "NIR spectroscopy",
+            "data preprocessing",
+            "spectral range",
+            "truncation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "For the e-tongue, a drift correction method called \"additive correction relative to all samples\" was applied on the data set to reduce the effect of ageing on sensor signals. The method was developed by Kovacs et al [64].",
+          "searchable_summary": "apply additive drift correction relative to all samples to e-tongue data",
+          "inputs": [
+            "raw e-tongue sensor data"
+          ],
+          "outputs": [
+            "drift-corrected e-tongue sensor data"
+          ],
+          "keywords": [
+            "e-tongue",
+            "data preprocessing",
+            "drift correction",
+            "sensor data"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "For the e-nose, the 20 most discriminating sensors using the Alphasoft v16 (Toulouse, France) were chosen for further analysis. This was done on the basis of the sensor discrimination powers given by the Alphasoft v16 software. Discrimination power shows the minimum variability within the group and the maximum variability between groups.",
+          "searchable_summary": "select the 20 most discriminating e-nose sensors based on discrimination power metric",
+          "inputs": [
+            "e-nose sensor data",
+            "sensor discrimination power metric (from Alphasoft v16)"
+          ],
+          "outputs": [
+            "selected e-nose sensor data (top 20)"
+          ],
+          "keywords": [
+            "e-nose",
+            "feature selection",
+            "sensor selection",
+            "discrimination power",
+            "Alphasoft"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The results of the chosen sensors were analysed for all the four methods and also separately for each method to be able to find the most useful method in pollen discrimination.",
+          "searchable_summary": "analyze selected e-nose sensor data across different experimental methods and individually",
+          "inputs": [
+            "selected e-nose sensor data"
+          ],
+          "outputs": [
+            "analysis results comparing e-nose performance across methods"
+          ],
+          "keywords": [
+            "e-nose",
+            "data analysis",
+            "method comparison",
+            "pollen discrimination"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "The fusion of the data was also created by pairing the sample results of NIR spectroscopy, e-tongue, and e-nose. In the case of the drift corrected e-tongue data, the respective samples were paired with the pretreated NIR spectra such that the spectra and sensor signal were matched in the same time-order. As NIR contained more observations per sample in the case of e-nose, the average of the sensor values was used as needed, while in the case of E-nose, the results obtained using method 4 were inserted as many times as needed (method 4 was chosen because it had the best discrimination power).",
+          "searchable_summary": "fuse preprocessed NIR, drift-corrected e-tongue, and selected e-nose data by pairing samples, handling different observation numbers by averaging or repeating e-nose data",
+          "inputs": [
+            "preprocessed NIR spectra",
+            "drift-corrected e-tongue data",
+            "selected e-nose data (specifically method 4 results)"
+          ],
+          "outputs": [
+            "fused dataset combining NIR, e-tongue, and e-nose data per sample"
+          ],
+          "keywords": [
+            "data fusion",
+            "multimodal data",
+            "data integration",
+            "NIR",
+            "e-tongue",
+            "e-nose",
+            "data preprocessing"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Lastly, mean-centering and scaling of the data were applied before model developments. Mean-centering was performed by subtracting the mean value of each variable (wavelengths or sensors) from the respected single values. Then, for scaling, the mean-centered values were divided by the standard deviation of the corresponding variable.",
+          "searchable_summary": "apply mean-centering and standard deviation scaling to the fused dataset",
+          "inputs": [
+            "fused dataset"
+          ],
+          "outputs": [
+            "mean-centered and scaled fused dataset"
+          ],
+          "keywords": [
+            "data preprocessing",
+            "scaling",
+            "mean-centering",
+            "standardization",
+            "feature scaling"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "modeling",
+          "description": "For all the three analytical instruments (NIR spectroscopy, e-tongue and e-nose), multivariate statistical tools were used to build models. Principal component analysis was used to determine patterns in the dataset and to detect outliers by visual inspection.",
+          "searchable_summary": "perform Principal Component Analysis (PCA) on individual instrument datasets for pattern detection and visual outlier identification",
+          "inputs": [
+            "preprocessed NIR spectra",
+            "drift-corrected e-tongue data",
+            "selected e-nose data"
+          ],
+          "outputs": [
+            "PCA results (loadings, scores)",
+            "PCA plots for visual inspection"
+          ],
+          "keywords": [
+            "multivariate analysis",
+            "PCA",
+            "Principal Component Analysis",
+            "pattern recognition",
+            "outlier detection",
+            "data visualization"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_processing",
+          "description": "In the case of NIR spectroscopy and e-tongue, ten and five outliers were removed, resulting in 65 and 55 observations, respectively.",
+          "searchable_summary": "remove identified outliers from NIR and e-tongue datasets",
+          "inputs": [
+            "NIR dataset with outliers",
+            "e-tongue dataset with outliers",
+            "list of outliers identified by PCA"
+          ],
+          "outputs": [
+            "NIR dataset without outliers",
+            "e-tongue dataset without outliers"
+          ],
+          "keywords": [
+            "data cleaning",
+            "outlier removal",
+            "data preprocessing"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "modeling",
+          "description": "Linear discriminant analysis (LDA) using threefold cross-validation was used to build classification models according to the botanical origin (noted as validation in the figures).",
+          "searchable_summary": "build Linear Discriminant Analysis (LDA) classification models using threefold cross-validation to predict botanical origin",
+          "inputs": [
+            "preprocessed and outlier-removed datasets (NIR, e-tongue, e-nose)",
+            "botanical origin labels"
+          ],
+          "outputs": [
+            "LDA classification models",
+            "cross-validation performance metrics (e.g., accuracy)"
+          ],
+          "keywords": [
+            "modeling",
+            "classification",
+            "LDA",
+            "Linear Discriminant Analysis",
+            "cross-validation",
+            "machine learning",
+            "botanical origin"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "modeling",
+          "description": "Partial least square regression (PLSR) was applied to regress on the sensory and colour parameters using leave one sample out cross-validation (in this case all observation of one sample was left out and used as a validation data set, while the rest was used to train the model. The cross-validation process was repeated n times, where n was the number of the samples, in our case n = 15 for the 3 replicates of the 5 five samples).",
+          "searchable_summary": "build Partial Least Squares Regression (PLSR) models using leave-one-sample-out cross-validation to predict sensory and colour parameters",
+          "inputs": [
+            "preprocessed and outlier-removed datasets (NIR, e-tongue, e-nose)",
+            "sensory attribute scores",
+            "colour parameters (L*, a*, b*, ∆E*, chroma, hue angle)"
+          ],
+          "outputs": [
+            "PLSR regression models",
+            "cross-validation predictions"
+          ],
+          "keywords": [
+            "modeling",
+            "regression",
+            "PLSR",
+            "Partial Least Squares Regression",
+            "cross-validation",
+            "leave-one-out cross-validation",
+            "sensory prediction",
+            "color prediction"
+          ]
+        },
+        {
+          "step_number": 16,
+          "category": "validation",
+          "description": "The determination coefficient used is noted as R 2 tr and R 2 Cv for training and cross-validation, respectively. Root mean square error (RMSEC) in the case of training and RMSECV in the case of validation was applied to calculate the accuracy and error of the regression. Residual prediction deviation (RPD) was calculated to check the robustness of the model. RPD can be defined as the standard deviation of observed values divided by the root mean square error of prediction (RMSECV). The higher the RPD, the better the model's predictive ability.",
+          "searchable_summary": "calculate R^2 (training and cross-validation), RMSEC, RMSECV, and RPD to evaluate PLSR model performance",
+          "inputs": [
+            "PLSR model training results",
+            "PLSR model cross-validation predictions",
+            "observed sensory/colour values"
+          ],
+          "outputs": [
+            "R^2 tr",
+            "R^2 Cv",
+            "RMSEC",
+            "RMSECV",
+            "RPD"
+          ],
+          "keywords": [
+            "model evaluation",
+            "regression metrics",
+            "R-squared",
+            "RMSE",
+            "RPD",
+            "validation",
+            "PLSR"
+          ]
+        },
+        {
+          "step_number": 17,
+          "category": "modeling",
+          "description": "PLSR models were also built for the fused data to regress on the sensory attributes and colour parameters [65].",
+          "searchable_summary": "build PLSR models using the fused dataset to predict sensory and colour parameters",
+          "inputs": [
+            "mean-centered and scaled fused dataset",
+            "sensory attribute scores",
+            "colour parameters (L*, a*, b*, ∆E*, chroma, hue angle)"
+          ],
+          "outputs": [
+            "PLSR regression models for fused data"
+          ],
+          "keywords": [
+            "modeling",
+            "regression",
+            "PLSR",
+            "data fusion",
+            "sensory prediction",
+            "color prediction"
+          ]
+        },
+        {
+          "step_number": 18,
+          "category": "data_processing",
+          "description": "The PLSR models were built in two rounds. The result of the prediction of the first round of PLSR analysis was tested for further outliers. In the PLSR prediction-based outlier detection, boxplot analysis was performed at each level of the predicted parameters, and the observations which lie beyond the extremes of the whiskers defined by 1.5 times the interquartile range from the median were identified as outliers.",
+          "searchable_summary": "perform prediction-based outlier detection using boxplot analysis on the predicted values from the first round of PLSR",
+          "inputs": [
+            "predictions from first round PLSR models"
+          ],
+          "outputs": [
+            "identified outliers based on prediction boxplots"
+          ],
+          "keywords": [
+            "data cleaning",
+            "outlier detection",
+            "boxplot analysis",
+            "PLSR",
+            "prediction analysis"
+          ]
+        },
+        {
+          "step_number": 19,
+          "category": "data_processing",
+          "description": "These outliers were omitted before the second round of PLSR modelling.",
+          "searchable_summary": "omit identified outliers from the dataset before the second round of PLSR modeling",
+          "inputs": [
+            "dataset used for first round PLSR",
+            "identified outliers"
+          ],
+          "outputs": [
+            "dataset without identified outliers for second round PLSR"
+          ],
+          "keywords": [
+            "data cleaning",
+            "outlier removal",
+            "data preprocessing"
+          ]
+        },
+        {
+          "step_number": 20,
+          "category": "modeling",
+          "description": "Our PLRS code contains an outlier detection method based on a boxplot analysis of the predicted values from the predictor variables (in our case NIR, e-tongue, e-nose and fusion data) per sample. It resulted in the different observation number per predictable attribute.",
+          "searchable_summary": "apply custom PLSR code with prediction-based boxplot outlier detection per sample",
+          "inputs": [
+            "predictor variables (NIR, e-tongue, e-nose, fusion data)",
+            "predicted values from PLSR"
+          ],
+          "outputs": [
+            "identified outliers per sample/attribute",
+            "datasets with varying observation numbers per attribute after outlier removal"
+          ],
+          "keywords": [
+            "modeling",
+            "PLSR",
+            "outlier detection",
+            "boxplot analysis",
+            "custom code"
+          ]
+        },
+        {
+          "step_number": 21,
+          "category": "modeling",
+          "description": "In the case of the e-nose, the results of method four were used to build the PLSR models.",
+          "searchable_summary": "use e-nose data processed by method four for building PLSR models",
+          "inputs": [
+            "e-nose data processed by method four"
+          ],
+          "outputs": [
+            "e-nose data subset for PLSR"
+          ],
+          "keywords": [
+            "e-nose",
+            "modeling",
+            "PLSR",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 22,
+          "category": "modeling",
+          "description": "The number of the latent variables (LV) were chosen after the model built using the aforementioned cross-validation method. The optimal number of latent variables was determined by the lowest value of root mean square error of prediction (RMSECV) separately for each tested attribute, making sure the LVs in the final model did not exceed the number of independent samples.",
+          "searchable_summary": "select the optimal number of latent variables (LV) for PLSR models based on the lowest RMSECV from cross-validation, ensuring LV <= number of independent samples",
+          "inputs": [
+            "PLSR cross-validation results (RMSECV)",
+            "number of independent samples"
+          ],
+          "outputs": [
+            "optimal number of latent variables for each PLSR model"
+          ],
+          "keywords": [
+            "modeling",
+            "PLSR",
+            "hyperparameter tuning",
+            "latent variables",
+            "RMSECV",
+            "cross-validation",
+            "model optimization"
+          ]
+        },
+        {
+          "step_number": 23,
+          "category": "other",
+          "description": "All PCA, LDA, and PLSR models and data pre-treatments for NIR spectroscopy, e-tongue, and e-nose were utilized in the R-project software (v4.0.2) using the R-studio (v1.3.1093).",
+          "searchable_summary": "execute all PCA, LDA, PLSR modeling and data preprocessing steps in R/R-studio",
+          "inputs": [
+            "raw and preprocessed data"
+          ],
+          "outputs": [
+            "analysis results",
+            "models"
+          ],
+          "keywords": [
+            "software",
+            "R",
+            "R-studio",
+            "PCA",
+            "LDA",
+            "PLSR",
+            "data preprocessing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microscopic Pollen Analysis",
+      "description": "This method describes the procedure for determining the botanical composition of bee pollen samples through microscopic examination of pollen grains.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Pollen loads of the samples were sorted by colour, shape, and size.",
+          "searchable_summary": "sort pollen loads based on physical characteristics (colour, shape, size)",
+          "inputs": [
+            "raw pollen loads"
+          ],
+          "outputs": [
+            "sorted pollen loads (into samples with different shades)"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "sorting",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "10 pollen loads of each sample were suspended in 10 mL water in a 15 mL centrifuge tube.",
+          "searchable_summary": "suspend pollen loads in water",
+          "inputs": [
+            "sorted pollen loads",
+            "water",
+            "centrifuge tube"
+          ],
+          "outputs": [
+            "pollen suspension"
+          ],
+          "keywords": [
+            "sample preparation",
+            "suspension",
+            "pollen analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Pollen grains were dispersed completely by using a test tube mixer.",
+          "searchable_summary": "disperse pollen grains in suspension using a mixer",
+          "inputs": [
+            "pollen suspension",
+            "test tube mixer"
+          ],
+          "outputs": [
+            "dispersed pollen suspension"
+          ],
+          "keywords": [
+            "sample preparation",
+            "dispersion",
+            "mixing",
+            "pollen analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The suspension (30 µL) was transferred onto two slides using a micropipette.",
+          "searchable_summary": "transfer pollen suspension onto microscope slides",
+          "inputs": [
+            "dispersed pollen suspension",
+            "micropipette",
+            "microscope slides"
+          ],
+          "outputs": [
+            "microscope slides with pollen suspension"
+          ],
+          "keywords": [
+            "sample preparation",
+            "microscopy",
+            "slide preparation",
+            "micropipette"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "After drying on a hot plate, they were covered with glycerine gelatine mixture and glycerine gelatine mixture stained with fuchsine.",
+          "searchable_summary": "dry slides on hot plate and cover with glycerine gelatine mixture (stained and unstained)",
+          "inputs": [
+            "microscope slides with pollen suspension",
+            "hot plate",
+            "glycerine gelatine mixture",
+            "glycerine gelatine mixture stained with fuchsine"
+          ],
+          "outputs": [
+            "prepared microscope slides for analysis"
+          ],
+          "keywords": [
+            "sample preparation",
+            "microscopy",
+            "slide preparation",
+            "drying",
+            "staining"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Pollen grain identification was performed for both slides by examining the entire area of a 20 × 20 mm cover slip.",
+          "searchable_summary": "identify pollen grains by examining the entire area of the cover slip on both slides",
+          "inputs": [
+            "prepared microscope slides"
+          ],
+          "outputs": [
+            "pollen grain identifications"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "microscopy",
+            "identification",
+            "botanical composition"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "A Delta Optical binocular light microscope (Delta Optical, Warsaw, Poland) at 400× magnifications was used for the determination.",
+          "searchable_summary": "use a light microscope at 400x magnification for pollen identification",
+          "inputs": [
+            "prepared microscope slides"
+          ],
+          "outputs": [],
+          "keywords": [
+            "microscopy",
+            "light microscope",
+            "magnification",
+            "equipment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spectral Colour Measurement (L*a*b* System)",
+      "description": "This method details the procedure for measuring the colour of bee pollen samples using a chroma meter and calculating derived colour parameters based on the CIE L*a*b* system.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Prior to the assay, the device was calibrated using a white standard (L* = 87.2; a* = 3.11; b* = 3.17).",
+          "searchable_summary": "calibrate chroma meter using a white standard",
+          "inputs": [
+            "chroma meter",
+            "white standard"
+          ],
+          "outputs": [
+            "calibrated chroma meter"
+          ],
+          "keywords": [
+            "calibration",
+            "chroma meter",
+            "color measurement",
+            "equipment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "After grinding and homogenization, approximately 3 g of each sample was placed in the sample holder in a layer 1 cm thick.",
+          "searchable_summary": "grind and homogenize sample, then place in sample holder",
+          "inputs": [
+            "raw pollen sample",
+            "grinder",
+            "sample holder"
+          ],
+          "outputs": [
+            "prepared sample in sample holder"
+          ],
+          "keywords": [
+            "sample preparation",
+            "grinding",
+            "homogenization",
+            "color measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Thus, the sample completely covered the surface corresponding to the size of the measuring apparatus. The measuring apparatus was lowered to the bottom of the sample holder before the measurement was started.",
+          "searchable_summary": "ensure sample covers measurement surface and position measuring apparatus",
+          "inputs": [
+            "prepared sample in sample holder",
+            "chroma meter measuring apparatus"
+          ],
+          "outputs": [
+            "sample and apparatus positioned for measurement"
+          ],
+          "keywords": [
+            "sample preparation",
+            "color measurement",
+            "equipment setup"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The L*, a* and b* values were obtained after a few seconds of the sample measurement.",
+          "searchable_summary": "obtain L*, a*, b* color values from chroma meter measurement",
+          "inputs": [
+            "prepared sample",
+            "calibrated chroma meter"
+          ],
+          "outputs": [
+            "L* value",
+            "a* value",
+            "b* value"
+          ],
+          "keywords": [
+            "data acquisition",
+            "color measurement",
+            "L*a*b*",
+            "chroma meter"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Ten parallel measurements were performed for each sample (5 samples × 10 replicates = 50 recording per colour values).",
+          "searchable_summary": "perform ten replicate color measurements per sample",
+          "inputs": [
+            "prepared sample",
+            "calibrated chroma meter"
+          ],
+          "outputs": [
+            "10 sets of L*, a*, b* values per sample"
+          ],
+          "keywords": [
+            "data acquisition",
+            "color measurement",
+            "replicates",
+            "experimental design"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Derived from the tristimulus values L*, a*, b* coordinates and ∆E* ab colour differences, chroma and hue angle were calculated according to Commission Internationale de l'Éclairage [52].",
+          "searchable_summary": "calculate ∆E*ab, chroma, and hue angle from L*, a*, b* values",
+          "inputs": [
+            "L* values",
+            "a* values",
+            "b* values"
+          ],
+          "outputs": [
+            "∆E*ab values",
+            "chroma values",
+            "hue angle values"
+          ],
+          "keywords": [
+            "color analysis",
+            "L*a*b*",
+            "delta E",
+            "chroma",
+            "hue angle",
+            "color metrics",
+            "CIE"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sensory Analysis",
+      "description": "This method describes the evaluation of sensory attributes of bee pollen samples using a trained panel and the quantitative descriptive profile (QDP) method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Sensory evaluations were conducted at Szent István University, Sensory Evaluation Laboratory, which meets standard requirements [54].",
+          "searchable_summary": "conduct sensory evaluation in a standard-compliant laboratory",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "sensory analysis",
+            "laboratory",
+            "standards"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The panel consisted of 14 trained assessors (7 females and 7 males, between the ages of 20 to 28) with the necessary knowledge and experience in sensory descriptive analysis. This includes techniques and practices in attribute identification and terminology development. These individuals went through training which met the standard requirements [55].",
+          "searchable_summary": "use a trained sensory panel meeting standard requirements",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "sensory panel",
+            "trained assessors",
+            "sensory analysis",
+            "standards",
+            "training"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The trained panel sensory tests were carried out using quantitative descriptive profile (QDP) method [37]. The trained panel evaluated the pollens using a scale between 0 and 100 for each, where 0 was the lowest score and 100 was the highest.",
+          "searchable_summary": "collect sensory attribute scores using the Quantitative Descriptive Profile (QDP) method on a 0-100 scale",
+          "inputs": [
+            "pollen samples",
+            "trained sensory panel",
+            "QDP methodology"
+          ],
+          "outputs": [
+            "sensory attribute scores (0-100) for each sample/attribute/assessor/replicate"
+          ],
+          "keywords": [
+            "sensory analysis",
+            "QDP",
+            "Quantitative Descriptive Profile",
+            "data acquisition",
+            "scoring",
+            "attributes"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The panellists analysed 18 attributes, which involved appearance (brightness, colour hue, homogeneity of the surface), odour (global odour intensity, sweet odour intensity, sour odour intensity, floral odour intensity, hay odour intensity), taste/flavour (global taste intensity, sweet taste intensity, sour taste intensity, floral taste intensity, hay flavour intensity, off-taste intensity, after taste intensity), and texture (hardness, cohesiveness, mouthcoating). A separate text box was available to describe other odours and flavours.",
+          "searchable_summary": "evaluate 18 specific sensory attributes across appearance, odour, taste/flavour, and texture categories, plus record other observations",
+          "inputs": [
+            "pollen samples",
+            "trained sensory panel"
+          ],
+          "outputs": [
+            "scores for 18 sensory attributes",
+            "text descriptions for other odours/flavours"
+          ],
+          "keywords": [
+            "sensory analysis",
+            "attributes",
+            "appearance",
+            "odour",
+            "taste",
+            "flavour",
+            "texture",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "In order to prevent sensory fatigue, there was a half-hour break between appearance/odour attributes and taste/texture attributes.",
+          "searchable_summary": "implement a break between evaluating different categories of sensory attributes",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "sensory analysis",
+            "experimental design",
+            "fatigue prevention"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "Five pollen samples were evaluated by the panel.",
+          "searchable_summary": "evaluate five distinct pollen samples",
+          "inputs": [
+            "five pollen samples"
+          ],
+          "outputs": [],
+          "keywords": [
+            "sensory analysis",
+            "samples",
+            "experimental design"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Tests were conducted using two replicates to ensure data reliability. The sessions were conducted on 2 different days to achieve proper repetitions (5 samples × 14 panellists × 2 session = 140 observation per sensory attributes).",
+          "searchable_summary": "conduct sensory evaluation with two replicates per sample on different days",
+          "inputs": [
+            "pollen samples",
+            "trained sensory panel"
+          ],
+          "outputs": [
+            "replicated sensory attribute scores"
+          ],
+          "keywords": [
+            "sensory analysis",
+            "replicates",
+            "experimental design",
+            "data reliability"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "other",
+          "description": "The sessions were held in the morning (between 10 a.m. and 12 a.m.) because the human senses are the most sensitive during this period [56].",
+          "searchable_summary": "schedule sensory evaluation sessions in the morning",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "sensory analysis",
+            "experimental design",
+            "timing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Near Infrared Spectroscopy Measurements (NIR)",
+      "description": "This method describes the preparation of bee pollen samples and the procedure for recording their transmission spectra using a Near Infrared (NIR) spectrometer.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Samples were milled in a mortar to facilitate solubility in distilled water.",
+          "searchable_summary": "mill pollen samples in a mortar",
+          "inputs": [
+            "raw pollen samples",
+            "mortar"
+          ],
+          "outputs": [
+            "milled pollen samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "milling",
+            "grinding",
+            "NIR spectroscopy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "From each sample, a 20-times dilution was prepared. The milled pollen (6 g) was weighted in and filled up to volume in 100 mL volumetric flask, then transferred to beakers, and 20 mL of distilled water was added.",
+          "searchable_summary": "prepare a 20x dilution of milled pollen in distilled water",
+          "inputs": [
+            "milled pollen samples",
+            "distilled water",
+            "volumetric flask",
+            "beaker"
+          ],
+          "outputs": [
+            "pollen solution (dilution)"
+          ],
+          "keywords": [
+            "sample preparation",
+            "dilution",
+            "solution preparation",
+            "NIR spectroscopy"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "The solutions were filtered using filter paper (Macherey-Nagel, 24 cm, Düren, Germany).",
+          "searchable_summary": "filter the pollen solutions using filter paper",
+          "inputs": [
+            "pollen solution",
+            "filter paper"
+          ],
+          "outputs": [
+            "filtered pollen solution (filtrate)"
+          ],
+          "keywords": [
+            "sample preparation",
+            "filtration",
+            "NIR spectroscopy"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Each sample was prepared in three repeats.",
+          "searchable_summary": "prepare three replicates of each sample solution",
+          "inputs": [
+            "raw pollen samples"
+          ],
+          "outputs": [
+            "three replicate filtered solutions per sample"
+          ],
+          "keywords": [
+            "sample preparation",
+            "replicates",
+            "experimental design",
+            "NIR spectroscopy"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "For each sample, 300 µL of the filtrate was used for NIR measurement.",
+          "searchable_summary": "aliquot 300 µL of filtrate for NIR measurement",
+          "inputs": [
+            "filtered pollen solution (filtrate)",
+            "micropipette"
+          ],
+          "outputs": [
+            "aliquoted filtrate for measurement"
+          ],
+          "keywords": [
+            "sample preparation",
+            "aliquoting",
+            "NIR spectroscopy"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Near-infrared spectroscopy (NIR) measurements were performed using the DLP NIRScanNano instrument (Texas Instruments, Dallas, TX, USA). The transmission spectra of the samples were recorded at the 900-1700 nm spectral range at about a 3 nm spectral step (10 nm optical resolution) with a 1 mm path length in th...",
+          "searchable_summary": "record NIR transmission spectra using a DLP NIRScanNano instrument in the 900-1700 nm range with specified parameters",
+          "inputs": [
+            "aliquoted filtrate",
+            "DLP NIRScanNano instrument"
+          ],
+          "outputs": [
+            "raw NIR transmission spectra"
+          ],
+          "keywords": [
+            "data acquisition",
+            "NIR spectroscopy",
+            "transmission spectra",
+            "spectrometer",
+            "spectral measurement"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/227246599.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

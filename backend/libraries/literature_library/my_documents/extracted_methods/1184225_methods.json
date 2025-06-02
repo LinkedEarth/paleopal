@@ -1,0 +1,202 @@
+{
+  "paper_title": "Pollen-Climate Relations in the Netherlands",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Collection",
+      "description": "Process for collecting and recording atmospheric pollen concentrations at two locations in the Netherlands to study the impact of seasonal climate variables on annual pollen production.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Atmospheric pollen concentrations have been recorded daily since AD 1969 at LUMC and since AD 1975 at Elkerliek Hospital.",
+          "searchable_summary": "record daily atmospheric pollen concentrations at LUMC and Elkerliek Hospital",
+          "inputs": [
+            "location",
+            "date"
+          ],
+          "outputs": [
+            "daily pollen concentration data"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "data recording",
+            "LUMC",
+            "Elkerliek Hospital"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Daily pollen counts were summed to determine total annual pollen influx.",
+          "searchable_summary": "sum daily pollen counts to calculate total annual pollen influx",
+          "inputs": [
+            "daily pollen concentration data"
+          ],
+          "outputs": [
+            "annual pollen influx data"
+          ],
+          "keywords": [
+            "pollen influx",
+            "data summation",
+            "annual data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Pollen Data",
+      "description": "Statistical procedures used to analyze the collected pollen data to determine the influence of climate variables on pollen production.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Pollen counts were square-root transformed as Q-Q plots and non-parametric Kolmogorov-Smirnov testing showed a nonnormal distribution for most pollen types.",
+          "searchable_summary": "apply square-root transformation to pollen counts",
+          "inputs": [
+            "pollen counts"
+          ],
+          "outputs": [
+            "transformed pollen counts"
+          ],
+          "keywords": [
+            "square-root transformation",
+            "data normalization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A principal component analysis (PCA) of the LUMC square-root transformed pollen counts was performed using CANOCO software.",
+          "searchable_summary": "perform PCA on transformed pollen counts using CANOCO",
+          "inputs": [
+            "transformed pollen counts"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "CANOCO",
+            "pollen analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "A two-tailed Spearman rank correlation was performed to assess which pollen types correlate significantly with climate.",
+          "searchable_summary": "perform Spearman rank correlation between pollen types and climate variables",
+          "inputs": [
+            "pollen types",
+            "climate variables"
+          ],
+          "outputs": [
+            "correlation results"
+          ],
+          "keywords": [
+            "Spearman rank correlation",
+            "climate correlation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Linear regression analysis with time as a predictor, and multiple regression analysis with climatological variables as predictors were performed.",
+          "searchable_summary": "perform linear and multiple regression analysis on pollen data",
+          "inputs": [
+            "pollen data",
+            "time",
+            "climatological variables"
+          ],
+          "outputs": [
+            "regression models"
+          ],
+          "keywords": [
+            "linear regression",
+            "multiple regression",
+            "climatological modeling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Prediction skill of the resulting model was tested by random division of the dataset in a calibration and an independent test set.",
+          "searchable_summary": "validate regression model using calibration and test datasets",
+          "inputs": [
+            "regression model",
+            "dataset"
+          ],
+          "outputs": [
+            "model validation results"
+          ],
+          "keywords": [
+            "model validation",
+            "calibration",
+            "test set"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Predictive Regression Model",
+      "description": "Development and validation of a predictive regression model to assess the effect of meteorological variables on pollen influx.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Multiple regression analysis with backward selection was used to assess the effect of meteorological variables on pollen influx.",
+          "searchable_summary": "perform multiple regression analysis with backward selection on pollen influx data",
+          "inputs": [
+            "pollen influx data",
+            "meteorological variables"
+          ],
+          "outputs": [
+            "regression model"
+          ],
+          "keywords": [
+            "multiple regression",
+            "backward selection",
+            "pollen influx"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Calibration and prediction skill of the resulting optimal model were tested.",
+          "searchable_summary": "test calibration and prediction skill of regression model",
+          "inputs": [
+            "regression model"
+          ],
+          "outputs": [
+            "calibration results",
+            "prediction skill"
+          ],
+          "keywords": [
+            "model calibration",
+            "prediction skill"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Multitaper spectral analysis was used to evaluate cyclicity patterns and autocorrelations.",
+          "searchable_summary": "perform multitaper spectral analysis for cyclicity and autocorrelation evaluation",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "cyclicity patterns",
+            "autocorrelation results"
+          ],
+          "keywords": [
+            "spectral analysis",
+            "cyclicity",
+            "autocorrelation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/1184225.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,241 @@
+{
+  "paper_title": "Material and methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Specimen Preparation and Radiocarbon Analysis",
+      "description": "This method involves the preparation of a copal specimen for radiocarbon dating and subsequent analysis to determine its age.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The piece was cut and polished at the SMF using a Phoenix Beta polishing machine with grinding paper for metallography wet and dry: Grip 1200, 2500, and 4000.",
+          "searchable_summary": "Cut and polish specimen using Phoenix Beta polishing machine",
+          "inputs": [
+            "copal specimen",
+            "Phoenix Beta polishing machine",
+            "grinding paper"
+          ],
+          "outputs": [
+            "polished specimen"
+          ],
+          "keywords": [
+            "specimen preparation",
+            "polishing",
+            "Phoenix Beta"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "After being polished, it was stored following Sadowski's et al. recommendations.",
+          "searchable_summary": "Store polished specimen according to Sadowski's recommendations",
+          "inputs": [
+            "polished specimen"
+          ],
+          "outputs": [
+            "stored specimen"
+          ],
+          "keywords": [
+            "specimen storage",
+            "Sadowski's recommendations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The age was determined using rigorous standard methods of radiocarbon analysis (14C and 13C) in the Beta Analytic Inc. Laboratories.",
+          "searchable_summary": "Perform radiocarbon analysis at Beta Analytic Inc.",
+          "inputs": [
+            "stored specimen"
+          ],
+          "outputs": [
+            "radiocarbon age data"
+          ],
+          "keywords": [
+            "radiocarbon analysis",
+            "14C",
+            "13C",
+            "Beta Analytic"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Synchrotron-Radiation Based X-ray Microtomography (SRμCT)",
+      "description": "This method involves the use of synchrotron-radiation based X-ray microtomography to analyze the specimen's internal structure.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The specimen was analysed using synchrotron-radiation based X-ray microtomography at the Imaging Beamline-IBL P05-PETRA III at Deutsches Elektronen Synchrotron (DESY) in Hamburg.",
+          "searchable_summary": "Analyze specimen using SRμCT at DESY",
+          "inputs": [
+            "specimen"
+          ],
+          "outputs": [
+            "X-ray microtomography data"
+          ],
+          "keywords": [
+            "SRμCT",
+            "DESY",
+            "X-ray microtomography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "3601 projections, equally spaced between 0 and π, were recorded for a tomographic scan at a photon energy of 18 keV.",
+          "searchable_summary": "Record 3601 projections for tomographic scan",
+          "inputs": [
+            "specimen",
+            "photon energy 18 keV"
+          ],
+          "outputs": [
+            "projections data"
+          ],
+          "keywords": [
+            "projections",
+            "tomographic scan",
+            "photon energy"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Tomographic reconstruction was achieved by applying a transport-of-intensity phase retrieval with a beamline-specific workflow implemented in Matlab, using the filtered-back projection algorithm implemented in the Astra Toolbox.",
+          "searchable_summary": "Perform tomographic reconstruction using Matlab and Astra Toolbox",
+          "inputs": [
+            "projections data"
+          ],
+          "outputs": [
+            "reconstructed tomographic volume"
+          ],
+          "keywords": [
+            "tomographic reconstruction",
+            "Matlab",
+            "Astra Toolbox"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Raw projections have been binned two times for processing, resulting in an effective pixel size of 1.28 µm in the reconstructed tomographic volume.",
+          "searchable_summary": "Bin raw projections for processing",
+          "inputs": [
+            "raw projections"
+          ],
+          "outputs": [
+            "processed projections"
+          ],
+          "keywords": [
+            "binning",
+            "projections",
+            "pixel size"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The specimens were segmented in three dimensions using region-growing techniques in VGStudioMax.",
+          "searchable_summary": "Segment specimens using VGStudioMax",
+          "inputs": [
+            "reconstructed tomographic volume"
+          ],
+          "outputs": [
+            "segmented 3D model"
+          ],
+          "keywords": [
+            "segmentation",
+            "VGStudioMax",
+            "3D model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microscopy Imaging",
+      "description": "This method involves capturing and processing micrographs and Z-stack images of the specimen using a compound microscope.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The micrographs and Z-stack images were recorded under a compound microscope Olympus CX41 equipped with a digital camera sCMEX-20.",
+          "searchable_summary": "Capture micrographs and Z-stack images using Olympus CX41",
+          "inputs": [
+            "specimen",
+            "Olympus CX41",
+            "sCMEX-20"
+          ],
+          "outputs": [
+            "micrographs",
+            "Z-stack images"
+          ],
+          "keywords": [
+            "microscopy",
+            "Olympus CX41",
+            "sCMEX-20"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "These micrographs were processed with Image Focus Alpha.",
+          "searchable_summary": "Process micrographs using Image Focus Alpha",
+          "inputs": [
+            "micrographs"
+          ],
+          "outputs": [
+            "processed micrographs"
+          ],
+          "keywords": [
+            "image processing",
+            "Image Focus Alpha"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Finally merged with Combine ZP.",
+          "searchable_summary": "Merge images using Combine ZP",
+          "inputs": [
+            "processed micrographs"
+          ],
+          "outputs": [
+            "merged images"
+          ],
+          "keywords": [
+            "image merging",
+            "Combine ZP"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Figure Creation",
+      "description": "This method involves creating figures for the paper using graphic design software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Figures were created using CorelDRAW Graphics Suite software.",
+          "searchable_summary": "Create figures using CorelDRAW",
+          "inputs": [
+            "image data",
+            "CorelDRAW"
+          ],
+          "outputs": [
+            "figures"
+          ],
+          "keywords": [
+            "figure creation",
+            "CorelDRAW",
+            "graphics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/257355098.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

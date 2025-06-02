@@ -1,0 +1,276 @@
+{
+  "paper_title": "Machine Learning Approach and Extreme Value Theory to Correlated Stochastic Time Series with Application to Tree Ring Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Machine Learning Model Evaluation and Refinement",
+      "description": "Describes the process of evaluating and improving the accuracy of machine learning models for correlated stochastic time series using techniques like KNN evaluation, feature selection, data transformation, parameter tuning, and ensemble methods, measured by Root Mean Square Error (RMSE).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "The accuracy of the models estimated via the ML algorithm can be measured by the k-nearest neighbors (KNN) algorithm. Nearest neighbors can be defined as those data points that have the minimum minimum distances in feature space from the simulated data point, whilst K is the number of such data points that we consider in the implementation of the ML algorithm [14]. The six algorithms (linear and nonlinear) have been evaluated using the KNN algorithm. It can be seen from Table 4 that the KNN value has the lowest Root Mean Square Error of 4.220.",
+          "searchable_summary": "Evaluate machine learning models using KNN and calculate Root Mean Square Error (RMSE).",
+          "inputs": [
+            "Trained ML models (linear and nonlinear)",
+            "Simulated data points",
+            "Feature space data",
+            "K value for KNN"
+          ],
+          "outputs": [
+            "RMSE values for evaluated models"
+          ],
+          "keywords": [
+            "machine learning",
+            "model evaluation",
+            "KNN",
+            "k-nearest neighbors",
+            "RMSE",
+            "root mean square error",
+            "accuracy",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We then used a feature selection and removed the most correlated attributes (highly correlated).",
+          "searchable_summary": "Perform feature selection by removing highly correlated attributes.",
+          "inputs": [
+            "Dataset with features"
+          ],
+          "outputs": [
+            "Dataset with selected features (highly correlated ones removed)"
+          ],
+          "keywords": [
+            "feature selection",
+            "correlation",
+            "data processing",
+            "attribute selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "However, we can see that removing the highly correlated attributes yielded a worse Root Mean Square Error for the linear and nonlinear algorithms.",
+          "searchable_summary": "Re-evaluate models after feature selection using RMSE.",
+          "inputs": [
+            "Models trained on data with selected features",
+            "Test data"
+          ],
+          "outputs": [
+            "RMSE values after feature selection"
+          ],
+          "keywords": [
+            "model evaluation",
+            "RMSE",
+            "feature selection",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We notice that some of the trees have a skew and others perhaps have an exponential distribution, so we decided to use the Box-Cox transformation.",
+          "searchable_summary": "Apply Box-Cox transformation to the data.",
+          "inputs": [
+            "Dataset with skewed/exponentially distributed features"
+          ],
+          "outputs": [
+            "Transformed dataset"
+          ],
+          "keywords": [
+            "Box-Cox transformation",
+            "data transformation",
+            "data processing",
+            "skew",
+            "exponential distribution"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "It can be seen that this decreases the Root Mean Square Error for the linear algorithms only.",
+          "searchable_summary": "Re-evaluate models after Box-Cox transformation using RMSE.",
+          "inputs": [
+            "Models trained on Box-Cox transformed data",
+            "Test data"
+          ],
+          "outputs": [
+            "RMSE values after Box-Cox transformation"
+          ],
+          "keywords": [
+            "model evaluation",
+            "RMSE",
+            "Box-Cox transformation",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The accuracy of KNN has been improved by tuning their parameters. We design a grid search around a K value of 6; this is done by assuming a grid value between 2 and 10.",
+          "searchable_summary": "Tune KNN parameters using grid search.",
+          "inputs": [
+            "KNN model",
+            "Parameter grid (e.g., K values 2-10)",
+            "Training data"
+          ],
+          "outputs": [
+            "Optimal KNN parameters",
+            "Potentially improved KNN model"
+          ],
+          "keywords": [
+            "KNN",
+            "parameter tuning",
+            "grid search",
+            "hyperparameter tuning",
+            "machine learning",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "(Implied step after tuning) Evaluate models with tuned KNN parameters.",
+          "searchable_summary": "Evaluate models with tuned KNN parameters using RMSE.",
+          "inputs": [
+            "Models using tuned KNN",
+            "Test data"
+          ],
+          "outputs": [
+            "RMSE values with tuned KNN"
+          ],
+          "keywords": [
+            "model evaluation",
+            "RMSE",
+            "KNN tuning",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Ensemble methods have been used for the problem as this further decreases the value of the Root Mean Square Error. It is noticeable that the random forest was the most accurate algorithm, with a lower Root Mean Square Error than that achieved by tuning the KNN algorithm.",
+          "searchable_summary": "Apply ensemble methods, specifically Random Forest.",
+          "inputs": [
+            "Training data",
+            "Ensemble model configuration (e.g., Random Forest)"
+          ],
+          "outputs": [
+            "Trained ensemble model (Random Forest)"
+          ],
+          "keywords": [
+            "ensemble methods",
+            "random forest",
+            "machine learning",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "(Implied step after applying ensemble methods) Evaluate ensemble models using RMSE.",
+          "searchable_summary": "Evaluate ensemble models (Random Forest) using RMSE.",
+          "inputs": [
+            "Trained ensemble model (Random Forest)",
+            "Test data"
+          ],
+          "outputs": [
+            "RMSE value for the ensemble model"
+          ],
+          "keywords": [
+            "model evaluation",
+            "RMSE",
+            "ensemble methods",
+            "random forest",
+            "validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tree Ring Data Preparation",
+      "description": "Describes the process of preparing the raw tree ring width data from multiple trees to create a consistent time series for analysis by selecting a common start and end year (1835-1975).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The data was collected from Thoresby Estate, Sherwood Forest, in Nottinghamshire in 1975 by members of the Nottingham University Tree-ring Dating Laboratory [13]. The data consists of the ring widths of nine trees from the site. Details of the trees are given in Table 1. Four of the trees were felled in 1975 and the remaining five in 1967. The dates of the first rings measured vary from 1810 for THO-A01B to 1835 for THO-B05A.",
+          "searchable_summary": "Obtain tree ring width data for multiple trees from a specified source.",
+          "inputs": [
+            "Data source (e.g., file, database) containing tree ring widths and associated metadata (tree ID, felling date, start year)"
+          ],
+          "outputs": [
+            "Raw tree ring width data for nine trees"
+          ],
+          "keywords": [
+            "data collection",
+            "tree ring data",
+            "dendrochronology",
+            "data fetch"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In order to carry out our statistical investigation, we should consider the years in which every tree has one ring. From Table 1, we note that this corresponds to the years 1835 to 1975 (inclusive).",
+          "searchable_summary": "Determine the common time period present in all tree ring series.",
+          "inputs": [
+            "Raw tree ring data with start and end years for each tree"
+          ],
+          "outputs": [
+            "Common start year (1835)",
+            "Common end year (1975)"
+          ],
+          "keywords": [
+            "data processing",
+            "time series",
+            "common period",
+            "data alignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We modified the data to start from 1835 to 1975, for example, THO-A01B in the original series data went from 1810 to 1975 with 166 rings. We assume that the start date is 1835 and the end date is 1975, with 141 rings. We applied this rule to all nine trees in the dataset.",
+          "searchable_summary": "Truncate or select data for each tree series to match the common time period (1835-1975).",
+          "inputs": [
+            "Raw tree ring data for each tree",
+            "Common start year (1835)",
+            "Common end year (1975)"
+          ],
+          "outputs": [
+            "Modified tree ring data series for each tree covering the common period"
+          ],
+          "keywords": [
+            "data processing",
+            "time series truncation",
+            "data subsetting",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Therefore, we will have fixed and equal numbers of rings for all trees, which is 141, as can be seen in Table 2.",
+          "searchable_summary": "Verify that all modified tree ring series have the same length (number of rings).",
+          "inputs": [
+            "Modified tree ring data series for all trees"
+          ],
+          "outputs": [
+            "Confirmation of equal series length (141 rings)"
+          ],
+          "keywords": [
+            "data validation",
+            "data quality",
+            "time series length",
+            "data verification"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256358330.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

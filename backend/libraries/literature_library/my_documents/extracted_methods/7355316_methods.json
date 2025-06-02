@@ -1,0 +1,170 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Demographic History Analysis using Tajima's D and Fu's Fs",
+      "description": "This method involves tracing population growth using Tajima's D statistics and Fu's Fs test to examine demographic history.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Trace population growth using Tajima's D statistics and Fu's Fs test.",
+          "searchable_summary": "calculate Tajima's D and Fu's Fs statistics for population growth analysis",
+          "inputs": [
+            "genetic sequence data"
+          ],
+          "outputs": [
+            "Tajima's D value",
+            "Fu's Fs value"
+          ],
+          "keywords": [
+            "Tajima's D",
+            "Fu's Fs",
+            "population growth"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mismatch Distribution Analysis",
+      "description": "This method tests evidence for population expansion by examining pairwise mismatch distributions using Arlequin software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Examine pairwise mismatch distributions in Arlequin.",
+          "searchable_summary": "analyze mismatch distributions using Arlequin software",
+          "inputs": [
+            "genetic sequence data"
+          ],
+          "outputs": [
+            "mismatch distribution data"
+          ],
+          "keywords": [
+            "mismatch distribution",
+            "Arlequin",
+            "population expansion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compute the raggedness index and the sum of squared deviations (SSD) between observed and expected mismatch distribution.",
+          "searchable_summary": "calculate raggedness index and SSD for mismatch distribution",
+          "inputs": [
+            "mismatch distribution data"
+          ],
+          "outputs": [
+            "raggedness index",
+            "SSD value"
+          ],
+          "keywords": [
+            "raggedness index",
+            "SSD",
+            "mismatch distribution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Test statistical significance of raggedness index and SSD using a bootstrap approach with 1000 replicates.",
+          "searchable_summary": "perform bootstrap test for statistical significance of raggedness index and SSD",
+          "inputs": [
+            "raggedness index",
+            "SSD value"
+          ],
+          "outputs": [
+            "P Rag",
+            "P SSD"
+          ],
+          "keywords": [
+            "bootstrap",
+            "statistical significance",
+            "raggedness index",
+            "SSD"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Estimate the time at which the population expansion began using the relationship t = 2ut.",
+          "searchable_summary": "estimate population expansion time using mismatch distribution mode and mutation rate",
+          "inputs": [
+            "mode of mismatch distribution",
+            "mutation rate"
+          ],
+          "outputs": [
+            "population expansion time (t)"
+          ],
+          "keywords": [
+            "population expansion",
+            "time estimation",
+            "mutation rate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bayesian Skyline Plot Analysis",
+      "description": "This method examines past population dynamics using Bayesian skyline plots, a model-free coalescent-based method implemented in BEAST.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Run Bayesian skyline plot analysis in BEAST with fixed mutation rate and HKY+I+G model.",
+          "searchable_summary": "perform Bayesian skyline plot analysis using BEAST with specified model and mutation rate",
+          "inputs": [
+            "genetic sequence data",
+            "mutation rate",
+            "HKY+I+G model"
+          ],
+          "outputs": [
+            "Bayesian skyline plot"
+          ],
+          "keywords": [
+            "Bayesian skyline plot",
+            "BEAST",
+            "coalescent-based method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Run 10^7 iterations of the MCMC chains, sampling every 1000 iterations and discarding the first 10% as burn-in.",
+          "searchable_summary": "execute MCMC chain iterations with specified sampling and burn-in settings",
+          "inputs": [
+            "MCMC settings"
+          ],
+          "outputs": [
+            "processed MCMC data"
+          ],
+          "keywords": [
+            "MCMC",
+            "iterations",
+            "burn-in"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Generate Bayesian skyline plots with Tracer 1.4.",
+          "searchable_summary": "create Bayesian skyline plots using Tracer software",
+          "inputs": [
+            "processed MCMC data"
+          ],
+          "outputs": [
+            "Bayesian skyline plots"
+          ],
+          "keywords": [
+            "Tracer",
+            "visualization",
+            "Bayesian skyline plot"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7355316.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

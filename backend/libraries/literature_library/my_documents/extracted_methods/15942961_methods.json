@@ -1,0 +1,116 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Demographic Analysis Using PSMC Model",
+      "description": "Analysis of demographic history for genomic sequences using the PSMC model to reconstruct the TMRCA distribution across autosomes, reflecting the demography of whole populations, regions, or species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Filter out all positions with mapping quality below 20 when converting from the FASTQ file to the PSMC 100-bp bin input file.",
+          "searchable_summary": "filter genomic data based on mapping quality",
+          "inputs": [
+            "FASTQ file"
+          ],
+          "outputs": [
+            "PSMC 100-bp bin input file"
+          ],
+          "keywords": [
+            "filtering",
+            "mapping quality",
+            "FASTQ",
+            "PSMC"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Set time parameters to 4 + 25 Â 2 + 4 + 6 as suggested in Li and Durbin (2011).",
+          "searchable_summary": "configure PSMC model time parameters",
+          "inputs": [
+            "PSMC model"
+          ],
+          "outputs": [
+            "configured PSMC model"
+          ],
+          "keywords": [
+            "time parameters",
+            "PSMC model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Assess robustness of demographic estimates by bootstrapping with 100 iterations.",
+          "searchable_summary": "perform bootstrapping for demographic estimate validation",
+          "inputs": [
+            "demographic estimates"
+          ],
+          "outputs": [
+            "validated demographic estimates"
+          ],
+          "keywords": [
+            "bootstrapping",
+            "validation",
+            "demographic estimates"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Set generation time for real-time scaling to 25.7.",
+          "searchable_summary": "set generation time for scaling",
+          "inputs": [
+            "generation time parameter"
+          ],
+          "outputs": [
+            "scaled demographic data"
+          ],
+          "keywords": [
+            "generation time",
+            "scaling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate average mutation rate using the total published cetacean range and two extremes.",
+          "searchable_summary": "calculate average mutation rate",
+          "inputs": [
+            "mutation rates from literature"
+          ],
+          "outputs": [
+            "average mutation rate"
+          ],
+          "keywords": [
+            "mutation rate",
+            "calculation",
+            "cetaceans"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Rescale using a faster rate calculated for odontocetes and a slower rate calculated for mysticetes.",
+          "searchable_summary": "rescale demographic data using different mutation rates",
+          "inputs": [
+            "faster and slower mutation rates"
+          ],
+          "outputs": [
+            "rescaled demographic data"
+          ],
+          "keywords": [
+            "rescaling",
+            "mutation rates",
+            "odontocetes",
+            "mysticetes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15942961.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

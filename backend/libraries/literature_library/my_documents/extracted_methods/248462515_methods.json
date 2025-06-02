@@ -1,0 +1,413 @@
+{
+  "paper_title": "Benthic Diatom Community Assembly in Xiangxi River",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ecological Community Data Analysis",
+      "description": "Statistical and ecological analyses performed on collected benthic diatom community data using R, including decomposition of beta-diversity, Mantel tests, and calculation of DNCI values to assess community assembly processes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "R (version 4.0.2) (R Core Team, 2020) was used to perform all analyses.",
+          "searchable_summary": "Set up R environment with specified version",
+          "inputs": [
+            "R software",
+            "version 4.0.2"
+          ],
+          "outputs": [
+            "Configured R environment"
+          ],
+          "keywords": [
+            "R",
+            "software version",
+            "environment setup"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Using the beta.pair function in the R package betapart, based on presenceabsence data (using Sørensen distance), the total taxonomybased β-diversity was divided into two parts: turnover and nestedness (Baselga and Orme, 2012).",
+          "searchable_summary": "Calculate taxonomy-based beta diversity components (total, turnover, nestedness) using Sørensen distance on presence-absence data",
+          "inputs": [
+            "Taxonomy presence-absence data",
+            "R package betapart"
+          ],
+          "outputs": [
+            "Taxonomy-based beta diversity matrix (total, turnover, nestedness)"
+          ],
+          "keywords": [
+            "beta diversity",
+            "taxonomy",
+            "Sørensen distance",
+            "presence-absence",
+            "betapart",
+            "R",
+            "turnover",
+            "nestedness"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "First, the gowdis function in the R package FD was used to calculate the distance between species based on trait data.",
+          "searchable_summary": "Calculate Gower distance matrix for species based on trait data",
+          "inputs": [
+            "Species trait data",
+            "R package FD"
+          ],
+          "outputs": [
+            "Species Gower distance matrix"
+          ],
+          "keywords": [
+            "Gower distance",
+            "trait data",
+            "species distance",
+            "FD",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Second, the Gower distance was used for principal coordinate analysis (PCoA), and the pco function in the R package labdsv was used to generate the trait vector.",
+          "searchable_summary": "Perform Principal Coordinate Analysis (PCoA) on species Gower distance matrix to obtain trait vectors",
+          "inputs": [
+            "Species Gower distance matrix",
+            "R package labdsv"
+          ],
+          "outputs": [
+            "PCoA results",
+            "Trait vectors"
+          ],
+          "keywords": [
+            "PCoA",
+            "Principal Coordinate Analysis",
+            "Gower distance",
+            "labdsv",
+            "R",
+            "trait vectors"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Third, the function functional.beta.pair in the R package betapart was used to generate three trait-based β-diversity matrices, using the first two PCoA vectors and species data.",
+          "searchable_summary": "Calculate trait-based beta diversity components (total, turnover, nestedness) using functional beta pair analysis with PCoA vectors",
+          "inputs": [
+            "Species data",
+            "First two PCoA vectors",
+            "R package betapart"
+          ],
+          "outputs": [
+            "Trait-based beta diversity matrices (total, turnover, nestedness)"
+          ],
+          "keywords": [
+            "beta diversity",
+            "trait-based",
+            "functional beta diversity",
+            "betapart",
+            "R",
+            "turnover",
+            "nestedness",
+            "PCoA vectors"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "By decomposing β-diversity, we can know the relative contribution of turnover and nestedness components to the total taxonomyand trait-based β-diversity, and compare the differences among the 5 different habitats (H01-H05) (question i).",
+          "searchable_summary": "Compare beta diversity components across different habitat groups",
+          "inputs": [
+            "Taxonomy-based beta diversity components (turnover, nestedness)",
+            "Trait-based beta diversity components (turnover, nestedness)",
+            "Habitat grouping information (H01-H05)"
+          ],
+          "outputs": [
+            "Comparison results of beta diversity components across habitats"
+          ],
+          "keywords": [
+            "beta diversity",
+            "habitat comparison",
+            "statistical comparison",
+            "ecological analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Furthermore, we ran Mantel test (using the function mantel in R package vegan) (Oksanen et al., 2019) to test the relationship between taxonomy-and trait-based β-diversity components to examine whether both facets of β-diversity provide complementarity of ecological information.",
+          "searchable_summary": "Perform Mantel test to correlate taxonomy-based and trait-based beta diversity matrices",
+          "inputs": [
+            "Taxonomy-based beta diversity matrix",
+            "Trait-based beta diversity matrix",
+            "R package vegan"
+          ],
+          "outputs": [
+            "Mantel test results (correlation statistic, p-value)"
+          ],
+          "keywords": [
+            "Mantel test",
+            "beta diversity",
+            "correlation",
+            "vegan",
+            "R",
+            "taxonomy",
+            "traits"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "To explore what is the key mechanism of community assembly processes in the study area impacted by small run-of-river dams (question ii) and how do they affect community assembly processes of benthic diatoms (question iii), we calculated and compared the pairwise DNCI values (function DNCI_multigroup in R package DNCImper) (Gibert, 2021) for both species and trait composition of benthic diatoms among 5 different habitats.",
+          "searchable_summary": "Calculate and compare pairwise DNCI values for species and trait composition across habitat groups",
+          "inputs": [
+            "Species composition data",
+            "Trait composition data",
+            "Habitat grouping information",
+            "R package DNCImper"
+          ],
+          "outputs": [
+            "Pairwise DNCI values",
+            "Comparison results of DNCI values across habitats"
+          ],
+          "keywords": [
+            "DNCI",
+            "community assembly",
+            "dispersal",
+            "niche",
+            "DNCImper",
+            "R",
+            "species composition",
+            "trait composition",
+            "habitat comparison"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "In order to produce more robust results, we made pairs of groups even by random sampling of the largest groups (i.e., symmetrize = TRUE).",
+          "searchable_summary": "Apply symmetrization by random sampling for DNCI calculation",
+          "inputs": [
+            "Data for DNCI calculation",
+            "symmetrize parameter (TRUE)"
+          ],
+          "outputs": [
+            "DNCI values calculated with symmetrization"
+          ],
+          "keywords": [
+            "DNCI",
+            "symmetrization",
+            "random sampling",
+            "DNCImper",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Benthic Algae Field Sampling and Processing",
+      "description": "Procedure for collecting benthic algae samples from river stones, preserving them, and processing them for microscopic identification of nondiatoms and diatoms.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Algae samples were collected at the 90 sites.",
+          "searchable_summary": "Conduct field sampling at specified sites",
+          "inputs": [
+            "List of 90 sampling sites",
+            "Field equipment"
+          ],
+          "outputs": [
+            "Raw algae samples from 90 sites"
+          ],
+          "keywords": [
+            "field sampling",
+            "ecological sampling",
+            "site collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "At each sample point, three to five representative stones with a diameter of ∼25 cm were selected...",
+          "searchable_summary": "Select representative stones for sampling at each site",
+          "inputs": [
+            "Stones at sampling site"
+          ],
+          "outputs": [
+            "Selected stones for sampling"
+          ],
+          "keywords": [
+            "field sampling",
+            "stone selection",
+            "ecological sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "...and the algae in the sampling area with a diameter of 2.7 cm was brushed...",
+          "searchable_summary": "Collect algae from a defined area on selected stones using brushing",
+          "inputs": [
+            "Selected stones",
+            "Brushing tool",
+            "Measurement tool (for 2.7 cm diameter)"
+          ],
+          "outputs": [
+            "Brushed algae material"
+          ],
+          "keywords": [
+            "algae collection",
+            "brushing",
+            "quantitative sampling",
+            "field sampling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...and then rinsed with 350 ml distilled water.",
+          "searchable_summary": "Rinse collected algae material with distilled water",
+          "inputs": [
+            "Brushed algae material",
+            "350 ml distilled water"
+          ],
+          "outputs": [
+            "Algae suspension in distilled water"
+          ],
+          "keywords": [
+            "sample processing",
+            "rinsing",
+            "distilled water"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Algae samples were then preserved with 4% formalin for subsequent identification.",
+          "searchable_summary": "Preserve algae samples using 4% formalin solution",
+          "inputs": [
+            "Algae suspension",
+            "4% formalin solution"
+          ],
+          "outputs": [
+            "Preserved algae samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "formalin",
+            "ecological samples"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "First, a 400× magnification microscope was used to identify nondiatoms in the 0.1 ml counting chamber.",
+          "searchable_summary": "Identify and count nondiatom algae under microscope using a counting chamber",
+          "inputs": [
+            "Preserved algae sample",
+            "400x microscope",
+            "0.1 ml counting chamber"
+          ],
+          "outputs": [
+            "Nondiatom identification and count data"
+          ],
+          "keywords": [
+            "microscopy",
+            "algae identification",
+            "nondiatoms",
+            "counting chamber",
+            "biological identification"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Second, permanent diatom slides were prepared with nitric acid and sulfuric acid.",
+          "searchable_summary": "Prepare permanent diatom slides using acid digestion",
+          "inputs": [
+            "Preserved algae sample",
+            "Nitric acid",
+            "Sulfuric acid",
+            "Microscope slides",
+            "Mounting medium"
+          ],
+          "outputs": [
+            "Permanent diatom slides"
+          ],
+          "keywords": [
+            "diatom slides",
+            "acid digestion",
+            "sample preparation",
+            "microscopy"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "We counted at least 300 diatom valves using a 1,000× magnification microscope under oil immersion conditions.",
+          "searchable_summary": "Count diatom valves under high magnification microscope",
+          "inputs": [
+            "Permanent diatom slides",
+            "1000x microscope",
+            "Oil immersion"
+          ],
+          "outputs": [
+            "Diatom count data (at least 300 valves per sample)"
+          ],
+          "keywords": [
+            "microscopy",
+            "diatom counting",
+            "valve counting",
+            "oil immersion",
+            "biological identification"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "We used available information to determine algae as the lowest classification level from Anonymous (1992). Hu et al. (1980), Zhang and Huang (1991), and Zhu (2000).",
+          "searchable_summary": "Classify identified algae to the lowest possible taxonomic level using reference literature",
+          "inputs": [
+            "Identified algae (nondiatoms, diatoms)",
+            "Reference literature (Anonymous 1992, Hu et al. 1980, Zhang and Huang 1991, Zhu 2000)"
+          ],
+          "outputs": [
+            "Taxonomic classification data for algae"
+          ],
+          "keywords": [
+            "taxonomy",
+            "algae classification",
+            "biological identification",
+            "reference literature"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Ind/m 2 represented the unit of density of benthic algae.",
+          "searchable_summary": "Calculate benthic algae density in individuals per square meter",
+          "inputs": [
+            "Algae counts (nondiatoms, diatoms)",
+            "Sampling area (2.7 cm diameter)",
+            "Sample volume (350 ml)",
+            "Subsample volume (0.1 ml for nondiatoms)",
+            "Number of valves counted (diatoms)"
+          ],
+          "outputs": [
+            "Benthic algae density data (Ind/m^2)"
+          ],
+          "keywords": [
+            "density calculation",
+            "ecological metrics",
+            "quantitative ecology",
+            "Ind/m^2"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248462515.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

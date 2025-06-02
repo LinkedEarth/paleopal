@@ -1,0 +1,249 @@
+{
+  "paper_title": "Study Site, Nuclear DNA Extraction and Sequencing",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Mitochondrial DNA Analysis",
+      "description": "Analysis of mitochondrial cytochrome b (cyt b) dataset from P. mexicanus individuals to study biogeographical patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We here analyzed a mitochondrial cytochrome b (cyt b) dataset (1113 bp fragment) of 186 P. mexicanus individuals from 45 localities from southern Mexico and Central America obtained in [20].",
+          "searchable_summary": "analyze mitochondrial cytochrome b dataset from GenBank",
+          "inputs": [
+            "cytochrome b dataset",
+            "GenBank sequences"
+          ],
+          "outputs": [
+            "analyzed dataset"
+          ],
+          "keywords": [
+            "mitochondrial DNA",
+            "cytochrome b",
+            "biogeography"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Nuclear DNA Amplification and Sequencing",
+      "description": "Amplification and sequencing of Growth Hormone Receptor (GHR) gene to complement mitochondrial DNA results.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We amplified and sequenced an 829 bp fragment of the Growth Hormone Receptor (GHR), using primers GHR1f and GHRend1f.",
+          "searchable_summary": "amplify and sequence GHR gene fragment",
+          "inputs": [
+            "DNA samples",
+            "GHR primers"
+          ],
+          "outputs": [
+            "GHR gene sequences"
+          ],
+          "keywords": [
+            "GHR",
+            "DNA amplification",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Amplifications were performed in 25 µL reaction volume containing 50-10 ng template DNA, buffer 10×, 1 unit of Taq DNA polymerase, 2 mM of MgCl2, 200 µM of each dNTP and 0.4 µM of each primer.",
+          "searchable_summary": "prepare PCR reaction for DNA amplification",
+          "inputs": [
+            "template DNA",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "PCR amplified DNA"
+          ],
+          "keywords": [
+            "PCR",
+            "DNA polymerase",
+            "amplification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The PCR cycling protocol was 5 min of initial denaturation at 94°C, followed by 35 cycles of 15 s at 94°C, 1 min at 60°C and 1.5 min at 72°C, and a final extension of 10 min at 72°C.",
+          "searchable_summary": "execute PCR cycling protocol",
+          "inputs": [
+            "PCR reaction mix"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "PCR cycling",
+            "denaturation",
+            "extension"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We used agarose gels (1.5%) dyed with ethidium bromide to visualize amplifications.",
+          "searchable_summary": "visualize DNA amplifications using agarose gel electrophoresis",
+          "inputs": [
+            "amplified DNA"
+          ],
+          "outputs": [
+            "visualized DNA bands"
+          ],
+          "keywords": [
+            "agarose gel",
+            "ethidium bromide",
+            "electrophoresis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "PCR products were purified and analyzed in an ABI3730xl DNA analyzer.",
+          "searchable_summary": "purify and analyze PCR products using DNA analyzer",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "analyzed DNA sequences"
+          ],
+          "keywords": [
+            "DNA purification",
+            "DNA analysis",
+            "ABI3730xl"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "Inference of GHR haplotypes and phylogenetic analysis using maximum-likelihood and Bayesian methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "GHR haplotypes were inferred with a maximum-likelihood method implemented in PHASE v.2.1.1.",
+          "searchable_summary": "infer GHR haplotypes using PHASE software",
+          "inputs": [
+            "GHR sequences"
+          ],
+          "outputs": [
+            "GHR haplotypes"
+          ],
+          "keywords": [
+            "haplotype inference",
+            "maximum-likelihood",
+            "PHASE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A multiple alignment was conducted with ClustalX-2.",
+          "searchable_summary": "perform multiple sequence alignment using ClustalX",
+          "inputs": [
+            "GHR sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "ClustalX"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "To select the best-fitted nucleotide evolution model we used jModelTest v.2.1.3 and the Akaike Information Criterion (AIC).",
+          "searchable_summary": "select nucleotide evolution model using jModelTest and AIC",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "evolution model"
+          ],
+          "keywords": [
+            "nucleotide evolution",
+            "jModelTest",
+            "AIC"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "We conducted a phylogenetic Maximum Likelihood (ML) analysis with the program PhyML v.3.0.",
+          "searchable_summary": "perform ML phylogenetic analysis using PhyML",
+          "inputs": [
+            "aligned sequences",
+            "evolution model"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "maximum likelihood",
+            "PhyML"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "A Bayesian Inference (BI) phylogenetic analysis was completed with MrBayes v.3.1.",
+          "searchable_summary": "perform Bayesian phylogenetic analysis using MrBayes",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "Bayesian phylogenetic tree"
+          ],
+          "keywords": [
+            "Bayesian inference",
+            "phylogenetic analysis",
+            "MrBayes"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Convergence and stationarity were visualized with Tracer v.1.7.1 with 25% generations discarded as burn-in.",
+          "searchable_summary": "check convergence and stationarity using Tracer",
+          "inputs": [
+            "Bayesian analysis results"
+          ],
+          "outputs": [
+            "convergence and stationarity report"
+          ],
+          "keywords": [
+            "convergence",
+            "stationarity",
+            "Tracer"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "Topologies were visualized and edited with FigTree v.1.4.0.",
+          "searchable_summary": "visualize phylogenetic trees using FigTree",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "visualized phylogenetic trees"
+          ],
+          "keywords": [
+            "tree visualization",
+            "FigTree"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258937970.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

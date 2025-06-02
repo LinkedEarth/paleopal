@@ -1,0 +1,115 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Analysis of Variance and Post-hoc Testing",
+      "description": "This method involves using analysis of variance (ANOVA) to test if there are significant differences in response variables based on reproductive phenotype, followed by post-hoc testing to identify specific subgroup differences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We first established an experimental factor, plant sex, by assigning each plant to one of the three reproductive phenotypes based on their floral anatomy and treatment throughout the experiment (unisexual male, drought-induced cosexual plant, and chemically induced cosexual plant), and used this as a fixed effect within all models.",
+          "searchable_summary": "Assign plants to reproductive phenotypes and use as fixed effect in models",
+          "inputs": [
+            "plant data",
+            "floral anatomy",
+            "treatment information"
+          ],
+          "outputs": [
+            "experimental factor: plant sex"
+          ],
+          "keywords": [
+            "experimental factor",
+            "reproductive phenotype",
+            "fixed effect"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used the aov() function with reproductive phenotype as our experimental factor to test if the relevant response (start of anthesis, duration of anthesis, end of anthesis, pollen abundance, pollen non-abortion rate, or pollen viability) differed between subgroups.",
+          "searchable_summary": "Perform ANOVA using aov() function with reproductive phenotype as factor",
+          "inputs": [
+            "reproductive phenotype",
+            "response variables"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "aov function",
+            "reproductive phenotype"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "When we saw a statistically significant effect (p < 0.05) we performed post-hoc analyses using Tukey's Honest Significant Differences test, via the TukeyHSD() function, to determine how subgroups differed from one another.",
+          "searchable_summary": "Conduct post-hoc analysis using TukeyHSD() for significant ANOVA results",
+          "inputs": [
+            "ANOVA results"
+          ],
+          "outputs": [
+            "post-hoc test results"
+          ],
+          "keywords": [
+            "post-hoc analysis",
+            "TukeyHSD",
+            "significant differences"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Correlation Analysis",
+      "description": "This method involves analyzing the correlation between pollen characteristics and flowering phenology using product-moment correlation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We used the cor.test() function included in the stats package to analyze product-moment correlation between pollen characteristics (pollen abundance, pollen non-abortion rate, pollen viability) and flowering phenology (start of anthesis, duration of anthesis, end of anthesis).",
+          "searchable_summary": "Perform correlation analysis using cor.test() function",
+          "inputs": [
+            "pollen characteristics",
+            "flowering phenology"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "cor.test function",
+            "product-moment correlation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Visualization",
+      "description": "This method involves visualizing data and relationships using the ggplot2 package to create plots.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "We visualized data and relationships using the ggplot2 package (15 June 2021, v.3.3.5), employing the base package plotting function.",
+          "searchable_summary": "Create visualizations using ggplot2 package",
+          "inputs": [
+            "data for visualization"
+          ],
+          "outputs": [
+            "plots"
+          ],
+          "keywords": [
+            "data visualization",
+            "ggplot2",
+            "plotting"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/264902669.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

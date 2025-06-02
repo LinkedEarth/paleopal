@@ -1,0 +1,152 @@
+{
+  "paper_title": "Identification of cell types in a mouse brain single-cell atlas using low sampling coverage",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Management and Quality Control",
+      "description": "This method describes the process of managing and preparing the single-cell dataset for analysis, including accessing, partitioning, normalizing, and filtering the data to ensure quality control.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To access the full matrix of the 1.3 million cell set, we used the python instructions for accessing the HD5 object.",
+          "searchable_summary": "access full matrix of 1.3 million cell set using Python HD5 object",
+          "inputs": [
+            "HD5 object"
+          ],
+          "outputs": [
+            "full matrix"
+          ],
+          "keywords": [
+            "HD5",
+            "Python",
+            "data access"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The CellRanger software that is used to process 10X data outputs three files for genes, matrix, and barcode.",
+          "searchable_summary": "process 10X data using CellRanger to output genes, matrix, and barcode files",
+          "inputs": [
+            "10X data"
+          ],
+          "outputs": [
+            "genes file",
+            "matrix file",
+            "barcode file"
+          ],
+          "keywords": [
+            "CellRanger",
+            "10X data",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Because of the size limitations of the full dataset, we broke the dataset into 64 parts and wrote these subsets to file.",
+          "searchable_summary": "partition dataset into 64 parts and write to file",
+          "inputs": [
+            "full dataset"
+          ],
+          "outputs": [
+            "64 dataset subsets"
+          ],
+          "keywords": [
+            "data partitioning",
+            "file writing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We then used the Seurat [3]Read10X command to assemble these three files in R.",
+          "searchable_summary": "assemble genes, matrix, and barcode files using Seurat Read10X in R",
+          "inputs": [
+            "genes file",
+            "matrix file",
+            "barcode file"
+          ],
+          "outputs": [
+            "assembled data"
+          ],
+          "keywords": [
+            "Seurat",
+            "Read10X",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "For each subset, we normalized the total counts per cell to 10,000 and eliminated cells with > 10% mitochondrial or ribosomal content as well as those with fewer than 1000 genes per cell.",
+          "searchable_summary": "normalize counts per cell to 10,000 and filter cells based on mitochondrial/ribosomal content and gene count",
+          "inputs": [
+            "dataset subsets"
+          ],
+          "outputs": [
+            "filtered and normalized subsets"
+          ],
+          "keywords": [
+            "normalization",
+            "quality control",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "We evenly combined these filtered matrices into four parts, and then into two parts.",
+          "searchable_summary": "combine filtered matrices into four parts, then into two parts",
+          "inputs": [
+            "filtered matrices"
+          ],
+          "outputs": [
+            "combined matrices"
+          ],
+          "keywords": [
+            "data combination",
+            "matrix partitioning"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Using a server node with 64 cores, a 2.6 GHz processor, and 512 GB of RAM, any additional sized matrices resulted in the error 'problem too large'. Therefore, matrices of approximately ~100,000 cells were the unit primarily used in this analysis.",
+          "searchable_summary": "use server node to process matrices of ~100,000 cells",
+          "inputs": [
+            "server node",
+            "combined matrices"
+          ],
+          "outputs": [
+            "processed matrices"
+          ],
+          "keywords": [
+            "server processing",
+            "matrix size limitation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "For the dataset from Han et al., we downloaded the .rds file from the Seurat tutorial page and selected the cells that met quality control thresholds of at least 1000 genes per cell.",
+          "searchable_summary": "download .rds file from Seurat tutorial and apply quality control",
+          "inputs": [
+            ".rds file"
+          ],
+          "outputs": [
+            "quality controlled dataset"
+          ],
+          "keywords": [
+            "Seurat",
+            "data download",
+            "quality control"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/52961908.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

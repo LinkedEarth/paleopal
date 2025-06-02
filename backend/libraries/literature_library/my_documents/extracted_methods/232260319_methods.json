@@ -1,0 +1,216 @@
+{
+  "paper_title": "Inferred Title or Filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Digital Terrain Model and Geomorphic Mapping",
+      "description": "This method involves obtaining a high-resolution Digital Terrain Model (DTM) and using it for mapping deformed geomorphic features at the Liquiñe Site. The DTM is used alongside satellite imagery to map features such as fluvial terraces and fault-related features.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained a 50-cm-resolution Digital Terrain Model (DTM) using a terrestrial laser scanner and a differential GNSS system.",
+          "searchable_summary": "obtain high-resolution DTM using laser scanner and GNSS",
+          "inputs": [
+            "terrestrial laser scanner",
+            "differential GNSS system"
+          ],
+          "outputs": [
+            "50-cm-resolution DTM"
+          ],
+          "keywords": [
+            "DTM",
+            "laser scanning",
+            "GNSS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Mapping of deformed geomorphic features was carried out in the field using the DTM and satellite imagery.",
+          "searchable_summary": "map geomorphic features using DTM and satellite imagery",
+          "inputs": [
+            "DTM",
+            "satellite imagery"
+          ],
+          "outputs": [
+            "mapped geomorphic features"
+          ],
+          "keywords": [
+            "geomorphic mapping",
+            "satellite imagery"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We calculated a Surface Classification Model (SCM) map using slope and roughness thresholds of 35° and 0.8, respectively.",
+          "searchable_summary": "calculate SCM map with slope and roughness thresholds",
+          "inputs": [
+            "DTM",
+            "slope threshold",
+            "roughness threshold"
+          ],
+          "outputs": [
+            "SCM map"
+          ],
+          "keywords": [
+            "SCM",
+            "slope analysis",
+            "roughness analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fault-Slip Estimates",
+      "description": "This method estimates horizontal fault slip using geomorphic markers and involves mapping, digitizing, and analyzing these markers to determine slip estimates and associated uncertainties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "These offset markers were first identified and mapped at both sides of the fault in the field and then digitized using the DTM and satellite imagery as points.",
+          "searchable_summary": "identify and digitize offset markers using DTM and imagery",
+          "inputs": [
+            "DTM",
+            "satellite imagery"
+          ],
+          "outputs": [
+            "digitized offset markers"
+          ],
+          "keywords": [
+            "offset markers",
+            "digitization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "We estimated linear regressions from the mapped points and extrapolated them to the intersection with the Liquiñe Fault.",
+          "searchable_summary": "perform linear regression and extrapolation on mapped points",
+          "inputs": [
+            "mapped points"
+          ],
+          "outputs": [
+            "linear regression model",
+            "extrapolated intersection"
+          ],
+          "keywords": [
+            "linear regression",
+            "extrapolation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "We obtained probability density functions from a bootstrap analysis of the linear regression coefficients using 10,000 samples.",
+          "searchable_summary": "perform bootstrap analysis on regression coefficients",
+          "inputs": [
+            "linear regression coefficients"
+          ],
+          "outputs": [
+            "probability density functions"
+          ],
+          "keywords": [
+            "bootstrap analysis",
+            "probability density"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "We performed the same bootstrap analysis but in addition we randomly removed points from the digitized geomorphic markers.",
+          "searchable_summary": "conduct bootstrap analysis with point removal",
+          "inputs": [
+            "digitized geomorphic markers"
+          ],
+          "outputs": [
+            "error simulation results"
+          ],
+          "keywords": [
+            "bootstrap analysis",
+            "error simulation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tephrochronological Correlations and Age Model",
+      "description": "This method assesses the age of deposits using tephrochronology and radiocarbon dating, correlating geochemical data with known tephra deposits and modeling the age of abandonment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We collected samples from the pumice layers in units A and C for tephrochronologic analysis, and a charcoal sample from the soil horizon at the top of unit B for radiocarbon dating.",
+          "searchable_summary": "collect samples for tephrochronology and radiocarbon dating",
+          "inputs": [
+            "pumice layers",
+            "charcoal sample"
+          ],
+          "outputs": [
+            "tephrochronologic samples",
+            "radiocarbon sample"
+          ],
+          "keywords": [
+            "sample collection",
+            "tephrochronology",
+            "radiocarbon dating"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We determined major element glass compositions with a JEOL JXA-8200 wavelength dispersive electron microprobe.",
+          "searchable_summary": "analyze glass compositions using electron microprobe",
+          "inputs": [
+            "glass samples"
+          ],
+          "outputs": [
+            "major element compositions"
+          ],
+          "keywords": [
+            "electron microprobe",
+            "glass composition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Correlated this information with published geochemical characteristics of tephra deposits related to post-glacial eruptions.",
+          "searchable_summary": "correlate glass compositions with known tephra deposits",
+          "inputs": [
+            "major element compositions",
+            "published geochemical data"
+          ],
+          "outputs": [
+            "tephrochronologic correlations"
+          ],
+          "keywords": [
+            "tephra correlation",
+            "geochemical data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "We combined our radiocarbon age with published ages of the Neltume and Huilo pumices in an OxCal model.",
+          "searchable_summary": "model age using OxCal with radiocarbon and tephra ages",
+          "inputs": [
+            "radiocarbon age",
+            "published tephra ages"
+          ],
+          "outputs": [
+            "modeled age"
+          ],
+          "keywords": [
+            "OxCal",
+            "age modeling",
+            "radiocarbon"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232260319.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

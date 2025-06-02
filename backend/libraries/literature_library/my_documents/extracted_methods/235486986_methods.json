@@ -1,0 +1,273 @@
+{
+  "paper_title": "Phytoplanktonic Composition and POM Remineralization Dynamics",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phytoplankton Proliferation and POM Collection",
+      "description": "This method involves inducing phytoplankton proliferations with different diatom contributions and collecting particulate organic matter (POM) for degradation experiments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Surface water was divided into ten 15-L plexiglass microcosms and incubated at 22°C with different inorganic nutrient enrichments and a 12:12 h light-dark cycle.",
+          "searchable_summary": "divide surface water into microcosms and incubate with nutrients",
+          "inputs": [
+            "surface water",
+            "plexiglass microcosms",
+            "nutrient solutions"
+          ],
+          "outputs": [
+            "incubated microcosms"
+          ],
+          "keywords": [
+            "phytoplankton proliferation",
+            "nutrient enrichment",
+            "incubation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Five microcosms were enriched with a nutrient solution to reach final concentrations of 23.1 µM of nitrate and 1.35 µM of phosphate; the NP incubation.",
+          "searchable_summary": "enrich microcosms with nitrate and phosphate",
+          "inputs": [
+            "microcosms",
+            "nitrate",
+            "phosphate"
+          ],
+          "outputs": [
+            "NP incubation microcosms"
+          ],
+          "keywords": [
+            "nutrient enrichment",
+            "nitrate",
+            "phosphate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The remaining five microcosms received the same nitrate and phosphate enrichment and an additional silicate solution (19.3 µM final concentration) to enhance diatom growth, the NPSi incubation.",
+          "searchable_summary": "enrich microcosms with nitrate, phosphate, and silicate",
+          "inputs": [
+            "microcosms",
+            "nitrate",
+            "phosphate",
+            "silicate"
+          ],
+          "outputs": [
+            "NPSi incubation microcosms"
+          ],
+          "keywords": [
+            "nutrient enrichment",
+            "silicate",
+            "diatom growth"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Chlorophyll-a concentration was measured daily to monitor the bloom development.",
+          "searchable_summary": "measure chlorophyll-a concentration daily",
+          "inputs": [
+            "microcosms"
+          ],
+          "outputs": [
+            "chlorophyll-a concentration data"
+          ],
+          "keywords": [
+            "chlorophyll-a",
+            "bloom monitoring"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "One day after the Chl-a maxima, all five microcosms of each light incubation were mixed and the particulate materials from NP and NPSi were collected by means of filtration (>0.6 µm, ipPORE 142 mm).",
+          "searchable_summary": "collect particulate materials by filtration",
+          "inputs": [
+            "microcosms",
+            "filtration equipment"
+          ],
+          "outputs": [
+            "collected POM"
+          ],
+          "keywords": [
+            "filtration",
+            "particulate organic matter"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Degradation Experiment",
+      "description": "This method describes the resuspension of collected POM into mesopelagic water and the setup of degradation experiments to study remineralization dynamics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All POM collected from each light incubation was resuspended into 60 L of 0.6 µm-filtered mesopelagic water.",
+          "searchable_summary": "resuspend POM into filtered mesopelagic water",
+          "inputs": [
+            "collected POM",
+            "filtered mesopelagic water"
+          ],
+          "outputs": [
+            "resuspended POM"
+          ],
+          "keywords": [
+            "resuspension",
+            "mesopelagic water"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Each treatment was distributed into three 20-L fluorinated carboys; one was used for the initial sampling and the other two served as experimental replicates during the 19 days of dark incubation at in situ mesopelagic temperature (14°C).",
+          "searchable_summary": "distribute treatments into carboys for incubation",
+          "inputs": [
+            "resuspended POM",
+            "fluorinated carboys"
+          ],
+          "outputs": [
+            "incubation setup"
+          ],
+          "keywords": [
+            "incubation",
+            "experimental replicates"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "One carboy filled with mesopelagic water without any addition of particles was incubated as a control and sampled at the start and end of the experiment.",
+          "searchable_summary": "set up control carboy with mesopelagic water",
+          "inputs": [
+            "mesopelagic water",
+            "carboy"
+          ],
+          "outputs": [
+            "control setup"
+          ],
+          "keywords": [
+            "control",
+            "mesopelagic water"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Degradation Kinetics",
+      "description": "This method involves fitting a first-order exponential decay model to the degradation kinetics of phytoplankton-derived organic carbon (OC) and comparing decay parameters between treatments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Fit a first-order decay model to the POC and TOC (DOC + POC) pools independently, using least square regressions of concentration vs time.",
+          "searchable_summary": "fit first-order decay model using least squares regression",
+          "inputs": [
+            "POC data",
+            "TOC data"
+          ],
+          "outputs": [
+            "rate constants",
+            "reactive fractions"
+          ],
+          "keywords": [
+            "first-order decay model",
+            "least squares regression"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Statistically compare decay curve parameters between treatments and OC pools using extra sum-of-squares F test.",
+          "searchable_summary": "compare decay parameters using F test",
+          "inputs": [
+            "decay parameters",
+            "treatment data"
+          ],
+          "outputs": [
+            "statistical comparison results"
+          ],
+          "keywords": [
+            "F test",
+            "decay parameters"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analytical Measurements",
+      "description": "This method describes the procedures for measuring various chemical and biological parameters, including chlorophyll-a concentration, phytoplankton identification, nutrient concentrations, and bacterial abundance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Chlorophyll-a concentration was determined using a Turner Designs fluorometer through the fluorometric method.",
+          "searchable_summary": "measure chlorophyll-a using fluorometer",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "chlorophyll-a concentration"
+          ],
+          "keywords": [
+            "chlorophyll-a",
+            "fluorometer"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Identification and enumeration of phytoplankton was performed using the Utermöhl technique.",
+          "searchable_summary": "identify and enumerate phytoplankton using Utermöhl technique",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "phytoplankton data"
+          ],
+          "keywords": [
+            "Utermöhl technique",
+            "phytoplankton"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Concentrations of phosphate, ammonium, silicate, nitrate, and nitrite were determined using flow-through colorimetric methods.",
+          "searchable_summary": "determine nutrient concentrations using colorimetric methods",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "nutrient concentrations"
+          ],
+          "keywords": [
+            "colorimetric methods",
+            "nutrient analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Abundance of prokaryotes was determined through flow cytometry using a BD FACSCalibur instrument.",
+          "searchable_summary": "determine prokaryote abundance using flow cytometry",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "prokaryote abundance data"
+          ],
+          "keywords": [
+            "flow cytometry",
+            "prokaryotes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235486986.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

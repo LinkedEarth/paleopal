@@ -1,0 +1,300 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Data Analysis",
+      "description": "Statistical procedures used to analyze the variability of pH, major ions, and nutrients in surveyed waters, and to evaluate diatom diversity and preferences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Variability of pH, major ions responsible for EC, and more abundant nutrients in the surveyed waters of different origin was compared with one-way ANOVA tests or ANOVA tests on ranks, after testing the normal distribution of the data through a Kolmogorov-Smirnov distance test.",
+          "searchable_summary": "perform ANOVA tests on water chemistry data after normality test",
+          "inputs": [
+            "pH data",
+            "major ions data",
+            "nutrients data"
+          ],
+          "outputs": [
+            "ANOVA test results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "Kolmogorov-Smirnov",
+            "water chemistry"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Pairwise multiple comparison was performed following the Holm-Sidak method.",
+          "searchable_summary": "conduct pairwise multiple comparison using Holm-Sidak method",
+          "inputs": [
+            "ANOVA test results"
+          ],
+          "outputs": [
+            "pairwise comparison results"
+          ],
+          "keywords": [
+            "Holm-Sidak",
+            "pairwise comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Diatom α-diversity of epilithic and epiphytic assemblages was evaluated based on the Shannon Index calculated on number of identified individuals for each taxon.",
+          "searchable_summary": "calculate Shannon Index for diatom diversity",
+          "inputs": [
+            "diatom taxon data"
+          ],
+          "outputs": [
+            "Shannon Index values"
+          ],
+          "keywords": [
+            "Shannon Index",
+            "diatom diversity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The Evenness and Hill's index were computed to obtain information on the heterogeneity of the assemblages.",
+          "searchable_summary": "compute Evenness and Hill's index for diatom assemblages",
+          "inputs": [
+            "diatom taxon data"
+          ],
+          "outputs": [
+            "Evenness values",
+            "Hill's index values"
+          ],
+          "keywords": [
+            "Evenness",
+            "Hill's index",
+            "heterogeneity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Preferences of the identified taxa for pH, total phosphorous concentrations, and moisture were evaluated according to the classification proposed by Van Dam et al.",
+          "searchable_summary": "evaluate diatom taxa preferences for environmental factors",
+          "inputs": [
+            "diatom taxon data",
+            "environmental data"
+          ],
+          "outputs": [
+            "taxa preference evaluation"
+          ],
+          "keywords": [
+            "taxa preferences",
+            "Van Dam classification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Non-metric multidimensional scaling (NMDS) was performed by R software to graphically evaluate differences between diatom assemblages.",
+          "searchable_summary": "perform NMDS analysis using R for diatom assemblages",
+          "inputs": [
+            "diatom relative abundance data"
+          ],
+          "outputs": [
+            "NMDS plot"
+          ],
+          "keywords": [
+            "NMDS",
+            "R software",
+            "diatom assemblages"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Stress values of NMDS configurations with increasing numbers of dimensions were compared to evaluate the stability of the analysis.",
+          "searchable_summary": "compare NMDS stress values for stability analysis",
+          "inputs": [
+            "NMDS configurations"
+          ],
+          "outputs": [
+            "optimal NMDS dimensions"
+          ],
+          "keywords": [
+            "NMDS",
+            "stress values",
+            "stability analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "A vector fitting analysis was applied to the sample scores on the final NMDS configuration using the R function envfit.",
+          "searchable_summary": "apply vector fitting analysis using envfit in R",
+          "inputs": [
+            "NMDS scores",
+            "environmental data"
+          ],
+          "outputs": [
+            "vector fitting results"
+          ],
+          "keywords": [
+            "vector fitting",
+            "envfit",
+            "R software"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The relation between sample scores on the NMDS dimensions and the abundance of single diatom taxa was explored by correlation analysis.",
+          "searchable_summary": "perform correlation analysis between NMDS scores and diatom abundance",
+          "inputs": [
+            "NMDS scores",
+            "diatom abundance data"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "Spearman rank",
+            "diatom abundance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and Laboratory Analysis",
+      "description": "Procedures for collecting water and diatom samples, measuring field parameters, and conducting laboratory analyses for chemical and diatom data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Water and diatom samples were collected in late summer 2016 under conditions of maximum melt water contribution.",
+          "searchable_summary": "collect water and diatom samples during peak melt water conditions",
+          "inputs": [
+            "sampling equipment",
+            "field location"
+          ],
+          "outputs": [
+            "water samples",
+            "diatom samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "melt water",
+            "diatom"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Water temperature, electrical conductivity, and turbidity were measured in the field with portable meters.",
+          "searchable_summary": "measure water temperature, conductivity, and turbidity on site",
+          "inputs": [
+            "portable meters"
+          ],
+          "outputs": [
+            "temperature data",
+            "conductivity data",
+            "turbidity data"
+          ],
+          "keywords": [
+            "field measurements",
+            "conductivity",
+            "turbidity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Water samples for chemical analyses were collected in acid washed HDPE bottles and analyzed for major ions and nutrients.",
+          "searchable_summary": "collect and analyze water samples for chemical composition",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "chemical analysis results"
+          ],
+          "keywords": [
+            "chemical analysis",
+            "HDPE bottles",
+            "nutrients"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Trace metal concentrations were determined by ICP-OES with ultrasonic nebulizer.",
+          "searchable_summary": "determine trace metal concentrations using ICP-OES",
+          "inputs": [
+            "filtered water samples"
+          ],
+          "outputs": [
+            "trace metal concentrations"
+          ],
+          "keywords": [
+            "ICP-OES",
+            "trace metals",
+            "ultrasonic nebulizer"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Samples for diatom analysis were collected by brushing stones and preserved in ethanol.",
+          "searchable_summary": "collect and preserve diatom samples from stones",
+          "inputs": [
+            "stones",
+            "ethanol"
+          ],
+          "outputs": [
+            "preserved diatom samples"
+          ],
+          "keywords": [
+            "diatom collection",
+            "ethanol preservation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Diatom samples were cleaned and mounted in Naphrax resin for microscopic analysis.",
+          "searchable_summary": "clean and mount diatom samples for microscopy",
+          "inputs": [
+            "diatom samples",
+            "Naphrax resin"
+          ],
+          "outputs": [
+            "mounted diatom slides"
+          ],
+          "keywords": [
+            "microscopy",
+            "Naphrax",
+            "diatom cleaning"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "At least 400 valves were identified and enumerated along transects of each permanent slide.",
+          "searchable_summary": "identify and count diatom valves on slides",
+          "inputs": [
+            "mounted diatom slides"
+          ],
+          "outputs": [
+            "diatom identification data"
+          ],
+          "keywords": [
+            "diatom identification",
+            "valve counting",
+            "microscopy"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/92545400.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

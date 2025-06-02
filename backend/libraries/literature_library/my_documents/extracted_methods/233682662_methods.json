@@ -1,0 +1,505 @@
+{
+  "paper_title": "Climate Data Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Initial Data Preparation for State Space Analysis",
+      "description": "Preparation of spatiotemporal climate fields (Y) for dynamical system analysis by weighting each time series by the cosine of its latitude, centering to zero mean, and standardizing each field to unit variance. This process transforms the data into a state space vector at each time step, representing the system's state.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "For a given field Y, weight each time series by the cosine of its latitude.",
+          "searchable_summary": "apply latitude weighting to time series data",
+          "inputs": [
+            "Spatiotemporal climate field Y",
+            "Latitude data for grid points"
+          ],
+          "outputs": [
+            "Latitude-weighted time series data"
+          ],
+          "keywords": [
+            "data weighting",
+            "latitude",
+            "climate data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Center each time series to zero mean.",
+          "searchable_summary": "center time series data to zero mean",
+          "inputs": [
+            "Weighted time series data"
+          ],
+          "outputs": [
+            "Zero-mean weighted time series data"
+          ],
+          "keywords": [
+            "data centering",
+            "mean removal",
+            "time series processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Standardize each field to unit variance.",
+          "searchable_summary": "standardize data fields to unit variance",
+          "inputs": [
+            "Zero-mean weighted time series data"
+          ],
+          "outputs": [
+            "Standardized climate fields (state space vector components)"
+          ],
+          "keywords": [
+            "data standardization",
+            "unit variance",
+            "data scaling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Principal Component Analysis (PCA) / Empirical Orthogonal Functions (EOF)",
+      "description": "A linear methodology for modal decomposition of spatiotemporal datasets (X) to discover the underlying manifold by fitting hyperplanes in directions explaining most of the variance. Commonly known as Empirical Orthogonal Functions (EOF) in climate science.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Compute the Gram matrix as G = 1/(T-1) * X * X^T from the spatiotemporal dataset X.",
+          "searchable_summary": "compute Gram matrix from spatiotemporal data",
+          "inputs": [
+            "Spatiotemporal dataset X (T x N matrix)"
+          ],
+          "outputs": [
+            "Gram matrix G (T x T matrix)"
+          ],
+          "keywords": [
+            "Gram matrix",
+            "covariance matrix",
+            "matrix multiplication"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compute the eigenvectors U and eigenvalues of the Gram matrix G.",
+          "searchable_summary": "compute eigenvectors and eigenvalues of a matrix",
+          "inputs": [
+            "Gram matrix G"
+          ],
+          "outputs": [
+            "Eigenvectors U (Principal Components)",
+            "Eigenvalues"
+          ],
+          "keywords": [
+            "eigen decomposition",
+            "eigenvectors",
+            "eigenvalues",
+            "PCA",
+            "EOF"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "To each eigenvector U, assign an explained variance based on the ratio of its correspondent eigenvalue and the sum of all eigenvalues.",
+          "searchable_summary": "calculate explained variance for each principal component",
+          "inputs": [
+            "Eigenvalues"
+          ],
+          "outputs": [
+            "Explained variance for each Principal Component"
+          ],
+          "keywords": [
+            "explained variance",
+            "eigenvalue ratio",
+            "PCA",
+            "EOF"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To identify the correspondent spatial patterns, known as EOFs, linearly regress each (standardized) PC on the dataset as 1/(T-1) * U^T * X.",
+          "searchable_summary": "calculate EOF spatial patterns by regressing PCs on data",
+          "inputs": [
+            "Principal Components U",
+            "Spatiotemporal dataset X (standardized)"
+          ],
+          "outputs": [
+            "Empirical Orthogonal Functions (EOFs)"
+          ],
+          "keywords": [
+            "EOF",
+            "spatial patterns",
+            "linear regression",
+            "PCA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Isomap Dimensionality Reduction",
+      "description": "A nonlinear manifold learning algorithm used for dimensionality reduction, preserving geodesic distances between points.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Apply Isomap for dimensionality reduction to the dataset (e.g., Surface Temperature or state space representation).",
+          "searchable_summary": "perform Isomap dimensionality reduction",
+          "inputs": [
+            "Dataset (e.g., spatiotemporal data, state space vectors)"
+          ],
+          "outputs": [
+            "Low-dimensional embedding/projection of the data"
+          ],
+          "keywords": [
+            "Isomap",
+            "manifold learning",
+            "nonlinear dimensionality reduction",
+            "embedding"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Set the neighborhood size parameter (e.g., k=50) for the Isomap projection.",
+          "searchable_summary": "set neighborhood size parameter for Isomap",
+          "inputs": [
+            "Dataset",
+            "Neighborhood size parameter (k)"
+          ],
+          "outputs": [
+            "Isomap model configured with neighborhood size"
+          ],
+          "keywords": [
+            "Isomap parameters",
+            "neighborhood size",
+            "k-nearest neighbors"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Complex Network Analysis of Climate Modes",
+      "description": "A framework to quantify the evolution of major modes of interannual-to-decadal variability and their connectivity patterns in a system (e.g., Indo-Pacific) using a complex network representation where modes are domains and links represent connectivity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Identify domains corresponding to spatially contiguous sets of sea surface temperature (SST) grid cells with highly correlated temporal evolution.",
+          "searchable_summary": "identify spatially correlated climate domains",
+          "inputs": [
+            "Spatiotemporal SST data"
+          ],
+          "outputs": [
+            "Defined climate domains (spatial masks)"
+          ],
+          "keywords": [
+            "climate domains",
+            "spatial correlation",
+            "clustering",
+            "SST"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Given a time window, quantify the variability of each domain by computing its signal as the average monthly anomaly inside it.",
+          "searchable_summary": "calculate average monthly anomaly within climate domains",
+          "inputs": [
+            "Spatiotemporal SST anomaly data",
+            "Defined climate domains",
+            "Time window"
+          ],
+          "outputs": [
+            "Time series signal for each domain within the window"
+          ],
+          "keywords": [
+            "domain signal",
+            "average anomaly",
+            "time series extraction",
+            "sliding window"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Quantify the evolution of the standard deviation of each domain signal along with their underlying correlation network in time windows of specified length and step.",
+          "searchable_summary": "calculate standard deviation and correlation network of domain signals over sliding windows",
+          "inputs": [
+            "Domain signals",
+            "Time window length",
+            "Time window step"
+          ],
+          "outputs": [
+            "Evolution of standard deviation for each domain",
+            "Correlation network structure for each time window"
+          ],
+          "keywords": [
+            "standard deviation",
+            "correlation network",
+            "sliding window analysis",
+            "time series analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Given two domains, quantify connectivity by the maximum significant correlation in a specified lag range (e.g., [-12, 12] months lag range).",
+          "searchable_summary": "calculate maximum significant lagged correlation between domain signals",
+          "inputs": [
+            "Time series signals for two domains",
+            "Lag range"
+          ],
+          "outputs": [
+            "Maximum significant correlation value",
+            "Lag at which maximum correlation occurs"
+          ],
+          "keywords": [
+            "lag correlation",
+            "cross-correlation",
+            "significant correlation",
+            "climate connectivity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "For a given time window and for each pair of domains, consider only the link directionality appearing with the largest frequency.",
+          "searchable_summary": "determine dominant link directionality based on frequency over time",
+          "inputs": [
+            "Lagged correlation results for domain pairs over time windows"
+          ],
+          "outputs": [
+            "Dominant link directionality for each domain pair in each window"
+          ],
+          "keywords": [
+            "link directionality",
+            "network analysis",
+            "frequency analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The reported frequency therefore quantifies the stability of each link.",
+          "searchable_summary": "quantify link stability using frequency of dominant directionality",
+          "inputs": [
+            "Frequency of dominant link directionality"
+          ],
+          "outputs": [
+            "Link stability metric"
+          ],
+          "keywords": [
+            "link stability",
+            "network analysis",
+            "frequency"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The average lag indicates the link directionality, while the mean correlation for each pair of domains quantifies the strength of the connections.",
+          "searchable_summary": "calculate average lag and mean correlation for domain pairs",
+          "inputs": [
+            "Lagged correlation results for domain pairs over time windows"
+          ],
+          "outputs": [
+            "Average lag for each domain pair",
+            "Mean correlation for each domain pair"
+          ],
+          "keywords": [
+            "average lag",
+            "mean correlation",
+            "network strength",
+            "network directionality"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Evaluation using EOF Comparison",
+      "description": "Qualitative comparison of Sea Surface Temperature (SST) variability between a climate model (IPSL) and reanalysis data (ERA5) by comparing the first Empirical Orthogonal Function (EOF) in the Pacific Ocean and the first two in the Indian Ocean.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Obtain monthly SST anomalies for both model and reanalysis data.",
+          "searchable_summary": "calculate monthly SST anomalies",
+          "inputs": [
+            "Model monthly SST data",
+            "Reanalysis monthly SST data"
+          ],
+          "outputs": [
+            "Model monthly SST anomalies",
+            "Reanalysis monthly SST anomalies"
+          ],
+          "keywords": [
+            "SST anomalies",
+            "climate data processing",
+            "monthly data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Remove seasonality from the monthly SST anomalies.",
+          "searchable_summary": "remove seasonality from time series data",
+          "inputs": [
+            "Monthly SST anomalies"
+          ],
+          "outputs": [
+            "Seasonality-removed SST anomalies"
+          ],
+          "keywords": [
+            "seasonality removal",
+            "time series decomposition",
+            "climate data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Remove linear trend from the seasonality-removed SST anomalies.",
+          "searchable_summary": "remove linear trend from time series data",
+          "inputs": [
+            "Seasonality-removed SST anomalies"
+          ],
+          "outputs": [
+            "Seasonality and trend-removed SST anomalies"
+          ],
+          "keywords": [
+            "trend removal",
+            "linear regression",
+            "time series processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compute the first Empirical Orthogonal Function (EOF) in the Pacific Ocean for both model and reanalysis data using the processed SST anomalies.",
+          "searchable_summary": "compute first EOF for Pacific SST anomalies",
+          "inputs": [
+            "Processed SST anomalies (model and reanalysis) for Pacific region"
+          ],
+          "outputs": [
+            "First EOF for model Pacific SST",
+            "First EOF for reanalysis Pacific SST"
+          ],
+          "keywords": [
+            "EOF",
+            "PCA",
+            "Pacific Ocean",
+            "SST variability"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Compute the first two EOFs in the Indian Ocean for both model and reanalysis data using the processed SST anomalies.",
+          "searchable_summary": "compute first two EOFs for Indian Ocean SST anomalies",
+          "inputs": [
+            "Processed SST anomalies (model and reanalysis) for Indian Ocean region"
+          ],
+          "outputs": [
+            "First two EOFs for model Indian Ocean SST",
+            "First two EOFs for reanalysis Indian Ocean SST"
+          ],
+          "keywords": [
+            "EOF",
+            "PCA",
+            "Indian Ocean",
+            "SST variability"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Qualitatively compare the spatial patterns and explained variance of the computed EOFs between the model and reanalysis.",
+          "searchable_summary": "qualitatively compare model and reanalysis EOFs",
+          "inputs": [
+            "Model EOFs",
+            "Reanalysis EOFs",
+            "Explained variance for model EOFs",
+            "Explained variance for reanalysis EOFs"
+          ],
+          "outputs": [
+            "Qualitative assessment of model performance in capturing observed variability modes"
+          ],
+          "keywords": [
+            "model validation",
+            "model comparison",
+            "EOF comparison",
+            "spatial patterns",
+            "explained variance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Seasonality Analysis of Climate Modes",
+      "description": "Investigation of changes in the seasonality of identified climate modes (e.g., IOB, IOD, EDM) over different time periods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Identify or obtain time series signals/indices for relevant climate modes (e.g., IOB, IOD, EDM).",
+          "searchable_summary": "obtain time series indices for climate modes",
+          "inputs": [
+            "Processed climate data (e.g., SST anomalies)",
+            "Definitions of climate modes (e.g., spatial patterns, domain masks)"
+          ],
+          "outputs": [
+            "Time series indices for climate modes"
+          ],
+          "keywords": [
+            "climate modes",
+            "time series extraction",
+            "climate indices"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze the seasonality of the signal/variability associated with each mode for different time periods (e.g., 100-year windows).",
+          "searchable_summary": "analyze seasonality of climate mode time series over time windows",
+          "inputs": [
+            "Time series indices for climate modes",
+            "Time periods of interest (e.g., time windows)"
+          ],
+          "outputs": [
+            "Seasonality patterns for each mode in each time period"
+          ],
+          "keywords": [
+            "seasonality analysis",
+            "annual cycle",
+            "time series analysis",
+            "sliding window"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compare the seasonality patterns across different time periods to identify changes.",
+          "searchable_summary": "compare seasonality patterns of climate modes across different periods",
+          "inputs": [
+            "Seasonality patterns for each mode in multiple time periods"
+          ],
+          "outputs": [
+            "Description or visualization of changes in seasonality over time"
+          ],
+          "keywords": [
+            "seasonality change",
+            "temporal comparison",
+            "climate variability"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233682662.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

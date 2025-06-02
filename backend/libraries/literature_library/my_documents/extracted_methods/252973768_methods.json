@@ -1,0 +1,360 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bee Tagging and Pollen Collection",
+      "description": "Process for tagging bees and collecting pollen samples to study foraging behavior and resource collection.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Bees were allowed to exit and re-enter the colony throughout the experiment. We undertook individual tagging of workers on the first 2 days after transfer to the field and opportunistically afterwards during the pollen collection process, using coloured, numbered queen-marking tags.",
+          "searchable_summary": "tag bees with colored, numbered tags for identification",
+          "inputs": [
+            "bees",
+            "queen-marking tags"
+          ],
+          "outputs": [
+            "tagged bees"
+          ],
+          "keywords": [
+            "bee tagging",
+            "queen-marking tags",
+            "identification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "We collected pollen from foragers returning to each colony in the afternoon and in the evening, by gently capturing individuals as they entered the tunnels of the external box, but before they entered the colony, and removing the pollen with a toothpick.",
+          "searchable_summary": "collect pollen from returning forager bees",
+          "inputs": [
+            "forager bees",
+            "toothpick"
+          ],
+          "outputs": [
+            "pollen samples"
+          ],
+          "keywords": [
+            "pollen collection",
+            "forager bees",
+            "toothpick"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Light level (lx) and temperature (C) were recorded every 30 s throughout the experiment using an automated data logger.",
+          "searchable_summary": "record light level and temperature every 30 seconds",
+          "inputs": [
+            "data logger"
+          ],
+          "outputs": [
+            "light level data",
+            "temperature data"
+          ],
+          "keywords": [
+            "light level",
+            "temperature",
+            "data logger"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Bee Activity",
+      "description": "Statistical procedures used to analyze the collected data on bee activity and pollen collection.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We used generalized linear mixed models (GLMMs) to assess the difference in colony activity (exit count and return count, separately) between the afternoon and the evening.",
+          "searchable_summary": "use GLMMs to assess differences in colony activity",
+          "inputs": [
+            "exit count",
+            "return count"
+          ],
+          "outputs": [
+            "activity difference analysis"
+          ],
+          "keywords": [
+            "GLMM",
+            "colony activity",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We analysed the masses of the full pollen samples to explore the effects of time period and light condition on how much pollen the bees returned with.",
+          "searchable_summary": "analyze pollen sample masses for time and light effects",
+          "inputs": [
+            "pollen sample masses",
+            "time period",
+            "light condition"
+          ],
+          "outputs": [
+            "pollen mass analysis"
+          ],
+          "keywords": [
+            "pollen mass",
+            "time period",
+            "light condition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "To determine whether foragers acquired the same amount of pollen during the evening as in the day, we modelled pollen load mass by the fixed factor period (afternoon or evening).",
+          "searchable_summary": "model pollen load mass by time period",
+          "inputs": [
+            "pollen load mass",
+            "time period"
+          ],
+          "outputs": [
+            "pollen load mass model"
+          ],
+          "keywords": [
+            "pollen load",
+            "time period",
+            "GLMM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To investigate the effects of declining light levels on pollen load mass, we modelled the pollen load mass of evening samples by time until sunset and light level at time of return.",
+          "searchable_summary": "model pollen load mass by time until sunset and light level",
+          "inputs": [
+            "pollen load mass",
+            "time until sunset",
+            "light level"
+          ],
+          "outputs": [
+            "pollen load mass model"
+          ],
+          "keywords": [
+            "pollen load",
+            "light level",
+            "sunset"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To assess the masses of pollen from repeat samples, we conducted a paired Wilcoxon signed-rank test.",
+          "searchable_summary": "conduct paired Wilcoxon signed-rank test on pollen masses",
+          "inputs": [
+            "repeat pollen samples"
+          ],
+          "outputs": [
+            "Wilcoxon test results"
+          ],
+          "keywords": [
+            "Wilcoxon test",
+            "pollen mass",
+            "repeat samples"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Using a one-way ANOVA test, we compared the thorax width of bees in three categories.",
+          "searchable_summary": "perform one-way ANOVA on bee thorax width",
+          "inputs": [
+            "thorax width data"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "thorax width",
+            "bee size"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "We modelled the thorax width of bees returning with samples in the evening as a response variable by the fixed factor 'time until sunset at return'.",
+          "searchable_summary": "model thorax width by time until sunset",
+          "inputs": [
+            "thorax width",
+            "time until sunset"
+          ],
+          "outputs": [
+            "thorax width model"
+          ],
+          "keywords": [
+            "thorax width",
+            "sunset",
+            "GLMM"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "To determine whether pollen load mass was related to bee size, we modelled load mass by thorax width in a GLMM.",
+          "searchable_summary": "model pollen load mass by thorax width",
+          "inputs": [
+            "pollen load mass",
+            "thorax width"
+          ],
+          "outputs": [
+            "pollen load mass model"
+          ],
+          "keywords": [
+            "pollen load",
+            "thorax width",
+            "GLMM"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Acquisition and Analysis",
+      "description": "Procedures for acquiring and analyzing data on bee activity and pollen samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "During the observation times, we videorecorded bees entering and leaving each nest entrance.",
+          "searchable_summary": "videorecord bee entry and exit at nest entrance",
+          "inputs": [
+            "video camera"
+          ],
+          "outputs": [
+            "video recordings"
+          ],
+          "keywords": [
+            "video recording",
+            "bee activity",
+            "nest entrance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Exit and entry events were extracted automatically using a custom-written code in MatLab.",
+          "searchable_summary": "extract exit and entry events using MatLab code",
+          "inputs": [
+            "video recordings"
+          ],
+          "outputs": [
+            "exit and entry events"
+          ],
+          "keywords": [
+            "MatLab",
+            "event extraction",
+            "bee activity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We froze pollen samples at -20 C until the end of the field work and then transported them to the laboratory for analysis.",
+          "searchable_summary": "freeze and transport pollen samples for analysis",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "frozen pollen samples"
+          ],
+          "keywords": [
+            "pollen samples",
+            "freezing",
+            "transport"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We defrosted each pollen sample before weighing it on precision scales.",
+          "searchable_summary": "defrost and weigh pollen samples",
+          "inputs": [
+            "frozen pollen samples"
+          ],
+          "outputs": [
+            "weighed pollen samples"
+          ],
+          "keywords": [
+            "pollen samples",
+            "weighing",
+            "defrosting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Following weighing, we mounted each sample on a microscope slide.",
+          "searchable_summary": "mount pollen samples on microscope slides",
+          "inputs": [
+            "weighed pollen samples"
+          ],
+          "outputs": [
+            "mounted pollen samples"
+          ],
+          "keywords": [
+            "microscope slide",
+            "pollen samples",
+            "mounting"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "We photographed the bee-collected samples and the floral reference collection at various magnifications.",
+          "searchable_summary": "photograph pollen samples at different magnifications",
+          "inputs": [
+            "mounted pollen samples"
+          ],
+          "outputs": [
+            "pollen sample photographs"
+          ],
+          "keywords": [
+            "photography",
+            "pollen samples",
+            "magnification"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "We used these photographs to identify pollen to the lowest possible taxonomic level by its morphological features.",
+          "searchable_summary": "identify pollen taxa from photographs",
+          "inputs": [
+            "pollen sample photographs"
+          ],
+          "outputs": [
+            "identified pollen taxa"
+          ],
+          "keywords": [
+            "pollen identification",
+            "morphological features",
+            "taxonomy"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "At the end of the experiment, we froze and subsequently dissected the bee colonies, and measured the individuals that had retained their identification tags.",
+          "searchable_summary": "freeze, dissect, and measure tagged bees",
+          "inputs": [
+            "tagged bees"
+          ],
+          "outputs": [
+            "bee measurements"
+          ],
+          "keywords": [
+            "bee dissection",
+            "measurement",
+            "tagged bees"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252973768.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

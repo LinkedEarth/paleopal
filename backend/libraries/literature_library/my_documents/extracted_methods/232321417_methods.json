@@ -1,0 +1,154 @@
+{
+  "paper_title": "Data on elemental concentrations in marine sediments from the South and South West of England",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Collection and Validation",
+      "description": "Process for collecting and validating elemental concentration data from marine sediments in Southern England, using data from the Environment Agency (EA) and the Marine Environment Monitoring and Assessment National (MERMAN) database.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Data were obtained from two UK key public repositories - the Environment Agency (EA), and the Marine Environment Monitoring and Assessment National (MERMAN) database managed by the British Oceanographic Data Centre (BODC).",
+          "searchable_summary": "fetch data from EA and MERMAN databases",
+          "inputs": [
+            "EA database",
+            "MERMAN database"
+          ],
+          "outputs": [
+            "raw data files"
+          ],
+          "keywords": [
+            "data collection",
+            "public repositories",
+            "marine sediments"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Data were subjected to a rigorous selection-validation process.",
+          "searchable_summary": "validate and select relevant data",
+          "inputs": [
+            "raw data files"
+          ],
+          "outputs": [
+            "validated data"
+          ],
+          "keywords": [
+            "data validation",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Georeferenced EA sites were projected on to maps (Google Earth), after coordinate transformation from OSGB36 format to WGS84 for ease of use with Google Earth and ArcGis.",
+          "searchable_summary": "transform and project georeferenced data",
+          "inputs": [
+            "georeferenced data",
+            "OSGB36 coordinates"
+          ],
+          "outputs": [
+            "WGS84 coordinates"
+          ],
+          "keywords": [
+            "coordinate transformation",
+            "georeferencing",
+            "mapping"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Multiple close coordinates for the same location were averaged so that each site only corresponded to a unique geolocation.",
+          "searchable_summary": "average multiple coordinates for unique geolocation",
+          "inputs": [
+            "multiple coordinates"
+          ],
+          "outputs": [
+            "unique geolocation"
+          ],
+          "keywords": [
+            "coordinate averaging",
+            "geolocation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Selected EA data with a 'MATERIAL_DESC' related to sediments and additional data with material identifiers not linked to sediments.",
+          "searchable_summary": "select data based on material description",
+          "inputs": [
+            "validated data",
+            "MATERIAL_DESC identifiers"
+          ],
+          "outputs": [
+            "filtered data"
+          ],
+          "keywords": [
+            "data filtering",
+            "material description"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Organization and Presentation",
+      "description": "Organizing and presenting the collected data for end-user accessibility and interpretation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The secondary data (.csv extension file) have been organized and labelled for interrogation and searching by end-users.",
+          "searchable_summary": "organize and label data for user access",
+          "inputs": [
+            "validated data"
+          ],
+          "outputs": [
+            ".csv data file"
+          ],
+          "keywords": [
+            "data organization",
+            "data labeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "The geo-spatial information contained in geographic data files (.kml extension files) enables end-users to directly visualize and select sites of interest from their geolocalisation on Google Earth.",
+          "searchable_summary": "create KML files for geospatial visualization",
+          "inputs": [
+            "geospatial data"
+          ],
+          "outputs": [
+            ".kml files"
+          ],
+          "keywords": [
+            "geospatial visualization",
+            "Google Earth",
+            "KML files"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Summary statistics are presented in Tables 1 and 2.",
+          "searchable_summary": "generate summary statistics for data",
+          "inputs": [
+            "organized data"
+          ],
+          "outputs": [
+            "summary statistics"
+          ],
+          "keywords": [
+            "summary statistics",
+            "data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232321417.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

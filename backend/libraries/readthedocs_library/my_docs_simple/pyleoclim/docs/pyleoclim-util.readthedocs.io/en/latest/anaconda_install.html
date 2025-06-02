@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installing Miniconda (Mac, Linux) &mdash; Pyleoclim 1.3.0b0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="pyleoclim-util" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/anaconda_install.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Pyleoclim
+              <img src="_static/pyleoclim_insigna_full_white.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.3.0b0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Working with Pyleoclim</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core/api.html">Pyleoclim User API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced functionalities</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils/introduction.html">Pyleoclim Utilities API (pyleoclim.utils)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Involved</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citing Pyleoclim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution_guide.html">Contributing to Pyleoclim</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pyleoclim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installing Miniconda (Mac, Linux)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/anaconda_install.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installing-miniconda-mac-linux">
+<span id="anaconda-installation"></span><h1>Installing Miniconda (Mac, Linux)<a class="headerlink" href="#installing-miniconda-mac-linux" title="Permalink to this heading"></a></h1>
+<p>Anaconda is a very large install, containing not only Python, but also R, and a host of other things that are not necessary to run pyleoclim.
+Users may find it preferable to install the minimalist “miniconda” package.</p>
+<section id="step-1-download-the-installation-script-for-miniconda3">
+<h2>Step 1: Download the installation script for miniconda3<a class="headerlink" href="#step-1-download-the-installation-script-for-miniconda3" title="Permalink to this heading"></a></h2>
+<section id="macos-intel">
+<h3>macOS (Intel)<a class="headerlink" href="#macos-intel" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+</pre></div>
+</div>
+</section>
+<section id="macos-apple-silicon">
+<h3>macOS (Apple Silicon)<a class="headerlink" href="#macos-apple-silicon" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+</pre></div>
+</div>
+<section id="linux">
+<h4>Linux<a class="headerlink" href="#linux" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="step-2-install-miniconda3">
+<h2>Step 2: Install Miniconda3<a class="headerlink" href="#step-2-install-miniconda3" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>Miniconda3-latest-*.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./Miniconda3-latest-Linux-x86_64.sh
+</pre></div>
+</div>
+<p>During the installation, a path <cite>&lt;base-path&gt;</cite> needs to be specified as the base location of the python environment.
+After the installation is done, we need to add the two lines into your shell environment (e.g., <cite>~/.bashrc</cite> or <cite>~/.zshrc</cite>) as below to enable the <cite>conda</cite> package manager (remember to change <cite>&lt;base-path&gt;</cite> with your real location):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;&lt;base-path&gt;/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+.<span class="w"> </span>&lt;base-path&gt;/etc/profile.d/conda.sh
+</pre></div>
+</div>
+</section>
+<section id="step-3-test-your-installation">
+<h2>Step 3: Test your Installation<a class="headerlink" href="#step-3-test-your-installation" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/.bashrc<span class="w">  </span><span class="c1"># assumes you are using Bash shell</span>
+which<span class="w"> </span>python<span class="w">  </span><span class="c1"># should return a path under &lt;base-path&gt;</span>
+which<span class="w"> </span>conda<span class="w">  </span><span class="c1"># should return a path under &lt;base-path&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2023, Deborah Khider, Feng Zhu, Julien Emile-Geay, Alexander James.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

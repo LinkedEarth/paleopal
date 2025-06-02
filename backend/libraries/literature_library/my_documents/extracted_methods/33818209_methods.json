@@ -1,0 +1,149 @@
+{
+  "paper_title": "Sample description and dendrochronological procedure",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Tree-Ring Sample Preparation and Analysis",
+      "description": "This method describes the preparation and analysis of tree-ring samples to develop a robust chronology. It involves re-processing, re-crossdating, and remeasuring samples, as well as marking and measuring tree rings to ensure accurate data collection.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The samples were progressively polished with 80 to 2,000 grain sandpaper.",
+          "searchable_summary": "polish tree-ring samples with sandpaper",
+          "inputs": [
+            "tree-ring samples"
+          ],
+          "outputs": [
+            "polished tree-ring samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "polishing",
+            "sandpaper"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To unambiguously mark the tree rings, we evaluated the continuity of the growth layers around the entire circumference and the wedging rings were marked as true rings, identifying when the tree rings were locally mismatched or absent.",
+          "searchable_summary": "mark and evaluate tree rings for continuity",
+          "inputs": [
+            "polished tree-ring samples"
+          ],
+          "outputs": [
+            "marked tree-ring samples"
+          ],
+          "keywords": [
+            "tree rings",
+            "marking",
+            "continuity evaluation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Discontinuous parenchyma bands identified false rings.",
+          "searchable_summary": "identify false rings using parenchyma bands",
+          "inputs": [
+            "marked tree-ring samples"
+          ],
+          "outputs": [
+            "identified false rings"
+          ],
+          "keywords": [
+            "false rings",
+            "parenchyma bands"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "A total of 31 ring-width series resulted from measuring 2 or 3 radii from each of the 15 cross sections collected.",
+          "searchable_summary": "measure ring-width series from cross sections",
+          "inputs": [
+            "cross sections"
+          ],
+          "outputs": [
+            "ring-width series"
+          ],
+          "keywords": [
+            "ring-width measurement",
+            "cross sections"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The visual crossdating was performed by matching tree growth patterns within individual (from the same tree) and among individuals (from different trees) under a Meiji stereo zoom at 40× magnification using the Yamaguchi method.",
+          "searchable_summary": "perform visual crossdating using Yamaguchi method",
+          "inputs": [
+            "ring-width series"
+          ],
+          "outputs": [
+            "crossdated series"
+          ],
+          "keywords": [
+            "crossdating",
+            "Yamaguchi method",
+            "stereo zoom"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The crossdating was validated using the statistical software COFECHA and the dplR package in R software that identifies possible errors using correlations by running segments between individual tree-ring series and the master chronology.",
+          "searchable_summary": "validate crossdating with COFECHA and dplR",
+          "inputs": [
+            "crossdated series"
+          ],
+          "outputs": [
+            "validated crossdated series"
+          ],
+          "keywords": [
+            "validation",
+            "COFECHA",
+            "dplR",
+            "R software"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "After this validation, the ring-width raw individual series were standardized using a cubic spline with a 50% frequency response at 60 years and an autoregressive model was applied to remove the autocorrelation.",
+          "searchable_summary": "standardize series with cubic spline and remove autocorrelation",
+          "inputs": [
+            "validated crossdated series"
+          ],
+          "outputs": [
+            "standardized series"
+          ],
+          "keywords": [
+            "standardization",
+            "cubic spline",
+            "autoregressive model"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The resulting individual residual series were used to build a mean chronology calculated with a biweight robust mean using dplR.",
+          "searchable_summary": "calculate mean chronology with biweight robust mean",
+          "inputs": [
+            "standardized series"
+          ],
+          "outputs": [
+            "mean chronology"
+          ],
+          "keywords": [
+            "mean chronology",
+            "biweight robust mean",
+            "dplR"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/33818209.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,474 @@
+{
+  "paper_title": "Global small RNA sequencing data analysis in cotton pollen grains under HT stress",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Small RNA Sequencing Data Analysis",
+      "description": "Analysis of small RNA sequencing data to identify changes in miRNA abundance in cotton pollen grains under high temperature (HT) stress.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Mature pollen grains from NH and SH were collected separately with three biological repeats under mild and extreme HT stress, respectively, and used for small RNA (sRNA) library construction and sequencing.",
+          "searchable_summary": "collect and sequence pollen grains for sRNA library construction",
+          "inputs": [
+            "pollen grains from NH and SH",
+            "HT stress conditions"
+          ],
+          "outputs": [
+            "sRNA sequencing data"
+          ],
+          "keywords": [
+            "pollen grains",
+            "sRNA library",
+            "HT stress"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "After removing 3′adapter sequences, poly-A tags, small tags less than 18-nt and poor-quality reads from raw data, the clean reads obtained were filtered using mRNA, Rfam and Repbase databases.",
+          "searchable_summary": "filter and clean sRNA sequencing data",
+          "inputs": [
+            "raw sRNA sequencing data"
+          ],
+          "outputs": [
+            "clean sRNA reads"
+          ],
+          "keywords": [
+            "data cleaning",
+            "adapter removal",
+            "quality filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The number and percentage of different sRNA reads were classified and counted.",
+          "searchable_summary": "classify and count sRNA reads",
+          "inputs": [
+            "clean sRNA reads"
+          ],
+          "outputs": [
+            "classified sRNA read counts"
+          ],
+          "keywords": [
+            "sRNA classification",
+            "read counting"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "sRNAs within a certain length range (18-25 nucleotide (nt)) in total and unique reads were selected and counted.",
+          "searchable_summary": "select and count sRNAs of specific length",
+          "inputs": [
+            "classified sRNA read counts"
+          ],
+          "outputs": [
+            "length-specific sRNA counts"
+          ],
+          "keywords": [
+            "sRNA length selection",
+            "read counting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The ratios of 24/21 nt sRNAs in each sample were compared.",
+          "searchable_summary": "compare 24/21 nt sRNA ratios",
+          "inputs": [
+            "length-specific sRNA counts"
+          ],
+          "outputs": [
+            "24/21 nt sRNA ratio comparisons"
+          ],
+          "keywords": [
+            "sRNA ratio",
+            "comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RNA Sequencing and Data Analysis",
+      "description": "RNA sequencing and analysis to determine differential gene expression in cotton pollen grains under HT stress.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Transcriptome sequencing was conducted with three biological replicates on the same materials used for sRNA sequencing analysis.",
+          "searchable_summary": "conduct transcriptome sequencing",
+          "inputs": [
+            "cotton pollen grains",
+            "HT stress conditions"
+          ],
+          "outputs": [
+            "transcriptome sequencing data"
+          ],
+          "keywords": [
+            "transcriptome sequencing",
+            "biological replicates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "After filtering the low-quality reads containing adapters and poly-N from the raw data using the Trimmomatic software, clean reads were obtained.",
+          "searchable_summary": "filter and clean transcriptome sequencing data",
+          "inputs": [
+            "raw transcriptome sequencing data"
+          ],
+          "outputs": [
+            "clean transcriptome reads"
+          ],
+          "keywords": [
+            "data cleaning",
+            "Trimmomatic",
+            "adapter removal"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Clean reads were mapped to the TM-1 reference genome using TopHat.",
+          "searchable_summary": "map clean reads to reference genome",
+          "inputs": [
+            "clean transcriptome reads",
+            "TM-1 reference genome"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "read mapping",
+            "TopHat",
+            "reference genome"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Cuffdiff software was used to calculate the FPKM value of each gene and determine differential expression between or among different samples.",
+          "searchable_summary": "calculate FPKM and determine differential expression",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "FPKM values",
+            "differentially expressed genes"
+          ],
+          "keywords": [
+            "FPKM",
+            "Cuffdiff",
+            "differential expression"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The GOseq R package was used for Gene Ontology (GO) functional categories analysis.",
+          "searchable_summary": "perform GO functional categories analysis",
+          "inputs": [
+            "differentially expressed genes"
+          ],
+          "outputs": [
+            "GO functional categories"
+          ],
+          "keywords": [
+            "GO analysis",
+            "GOseq",
+            "functional categories"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The KOBAS software was used to test the statistical enrichment of the DEGs in the KEGG pathways.",
+          "searchable_summary": "test KEGG pathway enrichment",
+          "inputs": [
+            "differentially expressed genes"
+          ],
+          "outputs": [
+            "KEGG pathway enrichment"
+          ],
+          "keywords": [
+            "KEGG pathways",
+            "KOBAS",
+            "enrichment analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Whole-genome Identification and Expression Level Analysis of miRNA Clusters",
+      "description": "Identification and analysis of miRNA clusters on the genome to find miRNAs that may be co-transcribed in the form of gene clusters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Co-localized all 459 known and newly predicted miRNAs on the genome to find miRNAs that may be simultaneously transcribed in the form of gene clusters.",
+          "searchable_summary": "co-localize miRNAs on genome to identify clusters",
+          "inputs": [
+            "miRNA data",
+            "genome data"
+          ],
+          "outputs": [
+            "miRNA clusters"
+          ],
+          "keywords": [
+            "miRNA clusters",
+            "co-localization",
+            "genome"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Identified 39 miRNA clusters or Pre-miRNA Clusters (PmCs) containing 106 expressed miRNAs based on 50-kb cluster spacing.",
+          "searchable_summary": "identify miRNA clusters based on cluster spacing",
+          "inputs": [
+            "miRNA clusters"
+          ],
+          "outputs": [
+            "identified miRNA clusters"
+          ],
+          "keywords": [
+            "miRNA clusters",
+            "cluster spacing",
+            "PmCs"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Heat map analysis of the expression levels of DEMs in the miRNA clusters.",
+          "searchable_summary": "create heat map of miRNA expression levels",
+          "inputs": [
+            "miRNA expression data"
+          ],
+          "outputs": [
+            "heat map"
+          ],
+          "keywords": [
+            "heat map",
+            "miRNA expression",
+            "visualization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Comprehensive Analysis of miRNA Expression Profiles and Target Genes",
+      "description": "Integration of sRNA, transcriptome, and transcriptome sequencing data to analyze miRNA expression profiles and their target genes in response to HT.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Integrated combined sRNA, transcriptome, and transcriptome sequencing data to analyze the expression profiles of miRNAs and their corresponding target genes.",
+          "searchable_summary": "integrate sequencing data to analyze miRNA and target gene expression",
+          "inputs": [
+            "sRNA data",
+            "transcriptome data"
+          ],
+          "outputs": [
+            "miRNA-target gene expression profiles"
+          ],
+          "keywords": [
+            "miRNA expression",
+            "target genes",
+            "data integration"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Identified differently expressed miRNA-target mRNA pairs between SH and NH under mild and extreme HT stress.",
+          "searchable_summary": "identify differentially expressed miRNA-target mRNA pairs",
+          "inputs": [
+            "miRNA-target gene expression profiles"
+          ],
+          "outputs": [
+            "differentially expressed miRNA-target pairs"
+          ],
+          "keywords": [
+            "miRNA-target pairs",
+            "differential expression",
+            "HT stress"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Performed KEGG enrichment annotation analysis for miRNA targets.",
+          "searchable_summary": "perform KEGG enrichment analysis for miRNA targets",
+          "inputs": [
+            "differentially expressed miRNA-target pairs"
+          ],
+          "outputs": [
+            "KEGG enrichment results"
+          ],
+          "keywords": [
+            "KEGG enrichment",
+            "miRNA targets",
+            "annotation analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Constructed a comprehensive molecular network of miRNA-mRNA-gene-KEGG involved in the regulation of pollen development in response to HT stress.",
+          "searchable_summary": "construct molecular network of miRNA-mRNA-gene-KEGG",
+          "inputs": [
+            "KEGG enrichment results",
+            "miRNA-target pairs"
+          ],
+          "outputs": [
+            "molecular network model"
+          ],
+          "keywords": [
+            "molecular network",
+            "miRNA-mRNA-gene",
+            "HT stress"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Small RNA Sequencing Library Construction and Bioinformatics Analysis",
+      "description": "Construction of small RNA sequencing libraries and bioinformatics analysis for RNA extraction and sequencing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Total RNA was extracted from the pollens of each sample using the TIANGEN RNAprep Pure Plant Plus Kit following the vendor's protocol.",
+          "searchable_summary": "extract total RNA from pollen samples",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "total RNA"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "pollen",
+            "TIANGEN kit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The total RNA amount and purity were quantified using a NanoDrop ND-1000, and RNA integrity was assessed by an Agilent 2100 Bioanalyzer system.",
+          "searchable_summary": "quantify RNA amount and assess integrity",
+          "inputs": [
+            "total RNA"
+          ],
+          "outputs": [
+            "RNA quality metrics"
+          ],
+          "keywords": [
+            "RNA quantification",
+            "NanoDrop",
+            "Bioanalyzer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "About 1 µg of total RNA was used to prepare and construct the sRNA library using a TruSeq Small RNA Sample Prep Kit.",
+          "searchable_summary": "construct sRNA library from total RNA",
+          "inputs": [
+            "total RNA"
+          ],
+          "outputs": [
+            "sRNA library"
+          ],
+          "keywords": [
+            "sRNA library",
+            "TruSeq",
+            "RNA preparation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The libraries were sequenced on an Illumina HiSeq 2500 platform according to the manufacturer's recommended protocol.",
+          "searchable_summary": "sequence sRNA libraries on Illumina HiSeq 2500",
+          "inputs": [
+            "sRNA library"
+          ],
+          "outputs": [
+            "sRNA sequencing data"
+          ],
+          "keywords": [
+            "Illumina HiSeq",
+            "sRNA sequencing",
+            "library sequencing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequencing Data Processing and Identification of Candidate miRNAs and Their Clusters",
+      "description": "Processing of sequencing data to identify candidate miRNAs and their clusters using bioinformatics tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw data were subjected to an in-house program, ACGT101-miR, to obtain the clean reads by removing low-quality reads and contaminants.",
+          "searchable_summary": "clean raw sequencing data using ACGT101-miR",
+          "inputs": [
+            "raw sequencing data"
+          ],
+          "outputs": [
+            "clean reads"
+          ],
+          "keywords": [
+            "data cleaning",
+            "ACGT101-miR",
+            "contaminant removal"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "All sRNA tags were aligned to the upland cotton TM-1 genome using Bowtie 2 to analyze their expression and distribution.",
+          "searchable_summary": "align sRNA tags to TM-1 genome using Bowtie 2",
+          "inputs": [
+            "clean reads",
+            "TM-1 genome"
+          ],
+          "outputs": [
+            "aligned sRNA tags"
+          ],
+          "keywords": [
+            "sRNA alignment",
+            "Bowtie 2",
+            "genome mapping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Unique sequences with length in 18 ~ 25 nucleotides were mapped to specific cotton precursors in miRBase 22.0 database to identify known and novel miRNAs.",
+          "searchable_summary": "map sequences to miRBase to identify miRNAs",
+          "inputs": [
+            "aligned sRNA tags",
+            "miRBase 22.0"
+          ],
+          "outputs": [
+            "identified miRNAs"
+          ],
+          "keywords": [
+            "miRNA identification",
+            "miRBase",
+            "sequence mapping"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/265052262.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

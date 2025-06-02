@@ -1,0 +1,127 @@
+{
+  "paper_title": "Boundary Slope Fitting and Error Analysis for Lake Bathymetry",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Boundary Slope Fitting",
+      "description": "Boundary slope fitting creates a model of near-shore lake regions using information from nearby regions with similar characteristics. It is used to determine lake bathymetry cost-effectively by adding modeled data points around the lake perimeter, allowing for indirect determination of lake regions without direct depth data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Original bottom data is supplemented with data from the lake edges to determine lake bathymetry.",
+          "searchable_summary": "supplement bottom data with edge data to model lake bathymetry",
+          "inputs": [
+            "original bottom data",
+            "lake edge data"
+          ],
+          "outputs": [
+            "modeled lake bathymetry"
+          ],
+          "keywords": [
+            "lake bathymetry",
+            "boundary slope fitting",
+            "data modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use exponential functions to model lake slopes, as polynomials are not flat at the center of the lake.",
+          "searchable_summary": "apply exponential functions to model lake slopes",
+          "inputs": [
+            "lake slope data"
+          ],
+          "outputs": [
+            "exponential function model"
+          ],
+          "keywords": [
+            "exponential functions",
+            "slope modeling",
+            "lake modeling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Error Analysis of Volume Estimation",
+      "description": "An error analysis to validate the boundary slope fitting method and the volume estimation of Lib Pond, using Monte Carlo simulations to assess the impact of GPS and modeling errors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Each GPS coordinate was randomly scattered according to an error distribution.",
+          "searchable_summary": "apply random scatter to GPS coordinates based on error distribution",
+          "inputs": [
+            "GPS coordinates",
+            "error distribution"
+          ],
+          "outputs": [
+            "scattered GPS coordinates"
+          ],
+          "keywords": [
+            "GPS error",
+            "random scatter",
+            "error distribution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Conduct a Monte Carlo simulation of 500 trials to produce different lake volumes.",
+          "searchable_summary": "perform Monte Carlo simulation for lake volume estimation",
+          "inputs": [
+            "scattered GPS coordinates",
+            "lake model parameters"
+          ],
+          "outputs": [
+            "lake volume estimates"
+          ],
+          "keywords": [
+            "Monte Carlo simulation",
+            "volume estimation",
+            "lake modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Add Gaussian distributed random parameters to the exponential function curve fits to test the effect of variance on volume.",
+          "searchable_summary": "add Gaussian noise to curve fit parameters for variance testing",
+          "inputs": [
+            "exponential function parameters",
+            "Gaussian noise"
+          ],
+          "outputs": [
+            "noisy curve fit parameters"
+          ],
+          "keywords": [
+            "Gaussian noise",
+            "curve fitting",
+            "variance testing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Quantify the effect of boundary slope fitting on volume calculation by comparing boundary slope fitting errors to volume errors.",
+          "searchable_summary": "compare boundary slope fitting errors to volume errors",
+          "inputs": [
+            "boundary slope fitting errors",
+            "volume errors"
+          ],
+          "outputs": [
+            "error ratio"
+          ],
+          "keywords": [
+            "error analysis",
+            "volume calculation",
+            "boundary slope fitting"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/21354566.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

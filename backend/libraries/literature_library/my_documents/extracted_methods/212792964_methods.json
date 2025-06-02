@@ -1,0 +1,359 @@
+{
+  "paper_title": "Inferred from content: Plant Systematics/Genetics Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA Sequence Assembly, Alignment, and Phylogenetic Analysis",
+      "description": "This method describes the process of assembling and editing raw DNA sequences, aligning consensus sequences for various genetic markers (ETS, atpB-rbcL, ITS, rpl32-trnL, trnL-trnF), testing data combinability, performing maximum likelihood phylogenetic analyses, selecting appropriate nucleotide substitution models, estimating branch support, visualizing phylogenetic relationships, and constructing haplotype networks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Forward and reverse sequences were assembled and edited using Sequencher ver. 4.2.2 (Gene Codes Corporation, Ann Arbor, Michigan, USA) or Geneious ver. 11.1.5 (Biomatters, Auckland, New Zealand).",
+          "searchable_summary": "Assemble and edit raw DNA sequences (forward/reverse reads) into consensus sequences.",
+          "inputs": [
+            "Raw forward DNA sequences",
+            "Raw reverse DNA sequences"
+          ],
+          "outputs": [
+            "Edited consensus DNA sequences"
+          ],
+          "keywords": [
+            "sequence assembly",
+            "sequence editing",
+            "Sequencher",
+            "Geneious"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Consensus sequences were aligned using PASTA for ETS and the atpB-rbcL intergenic spacer (Mirarab et al., 2015) or MAFFT using the Q-INSi strategy for ITS (Katoh et al., 2017).",
+          "searchable_summary": "Align consensus DNA sequences using specified algorithms (PASTA or MAFFT) depending on the genetic marker.",
+          "inputs": [
+            "Edited consensus DNA sequences (grouped by marker: ETS, atpB-rbcL, ITS)"
+          ],
+          "outputs": [
+            "Aligned DNA sequence matrices"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "PASTA",
+            "MAFFT",
+            "Q-INSi",
+            "ITS",
+            "ETS",
+            "atpB-rbcL"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "To test for data combinability, therefore, a partition homogeneity test was conducted in PAUP* ver. 4.0beta10 (Swofford, 2002) on the following sets of data: (1) rpl32-trnL and trnL-trnF; (2) ITS1, ITS2 and ETS; and (3) atpB-rbcL, ITS and ETS.",
+          "searchable_summary": "Perform partition homogeneity test to assess data combinability for specified sets of aligned DNA matrices.",
+          "inputs": [
+            "Aligned DNA sequence matrices (partitioned sets: rpl32-trnL/trnL-trnF, ITS1/ITS2/ETS, atpB-rbcL/ITS/ETS)"
+          ],
+          "outputs": [
+            "Results of partition homogeneity test (e.g., p-value)"
+          ],
+          "keywords": [
+            "partition homogeneity test",
+            "data combinability",
+            "PAUP*"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Partitioned and combined maximum likelihood (ML) analyses were performed using the software IQTREE.",
+          "searchable_summary": "Perform partitioned and combined maximum likelihood phylogenetic analysis.",
+          "inputs": [
+            "Aligned DNA sequence matrices (partitioned and combined)"
+          ],
+          "outputs": [
+            "Phylogenetic trees (ML trees)"
+          ],
+          "keywords": [
+            "maximum likelihood",
+            "phylogenetic analysis",
+            "IQTREE"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The model of nucleotide substitution was selected for each dataset using jModelTest ver. 2.1.10 (Darriba et al., 2012) based on the BIC value.",
+          "searchable_summary": "Select the best model of nucleotide substitution for each dataset using jModelTest based on BIC.",
+          "inputs": [
+            "Aligned DNA sequence matrices"
+          ],
+          "outputs": [
+            "Nucleotide substitution model selection results"
+          ],
+          "keywords": [
+            "nucleotide substitution model",
+            "model selection",
+            "jModelTest",
+            "BIC"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The best fit model was SYM + G for ETS, ITS1 and ITS2, SYM + G+I for atpB-rbcL (but SYM + G was selected for simplicity) and GTR + G for the other chloroplast regions.",
+          "searchable_summary": "Identify and specify the best fit nucleotide substitution model for each dataset based on selection results.",
+          "inputs": [
+            "Nucleotide substitution model selection results"
+          ],
+          "outputs": [
+            "Best fit nucleotide substitution model for each dataset"
+          ],
+          "keywords": [
+            "best fit model",
+            "nucleotide substitution model",
+            "SYM+G",
+            "SYM+G+I",
+            "GTR+G"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "IQTREE computed 100 random Maximum Parsimony (MP) trees, searching for best-scoring ML trees and estimating branch support for the best tree from 1,000 bootstrap replicates using the ultrafast bootstrap option.",
+          "searchable_summary": "Compute initial random Maximum Parsimony trees as part of the ML analysis setup.",
+          "inputs": [
+            "Aligned DNA sequence matrices"
+          ],
+          "outputs": [
+            "Initial Maximum Parsimony trees"
+          ],
+          "keywords": [
+            "maximum parsimony",
+            "phylogenetic tree",
+            "IQTREE"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "IQTREE computed 100 random Maximum Parsimony (MP) trees, searching for best-scoring ML trees and estimating branch support for the best tree from 1,000 bootstrap replicates using the ultrafast bootstrap option.",
+          "searchable_summary": "Search for the best-scoring maximum likelihood phylogenetic trees.",
+          "inputs": [
+            "Aligned DNA sequence matrices",
+            "Selected nucleotide substitution models",
+            "Initial trees (MP)"
+          ],
+          "outputs": [
+            "Best-scoring ML trees"
+          ],
+          "keywords": [
+            "maximum likelihood",
+            "tree search",
+            "IQTREE"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "IQTREE computed 100 random Maximum Parsimony (MP) trees, searching for best-scoring ML trees and estimating branch support for the best tree from 1,000 bootstrap replicates using the ultrafast bootstrap option.",
+          "searchable_summary": "Estimate branch support for the best tree using a specified number of bootstrap replicates (ultrafast bootstrap).",
+          "inputs": [
+            "Best-scoring ML tree",
+            "Aligned DNA sequence matrices"
+          ],
+          "outputs": [
+            "ML tree with branch support values (bootstrap values)"
+          ],
+          "keywords": [
+            "bootstrap",
+            "branch support",
+            "ultrafast bootstrap",
+            "IQTREE"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "The distance matrix produced by the IQTREE analysis was visualized using SplitsTree (Huson and Bryant, 2006).",
+          "searchable_summary": "Produce a distance matrix from the phylogenetic analysis results.",
+          "inputs": [
+            "Phylogenetic tree (ML tree)"
+          ],
+          "outputs": [
+            "Distance matrix"
+          ],
+          "keywords": [
+            "distance matrix",
+            "phylogenetic distance",
+            "IQTREE"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "visualization",
+          "description": "The distance matrix produced by the IQTREE analysis was visualized using SplitsTree (Huson and Bryant, 2006).",
+          "searchable_summary": "Visualize the distance matrix using SplitsTree.",
+          "inputs": [
+            "Distance matrix"
+          ],
+          "outputs": [
+            "Visualization of distance matrix (e.g., network)"
+          ],
+          "keywords": [
+            "distance matrix visualization",
+            "SplitsTree"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "modeling",
+          "description": "TCS (Clement et al., 2000) was used to establish a haplotype network for the combined chloroplast rpl32-trnL and trnL-trnF matrix within a statistical parsimony framework. The analysis was performed with a 95% parsimony connection limit.",
+          "searchable_summary": "Establish a haplotype network for a combined chloroplast matrix using statistical parsimony with a specified connection limit.",
+          "inputs": [
+            "Combined chloroplast DNA matrix (rpl32-trnL and trnL-trnF aligned sequences)"
+          ],
+          "outputs": [
+            "Haplotype network"
+          ],
+          "keywords": [
+            "haplotype network",
+            "statistical parsimony",
+            "TCS",
+            "chloroplast DNA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genome Size and Ploidy Measurement by Flow Cytometry",
+      "description": "This method details the procedure for measuring the genome size and ploidy level of plant samples using flow cytometry with propidium iodide staining and internal standards.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The genome size and ploidy level of 108 samples of Krascheninnikovia ceratoides were measured by flow cytometry using the CyStain PI Absolute P kit (Sysmex, Görlitz, Germany) according to the manufacturer's manual with leaf tissue of the sample and an internal standard: Pisum sativum L. 'Kleine Rheinländerin' (2C = 8.8 pg; Doležel and Greilhuber, 2010) or Petroselinum crispum (Mill.) Fuss (2C = 4.46 pg; Yokoya et al., 2000).",
+          "searchable_summary": "Prepare plant tissue samples for flow cytometry using a PI staining kit and specified internal standards according to the manufacturer's manual.",
+          "inputs": [
+            "Leaf tissue samples (Krascheninnikovia ceratoides)",
+            "CyStain PI Absolute P kit",
+            "Internal standard (Pisum sativum or Petroselinum crispum)"
+          ],
+          "outputs": [
+            "Stained cell suspension ready for flow cytometry"
+          ],
+          "keywords": [
+            "flow cytometry sample preparation",
+            "propidium iodide",
+            "internal standard",
+            "CyStain PI Absolute P",
+            "genome size",
+            "ploidy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The nuclear DNA content was measured in a CyFlow Space (532 nm diode laser; Sysmex) until at least 5000 measurements were collected.",
+          "searchable_summary": "Measure nuclear DNA content using a flow cytometer (CyFlow Space) with a specified laser.",
+          "inputs": [
+            "Stained cell suspension"
+          ],
+          "outputs": [
+            "Flow cytometry data (measurements of fluorescence intensity)"
+          ],
+          "keywords": [
+            "flow cytometry",
+            "nuclear DNA content",
+            "CyFlow Space",
+            "DNA measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The nuclear DNA content was measured in a CyFlow Space (532 nm diode laser; Sysmex) until at least 5000 measurements were collected.",
+          "searchable_summary": "Collect a minimum number of measurements (at least 5000) per sample during flow cytometry.",
+          "inputs": [
+            "Flow cytometry data stream"
+          ],
+          "outputs": [
+            "Sufficient flow cytometry data for analysis (at least 5000 measurements per sample)"
+          ],
+          "keywords": [
+            "flow cytometry data collection",
+            "measurement count",
+            "data acquisition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Aligned DNA Data Matrix Preparation",
+      "description": "This method describes the composition and selection criteria for the aligned nuclear and plastid DNA data matrices used in phylogenetic and dating analyses, including the inclusion of outgroups and handling of identical haplotypes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The nuclear and plastid aligned data matrices comprised accessions of Krascheninnikovia and of the close genera Axyris and Ceratocarpus that were used as outgroups.",
+          "searchable_summary": "Compose aligned nuclear and plastid DNA data matrices including accessions of the target genus and specified outgroups.",
+          "inputs": [
+            "Aligned DNA sequences (nuclear and plastid markers)",
+            "List of accessions for target genus (Krascheninnikovia)",
+            "List of accessions for outgroup genera (Axyris, Ceratocarpus)"
+          ],
+          "outputs": [
+            "Aligned nuclear and plastid DNA data matrices"
+          ],
+          "keywords": [
+            "data matrix composition",
+            "aligned sequences",
+            "outgroups",
+            "nuclear DNA",
+            "plastid DNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Identical haplotypes were represented by a single accession in the phylogenetic analyses.",
+          "searchable_summary": "Represent identical haplotypes by a single accession in the data matrix to reduce redundancy for phylogenetic analysis.",
+          "inputs": [
+            "Aligned DNA data matrix with potentially redundant accessions (identical haplotypes)"
+          ],
+          "outputs": [
+            "Data matrix with unique haplotypes represented once"
+          ],
+          "keywords": [
+            "haplotype representation",
+            "data redundancy reduction",
+            "phylogenetic analysis input"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For the dating analysis, the ITS1, ITS2 and ETS data matrices of 191 accessions with unique sequences were used -57 accessions of Krascheninnikovia, four of Axyris, five of Ceratocarpus and 125 of other Chenopodioideae genera.",
+          "searchable_summary": "Select specific data matrices (ITS1, ITS2, ETS) and a subset of accessions with unique sequences for dating analysis.",
+          "inputs": [
+            "Aligned DNA data matrices (ITS1, ITS2, ETS)",
+            "List of accessions with unique sequences (including specified counts for genera)"
+          ],
+          "outputs": [
+            "Subset of aligned data matrices and accessions for dating analysis"
+          ],
+          "keywords": [
+            "data subsetting",
+            "dating analysis",
+            "unique sequences",
+            "ITS",
+            "ETS",
+            "accession selection"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/212792964.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

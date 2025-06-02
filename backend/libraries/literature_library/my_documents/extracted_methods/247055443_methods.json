@@ -1,0 +1,186 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Synthesis for Meta Analysis",
+      "description": "This method involves collecting and preparing data from scientific publications related to lake sediment cores for meta-analysis. The process includes searching a database with specific keywords, applying filters, and extracting relevant data for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We used the following keywords 'paleolimnology', 'phosphorus', 'lake', 'sediment', 'core' to search the Scopus database (2020) for publications related to lake sediment cores.",
+          "searchable_summary": "search Scopus database using specific keywords",
+          "inputs": [
+            "keywords: paleolimnology, phosphorus, lake, sediment, core"
+          ],
+          "outputs": [
+            "list of publications"
+          ],
+          "keywords": [
+            "database search",
+            "Scopus",
+            "keywords"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We applied additional filters based on subject areas (i.e. Earth and Planetary Science, Environmental Science, Biological and Agricultural Science and their related subject areas), document type (article), and language (English).",
+          "searchable_summary": "apply filters to search results based on subject areas, document type, and language",
+          "inputs": [
+            "search results",
+            "filters: subject areas, document type, language"
+          ],
+          "outputs": [
+            "filtered list of publications"
+          ],
+          "keywords": [
+            "filtering",
+            "subject areas",
+            "document type",
+            "language"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Availability of 210 Pb chronology was used as additional key criteria for paper selection.",
+          "searchable_summary": "filter papers based on availability of 210 Pb chronology",
+          "inputs": [
+            "filtered list of publications"
+          ],
+          "outputs": [
+            "list of publications with 210 Pb chronology"
+          ],
+          "keywords": [
+            "210 Pb chronology",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Our Scopus database search resulted in a total of 600 papers, and additional screening for 210 Pb chronology led to final 200 papers.",
+          "searchable_summary": "screen and finalize list of papers",
+          "inputs": [
+            "list of publications with 210 Pb chronology"
+          ],
+          "outputs": [
+            "final list of 200 papers"
+          ],
+          "keywords": [
+            "screening",
+            "final selection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Then, we used the 'digitize' R package (Poisot et al 2016) to extract the sediment P trajectories and age-depth chronology from these papers to be used for further analyses.",
+          "searchable_summary": "extract sediment P trajectories and age-depth chronology using 'digitize' R package",
+          "inputs": [
+            "final list of 200 papers"
+          ],
+          "outputs": [
+            "sediment P trajectories",
+            "age-depth chronology"
+          ],
+          "keywords": [
+            "digitize",
+            "R package",
+            "data extraction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment P Trajectories: Cluster Analysis",
+      "description": "This method involves analyzing sediment phosphorus concentration trajectories over the last 100 years to identify distinct clusters that describe the behavior of sediment cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Five distinct clusters were identified that described the behavior of the 128 sediment P cores.",
+          "searchable_summary": "identify clusters in sediment P concentration data",
+          "inputs": [
+            "sediment P concentration data"
+          ],
+          "outputs": [
+            "five distinct clusters"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "sediment P concentration"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Cluster 1 (C1) includes 51 lakes, and is characterized by minimal temporal trend and no significant changepoint over the 100 year timeframe.",
+          "searchable_summary": "characterize Cluster 1 with minimal temporal trend",
+          "inputs": [
+            "cluster 1 data"
+          ],
+          "outputs": [
+            "characteristics of Cluster 1"
+          ],
+          "keywords": [
+            "Cluster 1",
+            "temporal trend"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "In contrast to the C1 cluster, the other four clusters all show a clearly defined changepoint after which there is a significant increase in P sed.",
+          "searchable_summary": "identify changepoints in other clusters",
+          "inputs": [
+            "clusters 2-5 data"
+          ],
+          "outputs": [
+            "changepoints for clusters 2-5"
+          ],
+          "keywords": [
+            "changepoint",
+            "clusters"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The median changepoint for cores in cluster 2 (C2) is 1978, while it is 1946 for cluster 3 (C3), 1937 for cluster 4 (C4) and 1960 for cluster 5 (C5).",
+          "searchable_summary": "calculate median changepoints for clusters",
+          "inputs": [
+            "clusters 2-5 data"
+          ],
+          "outputs": [
+            "median changepoints for clusters 2-5"
+          ],
+          "keywords": [
+            "median changepoint",
+            "clusters"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "We further find that the P sed between 1960 and 2010 in C3 and C4 lakes to be higher than in C2 lakes, alluding to the higher degree of historical impact on lakes in the developed world.",
+          "searchable_summary": "compare P sed levels between clusters",
+          "inputs": [
+            "P sed data for clusters 2-4"
+          ],
+          "outputs": [
+            "comparison of P sed levels"
+          ],
+          "keywords": [
+            "P sed comparison",
+            "historical impact"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247055443.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,687 @@
+{
+  "paper_title": "Radiocarbon Date Analysis and Population Estimation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Preparation and Filtering",
+      "description": "Process for selecting, filtering, and preparing radiocarbon dates from the CARD database for subsequent analysis, including conversion to calendar years.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Start with the full CARD (Cultural and Paleoenvironmental Radiocarbon Database) containing 35,905 radiocarbon dates.",
+          "searchable_summary": "load radiocarbon database",
+          "inputs": [],
+          "outputs": [
+            "CARD database (raw)"
+          ],
+          "keywords": [
+            "database",
+            "radiocarbon",
+            "CARD"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter dates based on completeness of location information (exclude 77 dates with missing locations).",
+          "searchable_summary": "filter data by location completeness",
+          "inputs": [
+            "CARD database (raw)"
+          ],
+          "outputs": [
+            "CARD database (location filtered)"
+          ],
+          "keywords": [
+            "filter",
+            "location",
+            "completeness"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Filter dates based on location (exclude 61 dates from Russia).",
+          "searchable_summary": "filter data by geographic location",
+          "inputs": [
+            "CARD database (location filtered)"
+          ],
+          "outputs": [
+            "CARD database (location filtered, Russia excluded)"
+          ],
+          "keywords": [
+            "filter",
+            "location",
+            "Russia"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Filter dates based on dating information completeness (exclude 2,071 entries missing normalized 14C ages, normalized 14C errors, or both).",
+          "searchable_summary": "filter data by dating information completeness",
+          "inputs": [
+            "CARD database (location filtered, Russia excluded)"
+          ],
+          "outputs": [
+            "CARD database (dating info filtered)"
+          ],
+          "keywords": [
+            "filter",
+            "radiocarbon age",
+            "error",
+            "completeness"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Consider cultural association and material type, but do not necessarily eliminate dates if this information is missing.",
+          "searchable_summary": "review cultural association and material type",
+          "inputs": [
+            "CARD database (dating info filtered)"
+          ],
+          "outputs": [
+            "CARD database (reviewed)"
+          ],
+          "keywords": [
+            "cultural association",
+            "material type"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Separate cultural dates (29,609 used for RFPE maps) from paleoenvironmental or unknown material dates (4,087).",
+          "searchable_summary": "separate data by classification (cultural/paleoenvironmental)",
+          "inputs": [
+            "CARD database (reviewed)"
+          ],
+          "outputs": [
+            "Cultural dates dataset",
+            "Paleoenvironmental/Unknown dates dataset"
+          ],
+          "keywords": [
+            "classification",
+            "cultural",
+            "paleoenvironmental"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Convert 14C ages from the cultural dates dataset to calendar years using CALIB v.5.0.2 and IntCal04, specifically using the median of the 2 sigma ages of the calibration curve.",
+          "searchable_summary": "calibrate radiocarbon ages to calendar years",
+          "inputs": [
+            "Cultural dates dataset",
+            "CALIB v.5.0.2",
+            "IntCal04 calibration curve"
+          ],
+          "outputs": [
+            "Cultural dates dataset (calibrated)"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "calendar years",
+            "CALIB",
+            "IntCal04",
+            "median",
+            "2 sigma"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling Intensity Mapping",
+      "description": "Procedure to create a spatial map representing the sampling bias (density of archaeological sites) in the CARD database using kernel density estimation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Select only geographically distinct sites (n = 7,754) from the CARD database.",
+          "searchable_summary": "select unique site locations",
+          "inputs": [
+            "CARD database (all sites)"
+          ],
+          "outputs": [
+            "Dataset of unique site locations"
+          ],
+          "keywords": [
+            "site location",
+            "unique sites",
+            "geographic coordinates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use all archaeological sites selected in the previous step, regardless of the age of the dated material or its classification (cultural, paleoenvironmental, or unknown).",
+          "searchable_summary": "include all unique site locations for density estimation",
+          "inputs": [
+            "Dataset of unique site locations"
+          ],
+          "outputs": [
+            "Dataset of unique site locations (for density)"
+          ],
+          "keywords": [
+            "site location",
+            "density estimation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Apply kernel density estimation to the geographic locations of the selected sites to estimate sampling intensity.",
+          "searchable_summary": "perform kernel density estimation on site locations",
+          "inputs": [
+            "Dataset of unique site locations (for density)"
+          ],
+          "outputs": [
+            "Sampling intensity map"
+          ],
+          "keywords": [
+            "kernel density estimation",
+            "spatial analysis",
+            "sampling bias",
+            "site density"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Create a map visualizing the estimated sampling intensity (density of sites).",
+          "searchable_summary": "visualize sampling intensity map",
+          "inputs": [
+            "Sampling intensity map"
+          ],
+          "outputs": [
+            "Sampling intensity map visualization"
+          ],
+          "keywords": [
+            "map",
+            "visualization",
+            "GIS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Relative Frequency of Population Estimates (RFPE) Mapping",
+      "description": "The primary method for generating spatiotemporal maps of relative population intensity based on calibrated cultural radiocarbon dates, incorporating temporal smoothing, kernel density estimation, and correction for sampling bias.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Create a grid of points every 0.1° between 23-85°N and 173-51°W to define the area of interest (North America).",
+          "searchable_summary": "create spatial grid for analysis area",
+          "inputs": [
+            "Geographic boundaries (23-85°N, 173-51°W)",
+            "Grid resolution (0.1°)"
+          ],
+          "outputs": [
+            "Analysis grid (North America)"
+          ],
+          "keywords": [
+            "spatial grid",
+            "GIS",
+            "area of interest"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use ArcGIS shapefiles of the extent of glacial ice at 1,000-y intervals to differentiate between glaciated/inundated areas and land within the analysis grid.",
+          "searchable_summary": "mask grid based on glacial ice extent",
+          "inputs": [
+            "Analysis grid (North America)",
+            "Glacial ice extent shapefiles (1,000-y intervals)"
+          ],
+          "outputs": [
+            "Analysis grid (land areas only)"
+          ],
+          "keywords": [
+            "GIS",
+            "shapefile",
+            "glacial extent",
+            "masking"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Select the time period from 0.5 to 13 ka for analysis.",
+          "searchable_summary": "define time period for analysis",
+          "inputs": [
+            "Calibrated cultural dates dataset"
+          ],
+          "outputs": [
+            "Calibrated cultural dates dataset (within 0.5-13 ka)"
+          ],
+          "keywords": [
+            "time period",
+            "paleoclimate",
+            "archaeology"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Define time intervals of 500 years, with consecutive intervals overlapping by 100 years.",
+          "searchable_summary": "define overlapping time intervals",
+          "inputs": [
+            "Time period (0.5-13 ka)",
+            "Interval size (500 y)",
+            "Overlap (100 y)"
+          ],
+          "outputs": [
+            "List of time intervals"
+          ],
+          "keywords": [
+            "time series",
+            "intervals",
+            "overlap"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "For each time interval, identify dates from the calibrated cultural dataset that fall within the interval or within ±400 years of the interval boundaries.",
+          "searchable_summary": "select dates within time interval and smoothing window",
+          "inputs": [
+            "Calibrated cultural dates dataset (within 0.5-13 ka)",
+            "Current time interval"
+          ],
+          "outputs": [
+            "Subset of dates for current interval"
+          ],
+          "keywords": [
+            "date selection",
+            "time window",
+            "temporal smoothing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Assign a weight (w) to each selected date: w=1 for dates within the interval, and w < 1 for dates within ±400 years. The weight for dates outside the interval is calculated as 1 - (temporal distance to the nearest interval boundary / 400).",
+          "searchable_summary": "assign temporal weights to dates",
+          "inputs": [
+            "Subset of dates for current interval",
+            "Current time interval boundaries"
+          ],
+          "outputs": [
+            "Subset of dates with assigned weights"
+          ],
+          "keywords": [
+            "weighting",
+            "temporal distance",
+            "smoothing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "If multiple dates exist for a single site within an interval (including the ±400y window with weights), consider each date separately in the subsequent density estimation.",
+          "searchable_summary": "handle multiple dates per site",
+          "inputs": [
+            "Subset of dates with assigned weights"
+          ],
+          "outputs": [
+            "Weighted dates dataset (ready for KDE)"
+          ],
+          "keywords": [
+            "multiple dates",
+            "site",
+            "data handling"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Apply Kernel Density Estimation (KDE) to the weighted dates dataset for the current time interval to produce raw population estimates.",
+          "searchable_summary": "perform weighted kernel density estimation",
+          "inputs": [
+            "Weighted dates dataset (ready for KDE)",
+            "Analysis grid (land areas only)"
+          ],
+          "outputs": [
+            "Raw population estimate map (current interval)"
+          ],
+          "keywords": [
+            "kernel density estimation",
+            "weighted KDE",
+            "spatial analysis",
+            "population estimation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Divide the raw population estimate map for the current interval by the Sampling Intensity Map (created in Method 2) to obtain the Relative Frequency of Population Estimates (RFPEs).",
+          "searchable_summary": "correct raw estimates using sampling intensity map",
+          "inputs": [
+            "Raw population estimate map (current interval)",
+            "Sampling intensity map"
+          ],
+          "outputs": [
+            "RFPE map (current interval)"
+          ],
+          "keywords": [
+            "bias correction",
+            "sampling intensity",
+            "division",
+            "spatial data"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Rescale the RFPE values on the map to a range of 0 to 1.",
+          "searchable_summary": "rescale RFPE values",
+          "inputs": [
+            "RFPE map (current interval)"
+          ],
+          "outputs": [
+            "RFPE map (current interval, rescaled)"
+          ],
+          "keywords": [
+            "rescaling",
+            "normalization",
+            "data transformation"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "visualization",
+          "description": "Plot the rescaled RFPE values on a logarithmic scale for visualization.",
+          "searchable_summary": "plot RFPE map on logarithmic scale",
+          "inputs": [
+            "RFPE map (current interval, rescaled)"
+          ],
+          "outputs": [
+            "RFPE map visualization (current interval)"
+          ],
+          "keywords": [
+            "visualization",
+            "logarithmic scale",
+            "mapping"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_processing",
+          "description": "Apply a taphonomic formula correction to the resulting RFPE maps.",
+          "searchable_summary": "apply taphonomic correction formula",
+          "inputs": [
+            "RFPE map (current interval)"
+          ],
+          "outputs": [
+            "RFPE map (current interval, taphonomic corrected)"
+          ],
+          "keywords": [
+            "taphonomy",
+            "correction formula",
+            "data adjustment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "CARD Database Quality Assessment",
+      "description": "Procedures to assess the quality and completeness of the CARD database and the robustness of the RFPE maps by re-running the analysis after removing subsets of data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Identify and remove dates flagged as 'anomalous' (n = 1,419, or 5% of original data points) from the dataset.",
+          "searchable_summary": "remove anomalous data points",
+          "inputs": [
+            "Calibrated cultural dates dataset"
+          ],
+          "outputs": [
+            "Dataset excluding anomalous dates"
+          ],
+          "keywords": [
+            "data cleaning",
+            "anomalous data",
+            "outliers",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Re-run the RFPE Mapping method (Method 3) using the dataset excluding anomalous dates.",
+          "searchable_summary": "generate RFPE maps with anomalous dates removed",
+          "inputs": [
+            "Dataset excluding anomalous dates",
+            "Sampling intensity map",
+            "Analysis grid",
+            "Glacial extent data"
+          ],
+          "outputs": [
+            "RFPE maps (anomalous dates removed)"
+          ],
+          "keywords": [
+            "RFPE mapping",
+            "sensitivity analysis",
+            "data quality"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Randomly select and remove 50% of the dates (n = 17,953) from the original dataset.",
+          "searchable_summary": "randomly remove subset of data",
+          "inputs": [
+            "Calibrated cultural dates dataset"
+          ],
+          "outputs": [
+            "Dataset with 50% random removal"
+          ],
+          "keywords": [
+            "random sampling",
+            "data subsetting",
+            "data quantity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Re-run the RFPE Mapping method (Method 3) using the dataset with 50% random removal.",
+          "searchable_summary": "generate RFPE maps with 50% data removed",
+          "inputs": [
+            "Dataset with 50% random removal",
+            "Sampling intensity map",
+            "Analysis grid",
+            "Glacial extent data"
+          ],
+          "outputs": [
+            "RFPE maps (50% random removal)"
+          ],
+          "keywords": [
+            "RFPE mapping",
+            "sensitivity analysis",
+            "data quantity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Compare the resulting RFPE maps from the two removal scenarios (anomalous dates removed, 50% random removal) with the original RFPE maps.",
+          "searchable_summary": "compare RFPE maps from different data subsets",
+          "inputs": [
+            "Original RFPE maps",
+            "RFPE maps (anomalous dates removed)",
+            "RFPE maps (50% random removal)"
+          ],
+          "outputs": [
+            "Comparison results (similarity assessment)"
+          ],
+          "keywords": [
+            "map comparison",
+            "similarity metric",
+            "validation",
+            "robustness"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Calibration Curve Impact Assessment",
+      "description": "A supplementary test to determine if changes between IntCal04 and IntCal13 calibration curves significantly affect calibrated ages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Take a subset of radiocarbon ages from the CARD database.",
+          "searchable_summary": "select subset of radiocarbon ages",
+          "inputs": [
+            "CARD database (raw 14C ages)"
+          ],
+          "outputs": [
+            "Subset of 14C ages"
+          ],
+          "keywords": [
+            "subsetting",
+            "radiocarbon age"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calibrate the subset of radiocarbon ages using the IntCal04 calibration curve.",
+          "searchable_summary": "calibrate radiocarbon ages using IntCal04",
+          "inputs": [
+            "Subset of 14C ages",
+            "IntCal04 calibration curve"
+          ],
+          "outputs": [
+            "Calibrated ages (IntCal04)"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "IntCal04",
+            "calibration curve"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calibrate the subset of radiocarbon ages using the IntCal13 calibration curve.",
+          "searchable_summary": "calibrate radiocarbon ages using IntCal13",
+          "inputs": [
+            "Subset of 14C ages",
+            "IntCal13 calibration curve"
+          ],
+          "outputs": [
+            "Calibrated ages (IntCal13)"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "IntCal13",
+            "calibration curve"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compare the resulting calibrated ages obtained from using IntCal04 and IntCal13.",
+          "searchable_summary": "compare calibrated ages from different curves",
+          "inputs": [
+            "Calibrated ages (IntCal04)",
+            "Calibrated ages (IntCal13)"
+          ],
+          "outputs": [
+            "Comparison results (similarity assessment)"
+          ],
+          "keywords": [
+            "comparison",
+            "calibration curve",
+            "similarity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RFPE Map Validation (Ethnohistoric Comparison)",
+      "description": "Validation of the RFPE maps by comparing them to independent ethnohistoric estimates of population distribution for a specific time period.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain ethnohistoric estimates of the spatial distribution of population for the period just before European contact (e.g., 0.4 to 0.6 ka).",
+          "searchable_summary": "load ethnohistoric population estimates",
+          "inputs": [
+            "Ethnohistoric data sources"
+          ],
+          "outputs": [
+            "Ethnohistoric population distribution data"
+          ],
+          "keywords": [
+            "ethnohistory",
+            "population estimates",
+            "historical data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Select the RFPE maps corresponding to the time interval comparable to the ethnohistoric data (e.g., 0.4 to 0.6 ka).",
+          "searchable_summary": "select RFPE maps for specific time interval",
+          "inputs": [
+            "RFPE maps (all intervals)",
+            "Time interval (0.4-0.6 ka)"
+          ],
+          "outputs": [
+            "RFPE map (0.4-0.6 ka)"
+          ],
+          "keywords": [
+            "RFPE map",
+            "time interval selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Compare the spatial patterns of the RFPE map (0.4-0.6 ka) with the spatial patterns of the ethnohistoric population estimates.",
+          "searchable_summary": "compare spatial patterns of RFPE and ethnohistoric data",
+          "inputs": [
+            "RFPE map (0.4-0.6 ka)",
+            "Ethnohistoric population distribution data"
+          ],
+          "outputs": [
+            "Comparison results (spatial pattern agreement/disagreement)"
+          ],
+          "keywords": [
+            "spatial pattern comparison",
+            "validation",
+            "ethnohistory",
+            "RFPE"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Assess the level of agreement between the two datasets, noting differences in specific regions and considering known limitations or incompleteness of either dataset.",
+          "searchable_summary": "assess agreement and identify discrepancies",
+          "inputs": [
+            "Comparison results (spatial pattern agreement/disagreement)",
+            "Known data limitations"
+          ],
+          "outputs": [
+            "Validation assessment report"
+          ],
+          "keywords": [
+            "assessment",
+            "agreement",
+            "discrepancy",
+            "data limitations"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7246053.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

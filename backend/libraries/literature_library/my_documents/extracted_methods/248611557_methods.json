@@ -1,0 +1,388 @@
+{
+  "paper_title": "Raman Spectroscopic Measurements",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Raman Spectroscopic Measurement",
+      "description": "The process of acquiring Raman spectra and images from prepared pollen grains using a confocal Raman microscope with specific settings.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The Raman measurements were performed on a confocal Raman microscope alpha300 R (WITec, Ulm, Germany) equipped with a 785 nm narrow-band diode laser (Toptica Photonics, Gräfelingen, Germany).",
+          "searchable_summary": "Set up and operate confocal Raman microscope with 785 nm laser.",
+          "inputs": [
+            "Confocal Raman microscope (alpha300 R)",
+            "785 nm diode laser"
+          ],
+          "outputs": [
+            "Instrument ready for measurement"
+          ],
+          "keywords": [
+            "Raman spectroscopy",
+            "confocal microscopy",
+            "laser",
+            "instrument setup",
+            "WITec",
+            "Toptica Photonics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The spectrometer, equipped a 300 g/mm grating, allows us to cover the wavenumber region between 100 to 3300 cm −1 at a spectral resolution of approx. 6 cm −1 .",
+          "searchable_summary": "Configure spectrometer grating and spectral range.",
+          "inputs": [
+            "Spectrometer",
+            "300 g/mm grating"
+          ],
+          "outputs": [
+            "Spectrometer configured for specific range/resolution (100-3300 cm⁻¹, ~6 cm⁻¹ resolution)"
+          ],
+          "keywords": [
+            "Spectrometer",
+            "grating",
+            "wavenumber",
+            "spectral resolution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Raman spectra were recorded with an integration time of 0.5 s using a 50× Zeiss objective with 0.9 NA.",
+          "searchable_summary": "Set acquisition parameters (integration time, objective) for Raman spectra recording.",
+          "inputs": [
+            "Spectrometer",
+            "Objective (50x, 0.9 NA)",
+            "Integration time (0.5 s)"
+          ],
+          "outputs": [
+            "Acquisition parameters set"
+          ],
+          "keywords": [
+            "Raman spectra",
+            "integration time",
+            "objective",
+            "data acquisition",
+            "Zeiss"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The prepared pollen grains were placed on a CaF 2 slide.",
+          "searchable_summary": "Mount prepared pollen sample on a CaF2 slide.",
+          "inputs": [
+            "Prepared pollen grains",
+            "CaF2 slide"
+          ],
+          "outputs": [
+            "Mounted sample"
+          ],
+          "keywords": [
+            "Sample preparation",
+            "mounting",
+            "pollen",
+            "CaF2 slide"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "and the Raman images were recorded on individual grains with a step size of 1 µm.",
+          "searchable_summary": "Record Raman images by scanning individual pollen grains with a 1 µm step size.",
+          "inputs": [
+            "Mounted sample",
+            "Configured microscope/spectrometer",
+            "Step size (1 µm)"
+          ],
+          "outputs": [
+            "Raw Raman image data (hyperspectral cube)"
+          ],
+          "keywords": [
+            "Raman imaging",
+            "hyperspectral imaging",
+            "scanning",
+            "step size",
+            "data acquisition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Raman Data Analysis",
+      "description": "Analysis workflow for processing and interpreting Raman hyperspectral images of pollen grains, including preprocessing, normalization, outlier removal, smoothing, Hierarchical Cluster Analysis (HCA), and Multivariate Curve Resolution - Alternating Least Squares (MCR-ALS).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The data analysis of the recorded Raman images was performed in R with hyperSpec as a main package [44,45].",
+          "searchable_summary": "Initialize data analysis environment using R and hyperSpec package.",
+          "inputs": [
+            "Raw Raman image data"
+          ],
+          "outputs": [
+            "Data loaded into analysis environment"
+          ],
+          "keywords": [
+            "R programming",
+            "hyperSpec",
+            "data analysis environment",
+            "hyperspectral data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Several preprocessing steps were performed, including wavenumber calibration, with paracetamol spectra as references, and interpolation.",
+          "searchable_summary": "Perform wavenumber calibration using reference spectra and interpolate data.",
+          "inputs": [
+            "Raw Raman spectra",
+            "Paracetamol reference spectra"
+          ],
+          "outputs": [
+            "Wavenumber calibrated and interpolated spectra"
+          ],
+          "keywords": [
+            "Wavenumber calibration",
+            "spectral calibration",
+            "interpolation",
+            "preprocessing",
+            "paracetamol"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The rubberband method was used to correct the background.",
+          "searchable_summary": "Apply rubberband method for background correction of spectra.",
+          "inputs": [
+            "Calibrated/interpolated spectra"
+          ],
+          "outputs": [
+            "Background-corrected spectra"
+          ],
+          "keywords": [
+            "Background correction",
+            "rubberband method",
+            "spectral preprocessing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "and afterwards a cosmic spike correction algorithm [46] was used.",
+          "searchable_summary": "Apply cosmic spike correction algorithm to spectra.",
+          "inputs": [
+            "Background-corrected spectra"
+          ],
+          "outputs": [
+            "Spectra with cosmic spikes removed"
+          ],
+          "keywords": [
+            "Cosmic spike correction",
+            "spectral preprocessing",
+            "noise reduction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "An area normalization over the range of 400 to 3100 cm −1 was implemented.",
+          "searchable_summary": "Perform area normalization on spectra over a specified wavenumber range (400-3100 cm⁻¹).",
+          "inputs": [
+            "Cosmic spike corrected spectra",
+            "Normalization range (400-3100 cm⁻¹)"
+          ],
+          "outputs": [
+            "Area-normalized spectra"
+          ],
+          "keywords": [
+            "Area normalization",
+            "spectral normalization",
+            "preprocessing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "In order to reduce the dataset, spectra not exhibiting information from the pollen grains were removed, e.g., of the surrounding CaF 2 slide.",
+          "searchable_summary": "Filter and remove spectra corresponding to background or non-sample areas (e.g., CaF2 slide).",
+          "inputs": [
+            "Normalized spectra",
+            "Spatial information (image)"
+          ],
+          "outputs": [
+            "Filtered dataset containing only sample spectra"
+          ],
+          "keywords": [
+            "Data filtering",
+            "background removal",
+            "spatial filtering",
+            "hyperspectral image processing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "and a correlation function with a threshold of 0.75 was implemented as a quality control to remove outliers.",
+          "searchable_summary": "Remove outlier spectra based on correlation threshold (0.75).",
+          "inputs": [
+            "Filtered sample spectra",
+            "Correlation threshold (0.75)"
+          ],
+          "outputs": [
+            "Dataset with outliers removed"
+          ],
+          "keywords": [
+            "Outlier detection",
+            "correlation analysis",
+            "quality control",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "A Savitzky-Golay function from package parcma was chosen to smooth the spectra with a quadratic filter order and filter length of 9 [47].",
+          "searchable_summary": "Apply Savitzky-Golay smoothing filter (quadratic order, length 9) to spectra.",
+          "inputs": [
+            "Cleaned spectra",
+            "Filter order (quadratic)",
+            "Filter length (9)"
+          ],
+          "outputs": [
+            "Smoothed spectra"
+          ],
+          "keywords": [
+            "Savitzky-Golay filter",
+            "spectral smoothing",
+            "noise reduction",
+            "parcma package"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "An HCA based on a Pearson distance calculation and the Ward clustering algorithm of the entire dataset grouped the spectra into clusters of the same spectral profile.",
+          "searchable_summary": "Perform Hierarchical Cluster Analysis (HCA) using Pearson distance and Ward linkage on the dataset.",
+          "inputs": [
+            "Smoothed spectra"
+          ],
+          "outputs": [
+            "Cluster assignments for each spectrum",
+            "Dendrogram"
+          ],
+          "keywords": [
+            "Hierarchical Cluster Analysis",
+            "HCA",
+            "Pearson distance",
+            "Ward linkage",
+            "clustering",
+            "multivariate analysis"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "visualization",
+          "description": "In a false-color representation, the calculated weighted mean spectra of the clusters can be presented in the imaging domain, revealing spectral differences within one pollen grain.",
+          "searchable_summary": "Calculate weighted mean spectra for each cluster and visualize cluster distribution in a false-color image.",
+          "inputs": [
+            "Cluster assignments",
+            "Smoothed spectra",
+            "Spatial information"
+          ],
+          "outputs": [
+            "Weighted mean spectra per cluster",
+            "False-color cluster image"
+          ],
+          "keywords": [
+            "Visualization",
+            "false color image",
+            "cluster visualization",
+            "mean spectra",
+            "imaging domain"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "modeling",
+          "description": "Additionally, an MCR-ALS algorithm was chosen to calculate the pure components and their abundances in a quantitative approach [41].",
+          "searchable_summary": "Apply Multivariate Curve Resolution - Alternating Least Squares (MCR-ALS) to decompose the dataset into pure components and their concentration profiles.",
+          "inputs": [
+            "Smoothed spectra"
+          ],
+          "outputs": [
+            "Initial MCR-ALS model setup"
+          ],
+          "keywords": [
+            "Multivariate Curve Resolution",
+            "MCR-ALS",
+            "chemometrics",
+            "spectral unmixing",
+            "quantitative analysis"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "modeling",
+          "description": "In an alternating fashion, pure spectra and concentration profiles were optimized until a convergence criterion was achieved [42].",
+          "searchable_summary": "Optimize MCR-ALS model iteratively by alternating optimization of pure spectra and concentration profiles until convergence.",
+          "inputs": [
+            "Initial MCR-ALS model",
+            "Smoothed spectra",
+            "Convergence criterion"
+          ],
+          "outputs": [
+            "Optimized pure component spectra",
+            "Optimized concentration profiles"
+          ],
+          "keywords": [
+            "MCR-ALS optimization",
+            "alternating least squares",
+            "iterative optimization",
+            "convergence"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "modeling",
+          "description": "The five cluster mean spectra from the HCA were used as input starting spectra.",
+          "searchable_summary": "Use the five mean spectra from HCA as initial estimates for pure component spectra in MCR-ALS.",
+          "inputs": [
+            "Weighted mean spectra from HCA (specifically 5)"
+          ],
+          "outputs": [
+            "Initial pure component spectra for MCR-ALS"
+          ],
+          "keywords": [
+            "MCR-ALS initialization",
+            "initial estimates",
+            "mean spectra",
+            "HCA results"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "modeling",
+          "description": "and non-negativity constraints for both the spectra and the concentrations were set.",
+          "searchable_summary": "Apply non-negativity constraints to both pure component spectra and concentration profiles during MCR-ALS optimization.",
+          "inputs": [
+            "MCR-ALS model"
+          ],
+          "outputs": [
+            "MCR-ALS model with constraints applied"
+          ],
+          "keywords": [
+            "MCR-ALS constraints",
+            "non-negativity constraint",
+            "spectral constraints",
+            "concentration constraints"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248611557.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

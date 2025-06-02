@@ -1,0 +1,185 @@
+{
+  "paper_title": "An Approach to Quantify Endomembrane Dynamics in Pollen Utilizing Bioactive Chemicals",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Image Analysis",
+      "description": "This method involves analyzing images to quantify RAB2:GFP bodies in pollen grains using the Imaris software. The process includes segmentation, tracking, and statistical analysis to determine various parameters such as area, velocity, and intensity of the bodies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Images were analyzed using Imaris (version 7.3.1, Bitplane, South Windsor, CT) with the 'spots' software package.",
+          "searchable_summary": "analyze images using Imaris software with 'spots' package",
+          "inputs": [
+            "images of pollen grains"
+          ],
+          "outputs": [
+            "processed image data"
+          ],
+          "keywords": [
+            "Imaris",
+            "image analysis",
+            "spots package"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "RAB2:GFP bodies were quantified using the automatic threshold function provided by the 'spots' algorithm builder.",
+          "searchable_summary": "quantify RAB2:GFP bodies using automatic threshold function",
+          "inputs": [
+            "processed image data"
+          ],
+          "outputs": [
+            "quantified RAB2:GFP bodies"
+          ],
+          "keywords": [
+            "RAB2:GFP",
+            "automatic threshold",
+            "quantification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Segmentation along with region growing was used to quantify the fluorescent RAB2:GFP bodies.",
+          "searchable_summary": "use segmentation and region growing to quantify fluorescent bodies",
+          "inputs": [
+            "quantified RAB2:GFP bodies"
+          ],
+          "outputs": [
+            "segmented and quantified bodies"
+          ],
+          "keywords": [
+            "segmentation",
+            "region growing",
+            "fluorescent quantification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The average area of three replicates was recorded in μm².",
+          "searchable_summary": "record average area of three replicates",
+          "inputs": [
+            "segmented and quantified bodies"
+          ],
+          "outputs": [
+            "average area in μm²"
+          ],
+          "keywords": [
+            "average area",
+            "replicates",
+            "μm²"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Three biological replicates were used in quantifying the average speed of RAB2:GFP bodies using the 'spots' tracking function.",
+          "searchable_summary": "quantify average speed using 'spots' tracking function",
+          "inputs": [
+            "segmented and quantified bodies"
+          ],
+          "outputs": [
+            "average speed of RAB2:GFP bodies"
+          ],
+          "keywords": [
+            "tracking",
+            "average speed",
+            "biological replicates"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "An additional filter included in the spots package was used to exclude those bodies that were unable to be tracked more than 15 frames.",
+          "searchable_summary": "apply filter to exclude bodies tracked less than 15 frames",
+          "inputs": [
+            "tracked RAB2:GFP bodies"
+          ],
+          "outputs": [
+            "filtered RAB2:GFP bodies"
+          ],
+          "keywords": [
+            "filter",
+            "tracking",
+            "frames"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "Area, velocity, straightness, and intensity were represented as cumulative distribution plots.",
+          "searchable_summary": "create cumulative distribution plots for area, velocity, straightness, and intensity",
+          "inputs": [
+            "filtered RAB2:GFP bodies"
+          ],
+          "outputs": [
+            "cumulative distribution plots"
+          ],
+          "keywords": [
+            "cumulative distribution",
+            "plots",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The mean and standard deviation for all spots in a movie were calculated and used in determining the z score.",
+          "searchable_summary": "calculate mean, standard deviation, and z score for spots",
+          "inputs": [
+            "cumulative distribution plots"
+          ],
+          "outputs": [
+            "z score"
+          ],
+          "keywords": [
+            "mean",
+            "standard deviation",
+            "z score"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "This z score, also called the CDF%, was plotted against the average of the selected parameter.",
+          "searchable_summary": "plot z score (CDF%) against average parameter",
+          "inputs": [
+            "z score",
+            "average parameter"
+          ],
+          "outputs": [
+            "z score plot"
+          ],
+          "keywords": [
+            "CDF%",
+            "z score",
+            "plot"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "From these average values, a difference index was created.",
+          "searchable_summary": "create difference index from average values",
+          "inputs": [
+            "average values"
+          ],
+          "outputs": [
+            "difference index"
+          ],
+          "keywords": [
+            "difference index",
+            "average values",
+            "calculation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/21305393.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

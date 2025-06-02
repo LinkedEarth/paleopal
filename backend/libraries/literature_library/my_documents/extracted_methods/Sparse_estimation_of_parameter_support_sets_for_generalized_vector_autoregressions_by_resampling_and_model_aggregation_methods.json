@@ -1,0 +1,110 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Support and Model Aggregation",
+      "description": "Innovations to improve upon selection using cross-validation by implementing the 'bootstrapped LASSO', which replaces LASSO support estimates with an intersection of many estimates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Implement the ‘bootstrapped LASSO’ which replaces LASSO support estimates ˆSλ with an intersection of many estimates ˆSλ1, ..., ˆSλ.",
+          "searchable_summary": "implement bootstrapped LASSO to replace LASSO support estimates with intersection of multiple estimates",
+          "inputs": [
+            "LASSO support estimates ˆSλ"
+          ],
+          "outputs": [
+            "Intersection of LASSO support estimates"
+          ],
+          "keywords": [
+            "bootstrapped LASSO",
+            "model aggregation",
+            "cross-validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study Design",
+      "description": "A factorial design study with varying levels of process dimensions and sparsity, generating multiple datasets for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Generate factorial design with three levels of process dimensions (M = 10, 15, 20) and three levels of sparsity (s = 0.01, 0.02, 0.05).",
+          "searchable_summary": "generate factorial design with specified dimensions and sparsity levels",
+          "inputs": [
+            "process dimensions",
+            "sparsity levels"
+          ],
+          "outputs": [
+            "factorial design parameters"
+          ],
+          "keywords": [
+            "factorial design",
+            "process dimensions",
+            "sparsity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For each factorial combination of sparsity and dimension, generate 10 different A matrices.",
+          "searchable_summary": "generate 10 A matrices for each combination of sparsity and dimension",
+          "inputs": [
+            "factorial combinations"
+          ],
+          "outputs": [
+            "A matrices"
+          ],
+          "keywords": [
+            "A matrices",
+            "factorial combination"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For each distinct parameter matrix A, consider three data realization lengths T = 500, 1000, 2000; simulate 5 process realizations of each length.",
+          "searchable_summary": "simulate process realizations for each A matrix and data length",
+          "inputs": [
+            "parameter matrix A",
+            "realization lengths"
+          ],
+          "outputs": [
+            "process realizations"
+          ],
+          "keywords": [
+            "data realization",
+            "simulation",
+            "process realizations"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate the total number of datasets simulated as 5 × 3 × 10 × 3 × 3 = 1350.",
+          "searchable_summary": "calculate total number of datasets simulated",
+          "inputs": [
+            "dataset replicates",
+            "realization lengths",
+            "parameter replicates",
+            "sparsity levels",
+            "dimensions"
+          ],
+          "outputs": [
+            "total number of datasets"
+          ],
+          "keywords": [
+            "dataset simulation",
+            "calculation",
+            "total datasets"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Sparse_estimation_of_parameter_support_sets_for_generalized_vector_autoregressions_by_resampling_and_model_aggregation.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

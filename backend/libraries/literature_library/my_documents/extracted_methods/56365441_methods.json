@@ -1,0 +1,157 @@
+{
+  "paper_title": "Pollen Measurements and Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Concentration Measurement",
+      "description": "This method involves measuring the daily and hourly concentration of 93 types of pollen using a volumetric suction pollen trap based on the impact principle, which is a standardized method in European aerobiological networks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Measure daily and hourly concentration of 93 types of pollen using a volumetric suction pollen trap.",
+          "searchable_summary": "measure pollen concentration using volumetric suction pollen trap",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "pollen concentration data"
+          ],
+          "keywords": [
+            "pollen measurement",
+            "volumetric suction",
+            "aerobiological networks"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Lidar Measurement and Analysis",
+      "description": "This method involves using the Barcelona Micro Pulse Lidar (MPL) system to measure the vertical distribution of the particle backscatter coefficient and the volume and particle depolarization ratios. The system uses an actively controlled liquid crystal retarder for polarization-sensitive measurements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Measure vertical distribution of particle backscatter coefficient and volume and particle depolarization ratios using the Barcelona MPL system.",
+          "searchable_summary": "use MPL system to measure particle backscatter and depolarization ratios",
+          "inputs": [
+            "MPL system",
+            "atmospheric particles"
+          ],
+          "outputs": [
+            "backscatter coefficient data",
+            "depolarization ratio data"
+          ],
+          "keywords": [
+            "lidar",
+            "backscatter coefficient",
+            "depolarization ratio",
+            "MPL system"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate the total signal, P, using copolar and cross-polar signals.",
+          "searchable_summary": "calculate total signal from copolar and cross-polar signals",
+          "inputs": [
+            "copolar signal",
+            "cross-polar signal"
+          ],
+          "outputs": [
+            "total signal"
+          ],
+          "keywords": [
+            "signal processing",
+            "copolar",
+            "cross-polar"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Invert the total signal using the two-component elastic lidar inversion and a constant lidar ratio of 50 sr to obtain the particle backscatter coefficient.",
+          "searchable_summary": "invert total signal to obtain particle backscatter coefficient",
+          "inputs": [
+            "total signal",
+            "lidar ratio"
+          ],
+          "outputs": [
+            "particle backscatter coefficient"
+          ],
+          "keywords": [
+            "lidar inversion",
+            "backscatter coefficient",
+            "lidar ratio"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate the volume depolarization ratio using copolar and cross-polar signals.",
+          "searchable_summary": "calculate volume depolarization ratio from copolar and cross-polar signals",
+          "inputs": [
+            "copolar signal",
+            "cross-polar signal"
+          ],
+          "outputs": [
+            "volume depolarization ratio"
+          ],
+          "keywords": [
+            "depolarization ratio",
+            "signal processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Backscatter Coefficient Calculation",
+      "description": "This method calculates the pollen backscatter coefficient by assuming the external mixing of particles is composed of depolarizing (pollen) and less depolarizing (other) particles.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate the pollen backscatter coefficient using the method of [11] and Eqs. (7) and (8) of [8].",
+          "searchable_summary": "calculate pollen backscatter coefficient using specified equations",
+          "inputs": [
+            "particle data",
+            "depolarization data"
+          ],
+          "outputs": [
+            "pollen backscatter coefficient"
+          ],
+          "keywords": [
+            "pollen backscatter",
+            "depolarization",
+            "particle mixing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Plume Height Calculation",
+      "description": "This method calculates the vertical height up to which the pollen plume extends using a simple threshold method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate the vertical height of the pollen plume using a simple threshold method.",
+          "searchable_summary": "calculate pollen plume height using threshold method",
+          "inputs": [
+            "pollen concentration data"
+          ],
+          "outputs": [
+            "pollen plume height"
+          ],
+          "keywords": [
+            "pollen plume",
+            "threshold method",
+            "vertical height"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56365441.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

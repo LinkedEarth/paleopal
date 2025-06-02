@@ -1,0 +1,293 @@
+{
+  "paper_title": "Geological Reconstruction using Borehole Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Borehole Data Processing and Modeling",
+      "description": "Process for acquiring, preparing, converting, and modeling borehole log data for geological analysis, including creating a voxel model and cross-sections.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In this study, 8745 borehole logs from Tokyo Metropolis (north of the Tama River) and Kawasaki and Yokohama cities, Kanagawa Prefecture (south of the river) were used (Fig. 2). Of these logs, 3549 were from the Civil Engineering Support and Training Center, Bureau of Construction, Tokyo Metropolitan Government (2019); 2333 were from Kawasaki City (2019); 2330 were from Yokohama City (2019); and 533 were from the Public Works Research Institute (2019). The borehole logs used for this study were obtained by standard penetration tests for building construction, and all data was prepared as JACIC-formatted XML data (Ministry of Land, Infrastructure, Transport and Tourism 2016).",
+          "searchable_summary": "Acquire borehole log data in JACIC-formatted XML format from specified sources.",
+          "inputs": [
+            "Borehole log data sources (Civil Engineering Support and Training Center, Kawasaki City, Yokohama City, Public Works Research Institute)"
+          ],
+          "outputs": [
+            "8745 borehole logs in JACIC-formatted XML data"
+          ],
+          "keywords": [
+            "borehole log",
+            "data acquisition",
+            "XML",
+            "JACIC format",
+            "standard penetration test"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The XML dataset of the borehole logs was converted into a voxel model with 50 m × 50 m × 1 m grid cells by using the interpolation method of Ishihara et al. (2013).",
+          "searchable_summary": "Convert borehole log XML data into a 3D voxel model using a specified interpolation method.",
+          "inputs": [
+            "Borehole log XML dataset",
+            "Grid dimensions (50m x 50m x 1m)",
+            "Interpolation method (Ishihara et al. 2013)"
+          ],
+          "outputs": [
+            "Voxel model (50m x 50m x 1m grid) containing lithology and N value data"
+          ],
+          "keywords": [
+            "XML parsing",
+            "voxel model",
+            "3D grid",
+            "interpolation",
+            "geological modeling",
+            "data conversion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Lithology and N value cross sections were constructed using this voxel model.",
+          "searchable_summary": "Construct 2D cross-sections of lithology and N value from the voxel model.",
+          "inputs": [
+            "Voxel model data"
+          ],
+          "outputs": [
+            "Lithology and N value cross sections"
+          ],
+          "keywords": [
+            "cross section",
+            "geological profile",
+            "visualization",
+            "voxel model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Age Calibration",
+      "description": "Process for calibrating previously reported radiocarbon ages from sediment cores to obtain calibrated calendar ages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In this study, data from 12 previously reported sediment cores (stratotype cores; Table S1) with 29 radiocarbon dates of plant and shell fragments (Table S2) obtained from the sediment cores were used.",
+          "searchable_summary": "Obtain previously reported sediment core data including raw radiocarbon dates.",
+          "inputs": [
+            "Previously reported sediment core data (Table S1)",
+            "Raw radiocarbon dates (Table S2)"
+          ],
+          "outputs": [
+            "Sediment core data",
+            "Raw radiocarbon dates (yr BP) with sample types (plant/shell)"
+          ],
+          "keywords": [
+            "sediment core",
+            "radiocarbon dating",
+            "data acquisition",
+            "paleoclimate data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calibrated 14 C ages were calculated with CALIB 7.1 software (Stuiver et al., 2019) using the IntCal13 and Marine13 dataset of Reimer et al. (2013). For calculation of ages from molluscan shells, ΔR (the difference between regional and global marine 14 C ages; Stuiver and Braziunas 1993) was regarded as 0 year, and the marine carbon content as 100%.",
+          "searchable_summary": "Calibrate conventional radiocarbon ages using CALIB software and specified calibration curves, applying specific parameters for shell samples.",
+          "inputs": [
+            "Raw radiocarbon dates (yr BP)",
+            "Sample type (plant/shell)",
+            "CALIB 7.1 software",
+            "IntCal13 dataset",
+            "Marine13 dataset",
+            "ΔR value for shells (0 year)",
+            "Marine carbon content for shells (100%)"
+          ],
+          "outputs": [
+            "Calibrated radiocarbon ages (cal BP)"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "CALIB",
+            "IntCal13",
+            "Marine13",
+            "14C dating",
+            "age modeling",
+            "geochronology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Stratigraphic Interpretation and Feature Extraction",
+      "description": "Process for interpreting geological stratigraphy from borehole logs and cross-sections by correlating with stratotype cores and previous studies, and manually extracting specific geological features.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The stratigraphy of six lithological and N value cross sections was interpreted on the basis of correlation with the 12 stratotype cores and previous studies.",
+          "searchable_summary": "Interpret geological stratigraphy from cross-sections by correlating with stratotype cores and previous studies.",
+          "inputs": [
+            "Lithology and N value cross sections",
+            "12 stratotype core data",
+            "Previous stratigraphic studies"
+          ],
+          "outputs": [
+            "Interpreted stratigraphic boundaries and units on cross-sections"
+          ],
+          "keywords": [
+            "stratigraphy",
+            "geological interpretation",
+            "cross section analysis",
+            "core correlation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The base of the post-LGM incised-valley fill was identified on each borehole log by applying the stratigraphic sequence of the six cross sections.",
+          "searchable_summary": "Identify the base of the post-LGM incised-valley fill on individual borehole logs based on the interpreted stratigraphic sequence from cross-sections.",
+          "inputs": [
+            "Individual borehole logs (lithology, N value)",
+            "Interpreted stratigraphic sequence from cross sections"
+          ],
+          "outputs": [
+            "Identified depth of the base of the post-LGM incised-valley fill for each relevant borehole log"
+          ],
+          "keywords": [
+            "stratigraphic boundary",
+            "incised valley",
+            "borehole log analysis",
+            "geological interpretation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Stratigraphic interpretation of the borehole logs was approximately based on Oka et al. (1984) and Matsushima (1987). The Kazusa group consists of sand and mud beds with an N value of 50. The N values of the mud, sand, and gravel beds of the Shimosa group are 5-20, 20-50, and > 50, respectively, and these sediments are lighter in color than the post-LGM incisedvalley fills. The N values of the mud, sand, and gravel beds of the post-LGM incised-valley fills are 0-20, 5-30, and 30-50, respectively. The Kazusa and Shimosa groups are lithologically laterally continuous compared to the post-LGM incised-valley fills.",
+          "searchable_summary": "Apply lithology and N value criteria from previous studies to identify geological units (Kazusa, Shimosa, post-LGM incised-valley fills) within borehole logs.",
+          "inputs": [
+            "Borehole log data (lithology, N value)",
+            "Criteria from Oka et al. (1984) and Matsushima (1987) (N value ranges, lithological descriptions)"
+          ],
+          "outputs": [
+            "Classification of geological units within borehole logs"
+          ],
+          "keywords": [
+            "geological unit identification",
+            "lithology",
+            "N value",
+            "stratigraphic criteria",
+            "borehole log analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The basal depths of the post-LGM incised-valley fills, the presence of the Kanto Loam on the buried terraces, the presence of a gravel bed in the LGM incised valleys and buried terraces, and the thickness of the gravel bed in each borehole log were extracted manually.",
+          "searchable_summary": "Manually extract specific geological features (basal depth of incised valley, Kanto Loam presence, gravel bed presence/thickness) from interpreted borehole logs.",
+          "inputs": [
+            "Interpreted borehole logs with identified stratigraphic boundaries"
+          ],
+          "outputs": [
+            "Dataset containing extracted features for each borehole log (basal depth, Kanto Loam presence, gravel bed presence, gravel bed thickness)"
+          ],
+          "keywords": [
+            "feature extraction",
+            "manual data extraction",
+            "borehole log analysis",
+            "geological features",
+            "incised valley",
+            "Kanto Loam",
+            "gravel bed"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The base of the BG was identified as the base of the post-LGM incised-valley fill.",
+          "searchable_summary": "Define the base of the BG unit as equivalent to the identified base of the post-LGM incised-valley fill.",
+          "inputs": [
+            "Identified base of the post-LGM incised-valley fill"
+          ],
+          "outputs": [
+            "Identified base of the BG unit"
+          ],
+          "keywords": [
+            "stratigraphic definition",
+            "geological boundary",
+            "BG unit",
+            "incised valley"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial Reconstruction of LGM Incised Valley",
+      "description": "Process for reconstructing the spatial distribution of the LGM incised valley by interpolating the basal depths extracted from borehole logs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A total of 4702 borehole logs, which penetrate the post-LGM incised-valley fill, were used to reconstruct the spatial distribution of the LGM incised valleys.",
+          "searchable_summary": "Filter borehole logs to select only those that penetrate the post-LGM incised-valley fill.",
+          "inputs": [
+            "Dataset of borehole logs with extracted features (including basal depth and penetration depth information)"
+          ],
+          "outputs": [
+            "Subset of 4702 borehole logs penetrating the post-LGM incised-valley fill"
+          ],
+          "keywords": [
+            "data filtering",
+            "borehole log selection",
+            "data subsetting"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The spatial distribution of the LGM incised valley was reconstructed by mathematically interpolating the depth values of the base of the post-LGM incised-valley fill.",
+          "searchable_summary": "Spatially interpolate the depth values of the base of the post-LGM incised-valley fill across the study area.",
+          "inputs": [
+            "Spatial locations (latitude, longitude) and basal depth values for selected borehole logs"
+          ],
+          "outputs": [
+            "Interpolated surface representing the depth of the base of the post-LGM incised-valley fill"
+          ],
+          "keywords": [
+            "spatial interpolation",
+            "geostatistics",
+            "surface modeling",
+            "depth mapping",
+            "geological modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "An interpolation method of ArcGIS 10.6, 3D Analyst tools (Kriging) was applied.",
+          "searchable_summary": "Perform Kriging interpolation using ArcGIS 10.6 3D Analyst tools.",
+          "inputs": [
+            "Spatial locations and depth values",
+            "ArcGIS 10.6 3D Analyst tools",
+            "Kriging method parameters"
+          ],
+          "outputs": [
+            "Interpolated surface (result of Kriging)"
+          ],
+          "keywords": [
+            "Kriging",
+            "geostatistical analysis",
+            "ArcGIS",
+            "3D Analyst",
+            "spatial modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232107363.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

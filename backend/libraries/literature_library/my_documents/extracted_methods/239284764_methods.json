@@ -1,0 +1,696 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Finite Element Simulation of Tooth Compression",
+      "description": "This method describes the process of creating geometric models of black drum teeth based on imaging data and simulating compression tests using the finite element method (FEM) in ABAQUS. It details the simplification of the 3D problem to a 2D axisymmetric problem, the material modeling (three phases: enameloid, dentin, toothplate), material properties acquisition, boundary conditions (rigid compression plate, frictionless contact), simulation execution, and mesh convergence analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The geometric models of the black drum teeth were generated based on the manual tracing and simplification of the SEM and μCT projection images.",
+          "searchable_summary": "generate geometric models from SEM and μCT images",
+          "inputs": [
+            "SEM projection images",
+            "μCT projection images"
+          ],
+          "outputs": [
+            "Geometric models of teeth"
+          ],
+          "keywords": [
+            "geometric modeling",
+            "SEM",
+            "μCT",
+            "tracing",
+            "simplification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The FE simulation of the compression tests on an individual tooth (with/without toothplate) was simplified as a 2D problem, where a 360°-rotation can construct the 2D simulation into a 3D FE compression.",
+          "searchable_summary": "simplify 3D tooth model to 2D axisymmetric model for FEA",
+          "inputs": [
+            "3D geometric model"
+          ],
+          "outputs": [
+            "2D axisymmetric geometric model"
+          ],
+          "keywords": [
+            "2D simplification",
+            "axisymmetric",
+            "finite element method",
+            "FEA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The tooth was modeled as a three-phase composite, which consists of an outer enameloid, an underlying dentin, and a supportive bony toothplate, where the contact between the phases is considered as perfectly bonded.",
+          "searchable_summary": "model tooth as a three-phase composite with perfect bonding",
+          "inputs": [
+            "2D axisymmetric geometric model"
+          ],
+          "outputs": [
+            "FE model with defined material phases (enameloid, dentin, toothplate)"
+          ],
+          "keywords": [
+            "multi-phase model",
+            "composite material",
+            "enameloid",
+            "dentin",
+            "toothplate",
+            "perfect bonding"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "All three phases were modeled as isotropic, elastic-perfectly plastic using four-node bilinear axisymmetric quadrilateral elements (CAX4R in ABAQUS element library).",
+          "searchable_summary": "define material models (isotropic, elastic-perfectly plastic) and element types (CAX4R)",
+          "inputs": [
+            "FE model with defined material phases"
+          ],
+          "outputs": [
+            "FE model with material models and element types assigned"
+          ],
+          "keywords": [
+            "material model",
+            "isotropic",
+            "elastic-perfectly plastic",
+            "finite element",
+            "element type",
+            "CAX4R",
+            "ABAQUS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The material properties of the enameloid and dentin were obtained from Berkovich nanoindenation experiments where σ y ≈ H/2.8 [33]",
+          "searchable_summary": "calculate yield strength for enameloid and dentin from nanoindentation hardness",
+          "inputs": [
+            "Berkovich nanoindentation hardness (H) for enameloid",
+            "Berkovich nanoindentation hardness (H) for dentin"
+          ],
+          "outputs": [
+            "Yield strength (σy) for enameloid",
+            "Yield strength (σy) for dentin"
+          ],
+          "keywords": [
+            "material properties",
+            "yield strength",
+            "nanoindentation",
+            "hardness",
+            "H/2.8 rule"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "and the material properties of the bone were taken from literature [34].",
+          "searchable_summary": "obtain bone material properties from literature",
+          "inputs": [
+            "Literature reference [34]"
+          ],
+          "outputs": [
+            "Elastic-perfectly plastic material properties for bone"
+          ],
+          "keywords": [
+            "material properties",
+            "bone",
+            "literature data"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "In addition, the compression tests were simulated by applying the loading through the upper rigid-body compression plate, where large-deformation theory and frictionless contact between the plates and teeth samples were assumed.",
+          "searchable_summary": "apply compression loading via rigid plate and define contact conditions",
+          "inputs": [
+            "FE model",
+            "Rigid plate geometry"
+          ],
+          "outputs": [
+            "FE model with boundary conditions (loading, contact)"
+          ],
+          "keywords": [
+            "compression test simulation",
+            "loading",
+            "rigid body",
+            "boundary conditions",
+            "contact mechanics",
+            "frictionless contact"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "where large-deformation theory and frictionless contact between the plates and teeth samples were assumed.",
+          "searchable_summary": "specify large-deformation theory for simulation",
+          "inputs": [
+            "FE model setup"
+          ],
+          "outputs": [
+            "FE model with large-deformation theory enabled"
+          ],
+          "keywords": [
+            "large deformation theory",
+            "non-linear analysis",
+            "FEA settings"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "The simulation was performed in ABAQUS with the general statics modulus.",
+          "searchable_summary": "run finite element simulation in ABAQUS using general statics",
+          "inputs": [
+            "Complete FE model (geometry, materials, BCs, settings)"
+          ],
+          "outputs": [
+            "FE simulation results (displacements, stresses, strains, reaction forces)"
+          ],
+          "keywords": [
+            "finite element simulation",
+            "ABAQUS",
+            "general statics",
+            "FEA solver"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "Mesh convergence was also performed for accurate solutions to the load-displacement curves and stress contours.",
+          "searchable_summary": "perform mesh convergence analysis",
+          "inputs": [
+            "FE simulation results from multiple mesh densities"
+          ],
+          "outputs": [
+            "Validated mesh size",
+            "Converged simulation results"
+          ],
+          "keywords": [
+            "mesh convergence",
+            "FEA validation",
+            "numerical accuracy"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "for accurate solutions to the load-displacement curves and stress contours.",
+          "searchable_summary": "extract load-displacement curves and stress contours from simulation results",
+          "inputs": [
+            "FE simulation results"
+          ],
+          "outputs": [
+            "Load-displacement curves",
+            "Stress contours"
+          ],
+          "keywords": [
+            "post-processing",
+            "load-displacement curve",
+            "stress contour",
+            "FEA results"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Correlative Raman Spectroscopy and EDS Analysis",
+      "description": "This method describes the use of correlative Raman Spectroscopy (RS) and Energy-dispersive X-ray Spectroscopy (EDS) to investigate the chemical composition and structure of black drum teeth. It details RS mapping, spectral analysis (peak position, FWHM), identification of mineral and organic phases, and EDS measurement for elemental composition and gradients.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The chemical information of the black drum teeth was investigated through correlative RS and EDS analyses (Fig. 3).",
+          "searchable_summary": "perform correlative Raman Spectroscopy and EDS analysis on tooth samples",
+          "inputs": [
+            "Black drum tooth samples"
+          ],
+          "outputs": [
+            "Raman Spectroscopy data",
+            "EDS data"
+          ],
+          "keywords": [
+            "correlative analysis",
+            "Raman spectroscopy",
+            "EDS",
+            "chemical analysis",
+            "tooth sample"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "A high-resolution RS map across the entire tooth thickness direction (yellow box, Fig. 3A) ... reveal that both enameloid and dentin regions have a phosphate ν 1 peak at 959-964 cm -1",
+          "searchable_summary": "acquire high-resolution Raman spectroscopy map across tooth thickness",
+          "inputs": [
+            "Tooth sample"
+          ],
+          "outputs": [
+            "High-resolution Raman spectroscopy map"
+          ],
+          "keywords": [
+            "Raman mapping",
+            "RS map",
+            "high-resolution",
+            "tooth thickness"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "...and the averaged Raman spectra (Fig. 3B) reveal that both enameloid and dentin regions have a phosphate ν 1 peak at 959-964 cm -1",
+          "searchable_summary": "obtain and average Raman spectra for enameloid and dentin regions",
+          "inputs": [
+            "Raman spectroscopy map data"
+          ],
+          "outputs": [
+            "Averaged Raman spectra for enameloid",
+            "Averaged Raman spectra for dentin"
+          ],
+          "keywords": [
+            "Raman spectra",
+            "spectral averaging",
+            "data processing",
+            "enameloid",
+            "dentin"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "...indicating that the main mineral phase in both regions is similar to hydroxyapatite (HA, standard peak position ca. 961 cm -1 ) [40].",
+          "searchable_summary": "analyze phosphate ν1 peak position to identify mineral phase",
+          "inputs": [
+            "Averaged Raman spectra"
+          ],
+          "outputs": [
+            "Phosphate ν1 peak positions",
+            "Identification of main mineral phase (hydroxyapatite-like)"
+          ],
+          "keywords": [
+            "Raman peak analysis",
+            "phosphate peak",
+            "peak position",
+            "hydroxyapatite",
+            "mineral phase"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "However, the peak position shifts to higher wavenumbers in enameloid (962-964 cm -1 ) in comparison to that in dentin (959-961 cm -1 ) (Fig. 3C), which is due to the different chemical environment in the two regions.",
+          "searchable_summary": "compare phosphate peak positions between enameloid and dentin",
+          "inputs": [
+            "Phosphate ν1 peak positions for enameloid",
+            "Phosphate ν1 peak positions for dentin"
+          ],
+          "outputs": [
+            "Comparison of peak shifts",
+            "Inference about chemical environment differences"
+          ],
+          "keywords": [
+            "Raman peak shift",
+            "spectral comparison",
+            "chemical environment",
+            "enameloid",
+            "dentin"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Quantitative analysis of the width (full width at half maximum, FWHM) of this peak further reveals a broadening effect in the dentin region (Fig. 3D), suggesting its lower crystallinity [41].",
+          "searchable_summary": "quantify phosphate peak width (FWHM) to assess crystallinity",
+          "inputs": [
+            "Raman spectra"
+          ],
+          "outputs": [
+            "Full width at half maximum (FWHM) values",
+            "Assessment of crystallinity"
+          ],
+          "keywords": [
+            "Raman peak analysis",
+            "FWHM",
+            "peak width",
+            "crystallinity",
+            "quantitative analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "In addition, the remaining evident peaks in the dentin region indicate the presence of a higher amount of proteinaceous materials (Amide III 1200-1300 cm -1 , Amide I 1660-1670 cm -1 , and C-H 2850-3300 cm -1 , Fig. 3B) [42][43][44]",
+          "searchable_summary": "identify proteinaceous material peaks in dentin Raman spectra",
+          "inputs": [
+            "Raman spectra for dentin"
+          ],
+          "outputs": [
+            "Identification of Amide III, Amide I, and C-H peaks",
+            "Indication of proteinaceous materials"
+          ],
+          "keywords": [
+            "Raman peaks",
+            "proteinaceous materials",
+            "Amide peaks",
+            "C-H peaks",
+            "spectral identification",
+            "dentin"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "other",
+          "description": "Strong fluorescence was observed when conducting RS measurements on immature teeth, due to their higher concentration of organic materials.",
+          "searchable_summary": "note observation of strong fluorescence during RS on immature teeth",
+          "inputs": [
+            "Immature tooth samples",
+            "Raman spectroscopy measurement"
+          ],
+          "outputs": [
+            "Observation record of fluorescence"
+          ],
+          "keywords": [
+            "fluorescence",
+            "Raman measurement",
+            "immature teeth",
+            "organic materials",
+            "observation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_fetch",
+          "description": "Correlative EDS measurement performed on the same sample reveals the major chemical elements and their compositional gradients within the mature teeth ( Fig. 3E-H).",
+          "searchable_summary": "perform correlative EDS measurement on the same tooth sample",
+          "inputs": [
+            "Mature tooth sample (previously used for RS)"
+          ],
+          "outputs": [
+            "EDS data (elemental composition, spatial distribution)"
+          ],
+          "keywords": [
+            "EDS",
+            "energy-dispersive X-ray spectroscopy",
+            "correlative analysis",
+            "elemental analysis",
+            "compositional gradient",
+            "mature teeth"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Fig. 3E summarizes the averaged EDS spectra of the enameloid (blue) and dentin (red)",
+          "searchable_summary": "obtain and average EDS spectra for enameloid and dentin regions",
+          "inputs": [
+            "EDS data"
+          ],
+          "outputs": [
+            "Averaged EDS spectra for enameloid",
+            "Averaged EDS spectra for dentin"
+          ],
+          "keywords": [
+            "EDS spectra",
+            "spectral averaging",
+            "data processing",
+            "enameloid",
+            "dentin"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "where the distribution of the major elements Ca, F, Mg, and Zn is shown in Fig. 3F. ... First, Ca and P are distributed across the entire tooth (Fig. 3G)... Third, the trace elements F and Zn are mainly present in the enameloid layer... while Mg shows a higher concentration in the dentin layer...",
+          "searchable_summary": "analyze distribution and gradients of major and trace elements (Ca, P, F, Mg, Zn) using EDS maps",
+          "inputs": [
+            "EDS data"
+          ],
+          "outputs": [
+            "Elemental distribution maps (Ca, P, F, Mg, Zn)",
+            "Description of compositional gradients"
+          ],
+          "keywords": [
+            "EDS mapping",
+            "elemental distribution",
+            "compositional gradient",
+            "data analysis",
+            "Ca",
+            "P",
+            "F",
+            "Mg",
+            "Zn"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "Table S5 quantifies and compares the EDS results (non-carbon elements) with the theoretical values of HA and FA (fluorapatite)",
+          "searchable_summary": "quantify EDS results for non-carbon elements",
+          "inputs": [
+            "EDS data"
+          ],
+          "outputs": [
+            "Quantitative elemental composition (non-carbon)"
+          ],
+          "keywords": [
+            "quantitative EDS",
+            "elemental composition",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "Table S5 quantifies and compares the EDS results (non-carbon elements) with the theoretical values of HA and FA (fluorapatite)",
+          "searchable_summary": "compare quantitative EDS results with theoretical values of hydroxyapatite and fluorapatite",
+          "inputs": [
+            "Quantitative elemental composition from EDS",
+            "Theoretical composition values for HA",
+            "Theoretical composition values for FA"
+          ],
+          "outputs": [
+            "Comparison data between EDS and theoretical compositions"
+          ],
+          "keywords": [
+            "mineral phase estimation",
+            "hydroxyapatite",
+            "fluorapatite",
+            "theoretical comparison",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_analysis",
+          "description": "from which the mineral phase in the enameloid is estimated to be Ca 10 (PO 4 ) 6 (OH) 0.89 F 1.11 with Zn substitutions (Supplementary Note 2), while the dentin has a mineral phase more similar to HA with Mg substitutions.",
+          "searchable_summary": "estimate mineral phase composition based on quantitative EDS comparison",
+          "inputs": [
+            "Comparison data between EDS and theoretical compositions"
+          ],
+          "outputs": [
+            "Estimated mineral phase composition for enameloid (e.g., Ca10(PO4)6(OH)0.89F1.11 with Zn)",
+            "Estimated mineral phase composition for dentin (e.g., HA with Mg substitutions)"
+          ],
+          "keywords": [
+            "mineral phase",
+            "composition estimation",
+            "elemental substitution",
+            "enameloid",
+            "dentin",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_analysis",
+          "description": "These conclusions agree well with the RS measurement: the Zn-doped HA/FA crystals in the enameloid layer contribute to the peak shift to higher wavenumbers [40], while Mg substitution in dentin results in the peak shift to lower wavenumbers [48].",
+          "searchable_summary": "correlate RS peak shifts with elemental substitutions identified by EDS",
+          "inputs": [
+            "Raman peak shift analysis results",
+            "Estimated mineral phase composition from EDS"
+          ],
+          "outputs": [
+            "Integrated conclusions correlating RS and EDS findings"
+          ],
+          "keywords": [
+            "correlative analysis",
+            "data integration",
+            "Raman peak shift",
+            "elemental substitution",
+            "mineral phase",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Polarization-Dependent Imaging Contrast (PIC) Mapping",
+      "description": "This method describes the use of Polarization-dependent imaging contrast (PIC) mapping techniques to determine the crystallographic orientations of enameloid crystals based on dichroism (spectral peak intensity variation with orientation).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Polarization-dependent imaging contrast (PIC) mapping techniques were employed to determine the crystallographic orientations of the enameloid crystals.",
+          "searchable_summary": "perform Polarization-dependent imaging contrast (PIC) mapping",
+          "inputs": [
+            "Anisotropic crystal sample (enameloid)"
+          ],
+          "outputs": [
+            "PIC map data"
+          ],
+          "keywords": [
+            "PIC mapping",
+            "polarization-dependent imaging contrast",
+            "crystallographic orientation",
+            "anisotropic crystals"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Many anisotropic crystals exhibit dichroism, i.e., spectral peak intensity variations depending on the crystallographic orientations; such dichroism can therefore be used in PIC maps to measure and display crystal orientation [38].",
+          "searchable_summary": "measure spectral peak intensity variations (dichroism) from PIC map data",
+          "inputs": [
+            "PIC map data"
+          ],
+          "outputs": [
+            "Dichroism measurements"
+          ],
+          "keywords": [
+            "dichroism",
+            "spectral peak intensity",
+            "crystallographic orientation",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "such dichroism can therefore be used in PIC maps to measure and display crystal orientation [38].",
+          "searchable_summary": "use dichroism measurements to determine and display crystal orientation",
+          "inputs": [
+            "Dichroism measurements"
+          ],
+          "outputs": [
+            "Crystal orientation data",
+            "Crystal orientation map"
+          ],
+          "keywords": [
+            "crystal orientation mapping",
+            "dichroism",
+            "data analysis",
+            "visualization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Macroscopic Compression Testing of Teeth",
+      "description": "This method describes experimental compression tests conducted on individual mature black drum teeth, both with and without bony toothplates, to investigate their macroscopic mechanical behavior and failure modes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To investigate the teeth's macroscopic mechanical behavior, compression tests were conducted on individual mature teeth with and without bony toothplates ( Fig. 7A-C).",
+          "searchable_summary": "conduct compression tests on individual mature teeth with and without toothplates",
+          "inputs": [
+            "Mature black drum teeth (with bony toothplates)",
+            "Mature black drum teeth (without bony toothplates)"
+          ],
+          "outputs": [
+            "Force-displacement data from compression tests"
+          ],
+          "keywords": [
+            "compression test",
+            "mechanical testing",
+            "macroscopic behavior",
+            "material characterization",
+            "experimental method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The failure loads for individual teeth range between 150 and 600 N depending on the sizes (Fig. S9).",
+          "searchable_summary": "measure and record failure loads from compression tests",
+          "inputs": [
+            "Force-displacement data"
+          ],
+          "outputs": [
+            "Failure load values"
+          ],
+          "keywords": [
+            "failure load",
+            "mechanical strength",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The representative nominal stressstrain curves for the two groups of samples are shown in Fig. 7A.",
+          "searchable_summary": "calculate and plot nominal stress-strain curves from force-displacement data",
+          "inputs": [
+            "Force-displacement data",
+            "Sample dimensions"
+          ],
+          "outputs": [
+            "Nominal stress-strain curves"
+          ],
+          "keywords": [
+            "stress-strain curve",
+            "nominal stress",
+            "nominal strain",
+            "data processing",
+            "mechanical behavior"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Typically, the teeth with bony toothplates experience three distinct deformation stages: toothplate deformation and failure, tooth repositioning, and tooth deformation and failure (Fig. 7A,B).",
+          "searchable_summary": "observe and describe deformation stages for teeth with toothplates during compression",
+          "inputs": [
+            "Compression test on teeth with toothplates"
+          ],
+          "outputs": [
+            "Description of deformation stages (toothplate deformation/failure, repositioning, tooth deformation/failure)"
+          ],
+          "keywords": [
+            "deformation stages",
+            "failure modes",
+            "mechanical behavior",
+            "observation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "In contrast, the detailed deformation process of the teeth is revealed by the tests for samples without bony toothplates, which involves initial fracture via vertical cracking ( Fig. 7C-i), horizontal cracks connecting adjacent vertical cracks ( Fig. 7C-ii), and final collapse ( Fig. 7C-iii).",
+          "searchable_summary": "observe and describe deformation process and failure modes for teeth without toothplates during compression",
+          "inputs": [
+            "Compression test on teeth without toothplates"
+          ],
+          "outputs": [
+            "Description of deformation process (vertical cracking, horizontal cracking, collapse)",
+            "Description of failure modes"
+          ],
+          "keywords": [
+            "deformation process",
+            "fracture",
+            "cracking",
+            "failure modes",
+            "observation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/239284764.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

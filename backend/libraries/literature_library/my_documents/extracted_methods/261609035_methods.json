@@ -1,0 +1,407 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Floral Resource Selection",
+      "description": "Statistical procedures used to analyze the selection of floral resources by bees for honey and beebread production, using multivariate analyses and linear models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Tested the multivariate homogeneity of the dispersion of groups between honey and beebread using PERMDISP.",
+          "searchable_summary": "perform PERMDISP analysis using betadisper function from vegan package",
+          "inputs": [
+            "Hellinger-transformed data at genus-level"
+          ],
+          "outputs": [
+            "dispersion homogeneity results"
+          ],
+          "keywords": [
+            "PERMDISP",
+            "betadisper",
+            "vegan package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Quantified the difference in plant genus composition between beebread and honey using PERMANOVA.",
+          "searchable_summary": "perform PERMANOVA using adonis2 function from vegan package",
+          "inputs": [
+            "genus composition data",
+            "site",
+            "apiary",
+            "hive"
+          ],
+          "outputs": [
+            "PERMANOVA results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "adonis2",
+            "vegan package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Applied nonmetric multidimensional scaling (NMDS) to describe how honey and beebread samples differ and group into distinct clusters.",
+          "searchable_summary": "perform NMDS using metaMDS function from vegan package",
+          "inputs": [
+            "Hellinger transformed data"
+          ],
+          "outputs": [
+            "NMDS results"
+          ],
+          "keywords": [
+            "NMDS",
+            "metaMDS",
+            "vegan package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Analyzed the number of genera in each sample type with linear models using time point as explanatory variable and hive as random variable.",
+          "searchable_summary": "perform linear modeling using lmer function from lme4 package",
+          "inputs": [
+            "number of genera data",
+            "time point",
+            "hive"
+          ],
+          "outputs": [
+            "linear model results"
+          ],
+          "keywords": [
+            "linear model",
+            "lmer",
+            "lme4 package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Performed pairwise comparisons for time points using emmeans-package with Tukey p-value adjustment.",
+          "searchable_summary": "perform pairwise comparisons using emmeans package",
+          "inputs": [
+            "linear model results"
+          ],
+          "outputs": [
+            "pairwise comparison results"
+          ],
+          "keywords": [
+            "pairwise comparison",
+            "emmeans",
+            "Tukey adjustment",
+            "R"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Analyzed the proportion of shared and non-shared genera within the paired honey-beebread comparisons using a binomial generalized linear model.",
+          "searchable_summary": "perform binomial GLM using glmer function from lme4 package",
+          "inputs": [
+            "shared and non-shared genera data",
+            "time point",
+            "hive"
+          ],
+          "outputs": [
+            "binomial GLM results"
+          ],
+          "keywords": [
+            "binomial GLM",
+            "glmer",
+            "lme4 package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Identified plant genera most associated with honey and beebread samples using Indicator Species Analysis (IndVal).",
+          "searchable_summary": "perform IndVal analysis using multipatt function from indicspecies package",
+          "inputs": [
+            "honey and beebread sample data"
+          ],
+          "outputs": [
+            "IndVal results"
+          ],
+          "keywords": [
+            "IndVal",
+            "multipatt",
+            "indicspecies package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Tested the contribution of variables affecting floral choices using partial redundancy analysis (RDA).",
+          "searchable_summary": "perform RDA using vegan package",
+          "inputs": [
+            "Hellinger distances",
+            "design variables"
+          ],
+          "outputs": [
+            "RDA results"
+          ],
+          "keywords": [
+            "RDA",
+            "vegan package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Quantified variation associated with temporal, spatial, and methodological variables using variation partitioning.",
+          "searchable_summary": "perform variation partitioning using varpart function from vegan package",
+          "inputs": [
+            "temporal, spatial, and methodological variables"
+          ],
+          "outputs": [
+            "variation partitioning results"
+          ],
+          "keywords": [
+            "variation partitioning",
+            "varpart",
+            "vegan package",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Extraction of Plant Specialized Metabolites",
+      "description": "Procedures for purifying specialized metabolites from honey samples using two different purification methods to recover a wide variety of metabolites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Measured five grams of honey into 50 ml centrifuge tubes in three replicates.",
+          "searchable_summary": "weigh and distribute honey samples into centrifuge tubes",
+          "inputs": [
+            "honey samples"
+          ],
+          "outputs": [
+            "honey samples in centrifuge tubes"
+          ],
+          "keywords": [
+            "honey",
+            "centrifuge tubes",
+            "replicates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Mixed honey with water adjusted to pH 2 with HCl and stirred with magnetic stirrer.",
+          "searchable_summary": "mix honey with acidic water and stir",
+          "inputs": [
+            "honey",
+            "water",
+            "HCl"
+          ],
+          "outputs": [
+            "fluid honey mixture"
+          ],
+          "keywords": [
+            "honey",
+            "pH adjustment",
+            "magnetic stirrer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Centrifuged samples to remove particles.",
+          "searchable_summary": "centrifuge honey mixture to remove particles",
+          "inputs": [
+            "fluid honey mixture"
+          ],
+          "outputs": [
+            "particle-free supernatant"
+          ],
+          "keywords": [
+            "centrifugation",
+            "particle removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Loaded supernatant on an Oasis HLB cartridge, preconditioned with methanol and water.",
+          "searchable_summary": "load supernatant on preconditioned HLB cartridge",
+          "inputs": [
+            "supernatant",
+            "Oasis HLB cartridge"
+          ],
+          "outputs": [
+            "loaded HLB cartridge"
+          ],
+          "keywords": [
+            "Oasis HLB cartridge",
+            "preconditioning"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Eluted analytes with methanol and removed eluent under nitrogen stream.",
+          "searchable_summary": "elute analytes with methanol and evaporate under nitrogen",
+          "inputs": [
+            "loaded HLB cartridge",
+            "methanol"
+          ],
+          "outputs": [
+            "dried analytes"
+          ],
+          "keywords": [
+            "elution",
+            "methanol",
+            "nitrogen stream"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Reconstituted samples in formic acid/acetonitrile solution with internal standard and filtered.",
+          "searchable_summary": "reconstitute and filter samples with internal standard",
+          "inputs": [
+            "dried analytes",
+            "formic acid/acetonitrile",
+            "internal standard"
+          ],
+          "outputs": [
+            "filtered reconstituted samples"
+          ],
+          "keywords": [
+            "reconstitution",
+            "filtration",
+            "internal standard"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Purified samples with QuEChERS protocol for alkaloids and very polar compounds.",
+          "searchable_summary": "apply QuEChERS protocol for purification",
+          "inputs": [
+            "honey samples",
+            "QuEChERS reagents"
+          ],
+          "outputs": [
+            "purified samples"
+          ],
+          "keywords": [
+            "QuEChERS",
+            "alkaloids",
+            "purification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Habitat and Sampling Description",
+      "description": "Procedures for studying the foraging choices of honeybees and collecting samples from hives and surrounding flowering plants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Mapped the flowering plants and collected beebread and honey samples at three time points during the summer 2021.",
+          "searchable_summary": "map flowering plants and collect beebread and honey samples",
+          "inputs": [
+            "flowering plant locations",
+            "honeybee hives"
+          ],
+          "outputs": [
+            "mapped plant data",
+            "collected samples"
+          ],
+          "keywords": [
+            "flower mapping",
+            "sample collection",
+            "honeybees"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Assessed flowering plants within 3 km distance of the hives using stratified sampling.",
+          "searchable_summary": "assess flowering plants using stratified sampling",
+          "inputs": [
+            "hive locations",
+            "Corine land cover database"
+          ],
+          "outputs": [
+            "flowering plant assessment data"
+          ],
+          "keywords": [
+            "stratified sampling",
+            "flowering plants",
+            "Corine database"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Collected honey samples by pooling from three frames in each hive.",
+          "searchable_summary": "collect and pool honey samples from hive frames",
+          "inputs": [
+            "hive frames"
+          ],
+          "outputs": [
+            "pooled honey samples"
+          ],
+          "keywords": [
+            "honey collection",
+            "hive frames",
+            "pooling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Collected beebread samples by sampling from cells in three frames.",
+          "searchable_summary": "collect beebread samples from hive cells",
+          "inputs": [
+            "hive frames"
+          ],
+          "outputs": [
+            "pooled beebread samples"
+          ],
+          "keywords": [
+            "beebread collection",
+            "hive cells",
+            "pooling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Stored samples frozen at −20 °C before further processing.",
+          "searchable_summary": "store samples at −20 °C",
+          "inputs": [
+            "collected samples"
+          ],
+          "outputs": [
+            "frozen samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "freezing",
+            "−20 °C"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/261609035.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

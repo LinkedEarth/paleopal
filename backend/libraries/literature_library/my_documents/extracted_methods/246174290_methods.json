@@ -1,0 +1,112 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Grey Correlation Analysis Process",
+      "description": "Grey system theory puts forward a new analysis method, called the systematic correlation degree analysis method, which measures the degree of correlation between factors according to the degree of similarity or dissimilarity. Because the correlation analysis method is analyzed according to the development trend and can avoid the interaction of various factors, there is no excessive requirement on the sample size, and no typical distribution law is required. The amount of calculation is small, and the quantitative results of the correlation degree will not be inconsistent with the qualitative analysis. This method can analyze the influence of various factors on the fatigue life of asphalt mixture. Relevance is essentially the difference in geometry between curves. The closer the geometry is, the closer the development trend is, and the greater the degree of relevance is. When using grey correlation analysis, first select the data column and then analyze the reference number and comparison series in the data. The comparison series and reference series are dimensionless. In order to avoid the different dimensions of each influencing factor, each factor should be dimensionless in the grey correlation analysis; the comparison sequence and reference sequence are engaged in dimensionless processing. Use Equation (8) to calculate the correlation coefficient between the comparison curve and the reference curve at each time and calculate the grey correlation degree. The correlation coefficient is the correlation degree between the comparison sequence and the reference sequence at each time. Therefore, there is more than one correlation coefficient calculated by Equation (8). For analysis, the average value of the calculated correlation coefficient is calculated by Equation (9).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The data of the fatigue test and relevant influencing factors are listed in Table 10 to generate the analysis data column; specify the fatigue life as the reference sequence (x0) and the influencing factors as comparison sequences (xi).",
+          "searchable_summary": "Structure fatigue test data and influencing factors into reference and comparison sequences for grey correlation analysis.",
+          "inputs": [
+            "Raw fatigue test data (fatigue life)",
+            "Raw data on relevant influencing factors"
+          ],
+          "outputs": [
+            "Reference sequence (x0)",
+            "Comparison sequences (xi)"
+          ],
+          "keywords": [
+            "data structuring",
+            "sequence definition",
+            "grey system theory",
+            "data preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In order to keep the polarity of each influencing factor consistent with the reference sequence, the data are processed accordingly. For example, if fatigue performance decreases with the increase of a factor (like void fraction), the reciprocal of that factor is taken for analysis.",
+          "searchable_summary": "Apply polarity correction to influencing factor data to ensure consistent relationship with the reference sequence.",
+          "inputs": [
+            "Comparison sequences (xi)",
+            "Knowledge of factor-fatigue life relationship"
+          ],
+          "outputs": [
+            "Polarity-corrected comparison sequences (xi')"
+          ],
+          "keywords": [
+            "data transformation",
+            "polarity correction",
+            "reciprocal",
+            "grey correlation preprocessing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The comparison series and reference series are dimensionless. In order to avoid the different dimensions of each influencing factor, each factor should be dimensionless in the grey correlation analysis; the comparison sequence and reference sequence are engaged in dimensionless processing.",
+          "searchable_summary": "Perform dimensionless processing on reference and comparison sequences.",
+          "inputs": [
+            "Reference sequence (x0)",
+            "Polarity-corrected comparison sequences (xi')"
+          ],
+          "outputs": [
+            "Dimensionless reference sequence (x0*)",
+            "Dimensionless comparison sequences (xi'*)"
+          ],
+          "keywords": [
+            "dimensionless processing",
+            "data normalization",
+            "data scaling",
+            "grey correlation preprocessing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Use Equation (8) to calculate the correlation coefficient (ξi(k)) between the dimensionless comparison curve (xi'*) and the dimensionless reference curve (x0*) at each time (k).",
+          "searchable_summary": "Calculate grey correlation coefficients at each time point using Equation (8).",
+          "inputs": [
+            "Dimensionless reference sequence (x0*)",
+            "Dimensionless comparison sequences (xi'*)"
+          ],
+          "outputs": [
+            "Correlation coefficient sequence for each factor (ξi(1), ξi(2), ..., ξi(n))"
+          ],
+          "keywords": [
+            "grey correlation coefficient",
+            "Equation 8",
+            "time series analysis",
+            "similarity measure",
+            "correlation calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "For analysis, the average value of the calculated correlation coefficient is calculated by Equation (9) to determine the grey correlation degree (ri) between the curve and the reference curve.",
+          "searchable_summary": "Calculate the overall grey correlation degree for each factor by averaging correlation coefficients using Equation (9).",
+          "inputs": [
+            "Correlation coefficient sequences (ξi(k))"
+          ],
+          "outputs": [
+            "Grey correlation degree for each factor (ri)"
+          ],
+          "keywords": [
+            "grey correlation degree",
+            "Equation 9",
+            "averaging",
+            "correlation analysis",
+            "factor importance"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/246174290.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

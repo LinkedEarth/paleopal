@@ -1,0 +1,230 @@
+{
+  "paper_title": "Numerical and Experimental Study of the Mechanical Response of Diatom Frustules",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Finite Element Analysis of Diatom Frustule Mechanical Response",
+      "description": "This method describes the process of using 3D reconstructed X-ray Computed Tomography (XCT) data and experimental micro-indentation load-displacement data to create a digital twin of a diatom frustule and perform Finite Element Analysis (FEM) simulations. The goal is to inversely determine the material properties, specifically the Young's modulus, by matching simulation results to experimental data and estimate local stresses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The 3D reconstructed XCT data were used as input for creating a \"digital twin\" of the mechanically investigated Didymosphenia geminata frustule.",
+          "searchable_summary": "Load 3D reconstructed XCT data of the frustule.",
+          "inputs": [
+            "3D reconstructed XCT data (image stack)"
+          ],
+          "outputs": [
+            "Loaded 3D XCT data"
+          ],
+          "keywords": [
+            "XCT",
+            "3D data",
+            "image stack",
+            "data loading"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The reconstructed 3D image stack was segmented... The segmentation was performed using a simple threshold method. Finally, the obtained label fields on each slice were cleared manually to ensure that there are no errors introduced due to mis-segmentation.",
+          "searchable_summary": "Segment 3D image data using thresholding and manual cleaning.",
+          "inputs": [
+            "Loaded 3D XCT data"
+          ],
+          "outputs": [
+            "Segmented 3D image data (label fields)"
+          ],
+          "keywords": [
+            "image segmentation",
+            "thresholding",
+            "manual cleaning",
+            "3D image processing",
+            "Simpleware ScanIp"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "...and converted into a surface mesh using the Simpleware ScanIp software (Synopsys, Inc., Mountain View, CA, USA) [42], which enables the preservation of all features of the frustule. The obtained surface mesh enabled preservation of all details...",
+          "searchable_summary": "Generate surface mesh from segmented 3D data.",
+          "inputs": [
+            "Segmented 3D image data"
+          ],
+          "outputs": [
+            "Surface mesh of the frustule geometry"
+          ],
+          "keywords": [
+            "surface meshing",
+            "3D geometry",
+            "Simpleware ScanIp"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Subsequently, a reverse engineering approach using the SpaceClaim tool (ANSYS, Inc., Canonsburg, PA, USA) [43] was applied to synthesize the geometry of the frustule. This approach provides a high flexibility for building several models that require different simulation setups. ...the construction of a CAD geometry that was modifiable for different simulation cases...",
+          "searchable_summary": "Create CAD geometry from surface mesh using reverse engineering.",
+          "inputs": [
+            "Surface mesh"
+          ],
+          "outputs": [
+            "CAD model of the frustule geometry"
+          ],
+          "keywords": [
+            "CAD modeling",
+            "reverse engineering",
+            "geometry synthesis",
+            "SpaceClaim"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "A tetrahedral mesh was generated using the FEM software ANSYS (ANSYS, Inc., Canonsburg, PA, USA) [44], and a nonlinear geometry solver was implemented to capture large deflections of the structure. The final mesh consisted of 21.6 million tetrahedral elements and 1.2 million hexahedral elements with an average mesh quality of 0.95.",
+          "searchable_summary": "Generate tetrahedral volume mesh for FEM simulation.",
+          "inputs": [
+            "CAD model of the frustule geometry"
+          ],
+          "outputs": [
+            "Tetrahedral volume mesh"
+          ],
+          "keywords": [
+            "volume meshing",
+            "tetrahedral mesh",
+            "FEM preprocessing",
+            "ANSYS"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "The load-displacement data obtained through in situ micro-indentation were used to obtain accurate material data for the FEM simulations... The experimentally obtained load versus displacement data were used as input for the FEM framework...",
+          "searchable_summary": "Load experimental micro-indentation load-displacement data.",
+          "inputs": [
+            "Experimental micro-indentation data"
+          ],
+          "outputs": [
+            "Experimental load-displacement curve data"
+          ],
+          "keywords": [
+            "experimental data",
+            "load-displacement",
+            "micro-indentation",
+            "data loading"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The micro-indentation experiments in the SEM are replicated in the FEM framework... The obtained FEA model and the boundary conditions are given in Figure 8. A purely elastic material model is used to reflect the negligible plasticity and deformation due to limited residual displacements observed in the microindentation experiment. In the FEM simulation, the central raphe of Didymosphenia geminata frustule was considered, i.e., spot 7. For the simulations, the Poisson's ratio is selected as 0.17 [32]. The initial Young's modulus was 22.4 GPa [13].",
+          "searchable_summary": "Configure FEM simulation including solver, boundary conditions, material model, initial parameters, and simulation region.",
+          "inputs": [
+            "Tetrahedral volume mesh",
+            "Experimental setup details (indentation location, boundary conditions)",
+            "Material model type (elastic)",
+            "Poisson's ratio (0.17)",
+            "Initial Young's modulus (22.4 GPa)"
+          ],
+          "outputs": [
+            "Configured FEM simulation model"
+          ],
+          "keywords": [
+            "FEM setup",
+            "nonlinear solver",
+            "boundary conditions",
+            "elastic material model",
+            "Poisson's ratio",
+            "Young's modulus",
+            "simulation region",
+            "ANSYS"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "In the FEM framework, the Young's modulus was used as a free parameter to minimize the deviation between the simulation and the indentation experiment and subsequently, inversely determine the real Young's modulus of the frustule. An iterative optimization function was used to predict the Young's modulus as a function of maximum displacement. 12 iterations were performed for the load of 1200 µN.",
+          "searchable_summary": "Run iterative FEM simulations, adjusting Young's modulus to match experimental load-displacement data.",
+          "inputs": [
+            "Configured FEM simulation model",
+            "Experimental load-displacement curve data",
+            "Initial Young's modulus",
+            "Optimization algorithm parameters (e.g., number of iterations, target load)"
+          ],
+          "outputs": [
+            "Optimized Young's modulus",
+            "Simulated load-displacement curve"
+          ],
+          "keywords": [
+            "inverse problem",
+            "material property estimation",
+            "iterative optimization",
+            "FEM simulation",
+            "Young's modulus",
+            "load-displacement curve",
+            "parameter fitting"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The experimentally obtained load versus displacement data were used as input for the FEM framework to estimate the local stresses within the structure for the applied load. For the stress determination, 2.5% strain is selected since the failure strain for frustules are reported between 2.2% and 4.0% [13]. The deviation of the Young's modulus and the maximum von Misses stress at 2.5% equivalent von Misses strain are shown in Figure 9.",
+          "searchable_summary": "Calculate local stresses (e.g., von Misses stress) from the FEM simulation results at a specific strain or load.",
+          "inputs": [
+            "Optimized FEM simulation results (stress/strain fields)",
+            "Applied load or target strain (2.5%)"
+          ],
+          "outputs": [
+            "Local stress distribution (e.g., maximum von Misses stress)"
+          ],
+          "keywords": [
+            "stress analysis",
+            "von Misses stress",
+            "strain",
+            "FEM postprocessing",
+            "stress estimation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "The comparison of the obtained load-displacement curve at the end of iteration cycle with the micro-indentation experiment under the load of 1200 µN is given in Figure 10. Besides the non-linearities observed in the load-displacement curve from the experiments, both curves were consistent.",
+          "searchable_summary": "Compare the simulated load-displacement curve with the experimental load-displacement curve.",
+          "inputs": [
+            "Simulated load-displacement curve",
+            "Experimental load-displacement curve"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plot, deviation metrics)"
+          ],
+          "keywords": [
+            "curve comparison",
+            "validation",
+            "experimental data",
+            "simulation results",
+            "load-displacement curve"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "The applied iterative parameter deviation approach in the FEM framework enabled the determination of the Young's modulus of the frustule as 31.8 GPa for almost the same maximum displacement as in the indentation experiment.",
+          "searchable_summary": "Report the final determined Young's modulus.",
+          "inputs": [
+            "Optimized Young's modulus from Step 8"
+          ],
+          "outputs": [
+            "Final Young's modulus value"
+          ],
+          "keywords": [
+            "Young's modulus",
+            "material property",
+            "result reporting"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/218860434.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

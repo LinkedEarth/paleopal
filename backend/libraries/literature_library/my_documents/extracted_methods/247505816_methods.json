@@ -1,0 +1,169 @@
+{
+  "paper_title": "RNA Sequencing Analysis of SlMPK4 Downstream Genes in Tomato Pollen",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "RNA Sequencing Analysis",
+      "description": "This method involves analyzing RNA sequencing data to identify differentially expressed genes (DEGs) in tomato pollen, particularly in the context of SlMPK4 silencing. The analysis helps in understanding the impact of SlMPK4 on gene expression during different floral developmental stages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "First, the Illumina raw RNA sequencing reads were analyzed to eliminate low-quality and adaptor contaminant sequences.",
+          "searchable_summary": "filter out low-quality and adaptor sequences from RNA sequencing reads",
+          "inputs": [
+            "Illumina raw RNA sequencing reads"
+          ],
+          "outputs": [
+            "filtered RNA sequencing reads"
+          ],
+          "keywords": [
+            "RNA sequencing",
+            "data filtering",
+            "Illumina"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Then, the reads were aligned to ribosomal RNA (rRNA) and transfer RNA (tRNA) sequences using Bowtie to remove potential ribosomal and tRNA contaminating reads, allowing up to three mismatches.",
+          "searchable_summary": "align reads to rRNA and tRNA sequences using Bowtie to remove contaminants",
+          "inputs": [
+            "filtered RNA sequencing reads"
+          ],
+          "outputs": [
+            "reads without rRNA and tRNA contamination"
+          ],
+          "keywords": [
+            "Bowtie",
+            "rRNA",
+            "tRNA",
+            "alignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The filtered reads were then aligned to the tomato genome with TopHat, allowing one segment mismatch.",
+          "searchable_summary": "align filtered reads to tomato genome using TopHat",
+          "inputs": [
+            "reads without rRNA and tRNA contamination"
+          ],
+          "outputs": [
+            "aligned reads to tomato genome"
+          ],
+          "keywords": [
+            "TopHat",
+            "genome alignment",
+            "tomato genome"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Raw counts of mapped reads for each gene model of tomato were derived after alignments and then normalized to FPKM.",
+          "searchable_summary": "derive raw counts and normalize to FPKM",
+          "inputs": [
+            "aligned reads to tomato genome"
+          ],
+          "outputs": [
+            "FPKM normalized counts"
+          ],
+          "keywords": [
+            "FPKM",
+            "normalization",
+            "gene expression"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "For the expression analyses of selected genes from transgenic and control flowers, the raw counts of RNA sequencing expression data were used to find genes that were differentially expressed with the DESeq package.",
+          "searchable_summary": "identify differentially expressed genes using DESeq",
+          "inputs": [
+            "FPKM normalized counts"
+          ],
+          "outputs": [
+            "differentially expressed genes"
+          ],
+          "keywords": [
+            "DESeq",
+            "differential expression",
+            "RNA sequencing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The variable and stable transformed expression data were then supplied to the LIMMA package.",
+          "searchable_summary": "analyze expression data with LIMMA",
+          "inputs": [
+            "differentially expressed genes"
+          ],
+          "outputs": [
+            "LIMMA analysis results"
+          ],
+          "keywords": [
+            "LIMMA",
+            "expression analysis",
+            "RNA sequencing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "F-tests were then executed and raw P-values were adjusted using the Benjamini-Hochberg procedure for multiple testing.",
+          "searchable_summary": "perform F-tests and adjust P-values with Benjamini-Hochberg",
+          "inputs": [
+            "LIMMA analysis results"
+          ],
+          "outputs": [
+            "adjusted P-values"
+          ],
+          "keywords": [
+            "F-test",
+            "Benjamini-Hochberg",
+            "multiple testing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Differentially expressed genes were fed to the Plant MetGenMAP system database to identify enriched GO terms.",
+          "searchable_summary": "identify enriched GO terms using Plant MetGenMAP",
+          "inputs": [
+            "differentially expressed genes"
+          ],
+          "outputs": [
+            "enriched GO terms"
+          ],
+          "keywords": [
+            "GO terms",
+            "Plant MetGenMAP",
+            "gene ontology"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Metabolic pathway analysis was conducted using Blastx/Blastp 2.2.24+ in KEGG.",
+          "searchable_summary": "conduct metabolic pathway analysis using KEGG",
+          "inputs": [
+            "differentially expressed genes"
+          ],
+          "outputs": [
+            "metabolic pathway analysis results"
+          ],
+          "keywords": [
+            "KEGG",
+            "metabolic pathways",
+            "Blastx",
+            "Blastp"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247505816.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

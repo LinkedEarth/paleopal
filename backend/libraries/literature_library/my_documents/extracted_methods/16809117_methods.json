@@ -1,0 +1,141 @@
+{
+  "paper_title": "Factor Analysis and Pollen Data Study in Szeged",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Factor Analysis with Special Transformation",
+      "description": "Factor analysis is used to identify linear relationships among variables, reducing dimensionality without losing substantial information. This method transforms original variables into fewer latent variables (factors) that explain the joint behavior of past and current meteorological elements and pollen concentration. A special transformation is applied to determine the influence of explanatory variables on the resultant variable, ranking their importance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply factor analysis to the initial datasets consisting of 9 variables (8 explanatory variables and 1 resultant variable).",
+          "searchable_summary": "perform factor analysis on dataset with 9 variables",
+          "inputs": [
+            "initial datasets with 9 variables"
+          ],
+          "outputs": [
+            "factors (latent variables)"
+          ],
+          "keywords": [
+            "factor analysis",
+            "dimensionality reduction",
+            "latent variables"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Determine the number of retained factors by specifying a least percentage (80%) of the total variance in the original variables.",
+          "searchable_summary": "determine number of factors based on 80% variance criterion",
+          "inputs": [
+            "factors",
+            "total variance"
+          ],
+          "outputs": [
+            "number of retained factors"
+          ],
+          "keywords": [
+            "variance",
+            "factor retention",
+            "Jolliffe criterion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Perform a special transformation of the retained factors to discover the influence of explanatory variables on the resultant variable.",
+          "searchable_summary": "apply special transformation to retained factors",
+          "inputs": [
+            "retained factors"
+          ],
+          "outputs": [
+            "transformed factors with ranked influence"
+          ],
+          "keywords": [
+            "special transformation",
+            "variable influence",
+            "factor loading"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Combine all weights of the factors with the resultant variable into one factor, ensuring only one factor has a significant weight with the resultant variable.",
+          "searchable_summary": "combine factor weights with resultant variable",
+          "inputs": [
+            "transformed factors",
+            "resultant variable"
+          ],
+          "outputs": [
+            "combined factor with significant weight"
+          ],
+          "keywords": [
+            "factor combination",
+            "weight significance",
+            "resultant variable"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Perform factor analysis with special transformation for each of the 186 9-dimensional data sets.",
+          "searchable_summary": "perform factor analysis on 186 data sets",
+          "inputs": [
+            "186 9-dimensional data sets"
+          ],
+          "outputs": [
+            "results of factor analyses"
+          ],
+          "keywords": [
+            "multiple factor analyses",
+            "9-dimensional data",
+            "transformation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Location and Data Collection",
+      "description": "This method describes the geographical location and climate of Szeged, Hungary, and details the data collection process for daily pollen counts of 19 taxa over an 11-year period.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect daily pollen counts of 19 taxa over the 11-year period 1997-2007.",
+          "searchable_summary": "collect daily pollen counts for 19 taxa from 1997 to 2007",
+          "inputs": [
+            "pollen data source"
+          ],
+          "outputs": [
+            "daily pollen counts dataset"
+          ],
+          "keywords": [
+            "pollen data",
+            "time series",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Identify the taxa with the highest pollen levels, which include Ambrosia, Poaceae, Populus, and Urtica.",
+          "searchable_summary": "identify taxa with highest pollen levels",
+          "inputs": [
+            "daily pollen counts dataset"
+          ],
+          "outputs": [
+            "list of taxa with highest pollen levels"
+          ],
+          "keywords": [
+            "taxa identification",
+            "pollen levels",
+            "data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16809117.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

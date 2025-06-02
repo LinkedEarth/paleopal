@@ -1,0 +1,171 @@
+{
+  "paper_title": "Glacier Model Parameterization Study (Inferred)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Glacier-Climate Model Parameter Optimization",
+      "description": "This simulation tested the assumption that the parameterisation of the glacier-climate model did not contribute to the discrepancy between glacial-geological and HadCM3 LGM climate anomalies. The process involved iteratively adjusting key model parameters (degree day factors for melt and glacier hypsometric profiles) while keeping boundary conditions fixed (INQUA LGM glacier database and HadCM3 LGM climate anomalies) until the model simulated equilibrium surface mass balance conditions. This method aimed to find optimized parameter values that reconcile the model output with the assumed correct boundary conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Assume the INQUA LGM glacier database (Ehlers and Gibbard, 2004a) and HadCM3 LGM climate anomalies were correct, using these as fixed boundary conditions for the simulation.",
+          "searchable_summary": "Load fixed boundary conditions for glacier model simulation from specified databases.",
+          "inputs": [
+            "INQUA LGM glacier database (Ehlers and Gibbard, 2004a)",
+            "HadCM3 LGM climate anomalies"
+          ],
+          "outputs": [
+            "Fixed boundary condition datasets loaded into simulation environment"
+          ],
+          "keywords": [
+            "glacier database",
+            "climate model output",
+            "LGM",
+            "boundary conditions",
+            "data loading"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Initialize the glacier-climate model described in Allen et al. (2007a) with initial parameter values for melt factors (degree day factors for snow and ice) and hypsometric profile.",
+          "searchable_summary": "Initialize glacier-climate model with starting parameters.",
+          "inputs": [
+            "Glacier-climate model structure (Allen et al., 2007a)",
+            "Initial melt factor values",
+            "Initial hypsometric profile"
+          ],
+          "outputs": [
+            "Initialized glacier-climate model instance"
+          ],
+          "keywords": [
+            "glacier model",
+            "model initialization",
+            "parameter setup",
+            "melt factors",
+            "hypsometric profile"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Iteratively adjust degree day factors and hypsometric profile using a defined process (melt factors by 0.1 mm/day/°C and hypsometric profile by 10 m per iteration).",
+          "searchable_summary": "Perform iterative adjustment of glacier model parameters.",
+          "inputs": [
+            "Glacier-climate model",
+            "Current parameter values (degree day factors, hypsometric profile)",
+            "Adjustment increments (0.1 mm/day/°C for melt factors, 10 m for profile)"
+          ],
+          "outputs": [
+            "Updated parameter values"
+          ],
+          "keywords": [
+            "iterative optimization",
+            "parameter tuning",
+            "degree day factors",
+            "hypsometric profile",
+            "model calibration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Simulate glacier mass balance conditions using the glacier-climate model with the adjusted parameters and the fixed boundary conditions (INQUA LGM glacier database and HadCM3 LGM climate anomalies).",
+          "searchable_summary": "Run glacier model simulation with current parameters and boundary conditions.",
+          "inputs": [
+            "Glacier-climate model",
+            "Current parameter values",
+            "Fixed boundary conditions (INQUA LGM glacier database, HadCM3 LGM climate anomalies)"
+          ],
+          "outputs": [
+            "Simulated glacier mass balance results (e.g., surface mass balance)"
+          ],
+          "keywords": [
+            "glacier simulation",
+            "mass balance model",
+            "model run",
+            "climate forcing",
+            "glacier geometry"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Check if the simulated surface mass balance conditions represent equilibrium (zero mass balance).",
+          "searchable_summary": "Evaluate simulation output against equilibrium criteria.",
+          "inputs": [
+            "Simulated glacier mass balance results"
+          ],
+          "outputs": [
+            "Boolean result indicating if equilibrium is reached"
+          ],
+          "keywords": [
+            "equilibrium condition",
+            "mass balance check",
+            "model validation",
+            "simulation output analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Repeat steps 3-5 until the equilibrium surface mass balance condition is simulated by HadCM3 LGM climate anomalies.",
+          "searchable_summary": "Loop parameter adjustment and simulation until convergence to equilibrium.",
+          "inputs": [
+            "Result of equilibrium check"
+          ],
+          "outputs": [
+            "Final optimized parameter values when equilibrium is reached"
+          ],
+          "keywords": [
+            "iterative process",
+            "loop",
+            "convergence criteria",
+            "optimization loop"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Record the final optimized melt factors (ranging from 0.1 to 2 mm/day/°C for snow and 0.5 to 3 mm/day/°C for ice) and the required elevation adjustments for the LGM glacier profiles (ranging from 400 m to 900 m).",
+          "searchable_summary": "Store final optimized model parameters.",
+          "inputs": [
+            "Final optimized parameter values"
+          ],
+          "outputs": [
+            "Optimized parameter values dataset"
+          ],
+          "keywords": [
+            "parameter recording",
+            "optimization results",
+            "data storage",
+            "melt factors",
+            "hypsometric profile adjustment"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Estimate the total area of the glacier using the simulated size of the accumulation area and an AAR value of 0.67, which is a commonly used value for present day mountain glaciers.",
+          "searchable_summary": "Calculate total glacier area from simulated accumulation area and AAR.",
+          "inputs": [
+            "Simulated accumulation area size",
+            "AAR value (0.67)"
+          ],
+          "outputs": [
+            "Estimated total glacier area"
+          ],
+          "keywords": [
+            "glacier area calculation",
+            "accumulation area ratio",
+            "AAR",
+            "glaciology metrics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55487298.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

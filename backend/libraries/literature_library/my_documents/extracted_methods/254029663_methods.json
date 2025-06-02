@@ -1,0 +1,477 @@
+{
+  "paper_title": "Integration and analysis of pollen transcriptome data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Co-expression Network Analysis",
+      "description": "Meta-analysis approach using transcriptome data from multiple datasets to identify genes with common expression patterns and construct in silico-derived co-expression networks. It is based on the assumption that genes with similar expression patterns are likely to interact. This method can identify sub-networks related to specific biological processes and enrichments for specific gene sets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect multiple transcriptome datasets, potentially including cell-type specific data (e.g., LM-microarray data separating tapetum and male gametophyte cells).",
+          "searchable_summary": "gather transcriptome datasets for co-expression analysis",
+          "inputs": [],
+          "outputs": [
+            "transcriptome datasets (e.g., microarray data)"
+          ],
+          "keywords": [
+            "transcriptome",
+            "microarray",
+            "RNA-seq",
+            "data collection",
+            "meta-analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform co-expression analysis on the collected datasets.",
+          "searchable_summary": "calculate gene co-expression relationships",
+          "inputs": [
+            "transcriptome datasets"
+          ],
+          "outputs": [
+            "co-expression matrix or network data"
+          ],
+          "keywords": [
+            "co-expression analysis",
+            "gene expression",
+            "correlation",
+            "network analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Construct a co-expression network based on the analysis.",
+          "searchable_summary": "build gene co-expression network graph",
+          "inputs": [
+            "co-expression matrix or network data"
+          ],
+          "outputs": [
+            "gene co-expression network model"
+          ],
+          "keywords": [
+            "network construction",
+            "graph theory",
+            "gene network",
+            "in silico modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify and analyze sub-networks within the larger co-expression network (e.g., 'meiosis' or 'pollen wall synthesis' sub-networks).",
+          "searchable_summary": "identify and analyze sub-networks in gene co-expression network",
+          "inputs": [
+            "gene co-expression network model"
+          ],
+          "outputs": [
+            "identified sub-networks"
+          ],
+          "keywords": [
+            "sub-network analysis",
+            "network modules",
+            "clustering",
+            "biological pathways"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze identified sub-networks or gene sets for enrichment of specific gene categories (e.g., sporopollenin-associated genes).",
+          "searchable_summary": "perform gene set enrichment analysis on co-expressed genes",
+          "inputs": [
+            "identified sub-networks",
+            "gene category lists (e.g., GO terms, pathway lists)"
+          ],
+          "outputs": [
+            "enrichment analysis results"
+          ],
+          "keywords": [
+            "gene set enrichment analysis",
+            "functional enrichment",
+            "GO analysis",
+            "pathway analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Integrative Transcriptome/Proteome Comparison",
+      "description": "An approach utilizing transcriptome and/or proteome data within and between species and/or different cell types to explore common cellular processes, identify shared gene sets, or find molecular signatures associated with specific cell behaviors like polar growth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect transcriptome and/or proteome data from different species and/or cell types of interest (e.g., tobacco pollen tubes, tobacco roots, Arabidopsis root hairs, Arabidopsis pollen, diffuse growth cell types).",
+          "searchable_summary": "gather multi-species and multi-cell type omics data",
+          "inputs": [],
+          "outputs": [
+            "transcriptome data",
+            "proteome data"
+          ],
+          "keywords": [
+            "transcriptome",
+            "proteome",
+            "multi-species data",
+            "cell-type specific data",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Identify homologous genes across different species if cross-species comparisons are involved.",
+          "searchable_summary": "find homologous genes between species",
+          "inputs": [
+            "gene sequences from different species"
+          ],
+          "outputs": [
+            "list of homologous gene pairs/groups"
+          ],
+          "keywords": [
+            "homology search",
+            "orthologs",
+            "paralogs",
+            "sequence alignment",
+            "BLAST"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Identify genes co-expressed across the selected species and/or cell types.",
+          "searchable_summary": "identify genes with similar expression patterns across datasets",
+          "inputs": [
+            "transcriptome data",
+            "proteome data",
+            "list of homologous genes (optional)"
+          ],
+          "outputs": [
+            "list of co-expressed genes"
+          ],
+          "keywords": [
+            "co-expression",
+            "comparative analysis",
+            "gene expression patterns",
+            "data integration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify subsets of genes showing specific expression patterns, such as enrichment in certain cell types compared to others (e.g., enriched in root hairs and pollen compared to diffuse growth cell types) or exclusivity to certain cell types.",
+          "searchable_summary": "filter genes based on cell-type specific expression enrichment or exclusivity",
+          "inputs": [
+            "list of co-expressed genes",
+            "cell-type specific expression levels"
+          ],
+          "outputs": [
+            "subsets of genes with specific expression patterns"
+          ],
+          "keywords": [
+            "differential expression",
+            "cell-type specificity",
+            "gene filtering",
+            "expression enrichment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze identified gene sets for enrichment of functional categories (e.g., vesicle transport, signal transduction, cytoskeleton).",
+          "searchable_summary": "perform functional enrichment analysis on gene subsets",
+          "inputs": [
+            "subsets of genes",
+            "gene category lists (e.g., GO terms, pathway lists)"
+          ],
+          "outputs": [
+            "functional enrichment analysis results"
+          ],
+          "keywords": [
+            "gene set enrichment analysis",
+            "functional enrichment",
+            "GO analysis",
+            "pathway analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Perform promoter analysis on a subset of identified genes to find enriched sequence motifs.",
+          "searchable_summary": "analyze gene promoters for enriched sequence motifs",
+          "inputs": [
+            "subset of genes",
+            "promoter sequences"
+          ],
+          "outputs": [
+            "identified enriched sequence motifs"
+          ],
+          "keywords": [
+            "promoter analysis",
+            "motif discovery",
+            "transcription factor binding sites",
+            "sequence analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Network Component Analysis (NCA) for Regulatory Networks",
+      "description": "A computational approach involving meta-analyses to construct and explore regulatory networks, particularly focusing on transcription factor (TF) activity. NCA infers hidden TF activities by leveraging prior knowledge of network structure.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect transcriptome datasets encompassing relevant developmental phases (e.g., pollen developmental and progamic phases).",
+          "searchable_summary": "gather transcriptome datasets for regulatory network analysis",
+          "inputs": [],
+          "outputs": [
+            "transcriptome datasets"
+          ],
+          "keywords": [
+            "transcriptome",
+            "RNA-seq",
+            "microarray",
+            "data collection",
+            "meta-analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Apply Network Component Analysis (NCA) to the collected datasets.",
+          "searchable_summary": "perform network component analysis",
+          "inputs": [
+            "transcriptome datasets",
+            "prior network structure knowledge (optional)"
+          ],
+          "outputs": [
+            "NCA results (e.g., inferred TF activities)"
+          ],
+          "keywords": [
+            "Network Component Analysis",
+            "NCA",
+            "regulatory network analysis",
+            "transcription factor activity inference"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Construct a regulatory network involving transcription factors, target genes, and regulatory interactions based on the NCA results.",
+          "searchable_summary": "build transcription factor regulatory network",
+          "inputs": [
+            "NCA results",
+            "lists of transcription factors and potential target genes"
+          ],
+          "outputs": [
+            "regulatory network model"
+          ],
+          "keywords": [
+            "regulatory network construction",
+            "TF network",
+            "gene regulation",
+            "network modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Explore the constructed regulatory network to identify key transcription factors, target genes, and regulatory interactions.",
+          "searchable_summary": "analyze transcription factor regulatory network",
+          "inputs": [
+            "regulatory network model"
+          ],
+          "outputs": [
+            "identified TF-target interactions",
+            "network properties"
+          ],
+          "keywords": [
+            "network analysis",
+            "TF interactions",
+            "target gene identification",
+            "network topology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylostratigraphic Analysis using Transcriptome Age Index (TAI)",
+      "description": "A method used to determine the evolutionary age of genes within a transcriptome and analyze the age distribution across different tissues or developmental stages. It involves calculating the Transcriptome Age Index (TAI) to assess the overall evolutionary age of a transcriptome.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect transcriptome data for the tissue or cell type of interest (e.g., pollen, sperm).",
+          "searchable_summary": "gather transcriptome data for phylostratigraphic analysis",
+          "inputs": [],
+          "outputs": [
+            "transcriptome data"
+          ],
+          "keywords": [
+            "transcriptome",
+            "RNA-seq",
+            "microarray",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Determine the evolutionary age (phylostratum) of each gene in the transcriptome.",
+          "searchable_summary": "assign evolutionary age to genes",
+          "inputs": [
+            "gene sequences",
+            "phylogenetic tree or species tree"
+          ],
+          "outputs": [
+            "gene phylostrata"
+          ],
+          "keywords": [
+            "phylostratigraphy",
+            "evolutionary age",
+            "gene evolution",
+            "phylogenetic analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculate the Transcriptome Age Index (TAI) for the transcriptome based on the evolutionary ages of its constituent genes.",
+          "searchable_summary": "calculate transcriptome age index (TAI)",
+          "inputs": [
+            "gene expression levels",
+            "gene phylostrata"
+          ],
+          "outputs": [
+            "Transcriptome Age Index (TAI) value"
+          ],
+          "keywords": [
+            "Transcriptome Age Index",
+            "TAI",
+            "transcriptome evolution",
+            "weighted average age"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compare TAI values across different transcriptomes (e.g., pollen vs. other tissues, different species) to identify differences in evolutionary age profiles.",
+          "searchable_summary": "compare transcriptome age index across samples",
+          "inputs": [
+            "TAI values for multiple transcriptomes"
+          ],
+          "outputs": [
+            "comparison results of TAI values"
+          ],
+          "keywords": [
+            "TAI comparison",
+            "transcriptome evolution",
+            "comparative analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze enrichment of specific features (e.g., transposable elements) in young genes identified by the analysis.",
+          "searchable_summary": "analyze features enriched in young genes",
+          "inputs": [
+            "list of young genes",
+            "feature annotations (e.g., TE locations)"
+          ],
+          "outputs": [
+            "enrichment analysis results for young genes"
+          ],
+          "keywords": [
+            "gene enrichment",
+            "young genes",
+            "orphan genes",
+            "transposable elements",
+            "TE enrichment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Comparative EST Data Analysis",
+      "description": "Analysis of Expressed Sequence Tag (EST) libraries from different species or cell types to identify conserved genes expressed in specific tissues, particularly the male germline.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect EST library data from relevant species and/or cell types (e.g., generative cells, sperm cells of lily, maize, Plumbago, tobacco).",
+          "searchable_summary": "gather EST library data from multiple species/cell types",
+          "inputs": [],
+          "outputs": [
+            "EST library datasets"
+          ],
+          "keywords": [
+            "EST library",
+            "Expressed Sequence Tag",
+            "data collection",
+            "male germline data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Process EST data (e.g., clustering, assembly) to obtain unique transcripts or unigenes.",
+          "searchable_summary": "process and assemble EST sequences",
+          "inputs": [
+            "EST library datasets"
+          ],
+          "outputs": [
+            "unigenes or unique transcripts"
+          ],
+          "keywords": [
+            "EST processing",
+            "EST assembly",
+            "clustering",
+            "unigene"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform comparative analysis of the processed EST data across species and/or cell types.",
+          "searchable_summary": "compare gene expression profiles from EST data across samples",
+          "inputs": [
+            "unigenes or unique transcripts from multiple samples"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "comparative analysis",
+            "EST analysis",
+            "gene expression comparison"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify conserved genes expressed in the target tissue/cell type across the analyzed species.",
+          "searchable_summary": "identify conserved genes expressed in specific tissue/cell type",
+          "inputs": [
+            "comparison results",
+            "gene annotations"
+          ],
+          "outputs": [
+            "list of conserved, specifically expressed genes"
+          ],
+          "keywords": [
+            "conserved genes",
+            "tissue-specific expression",
+            "gene identification",
+            "comparative genomics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/254029663.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

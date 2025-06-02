@@ -1,0 +1,199 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the collected data, focusing on relationships between pollen concentrations, allergen levels, and meteorological parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Only days with daily average ragweed pollen levels >3 P m −3 and/or Amb a 1 > 20 pg m −3 were taken into account in statistical analysis (n = 9).",
+          "searchable_summary": "filter data for days with specific pollen and allergen levels",
+          "inputs": [
+            "daily average ragweed pollen levels",
+            "daily average Amb a 1 levels"
+          ],
+          "outputs": [
+            "filtered dataset"
+          ],
+          "keywords": [
+            "data filtering",
+            "pollen levels",
+            "allergen levels"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Nonparametric Spearman's rank correlation analysis was used to examine relationships between daily average pollen concentrations, daily average Amb a 1 levels in both air fractions, pollen potency and meteorological parameters.",
+          "searchable_summary": "perform Spearman's rank correlation analysis",
+          "inputs": [
+            "daily average pollen concentrations",
+            "daily average Amb a 1 levels",
+            "pollen potency",
+            "meteorological parameters"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Spearman's rank correlation",
+            "nonparametric analysis",
+            "correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Differences between the level of Amb a 1 in PM > 10 μm and 2.5 > PM > 10 μm air fractions were analysed by the Wilcoxon signed-rank test.",
+          "searchable_summary": "perform Wilcoxon signed-rank test",
+          "inputs": [
+            "Amb a 1 levels in PM > 10 μm",
+            "Amb a 1 levels in 2.5 > PM > 10 μm"
+          ],
+          "outputs": [
+            "test results"
+          ],
+          "keywords": [
+            "Wilcoxon signed-rank test",
+            "nonparametric test",
+            "air fractions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The statistical significance of the results was determined by comparing the p value with the significance level (α = 0.05).",
+          "searchable_summary": "validate statistical significance using p-value",
+          "inputs": [
+            "p value",
+            "significance level α = 0.05"
+          ],
+          "outputs": [
+            "significance determination"
+          ],
+          "keywords": [
+            "statistical significance",
+            "p-value",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The amount of Amb a 1 in one ragweed pollen grain (so-called pollen potency or the allergenicity of pollen) was calculated by dividing the daily average Amb a 1 concentrations (detected in both air fractions) by the daily average ragweed pollen level.",
+          "searchable_summary": "calculate pollen potency",
+          "inputs": [
+            "daily average Amb a 1 concentrations",
+            "daily average ragweed pollen level"
+          ],
+          "outputs": [
+            "pollen potency"
+          ],
+          "keywords": [
+            "pollen potency",
+            "allergenicity",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "All calculations were carried out with the Statistica 10 software package.",
+          "searchable_summary": "use Statistica 10 for calculations",
+          "inputs": [
+            "Statistica 10 software"
+          ],
+          "outputs": [
+            "calculated results"
+          ],
+          "keywords": [
+            "Statistica 10",
+            "software",
+            "calculations"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Back-Trajectory Analysis",
+      "description": "Analysis of the origin of ragweed pollen using back-trajectory modeling to understand long-distance transport patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Back-trajectories were computed using a cluster approach that was first used on aerobiological data.",
+          "searchable_summary": "compute back-trajectories using cluster approach",
+          "inputs": [
+            "aerobiological data"
+          ],
+          "outputs": [
+            "back-trajectories"
+          ],
+          "keywords": [
+            "back-trajectory",
+            "cluster approach",
+            "aerobiological data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use the Lagrangian Integrated Trajectory (HYSPLIT) model with the GDAS meteorological files as input having a temporal resolution of 3 h and a spatial resolution of 1°.",
+          "searchable_summary": "use HYSPLIT model with GDAS data",
+          "inputs": [
+            "GDAS meteorological files"
+          ],
+          "outputs": [
+            "trajectory data"
+          ],
+          "keywords": [
+            "HYSPLIT model",
+            "GDAS",
+            "trajectory modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Trajectories were calculated at Poznań for all episodes with a receiving height of 500, 1000 and 1500 m to take into account variations in air mass directions with increasing height in the atmosphere.",
+          "searchable_summary": "calculate trajectories at multiple heights",
+          "inputs": [
+            "receiving height",
+            "trajectory episodes"
+          ],
+          "outputs": [
+            "height-specific trajectories"
+          ],
+          "keywords": [
+            "trajectory calculation",
+            "air mass direction",
+            "height variation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Trajectories were calculated 48 h back in time with 2 h steps between each trajectory, which corresponds to the time step of the bihourly pollen observations.",
+          "searchable_summary": "calculate 48-hour back trajectories with 2-hour steps",
+          "inputs": [
+            "time step",
+            "bihourly pollen observations"
+          ],
+          "outputs": [
+            "back trajectories"
+          ],
+          "keywords": [
+            "back trajectory",
+            "time step",
+            "pollen observations"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14876031.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

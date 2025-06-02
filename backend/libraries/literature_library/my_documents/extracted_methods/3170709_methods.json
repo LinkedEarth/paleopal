@@ -1,0 +1,134 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Diurnal NOx Production Calculation",
+      "description": "This method calculates diurnally-averaged NOx production rates for selected 24-hour periods in summer and spring using high-resolution alkyl nitrate data and other datasets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select two 24-hour periods, one in summer and one in spring, for calculating diurnally-averaged NOx production.",
+          "searchable_summary": "select specific 24-hour periods for analysis",
+          "inputs": [
+            "date range",
+            "season"
+          ],
+          "outputs": [
+            "selected periods"
+          ],
+          "keywords": [
+            "NOx production",
+            "diurnal average",
+            "period selection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate NOx production rates every 3 hours during the selected diurnal periods.",
+          "searchable_summary": "calculate 3-hourly NOx production rates",
+          "inputs": [
+            "selected periods",
+            "NOx data"
+          ],
+          "outputs": [
+            "3-hourly NOx production rates"
+          ],
+          "keywords": [
+            "NOx production",
+            "3-hourly calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Interpolate missing data points using linear interpolation for hourly data merger.",
+          "searchable_summary": "perform linear interpolation for missing data",
+          "inputs": [
+            "hourly data",
+            "missing data points"
+          ],
+          "outputs": [
+            "interpolated data"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "data merger"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Reconstruct higher resolution HNO3 data using previously measured diurnal cycles.",
+          "searchable_summary": "reconstruct HNO3 data using diurnal cycles",
+          "inputs": [
+            "HNO3 data",
+            "diurnal cycle data"
+          ],
+          "outputs": [
+            "reconstructed HNO3 data"
+          ],
+          "keywords": [
+            "HNO3 reconstruction",
+            "diurnal cycle"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate photolysis rates for each 3-hour period using the TUV radiative transfer model.",
+          "searchable_summary": "calculate photolysis rates using TUV model",
+          "inputs": [
+            "3-hour periods",
+            "ozone column",
+            "albedo"
+          ],
+          "outputs": [
+            "photolysis rates"
+          ],
+          "keywords": [
+            "photolysis rates",
+            "TUV model",
+            "radiative transfer"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Include OH concentrations measured by the FAGE instrument for January 18, 2005.",
+          "searchable_summary": "fetch OH concentrations from FAGE instrument",
+          "inputs": [
+            "FAGE instrument data"
+          ],
+          "outputs": [
+            "OH concentrations"
+          ],
+          "keywords": [
+            "OH concentrations",
+            "FAGE instrument"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Derive OH concentrations indirectly for September period.",
+          "searchable_summary": "derive OH concentrations indirectly",
+          "inputs": [
+            "September data"
+          ],
+          "outputs": [
+            "derived OH concentrations"
+          ],
+          "keywords": [
+            "OH concentrations",
+            "indirect derivation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/3170709.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

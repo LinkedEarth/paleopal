@@ -1,0 +1,185 @@
+{
+  "paper_title": "Provenance and Remote Sensing Analysis of Paleochannels",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Provenance Analysis",
+      "description": "This method determines the source region of sediments and contributions from different drainage basins by combining mid-infrared spectroscopy (MIRS) measurements and discriminant analyses (DAs). It helps in understanding fluvial paleodynamics at large spatiotemporal scales.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect 196 reference samples and 73 target samples from paleochannel infills.",
+          "searchable_summary": "collect sediment samples for analysis",
+          "inputs": [
+            "sediment locations"
+          ],
+          "outputs": [
+            "reference samples",
+            "target samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "sediment analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Dry samples for 7 days at 30°C and sieve through a 2 mm sieve.",
+          "searchable_summary": "prepare samples by drying and sieving",
+          "inputs": [
+            "collected samples"
+          ],
+          "outputs": [
+            "dried and sieved samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "drying",
+            "sieving"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Grind samples for 3 minutes using a vibratory disc mill with an agate grinding set.",
+          "searchable_summary": "grind samples to fine powder",
+          "inputs": [
+            "dried and sieved samples"
+          ],
+          "outputs": [
+            "fine powder samples"
+          ],
+          "keywords": [
+            "grinding",
+            "sample homogenization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Perform spectroscopic measurements using a Fourier-transform infrared spectroscopy (FT-IR) frontier spectrometer.",
+          "searchable_summary": "conduct FT-IR spectroscopy on samples",
+          "inputs": [
+            "fine powder samples"
+          ],
+          "outputs": [
+            "infrared spectra"
+          ],
+          "keywords": [
+            "FT-IR spectroscopy",
+            "spectral analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Average spectra resolution over a 16 cm−1 interval and perform pre-treatments to reduce scatter effects.",
+          "searchable_summary": "process spectra for pattern recognition",
+          "inputs": [
+            "infrared spectra"
+          ],
+          "outputs": [
+            "processed spectra"
+          ],
+          "keywords": [
+            "spectral processing",
+            "pattern recognition"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Apply stepwise discriminant analysis using Mahalanobis distance to assess spectral resemblances.",
+          "searchable_summary": "perform discriminant analysis on spectra",
+          "inputs": [
+            "processed spectra"
+          ],
+          "outputs": [
+            "spectral resemblance results"
+          ],
+          "keywords": [
+            "discriminant analysis",
+            "Mahalanobis distance"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Analyze samples before and after organic matter removal to evaluate its effect on spectra.",
+          "searchable_summary": "compare spectra with and without organic matter",
+          "inputs": [
+            "target samples",
+            "H2O2"
+          ],
+          "outputs": [
+            "deviation in Mahalanobis distance"
+          ],
+          "keywords": [
+            "organic matter removal",
+            "spectral comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Remote-Sensing-Based Mapping and Analysis",
+      "description": "This method involves mapping and analyzing paleochannels using elevation data and aerial images to understand their spatial distribution and characteristics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Integrate elevation data and aerial images to map paleochannels.",
+          "searchable_summary": "integrate elevation and aerial data for mapping",
+          "inputs": [
+            "elevation data",
+            "aerial images"
+          ],
+          "outputs": [
+            "paleochannel map"
+          ],
+          "keywords": [
+            "remote sensing",
+            "data integration",
+            "mapping"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Divide the area into five paleochannel groups based on genesis, location, and pattern.",
+          "searchable_summary": "categorize paleochannels into groups",
+          "inputs": [
+            "paleochannel map"
+          ],
+          "outputs": [
+            "paleochannel groups"
+          ],
+          "keywords": [
+            "channel grouping",
+            "spatial analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform quantitative analyses to reveal differences in topographical properties of paleochannel groups.",
+          "searchable_summary": "analyze topographical properties of channels",
+          "inputs": [
+            "paleochannel groups"
+          ],
+          "outputs": [
+            "topographical analysis results"
+          ],
+          "keywords": [
+            "topography",
+            "quantitative analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252245276.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

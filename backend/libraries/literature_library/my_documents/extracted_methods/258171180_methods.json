@@ -1,0 +1,302 @@
+{
+  "paper_title": "Sediment and 16S rRNA Gene Sequencing in Moorea, French Polynesia",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Sample Collection",
+      "description": "Process for collecting sediment samples from the barrier reef lagoon surrounding the island of Moorea, French Polynesia, for ecological and community analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sediment samples were collected from the barrier reef lagoon surrounding the island of Moorea, French Polynesia.",
+          "searchable_summary": "collect sediment samples from Moorea lagoon",
+          "inputs": [
+            "location: Moorea lagoon"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment collection",
+            "Moorea",
+            "reef lagoon"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "We collected samples adjacent to the back and fringing reefs within eight replicate 1 m2 plots in and around the Long-Term Ecological Research (LTER) Site 2.",
+          "searchable_summary": "collect samples from 1 m2 plots near LTER Site 2",
+          "inputs": [
+            "plot locations",
+            "LTER Site 2"
+          ],
+          "outputs": [
+            "sediment samples from plots"
+          ],
+          "keywords": [
+            "LTER",
+            "plot sampling",
+            "reef"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Within each 1 m2 plot, 16 subsamples were taken using a gridded design.",
+          "searchable_summary": "take 16 subsamples per plot using gridded design",
+          "inputs": [
+            "1 m2 plot"
+          ],
+          "outputs": [
+            "subsamples"
+          ],
+          "keywords": [
+            "subsampling",
+            "gridded design"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Sediments were sampled every meter along a 4 m transect in each cardinal direction away from the 1m2 plots.",
+          "searchable_summary": "sample sediments along 4 m transects in cardinal directions",
+          "inputs": [
+            "transect directions",
+            "1 m2 plot"
+          ],
+          "outputs": [
+            "transect sediment samples"
+          ],
+          "keywords": [
+            "transect sampling",
+            "cardinal directions"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "All sediments samples (~80 g each) were collected in sterile Whirl-Pak bags and transferred on ice back to the field station for processing.",
+          "searchable_summary": "store sediment samples in Whirl-Pak bags and transport on ice",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "preserved sediment samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "Whirl-Pak",
+            "ice transport"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Approximately 7 g of each sediment sample was transferred to a 15 mL Falcon tube with 7 mL of RNALater for subsequent community analyses.",
+          "searchable_summary": "transfer sediment to Falcon tube with RNALater",
+          "inputs": [
+            "sediment sample",
+            "RNALater"
+          ],
+          "outputs": [
+            "sediment in Falcon tube"
+          ],
+          "keywords": [
+            "RNALater",
+            "Falcon tube",
+            "community analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "All tubes and the remaining sediment were stored at −20°C until processing except when in transit to Scripps Institution of Oceanography when dry ice was used.",
+          "searchable_summary": "store samples at −20°C or on dry ice during transit",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "frozen sediment samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "−20°C",
+            "dry ice"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "LTER Data Interpolation",
+      "description": "Interpolation of LTER data related to N content, heat stress, and coral degradation using geospatial vectors and kriging algorithm.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "LTER data related to N content, heat stress, and coral degradation were sourced from publicly available data.",
+          "searchable_summary": "source LTER data on N content, heat stress, coral degradation",
+          "inputs": [
+            "LTER data sources"
+          ],
+          "outputs": [
+            "LTER data"
+          ],
+          "keywords": [
+            "LTER",
+            "N content",
+            "heat stress",
+            "coral degradation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In R, public geospatial data from LTER monitoring was interpolated by converting geographic coordinates for our collection sites to geospatial vectors.",
+          "searchable_summary": "convert geographic coordinates to geospatial vectors in R",
+          "inputs": [
+            "geographic coordinates"
+          ],
+          "outputs": [
+            "geospatial vectors"
+          ],
+          "keywords": [
+            "R",
+            "geospatial vectors",
+            "coordinate conversion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Applying a kriging algorithm to predict environmental values at our sites.",
+          "searchable_summary": "apply kriging algorithm to predict environmental values",
+          "inputs": [
+            "geospatial vectors"
+          ],
+          "outputs": [
+            "predicted environmental values"
+          ],
+          "keywords": [
+            "kriging",
+            "environmental prediction",
+            "geospatial analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "16S rRNA Gene Sequencing",
+      "description": "DNA extraction and sequencing of sediment samples for 16S rRNA gene analysis to study microbial communities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All quadrat samples (n = 128) and transect tips (n = 32) were processed for DNA extraction.",
+          "searchable_summary": "process quadrat and transect samples for DNA extraction",
+          "inputs": [
+            "quadrat samples",
+            "transect tips"
+          ],
+          "outputs": [
+            "DNA extracts"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "quadrat samples",
+            "transect tips"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Mid-point transect samples (n = 4) were also processed for site 3, which was qualitatively identified as having the highest coral cover.",
+          "searchable_summary": "process mid-point transect samples for site 3",
+          "inputs": [
+            "mid-point transect samples"
+          ],
+          "outputs": [
+            "DNA extracts"
+          ],
+          "keywords": [
+            "mid-point transect",
+            "site 3",
+            "coral cover"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All remaining transect samples from site 6 were also processed to increase spatial comparisons among the algae-dominated site.",
+          "searchable_summary": "process remaining transect samples from site 6",
+          "inputs": [
+            "transect samples from site 6"
+          ],
+          "outputs": [
+            "DNA extracts"
+          ],
+          "keywords": [
+            "site 6",
+            "algae-dominated",
+            "spatial comparison"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For DNA extraction, ~2 g of sediment in RNALater was processed by the Center for Microbiome Innovation (CMI) at UC San Diego using the MagAttract PowerSoil DNA KF kit (Qiagen).",
+          "searchable_summary": "extract DNA using MagAttract PowerSoil DNA KF kit",
+          "inputs": [
+            "sediment in RNALater"
+          ],
+          "outputs": [
+            "DNA extracts"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "MagAttract PowerSoil",
+            "Qiagen"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Samples were subsequently sequenced with the MiSeq System PE150 platform (Illumina) using the V4 region 515 forward primer and the updated 806 reverse primer.",
+          "searchable_summary": "sequence DNA using MiSeq System with V4 region primers",
+          "inputs": [
+            "DNA extracts"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "MiSeq System",
+            "Illumina",
+            "V4 region",
+            "16S rRNA"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "For increased sequencing depth to capture the rare biosphere, two separate sequencing runs were performed for community analyses.",
+          "searchable_summary": "perform two sequencing runs for increased depth",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "enhanced sequencing data"
+          ],
+          "keywords": [
+            "sequencing depth",
+            "rare biosphere",
+            "community analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258171180.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

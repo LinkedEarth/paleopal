@@ -1,0 +1,268 @@
+{
+  "paper_title": "REVEALS Model and Fossil Pollen Records Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "REVEALS Run and Data Analysis",
+      "description": "This method involves using the REVEALS function within the LRA R-package to produce grid-based REVEALS estimates (Gb-RVest) for pollen data. It applies different deposition models based on site type and combines results from lakes and bogs to produce a single mean estimate and its standard error for each taxon.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Select the Gaussian Plume model to describe pollen dispersal.",
+          "searchable_summary": "select Gaussian Plume model for pollen dispersal",
+          "inputs": [
+            "pollen data",
+            "site type"
+          ],
+          "outputs": [
+            "selected dispersal model"
+          ],
+          "keywords": [
+            "Gaussian Plume model",
+            "pollen dispersal"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Apply REVEALS separately for lake and bog data and combine results.",
+          "searchable_summary": "apply REVEALS for lake and bog data separately and combine results",
+          "inputs": [
+            "lake data",
+            "bog data"
+          ],
+          "outputs": [
+            "combined REVEALS results"
+          ],
+          "keywords": [
+            "REVEALS",
+            "lake data",
+            "bog data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Assume neutral atmospheric conditions and wind speed of 3 m.s−1.",
+          "searchable_summary": "set atmospheric conditions and wind speed for REVEALS",
+          "inputs": [
+            "atmospheric conditions",
+            "wind speed"
+          ],
+          "outputs": [
+            "configured REVEALS parameters"
+          ],
+          "keywords": [
+            "atmospheric conditions",
+            "wind speed"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Set Zmax to 50 km, corresponding to a 1° × 1° grid cell.",
+          "searchable_summary": "set Zmax to 50 km for REVEALS",
+          "inputs": [
+            "grid cell size"
+          ],
+          "outputs": [
+            "Zmax value"
+          ],
+          "keywords": [
+            "Zmax",
+            "grid cell"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Extract REVEALS results by time window, producing matrices of mean Gb-RVest and SEs.",
+          "searchable_summary": "extract REVEALS results by time window",
+          "inputs": [
+            "REVEALS results"
+          ],
+          "outputs": [
+            "matrices of mean Gb-RVest",
+            "matrices of SEs"
+          ],
+          "keywords": [
+            "REVEALS",
+            "time window",
+            "Gb-RVest"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Group taxon-based Gb-RVest into land-cover types (LCTs).",
+          "searchable_summary": "group Gb-RVest into land-cover types",
+          "inputs": [
+            "Gb-RVest"
+          ],
+          "outputs": [
+            "Gb-RVest-LCTs"
+          ],
+          "keywords": [
+            "land-cover types",
+            "Gb-RVest"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Calculate SEs of each Gb-RVest-LCT and overall tree cover using the delta method.",
+          "searchable_summary": "calculate SEs using delta method",
+          "inputs": [
+            "Gb-RVest-LCTs"
+          ],
+          "outputs": [
+            "SEs of Gb-RVest-LCTs"
+          ],
+          "keywords": [
+            "delta method",
+            "standard error"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Use major axis regression to explore bivariate relationships between variables.",
+          "searchable_summary": "perform major axis regression analysis",
+          "inputs": [
+            "RPPs.st1",
+            "RPPs.st2",
+            "RPPs.st3"
+          ],
+          "outputs": [
+            "bivariate relationships"
+          ],
+          "keywords": [
+            "major axis regression",
+            "bivariate relationships"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Compare pairs of Gb-RVest-LCTs for all time windows by calculating differences.",
+          "searchable_summary": "compare Gb-RVest-LCTs by calculating differences",
+          "inputs": [
+            "Gb-RVest-LCTs"
+          ],
+          "outputs": [
+            "differences in Gb-RVest-LCTs"
+          ],
+          "keywords": [
+            "Gb-RVest-LCTs",
+            "comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fossil Pollen Records: Data Compilation and Preparation",
+      "description": "This method involves compiling and preparing fossil pollen records from various sources across Europe, ensuring data quality and consistency for use in the REVEALS model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Compile 1607 pollen records from 41 countries.",
+          "searchable_summary": "compile pollen records from multiple countries",
+          "inputs": [
+            "country data sources"
+          ],
+          "outputs": [
+            "compiled pollen records"
+          ],
+          "keywords": [
+            "pollen records",
+            "data compilation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter pollen records based on basin type and chronological control.",
+          "searchable_summary": "filter pollen records by basin type and chronology",
+          "inputs": [
+            "pollen records"
+          ],
+          "outputs": [
+            "filtered pollen records"
+          ],
+          "keywords": [
+            "basin type",
+            "chronological control"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Aggregate pollen counts into 25 time windows across the Holocene.",
+          "searchable_summary": "aggregate pollen counts into time windows",
+          "inputs": [
+            "pollen counts"
+          ],
+          "outputs": [
+            "aggregated pollen counts"
+          ],
+          "keywords": [
+            "time windows",
+            "Holocene"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Harmonize taxonomy of pollen data files.",
+          "searchable_summary": "harmonize taxonomy of pollen data",
+          "inputs": [
+            "pollen data files"
+          ],
+          "outputs": [
+            "harmonized taxonomy"
+          ],
+          "keywords": [
+            "taxonomy",
+            "harmonization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Filter pollen records to remove time windows with fewer than 100 pollen grains.",
+          "searchable_summary": "filter pollen records by pollen grain count",
+          "inputs": [
+            "pollen records"
+          ],
+          "outputs": [
+            "filtered pollen records"
+          ],
+          "keywords": [
+            "pollen grains",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Test inclusion/exclusion of plant taxa with dominant entomophily on REVEALS estimates.",
+          "searchable_summary": "test effect of entomophilous taxa on REVEALS",
+          "inputs": [
+            "plant taxa data"
+          ],
+          "outputs": [
+            "REVEALS estimates"
+          ],
+          "keywords": [
+            "entomophily",
+            "REVEALS"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258476537.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

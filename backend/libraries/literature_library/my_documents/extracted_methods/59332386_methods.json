@@ -1,0 +1,166 @@
+{
+  "paper_title": "Implementing spatially explicit wind-driven seed and pollen dispersal in the individual-based larch simulation model: LAVESI-WIND 1.0",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Parameterisation to Fit Field Data",
+      "description": "The process of revising model parameters to achieve simulated tree densities comparable to field data, using forest inventory data and climate series.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Forest inventory data were recorded for each larch individual with explicit positions on plots of a minimum area of 20 x 20 m for several locations along a density gradient.",
+          "searchable_summary": "record forest inventory data for larch individuals",
+          "inputs": [
+            "plot locations",
+            "density gradient"
+          ],
+          "outputs": [
+            "forest inventory data"
+          ],
+          "keywords": [
+            "forest inventory",
+            "larch",
+            "density gradient"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Simulations were conducted on 100 x 100 m areas with closed boundaries initialised by introducing 1,000 seeds in the first 100 years of a stabilisation period of 1,000 years.",
+          "searchable_summary": "conduct simulations with initial seed introduction",
+          "inputs": [
+            "100 x 100 m area",
+            "1,000 seeds"
+          ],
+          "outputs": [
+            "simulation data"
+          ],
+          "keywords": [
+            "simulation",
+            "seed introduction",
+            "stabilisation period"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Visually compared the number of trees at year 2011 from the central 20 x 20 m area to the field survey data.",
+          "searchable_summary": "compare simulation tree data to field survey data",
+          "inputs": [
+            "simulation data",
+            "field survey data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "visual comparison",
+            "tree density",
+            "field survey"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Parameters were manually tuned and iteratively performed simulation runs to improve the simulation results until achieving similar stand densities as observed.",
+          "searchable_summary": "tune model parameters to match observed stand densities",
+          "inputs": [
+            "initial parameters",
+            "comparison results"
+          ],
+          "outputs": [
+            "tuned parameters"
+          ],
+          "keywords": [
+            "parameter tuning",
+            "iterative simulation",
+            "stand density"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model-Performance Experiments",
+      "description": "Experiments conducted to evaluate the memory load and computation time of the model, including parallelisation and regression analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The memory load was estimated by adding up the size of all data types within each handled structure simulating a plot of one hectare.",
+          "searchable_summary": "estimate memory load for simulation structures",
+          "inputs": [
+            "data types",
+            "simulation structures"
+          ],
+          "outputs": [
+            "memory load estimation"
+          ],
+          "keywords": [
+            "memory load",
+            "data types",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Parallelised the code for estimating pollination probabilities, seed dispersal, and tree density computation using the OMP-library.",
+          "searchable_summary": "parallelise code using OMP-library",
+          "inputs": [
+            "pollination probabilities",
+            "seed dispersal",
+            "tree density computation"
+          ],
+          "outputs": [
+            "parallelised code"
+          ],
+          "keywords": [
+            "parallelisation",
+            "OMP-library",
+            "pollination",
+            "seed dispersal"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The performance of the model was evaluated by recording the computation time of each single simulation year for complete simulation runs.",
+          "searchable_summary": "record computation time for simulation runs",
+          "inputs": [
+            "simulation runs"
+          ],
+          "outputs": [
+            "computation time data"
+          ],
+          "keywords": [
+            "performance evaluation",
+            "computation time",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Analysed the dependency between the time needed for each simulated year and the number of trees and seeds by generalised nonparametric regression.",
+          "searchable_summary": "perform regression analysis on computation time and tree/seeds count",
+          "inputs": [
+            "computation time data",
+            "number of trees",
+            "number of seeds"
+          ],
+          "outputs": [
+            "regression analysis results"
+          ],
+          "keywords": [
+            "regression analysis",
+            "computation time",
+            "nonparametric"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/59332386.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

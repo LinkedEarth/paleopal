@@ -1,0 +1,233 @@
+{
+  "paper_title": "Pollen and Environmental Analysis in the Balearic Islands",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Analysis",
+      "description": "Process for collecting and analyzing pollen samples from moss cushions and surface sedimentary samples to study current pollen rain.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Both moss cushions and surface sedimentary samples were collected to perform pollen analyses on the current pollen rain.",
+          "searchable_summary": "collect moss cushions and surface sedimentary samples for pollen analysis",
+          "inputs": [
+            "moss cushions",
+            "surface sedimentary samples"
+          ],
+          "outputs": [
+            "collected samples"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Pollen samples were dried overnight.",
+          "searchable_summary": "dry pollen samples overnight",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "dried pollen samples"
+          ],
+          "keywords": [
+            "pollen drying",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Moss samples were treated following the standard procedures in palynology, including KOH, 200-µm sieving and acetolysis.",
+          "searchable_summary": "treat moss samples with KOH, sieving, and acetolysis",
+          "inputs": [
+            "dried moss samples"
+          ],
+          "outputs": [
+            "processed moss samples"
+          ],
+          "keywords": [
+            "palynology",
+            "KOH treatment",
+            "acetolysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Surface sedimentary samples were analyzed using a 7-µm nylon handheld sieve and heavy-liquid separation.",
+          "searchable_summary": "analyze sedimentary samples with sieving and heavy-liquid separation",
+          "inputs": [
+            "dried sedimentary samples"
+          ],
+          "outputs": [
+            "processed sedimentary samples"
+          ],
+          "keywords": [
+            "sieving",
+            "heavy-liquid separation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Pollen counts and identification were performed using a 400×, 600× and 1000× light microscope.",
+          "searchable_summary": "count and identify pollen using light microscopy",
+          "inputs": [
+            "processed pollen samples"
+          ],
+          "outputs": [
+            "pollen counts",
+            "pollen identification"
+          ],
+          "keywords": [
+            "pollen counting",
+            "microscopy"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Pollen percentages are based on pollen sum, excluding Pinus due to its overrepresentation.",
+          "searchable_summary": "calculate pollen percentages excluding Pinus",
+          "inputs": [
+            "pollen counts"
+          ],
+          "outputs": [
+            "pollen percentages"
+          ],
+          "keywords": [
+            "pollen percentage",
+            "data exclusion"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The taxonomic identification of pollen grains was based on pollen atlases, morphological keys, and the pollen reference collection.",
+          "searchable_summary": "identify pollen taxa using atlases and reference collections",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "taxonomic identification"
+          ],
+          "keywords": [
+            "taxonomic identification",
+            "pollen atlases"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Redundancy Analysis (RDA) of Pollen Taxa and Environmental Variables",
+      "description": "Ordination techniques to evaluate the relationship between modern pollen sampling sites, selected pollen taxa, and environmental variables.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Detrended correspondence analysis (DCA) was performed to determine the most appropriate ordination techniques for these data.",
+          "searchable_summary": "perform DCA to select ordination techniques",
+          "inputs": [
+            "pollen dataset"
+          ],
+          "outputs": [
+            "ordination technique selection"
+          ],
+          "keywords": [
+            "DCA",
+            "ordination techniques"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Variance inflation factors (VIF) were calculated for all environmental variables to assess redundancy.",
+          "searchable_summary": "calculate VIF for environmental variables",
+          "inputs": [
+            "environmental variables"
+          ],
+          "outputs": [
+            "VIF values"
+          ],
+          "keywords": [
+            "VIF",
+            "multicollinearity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Environmental variables with VIF values greater than 20.0 were considered highly collinear and removed.",
+          "searchable_summary": "remove highly collinear environmental variables",
+          "inputs": [
+            "VIF values",
+            "environmental variables"
+          ],
+          "outputs": [
+            "filtered environmental variables"
+          ],
+          "keywords": [
+            "collinearity",
+            "variable selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The RDA of pollen, sites, and environmental variables was conducted using a combination forward/backward stepwise model selection.",
+          "searchable_summary": "conduct RDA with stepwise model selection",
+          "inputs": [
+            "pollen data",
+            "filtered environmental variables"
+          ],
+          "outputs": [
+            "RDA model"
+          ],
+          "keywords": [
+            "RDA",
+            "stepwise selection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "ANOVA permutation tests were performed to identify the influence of each predictor on the structure of the pollen dataset.",
+          "searchable_summary": "perform ANOVA permutation tests on RDA model",
+          "inputs": [
+            "RDA model"
+          ],
+          "outputs": [
+            "predictor influence"
+          ],
+          "keywords": [
+            "ANOVA",
+            "permutation tests"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Pearson's correlation coefficients (r) were calculated to evaluate the relationship between pollen taxa and each environmental variable.",
+          "searchable_summary": "calculate Pearson's correlation coefficients",
+          "inputs": [
+            "RDA model"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Pearson's correlation",
+            "RDA"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259008425.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

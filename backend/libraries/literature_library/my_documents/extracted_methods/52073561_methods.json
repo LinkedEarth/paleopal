@@ -1,0 +1,231 @@
+{
+  "paper_title": "Supervised Classification for Pollen-Based Biome Prediction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Supervised Classification",
+      "description": "Process of using supervised classification to predict biomes from pollen data, involving model training, hyper-parameter optimization, and evaluation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Datasets used for supervised classification typically consists of a list of examples, each of which consists of a set of features and a target label.",
+          "searchable_summary": "prepare dataset with features and target labels for classification",
+          "inputs": [
+            "pollen dataset"
+          ],
+          "outputs": [
+            "prepared dataset with features and labels"
+          ],
+          "keywords": [
+            "dataset preparation",
+            "features",
+            "target labels"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The procedure during which an algorithm learns parameters specific to a particular model using the training set is called model fitting.",
+          "searchable_summary": "fit model using training dataset",
+          "inputs": [
+            "training dataset"
+          ],
+          "outputs": [
+            "fitted model"
+          ],
+          "keywords": [
+            "model fitting",
+            "training",
+            "machine learning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The optimal set of hyper-parameters may be identified through cross validation by further splitting the training set into training and validation sets.",
+          "searchable_summary": "perform cross-validation to optimize hyper-parameters",
+          "inputs": [
+            "training dataset"
+          ],
+          "outputs": [
+            "optimized hyper-parameters"
+          ],
+          "keywords": [
+            "cross-validation",
+            "hyper-parameter optimization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The predictive performance of a trained model is tested on the reserved test set.",
+          "searchable_summary": "evaluate model performance on test dataset",
+          "inputs": [
+            "test dataset",
+            "trained model"
+          ],
+          "outputs": [
+            "model performance metrics"
+          ],
+          "keywords": [
+            "model evaluation",
+            "test set",
+            "performance metrics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Results can be reported in a confusion matrix where the model predictions of biomes for the test examples are displayed against their true and known biome labels.",
+          "searchable_summary": "generate confusion matrix for model predictions",
+          "inputs": [
+            "model predictions",
+            "true labels"
+          ],
+          "outputs": [
+            "confusion matrix"
+          ],
+          "keywords": [
+            "confusion matrix",
+            "model predictions",
+            "true labels"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "From the confusion matrix, a number of evaluation methods may be calculated to measure how well a model performs on previously unseen data.",
+          "searchable_summary": "calculate evaluation metrics from confusion matrix",
+          "inputs": [
+            "confusion matrix"
+          ],
+          "outputs": [
+            "evaluation metrics"
+          ],
+          "keywords": [
+            "evaluation metrics",
+            "accuracy",
+            "precision",
+            "recall"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Semi-parametric Classification Model",
+      "description": "Use of semi-parametric models, specifically Neural Networks, for complex relationships in pollen data classification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Neural Networks model is a generalization of the previously discussed LR with the addition of extra computational steps between the input feature and the output class labels.",
+          "searchable_summary": "implement neural network model for classification",
+          "inputs": [
+            "input features",
+            "output class labels"
+          ],
+          "outputs": [
+            "neural network model"
+          ],
+          "keywords": [
+            "neural networks",
+            "classification",
+            "machine learning"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Training a NN model involves finding an optimal set of weights; this is done by minimizing the error, or loss, over the training data via gradient descent using the back-propagation algorithm.",
+          "searchable_summary": "train neural network using gradient descent and back-propagation",
+          "inputs": [
+            "training data"
+          ],
+          "outputs": [
+            "trained neural network model"
+          ],
+          "keywords": [
+            "training",
+            "gradient descent",
+            "back-propagation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Training",
+      "description": "Training of various machine learning models for biome classification using modern pollen data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Data were preprocessed as follows; firstly, pollen abundance data were scaled to the range 0-1.",
+          "searchable_summary": "scale pollen abundance data to range 0-1",
+          "inputs": [
+            "pollen abundance data"
+          ],
+          "outputs": [
+            "scaled pollen data"
+          ],
+          "keywords": [
+            "data scaling",
+            "normalization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Biomes represented by less than 10 sites were removed to improve statistical requirements for sample representativeness.",
+          "searchable_summary": "filter out biomes with less than 10 sites",
+          "inputs": [
+            "biome data"
+          ],
+          "outputs": [
+            "filtered biome data"
+          ],
+          "keywords": [
+            "data filtering",
+            "sample representativeness"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Removed rare pollen taxa such that only taxa present above 3% in at least 1 site were kept.",
+          "searchable_summary": "remove rare pollen taxa below 3% presence",
+          "inputs": [
+            "pollen taxa data"
+          ],
+          "outputs": [
+            "filtered pollen taxa data"
+          ],
+          "keywords": [
+            "data filtering",
+            "rare taxa removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The biome-labelled modern pollen dataset was divided into a training and test set in a 9:1 ratio and maintaining class distribution.",
+          "searchable_summary": "split dataset into training and test sets maintaining class distribution",
+          "inputs": [
+            "biome-labelled dataset"
+          ],
+          "outputs": [
+            "training set",
+            "test set"
+          ],
+          "keywords": [
+            "data splitting",
+            "training set",
+            "test set"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/52073561.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

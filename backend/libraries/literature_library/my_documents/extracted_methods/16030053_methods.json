@@ -1,0 +1,262 @@
+{
+  "paper_title": "Statistical Analysis of Pollen Concentrations",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Season Calculation",
+      "description": "This method calculates the limits of pollen seasons using the 90% method, which defines the start and end of a season based on cumulative pollen counts.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The limits of pollen seasons were calculated using the 90% method whereby a season starts when 5% of the total catch has been achieved and ends when 95% has been reached.",
+          "searchable_summary": "calculate pollen season limits using 90% method",
+          "inputs": [
+            "daily pollen counts"
+          ],
+          "outputs": [
+            "pollen season start and end dates"
+          ],
+          "keywords": [
+            "pollen season",
+            "90% method",
+            "cumulative pollen count"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Time-Series Analysis",
+      "description": "This method involves analyzing time-series data to understand second-order properties such as mean, variance, and serial correlation, and to model autocorrelation and cross-correlation functions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Data of all years and particular site have been combined into a single table, in which X was the cumulative number of a day from 1 January 2001, and Y-the value of daily concentrations of taxon A in site B.",
+          "searchable_summary": "combine yearly data into a single table with cumulative days and daily concentrations",
+          "inputs": [
+            "yearly pollen data"
+          ],
+          "outputs": [
+            "combined data table"
+          ],
+          "keywords": [
+            "time-series",
+            "data combination",
+            "cumulative days"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Second-order properties, such as the mean, variance, and serial correlation, play a key role in the study of time-series data.",
+          "searchable_summary": "analyze second-order properties of time-series data",
+          "inputs": [
+            "time-series data"
+          ],
+          "outputs": [
+            "mean",
+            "variance",
+            "serial correlation"
+          ],
+          "keywords": [
+            "second-order properties",
+            "time-series analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The autocovariance function (acvf), c k , can be defined as a function of the lag k.",
+          "searchable_summary": "define autocovariance function based on lag",
+          "inputs": [
+            "time-series data",
+            "lag"
+          ],
+          "outputs": [
+            "autocovariance function"
+          ],
+          "keywords": [
+            "autocovariance",
+            "lag",
+            "time-series"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The estimate of autocovariance c k is defined as: where x is the sample mean of the time series.",
+          "searchable_summary": "estimate autocovariance using sample mean",
+          "inputs": [
+            "time-series data",
+            "sample mean"
+          ],
+          "outputs": [
+            "estimated autocovariance"
+          ],
+          "keywords": [
+            "autocovariance estimation",
+            "sample mean"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The most satisfactory estimate of the kth lag autocorrelation q k is calculated.",
+          "searchable_summary": "calculate kth lag autocorrelation",
+          "inputs": [
+            "time-series data",
+            "lag"
+          ],
+          "outputs": [
+            "lag autocorrelation"
+          ],
+          "keywords": [
+            "autocorrelation",
+            "lag",
+            "time-series"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "A plot of the correlation function against the lag is referred to as a correlogram.",
+          "searchable_summary": "plot correlogram of correlation function against lag",
+          "inputs": [
+            "correlation function",
+            "lag"
+          ],
+          "outputs": [
+            "correlogram plot"
+          ],
+          "keywords": [
+            "correlogram",
+            "visualization",
+            "correlation function"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The cross-correlation function, in contrast to the autocorrelation function, is not symmetric.",
+          "searchable_summary": "analyze cross-correlation function",
+          "inputs": [
+            "time-series data"
+          ],
+          "outputs": [
+            "cross-correlation function"
+          ],
+          "keywords": [
+            "cross-correlation",
+            "time-series"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "The ccf function can be shown as a plot of r k ðx; yÞ against k, which is called the cross-correlogram.",
+          "searchable_summary": "plot cross-correlogram of ccf function against lag",
+          "inputs": [
+            "ccf function",
+            "lag"
+          ],
+          "outputs": [
+            "cross-correlogram plot"
+          ],
+          "keywords": [
+            "cross-correlogram",
+            "visualization",
+            "ccf function"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The calculation of 61 correlograms and 84 cross-correlograms as well as their mathematical modelling were performed for up to 25 days back.",
+          "searchable_summary": "calculate and model correlograms and cross-correlograms",
+          "inputs": [
+            "time-series data"
+          ],
+          "outputs": [
+            "correlograms",
+            "cross-correlograms"
+          ],
+          "keywords": [
+            "correlogram",
+            "cross-correlogram",
+            "mathematical modelling"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "modeling",
+          "description": "Sample correlograms were fitted to the parametric form by adjusting model parameters: the sill, nugget, and range.",
+          "searchable_summary": "fit correlograms to parametric model by adjusting parameters",
+          "inputs": [
+            "sample correlograms",
+            "parametric model"
+          ],
+          "outputs": [
+            "fitted correlograms"
+          ],
+          "keywords": [
+            "parametric model",
+            "fitting",
+            "correlogram"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "The autocorrelation analysis was conducted twice: for the entire set and with the extremes eliminated.",
+          "searchable_summary": "conduct autocorrelation analysis with and without extremes",
+          "inputs": [
+            "time-series data"
+          ],
+          "outputs": [
+            "autocorrelation analysis results"
+          ],
+          "keywords": [
+            "autocorrelation",
+            "extremes",
+            "analysis"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "The Pearson's coefficient of product-moment correlation between all the cross-correlograms was calculated.",
+          "searchable_summary": "calculate Pearson's correlation coefficient for cross-correlograms",
+          "inputs": [
+            "cross-correlograms"
+          ],
+          "outputs": [
+            "Pearson's correlation coefficient"
+          ],
+          "keywords": [
+            "Pearson's correlation",
+            "cross-correlogram"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "A hierarchical cluster analysis using Ward's method was carried out.",
+          "searchable_summary": "perform hierarchical cluster analysis using Ward's method",
+          "inputs": [
+            "correlation coefficients"
+          ],
+          "outputs": [
+            "cluster analysis results"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "Ward's method"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16030053.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,16 +1,18 @@
 """
 Node handlers for the Code Generation agent.
+Enhanced with comprehensive contextual search.
 """
 
 import logging
 import json
 import re
-from typing import Dict, Any
+from typing import Dict, Any, List
 from langchain.schema import HumanMessage, SystemMessage
 
 from .state import CodeAgentState, CodeAgentConfig
 from agents.base_state import MAX_REFINEMENTS
 from agents.base_langgraph_agent import get_config_value, get_message_value
+from services.search_integration_service import search_service
 
 logger = logging.getLogger(__name__)
 
@@ -62,8 +64,8 @@ def extract_analysis_request_node(state: CodeAgentState, config: CodeAgentConfig
         return {"error_message": f"Failed to extract analysis request: {str(e)}"}
 
 
-def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Search for relevant code examples using embeddings."""
+async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+    """Enhanced search for relevant code examples using comprehensive contextual search."""
     try:
         analysis_request = getattr(state, "analysis_request", "") or state.user_input or ""
         analysis_type = getattr(state, "analysis_type", "general")
@@ -71,17 +73,100 @@ def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) ->
         if not analysis_request:
             return {"error_message": "No analysis request to search examples for"}
         
-        # Search for relevant examples using config helper
-        code_embedding_service = get_config_value(config, 'code_embedding_service')
-        if not code_embedding_service:
-            logger.error("No code embedding service found in config")
-            return {"error_message": "Code embedding service not available"}
-        
         search_query = f"{analysis_request} {analysis_type}"
-        examples = code_embedding_service.search_examples(query=search_query, limit=10)
+        logger.info(f"Searching for code context with query: '{search_query}'")
+
+        # Extract previous code from context for variable continuity
+        previous_code = ""
+        context = state.context or {}
+        if "previous_cells" in context:
+            # Extract code from previous cells
+            previous_cells = context["previous_cells"]
+            if isinstance(previous_cells, list):
+                code_parts = []
+                for cell in previous_cells:
+                    if isinstance(cell, dict) and cell.get("cell_type") == "code":
+                        code_parts.append(cell.get("source", ""))
+                previous_code = "\n\n".join(code_parts)
+            elif isinstance(previous_cells, str):
+                previous_code = previous_cells
+
+        # Get comprehensive context for code generation using await
+        context_data = await search_service.get_context_for_code_generation(
+            user_query=search_query,
+            previous_code=previous_code
+        )
         
-        logger.info(f"Found {len(examples)} relevant code examples")
+        # Store the context for later use in code generation
+        state.contextual_search_data = context_data
         
+        # Combine all examples from different sources
+        examples: List[Dict[str, Any]] = []
+
+        # 1) Add snippets from notebook library (high weight)
+        snippets = context_data.get("snippets", [])
+        for snippet in snippets:
+            examples.append({
+                "name": f"Notebook Snippet: {snippet.get('notebook', 'Unknown')}",
+                "description": f"Code snippet with similarity {snippet.get('similarity_score', 0):.3f}",
+                "categories": ["notebook_snippet"],
+                "relevance_score": snippet.get("similarity_score", 0),
+                "code": snippet.get("code", ""),
+                "imports": snippet.get("imports", []),
+                "source_type": "notebook_library"
+            })
+
+        # 2) Add code examples from readthedocs library
+        code_examples = context_data.get("code_examples", [])
+        for example in code_examples:
+            examples.append({
+                "name": f"API Example: {example.get('symbol', 'Unknown')}",
+                "description": f"API usage example with similarity {example.get('similarity_score', 0):.3f}",
+                "categories": ["api_example"],
+                "relevance_score": example.get("similarity_score", 0),
+                "code": example.get("code", ""),
+                "source_type": "readthedocs_library"
+            })
+
+        # 3) Keep existing embedding service search as fallback
+        code_embedding_service = get_config_value(config, 'code_embedding_service')
+        if code_embedding_service:
+            try:
+                embedding_examples = code_embedding_service.search_examples(query=search_query, limit=5)
+                for ex in embedding_examples:
+                    examples.append({
+                        "name": ex.get("name", "Embedding Example"),
+                        "description": ex.get("description", ""),
+                        "categories": ex.get("categories", ["embedding_service"]),
+                        "relevance_score": ex.get("relevance_score", 0),
+                        "code": ex.get("code", ""),
+                        "source_type": "embedding_service"
+                    })
+            except Exception as ce_err:
+                logger.warning(f"Code embedding service search failed: {ce_err}")
+
+        # 4) Legacy snippet library search as additional fallback
+        try:
+            from libraries.notebook_library.retrieve import get_relevant_snippets
+
+            snippet_hits = get_relevant_snippets(search_query, top_k=3)
+            for hit in snippet_hits:
+                examples.append({
+                    "name": f"Legacy Snippet {hit['notebook'].split('/')[-1]} cells {hit.get('cell_indices')}",
+                    "description": hit.get("markdown_context", ""),
+                    "categories": ["legacy_snippet"],
+                    "relevance_score": hit.get("score", 0),
+                    "code": hit["code"],
+                    "source_type": "snippet_library"
+                })
+        except ImportError:
+            logger.warning("snippet_library not installed; skipping legacy snippet retrieval")
+
+        # Sort examples by relevance score (descending)
+        examples.sort(key=lambda x: x.get("relevance_score", 0), reverse=True)
+
+        logger.info(f"Total examples collected: {len(examples)} (snippets: {len(snippets)}, code_examples: {len(code_examples)})")
+
         # Prepare metadata for used examples
         used_examples_meta = []
         for ex in examples:
@@ -90,11 +175,13 @@ def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) ->
                 "description": ex.get("description", ""),
                 "categories": ex.get("categories", []),
                 "relevance_score": ex.get("relevance_score", 0),
+                "source_type": ex.get("source_type", "unknown")
             })
         
         return {
             "similar_code": examples,  # Use generalized field
             "code_examples_used": used_examples_meta,
+            "contextual_search_data": context_data,  # Store for code generation
         }
         
     except Exception as e:
@@ -181,274 +268,239 @@ Generate the questions in JSON format:
 {{
   "questions": [
     {{
-      "id": "q1",
       "question": "What specific type of analysis would you like to perform?",
-      "choices": ["Time series analysis", "Spectral analysis", "Statistical summary", "Visualization"],
-      "context": "This will help determine which Pyleoclim methods to use"
+      "context": "Your request could involve multiple analysis types",
+      "choices": ["time series analysis", "correlation analysis", "spectral analysis"]
     }}
   ]
 }}
 ```
 
-Return ONLY the valid JSON without any additional text."""
+Only include the JSON object, nothing else."""
 
-            # Generate the clarification questions
-            messages = [
-                SystemMessage(content="You are a paleoclimate data analysis expert helping to generate clarification questions for code generation. Return only valid JSON."),
-                HumanMessage(content=prompt)
-            ]
-            
-            response = llm._call(messages).strip()
-            
-            # Extract JSON from the response
-            json_pattern = re.compile(r'\{.*\}', re.DOTALL)
-            match = json_pattern.search(response)
-            
-            questions = []
-            if match:
-                try:
-                    json_str = match.group(0)
-                    json_data = json.loads(json_str)
+            try:
+                response = llm._call([HumanMessage(content=prompt)])
+                
+                # Parse JSON response
+                json_match = re.search(r"```json\s*(\{.*?\})\s*```", response, re.DOTALL)
+                if json_match:
+                    parsed = json.loads(json_match.group(1))
+                    questions = parsed.get("questions", [])
                     
-                    if "questions" in json_data:
-                        questions = json_data["questions"]
-                except Exception as e:
-                    logger.warning(f"Error parsing LLM output as JSON: {str(e)}")
-            
-            # Return the result
-            if questions:
-                return {
-                    'needs_clarification': True,
-                    'questions': questions,
-                    'ambiguities': ambiguities
-                }
+                    if questions:
+                        return {
+                            "needs_clarification": True,
+                            "clarification_questions": questions,
+                            "ambiguities": ambiguities
+                        }
+                        
+            except Exception as e:
+                logger.warning(f"Failed to generate clarification questions: {e}")
         
-        # No ambiguities or couldn't generate questions
-        return {
-            'needs_clarification': False,
-            'questions': []
-        }
+        # No clarification needed
+        return {"needs_clarification": False}
+        
     except Exception as e:
-        logger.error(f"Error in detect_clarification_needs_code: {e}")
-        return {
-            'needs_clarification': False,
-            'questions': []
-        }
+        logger.error(f"Error detecting clarification needs: {e}")
+        return {"needs_clarification": False}
 
 
 def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """
-    Analyze the request to identify if clarification is needed for code generation.
-    """
+    """Detect if clarification is needed for code generation."""
     try:
-        # Skip clarification for refinement requests
-        if state.is_refinement:
-            logger.info("Skipping clarification detection for refinement request")
-            return {"needs_clarification": False}
-            
-        # Access the LLM from config using helper function
+        analysis_request = state.analysis_request or ""
+        examples = state.similar_code or []
+        data_context = state.data_context or {}
+        
+        # Get LLM from config
         llm = get_config_value(config, 'llm')
         if not llm:
-            logger.error("No LLM found in config")
-            return {"error_message": "LLM not available", "needs_clarification": False}
-        
-        # Skip if we've already processed a clarification for this query
-        clarification_sequence = state.clarification_sequence or 0
-        if clarification_sequence > 0:
-            logger.info(f"Already processed clarification (sequence {clarification_sequence}), skipping clarification detection")
+            logger.warning("No LLM available for clarification detection")
             return {"needs_clarification": False}
-            
-        # Skip if we already have clarification responses
+        
+        # Check if clarification is enabled
+        enable_clarification = get_config_value(config, 'enable_clarification', True)
+        if not enable_clarification:
+            logger.info("Clarification is disabled, skipping detection")
+            return {"needs_clarification": False}
+        
+        # Skip clarification if we already have clarification responses
         if state.clarification_responses:
-            logger.info("Clarification responses already provided, skipping clarification detection")
+            logger.info("Clarification responses already provided, skipping detection")
             return {"needs_clarification": False}
         
-        # Check if clarification is needed
-        result = detect_clarification_needs_code(
-            llm,
-            state.user_query or "",
-            state.similar_code or [],
-            state.data_context or {}
+        # Get clarification threshold from config
+        clarification_threshold = get_config_value(config, 'clarification_threshold', 'conservative')
+        user_query = analysis_request
+        
+        # For permissive threshold, skip clarification for simple, clear requests
+        if clarification_threshold == "permissive":
+            simple_patterns = [
+                r'\bload\s+.*data.*into.*pandas\b',     # "load data into pandas"
+                r'\bplot\s+.*time\s+series\b',          # "plot time series"
+                r'\bcalculate\s+.*statistics?\b',       # "calculate statistics"
+                r'\bshow\s+.*first.*rows?\b',           # "show first few rows"
+                r'\bdisplay\s+.*data.*types?\b'         # "display data types"
+            ]
+            
+            for pattern in simple_patterns:
+                if re.search(pattern, user_query.lower()):
+                    logger.info(f"Permissive threshold: skipping clarification for simple code pattern: {pattern}")
+                    return {"needs_clarification": False}
+        
+        # Detect clarification needs using existing function
+        clarification_result = detect_clarification_needs_code(
+            llm=llm,
+            user_query=analysis_request,
+            examples=examples,
+            data_context=data_context
         )
         
-        # If clarification is needed, add the questions to the state
-        if result.get("needs_clarification", False):
-            logger.info("Clarification needed, adding questions to state")
+        # Apply threshold filtering to the result
+        needs_clarification = clarification_result.get("needs_clarification", False)
+        
+        if needs_clarification and clarification_threshold == "strict":
+            # In strict mode, only ask for clarification if there are multiple ambiguities
+            questions = clarification_result.get("clarification_questions", [])
+            ambiguities = clarification_result.get("ambiguities", [])
+            if len(questions) < 2 or len(ambiguities) < 2:
+                logger.info("Strict threshold: skipping clarification with fewer than 2 questions/ambiguities")
+                needs_clarification = False
+        
+        # If clarification is needed, return the questions
+        if needs_clarification:
+            logger.info(f"Clarification needed (threshold: {clarification_threshold}), adding questions to state")
             return {
                 "needs_clarification": True,
-                "clarification_questions": result.get("questions", [])
+                "clarification_questions": clarification_result.get("clarification_questions", []),
+                "clarification_ambiguities": clarification_result.get("ambiguities", [])
             }
         else:
-            logger.info("No clarification needed")
+            logger.info(f"No clarification needed (threshold: {clarification_threshold})")
             return {"needs_clarification": False}
+        
     except Exception as e:
-        logger.error(f"Error in detect_clarification_node: {e}", exc_info=True)
-        return {"error_message": str(e), "needs_clarification": False}
+        logger.error(f"Error in clarification detection: {e}")
+        return {"needs_clarification": False}
 
 
 def process_clarification_response(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """
-    Process the user's response to clarification questions and update the state.
-    """
+    """Process clarification responses from the user."""
     try:
-        # Get the clarification response (assumed to be the last message)
-        messages = state.messages or []
-        if not messages or len(messages) < 2:
-            logger.warning("Not enough messages to process clarification response")
-            return {"clarification_processed": False}
+        clarification_responses = state.clarification_responses or []
         
-        # Get the user's response (last message)
-        last_message = messages[-1]
+        if not clarification_responses:
+            return {"error_message": "No clarification responses to process"}
         
-        # Extract the text using the helper function
-        clarification_response = ""
+        logger.info(f"Processing {len(clarification_responses)} clarification responses")
         
-        # Check if the last message is from a user and get content
-        role = get_message_value(last_message, 'role')
-        if role == 'user':
-            clarification_response = get_message_value(last_message, 'content', '')
+        # Extract relevant information from responses
+        analysis_preferences = {}
+        for response in clarification_responses:
+            question = response.get("question", "")
+            answer = response.get("response", "")
+            
+            # Parse common preferences
+            if "analysis type" in question.lower():
+                analysis_preferences["preferred_analysis"] = answer
+            elif "data" in question.lower():
+                analysis_preferences["data_info"] = answer
+            elif "output" in question.lower():
+                analysis_preferences["output_preference"] = answer
         
-        # Fallback: try alternative extraction methods
-        if not clarification_response and hasattr(last_message, "content"):
-            clarification_response = str(last_message.content)
+        # Update analysis request with clarification context
+        original_request = state.analysis_request or ""
+        enhanced_request = original_request
         
-        if not clarification_response:
-            logger.warning("No clarification response could be extracted")
-            clarification_response = "Please continue with the best option"
-        
-        # Process the clarification response
-        responses = state.clarification_responses or []
-        questions = state.clarification_questions or []
-        
-        if questions:
-            first_question = questions[0]
-            responses.append({
-                "question_id": first_question.get("id", "q1"),
-                "response": clarification_response,
-                "question": first_question.get("question", "")
-            })
+        if analysis_preferences:
+            clarification_text = " ".join([f"{k}: {v}" for k, v in analysis_preferences.items()])
+            enhanced_request = f"{original_request} (Clarifications: {clarification_text})"
         
         return {
-            "clarification_responses": responses,
+            "analysis_request": enhanced_request,
             "clarification_processed": True,
+            "analysis_preferences": analysis_preferences,
             "needs_clarification": False,
-            "clarification_sequence": state.clarification_sequence or 0 + 1
         }
+        
     except Exception as e:
-        logger.error(f"Error processing clarification response: {e}", exc_info=True)
-        return {
-            "error_message": str(e),
-            "clarification_processed": True,
-            "needs_clarification": False
-        }
+        logger.error(f"Error processing clarification response: {e}")
+        return {"error_message": str(e)}
 
 
 def should_refine_code(state: CodeAgentState) -> str:
-    """Determine if the code should be refined.
-    
-    Returns:
-        str: "true" if the code should be refined, "false" otherwise
-    """
-    # Check refinement count first to avoid infinite loops
-    refinement_count = state.refinement_count or 0
-    logger.info(f"=== SHOULD_REFINE_CODE CHECK ===")
-    logger.info(f"refinement_count: {refinement_count}")
-    logger.info(f"has_generated_code: {bool(state.generated_code)}")
-    logger.info(f"has_error_message: {bool(state.error_message)}")
-    logger.info(f"execution_results: {state.execution_results}")
-    
-    if refinement_count >= MAX_REFINEMENTS:
-        logger.info(f"Maximum refinement attempts reached ({refinement_count}), stopping refinement")
+    """Determine if code should be refined."""
+    try:
+        generated_code = state.generated_code or ""
+        error_message = state.error_message or ""
+        refinement_count = state.refinement_count or 0
+        
+        # Check if we have errors and haven't exceeded max refinements
+        if error_message and refinement_count < MAX_REFINEMENTS:
+            logger.info(f"Code has errors, attempting refinement {refinement_count + 1}")
+            return "true"
+        
+        # Check if code is too short (might indicate incomplete generation)
+        if generated_code and len(generated_code.strip()) < 50 and refinement_count < MAX_REFINEMENTS:
+            logger.info("Generated code seems too short, attempting refinement")
+            return "true"
+        
         return "false"
-    
-    # Check if there's an explicit error message
-    if state.error_message:
-        logger.info(f"Error message found, triggering refinement (attempt {refinement_count + 1})")
-        return "true"
-    
-    # Check if execution_results contains error indicators
-    execution_results = state.execution_results or []
-    if execution_results and isinstance(execution_results, list) and len(execution_results) > 0:
-        first_result = execution_results[0]
-        if isinstance(first_result, dict) and "error" in first_result:
-            logger.info(f"Error in execution results, triggering refinement (attempt {refinement_count + 1})")
-            return "true"
-    
-    # Check if we have no generated code - but be more careful about this
-    if not state.generated_code:
-        # Only trigger refinement if we haven't tried before
-        if refinement_count == 0:
-            logger.info(f"No generated code found, triggering refinement (attempt {refinement_count + 1})")
-            return "true"
-        else:
-            # If we've already tried to refine and still no code, stop trying
-            logger.info(f"No generated code found after {refinement_count} refinement attempts, stopping")
-            return "false"
-    
-    # If we reach here, the code generation seems successful
-    logger.info("Code generation appears successful, no refinement needed")
-    return "false"
+        
+    except Exception as e:
+        logger.error(f"Error in should_refine_code: {e}")
+        return "false"
 
 
 def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Refine the generated code based on errors or issues."""
+    """Refine the generated code to address issues."""
     try:
-        # Get the LLM from config using helper function
+        generated_code = state.generated_code or ""
+        error_message = state.error_message or ""
+        analysis_request = state.analysis_request or ""
+        refinement_count = state.refinement_count or 0
+        
+        if refinement_count >= MAX_REFINEMENTS:
+            logger.warning("Maximum refinements reached")
+            return {"refinement_complete": True}
+        
+        # Get LLM from config
         llm = get_config_value(config, 'llm')
         if not llm:
-            logger.error("No LLM found in config")
-            return {"error_message": "LLM not available"}
+            return {"error_message": "LLM not available for refinement"}
         
-        # Construct refinement prompt
-        error_msg = state.error_message or ""
-        results = state.execution_results or []
-        current_code = state.generated_code or ""
-        refinement_count = state.refinement_count or 0
-        analysis_request = state.analysis_request or ""
+        # Create refinement prompt
+        refinement_prompt = f"""
+The following Python code was generated but has issues that need to be addressed:
+
+ORIGINAL REQUEST: {analysis_request}
+
+GENERATED CODE:
+```python
+{generated_code}
+```
+
+ISSUES DETECTED:
+{error_message or "Code seems incomplete or too short"}
+
+Please provide an improved version of the code that:
+1. Addresses the identified issues
+2. Maintains the original functionality
+3. Follows best practices for paleoclimate data analysis
+4. Uses appropriate libraries (PyLiPD, Pyleoclim, pandas, numpy)
+
+Return your response as JSON with keys: code, description, improvements_made.
+"""
         
-        # Prepare error description for the LLM
-        error_description = ""
-        if error_msg:
-            error_description = f"Error Message: {error_msg}\n\n"
-        elif results and isinstance(results, list) and len(results) > 0:
-            first_result = results[0]
-            if isinstance(first_result, dict) and "error" in first_result:
-                error_description = f"Code generation error: {first_result['error']}\n\n"
-        
-        logger.info(f"Refining code (attempt {refinement_count + 1}/{MAX_REFINEMENTS})")
-        logger.info(f"Current code: {current_code[:200]}...")
-        logger.info(f"Error: {error_description.strip()}")
-        
-        prompt = f"""The previous Python code generation had issues or errors.
-Please refine the code to fix the problems.
-
-Original Request: {analysis_request}
-
-Current Code:
-{current_code}
-
-{error_description}
-
-Please provide refined Python code that addresses these issues.
-Focus on:
-1. Correct Python syntax
-2. Proper use of Pyleoclim and PyLiPD libraries
-3. Clear variable names and structure
-4. Error handling where appropriate
-
-Return your response as JSON with keys: code, description, libraries, outputs."""
-
-        # Generate refined code using LangChain message types
         messages = [
-            SystemMessage(content="You are a Python code refinement expert specializing in paleoclimate data analysis. Generate only the refined code as JSON."),
-            HumanMessage(content=prompt)
+            SystemMessage(content="You are an expert Python developer specializing in paleoclimate data analysis."),
+            HumanMessage(content=refinement_prompt)
         ]
         
-        raw_response = llm._call(messages).strip()
+        raw_response = llm._call(messages)
         
-        # Parse response
+        # Parse refinement response
         try:
-            # Try to extract JSON from response
             json_match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
             if json_match:
                 parsed = json.loads(json_match.group(1))
@@ -457,55 +509,58 @@ Return your response as JSON with keys: code, description, libraries, outputs.""
         except (json.JSONDecodeError, AttributeError):
             # Fallback: extract code block
             code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
-            code_block = code_match.group(1) if code_match else raw_response
+            refined_code = code_match.group(1) if code_match else generated_code
             parsed = {
-                "code": code_block,
-                "description": f"Refined code for: {analysis_request}",
-                "libraries": ["pyleoclim", "pandas", "numpy"],
-                "outputs": ["results"],
+                "code": refined_code,
+                "description": "Refined code",
+                "improvements_made": ["General improvements applied"]
             }
         
-        refined_code = parsed.get("code", "")
+        refined_code = parsed.get("code", generated_code)
         
-        logger.info(f"Refined code: {refined_code[:200]}...")
-        
-        # Update state - clear error state and increment refinement count
         return {
             "generated_code": refined_code,
-            "analysis_description": parsed.get("description", ""),
-            "required_libraries": parsed.get("libraries", []),
-            "expected_outputs": parsed.get("outputs", []),
-            "error_message": None,  # Clear the error message
-            "execution_results": None,  # Clear previous results
-            "refinement_count": refinement_count + 1
+            "refinement_count": refinement_count + 1,
+            "error_message": "",  # Clear previous error
+            "refinement_description": parsed.get("description", "Code refined"),
+            "improvements_made": parsed.get("improvements_made", [])
         }
+        
     except Exception as e:
         logger.error(f"Error refining code: {e}")
-        return {
-            "error_message": f"Error during refinement: {str(e)}",
-            "refinement_count": state.refinement_count or 0 + 1
-        }
+        return {"error_message": str(e)}
 
 
 def process_refinement_request(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Process a code refinement request by combining previous context with the new request."""
+    """Process a user request to refine existing code."""
     try:
-        # Get the refinement request
-        refinement_request = state.refinement_request or ""
-        previous_code = state.previous_query or ""  # previous_query stores previous code
+        # Extract refinement request from the latest message
+        messages = state.messages or []
+        refinement_request = ""
+        
+        for msg in reversed(messages):
+            if get_message_value(msg, 'role') == 'user':
+                refinement_request = get_message_value(msg, 'content', '')
+                break
         
         if not refinement_request:
-            logger.warning("No refinement request found, treating as regular request")
-            return {}
+            return {"error_message": "No refinement request found"}
         
-        # Build a comprehensive request context for refinement
+        # Get previous code from context
+        context = state.context or {}
+        previous_code = context.get("previous_code", "")
+        
         if previous_code:
-            # Combine the original intent with the refinement request
+            # Create combined request that incorporates previous code context
             combined_request = f"""
-Original code context: The user previously requested code that resulted in this Python code:
-{previous_code}
+Refine this existing code based on the user's request:
 
-Now the user wants to refine this code with the following request:
+EXISTING CODE:
+```python
+{previous_code}
+```
+
+USER REFINEMENT REQUEST:
 {refinement_request}
 
 Please generate new Python code that builds upon the previous code while incorporating the user's refinement request.
@@ -533,31 +588,40 @@ Please generate new Python code that builds upon the previous code while incorpo
 
 
 def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Generate Python code based on the request and examples."""
+    """Enhanced code generation with comprehensive contextual information."""
     try:
-        logger.info("=== GENERATE_CODE_NODE CALLED ===")
+        logger.info("=== ENHANCED GENERATE_CODE_NODE CALLED ===")
         
         analysis_request = state.analysis_request or ""
         analysis_type = state.analysis_type or "general"
         output_format = state.output_format or "notebook"
         data_context = state.data_context or {}
-        examples = state.similar_code or []  # Use generalized field
+        examples = state.similar_code or []
+        contextual_data = getattr(state, 'contextual_search_data', {})
         
         logger.info(f"analysis_request: '{analysis_request}'")
         logger.info(f"analysis_type: {analysis_type}")
         logger.info(f"output_format: {output_format}")
         logger.info(f"examples count: {len(examples)}")
+        logger.info(f"contextual_data keys: {list(contextual_data.keys())}")
         
         if not analysis_request:
             logger.error("No analysis request provided")
             return {"error_message": "No analysis request provided for code generation"}
+        
+        # Format comprehensive context for LLM
+        context_prompt = ""
+        if contextual_data:
+            context_prompt = search_service.format_code_context_for_llm(contextual_data)
         
         # Build examples section for prompt
         examples_section = ""
         for idx, ex in enumerate(examples, 1):
             examples_section += (
                 f"\n## Example {idx}: {ex.get('name', 'Unknown')}\n"
+                f"Source: {ex.get('source_type', 'unknown')}\n"
                 f"Description: {ex.get('description', '')}\n"
+                f"Relevance: {ex.get('relevance_score', 0):.3f}\n"
                 f"Categories: {', '.join(ex.get('categories', []))}\n"
                 "```python\n" + ex.get("code", "") + "\n```\n"
             )
@@ -571,20 +635,30 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 response = resp.get("response", "")
                 clarification_text += f"Question: {question}\nResponse: {response}\n\n"
         
-        # Create prompts
+        # Create enhanced prompts
         system_prompt = (
             "You are an expert Python data-analysis assistant specializing in paleoclimate data. "
-            "Generate complete, executable code for the user request using PyLiPD and Pyleoclim libraries. "
+            "You have access to comprehensive context including code snippets, documentation, "
+            "and previous code. Generate complete, executable code that integrates seamlessly "
+            "with existing variables and follows established patterns. "
+            "Use PyLiPD, Pyleoclim, pandas, numpy, and matplotlib as appropriate. "
             "Return your response as JSON with keys: code, description, libraries, outputs."
         )
         
         user_prompt = (
-            f"Analysis Request: {analysis_request}{clarification_text}\n\n"
-            f"Data Context: {data_context}\n"
-            f"Analysis Type: {analysis_type}\n"
-            f"Output Format: {output_format}\n\n"
-            "Relevant Examples:" + examples_section + "\n\n"
-            "Generate Python code that addresses the analysis request. "
+            f"ANALYSIS REQUEST: {analysis_request}{clarification_text}\n\n"
+            f"DATA CONTEXT: {data_context}\n"
+            f"ANALYSIS TYPE: {analysis_type}\n"
+            f"OUTPUT FORMAT: {output_format}\n\n"
+            f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
+            f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
+            "INSTRUCTIONS:\n"
+            "1. Use variables from previous code when applicable\n"
+            "2. Follow patterns from the code snippets and examples\n"
+            "3. Use correct API calls based on documentation\n"
+            "4. Generate complete, executable code\n"
+            "5. Include necessary imports\n"
+            "6. Add helpful comments\n\n"
             "Return JSON with keys: code, description, libraries, outputs."
         )
         
@@ -594,7 +668,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             logger.error("No LLM found in config")
             return {"error_message": "LLM not available"}
         
-        logger.info("Calling LLM to generate code...")
+        logger.info("Calling LLM to generate enhanced code...")
         messages = [
             SystemMessage(content=system_prompt),
             HumanMessage(content=user_prompt)
@@ -634,15 +708,19 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         if output_format == "notebook":
             header = (
                 f"# {parsed.get('description', 'Analysis')}\n"
-                "# Auto-generated by PaleoPal CodeGenerationAgent\n\n"
+                "# Auto-generated by PaleoPal CodeGenerationAgent with contextual search\n\n"
             )
             generated_code = header + generated_code
         
         # Add success message
         messages = state.messages or []
+        context_summary = f"Used {len(contextual_data.get('snippets', []))} code snippets, " \
+                         f"{len(contextual_data.get('documentation', []))} docs, " \
+                         f"{len(contextual_data.get('code_examples', []))} examples"
+        
         messages.append({
             "role": "assistant",
-            "content": f"Generated {output_format} code for {analysis_type} analysis."
+            "content": f"Generated {output_format} code for {analysis_type} analysis. {context_summary}."
         })
         
         result = {
@@ -651,10 +729,11 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "required_libraries": parsed.get("libraries", []),
             "expected_outputs": parsed.get("outputs", []),
             "messages": messages,
-            "execution_results": [{"type": "code_generated", "status": "success"}],  # Use generalized field
+            "execution_results": [{"type": "code_generated", "status": "success"}],
+            "context_used": context_summary
         }
         
-        logger.info(f"Returning result with generated_code length: {len(result['generated_code'])}")
+        logger.info(f"Returning enhanced result with generated_code length: {len(result['generated_code'])}")
         return result
         
     except Exception as e:

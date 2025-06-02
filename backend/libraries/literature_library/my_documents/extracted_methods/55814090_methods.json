@@ -1,0 +1,500 @@
+{
+  "paper_title": "Low time resolution analysis of polar ice cores cannot detect impulsive nitrate events",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Power Spectral Analysis (Lomb-Scargle)",
+      "description": "Analyzing time/depth series data from ice cores using power spectra to identify the strength of fluctuations at different frequencies/wavelengths and determine data resolution limits. The Lomb-Scargle method is used for irregularly spaced data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform Lomb-Scargle analysis on the four nitrate data sets (Zoe, D4, GISP2-H, BU) in terms of time.",
+          "searchable_summary": "Perform Lomb-Scargle power spectral analysis on time series data",
+          "inputs": [
+            "Nitrate concentration time series data for Zoe, D4, GISP2-H, BU cores."
+          ],
+          "outputs": [
+            "Power spectra vs. frequency (time)."
+          ],
+          "keywords": [
+            "Lomb-Scargle",
+            "power spectrum",
+            "time series analysis",
+            "spectral analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform Lomb-Scargle analysis on the four nitrate data sets in terms of water equivalent depth.",
+          "searchable_summary": "Perform Lomb-Scargle power spectral analysis on depth series data",
+          "inputs": [
+            "Nitrate concentration depth series data (water equivalent) for Zoe, D4, GISP2-H, BU cores."
+          ],
+          "outputs": [
+            "Power spectra vs. frequency (depth)."
+          ],
+          "keywords": [
+            "Lomb-Scargle",
+            "power spectrum",
+            "depth series analysis",
+            "spectral analysis",
+            "water equivalent depth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Assign significance levels to the power spectra assuming a \"red noise\" AR(1) background.",
+          "searchable_summary": "Calculate significance levels for power spectra using AR(1) red noise model",
+          "inputs": [
+            "Power spectra from Steps 1 and 2."
+          ],
+          "outputs": [
+            "Power spectra with significance levels (e.g., confidence intervals)."
+          ],
+          "keywords": [
+            "Significance testing",
+            "red noise",
+            "AR(1) model",
+            "power spectrum",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Examine the power spectra to identify peaks and the frequencies/depths where significant power drops off.",
+          "searchable_summary": "Analyze power spectra for peaks and significant power drop-off points",
+          "inputs": [
+            "Power spectra with significance levels."
+          ],
+          "outputs": [
+            "Identified peaks",
+            "frequencies/depths corresponding to resolution limits."
+          ],
+          "keywords": [
+            "Power spectrum analysis",
+            "peak detection",
+            "frequency analysis",
+            "resolution limit"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Determine time and depth resolution limits based on the frequencies/depths where significant power drops below specified confidence levels (e.g., 50%, 95%, 99.9%).",
+          "searchable_summary": "Calculate data resolution limits from power spectrum significance drop-off",
+          "inputs": [
+            "Frequencies/depths of significant power drop-off",
+            "confidence levels."
+          ],
+          "outputs": [
+            "Time resolution limits (years)",
+            "depth resolution limits (cm water equivalent)."
+          ],
+          "keywords": [
+            "Resolution limit",
+            "power spectrum",
+            "significance level",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Compare the spectral analysis results (peaks, resolution limits) across the different ice core data sets (Zoe, D4, GISP2-H, BU).",
+          "searchable_summary": "Compare power spectral analysis results between different datasets",
+          "inputs": [
+            "Power spectra",
+            "resolution limits",
+            "peak characteristics for all cores."
+          ],
+          "outputs": [
+            "Comparative analysis of spectral properties and resolution across cores."
+          ],
+          "keywords": [
+            "Data comparison",
+            "spectral analysis",
+            "resolution",
+            "ice core data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Peak Shape Analysis for Resolution Assessment",
+      "description": "Analyzing the shape of prominent peaks in the nitrate data (specifically using Full Width at Half Maximum, FWHM) to independently assess the effective resolution of the data sets, complementing power spectral analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Identify the five highest nitrate peaks for the interval 1937-1951 in each of the four data sets (Zoe, D4, GISP2-H, BU).",
+          "searchable_summary": "Identify highest peaks in time series data within a specified interval",
+          "inputs": [
+            "Nitrate concentration time series data for Zoe, D4, GISP2-H, BU cores (1937-1951 interval)."
+          ],
+          "outputs": [
+            "List of indices/locations of the top 5 peaks for each core."
+          ],
+          "keywords": [
+            "Peak detection",
+            "time series",
+            "data processing",
+            "data subsetting"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For each identified peak, plot or extract data points extending to the first local minimum on either side.",
+          "searchable_summary": "Extract data points for each peak including surrounding local minima",
+          "inputs": [
+            "Peak locations",
+            "nitrate concentration data."
+          ],
+          "outputs": [
+            "Data segments for each peak, including surrounding minima."
+          ],
+          "keywords": [
+            "Peak analysis",
+            "local minima",
+            "data extraction",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate the average nitrate concentration of the two local minima surrounding each peak to define the zero point for peak height calculation.",
+          "searchable_summary": "Calculate baseline for peak height measurement from surrounding minima",
+          "inputs": [
+            "Nitrate concentrations at surrounding local minima for each peak."
+          ],
+          "outputs": [
+            "Baseline concentration for each peak."
+          ],
+          "keywords": [
+            "Baseline correction",
+            "peak analysis",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate the peak height relative to the baseline and determine the half maximum value (baseline + 0.5 * peak height).",
+          "searchable_summary": "Calculate peak height and half maximum relative to baseline",
+          "inputs": [
+            "Peak maximum concentration",
+            "baseline concentration."
+          ],
+          "outputs": [
+            "Peak height",
+            "half maximum value for each peak."
+          ],
+          "keywords": [
+            "Peak height",
+            "half maximum",
+            "peak analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate the Full Width at Half Maximum (FWHM) for each of the five peaks by finding the width of the peak at the half maximum value.",
+          "searchable_summary": "Calculate Full Width at Half Maximum (FWHM) for each peak",
+          "inputs": [
+            "Data segment for each peak",
+            "half maximum value."
+          ],
+          "outputs": [
+            "FWHM value for each of the five peaks per core."
+          ],
+          "keywords": [
+            "FWHM",
+            "peak width",
+            "peak analysis",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate the average FWHM (FWHM_av) from the five peaks for each core.",
+          "searchable_summary": "Calculate average FWHM for each dataset",
+          "inputs": [
+            "FWHM values for the five peaks in each core."
+          ],
+          "outputs": [
+            "Average FWHM (FWHM_av) for each core."
+          ],
+          "keywords": [
+            "Average",
+            "FWHM",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Compare the calculated FWHM_av values to the resolution limits determined by the power spectral analysis (Method 1).",
+          "searchable_summary": "Compare FWHM-based resolution to power spectrum-based resolution",
+          "inputs": [
+            "FWHM_av values",
+            "resolution limits from power spectral analysis."
+          ],
+          "outputs": [
+            "Comparison results",
+            "assessment of agreement."
+          ],
+          "keywords": [
+            "Resolution validation",
+            "FWHM",
+            "power spectrum",
+            "data comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "GISP2-H Data Acquisition (Discrete Sampling)",
+      "description": "Procedure for acquiring nitrate and conductivity data from the GISP2-H ice core using discrete sampling at regular intervals.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Identify locations along the GISP2-H core where co-located nitrate and conductivity values are to be measured.",
+          "searchable_summary": "Identify sampling locations for co-located measurements",
+          "inputs": [
+            "GISP2-H core",
+            "measurement requirements (nitrate, conductivity)."
+          ],
+          "outputs": [
+            "Planned sampling locations."
+          ],
+          "keywords": [
+            "Sampling plan",
+            "ice core",
+            "co-located measurements"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Sample the core discretely at approximately 1.5 cm intervals of firn or ice.",
+          "searchable_summary": "Perform discrete sampling of ice core at fixed intervals",
+          "inputs": [
+            "GISP2-H core",
+            "sampling interval (1.5 cm)."
+          ],
+          "outputs": [
+            "Discrete ice/firn samples."
+          ],
+          "keywords": [
+            "Discrete sampling",
+            "ice core",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Analyze the discrete samples to obtain nitrate and conductivity values.",
+          "searchable_summary": "Measure nitrate and conductivity in discrete ice core samples",
+          "inputs": [
+            "Discrete ice/firn samples."
+          ],
+          "outputs": [
+            "Nitrate and conductivity concentration values for each sample."
+          ],
+          "keywords": [
+            "Nitrate measurement",
+            "conductivity measurement",
+            "ice core analysis",
+            "laboratory analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Record the depth/location for each sample, resulting in approximately 20 discrete samples per year (~1.25 cm water equivalent per sample).",
+          "searchable_summary": "Record sample depths and organize data by depth/time",
+          "inputs": [
+            "Measured nitrate/conductivity values",
+            "sample locations/depths."
+          ],
+          "outputs": [
+            "Structured dataset of nitrate/conductivity vs. depth/time."
+          ],
+          "keywords": [
+            "Data recording",
+            "depth profile",
+            "time series",
+            "data organization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "BU Data Acquisition (Simplified CFA)",
+      "description": "Procedure for acquiring ultrafine-resolution nitrate and conductivity data from the BU ice core using a simplified Continuous Flow Analysis (CFA) method with multiple parallel sections and dating.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Divide the initial BU core into four parallel sections.",
+          "searchable_summary": "Divide ice core into parallel sections for analysis",
+          "inputs": [
+            "BU ice core."
+          ],
+          "outputs": [
+            "Four parallel sections of the BU core."
+          ],
+          "keywords": [
+            "Ice core processing",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Analyze each of the four parallel sections independently using a simplified CFA procedure designed for co-located nitrate and conductivity measurements through a single flow line.",
+          "searchable_summary": "Perform simplified Continuous Flow Analysis (CFA) for nitrate and conductivity on ice core sections",
+          "inputs": [
+            "Parallel ice core sections",
+            "simplified CFA system."
+          ],
+          "outputs": [
+            "Continuous nitrate and conductivity data streams for each section."
+          ],
+          "keywords": [
+            "Continuous Flow Analysis",
+            "CFA",
+            "nitrate measurement",
+            "conductivity measurement",
+            "ice core analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Process the continuous data streams to obtain discrete values at approximately 0.063 cm water equivalent sampling intervals.",
+          "searchable_summary": "Process continuous CFA data into discrete samples at specified interval",
+          "inputs": [
+            "Continuous CFA data streams."
+          ],
+          "outputs": [
+            "Discrete nitrate and conductivity values at ~0.063 cm water equivalent intervals."
+          ],
+          "keywords": [
+            "CFA data processing",
+            "data discretization",
+            "sampling interval"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Average the discrete nitrate and conductivity data obtained from the four independently analyzed sections.",
+          "searchable_summary": "Average data from multiple parallel ice core sections",
+          "inputs": [
+            "Discrete nitrate and conductivity data from four sections."
+          ],
+          "outputs": [
+            "Averaged ultrafine-resolution nitrate and conductivity data."
+          ],
+          "keywords": [
+            "Data averaging",
+            "data processing",
+            "replicate analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Date the averaged data set using the 1947 Hekla eruption volcanic tie point, annual layer counting, and the consensus Summit depth/time profile.",
+          "searchable_summary": "Date ice core data using tie points, layer counting, and depth-time profile",
+          "inputs": [
+            "Averaged nitrate/conductivity data vs. depth",
+            "1947 Hekla tie point",
+            "annual layer counts",
+            "Summit depth/time profile."
+          ],
+          "outputs": [
+            "Dated ultrafine-resolution nitrate and conductivity data (data vs. time)."
+          ],
+          "keywords": [
+            "Ice core dating",
+            "volcanic tie point",
+            "annual layer counting",
+            "depth-time scale",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Zoe and D4 Data Acquisition (Multi-species CFA)",
+      "description": "Procedure for acquiring multi-species data, including nitrate, from the Zoe and D4 ice cores using a multi-species Continuous Flow Analysis (CFA) method with wider sampling intervals compared to the BU core.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Analyze the Zoe and D4 cores using a multi-species CFA design.",
+          "searchable_summary": "Perform multi-species Continuous Flow Analysis (CFA) on ice cores",
+          "inputs": [
+            "Zoe and D4 ice cores",
+            "multi-species CFA system."
+          ],
+          "outputs": [
+            "Continuous data streams for multiple geochemical species, including nitrate."
+          ],
+          "keywords": [
+            "Continuous Flow Analysis",
+            "CFA",
+            "multi-species analysis",
+            "ice core analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Process the continuous data streams to obtain discrete values at sampling intervals ranging from 0.4 to 0.9 cm water equivalent.",
+          "searchable_summary": "Process continuous CFA data into discrete samples at specified intervals",
+          "inputs": [
+            "Continuous CFA data streams."
+          ],
+          "outputs": [
+            "Discrete multi-species data (including nitrate) at 0.4-0.9 cm water equivalent intervals."
+          ],
+          "keywords": [
+            "CFA data processing",
+            "data discretization",
+            "sampling interval"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Characterize many geochemical species in parallel using this approach.",
+          "searchable_summary": "Characterize multiple geochemical species in parallel using CFA",
+          "inputs": [
+            "Multi-species CFA data."
+          ],
+          "outputs": [
+            "Characterization of multiple species."
+          ],
+          "keywords": [
+            "Multi-species analysis",
+            "geochemistry",
+            "ice core"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55814090.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

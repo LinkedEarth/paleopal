@@ -1,0 +1,295 @@
+{
+  "paper_title": "Reconstructing burnt area during the Holocene: an Iberian case study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Iberian Pollen and Charcoal Data Processing",
+      "description": "Describes the process of obtaining, cleaning, standardizing, age-modeling, and processing Holocene pollen and charcoal data from databases and authors for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Pollen data were obtained from the European Pollen Database (EPD; http://www.europeanpollendatabase.net, (last access: 5 April 2021) or provided by the authors (Table S2 in the Supplement).",
+          "searchable_summary": "Download or retrieve pollen data from EPD database or provided files.",
+          "inputs": [
+            "European Pollen Database (EPD)",
+            "Author-provided pollen data files"
+          ],
+          "outputs": [
+            "Raw pollen data files/datasets"
+          ],
+          "keywords": [
+            "pollen data",
+            "data retrieval",
+            "database",
+            "EPD"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Non-pollen palynomorphs (e.g. fungi and algae), introduced species and fire-insensitive plants (e.g. obligate aquatics) were removed from the assemblages before analysis.",
+          "searchable_summary": "Filter pollen data to remove specific types (non-pollen, introduced, fire-insensitive).",
+          "inputs": [
+            "Raw pollen data"
+          ],
+          "outputs": [
+            "Cleaned pollen data"
+          ],
+          "keywords": [
+            "data cleaning",
+            "filtering",
+            "pollen analysis",
+            "palynomorphs"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Some pollen taxa are not identified consistently by palynologists or occur at very few sites, so some pollen types were amalgamated to higher taxonomic groups (mostly genera for trees and families for herbaceous taxa) for consistency across the records (Table S3).",
+          "searchable_summary": "Group specific pollen taxa into higher taxonomic levels for consistency.",
+          "inputs": [
+            "Cleaned pollen data"
+          ],
+          "outputs": [
+            "Standardized pollen data with amalgamated taxa"
+          ],
+          "keywords": [
+            "data standardization",
+            "taxonomy",
+            "pollen taxa",
+            "data aggregation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Charcoal data were obtained from the Global Charcoal Database (Power et al., 2010;Marlon et al., 2016) or provided by the authors (Table S4).",
+          "searchable_summary": "Download or retrieve charcoal data from GCD database or provided files.",
+          "inputs": [
+            "Global Charcoal Database (GCD)",
+            "Author-provided charcoal data files"
+          ],
+          "outputs": [
+            "Raw charcoal data files/datasets"
+          ],
+          "keywords": [
+            "charcoal data",
+            "data retrieval",
+            "database",
+            "GCD"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We created new age models for all the records using the IntCal20 calibration curve (Reimer et al., 2020) and the BACON Bayesian age-modelling tool in the rbacon package (2.5.0) in CRAN (Blaauw and Christeny, 2011).",
+          "searchable_summary": "Apply Bayesian age modeling using IntCal20 calibration and BACON tool to pollen and charcoal records.",
+          "inputs": [
+            "Raw pollen data with depth/age information",
+            "Raw charcoal data with depth/age information",
+            "IntCal20 calibration curve"
+          ],
+          "outputs": [
+            "Age models for each record",
+            "Age-depth relationships"
+          ],
+          "keywords": [
+            "age modeling",
+            "Bayesian modeling",
+            "BACON",
+            "IntCal20",
+            "radiocarbon dating",
+            "rbacon",
+            "R package"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Charcoal concentration data were converted to charcoal accumulation rate (influx: particles cm −2 yr −1 ) before analysis by multiplying concentration by the background sedimentation rate.",
+          "searchable_summary": "Calculate charcoal accumulation rate (influx) from concentration and sedimentation rate.",
+          "inputs": [
+            "Charcoal concentration data",
+            "Background sedimentation rate"
+          ],
+          "outputs": [
+            "Charcoal influx data (particles cm⁻² yr⁻¹)"
+          ],
+          "keywords": [
+            "charcoal analysis",
+            "charcoal influx",
+            "sedimentation rate",
+            "data transformation",
+            "calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Generalised Linear Model Development",
+      "description": "Describes the process of obtaining modern burnt area data and environmental variables, preparing data, developing, selecting, and applying a Generalized Linear Model (GLM) to predict burnt area, and disaggregating the model output.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained modern burnt area for the Iberian Peninsula from the fourth version of the Global Fire Emissions Database (GEFD4).",
+          "searchable_summary": "Download or retrieve modern burnt area data from GEFD4.",
+          "inputs": [
+            "Global Fire Emissions Database (GEFD4)"
+          ],
+          "outputs": [
+            "Modern burnt area data (e.g., annual values, 0.5° resolution)"
+          ],
+          "keywords": [
+            "burnt area data",
+            "data retrieval",
+            "GEFD4",
+            "fire data",
+            "database"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The GLM was initially developed using 13 environmental variables covering climate, vegetation and human activities (Table S5).",
+          "searchable_summary": "Download or retrieve environmental variables (climate, vegetation, human activities).",
+          "inputs": [
+            "Various data sources for 13 environmental variables"
+          ],
+          "outputs": [
+            "Environmental variable datasets"
+          ],
+          "keywords": [
+            "environmental data",
+            "climate data",
+            "vegetation data",
+            "human activity data",
+            "data retrieval"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Some environmental data sets were only available at 0.5 • × 0.5 • resolution, so all data sets were aggregated to this resolution using bilinear interpolation prior to analysis.",
+          "searchable_summary": "Resample environmental data to a common 0.5° × 0.5° resolution using bilinear interpolation.",
+          "inputs": [
+            "Environmental variable datasets (potentially at different resolutions)"
+          ],
+          "outputs": [
+            "Environmental variable datasets at 0.5° × 0.5° resolution"
+          ],
+          "keywords": [
+            "data aggregation",
+            "spatial data processing",
+            "bilinear interpolation",
+            "resampling",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Analyses were done for the common period between the data sets (January 2001 to December 2016) using annual values of all variables.",
+          "searchable_summary": "Select annual values for all variables for the specified time period (2001-2016).",
+          "inputs": [
+            "Aggregated environmental data",
+            "Modern burnt area data"
+          ],
+          "outputs": [
+            "Prepared dataset for GLM (annual values, 2001-2016, 0.5° resolution)"
+          ],
+          "keywords": [
+            "data preparation",
+            "time series data",
+            "data selection",
+            "subsetting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The GLM was run using the stats package in R (version R.3.6.0) and used the logit link function and assumed a quasi-binomial distribution (R Core Team, 2019).",
+          "searchable_summary": "Fit a Generalized Linear Model (GLM) using specified link function and distribution in R.",
+          "inputs": [
+            "Prepared dataset (burnt area as response, environmental variables as predictors)"
+          ],
+          "outputs": [
+            "Fitted GLM model object"
+          ],
+          "keywords": [
+            "GLM",
+            "Generalized Linear Model",
+            "statistical modeling",
+            "R stats package",
+            "logit link",
+            "quasi-binomial distribution",
+            "model fitting"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "We tested combinations of environmental predictors and selected the most parsimonious model with statistically significant variables and high prediction ability as assessed using pseudo-R 2 (McFadden, 1973).",
+          "searchable_summary": "Evaluate different combinations of environmental predictors and select the best model based on statistical significance and prediction ability (pseudo-R²).",
+          "inputs": [
+            "Fitted GLM model object",
+            "Prepared dataset"
+          ],
+          "outputs": [
+            "Selected GLM model object",
+            "Model evaluation metrics (pseudo-R²)"
+          ],
+          "keywords": [
+            "model selection",
+            "predictor selection",
+            "statistical significance",
+            "pseudo-R²",
+            "model evaluation",
+            "parsimony"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The GLM-fitted burnt area was disaggregated from 0.5 • × 0.5 • to 0.0083 • × 0.0083 • by bilinear interpolation in order to extract present-day burnt area at each of the sites with modern charcoal records.",
+          "searchable_summary": "Resample the GLM-fitted burnt area output to a finer resolution (0.0083° × 0.0083°) using bilinear interpolation.",
+          "inputs": [
+            "GLM-fitted burnt area output (0.5° resolution)"
+          ],
+          "outputs": [
+            "GLM-fitted burnt area output (0.0083° resolution)"
+          ],
+          "keywords": [
+            "data disaggregation",
+            "spatial data processing",
+            "bilinear interpolation",
+            "resampling",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Extract present-day burnt area at each of the sites with modern charcoal records.",
+          "searchable_summary": "Extract the disaggregated burnt area values at the locations of sites with modern charcoal records.",
+          "inputs": [
+            "Disaggregated GLM-fitted burnt area output (0.0083° resolution)",
+            "Coordinates of sites with modern charcoal records"
+          ],
+          "outputs": [
+            "Burnt area values at specific site locations"
+          ],
+          "keywords": [
+            "data extraction",
+            "spatial data",
+            "point extraction",
+            "site data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236578696.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

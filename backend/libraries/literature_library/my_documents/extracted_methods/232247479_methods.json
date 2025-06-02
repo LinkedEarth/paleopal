@@ -1,0 +1,239 @@
+{
+  "paper_title": "Pollen Data Collection and Model Validation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Collection and Imputation",
+      "description": "This method describes the collection of pollen data using an automatic monitoring device and the imputation of missing data points using regression analysis and averaging techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Pollen data for Betula and Poaceae were acquired by use of an automatic pollen monitoring device BAA500, located in Augsburg, Germany.",
+          "searchable_summary": "collect pollen data using BAA500 device",
+          "inputs": [
+            "BAA500 device",
+            "location coordinates"
+          ],
+          "outputs": [
+            "pollen data"
+          ],
+          "keywords": [
+            "pollen data",
+            "automatic monitoring",
+            "BAA500"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Missing data (8.4% Betula and 7.8% Poaceae) were imputed based on regression analysis using 5 data points of the corresponding time period before and after the data gap.",
+          "searchable_summary": "impute missing data using regression analysis",
+          "inputs": [
+            "pollen data",
+            "5 data points before and after gap"
+          ],
+          "outputs": [
+            "imputed pollen data"
+          ],
+          "keywords": [
+            "data imputation",
+            "regression analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Scattered missing points were imputed by averaging closest measurement before and after the data gap.",
+          "searchable_summary": "impute scattered missing data by averaging",
+          "inputs": [
+            "pollen data",
+            "closest measurements"
+          ],
+          "outputs": [
+            "imputed pollen data"
+          ],
+          "keywords": [
+            "data imputation",
+            "averaging"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Retrieval",
+      "description": "This method involves retrieving meteorological data from the German Weather Institute for analysis alongside pollen data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Meteorological data were retrieved from the German Weather Institute (Deutscher Wetterdienst-DWD, https://opendata.dwd.de/climate_environment/ CDC/), recorded at the airport of Augsburg.",
+          "searchable_summary": "download meteorological data from DWD",
+          "inputs": [
+            "DWD API",
+            "location coordinates"
+          ],
+          "outputs": [
+            "meteorological data"
+          ],
+          "keywords": [
+            "meteorological data",
+            "DWD",
+            "data retrieval"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phenological Feature Determination",
+      "description": "This method describes the determination of phenological features such as Pollen Season Start, Peak, End, Duration, and the annual Pollen Integral based on pollen data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The PSS was defined in line with European Aeroallergen Network pollen season definition.",
+          "searchable_summary": "define Pollen Season Start using European Aeroallergen Network criteria",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "Pollen Season Start"
+          ],
+          "keywords": [
+            "Pollen Season Start",
+            "phenological features"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The PSE was determined as a day reaching 95% of the accumulated daily pollen concentrations throughout the whole pollen season.",
+          "searchable_summary": "determine Pollen Season End at 95% cumulative pollen",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "Pollen Season End"
+          ],
+          "keywords": [
+            "Pollen Season End",
+            "phenological features"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The PI was specified as the sum of the daily average pollen concentrations per cubic meter over the whole year.",
+          "searchable_summary": "calculate annual Pollen Integral",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "Pollen Integral"
+          ],
+          "keywords": [
+            "Pollen Integral",
+            "phenological features"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The PSP was defined as the day with the highest daily pollen concentration.",
+          "searchable_summary": "identify Pollen Season Peak",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "Pollen Season Peak"
+          ],
+          "keywords": [
+            "Pollen Season Peak",
+            "phenological features"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Validation",
+      "description": "This method involves validating the predictive models using a split dataset approach and evaluating model performance with accuracy metrics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "The available pollen dataset was split into a training and test datasets as following: the dataset representing the main pollen season in the last year, 2019, was used for the test of the developed predictive models, and the remaining three years of pollen data were applied for the model fitting and training.",
+          "searchable_summary": "split dataset into training and test sets",
+          "inputs": [
+            "pollen dataset"
+          ],
+          "outputs": [
+            "training dataset",
+            "test dataset"
+          ],
+          "keywords": [
+            "dataset splitting",
+            "training set",
+            "test set"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The predictive accuracy and validity of each established forecasting model was determined based on the comparison of predicted and observed pollen concentration values.",
+          "searchable_summary": "compare predicted and observed values for accuracy",
+          "inputs": [
+            "predicted values",
+            "observed values"
+          ],
+          "outputs": [
+            "accuracy metrics"
+          ],
+          "keywords": [
+            "model accuracy",
+            "validation",
+            "comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Two accuracy metrics, namely mean absolute error (MAE) and root mean squared error (RMSE), were used as criteria for evaluation of the performance of the established forecasting models.",
+          "searchable_summary": "calculate MAE and RMSE for model evaluation",
+          "inputs": [
+            "predicted values",
+            "observed values"
+          ],
+          "outputs": [
+            "MAE",
+            "RMSE"
+          ],
+          "keywords": [
+            "MAE",
+            "RMSE",
+            "accuracy metrics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "In order to compare the performance of predictive models based on pollen data of Betula and Poaceae, the coefficient of determination R² was used.",
+          "searchable_summary": "calculate R² for model comparison",
+          "inputs": [
+            "predicted values",
+            "observed values"
+          ],
+          "outputs": [
+            "R²"
+          ],
+          "keywords": [
+            "R²",
+            "model comparison",
+            "coefficient of determination"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232247479.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

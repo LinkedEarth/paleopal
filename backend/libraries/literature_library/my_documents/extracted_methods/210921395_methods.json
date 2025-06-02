@@ -1,0 +1,207 @@
+{
+  "paper_title": "CRISPR-Cas9 Mutagenesis and TIDE Sequencing Analysis in Phaeodactylum",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "TIDE Sequencing Analysis",
+      "description": "TIDE (Tracking of Indels by DEconvolution) sequence analysis is an online-based software used to analyze raw sequencing data to find indel mutations at a Cas9 target site. It was used to analyze indels resulting from Cas9 targeting of nitrate reductase in Phaeodactylum.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "80 colonies for gNR-A and 64 colonies for gNR-B were picked directly into PCR mix.",
+          "searchable_summary": "prepare PCR mix with colonies for sequencing",
+          "inputs": [
+            "colonies for gNR-A",
+            "colonies for gNR-B"
+          ],
+          "outputs": [
+            "PCR mix with colonies"
+          ],
+          "keywords": [
+            "PCR",
+            "colony picking"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "200 ng of the PCR amplicons were then directly sequenced using two primers, NR-HRM-A and NR-gene-2, for paired-end reads.",
+          "searchable_summary": "sequence PCR amplicons using paired-end reads",
+          "inputs": [
+            "PCR amplicons",
+            "NR-HRM-A primer",
+            "NR-gene-2 primer"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "sequencing",
+            "paired-end reads"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "TIDE analysis requires the input of (1) the nuclease species used (SpCas9), (2) the 20 nt spacer target, (3) an ABI (.abi) file for a reference sequence (control Cas9-2A-sh ble), and (4) an ABI (.abi) file for a sample sequence.",
+          "searchable_summary": "input data into TIDE for analysis",
+          "inputs": [
+            "SpCas9",
+            "20 nt spacer target",
+            "reference ABI file",
+            "sample ABI file"
+          ],
+          "outputs": [
+            "TIDE analysis results"
+          ],
+          "keywords": [
+            "TIDE",
+            "indel analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Certain criteria were identified and selected for when analyzing the TIDE output: total efficiency value of 50%, p-value <0.001, and distinct genotypes with predominant indels.",
+          "searchable_summary": "validate TIDE output based on efficiency, p-value, and genotype criteria",
+          "inputs": [
+            "TIDE analysis results"
+          ],
+          "outputs": [
+            "validated TIDE results"
+          ],
+          "keywords": [
+            "validation",
+            "efficiency",
+            "p-value"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "For cell lines that passed criteria, results were verified by conducting TIDE analysis of the paired-end read of the same sample.",
+          "searchable_summary": "verify results with paired-end TIDE analysis",
+          "inputs": [
+            "validated TIDE results"
+          ],
+          "outputs": [
+            "verified mutant cell line candidates"
+          ],
+          "keywords": [
+            "paired-end analysis",
+            "verification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "CRISPR-Cas9 Mutagenesis Workflow",
+      "description": "Workflow for episomal exchange to Phaeodactylum colony genotyping using a selectable Cas9 episome. This includes episome construction, transformation, and genotyping of mutant cell lines.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The Phaeodactylum episome was built with a transcriptionally fused Cas9 and sh ble, an antibiotic selectable marker gene.",
+          "searchable_summary": "construct episome with Cas9 and selectable marker",
+          "inputs": [
+            "Cas9",
+            "sh ble gene"
+          ],
+          "outputs": [
+            "constructed episome"
+          ],
+          "keywords": [
+            "episome construction",
+            "selectable marker"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A hierarchical cloning strategy was used to build and clone one Phaeodactylum sgRNA expression cassette in two golden-gate assembly steps.",
+          "searchable_summary": "clone sgRNA expression cassette using golden-gate assembly",
+          "inputs": [
+            "sgRNA",
+            "golden-gate assembly tools"
+          ],
+          "outputs": [
+            "sgRNA expression cassette"
+          ],
+          "keywords": [
+            "cloning",
+            "golden-gate assembly"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "After construction and sequence verification, a Cas9-sh ble:sgRNA episome was transformed into electro-competent E. coli cells.",
+          "searchable_summary": "transform episome into E. coli cells",
+          "inputs": [
+            "Cas9-sh ble:sgRNA episome",
+            "electro-competent E. coli"
+          ],
+          "outputs": [
+            "transformed E. coli cells"
+          ],
+          "keywords": [
+            "transformation",
+            "E. coli"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The episome then resides in the Phaeodactylum nucleus, separate from the chromosomes, where expression of Cas9 and sgRNA(s) occurs.",
+          "searchable_summary": "express Cas9 and sgRNA in Phaeodactylum nucleus",
+          "inputs": [
+            "transformed Phaeodactylum cells"
+          ],
+          "outputs": [
+            "Cas9 and sgRNA expression"
+          ],
+          "keywords": [
+            "expression",
+            "Phaeodactylum"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Colonies were first picked and added directly to PCR mix to amplify the sgRNA expression cassette on the episome.",
+          "searchable_summary": "amplify sgRNA expression cassette via PCR",
+          "inputs": [
+            "colonies",
+            "PCR mix"
+          ],
+          "outputs": [
+            "amplified sgRNA expression cassette"
+          ],
+          "keywords": [
+            "PCR",
+            "amplification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Only colonies that contained a correctly sized amplicon were chosen for genotyping.",
+          "searchable_summary": "select colonies with correct amplicon size for genotyping",
+          "inputs": [
+            "amplified sgRNA expression cassette"
+          ],
+          "outputs": [
+            "selected colonies for genotyping"
+          ],
+          "keywords": [
+            "genotyping",
+            "amplicon size"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/210921395.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

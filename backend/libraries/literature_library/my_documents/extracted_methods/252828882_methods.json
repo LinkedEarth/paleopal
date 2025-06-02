@@ -1,0 +1,244 @@
+{
+  "paper_title": "Developing an Intelligent Data Analysis Approach for Marine Sediments",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Multivariate Statistical Analysis",
+      "description": "This method involves using multivariate statistical techniques such as hierarchical and non-hierarchical clustering, principal components analysis, and Thurston-Spengler apportionment procedure to detect patterns of similarity between variables and/or objects in marine sediment data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Standardization of the raw data (z-transform) to overcome problems with different dimensionality of the members of the set.",
+          "searchable_summary": "standardize raw data using z-transform",
+          "inputs": [
+            "raw data"
+          ],
+          "outputs": [
+            "standardized data"
+          ],
+          "keywords": [
+            "standardization",
+            "z-transform",
+            "data preprocessing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculation of the similarity between the objects of interest (squared Euclidean distance in the present study).",
+          "searchable_summary": "calculate squared Euclidean distance for similarity",
+          "inputs": [
+            "standardized data"
+          ],
+          "outputs": [
+            "similarity matrix"
+          ],
+          "keywords": [
+            "similarity",
+            "Euclidean distance",
+            "clustering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Choice of the mode of linkage between the objects (Ward's method of linkage) and graphical presentation of the linkage results in a tree-like diagram called a dendrogram.",
+          "searchable_summary": "apply Ward's method and create dendrogram",
+          "inputs": [
+            "similarity matrix"
+          ],
+          "outputs": [
+            "dendrogram"
+          ],
+          "keywords": [
+            "Ward's method",
+            "dendrogram",
+            "hierarchical clustering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "In the final step, the statistical significance of the clusters is determined using Sneath's index (1/3 or 2/3 Dmax).",
+          "searchable_summary": "determine statistical significance using Sneath's index",
+          "inputs": [
+            "dendrogram"
+          ],
+          "outputs": [
+            "significant clusters"
+          ],
+          "keywords": [
+            "Sneath's index",
+            "cluster validation",
+            "statistical significance"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "K-means non-hierarchical clustering is a supervised chemometric method where the number of clusters is a priori determined by a reasonable theoretical assumption (hypothesis) or expert opinion.",
+          "searchable_summary": "perform K-means clustering with predetermined number of clusters",
+          "inputs": [
+            "standardized data",
+            "number of clusters"
+          ],
+          "outputs": [
+            "clustered data"
+          ],
+          "keywords": [
+            "K-means",
+            "non-hierarchical clustering",
+            "supervised learning"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Principal components analysis (factor analysis) is a typical display method, which ensures the reduction in the size of the space of the variables.",
+          "searchable_summary": "perform principal components analysis",
+          "inputs": [
+            "standardized data"
+          ],
+          "outputs": [
+            "principal components"
+          ],
+          "keywords": [
+            "PCA",
+            "factor analysis",
+            "dimensionality reduction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The apportionment modeling uses principal components analysis as a first step of the data analysis followed by multiple regression on the principal components obtained in the first step.",
+          "searchable_summary": "perform apportionment modeling using PCA and regression",
+          "inputs": [
+            "principal components"
+          ],
+          "outputs": [
+            "apportionment model"
+          ],
+          "keywords": [
+            "apportionment modeling",
+            "regression",
+            "PCA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Sampling and Analysis",
+      "description": "This method describes the collection and analysis of sediment samples from the Varna gulf coastal line to assess pollution levels using various spectrometry techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "174 coastal sediment samples were collected during the drilling campaign in depth between 1 and 6 m for three conditional zones of the Varna gulf coastal line.",
+          "searchable_summary": "collect sediment samples from specified zones",
+          "inputs": [
+            "drilling equipment",
+            "location data"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "drilling",
+            "marine sediments"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The samples were tested using gas chromatography coupled to mass spectrometry for polyaromatic hydrocarbons (PAHs) and polychlorinated biphenyl congeners (PCBs).",
+          "searchable_summary": "analyze samples using GC-MS for PAHs and PCBs",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "PAHs and PCBs data"
+          ],
+          "keywords": [
+            "GC-MS",
+            "PAHs",
+            "PCBs",
+            "spectrometry"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Inductively coupled plasma-atomic absorption spectrometry (ICP-AAS) for metals as mobile and total forms (Cu, Zn, Ni, Cr), electrothermal AAS for Pb, and hybrid generation AAS for As.",
+          "searchable_summary": "analyze metals using ICP-AAS, electrothermal AAS, and hybrid generation AAS",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "metal concentration data"
+          ],
+          "keywords": [
+            "ICP-AAS",
+            "electrothermal AAS",
+            "metal analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The total amount of phosphorus was determined as orthophosphate after treatment of the sample with perchloric acid and the application of the ascorbic acid reduction method.",
+          "searchable_summary": "determine phosphorus as orthophosphate using perchloric acid and ascorbic acid reduction",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "phosphorus data"
+          ],
+          "keywords": [
+            "phosphorus analysis",
+            "orthophosphate",
+            "ascorbic acid reduction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Total nitrogen was determined by the Kjeldahl method.",
+          "searchable_summary": "determine total nitrogen using Kjeldahl method",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "nitrogen data"
+          ],
+          "keywords": [
+            "Kjeldahl method",
+            "nitrogen analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Humidity was measured by standard measurement of weight loss after drying and loss of ignition by weight loss after burning away the organic matter.",
+          "searchable_summary": "measure humidity and loss of ignition by weight loss methods",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "humidity data",
+            "loss of ignition data"
+          ],
+          "keywords": [
+            "humidity measurement",
+            "loss of ignition",
+            "weight loss"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252828882.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

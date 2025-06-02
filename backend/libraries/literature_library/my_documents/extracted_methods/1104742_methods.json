@@ -1,0 +1,209 @@
+{
+  "paper_title": "Structural study of biologically significant ligands with major birch pollen allergen Betv1 by docking and molecular dynamics simulation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Docking Procedure",
+      "description": "This method describes the docking procedure used to study the interaction between biologically significant ligands and the major birch pollen allergen Betv1. The process involves preparing the protein and ligand structures, setting up the docking environment, and performing docking simulations to predict the binding orientations and energies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The crystal structure of Betv1 (pdb code: 1BV1) was obtained from PDB.",
+          "searchable_summary": "download Betv1 crystal structure from PDB",
+          "inputs": [
+            "PDB code: 1BV1"
+          ],
+          "outputs": [
+            "Betv1 crystal structure"
+          ],
+          "keywords": [
+            "PDB",
+            "crystal structure",
+            "Betv1"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The structures of ANS, kinetin, flavone and naringenin were downloaded from Cambridge Structural Database (CSD).",
+          "searchable_summary": "download ligand structures from CSD",
+          "inputs": [
+            "ligand names: ANS, kinetin, flavone, naringenin"
+          ],
+          "outputs": [
+            "ligand structures"
+          ],
+          "keywords": [
+            "CSD",
+            "ligand structures"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All other ligands were constructed using the Biopolymer utility of the software Insight II.",
+          "searchable_summary": "construct ligand structures using Insight II",
+          "inputs": [
+            "ligand information"
+          ],
+          "outputs": [
+            "constructed ligand structures"
+          ],
+          "keywords": [
+            "Insight II",
+            "Biopolymer utility",
+            "ligand construction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Docking calculations were carried out using AutoDock 3.0.5.",
+          "searchable_summary": "perform docking calculations with AutoDock 3.0.5",
+          "inputs": [
+            "protein and ligand structures"
+          ],
+          "outputs": [
+            "docking results"
+          ],
+          "keywords": [
+            "AutoDock",
+            "docking calculations"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The grid maps representing the protein in the actual docking process were calculated with the aid of AutoGrid.",
+          "searchable_summary": "calculate grid maps with AutoGrid",
+          "inputs": [
+            "protein structure"
+          ],
+          "outputs": [
+            "grid maps"
+          ],
+          "keywords": [
+            "AutoGrid",
+            "grid maps"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The dimension of the grid was i) 40X40X40 points in each dimension for smaller ligands (ANS and lower chain length fatty acids) and ii) 60X60X60 points in each dimension for rest with spacing of 0.375 Å between the grid points.",
+          "searchable_summary": "set grid dimensions and spacing for docking",
+          "inputs": [
+            "ligand size"
+          ],
+          "outputs": [
+            "grid dimensions"
+          ],
+          "keywords": [
+            "grid dimensions",
+            "docking"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Gasteiger charges computed by ADT (AutoDock tools) were used on the atoms for each ligand.",
+          "searchable_summary": "apply Gasteiger charges using ADT",
+          "inputs": [
+            "ligand structures"
+          ],
+          "outputs": [
+            "charged ligand structures"
+          ],
+          "keywords": [
+            "Gasteiger charges",
+            "ADT"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "The AUTOTORS utility, included in the AutoDock software, was used to define all possible torsions of ligand molecules for the docking algorithm.",
+          "searchable_summary": "define ligand torsions with AUTOTORS",
+          "inputs": [
+            "ligand structures"
+          ],
+          "outputs": [
+            "torsion-defined ligand structures"
+          ],
+          "keywords": [
+            "AUTOTORS",
+            "ligand torsions"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "Docking simulations were carried out using the Lamarckian Genetic Algorithm, with an initial population of 150 randomly placed individuals, a maximum number of 2,50,000 energy evaluations, a mutation rate of 0.02, a cross over rate of 0.08 and an elitism value of 1.",
+          "searchable_summary": "perform docking simulations with Lamarckian Genetic Algorithm",
+          "inputs": [
+            "docking parameters"
+          ],
+          "outputs": [
+            "docking simulation results"
+          ],
+          "keywords": [
+            "Lamarckian Genetic Algorithm",
+            "docking simulations"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "modeling",
+          "description": "For the local search, the pseudo-Solis and Wets algorithm was applied.",
+          "searchable_summary": "apply pseudo-Solis and Wets algorithm for local search",
+          "inputs": [
+            "docking simulation results"
+          ],
+          "outputs": [
+            "refined docking results"
+          ],
+          "keywords": [
+            "pseudo-Solis and Wets algorithm",
+            "local search"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Each job consisted of 100 independent runs.",
+          "searchable_summary": "execute 100 independent docking runs",
+          "inputs": [
+            "docking setup"
+          ],
+          "outputs": [
+            "multiple docking results"
+          ],
+          "keywords": [
+            "independent runs",
+            "docking"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "Finally, resulting docking orientations lying within 1.5 Ǻ in the root-mean square deviation (rmsd) tolerance of each other were clustered together and represented by the result with the most favorable free energy of binding (∆G b ).",
+          "searchable_summary": "cluster docking results by rmsd and select by free energy",
+          "inputs": [
+            "docking results"
+          ],
+          "outputs": [
+            "clustered docking results"
+          ],
+          "keywords": [
+            "rmsd",
+            "free energy",
+            "clustering"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/1104742.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

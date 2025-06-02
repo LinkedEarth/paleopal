@@ -1,0 +1,188 @@
+{
+  "paper_title": "Pollen and Meteorological Data Analysis in Linz",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Analysis",
+      "description": "Analysis of serial pollen counts for alder, hazel, birch, and grass to determine the pollen season duration and its phenological start and end.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Data of serial pollen counts for alder, hazel, birch and grass, having been continuously recorded since 1993, were analyzed.",
+          "searchable_summary": "fetch pollen count data from 1993 onwards",
+          "inputs": [
+            "pollen count records"
+          ],
+          "outputs": [
+            "pollen count data"
+          ],
+          "keywords": [
+            "pollen data",
+            "data collection",
+            "historical records"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Seasonal data sets with gaps >6 days were omitted.",
+          "searchable_summary": "filter out seasonal data sets with gaps greater than 6 days",
+          "inputs": [
+            "pollen count data"
+          ],
+          "outputs": [
+            "filtered pollen count data"
+          ],
+          "keywords": [
+            "data filtering",
+            "gap analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Begin and end of pollen seasons-pollination (PSB-PSE)-were defined phenologically as first and last days of a year, reaching 10 pollen/m3 (PC10) by alder, hazel and birch, and 5 pollen/m3 (PC5) by grass species, respectively.",
+          "searchable_summary": "define pollen season start and end based on pollen concentration thresholds",
+          "inputs": [
+            "filtered pollen count data"
+          ],
+          "outputs": [
+            "pollen season start and end dates"
+          ],
+          "keywords": [
+            "phenology",
+            "threshold analysis",
+            "pollen season"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The time in-between was considered the pollen season or its duration.",
+          "searchable_summary": "calculate pollen season duration",
+          "inputs": [
+            "pollen season start and end dates"
+          ],
+          "outputs": [
+            "pollen season duration"
+          ],
+          "keywords": [
+            "duration calculation",
+            "season analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Analysis",
+      "description": "Analysis of meteorological data to derive temperature metrics and study their influence on the pollen season.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The Zentralanstalt für Meteorologie und Geodynamik (ZAMG Wien-Salzburg) provided meteorological data from 1993-2018 in form of hourly and daily temperatures (°C), precipitation (PREC in mm = L/m2) and relative humidity (RH in %).",
+          "searchable_summary": "fetch meteorological data from ZAMG for 1993-2018",
+          "inputs": [
+            "ZAMG meteorological records"
+          ],
+          "outputs": [
+            "meteorological data"
+          ],
+          "keywords": [
+            "temperature data",
+            "precipitation data",
+            "humidity data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "From hourly values, the highest temperature (HTD), the mean temperature (MTD) and the lowest temperature (LTD) of a day were derived.",
+          "searchable_summary": "derive daily temperature metrics from hourly data",
+          "inputs": [
+            "hourly temperature data"
+          ],
+          "outputs": [
+            "HTD",
+            "MTD",
+            "LTD"
+          ],
+          "keywords": [
+            "temperature metrics",
+            "data derivation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The mean daily warmth (MDW) was defined as integral of 1/24 hourly temperatures >0°C/24 h and the cumulated one as daily MDW summed up from January 1 (MDWcumul).",
+          "searchable_summary": "calculate mean daily warmth and its cumulative value",
+          "inputs": [
+            "hourly temperature data"
+          ],
+          "outputs": [
+            "MDW",
+            "MDWcumul"
+          ],
+          "keywords": [
+            "temperature integration",
+            "cumulative calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The mean daily frost (MDF) was regarded as the integral of 1/24 hourly temperatures <0°C/24 h. Thus frost and cumulated frost (MDFcumul, summed up beginning at January 1) reflect temperatures <0°C.",
+          "searchable_summary": "calculate mean daily frost and its cumulative value",
+          "inputs": [
+            "hourly temperature data"
+          ],
+          "outputs": [
+            "MDF",
+            "MDFcumul"
+          ],
+          "keywords": [
+            "frost calculation",
+            "temperature integration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "For the meteorologically driven start of the pollen season, especially for early flowering plants, both, the cumulated mean daily warmth (MDWcumul) and a distinct threshold of HTD were considered necessary.",
+          "searchable_summary": "analyze meteorological influence on pollen season start",
+          "inputs": [
+            "MDWcumul",
+            "HTD"
+          ],
+          "outputs": [
+            "pollen season start analysis"
+          ],
+          "keywords": [
+            "meteorological influence",
+            "pollen season"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The influence of frost was studied by using the MDFcumul.",
+          "searchable_summary": "study frost influence on pollen season using MDFcumul",
+          "inputs": [
+            "MDFcumul"
+          ],
+          "outputs": [
+            "frost influence analysis"
+          ],
+          "keywords": [
+            "frost analysis",
+            "pollen season"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/227513393.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,175 @@
+{
+  "paper_title": "Borehole Temperature Profiles and GSTH Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Borehole Temperature Data Collection",
+      "description": "Process for collecting and preparing borehole temperature profiles for heat flow determination in the Canadian Shield.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The borehole temperature profiles used in this study were obtained by researchers at GEOTOP and at the Institut de Physique du Globe de Paris (IPGP) over the past twenty years.",
+          "searchable_summary": "obtain borehole temperature profiles from GEOTOP and IPGP",
+          "inputs": [
+            "GEOTOP data",
+            "IPGP data"
+          ],
+          "outputs": [
+            "borehole temperature profiles"
+          ],
+          "keywords": [
+            "borehole temperature",
+            "data collection",
+            "GEOTOP",
+            "IPGP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In order to give the same weight to deep boreholes in the simultaneous inversion, all boreholes deeper than 550 m were truncated to that depth.",
+          "searchable_summary": "truncate borehole data deeper than 550 m",
+          "inputs": [
+            "borehole temperature profiles"
+          ],
+          "outputs": [
+            "truncated borehole temperature profiles"
+          ],
+          "keywords": [
+            "data truncation",
+            "borehole depth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All boreholes shallower than approximately 350 m were automatically rejected.",
+          "searchable_summary": "reject borehole data shallower than 350 m",
+          "inputs": [
+            "borehole temperature profiles"
+          ],
+          "outputs": [
+            "filtered borehole temperature profiles"
+          ],
+          "keywords": [
+            "data filtering",
+            "borehole depth"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Each profile was carefully examined and when necessary erratic data points in the shallow part of the profile were removed.",
+          "searchable_summary": "remove erratic data points from borehole profiles",
+          "inputs": [
+            "borehole temperature profiles"
+          ],
+          "outputs": [
+            "cleaned borehole temperature profiles"
+          ],
+          "keywords": [
+            "data cleaning",
+            "erratic data removal"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Thermal Conductivity and Heat Generation Measurement",
+      "description": "Process for measuring thermal conductivity and heat generation from core samples collected from boreholes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "For each borehole, core samples were collected to measure their thermal conductivity.",
+          "searchable_summary": "collect core samples for thermal conductivity measurement",
+          "inputs": [
+            "borehole core samples"
+          ],
+          "outputs": [
+            "core samples for analysis"
+          ],
+          "keywords": [
+            "core sampling",
+            "thermal conductivity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Thermal conductivity is determined by the method of divided bars.",
+          "searchable_summary": "determine thermal conductivity using divided bars method",
+          "inputs": [
+            "core samples"
+          ],
+          "outputs": [
+            "thermal conductivity values"
+          ],
+          "keywords": [
+            "thermal conductivity",
+            "divided bars method"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Heat generation is also determined for the heat flow studies.",
+          "searchable_summary": "determine heat generation for heat flow studies",
+          "inputs": [
+            "core samples"
+          ],
+          "outputs": [
+            "heat generation values"
+          ],
+          "keywords": [
+            "heat generation",
+            "heat flow"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Synthetic Data Testing for SVD Method",
+      "description": "Testing the SVD method for simultaneous inversions using synthetic temperature depth profiles.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The SVD method for simultaneous inversions has been thoroughly tested for regional GSTH by using multiple series of 84 synthetic temperature depth profiles.",
+          "searchable_summary": "test SVD method using synthetic temperature depth profiles",
+          "inputs": [
+            "synthetic temperature depth profiles"
+          ],
+          "outputs": [
+            "SVD method test results"
+          ],
+          "keywords": [
+            "SVD method",
+            "simultaneous inversion",
+            "synthetic data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Further tests with series of synthetic temperature depth profiles showed that GSTHs obtained from reduced profiles accurately recover the input.",
+          "searchable_summary": "validate GSTH recovery from reduced profiles",
+          "inputs": [
+            "reduced synthetic profiles"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "GSTH recovery",
+            "profile reduction",
+            "validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55680960.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

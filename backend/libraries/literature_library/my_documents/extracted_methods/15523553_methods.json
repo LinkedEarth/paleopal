@@ -1,0 +1,160 @@
+{
+  "paper_title": "Estimation and Quantitative Genetic Models in Brain Size Studies",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Brain Size Estimation",
+      "description": "This method involves estimating brain size using various measurements such as endocranial volume, brain weight, and cranial module. These measurements are used to understand brain size in archaeological specimens and contemporary human populations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Endocranial volume is directly measured by mustard seed, shot or water displacement of endocasts, or estimated from tomographic (CT) or magnetic resonance (MRI) methods.",
+          "searchable_summary": "measure endocranial volume using physical or imaging methods",
+          "inputs": [
+            "endocast",
+            "CT scan",
+            "MRI scan"
+          ],
+          "outputs": [
+            "endocranial volume"
+          ],
+          "keywords": [
+            "endocranial volume",
+            "CT",
+            "MRI",
+            "measurement"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Brain weight is directly measured from cadavers or estimated from CT or MRI based on brain volume and estimated tissue density.",
+          "searchable_summary": "measure or estimate brain weight using cadaver data or imaging",
+          "inputs": [
+            "cadaver",
+            "CT scan",
+            "MRI scan"
+          ],
+          "outputs": [
+            "brain weight"
+          ],
+          "keywords": [
+            "brain weight",
+            "CT",
+            "MRI",
+            "cadaver"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Cranial module is calculated as the arithmetic mean of three external measurements of the skull: maximum length, maximum breadth, and cranial height.",
+          "searchable_summary": "calculate cranial module from skull measurements",
+          "inputs": [
+            "skull measurements"
+          ],
+          "outputs": [
+            "cranial module"
+          ],
+          "keywords": [
+            "cranial module",
+            "skull measurements"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Subtract twice the vault thickness from the external module to consider endocranial volume.",
+          "searchable_summary": "adjust cranial module for vault thickness",
+          "inputs": [
+            "external module",
+            "vault thickness"
+          ],
+          "outputs": [
+            "internal cranial module"
+          ],
+          "keywords": [
+            "vault thickness",
+            "endocranial volume"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Quantitative Genetic Model",
+      "description": "This method uses a quantitative genetic model to evaluate the relationship between brain and body size changes, testing the null hypothesis that brain size changes are due to genetic correlation with body size.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Determine the amount of change in body size required to explain the observed change in brain size.",
+          "searchable_summary": "calculate required body size change for observed brain size change",
+          "inputs": [
+            "observed brain size change"
+          ],
+          "outputs": [
+            "required body size change"
+          ],
+          "keywords": [
+            "body size change",
+            "brain size change"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Evaluate whether the amount of change in body size is credible given the skeletal record.",
+          "searchable_summary": "validate body size change against skeletal record",
+          "inputs": [
+            "required body size change",
+            "skeletal record"
+          ],
+          "outputs": [
+            "credibility assessment"
+          ],
+          "keywords": [
+            "skeletal record",
+            "body size credibility"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use Lande's equation to model the change in population mean of brain size with a correlated change in body size.",
+          "searchable_summary": "apply Lande's equation for brain and body size correlation",
+          "inputs": [
+            "genetic correlation",
+            "additive genetic variance"
+          ],
+          "outputs": [
+            "modeled brain size change"
+          ],
+          "keywords": [
+            "Lande's equation",
+            "genetic correlation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Test the null hypothesis that brain size change is due to genetic correlation with body size.",
+          "searchable_summary": "test null hypothesis for brain size change correlation",
+          "inputs": [
+            "modeled brain size change",
+            "parameter estimates"
+          ],
+          "outputs": [
+            "hypothesis test result"
+          ],
+          "keywords": [
+            "null hypothesis",
+            "genetic correlation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15523553.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

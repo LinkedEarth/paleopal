@@ -1,0 +1,240 @@
+{
+  "paper_title": "Transcriptome Sequencing, RNA-seq Data Analysis and Annotation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "RNA Extraction and Sequencing",
+      "description": "Process for extracting RNA from anthers at the free-microspore stage and sequencing using Illumina platform.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "RNA from anthers with pollen at the free-microspore stage was extracted from three inaperturate and three wild-type plants.",
+          "searchable_summary": "extract RNA from anthers at free-microspore stage",
+          "inputs": [
+            "anthers with pollen",
+            "inaperturate plants",
+            "wild-type plants"
+          ],
+          "outputs": [
+            "RNA extracts"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "anthers",
+            "free-microspore stage"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The extracts were sent to Macrogen Inc. (Korea), where libraries were prepared using the Illumina TruSeq Stranded Total RNA Sample Preparation Kit with Ribo-Zero Plant and sequenced on an Illumina Hiseq 2500 platform as 150 nucleotides paired-ends.",
+          "searchable_summary": "prepare RNA libraries and sequence using Illumina platform",
+          "inputs": [
+            "RNA extracts"
+          ],
+          "outputs": [
+            "sequenced RNA data"
+          ],
+          "keywords": [
+            "RNA sequencing",
+            "Illumina",
+            "library preparation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RNA-seq Data Processing and Quality Control",
+      "description": "Processing of raw RNA-seq data including quality control, trimming, and alignment to reference genome.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw single reads (in FASTQ format) were subjected to sequence quality control using FastQC v0.11.8.",
+          "searchable_summary": "perform quality control on RNA-seq reads using FastQC",
+          "inputs": [
+            "raw RNA-seq reads (FASTQ format)"
+          ],
+          "outputs": [
+            "quality control report"
+          ],
+          "keywords": [
+            "FastQC",
+            "quality control",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Adaptors and low-quality sequences were removed from the data set using TrimGalore v0.6.4 and a minimum quality score of 20.",
+          "searchable_summary": "trim adaptors and low-quality sequences using TrimGalore",
+          "inputs": [
+            "raw RNA-seq reads"
+          ],
+          "outputs": [
+            "trimmed RNA-seq reads"
+          ],
+          "keywords": [
+            "TrimGalore",
+            "trimming",
+            "quality score"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The library's characteristics and trimming efficiency were checked and reads aligned to the genome of Eschscholzia californica using the software HISAT2 v2.1.0.",
+          "searchable_summary": "align reads to reference genome using HISAT2",
+          "inputs": [
+            "trimmed RNA-seq reads",
+            "Eschscholzia californica genome"
+          ],
+          "outputs": [
+            "aligned reads"
+          ],
+          "keywords": [
+            "HISAT2",
+            "alignment",
+            "genome"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcript Assembly and Quantification",
+      "description": "Assembly and quantification of transcripts from aligned RNA-seq data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Transcripts were assembled and quantified using the software StringTie v2.0, with the merge option.",
+          "searchable_summary": "assemble and quantify transcripts using StringTie",
+          "inputs": [
+            "aligned reads"
+          ],
+          "outputs": [
+            "assembled transcripts"
+          ],
+          "keywords": [
+            "StringTie",
+            "transcript assembly",
+            "quantification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Differential Gene Expression Analysis",
+      "description": "Analysis of differentially expressed genes (DEGs) using DESeq2 and annotation with BLASTX.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Analysis of differentially expressed genes (DEGs) was performed with the DESeq2 R package (v1.24.0) using the coverage produced by StringTie.",
+          "searchable_summary": "perform differential expression analysis using DESeq2",
+          "inputs": [
+            "transcript coverage"
+          ],
+          "outputs": [
+            "differentially expressed genes"
+          ],
+          "keywords": [
+            "DESeq2",
+            "differential expression",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "DEGs were annotated by BLASTX search against the genome of Papaver somniferum and the SwissProt Database, using default parameters and extracting only the top hit for each sequence.",
+          "searchable_summary": "annotate DEGs using BLASTX against Papaver somniferum and SwissProt",
+          "inputs": [
+            "differentially expressed genes"
+          ],
+          "outputs": [
+            "annotated DEGs"
+          ],
+          "keywords": [
+            "BLASTX",
+            "annotation",
+            "DEGs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Functional Annotation of DEGs",
+      "description": "Functional annotation of DEGs using Gene Ontology and KEGG databases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To assign a function to each DEG, annotated DEGs were further annotated with Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) databases using the Blast2GO v5.2.5 application and the GhostKoala mapping tool, respectively.",
+          "searchable_summary": "annotate DEGs with GO and KEGG using Blast2GO and GhostKoala",
+          "inputs": [
+            "annotated DEGs"
+          ],
+          "outputs": [
+            "functionally annotated DEGs"
+          ],
+          "keywords": [
+            "Gene Ontology",
+            "KEGG",
+            "functional annotation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcription Factor Prediction",
+      "description": "Prediction of putative plant transcription factors by aligning coding sequences to TF domains.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To predict putative plant transcription factors (TF), coding sequences were aligned to TF domains from the Plant Transcription Factor Database (PlantTFDB).",
+          "searchable_summary": "predict transcription factors by aligning to PlantTFDB",
+          "inputs": [
+            "coding sequences"
+          ],
+          "outputs": [
+            "predicted transcription factors"
+          ],
+          "keywords": [
+            "transcription factors",
+            "PlantTFDB",
+            "alignment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "qRT-PCR Validation",
+      "description": "Validation of gene expression results using qRT-PCR for selected DEGs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "To validate the gene expression results, qRT-PCR experiments were performed for eight DEGs.",
+          "searchable_summary": "validate gene expression with qRT-PCR",
+          "inputs": [
+            "selected DEGs"
+          ],
+          "outputs": [
+            "qRT-PCR validation results"
+          ],
+          "keywords": [
+            "qRT-PCR",
+            "validation",
+            "gene expression"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235748302.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

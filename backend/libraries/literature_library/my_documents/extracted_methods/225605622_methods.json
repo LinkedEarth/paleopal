@@ -1,0 +1,220 @@
+{
+  "paper_title": "Statistical Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Germination Ratio Analysis",
+      "description": "Analysis of the ratio of germinated pollen to all tested pollen for eight treatment combinations of temperature and cultivar (four temperature conditions and 'Chanee' compared with 'Monthong') to clarify the influences of temperature and cultivar. The day of the experiment was considered as a random effect because each experiment was repeated a total of two times on different days.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Analyze the ratio of germinated pollen to all tested pollen for eight treatment combinations of temperature and cultivar using a generalized linear mixed model with binomial error.",
+          "searchable_summary": "Perform generalized linear mixed model (GLMM) analysis with binomial error for pollen germination ratio.",
+          "inputs": [
+            "Ratio of germinated pollen to all tested pollen",
+            "Temperature conditions",
+            "Cultivar ('Chanee', 'Monthong')",
+            "Day of experiment"
+          ],
+          "outputs": [
+            "Generalized linear mixed model object"
+          ],
+          "keywords": [
+            "generalized linear mixed model",
+            "GLMM",
+            "binomial error",
+            "mixed effects model",
+            "lme4"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Consider the day of the experiment as a random effect.",
+          "searchable_summary": "Specify day of experiment as a random effect in the GLMM.",
+          "inputs": [
+            "Generalized linear mixed model setup",
+            "Day of experiment variable"
+          ],
+          "outputs": [
+            "Generalized linear mixed model object with random effect"
+          ],
+          "keywords": [
+            "random effect",
+            "mixed effects model",
+            "lme4"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Determine the significance of each fixed effect (i.e., temperature, cultivar, and their interaction) using analysis of deviance.",
+          "searchable_summary": "Perform analysis of deviance on the GLMM results to test fixed effects significance.",
+          "inputs": [
+            "Generalized linear mixed model object"
+          ],
+          "outputs": [
+            "Analysis of deviance table (including p-values for fixed effects)"
+          ],
+          "keywords": [
+            "analysis of deviance",
+            "ANOVA",
+            "fixed effects",
+            "car"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compare the ratio of germinated pollen to all tested pollen between each pair of the eight treatments using a general linear hypothesis (GLHT) function with Tukey's method.",
+          "searchable_summary": "Perform pairwise comparisons of treatment means using GLHT with Tukey's method.",
+          "inputs": [
+            "Generalized linear mixed model object",
+            "Treatment combinations (temperature x cultivar)"
+          ],
+          "outputs": [
+            "Pairwise comparison results (e.g., estimated differences, confidence intervals, p-values)"
+          ],
+          "keywords": [
+            "general linear hypothesis",
+            "GLHT",
+            "Tukey's method",
+            "pairwise comparison",
+            "post-hoc test",
+            "multcomp"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "Conduct analyses using R version 3.5.2 with packages Matrix, lme4, carData, car, and multcomp.",
+          "searchable_summary": "Execute statistical analysis in R using specified packages.",
+          "inputs": [
+            "Data",
+            "R environment",
+            "Required R packages (Matrix, lme4, carData, car, multcomp)"
+          ],
+          "outputs": [
+            "Analysis results"
+          ],
+          "keywords": [
+            "R",
+            "statistical software",
+            "Matrix",
+            "lme4",
+            "carData",
+            "car",
+            "multcomp"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Tube Elongation Rate Analysis",
+      "description": "Analysis of the ratio of the length of each pollen tube to that of the style for 12 combined temperature and time treatments after pollination using a generalized linear model with gamma error to understand the influence of temperature on the elongation rate of 'Chanee' pollen tubes. The length of style was set as an offset term.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Analyze the ratio of the length of each pollen tube to that of the style for 12 combined temperature and time treatments after pollination using a generalized linear model with gamma error.",
+          "searchable_summary": "Perform generalized linear model (GLM) analysis with gamma error for pollen tube elongation ratio.",
+          "inputs": [
+            "Ratio of pollen tube length to style length",
+            "Temperature conditions",
+            "Time after pollination (HAP)"
+          ],
+          "outputs": [
+            "Generalized linear model object"
+          ],
+          "keywords": [
+            "generalized linear model",
+            "GLM",
+            "gamma error"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Set the length of style as an offset term.",
+          "searchable_summary": "Specify style length as an offset term in the GLM.",
+          "inputs": [
+            "Generalized linear model setup",
+            "Style length variable"
+          ],
+          "outputs": [
+            "Generalized linear model object with offset"
+          ],
+          "keywords": [
+            "offset term",
+            "GLM"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Determine the significance of each fixed effect (i.e., temperature, HAP, and their interaction) using analysis of deviance.",
+          "searchable_summary": "Perform analysis of deviance on the GLM results to test fixed effects significance.",
+          "inputs": [
+            "Generalized linear model object"
+          ],
+          "outputs": [
+            "Analysis of deviance table (including p-values for fixed effects)"
+          ],
+          "keywords": [
+            "analysis of deviance",
+            "ANOVA",
+            "fixed effects",
+            "car"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compare the ratio of the length of pollen tube to that of the style between each pair of the 12 treatments using a GLHT function with Tukey's method.",
+          "searchable_summary": "Perform pairwise comparisons of treatment means using GLHT with Tukey's method.",
+          "inputs": [
+            "Generalized linear model object",
+            "Treatment combinations (temperature x HAP)"
+          ],
+          "outputs": [
+            "Pairwise comparison results (e.g., estimated differences, confidence intervals, p-values)"
+          ],
+          "keywords": [
+            "general linear hypothesis",
+            "GLHT",
+            "Tukey's method",
+            "pairwise comparison",
+            "post-hoc test",
+            "multcomp"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "Conduct analyses using R version 3.5.2 with packages Matrix, lme4, carData, car, and multcomp.",
+          "searchable_summary": "Execute statistical analysis in R using specified packages.",
+          "inputs": [
+            "Data",
+            "R environment",
+            "Required R packages (Matrix, lme4, carData, car, multcomp)"
+          ],
+          "outputs": [
+            "Analysis results"
+          ],
+          "keywords": [
+            "R",
+            "statistical software",
+            "Matrix",
+            "lme4",
+            "carData",
+            "car",
+            "multcomp"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/225605622.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

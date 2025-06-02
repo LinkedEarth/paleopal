@@ -1,0 +1,243 @@
+{
+  "paper_title": "An improved automated diatom detection method based on YOLOv5 framework and its preliminary study for taxonomy recognition in the forensic diatom test",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Acquisition",
+      "description": "Collection and preparation of diatom samples from various sources for evaluation of diatom detection and genus recognition models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect samples of five lab-grown diatom genera: Coscinodiscus, Cymbella, Navicula, Nitzschia, and Synedra.",
+          "searchable_summary": "collect lab-grown diatom samples",
+          "inputs": [
+            "Institute of Hydrobiology, Chinese Academy of Sciences"
+          ],
+          "outputs": [
+            "Diatom samples"
+          ],
+          "keywords": [
+            "diatom",
+            "sample collection",
+            "lab-grown"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Collect samples from lung, liver, and kidney tissues from drowning cases.",
+          "searchable_summary": "collect tissue samples from drowning cases",
+          "inputs": [
+            "Lung, liver, kidney tissues"
+          ],
+          "outputs": [
+            "Tissue samples"
+          ],
+          "keywords": [
+            "tissue samples",
+            "drowning cases"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Process samples using Microwave Digestion-Vacuum Filtration-Automated Scanning Electron Microscopy.",
+          "searchable_summary": "process samples with MD-VF-SEM",
+          "inputs": [
+            "Diatom samples",
+            "Tissue samples"
+          ],
+          "outputs": [
+            "Processed SEM images"
+          ],
+          "keywords": [
+            "microwave digestion",
+            "vacuum filtration",
+            "SEM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Acquire SEM images using Phenom XL desktop SEM at 1,500× magnification.",
+          "searchable_summary": "acquire SEM images at 1,500× magnification",
+          "inputs": [
+            "Processed samples"
+          ],
+          "outputs": [
+            "SEM images"
+          ],
+          "keywords": [
+            "SEM",
+            "image acquisition",
+            "magnification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Label positions and genera of diatoms in SEM images by forensic pathologists.",
+          "searchable_summary": "label diatom positions and genera in SEM images",
+          "inputs": [
+            "SEM images"
+          ],
+          "outputs": [
+            "Labeled SEM images"
+          ],
+          "keywords": [
+            "image labeling",
+            "forensic pathology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study on Lab-Grown Diatom Genera",
+      "description": "Evaluation of diatom detection and recognition models using lab-grown diatom samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Apply 4-fold cross-validation on images to evaluate single-class detection and multi-class recognition.",
+          "searchable_summary": "perform 4-fold cross-validation on diatom images",
+          "inputs": [
+            "Labeled SEM images"
+          ],
+          "outputs": [
+            "Cross-validation results"
+          ],
+          "keywords": [
+            "cross-validation",
+            "single-class detection",
+            "multi-class recognition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Initialize models with pre-trained parameters from ImageNet before training.",
+          "searchable_summary": "initialize models with ImageNet pre-trained parameters",
+          "inputs": [
+            "ImageNet parameters"
+          ],
+          "outputs": [
+            "Initialized models"
+          ],
+          "keywords": [
+            "model initialization",
+            "ImageNet"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Evaluate model performance using precision, recall, and AP@0.5 scores.",
+          "searchable_summary": "evaluate model performance with precision, recall, AP@0.5",
+          "inputs": [
+            "Model predictions",
+            "Ground truth labels"
+          ],
+          "outputs": [
+            "Performance metrics"
+          ],
+          "keywords": [
+            "precision",
+            "recall",
+            "AP@0.5"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Plot precision-recall curves and confusion matrices to analyze model performance.",
+          "searchable_summary": "plot precision-recall curves and confusion matrices",
+          "inputs": [
+            "Performance metrics"
+          ],
+          "outputs": [
+            "Precision-recall curves",
+            "Confusion matrices"
+          ],
+          "keywords": [
+            "precision-recall curve",
+            "confusion matrix"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study on Lung Tissue Samples",
+      "description": "Performance evaluation of diatom detection models on lung tissue samples from drowning cases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Split SEM images of lung samples into four groups for cross-validation.",
+          "searchable_summary": "split lung SEM images for cross-validation",
+          "inputs": [
+            "Lung SEM images"
+          ],
+          "outputs": [
+            "Grouped images"
+          ],
+          "keywords": [
+            "cross-validation",
+            "image grouping"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Initialize models with pre-trained YOLOv5m model on lab-grown diatom samples.",
+          "searchable_summary": "initialize models with YOLOv5m pre-trained on lab-grown samples",
+          "inputs": [
+            "YOLOv5m pre-trained model"
+          ],
+          "outputs": [
+            "Initialized models"
+          ],
+          "keywords": [
+            "YOLOv5m",
+            "model initialization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Evaluate model performance using precision-recall curves and AP@0.5 scores.",
+          "searchable_summary": "evaluate model performance with precision-recall curves, AP@0.5",
+          "inputs": [
+            "Model predictions",
+            "Ground truth labels"
+          ],
+          "outputs": [
+            "Performance metrics"
+          ],
+          "keywords": [
+            "precision-recall curve",
+            "AP@0.5"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Illustrate detection cases with confidence scores on test images.",
+          "searchable_summary": "illustrate detection cases with confidence scores",
+          "inputs": [
+            "Detection results"
+          ],
+          "outputs": [
+            "Annotated test images"
+          ],
+          "keywords": [
+            "detection illustration",
+            "confidence score"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251648589.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

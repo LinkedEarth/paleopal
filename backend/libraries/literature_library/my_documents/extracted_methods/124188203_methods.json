@@ -1,0 +1,170 @@
+{
+  "paper_title": "Compton Scattering Measurement Procedure",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Compton Scattering Energy Measurement",
+      "description": "Procedure for measuring the initial and scattered energies of gamma rays at various scattering angles using a detector and scatterer, including background subtraction and peak analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The initial energy of the gamma ray is measured without a scattering object in place.",
+          "searchable_summary": "Measure initial gamma ray energy spectrum without a scatterer.",
+          "inputs": [
+            "Gamma ray source",
+            "Detector"
+          ],
+          "outputs": [
+            "Initial gamma ray energy spectrum"
+          ],
+          "keywords": [
+            "gamma ray",
+            "energy measurement",
+            "spectroscopy",
+            "detector"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Care has to be taken to limit the count rate for the measurements made without scattering with gammas coming directly from the source.",
+          "searchable_summary": "Limit count rate during initial gamma ray energy measurement.",
+          "inputs": [
+            "Detector setup",
+            "Source-detector geometry"
+          ],
+          "outputs": [
+            "Controlled count rate"
+          ],
+          "keywords": [
+            "count rate",
+            "spectroscopy setup",
+            "detector configuration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Final energies are typically measured at each angle for angles 10 to 110 in increments of 10.",
+          "searchable_summary": "Measure scattered gamma ray energy spectra at specified angles (10-110 deg, 10 deg increments) with a scatterer.",
+          "inputs": [
+            "Gamma ray source",
+            "Scatterer",
+            "Detector",
+            "Goniometer or angle positioning system",
+            "Scattering angles (10, 20, ..., 110 degrees)"
+          ],
+          "outputs": [
+            "Scattered gamma ray energy spectrum for each angle"
+          ],
+          "keywords": [
+            "Compton scattering",
+            "gamma ray",
+            "energy measurement",
+            "scattering angle",
+            "spectroscopy",
+            "detector"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "As the angles get larger the count rate for Compton scattered gamma rays becomes smaller and the background becomes increasingly more significant.Therefore, the counting times have to be increased as the angles get larger.",
+          "searchable_summary": "Adjust counting time for spectrum acquisition based on scattering angle.",
+          "inputs": [
+            "Scattering angle",
+            "Expected count rate",
+            "Desired statistical precision"
+          ],
+          "outputs": [
+            "Counting time for each angle measurement"
+          ],
+          "keywords": [
+            "counting time",
+            "spectrum acquisition",
+            "signal-to-noise ratio",
+            "spectroscopy"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "A background measurement is then made for an equal time with the scatterer removed, leaving everything else the same.",
+          "searchable_summary": "Measure background spectrum for the same counting time with the scatterer removed.",
+          "inputs": [
+            "Detector",
+            "Environment",
+            "Counting time (from step 4)",
+            "Scatterer removed"
+          ],
+          "outputs": [
+            "Background spectrum for each angle's counting time"
+          ],
+          "keywords": [
+            "background measurement",
+            "spectrum acquisition",
+            "spectroscopy"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The Spectrum Techniques software allows the background spectrum to be stripped from the spectrum with the scatterer in place.",
+          "searchable_summary": "Subtract the background spectrum from the scattered spectrum.",
+          "inputs": [
+            "Scattered spectrum (from step 3)",
+            "Background spectrum (from step 5)"
+          ],
+          "outputs": [
+            "Background-subtracted scattered spectrum"
+          ],
+          "keywords": [
+            "background subtraction",
+            "spectrum processing",
+            "spectroscopy software"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The energy of the scattered gamma ray is measured by the position of the photoelectric peak.",
+          "searchable_summary": "Determine scattered gamma ray energy from the position of the photoelectric peak in the background-subtracted spectrum.",
+          "inputs": [
+            "Background-subtracted scattered spectrum"
+          ],
+          "outputs": [
+            "Scattered gamma ray energy ('E')"
+          ],
+          "keywords": [
+            "photoelectric peak",
+            "energy calibration",
+            "spectrum analysis",
+            "spectroscopy"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The software has a peak finding function and can find the centroid for points making up the photoelectric peak.",
+          "searchable_summary": "Find the centroid of the photoelectric peak using peak finding software.",
+          "inputs": [
+            "Photoelectric peak region of the spectrum"
+          ],
+          "outputs": [
+            "Centroid position of the photoelectric peak"
+          ],
+          "keywords": [
+            "peak finding",
+            "centroid calculation",
+            "spectrum analysis",
+            "spectroscopy software",
+            "photoelectric peak"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/124188203.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

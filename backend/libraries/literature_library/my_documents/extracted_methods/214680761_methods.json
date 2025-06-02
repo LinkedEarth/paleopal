@@ -1,0 +1,385 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Experimental Treatments",
+      "description": "Cultivation of two strains of Skeletonema marinoi to study the impact of nitrogen availability and PUA addition on growth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Two strains of Skeletonema marinoi were cultivated in f/2 medium with added silicate for 22 days.",
+          "searchable_summary": "cultivate Skeletonema marinoi strains in f/2 medium with silicate",
+          "inputs": [
+            "Skeletonema marinoi strains",
+            "f/2 medium",
+            "silicate"
+          ],
+          "outputs": [
+            "cultivated Skeletonema marinoi strains"
+          ],
+          "keywords": [
+            "cultivation",
+            "Skeletonema marinoi",
+            "f/2 medium"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sterile 250 mL Erlenmeyer flasks containing autoclaved f/2 were inoculated with 5 × 10^6 cells and sealed with cotton wool and aluminium foil.",
+          "searchable_summary": "inoculate flasks with Skeletonema marinoi cells and seal",
+          "inputs": [
+            "250 mL Erlenmeyer flasks",
+            "autoclaved f/2",
+            "5 × 10^6 cells"
+          ],
+          "outputs": [
+            "inoculated and sealed flasks"
+          ],
+          "keywords": [
+            "inoculation",
+            "Erlenmeyer flasks",
+            "autoclaving"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "NaNO3 concentration was adjusted to three levels: standard f/2, half f/2, or double f/2.",
+          "searchable_summary": "adjust NaNO3 concentration in f/2 medium",
+          "inputs": [
+            "NaNO3",
+            "f/2 medium"
+          ],
+          "outputs": [
+            "adjusted NaNO3 concentration"
+          ],
+          "keywords": [
+            "NaNO3",
+            "concentration adjustment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "PUA concentrations were spiked into the cultures to create PUA-spiked treatments.",
+          "searchable_summary": "spike PUA concentrations into cultures",
+          "inputs": [
+            "PUA concentrations",
+            "Skeletonema marinoi cultures"
+          ],
+          "outputs": [
+            "PUA-spiked treatments"
+          ],
+          "keywords": [
+            "PUA spiking",
+            "treatments"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "PUA spiking was repeated twice weekly, allowing for a three-day PUA oxidation period.",
+          "searchable_summary": "repeat PUA spiking twice weekly",
+          "inputs": [
+            "PUA-spiked treatments"
+          ],
+          "outputs": [
+            "maintained PUA dose"
+          ],
+          "keywords": [
+            "PUA oxidation",
+            "dose maintenance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Analysis",
+      "description": "Preparation and sequencing of libraries targeting the V4 hypervariable region of the 16S rRNA gene, followed by quality control and taxonomic assignment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Libraries were prepared with primers targeting the V4 hypervariable region of the 16S rRNA gene.",
+          "searchable_summary": "prepare libraries with V4 region primers",
+          "inputs": [
+            "primers",
+            "16S rRNA gene"
+          ],
+          "outputs": [
+            "prepared libraries"
+          ],
+          "keywords": [
+            "library preparation",
+            "V4 region",
+            "16S rRNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The library was sequenced using a V2 500 cycle cartridge on the MiSeq system.",
+          "searchable_summary": "sequence library on MiSeq system",
+          "inputs": [
+            "prepared libraries",
+            "V2 500 cycle cartridge"
+          ],
+          "outputs": [
+            "sequenced library"
+          ],
+          "keywords": [
+            "sequencing",
+            "MiSeq",
+            "V2 500 cycle"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Paired end sequences were screened for ambiguous base calls and reads that did not assemble correctly.",
+          "searchable_summary": "screen sequences for quality",
+          "inputs": [
+            "paired end sequences"
+          ],
+          "outputs": [
+            "quality screened sequences"
+          ],
+          "keywords": [
+            "quality control",
+            "sequence screening"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Forward and reverse sequences were merged and low-quality sequences were removed.",
+          "searchable_summary": "merge and filter sequences",
+          "inputs": [
+            "forward sequences",
+            "reverse sequences"
+          ],
+          "outputs": [
+            "merged and filtered sequences"
+          ],
+          "keywords": [
+            "sequence merging",
+            "quality filtering"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Sequences were subsampled to the minimum number of sequences in the 90 samples.",
+          "searchable_summary": "subsample sequences to minimum count",
+          "inputs": [
+            "filtered sequences"
+          ],
+          "outputs": [
+            "subsampled sequences"
+          ],
+          "keywords": [
+            "subsampling",
+            "sequence count"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Genetic distance was calculated at 95% allowing the sequences to be clustered into OTUs.",
+          "searchable_summary": "calculate genetic distance and cluster into OTUs",
+          "inputs": [
+            "subsampled sequences"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "genetic distance",
+            "OTU clustering"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Taxonomic assignment was carried out using Silva.nr_v128 in Mothur.",
+          "searchable_summary": "assign taxonomy using Silva.nr_v128",
+          "inputs": [
+            "OTUs"
+          ],
+          "outputs": [
+            "taxonomically assigned OTUs"
+          ],
+          "keywords": [
+            "taxonomic assignment",
+            "Silva.nr_v128",
+            "Mothur"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Sequences were screened again for start and end position alignment.",
+          "searchable_summary": "screen sequences for alignment",
+          "inputs": [
+            "taxonomically assigned OTUs"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "alignment screening",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Chimera detection was completed using a de novo method in UCHIME through Mothur.",
+          "searchable_summary": "detect chimeras using UCHIME",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "non-chimeric sequences"
+          ],
+          "keywords": [
+            "chimera detection",
+            "UCHIME",
+            "Mothur"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Negative control samples were used as a proxy for contamination and counts found within negative controls were removed.",
+          "searchable_summary": "remove contamination using negative controls",
+          "inputs": [
+            "non-chimeric sequences",
+            "negative control samples"
+          ],
+          "outputs": [
+            "contamination-free sequences"
+          ],
+          "keywords": [
+            "contamination removal",
+            "negative controls"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Alpha and Beta Diversity Analysis",
+      "description": "Analysis of species diversity within and between culture treatments using various diversity indices and statistical tests.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Alpha diversity measures were calculated using Mothur to determine the mean species diversity within culture treatments.",
+          "searchable_summary": "calculate alpha diversity using Mothur",
+          "inputs": [
+            "culture treatment data"
+          ],
+          "outputs": [
+            "alpha diversity measures"
+          ],
+          "keywords": [
+            "alpha diversity",
+            "Mothur",
+            "species diversity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Richness estimators included Sobs, Chao1, Shannon diversity index, Shannon evenness, and Inverse Simpson.",
+          "searchable_summary": "calculate richness estimators",
+          "inputs": [
+            "alpha diversity measures"
+          ],
+          "outputs": [
+            "richness estimators"
+          ],
+          "keywords": [
+            "richness estimators",
+            "diversity indices"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Mean diversity indices were compared for significance using RStudio and R code for ecological data analysis.",
+          "searchable_summary": "compare diversity indices for significance",
+          "inputs": [
+            "richness estimators"
+          ],
+          "outputs": [
+            "significance results"
+          ],
+          "keywords": [
+            "diversity indices",
+            "significance testing",
+            "RStudio"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The non-parametric Kruskal-Wallis test was carried out, followed by the pairwise Wilcox test with p values adjusted using the Benjamini-Hochberg method.",
+          "searchable_summary": "perform Kruskal-Wallis and Wilcox tests",
+          "inputs": [
+            "diversity indices"
+          ],
+          "outputs": [
+            "adjusted p values"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "Wilcox test",
+            "Benjamini-Hochberg"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Beta diversity analysis was carried out on phylum, class, and genus data using the Bray-Curtis dissimilarity index.",
+          "searchable_summary": "perform beta diversity analysis using Bray-Curtis",
+          "inputs": [
+            "phylum data",
+            "class data",
+            "genus data"
+          ],
+          "outputs": [
+            "beta diversity results"
+          ],
+          "keywords": [
+            "beta diversity",
+            "Bray-Curtis",
+            "dissimilarity index"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Non-metric multi-dimensional scaling (NMDS) allowed for the visual clustering of communities.",
+          "searchable_summary": "visualize clustering using NMDS",
+          "inputs": [
+            "beta diversity results"
+          ],
+          "outputs": [
+            "NMDS plot"
+          ],
+          "keywords": [
+            "NMDS",
+            "visual clustering",
+            "community analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/214680761.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

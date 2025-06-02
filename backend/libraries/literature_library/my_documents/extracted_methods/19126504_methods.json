@@ -1,0 +1,227 @@
+{
+  "paper_title": "Artificial Pollen Dispersal and Detection Study Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field and Lab Data Collection",
+      "description": "Collection of environmental, site, population, and pan trap data, including processing pan trap samples to quantify artificial pollen abundance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Weather data were recorded daily from a single weather station on the KSR property (including air temperature, wind direction and speed, and total precipitation).",
+          "searchable_summary": "Record daily weather data from a weather station.",
+          "inputs": [
+            "weather station data feed"
+          ],
+          "outputs": [
+            "daily weather data (air temperature, wind direction, wind speed, total precipitation)"
+          ],
+          "keywords": [
+            "weather data",
+            "environmental monitoring",
+            "data logging",
+            "temperature",
+            "wind",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "At each sampling site, we recorded elevation, distance from source population, and surrounding dominant vegetation. The latter estimate was based on a brief visual survey of the presence or absence of plants having showy flowers within 10 m of the sampling point.",
+          "searchable_summary": "Record site characteristics (elevation, distance, vegetation) at each sampling location.",
+          "inputs": [
+            "sampling site location",
+            "source population location",
+            "visual survey"
+          ],
+          "outputs": [
+            "sampling site data (elevation, distance from source, dominant vegetation)"
+          ],
+          "keywords": [
+            "site data",
+            "sampling location",
+            "elevation",
+            "distance",
+            "vegetation survey"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Data recorded from the experimental population included total number of flowering plants and total number of flowers.",
+          "searchable_summary": "Record total number of flowering plants and flowers in the experimental population.",
+          "inputs": [
+            "experimental plant population"
+          ],
+          "outputs": [
+            "experimental population data (flowering plant count, flower count)"
+          ],
+          "keywords": [
+            "population data",
+            "flowering plants",
+            "flower count",
+            "biological monitoring"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "We also recorded data from our pan traps that provided information on (biotic) insect vector diversity and abundance (i.e., number of species, total abundance of all insects trapped, and abundance of bees, which are some of the more effective biotic pollen vectors in old field communities), as well as amount of artificial pollen captured.",
+          "searchable_summary": "Record insect diversity, abundance, bee abundance, and artificial pollen amount from pan traps.",
+          "inputs": [
+            "pan traps"
+          ],
+          "outputs": [
+            "pan trap data (insect diversity, total insect abundance, bee abundance, artificial pollen amount)"
+          ],
+          "keywords": [
+            "pan trap",
+            "insect diversity",
+            "insect abundance",
+            "bee abundance",
+            "pollen capture",
+            "ecological monitoring"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Because we were not able to count all of the artificial pollen that was centrifuged off insect vectors, we sampled artificial pollen loads from each pan trap by counting the number of fluorescent paint particles in a single transect through the middle of a prepared microscope slide at 40× magnification (total area sampled: 25 mm × 5 mm or 125 mm 2 ).",
+          "searchable_summary": "Quantify artificial pollen by counting fluorescent particles on microscope slides from pan trap samples.",
+          "inputs": [
+            "centrifuged pollen sample from pan trap",
+            "prepared microscope slide"
+          ],
+          "outputs": [
+            "artificial pollen particle count per transect"
+          ],
+          "keywords": [
+            "pollen quantification",
+            "microscopy",
+            "particle counting",
+            "fluorescent particles",
+            "sample processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial Interpolation and Analysis (Kriging)",
+      "description": "Using geostatistical methods, specifically ordinary kriging via the 'automap' R package, to create continuous maps of predicted artificial pollen abundance and model spatial structure.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We determined the maximum artificial pollen abundance detected at each sampling location (i.e., maximum of the three replicate treatments) for each of the three experimental populations and the control (0, 5, 50, and 100). We used maximum pollen abundance per trap for interpolation as this was deemed a more representative measure than a mean or a minimum.",
+          "searchable_summary": "Calculate the maximum artificial pollen abundance across replicates for each sampling location.",
+          "inputs": [
+            "artificial pollen particle counts from replicate pan traps at each location"
+          ],
+          "outputs": [
+            "maximum artificial pollen abundance per sampling location"
+          ],
+          "keywords": [
+            "data aggregation",
+            "maximum value",
+            "replicate data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Maximum artificial pollen abundance for each of these treatments was interpolated by ordinary kriging to create a spatially continuous map of predicted abundance of artificial pollen. We used an R package to perform this task (R package automap; Hiemstra, 2013).",
+          "searchable_summary": "Perform ordinary kriging interpolation on maximum pollen abundance data using the 'automap' R package.",
+          "inputs": [
+            "maximum artificial pollen abundance per sampling location",
+            "sampling location coordinates"
+          ],
+          "outputs": [
+            "spatially continuous map of predicted artificial pollen abundance"
+          ],
+          "keywords": [
+            "spatial interpolation",
+            "kriging",
+            "ordinary kriging",
+            "geostatistics",
+            "automap R package",
+            "spatial modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "We used categories of pollen pellet abundance (e.g., Fig. 3) to allow for an immediate determination of where large differences in pollen amounts occur in the landscape. Category breaks were selected for even spacing, but natural breaks or deviations from mean values could be used.",
+          "searchable_summary": "Create categorized maps from the predicted pollen abundance map.",
+          "inputs": [
+            "spatially continuous map of predicted artificial pollen abundance"
+          ],
+          "outputs": [
+            "categorized map of artificial pollen abundance"
+          ],
+          "keywords": [
+            "mapping",
+            "data visualization",
+            "categorization",
+            "spatial data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Mapping by interpolation relies on a model of spatial structure-a variogram-to depict how pollen abundance varies with increasing distance between sampling locations. The variogram is akin to a dispersal kernel. Variograms are commonly used to model spatial structure in the field of geostatistics, although they are less commonly used in the context of pollen movement. Dispersal kernels typically show an expected decrease in pollen abundance with increasing distance from source plants, which may be exponential or more gradual. This decrease is captured by the gradual rise to the sill (i.e., the upper limit of the variogram) in the exponential or spherical variogram model. The variogram sill, a measure of average variation, was calculated as the mean squared difference in pollen abundance between pairs of sampling points, which are separated by a given distance class. The sill is known in geostatistics as the level at which near points are no longer more similar than distant points, and the range is the distance at which the model variogram reaches the sill.",
+          "searchable_summary": "Model spatial structure using a variogram (exponential or spherical model) and calculate the variogram sill and range.",
+          "inputs": [
+            "maximum artificial pollen abundance per sampling location",
+            "sampling location coordinates"
+          ],
+          "outputs": [
+            "variogram model (exponential or spherical)",
+            "variogram sill",
+            "variogram range"
+          ],
+          "keywords": [
+            "variogram",
+            "spatial structure",
+            "geostatistics",
+            "spatial modeling",
+            "exponential variogram model",
+            "spherical variogram model",
+            "sill",
+            "range"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Variance",
+      "description": "Analysis of the variance in artificial pollen abundance captured at sampling locations using a General Linear Model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To determine what conditions influenced detectability, we first analyzed the variance in the abundance of artificial paint pellets captured at each sampling location. Initially, we ran a general linear model, assuming a Poisson distribution (for artificial pollen count).",
+          "searchable_summary": "Analyze variance in artificial pollen counts using a General Linear Model (GLM) assuming a Poisson distribution.",
+          "inputs": [
+            "artificial pollen counts per sampling location",
+            "conditions influencing detectability (e.g., site data, weather data)"
+          ],
+          "outputs": [
+            "GLM results (analysis of variance)"
+          ],
+          "keywords": [
+            "statistical analysis",
+            "variance analysis",
+            "general linear model",
+            "GLM",
+            "Poisson distribution",
+            "statistical modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/19126504.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

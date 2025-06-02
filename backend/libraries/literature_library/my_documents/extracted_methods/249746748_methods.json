@@ -1,0 +1,313 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "U/Th Age Measurement",
+      "description": "Process for measuring ages of stalagmite samples using U/Th methods and correcting for detrital Th.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sixteen 230 Th ages were measured from stalagmite using U/Th methods.",
+          "searchable_summary": "measure 230 Th ages from stalagmite using U/Th methods",
+          "inputs": [
+            "stalagmite samples"
+          ],
+          "outputs": [
+            "230 Th ages"
+          ],
+          "keywords": [
+            "U/Th dating",
+            "230 Th",
+            "stalagmite"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The samples were analyzed by a Nu Instruments Multi-Collector Inductively Coupled Mass Spectrometer (MC-ICPMS) at the Oxford University, UK.",
+          "searchable_summary": "analyze samples using MC-ICPMS",
+          "inputs": [
+            "stalagmite samples"
+          ],
+          "outputs": [
+            "mass spectrometry data"
+          ],
+          "keywords": [
+            "MC-ICPMS",
+            "mass spectrometry"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "U concentrations were measured using a bracketing standard approach. Th was measured against in-house Th standards.",
+          "searchable_summary": "measure U and Th concentrations using standard approaches",
+          "inputs": [
+            "mass spectrometry data"
+          ],
+          "outputs": [
+            "U concentrations",
+            "Th concentrations"
+          ],
+          "keywords": [
+            "U concentration",
+            "Th concentration",
+            "bracketing standard"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Half-lives as calculated by Cheng et al. (2013) were used for calculations.",
+          "searchable_summary": "use Cheng et al. (2013) half-lives for calculations",
+          "inputs": [
+            "U concentrations",
+            "Th concentrations"
+          ],
+          "outputs": [
+            "calculated ages"
+          ],
+          "keywords": [
+            "half-life",
+            "age calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The age data was further corrected for the presence of detrital Th using bulk detrital value of + 5.38E − 06 and − 4.84E − 06.",
+          "searchable_summary": "correct age data for detrital Th",
+          "inputs": [
+            "calculated ages",
+            "detrital Th values"
+          ],
+          "outputs": [
+            "corrected ages"
+          ],
+          "keywords": [
+            "detrital Th correction",
+            "age correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age Model Construction",
+      "description": "Construction of an age model for the stalagmite sample using COPRA and Monte-Carlo simulations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The age model for the sample was constructed using COPRA, an interactive age model.",
+          "searchable_summary": "construct age model using COPRA",
+          "inputs": [
+            "corrected ages"
+          ],
+          "outputs": [
+            "initial age model"
+          ],
+          "keywords": [
+            "COPRA",
+            "age model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "A median age model with 2000 Monte-Carlo simulations and 95% confidence interval was derived.",
+          "searchable_summary": "derive median age model with Monte-Carlo simulations",
+          "inputs": [
+            "initial age model"
+          ],
+          "outputs": [
+            "median age model"
+          ],
+          "keywords": [
+            "Monte-Carlo simulation",
+            "median age model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The chronology of the stalagmite on either side of the middle section was modeled independently and merged to establish a composite time series.",
+          "searchable_summary": "merge independent models to establish composite time series",
+          "inputs": [
+            "median age model"
+          ],
+          "outputs": [
+            "composite time series"
+          ],
+          "keywords": [
+            "composite time series",
+            "chronology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Stable Isotope Analysis",
+      "description": "Analysis of stable isotopes of oxygen and carbon (δ 18 O and δ 13 C) from stalagmite sub-samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "861 sub-samples were extracted from Sections 1 and 3 using a New Wave Research Micromill.",
+          "searchable_summary": "extract sub-samples using Micromill",
+          "inputs": [
+            "stalagmite sections"
+          ],
+          "outputs": [
+            "sub-samples"
+          ],
+          "keywords": [
+            "Micromill",
+            "sub-sample extraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sub-samples were reacted with 100% ortho-phosphoric acid at 72 °C in a GasBench.",
+          "searchable_summary": "react sub-samples with ortho-phosphoric acid",
+          "inputs": [
+            "sub-samples"
+          ],
+          "outputs": [
+            "reacted samples"
+          ],
+          "keywords": [
+            "ortho-phosphoric acid",
+            "GasBench"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "δ 18 O and δ 13 C values in the liberated CO 2 were measured on a Delta-V plus IRMS.",
+          "searchable_summary": "measure δ 18 O and δ 13 C values using IRMS",
+          "inputs": [
+            "reacted samples"
+          ],
+          "outputs": [
+            "δ 18 O values",
+            "δ 13 C values"
+          ],
+          "keywords": [
+            "IRMS",
+            "δ 18 O",
+            "δ 13 C"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "NBS-19 was used as an international standard and a laboratory standard prepared from Makrana marble was used as an internal reference.",
+          "searchable_summary": "use NBS-19 and Makrana marble as standards",
+          "inputs": [
+            "δ 18 O values",
+            "δ 13 C values"
+          ],
+          "outputs": [
+            "validated isotope values"
+          ],
+          "keywords": [
+            "NBS-19",
+            "Makrana marble",
+            "standard"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Trace Element Analysis",
+      "description": "Analysis of major and trace elements from stalagmite sub-samples using ICP-MS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Forty-seven sub-samples were milled using a dentist's drill at a resolution of 3 mm for major and trace element analyses.",
+          "searchable_summary": "mill sub-samples using dentist's drill",
+          "inputs": [
+            "stalagmite section"
+          ],
+          "outputs": [
+            "milled sub-samples"
+          ],
+          "keywords": [
+            "milling",
+            "dentist's drill"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were milled in a clean environment and dissolved in 2% nitric acid.",
+          "searchable_summary": "dissolve milled samples in nitric acid",
+          "inputs": [
+            "milled sub-samples"
+          ],
+          "outputs": [
+            "dissolved samples"
+          ],
+          "keywords": [
+            "nitric acid",
+            "dissolution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Measured directly on an Inductively Coupled Plasma Mass Spectrometer at PRL.",
+          "searchable_summary": "measure samples using ICP-MS",
+          "inputs": [
+            "dissolved samples"
+          ],
+          "outputs": [
+            "elemental concentrations"
+          ],
+          "keywords": [
+            "ICP-MS",
+            "elemental analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For internal standardization, multiple enriched isotopes of In-Ga-209 Bi were used.",
+          "searchable_summary": "use In-Ga-209 Bi isotopes for standardization",
+          "inputs": [
+            "elemental concentrations"
+          ],
+          "outputs": [
+            "standardized concentrations"
+          ],
+          "keywords": [
+            "internal standardization",
+            "In-Ga-209 Bi"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The concentrations of Mg, Sr, Ba and Mn were normalized with that of Ca.",
+          "searchable_summary": "normalize element concentrations with Ca",
+          "inputs": [
+            "standardized concentrations"
+          ],
+          "outputs": [
+            "normalized concentrations"
+          ],
+          "keywords": [
+            "normalization",
+            "element concentration"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/249746748.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

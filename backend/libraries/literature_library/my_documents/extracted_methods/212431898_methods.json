@@ -1,0 +1,177 @@
+{
+  "paper_title": "Inferred Title from Methods Sections",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Data Compilation and Analysis",
+      "description": "This method involves compiling and analyzing ice core data to measure SMB and δ 18 O, which are used to infer historical climate conditions. The data is used to compare with model simulations to understand the correlation between SMB, SAT, and δ 18 O.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use the Thomas et al. (2017) compilation for SMB data from 79 ice cores over the AIS.",
+          "searchable_summary": "fetch SMB data from Thomas et al. (2017) compilation",
+          "inputs": [
+            "Thomas et al. (2017) compilation"
+          ],
+          "outputs": [
+            "SMB data"
+          ],
+          "keywords": [
+            "SMB",
+            "ice cores",
+            "Thomas et al. 2017"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Use the Stenni et al. (2017) compilation for δ 18 O data from 112 ice cores over the AIS.",
+          "searchable_summary": "fetch δ 18 O data from Stenni et al. (2017) compilation",
+          "inputs": [
+            "Stenni et al. (2017) compilation"
+          ],
+          "outputs": [
+            "δ 18 O data"
+          ],
+          "keywords": [
+            "δ 18 O",
+            "ice cores",
+            "Stenni et al. 2017"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Correct the annual layer thickness for densification, compaction, and ice flow to produce a water equivalent snow accumulation.",
+          "searchable_summary": "process ice core data to correct for densification and compaction",
+          "inputs": [
+            "annual layer thickness data"
+          ],
+          "outputs": [
+            "water equivalent snow accumulation"
+          ],
+          "keywords": [
+            "densification",
+            "compaction",
+            "ice flow"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate the annual correlation between SMB and SAT at the regional scale over 1871-2000.",
+          "searchable_summary": "calculate annual correlation between SMB and SAT",
+          "inputs": [
+            "SMB data",
+            "SAT data"
+          ],
+          "outputs": [
+            "annual correlation values"
+          ],
+          "keywords": [
+            "correlation",
+            "SMB",
+            "SAT"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate the 5-yearly correlation between SMB and δ 18 O for the ice cores.",
+          "searchable_summary": "calculate 5-yearly correlation between SMB and δ 18 O",
+          "inputs": [
+            "SMB data",
+            "δ 18 O data"
+          ],
+          "outputs": [
+            "5-yearly correlation values"
+          ],
+          "keywords": [
+            "correlation",
+            "SMB",
+            "δ 18 O"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "SAT Reconstruction and Correlation Analysis",
+      "description": "This method involves reconstructing SAT data using weather station records and analyzing the correlation between SAT and SMB using model simulations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use SAT records from 15 weather stations around the AIS to produce estimates of monthly gridded mean temperature anomalies.",
+          "searchable_summary": "fetch SAT data from weather stations",
+          "inputs": [
+            "weather station records"
+          ],
+          "outputs": [
+            "monthly gridded mean temperature anomalies"
+          ],
+          "keywords": [
+            "SAT",
+            "weather stations",
+            "temperature anomalies"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use a kriging technique to interpolate the SAT data between the stations.",
+          "searchable_summary": "interpolate SAT data using kriging",
+          "inputs": [
+            "SAT data",
+            "station locations"
+          ],
+          "outputs": [
+            "interpolated SAT field"
+          ],
+          "keywords": [
+            "kriging",
+            "interpolation",
+            "SAT"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Correlate SAT and SMB directly at the ice core locations to compare to the RACMO2.3 results.",
+          "searchable_summary": "correlate SAT and SMB at ice core locations",
+          "inputs": [
+            "interpolated SAT field",
+            "SMB data"
+          ],
+          "outputs": [
+            "correlation results"
+          ],
+          "keywords": [
+            "correlation",
+            "SAT",
+            "SMB"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Calculate the significance of correlations using a p value of 0.05.",
+          "searchable_summary": "validate correlation significance with p value",
+          "inputs": [
+            "correlation results"
+          ],
+          "outputs": [
+            "significance of correlations"
+          ],
+          "keywords": [
+            "significance",
+            "p value",
+            "correlation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/212431898.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

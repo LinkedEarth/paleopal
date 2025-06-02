@@ -1,0 +1,169 @@
+{
+  "paper_title": "Radiocarbon Age Calibration and Projection Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Radiocarbon Age Calibration",
+      "description": "Recalibration of conventional 14C ages of planktonic foraminifera to calendar ages using the IntCal09/Marine09 calibration curve and CALIB 6.0 software, with adjustments for current-regime dependent reservoir age corrections.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Conventional 14C ages of planktonic foraminifera were recalculated to calendar ages based on the IntCal09/Marine09 calibration curve using the CALIB 6.0 software.",
+          "searchable_summary": "Recalculate 14C ages to calendar ages using IntCal09/Marine09 calibration curve and CALIB 6.0",
+          "inputs": [
+            "conventional 14C ages",
+            "IntCal09/Marine09 calibration curve"
+          ],
+          "outputs": [
+            "calendar ages"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "calibration",
+            "CALIB software"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Applied a current-regime dependent reservoir age correction (DR) of 415 ± 105 yr before 10.6 ka, based on Holocene DR values in the Oyashio current off the Kuril islands.",
+          "searchable_summary": "Apply reservoir age correction based on current regime",
+          "inputs": [
+            "calendar ages",
+            "Holocene DR values"
+          ],
+          "outputs": [
+            "corrected calendar ages"
+          ],
+          "keywords": [
+            "reservoir age correction",
+            "Oyashio current",
+            "Tsugaru current"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Linearly interpolated DR values from 415 yr to 130 yr at 3.5 ka, assuming mixing of 65% Tsugaru current water with a modern DR of 34 ± 42 yr and 35% Oyashio current water.",
+          "searchable_summary": "Interpolate DR values based on mixing ratios of currents",
+          "inputs": [
+            "DR values",
+            "mixing ratios"
+          ],
+          "outputs": [
+            "interpolated DR values"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "mixing ratio",
+            "current influence"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Benthic Radiocarbon Content Calculation",
+      "description": "Calculation of age-corrected radiocarbon contents (D14C) of benthic foraminifera, including interpolation of growth ages and estimation of analytical uncertainties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Age-corrected radiocarbon contents (D14C) of benthic foraminifera were calculated following the conventions of Stuiver and Polach.",
+          "searchable_summary": "Calculate age-corrected D14C for benthic foraminifera",
+          "inputs": [
+            "benthic foraminifera data",
+            "Stuiver and Polach conventions"
+          ],
+          "outputs": [
+            "D14C values"
+          ],
+          "keywords": [
+            "benthic foraminifera",
+            "radiocarbon content",
+            "Stuiver and Polach"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Linearly interpolated between age control points to yield growth ages of the benthic foraminifera.",
+          "searchable_summary": "Interpolate growth ages between age control points",
+          "inputs": [
+            "age control points"
+          ],
+          "outputs": [
+            "interpolated growth ages"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "growth age",
+            "benthic foraminifera"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Applied additional errors to interpolated calendar ages defined as the 1s standard deviations of the distances between age control points and the regression line.",
+          "searchable_summary": "Apply additional errors to interpolated ages based on standard deviations",
+          "inputs": [
+            "interpolated calendar ages",
+            "standard deviations"
+          ],
+          "outputs": [
+            "adjusted calendar ages"
+          ],
+          "keywords": [
+            "error estimation",
+            "standard deviation",
+            "regression line"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Projection Age Method",
+      "description": "Method to deduce ventilation ages by projecting core site D14C values back along a closed-system 14C trajectory to the intersection with the IntCal09 atmospheric D14C curve.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Projected core site D14C values back along a closed-system 14C trajectory to the intersection point with the IntCal09 atmospheric D14C curve.",
+          "searchable_summary": "Project D14C values to intersect with IntCal09 curve",
+          "inputs": [
+            "core site D14C values",
+            "IntCal09 curve"
+          ],
+          "outputs": [
+            "intersection point"
+          ],
+          "keywords": [
+            "projection age",
+            "closed-system trajectory",
+            "IntCal09"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Determined the projection age relative to the surface ocean in the source regions by subtracting the average reservoir age of primary source regions.",
+          "searchable_summary": "Calculate projection age relative to surface ocean",
+          "inputs": [
+            "intersection point",
+            "average reservoir age"
+          ],
+          "outputs": [
+            "projection age"
+          ],
+          "keywords": [
+            "projection age",
+            "surface ocean",
+            "reservoir age"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16699887.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

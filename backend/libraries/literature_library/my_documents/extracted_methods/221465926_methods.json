@@ -1,0 +1,281 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Acquisition and Subsampling",
+      "description": "Process of acquiring and subsampling mastodon specimens from various institutions for DNA analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Mastodons were subsampled at each of the institutions that contributed specimens to this study.",
+          "searchable_summary": "collect mastodon subsamples from institutions",
+          "inputs": [
+            "mastodon specimens"
+          ],
+          "outputs": [
+            "subsamples"
+          ],
+          "keywords": [
+            "sample acquisition",
+            "subsampling",
+            "mastodon"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Subsamples were then sent to the McMaster University Ancient DNA Centre, with all further processing conducted in dedicated ancient DNA clean rooms.",
+          "searchable_summary": "send subsamples to DNA center for processing",
+          "inputs": [
+            "subsamples"
+          ],
+          "outputs": [
+            "processed samples"
+          ],
+          "keywords": [
+            "DNA processing",
+            "clean room"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Extraction and Processing",
+      "description": "Methodologies used to extract and process DNA from mastodon specimens to maximize successful DNA recovery.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Specimens were processed using a variety of wet-lab methodologies to maximise the probability of successful DNA extraction.",
+          "searchable_summary": "apply wet-lab methodologies for DNA extraction",
+          "inputs": [
+            "mastodon specimens"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "wet-lab"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Material was demineralised and digested in successive rounds with 0.5 M EDTA or a Proteinase K digestion buffer.",
+          "searchable_summary": "demineralize and digest material with EDTA or Proteinase K",
+          "inputs": [
+            "material",
+            "EDTA",
+            "Proteinase K"
+          ],
+          "outputs": [
+            "demineralized and digested material"
+          ],
+          "keywords": [
+            "demineralization",
+            "digestion",
+            "EDTA",
+            "Proteinase K"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Supernatants were pooled and extracted using either organic or two different guanidinium-silica based extraction methods.",
+          "searchable_summary": "extract supernatants using organic or guanidinium-silica methods",
+          "inputs": [
+            "supernatants"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "guanidinium-silica",
+            "organic extraction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "UDG-treated and non-UDG-treated libraries were prepared using double-stranded or single-stranded methodologies.",
+          "searchable_summary": "prepare UDG-treated and non-UDG-treated libraries",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "DNA libraries"
+          ],
+          "keywords": [
+            "UDG treatment",
+            "library preparation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "All libraries underwent 1-2 rounds of in-solution enrichment with a comprehensive proboscidean bait set.",
+          "searchable_summary": "enrich libraries with proboscidean bait set",
+          "inputs": [
+            "DNA libraries"
+          ],
+          "outputs": [
+            "enriched DNA libraries"
+          ],
+          "keywords": [
+            "in-solution enrichment",
+            "proboscidean bait"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Mapping and Curation",
+      "description": "Process of mapping and curating DNA sequences to ensure quality and accuracy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Demultiplexed reads were trimmed and merged with leeHom using the ancient DNA flag.",
+          "searchable_summary": "trim and merge reads with leeHom",
+          "inputs": [
+            "demultiplexed reads"
+          ],
+          "outputs": [
+            "trimmed and merged reads"
+          ],
+          "keywords": [
+            "leeHom",
+            "trimming",
+            "merging"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Reads were mapped against the M. americanum mitochondrial reference genome using BWA with common ancient DNA settings.",
+          "searchable_summary": "map reads to mitochondrial reference genome with BWA",
+          "inputs": [
+            "trimmed and merged reads",
+            "reference genome"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "BWA",
+            "mapping",
+            "mitochondrial genome"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Mapped reads that were either merged or properly paired were extracted using the retrieveMapped_single_and_ProperlyPair programme.",
+          "searchable_summary": "extract merged or properly paired mapped reads",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "extracted reads"
+          ],
+          "keywords": [
+            "extraction",
+            "libbam"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Replication duplicates were removed based on unique 5′ and 3′ positions.",
+          "searchable_summary": "remove replication duplicates",
+          "inputs": [
+            "extracted reads"
+          ],
+          "outputs": [
+            "deduplicated reads"
+          ],
+          "keywords": [
+            "duplicate removal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Alignments were imported into Geneious and manually curated to remove any sequencing artefacts.",
+          "searchable_summary": "import alignments into Geneious and curate",
+          "inputs": [
+            "deduplicated reads"
+          ],
+          "outputs": [
+            "curated alignments"
+          ],
+          "keywords": [
+            "Geneious",
+            "curation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Regions below 3× minimum depth coverage were masked with Ns.",
+          "searchable_summary": "mask low coverage regions with Ns",
+          "inputs": [
+            "curated alignments"
+          ],
+          "outputs": [
+            "masked alignments"
+          ],
+          "keywords": [
+            "masking",
+            "coverage"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Final consensus sequences were obtained using the majority base call at each position.",
+          "searchable_summary": "generate consensus sequences",
+          "inputs": [
+            "masked alignments"
+          ],
+          "outputs": [
+            "consensus sequences"
+          ],
+          "keywords": [
+            "consensus sequence",
+            "base call"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Selection and Phylogenetic Analyses",
+      "description": "Aligning new mitochondrial genomes with previously published genomes for phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The 33 new mitochondrial genomes were aligned with the only two mastodon mitochondrial genomes previously published using MUSCLE.",
+          "searchable_summary": "align mitochondrial genomes with MUSCLE",
+          "inputs": [
+            "new mitochondrial genomes",
+            "published genomes"
+          ],
+          "outputs": [
+            "aligned genomes"
+          ],
+          "keywords": [
+            "MUSCLE",
+            "alignment",
+            "phylogenetic analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221465926.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

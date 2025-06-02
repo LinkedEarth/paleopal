@@ -1,0 +1,180 @@
+{
+  "paper_title": "Phylogenetic Analysis of Cephalophinae",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and DNA Extraction",
+      "description": "Collection of tissue samples from various species within the Cephalophinae and related taxa, followed by DNA extraction using different methods based on sample type.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Tissue was sampled from 24 individuals within the Cephalophinae, representing all eighteen species recognized by the IUCN.",
+          "searchable_summary": "collect tissue samples from Cephalophinae species",
+          "inputs": [
+            "Cephalophinae species list"
+          ],
+          "outputs": [
+            "tissue samples"
+          ],
+          "keywords": [
+            "tissue sampling",
+            "Cephalophinae",
+            "IUCN"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Sequences were obtained from Genbank for P. walteri and C. rubidus.",
+          "searchable_summary": "download sequences from Genbank",
+          "inputs": [
+            "Genbank accession numbers"
+          ],
+          "outputs": [
+            "DNA sequences"
+          ],
+          "keywords": [
+            "Genbank",
+            "sequence retrieval"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "DNA from all bushmeat and some San Diego Zoo tissues was extracted using a standard phenol-chloroform extraction method.",
+          "searchable_summary": "extract DNA using phenol-chloroform method",
+          "inputs": [
+            "tissue samples"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "phenol-chloroform"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The C. jentinki fecal sample was extracted using the QIAamp DNA Stool Minikit.",
+          "searchable_summary": "extract DNA from fecal sample using QIAamp kit",
+          "inputs": [
+            "fecal sample"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "QIAamp",
+            "fecal sample"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "Analysis of phylogenetic relationships using mitochondrial and nuclear DNA sequences, including tests for incongruence and topological concordance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The incongruence length difference test (ILD) was used to evaluate incongruence between mitochondrial genes, nuclear introns, and combined datasets.",
+          "searchable_summary": "perform ILD test for dataset incongruence",
+          "inputs": [
+            "mitochondrial and nuclear DNA sequences"
+          ],
+          "outputs": [
+            "incongruence test results"
+          ],
+          "keywords": [
+            "ILD test",
+            "incongruence",
+            "PAUP*"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Gene trees were estimated using maximum parsimony (MP), maximum likelihood (ML), and Bayesian (BA) methods.",
+          "searchable_summary": "estimate gene trees using MP, ML, and BA methods",
+          "inputs": [
+            "DNA sequences"
+          ],
+          "outputs": [
+            "gene trees"
+          ],
+          "keywords": [
+            "gene tree estimation",
+            "maximum parsimony",
+            "maximum likelihood",
+            "Bayesian analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Test for topological concordance using the likelihood-based SH test.",
+          "searchable_summary": "perform SH test for topological concordance",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "SH test results"
+          ],
+          "keywords": [
+            "SH test",
+            "topological concordance",
+            "PAUP*"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bayesian Analysis and Divergence Time Estimation",
+      "description": "Bayesian analysis to estimate divergence times and tree topology using BEAST, considering both mitochondrial and nuclear data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Divergence times and tree topology were estimated using BEAST with a relaxed, uncorrelated lognormal clock model.",
+          "searchable_summary": "estimate divergence times using BEAST",
+          "inputs": [
+            "DNA sequences",
+            "fossil calibration data"
+          ],
+          "outputs": [
+            "divergence time estimates",
+            "tree topology"
+          ],
+          "keywords": [
+            "BEAST",
+            "divergence time estimation",
+            "relaxed clock model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Bayes Factor analysis was used to investigate the effects of partitioning on the Bayesian analysis.",
+          "searchable_summary": "perform Bayes Factor analysis for partitioning effects",
+          "inputs": [
+            "Bayesian analysis results"
+          ],
+          "outputs": [
+            "Bayes Factor results"
+          ],
+          "keywords": [
+            "Bayes Factor",
+            "partitioning",
+            "Bayesian analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15245804.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

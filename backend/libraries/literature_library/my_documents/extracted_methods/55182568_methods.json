@@ -1,0 +1,193 @@
+{
+  "paper_title": "Climate and Ice Sheet Modeling",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Model Simulation with NorESM-L",
+      "description": "This method involves performing climate model simulations using the Norwegian Earth System Model (NorESM-L) to study pre-industrial and Last Interglacial (LIG) climate states.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Simulations are performed with the low-resolution version of NorESM (NorESM-L) to reduce computational time for long equilibrium simulations.",
+          "searchable_summary": "run NorESM-L climate model simulations",
+          "inputs": [
+            "NorESM-L model configuration"
+          ],
+          "outputs": [
+            "climate simulation data"
+          ],
+          "keywords": [
+            "NorESM-L",
+            "climate model",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The PI control simulation is run for 1000 yr under constant PI GHG levels and an orbital configuration fixed to the year 1950.",
+          "searchable_summary": "perform pre-industrial control simulation",
+          "inputs": [
+            "GHG levels",
+            "orbital configuration"
+          ],
+          "outputs": [
+            "PI climate data"
+          ],
+          "keywords": [
+            "pre-industrial",
+            "control simulation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "LIG simulations represent four time slices each 5000 yr apart with orbital forcing set accordingly.",
+          "searchable_summary": "conduct LIG time-slice simulations",
+          "inputs": [
+            "orbital forcing",
+            "time slices"
+          ],
+          "outputs": [
+            "LIG climate data"
+          ],
+          "keywords": [
+            "LIG",
+            "time-slice",
+            "orbital forcing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ice Sheet Model Simulation with SICOPOLIS",
+      "description": "This method uses the SICOPOLIS ice sheet model to simulate the Greenland Ice Sheet (GIS) for different time periods, including pre-industrial, glacial, and Last Interglacial states.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use SICOPOLIS with its standard grid resolution for Greenland, consisting of 90 vertical layers and a horizontal resolution of 20 km.",
+          "searchable_summary": "configure SICOPOLIS model for Greenland",
+          "inputs": [
+            "SICOPOLIS model",
+            "grid resolution"
+          ],
+          "outputs": [
+            "configured model"
+          ],
+          "keywords": [
+            "SICOPOLIS",
+            "ice sheet model",
+            "Greenland"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "PI simulations are run for 100 kyr, starting from modern ice and bedrock elevations.",
+          "searchable_summary": "run PI ice sheet simulations",
+          "inputs": [
+            "modern ice and bedrock elevations"
+          ],
+          "outputs": [
+            "PI ice sheet data"
+          ],
+          "keywords": [
+            "PI",
+            "ice sheet simulation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "PreLIG simulations are initialized with modern ice and bedrock elevations, and are run for 100 kyr with reduced temperatures.",
+          "searchable_summary": "conduct preLIG ice sheet simulations",
+          "inputs": [
+            "modern elevations",
+            "temperature reduction"
+          ],
+          "outputs": [
+            "preLIG ice sheet data"
+          ],
+          "keywords": [
+            "preLIG",
+            "ice sheet simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "LIG simulations are run for 20 kyr with transient climate forcing for the period 135-115 ka.",
+          "searchable_summary": "perform LIG ice sheet simulations",
+          "inputs": [
+            "transient climate forcing"
+          ],
+          "outputs": [
+            "LIG ice sheet data"
+          ],
+          "keywords": [
+            "LIG",
+            "transient forcing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Perturbed Model Parameters",
+      "description": "This method involves evaluating the impact of different unconstrained parameters in the ice sheet model, such as the basal sliding parameter, atmospheric temperature lapse rate, and PDD factors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Evaluate the basal sliding parameter, which defines the ice velocity at the base of the ice sheet.",
+          "searchable_summary": "assess basal sliding parameter impact",
+          "inputs": [
+            "basal sliding parameter"
+          ],
+          "outputs": [
+            "ice velocity data"
+          ],
+          "keywords": [
+            "basal sliding",
+            "ice velocity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Assess the atmospheric temperature lapse rate and its effect on the ice sheet model.",
+          "searchable_summary": "evaluate lapse rate effect",
+          "inputs": [
+            "lapse rate"
+          ],
+          "outputs": [
+            "temperature impact data"
+          ],
+          "keywords": [
+            "lapse rate",
+            "temperature"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Test different PDD factors for snow and ice to determine their impact on melt calculations.",
+          "searchable_summary": "test PDD factors for melt",
+          "inputs": [
+            "PDD factors"
+          ],
+          "outputs": [
+            "melt data"
+          ],
+          "keywords": [
+            "PDD",
+            "melt calculation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55182568.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

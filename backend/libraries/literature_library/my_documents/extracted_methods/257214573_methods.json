@@ -1,0 +1,312 @@
+{
+  "paper_title": "Phylogenetic Analysis of Macraucheniids",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Parsimony Analysis",
+      "description": "This method involves using TNT v1.5 to perform a parsimony analysis with a 'New Technology' driven search to find the minimum length tree, followed by a 'traditional search' using TBR branch swapping. The analysis results in the computation of a strict consensus tree and a 50% majority rule tree, with Bremer supports and Jackknife resampling for the nodes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Use TNT v1.5, setting the outgroup as Tricoelodus spp. and employing a 'New Technology' driven search using sectorial search, ratchet, drift and tree fusing, set to find the minimum length tree (best score) 100 times.",
+          "searchable_summary": "Perform parsimony analysis using TNT v1.5 with specified search strategies",
+          "inputs": [
+            "TNT v1.5",
+            "Tricoelodus spp.",
+            "search strategies"
+          ],
+          "outputs": [
+            "minimum length tree"
+          ],
+          "keywords": [
+            "parsimony analysis",
+            "TNT",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Follow the 'New Technology' search with a 'traditional search' using tree bisection and reconnection (TBR) branch swapping algorithm.",
+          "searchable_summary": "Conduct traditional search using TBR branch swapping",
+          "inputs": [
+            "minimum length tree"
+          ],
+          "outputs": [
+            "most parsimonious trees (MPTs)"
+          ],
+          "keywords": [
+            "TBR",
+            "branch swapping",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compute a strict consensus tree and a 50% majority rule tree from the MPTs.",
+          "searchable_summary": "Generate strict consensus and 50% majority rule trees",
+          "inputs": [
+            "MPTs"
+          ],
+          "outputs": [
+            "strict consensus tree",
+            "50% majority rule tree"
+          ],
+          "keywords": [
+            "consensus tree",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compute the absolute Bremer supports and Jackknife resampling (1000 replicates, 36%-character removal) for the nodes of the strict consensus tree.",
+          "searchable_summary": "Calculate Bremer supports and perform Jackknife resampling",
+          "inputs": [
+            "strict consensus tree"
+          ],
+          "outputs": [
+            "Bremer supports",
+            "Jackknife resampling results"
+          ],
+          "keywords": [
+            "Bremer support",
+            "Jackknife resampling",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Remove SGO.PV.21700 a posteriori to analyze the topology of the strict consensus when this taxon is not present.",
+          "searchable_summary": "Exclude wildcard taxon and analyze tree topology",
+          "inputs": [
+            "strict consensus tree",
+            "SGO.PV.21700"
+          ],
+          "outputs": [
+            "modified strict consensus tree"
+          ],
+          "keywords": [
+            "wildcard taxon",
+            "tree topology",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Map apomorphies on the 50% majority rule tree.",
+          "searchable_summary": "Map apomorphies on majority rule tree",
+          "inputs": [
+            "50% majority rule tree"
+          ],
+          "outputs": [
+            "apomorphy mapping"
+          ],
+          "keywords": [
+            "apomorphies",
+            "phylogenetics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Undated Bayesian Analysis",
+      "description": "This method involves performing an undated Bayesian analysis using MrBayes v3.2.7a with specific models of morphological evolution and sampling settings. The analysis ensures convergence and effective sample size for the parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform the undated Bayesian analysis in MrBayes v3.2.7a setting the outgroup as Tricoelodus spp.",
+          "searchable_summary": "Run undated Bayesian analysis in MrBayes",
+          "inputs": [
+            "MrBayes v3.2.7a",
+            "Tricoelodus spp."
+          ],
+          "outputs": [
+            "Bayesian analysis results"
+          ],
+          "keywords": [
+            "Bayesian analysis",
+            "MrBayes",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use two partitions for analyzing the morphological data: the Mkv + Γ model for characters with three or more states, and the MkA + Γ model for binary characters.",
+          "searchable_summary": "Apply Mkv + Γ and MkA + Γ models for morphological data",
+          "inputs": [
+            "morphological data"
+          ],
+          "outputs": [
+            "partitioned data analysis"
+          ],
+          "keywords": [
+            "morphological evolution",
+            "Bayesian models"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Run analyses using two runs of four chains and 15 million MCMC generations, sampling every 1000 generations and discarding 25% of the samples as burn-in.",
+          "searchable_summary": "Execute MCMC with specified settings",
+          "inputs": [
+            "MCMC settings"
+          ],
+          "outputs": [
+            "MCMC samples"
+          ],
+          "keywords": [
+            "MCMC",
+            "Bayesian analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Ensure that the deviation of split frequencies is below 0.01 and that the effective sample size for the parameters is > 200.",
+          "searchable_summary": "Validate convergence and sample size",
+          "inputs": [
+            "MCMC samples"
+          ],
+          "outputs": [
+            "validated analysis"
+          ],
+          "keywords": [
+            "convergence",
+            "effective sample size"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tip-dated Bayesian Analysis",
+      "description": "This method involves performing a tip-dated Bayesian analysis using MrBayes v3.2.7a with the same model of morphological evolution and sampling settings as the undated Bayesian analysis. It includes calibration of the tree root and setting priors for divergence times.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform the tip-dated Bayesian analysis in MrBayes v3.2.7a with the same model of morphological evolution and sampling settings as the undated Bayesian analysis.",
+          "searchable_summary": "Run tip-dated Bayesian analysis in MrBayes",
+          "inputs": [
+            "MrBayes v3.2.7a",
+            "morphological data"
+          ],
+          "outputs": [
+            "tip-dated Bayesian analysis results"
+          ],
+          "keywords": [
+            "tip-dated analysis",
+            "MrBayes",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calibrate the root of the tree using an exponential distribution with a minimum age of 42 Ma and a mean of 44 Ma.",
+          "searchable_summary": "Calibrate tree root with exponential distribution",
+          "inputs": [
+            "tree root",
+            "exponential distribution parameters"
+          ],
+          "outputs": [
+            "calibrated tree"
+          ],
+          "keywords": [
+            "calibration",
+            "exponential distribution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use a gamma distributed clock rate prior, with a mean of 0.02462008 and standard deviation of 0.01095129.",
+          "searchable_summary": "Set gamma distributed clock rate prior",
+          "inputs": [
+            "clock rate prior parameters"
+          ],
+          "outputs": [
+            "clock rate prior"
+          ],
+          "keywords": [
+            "gamma distribution",
+            "clock rate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Model branch rate variation using the Independent Gamma Rate (IGR) relaxed clock model with an exponential distribution of rate 10.",
+          "searchable_summary": "Apply IGR relaxed clock model",
+          "inputs": [
+            "IGR model parameters"
+          ],
+          "outputs": [
+            "branch rate variation model"
+          ],
+          "keywords": [
+            "IGR model",
+            "relaxed clock"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Use the FBD model as the prior on divergence times, with specified priors for net diversification, turnover, and fossil sampling proportion.",
+          "searchable_summary": "Set FBD model for divergence times",
+          "inputs": [
+            "FBD model parameters"
+          ],
+          "outputs": [
+            "divergence time priors"
+          ],
+          "keywords": [
+            "FBD model",
+            "divergence times"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Run analyses using two runs of four chains and 45 million MCMC generations, sampling every 1000 generations and discarding 25% of the samples as burn-in.",
+          "searchable_summary": "Execute MCMC with specified settings",
+          "inputs": [
+            "MCMC settings"
+          ],
+          "outputs": [
+            "MCMC samples"
+          ],
+          "keywords": [
+            "MCMC",
+            "Bayesian analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Ensure that the deviation of split frequencies is below 0.01 and that the effective sample size for the parameters is > 200.",
+          "searchable_summary": "Validate convergence and sample size",
+          "inputs": [
+            "MCMC samples"
+          ],
+          "outputs": [
+            "validated analysis"
+          ],
+          "keywords": [
+            "convergence",
+            "effective sample size"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/257214573.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

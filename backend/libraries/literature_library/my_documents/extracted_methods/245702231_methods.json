@@ -1,0 +1,241 @@
+{
+  "paper_title": "Greenhouse Data Analysis and Experimental Procedures",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Greenhouse Data Analysis",
+      "description": "Analysis of the impact of water availability on plant fitness measures and the pollen-to-seed relationship using statistical models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We first analysed the overall impact of water availability on four fitness measures averaged by plant identity.",
+          "searchable_summary": "perform ANOVA on fitness measures with water treatment as a fixed factor",
+          "inputs": [
+            "fitness measures",
+            "water treatment"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "fitness measures",
+            "water treatment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Normality of the residuals was tested with the Shapiro-Wilks test.",
+          "searchable_summary": "test residuals for normality using Shapiro-Wilks test",
+          "inputs": [
+            "ANOVA residuals"
+          ],
+          "outputs": [
+            "normality test results"
+          ],
+          "keywords": [
+            "Shapiro-Wilks test",
+            "normality"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "We then analysed how water treatment affected the pollen-to-seed relationship using piecewise regression analyses.",
+          "searchable_summary": "perform piecewise regression analysis on pollen-to-seed data",
+          "inputs": [
+            "pollen deposition",
+            "seed production",
+            "water treatment"
+          ],
+          "outputs": [
+            "piecewise regression model"
+          ],
+          "keywords": [
+            "piecewise regression",
+            "pollen-to-seed relationship"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The 'segmented' function in the 'segmented' package was used to run the piecewise regression model.",
+          "searchable_summary": "use 'segmented' package to run piecewise regression",
+          "inputs": [
+            "pollen deposition",
+            "seed production"
+          ],
+          "outputs": [
+            "b1, b2, c values"
+          ],
+          "keywords": [
+            "segmented package",
+            "piecewise regression"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The 'davies.test' function was used to determine whether the change in slope was significant.",
+          "searchable_summary": "use 'davies.test' to check significance of slope change",
+          "inputs": [
+            "piecewise regression model"
+          ],
+          "outputs": [
+            "slope significance"
+          ],
+          "keywords": [
+            "Davies test",
+            "slope significance"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "We used two linear mixed models to determine if water treatment influenced the b1 and b2 slope.",
+          "searchable_summary": "run linear mixed models to test water treatment effect on slopes",
+          "inputs": [
+            "pollen amount",
+            "seed number",
+            "water treatment"
+          ],
+          "outputs": [
+            "mixed model results"
+          ],
+          "keywords": [
+            "linear mixed model",
+            "slope analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "A linear mixed model was also used to test whether the second slope differed significantly from zero.",
+          "searchable_summary": "test if second slope is significantly different from zero using mixed model",
+          "inputs": [
+            "pollen amount",
+            "seed count"
+          ],
+          "outputs": [
+            "slope significance"
+          ],
+          "keywords": [
+            "linear mixed model",
+            "slope significance"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Our second approach was to use a general linear mixed model to analyse seed number of individual flowers.",
+          "searchable_summary": "use general linear mixed model for seed number analysis",
+          "inputs": [
+            "pollen amount",
+            "seed number",
+            "water treatment"
+          ],
+          "outputs": [
+            "general linear mixed model results"
+          ],
+          "keywords": [
+            "general linear mixed model",
+            "seed analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Greenhouse Stigma Collection and Pollen Count",
+      "description": "Collection of stigmas and counting of pollen to relate to flower identification and calculate plant fitness measures.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Stigmas were collected in a microcentrifuge vial after 48 h of hand-pollination.",
+          "searchable_summary": "collect stigmas in microcentrifuge vial post hand-pollination",
+          "inputs": [
+            "hand-pollinated flowers"
+          ],
+          "outputs": [
+            "collected stigmas"
+          ],
+          "keywords": [
+            "stigma collection",
+            "hand-pollination"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Pollen on the stigma slide was counted and related to its flower identification number.",
+          "searchable_summary": "count pollen on stigma slide and relate to flower ID",
+          "inputs": [
+            "stigma slides"
+          ],
+          "outputs": [
+            "pollen count per flower"
+          ],
+          "keywords": [
+            "pollen count",
+            "stigma slide"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Fruits were harvested at the time of ripening, and seeds were counted and weighed.",
+          "searchable_summary": "harvest fruits, count and weigh seeds",
+          "inputs": [
+            "ripe fruits"
+          ],
+          "outputs": [
+            "seed count",
+            "seed weight"
+          ],
+          "keywords": [
+            "fruit harvest",
+            "seed count",
+            "seed weight"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Seeds were separated from fruit tissue and weighed together for each fruit.",
+          "searchable_summary": "separate seeds from fruit tissue and weigh",
+          "inputs": [
+            "fruit tissue",
+            "seeds"
+          ],
+          "outputs": [
+            "total seed weight"
+          ],
+          "keywords": [
+            "seed separation",
+            "seed weight"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Seed mass (per seed) was calculated as total seed mass by number of seeds per fruit.",
+          "searchable_summary": "calculate seed mass per seed",
+          "inputs": [
+            "total seed mass",
+            "number of seeds"
+          ],
+          "outputs": [
+            "seed mass per seed"
+          ],
+          "keywords": [
+            "seed mass calculation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/245702231.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

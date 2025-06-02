@@ -1,0 +1,512 @@
+{
+  "paper_title": "CHANGES OF THERMOCLINE DEPTH AT THE SUMBA ISLAND OFFSHORE BASED ON PLANKTONIC FORAMINIFERAL ASSEMBLAGES AND ITS IMPLICATION TO EUTROPHICATION SINCE THE LAST DEGLACIATION (~18 ka BP): A PRELIMINARY STUDY",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Foraminifera Sample Preparation and Counting",
+      "description": "Process for collecting sub-samples from gravity cores, preparing them using the swirling method, washing, drying, splitting, identifying, and quantitatively counting foraminifera specimens for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 250 sub-samples were collected and ~5 g from each sub-sample were prepared using the swirling method (without H 2 O 2 ) to disengage the foraminifera specimens from the mud.",
+          "searchable_summary": "Collect ~5g sub-samples from gravity cores",
+          "inputs": [
+            "gravity cores (ST08, ST12, ST13, ST14)"
+          ],
+          "outputs": [
+            "~5g sub-samples"
+          ],
+          "keywords": [
+            "sediment core",
+            "sub-sampling",
+            "geology",
+            "paleoceanography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "...~5 g from each sub-sample were prepared using the swirling method (without H 2 O 2 ) to disengage the foraminifera specimens from the mud.",
+          "searchable_summary": "Prepare sediment samples using swirling method (without H2O2) to disengage foraminifera",
+          "inputs": [
+            "~5g sub-samples"
+          ],
+          "outputs": [
+            "prepared sediment samples with disengaged foraminifera"
+          ],
+          "keywords": [
+            "sediment preparation",
+            "swirling method",
+            "foraminifera extraction",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Each sample was washed on the top of 200 mesh (0.074 mm) sieve...",
+          "searchable_summary": "Wash prepared samples on a 200 mesh (0.074 mm) sieve",
+          "inputs": [
+            "prepared sediment samples"
+          ],
+          "outputs": [
+            "sieved residue"
+          ],
+          "keywords": [
+            "sediment washing",
+            "sieving",
+            "200 mesh",
+            "particle separation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...and the residue was dried at the temperature of 60 o C for ~6 hours.",
+          "searchable_summary": "Dry sieved residue at 60°C for ~6 hours",
+          "inputs": [
+            "sieved residue"
+          ],
+          "outputs": [
+            "dried residue"
+          ],
+          "keywords": [
+            "sediment drying",
+            "oven drying",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Quantitative determination of foraminiferal taxa was preceded by splitting the prepared sample until ~300 specimens of foraminifera were present in each part.",
+          "searchable_summary": "Split dried sample until ~300 foraminifera specimens are present in each part",
+          "inputs": [
+            "dried residue"
+          ],
+          "outputs": [
+            "split samples with target specimen count (~300)"
+          ],
+          "keywords": [
+            "sample splitting",
+            "micropaleontology",
+            "foraminifera counting preparation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "All identified taxa in one part were counted...",
+          "searchable_summary": "Count all identified foraminifera taxa in one split part",
+          "inputs": [
+            "one split sample part",
+            "foraminifera identification guides (Kenneth and Srinivasan 1983, Bolli and Saunders 1985)"
+          ],
+          "outputs": [
+            "raw counts of identified taxa from one split"
+          ],
+          "keywords": [
+            "foraminifera counting",
+            "taxa identification",
+            "micropaleontology"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "...while new taxa detected in the remaining parts were counted as one specimen even after normalization.",
+          "searchable_summary": "Count new taxa detected in remaining split parts as one specimen",
+          "inputs": [
+            "remaining split sample parts",
+            "list of taxa identified in step 6"
+          ],
+          "outputs": [
+            "counts of new taxa from remaining splits"
+          ],
+          "keywords": [
+            "foraminifera counting",
+            "taxa identification",
+            "micropaleontology"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The foraminiferal counts were normalized against the number of splits and the weight of the samples (Ardi et al., 2019).",
+          "searchable_summary": "Normalize foraminiferal counts by number of splits and sample weight",
+          "inputs": [
+            "raw foraminiferal counts (from steps 6 & 7)",
+            "number of splits",
+            "sample weight"
+          ],
+          "outputs": [
+            "normalized foraminiferal counts"
+          ],
+          "keywords": [
+            "data normalization",
+            "foraminifera abundance",
+            "quantitative analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Dating and Age Model Generation",
+      "description": "Process for obtaining radiocarbon ages from core samples, calibrating them to calendar ages using specific methods and datasets, and generating an age model for the core using the Clam package in R.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Accelerator Mass Spectrometer-measured radiocarbon (AMS 14 C) ages were only available on five depth intervals of core ST08 (see Table 2) (Ardi, 2018).",
+          "searchable_summary": "Obtain AMS radiocarbon ages for specific depth intervals of core ST08",
+          "inputs": [
+            "core ST08 samples from specified depth intervals"
+          ],
+          "outputs": [
+            "AMS 14C ages (BP) for depth intervals"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "AMS 14C",
+            "geochronology",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The radiocarbon ages were converted to calibrated calendar and radiocarbon ages with High Probability Density Range (HPD) Method (Bronk Ramsey, 2009) (for 24-25 cm, 74-75 cm, and 104-105 cm depth intervals)... based on the MARINE13 calibration datasets (Reimer et al., 2013).",
+          "searchable_summary": "Calibrate radiocarbon ages using HPD method and MARINE13 dataset for specified intervals",
+          "inputs": [
+            "AMS 14C ages (BP)",
+            "depth intervals (24-25 cm, 74-75 cm, 104-105 cm)",
+            "MARINE13 calibration dataset"
+          ],
+          "outputs": [
+            "calibrated calendar and radiocarbon ages (HPD)"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "HPD method",
+            "MARINE13",
+            "geochronology",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "...and the intercept of radiocarbon age with calibration curve (Talma and Vogel, 1993) (for 166-167 cm and 235-236 cm depth intervals) based on the MARINE13 calibration datasets (Reimer et al., 2013).",
+          "searchable_summary": "Calibrate radiocarbon ages using intercept method and MARINE13 dataset for specified intervals",
+          "inputs": [
+            "AMS 14C ages (BP)",
+            "depth intervals (166-167 cm, 235-236 cm)",
+            "MARINE13 calibration dataset"
+          ],
+          "outputs": [
+            "calibrated calendar and radiocarbon ages (intercept)"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "intercept method",
+            "MARINE13",
+            "geochronology",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The age model for the core ST08 was generated using the Clam package (version 2.3.4) on R (Blaauw, 2010, 2020; R Core Team, 2013).",
+          "searchable_summary": "Generate sediment core age model using Clam package (v2.3.4) in R",
+          "inputs": [
+            "calibrated radiocarbon ages",
+            "depth intervals",
+            "core top age assumption (-66 BP)"
+          ],
+          "outputs": [
+            "age model for core ST08"
+          ],
+          "keywords": [
+            "age modeling",
+            "Clam package",
+            "R programming",
+            "sediment core",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Twenty runs were done...",
+          "searchable_summary": "Perform 20 runs of age model generation",
+          "inputs": [
+            "calibrated radiocarbon ages",
+            "depth intervals",
+            "core top age assumption (-66 BP)",
+            "Clam package parameters"
+          ],
+          "outputs": [
+            "20 age models"
+          ],
+          "keywords": [
+            "age modeling",
+            "Clam package",
+            "R programming",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "...and a model with the lowest goodness-of-fit (-log) was chosen.",
+          "searchable_summary": "Select age model with the lowest goodness-of-fit (-log)",
+          "inputs": [
+            "20 age models",
+            "goodness-of-fit metrics (-log)"
+          ],
+          "outputs": [
+            "selected age model"
+          ],
+          "keywords": [
+            "model selection",
+            "goodness-of-fit",
+            "age modeling",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "This model employed linear interpolation, weighted average-based calendar age point estimates for depths, and the standard Gaussian distribution.",
+          "searchable_summary": "Configure age model with linear interpolation, weighted average, and Gaussian distribution",
+          "inputs": [
+            "selected age model"
+          ],
+          "outputs": [
+            "final age model configuration"
+          ],
+          "keywords": [
+            "age modeling",
+            "linear interpolation",
+            "weighted average",
+            "Gaussian distribution",
+            "Clam package"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "The core top sediment was assumed to be aged -66 Before Present (BP) (Present=1950 Anno Domini/AD, core ST08 was retrieved in 2016)...",
+          "searchable_summary": "Assume core top age is -66 BP (1950 AD)",
+          "inputs": [
+            "core top depth (0 cm)"
+          ],
+          "outputs": [
+            "core top age parameter (-66 BP)"
+          ],
+          "keywords": [
+            "age modeling",
+            "core top age",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "...and the sedimentation rates between the aged intervals were assumed to be constant...",
+          "searchable_summary": "Assume constant sedimentation rates between dated intervals",
+          "inputs": [
+            "dated depth intervals",
+            "age model parameters"
+          ],
+          "outputs": [
+            "sedimentation rate assumption"
+          ],
+          "keywords": [
+            "age modeling",
+            "sedimentation rate",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Relative age based on planktonic foraminiferal zonation (Bolli and Saunders, 1985) was also utilized to establish the chronological framework in this study.",
+          "searchable_summary": "Utilize planktonic foraminiferal zonation for relative age dating",
+          "inputs": [
+            "foraminifera assemblages",
+            "foraminiferal zonation schemes (Bolli and Saunders 1985)"
+          ],
+          "outputs": [
+            "relative age estimates",
+            "chronological framework support"
+          ],
+          "keywords": [
+            "foraminiferal zonation",
+            "biostratigraphy",
+            "relative dating",
+            "paleoclimate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Thermocline Depth Inference from Foraminifera",
+      "description": "Method to infer changes in the Depth of Thermocline (DOT) by calculating the relative abundances of specific planktonic foraminifera groups (thermocline dwellers vs. mixed layer dwellers) and using their ratio.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The relative abundances of thermocline dwellers (i.e. Pulleniatina obliqueloculata, Neogloboquadrina spp. and Globorotalia spp.)...",
+          "searchable_summary": "Identify and count thermocline dweller planktonic foraminifera taxa",
+          "inputs": [
+            "identified and counted foraminifera taxa (from Foraminifera Sample Preparation and Counting method)",
+            "list of thermocline dweller taxa (Pulleniatina obliqueloculata, Neogloboquadrina spp., Globorotalia spp.)"
+          ],
+          "outputs": [
+            "counts of thermocline dweller taxa per subsample"
+          ],
+          "keywords": [
+            "foraminifera counting",
+            "thermocline dwellers",
+            "paleoceanography",
+            "taxa identification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "...and mixed layer dwellers (i.e. Globigerinoides ruber, Globigerinoides trilobus, and other Globigerinoides taxa) planktonic foraminifera...",
+          "searchable_summary": "Identify and count mixed layer dweller planktonic foraminifera taxa",
+          "inputs": [
+            "identified and counted foraminifera taxa (from Foraminifera Sample Preparation and Counting method)",
+            "list of mixed layer dweller taxa (Globigerinoides ruber, Globigerinoides trilobus, other Globigerinoides taxa)"
+          ],
+          "outputs": [
+            "counts of mixed layer dweller taxa per subsample"
+          ],
+          "keywords": [
+            "foraminifera counting",
+            "mixed layer dwellers",
+            "paleoceanography",
+            "taxa identification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "(ratio of the total number of thermocline/mixed layer dwellers against the total number of planktonic foraminifera in a subsample)",
+          "searchable_summary": "Calculate total count of thermocline dwellers per subsample",
+          "inputs": [
+            "counts of individual thermocline dweller taxa per subsample"
+          ],
+          "outputs": [
+            "total count of thermocline dwellers per subsample"
+          ],
+          "keywords": [
+            "data aggregation",
+            "summation",
+            "foraminifera counts"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "(ratio of the total number of thermocline/mixed layer dwellers against the total number of planktonic foraminifera in a subsample)",
+          "searchable_summary": "Calculate total count of mixed layer dwellers per subsample",
+          "inputs": [
+            "counts of individual mixed layer dweller taxa per subsample"
+          ],
+          "outputs": [
+            "total count of mixed layer dwellers per subsample"
+          ],
+          "keywords": [
+            "data aggregation",
+            "summation",
+            "foraminifera counts"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "(ratio of the total number of thermocline/mixed layer dwellers against the total number of planktonic foraminifera in a subsample)",
+          "searchable_summary": "Calculate total count of all planktonic foraminifera per subsample",
+          "inputs": [
+            "normalized foraminiferal counts (from Foraminifera Sample Preparation and Counting method)"
+          ],
+          "outputs": [
+            "total count of planktonic foraminifera per subsample"
+          ],
+          "keywords": [
+            "data aggregation",
+            "summation",
+            "foraminifera counts"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "(ratio of the total number of thermocline/mixed layer dwellers against the total number of planktonic foraminifera in a subsample)",
+          "searchable_summary": "Calculate relative abundance of thermocline dwellers (total thermocline dwellers / total planktonic foraminifera)",
+          "inputs": [
+            "total count of thermocline dwellers per subsample",
+            "total count of planktonic foraminifera per subsample"
+          ],
+          "outputs": [
+            "relative abundance of thermocline dwellers per subsample"
+          ],
+          "keywords": [
+            "relative abundance",
+            "data analysis",
+            "foraminifera",
+            "paleoceanography"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "(ratio of the total number of thermocline/mixed layer dwellers against the total number of planktonic foraminifera in a subsample)",
+          "searchable_summary": "Calculate relative abundance of mixed layer dwellers (total mixed layer dwellers / total planktonic foraminifera)",
+          "inputs": [
+            "total count of mixed layer dwellers per subsample",
+            "total count of planktonic foraminifera per subsample"
+          ],
+          "outputs": [
+            "relative abundance of mixed layer dwellers per subsample"
+          ],
+          "keywords": [
+            "relative abundance",
+            "data analysis",
+            "foraminifera",
+            "paleoceanography"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The shoaling (deepening) of the DOT was indicated by the increase...",
+          "searchable_summary": "Infer changes in Depth of Thermocline (DOT) based on relative abundances of thermocline/mixed layer dwellers",
+          "inputs": [
+            "relative abundance of thermocline dwellers per subsample",
+            "relative abundance of mixed layer dwellers per subsample",
+            "established relationships from literature (Bé et al., 1977; Ravelo et al., 1990)"
+          ],
+          "outputs": [
+            "inferred changes in Depth of Thermocline (DOT) over time/depth"
+          ],
+          "keywords": [
+            "thermocline depth",
+            "paleoceanography",
+            "foraminifera",
+            "proxy data",
+            "inference"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237925779.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,294 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Image Preparation and Model Training",
+      "description": "This method involves preparing image data and training a Mask R-CNN model for instance segmentation of pollen grains and tubes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "500 original and 100 synthetic images were prepared with a size of 692 × 520 pixels at 300 dpi.",
+          "searchable_summary": "prepare original and synthetic images for training",
+          "inputs": [
+            "original images",
+            "synthetic images"
+          ],
+          "outputs": [
+            "prepared images"
+          ],
+          "keywords": [
+            "image preparation",
+            "synthetic images",
+            "image size"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "600 images were manually labeled by Make Sense and subjected to data augmentation.",
+          "searchable_summary": "label images and apply data augmentation",
+          "inputs": [
+            "images",
+            "Make Sense tool"
+          ],
+          "outputs": [
+            "labeled and augmented images"
+          ],
+          "keywords": [
+            "image labeling",
+            "data augmentation",
+            "Make Sense"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Data augmentation included horizontal flipping, vertical flipping, brightness adjustment, Gaussian blur, and salt and pepper noise.",
+          "searchable_summary": "apply specific data augmentation techniques",
+          "inputs": [
+            "labeled images"
+          ],
+          "outputs": [
+            "augmented images"
+          ],
+          "keywords": [
+            "data augmentation",
+            "image processing",
+            "noise addition"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The Mask R-CNN algorithm was selected to perform instance segmentation of pollen grains and pollen tubes.",
+          "searchable_summary": "train Mask R-CNN model for instance segmentation",
+          "inputs": [
+            "augmented images"
+          ],
+          "outputs": [
+            "trained Mask R-CNN model"
+          ],
+          "keywords": [
+            "Mask R-CNN",
+            "instance segmentation",
+            "model training"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Validation loss, mean average precision (mAP), and accuracy were calculated to assess the model quality.",
+          "searchable_summary": "calculate validation metrics for model assessment",
+          "inputs": [
+            "trained model",
+            "validation data"
+          ],
+          "outputs": [
+            "validation metrics"
+          ],
+          "keywords": [
+            "validation loss",
+            "mean average precision",
+            "accuracy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Evaluation of Model Performance",
+      "description": "This method evaluates the model's performance by comparing predictions with ground truth data using various metrics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pollen germination frequency was calculated.",
+          "searchable_summary": "calculate pollen germination frequency",
+          "inputs": [
+            "test images"
+          ],
+          "outputs": [
+            "pollen germination frequency"
+          ],
+          "keywords": [
+            "pollen germination",
+            "frequency calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Scatter plots comparing ground truth and model predictions for four indexes were created.",
+          "searchable_summary": "create scatter plots for model evaluation",
+          "inputs": [
+            "ground truth data",
+            "model predictions"
+          ],
+          "outputs": [
+            "scatter plots"
+          ],
+          "keywords": [
+            "scatter plots",
+            "model evaluation",
+            "ground truth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Mean average precision (mAP) and accuracy values at various IoU thresholds were calculated.",
+          "searchable_summary": "calculate mAP and accuracy at different IoU thresholds",
+          "inputs": [
+            "model predictions",
+            "ground truth"
+          ],
+          "outputs": [
+            "mAP values",
+            "accuracy values"
+          ],
+          "keywords": [
+            "mean average precision",
+            "IoU threshold",
+            "accuracy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Performance on Pollen Grain and Pollen Tube Segmentation",
+      "description": "This method describes the segmentation performance of the model on test images, including processing time and output types.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The input image was processed by the proposed model for ~26 s.",
+          "searchable_summary": "process input image using trained model",
+          "inputs": [
+            "input image"
+          ],
+          "outputs": [
+            "processed image"
+          ],
+          "keywords": [
+            "image processing",
+            "model execution time"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Outputted as a raw output, binary image of pollen tube masks, and skeletonized image of pollen tubes.",
+          "searchable_summary": "generate raw, binary, and skeletonized images",
+          "inputs": [
+            "processed image"
+          ],
+          "outputs": [
+            "raw output",
+            "binary image",
+            "skeletonized image"
+          ],
+          "keywords": [
+            "image output",
+            "binary masks",
+            "skeletonization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The predicted number of pollen grains and pollen tubes was automatically counted and outputted.",
+          "searchable_summary": "count and output predicted pollen grains and tubes",
+          "inputs": [
+            "segmented images"
+          ],
+          "outputs": [
+            "count of pollen grains",
+            "count of pollen tubes"
+          ],
+          "keywords": [
+            "automatic counting",
+            "pollen grains",
+            "pollen tubes"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Pollen tube length was calculated according to the scale.",
+          "searchable_summary": "calculate pollen tube length from skeletonized image",
+          "inputs": [
+            "skeletonized image",
+            "scale"
+          ],
+          "outputs": [
+            "pollen tube length"
+          ],
+          "keywords": [
+            "pollen tube length",
+            "scale calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Practical Evaluation",
+      "description": "This method evaluates the model's practical application in detecting pollen tubes at different developmental stages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Images of developing pollen tubes were captured at four time points within 3 h of tree peony pollen culture.",
+          "searchable_summary": "capture images of developing pollen tubes",
+          "inputs": [
+            "tree peony pollen culture"
+          ],
+          "outputs": [
+            "images of pollen tubes"
+          ],
+          "keywords": [
+            "image capture",
+            "pollen tube development"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Pollen germination frequency and average length of the pollen tubes were calculated by manual counting and model prediction.",
+          "searchable_summary": "calculate pollen germination frequency and tube length",
+          "inputs": [
+            "captured images"
+          ],
+          "outputs": [
+            "germination frequency",
+            "average tube length"
+          ],
+          "keywords": [
+            "manual counting",
+            "model prediction",
+            "pollen tube length"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The model's predictions were compared with the ground truth at four time points.",
+          "searchable_summary": "compare model predictions with ground truth",
+          "inputs": [
+            "model predictions",
+            "ground truth"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "model validation",
+            "ground truth comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260924295.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

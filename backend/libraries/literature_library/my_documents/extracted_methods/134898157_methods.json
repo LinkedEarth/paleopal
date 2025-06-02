@@ -1,0 +1,151 @@
+{
+  "paper_title": "Temporal and Spatial Analysis of Climate Response",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Correlation and Error Index Calculation",
+      "description": "This method evaluates the goodness of the linear response by calculating the temporal correlation coefficient and a linear error index between the linear sum of temperature time series and the full temperature response time series.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate the correlation coefficient to represent the similarity of the temporal evolution between the linear SUM response and the ALL response.",
+          "searchable_summary": "calculate correlation coefficient between linear SUM and ALL response time series",
+          "inputs": [
+            "linear SUM temperature time series",
+            "ALL temperature response time series"
+          ],
+          "outputs": [
+            "correlation coefficient"
+          ],
+          "keywords": [
+            "correlation coefficient",
+            "temporal evolution",
+            "linear response"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate the linear error index as the root mean square error (RMSE) between the sum temperature response and the full temperature response divided by the standard deviation of the full temperature response in the ALL run.",
+          "searchable_summary": "calculate RMSE and linear error index between sum and full temperature response",
+          "inputs": [
+            "sum temperature response",
+            "full temperature response"
+          ],
+          "outputs": [
+            "linear error index"
+          ],
+          "keywords": [
+            "RMSE",
+            "linear error index",
+            "standard deviation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial and Temporal Scale Analysis",
+      "description": "This method studies the dependence of the linear response on spatial and temporal scales by filtering the time series at different scales.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Divide the globe into 9 succeeding cases using division factors from f=0 to f=24 to analyze spatial scale dependence.",
+          "searchable_summary": "divide globe into spatial scales using division factors",
+          "inputs": [
+            "global temperature data"
+          ],
+          "outputs": [
+            "spatially divided temperature data"
+          ],
+          "keywords": [
+            "spatial scale",
+            "division factors",
+            "grid boxes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Decompose a full 100-yr binned temperature time series into orbital, millennial, and centennial timescales using Loess fits.",
+          "searchable_summary": "apply Loess fits to decompose temperature time series into different timescales",
+          "inputs": [
+            "100-yr binned temperature time series"
+          ],
+          "outputs": [
+            "orbital variability",
+            "millennial variability",
+            "centennial variability"
+          ],
+          "keywords": [
+            "Loess fit",
+            "timescale decomposition",
+            "temperature time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use running mean on the 10-yr binned temperature time series to derive decadal scale variability.",
+          "searchable_summary": "apply running mean to derive decadal scale variability",
+          "inputs": [
+            "10-yr binned temperature time series"
+          ],
+          "outputs": [
+            "decadal scale variability"
+          ],
+          "keywords": [
+            "running mean",
+            "decadal variability",
+            "temperature time series"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Significance Testing",
+      "description": "This method tests the statistical significance of the correlation coefficient and linear error index using Monte Carlo and bootstrap methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Test statistical significance of the correlation coefficient using the Monte Carlo method with 1,000,000 realizations on the corresponding red noise in the AR1 model.",
+          "searchable_summary": "perform Monte Carlo significance test on correlation coefficient",
+          "inputs": [
+            "correlation coefficient",
+            "AR1 model parameters"
+          ],
+          "outputs": [
+            "significance level of correlation coefficient"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "statistical significance",
+            "AR1 model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Test statistical significance of the linear error index using the bootstrap method with 1,000,000 realizations on the corresponding time series.",
+          "searchable_summary": "perform bootstrap significance test on linear error index",
+          "inputs": [
+            "linear error index",
+            "time series data"
+          ],
+          "outputs": [
+            "significance level of linear error index"
+          ],
+          "keywords": [
+            "bootstrap method",
+            "statistical significance",
+            "time series"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/134898157.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

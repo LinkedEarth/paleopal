@@ -1,0 +1,279 @@
+{
+  "paper_title": "ArchKalmag14k: A Kalman‐Filter Based Global Geomagnetic Model for the Holocene",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Geomagnetic Data Model Formulation",
+      "description": "Describes the mathematical formulation used to relate geomagnetic observations (declination D, inclination I, and intensity F) to model predictions within a Gaussian Process (GP) framework, including handling observation errors and dating uncertainties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "To apply GP based modeling, one has to construct a normal likelihood, relating observations to model predictions of the magnetic field.",
+          "searchable_summary": "construct normal likelihood function for geomagnetic observations",
+          "inputs": [
+            "observed geomagnetic field data (D, I, F)",
+            "model predictions",
+            "locations (x)",
+            "times (t)"
+          ],
+          "outputs": [
+            "normal likelihood function"
+          ],
+          "keywords": [
+            "Gaussian Process",
+            "likelihood",
+            "normal distribution",
+            "data model",
+            "geomagnetic field"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "summarize the linearized expressions as H lin.",
+          "searchable_summary": "linearize the relationship between observations and model predictions",
+          "inputs": [
+            "likelihood function",
+            "point of expansion (POE)"
+          ],
+          "outputs": [
+            "linearized expression (H_lin)"
+          ],
+          "keywords": [
+            "linearization",
+            "H_lin",
+            "model relationship"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Approximate this two dimensional distribution [Fisher-von Mises] with 95% confidence cone (α 95 ) by two centered normal distributions with standard deviations (Piper, 1989; where o I is the observed inclination. We label these approximate errors E prox. .",
+          "searchable_summary": "approximate non-Gaussian observation errors with centered normal distributions",
+          "inputs": [
+            "non-Gaussian observation errors (Fisher-von Mises)",
+            "95% confidence cone (α95)",
+            "observed inclination (o_I)"
+          ],
+          "outputs": [
+            "approximate normal errors (E_prox)",
+            "standard deviations for normal distributions"
+          ],
+          "keywords": [
+            "error approximation",
+            "normal distribution",
+            "Fisher-von Mises",
+            "alpha95",
+            "standard deviation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "consider dating uncertainties as suggested in SMKH21. The precise times t at which the archeomagnetic specimen received their magnetization are unknown. Instead, a corrupted date t o = t + e t is reported, and we consider e t to be a centered normal error... This error in the inputs is handled by another linearization, as proposed by McHutchon and Rasmussen (2011, the noisy input Gaussian process (NIGP)).",
+          "searchable_summary": "handle dating uncertainties using the noisy input Gaussian process (NIGP) method",
+          "inputs": [
+            "observed time (t_o)",
+            "true time (t)",
+            "dating error (e_t)",
+            "Gaussian process model"
+          ],
+          "outputs": [
+            "NIGP model formulation"
+          ],
+          "keywords": [
+            "NIGP",
+            "noisy input",
+            "Gaussian process",
+            "dating uncertainty",
+            "linearization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "via linearization the dating uncertainties are translated into observation uncertainties, and the covariance gets an additional term Σ tt′ is the covariance matrix of the dating errors and • is the Hadamard product... The effect of the NIGP model is thus the inclusion of dating errors as contributions to the data covariance, similar to measurement errors. To realize this, dating errors are weighed by the second order time derivative of the kernel.",
+          "searchable_summary": "translate dating uncertainties into observation covariance contribution using NIGP",
+          "inputs": [
+            "dating error covariance matrix (Σ_tt')",
+            "second order time derivative of the kernel",
+            "Hadamard product"
+          ],
+          "outputs": [
+            "additional term for data covariance matrix"
+          ],
+          "keywords": [
+            "covariance matrix",
+            "dating uncertainty",
+            "kernel derivative",
+            "Hadamard product",
+            "NIGP"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Finally, a residual term ξP, where ∼  (0, ) is added to cover any effects that are not modeled, like crustal field or ellipticity of the Earth",
+          "searchable_summary": "add a residual term to the data model for unmodeled effects",
+          "inputs": [
+            "data model",
+            "residual term (ξP)"
+          ],
+          "outputs": [
+            "final data model equation with residual"
+          ],
+          "keywords": [
+            "residual",
+            "unmodeled effects",
+            "data model",
+            "normal distribution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geomagnetic Data Set Curation and Outlier Detection",
+      "description": "Describes the process of compiling, curating, and filtering the archeomagnetic and volcanic data set used for the model, including correcting known errors and identifying outliers using a Naive Bayes classifier integrated into the Kalman filter.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The data set is a slight variation of all records from the archeological and volcanic database from GEOMAGIA v3.4 (Brown et al., 2015) with ages between 12000 BCE and 2000 CE.",
+          "searchable_summary": "compile geomagnetic records from GEOMAGIA database within specified age range",
+          "inputs": [
+            "GEOMAGIA v3.4 database",
+            "age range (12000 BCE - 2000 CE)"
+          ],
+          "outputs": [
+            "initial data set"
+          ],
+          "keywords": [
+            "data compilation",
+            "GEOMAGIA",
+            "archeomagnetic data",
+            "volcanic data",
+            "data fetching"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Part of the records from Mexico contain wrong age and dating uncertainty estimates... Some of them are too old by several thousand years and have been removed, while for others updated 14 C ages have been published... These updates have been used (see Table S1 in Supporting Information S1)",
+          "searchable_summary": "identify and correct or remove records with known age and dating uncertainty errors",
+          "inputs": [
+            "initial data set",
+            "list of known errors/updates (e.g., Table S1)"
+          ],
+          "outputs": [
+            "curated data set"
+          ],
+          "keywords": [
+            "data curation",
+            "error correction",
+            "data cleaning",
+            "age uncertainty",
+            "14C dating"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "To identify other records that deviate from the rest, we use a Naive Bayes classifier (e.g., Berrar, 2018). This procedure is integrated into the Kalman-filter as follows:",
+          "searchable_summary": "integrate a Naive Bayes classifier into the Kalman filter for outlier detection",
+          "inputs": [
+            "Kalman filter process",
+            "curated data set"
+          ],
+          "outputs": [
+            "Kalman filter with integrated outlier detection module"
+          ],
+          "keywords": [
+            "Naive Bayes classifier",
+            "outlier detection",
+            "Kalman filter",
+            "model integration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "When a step i + 1 contains new data, we evaluate the probability of every record to either come from a normal distribution with standard deviation of the size of the reported error or from a flat distribution of larger variance ((100°) 2 for declination, (50°) 2 for inclination and (100 µT) 2 for intensities).",
+          "searchable_summary": "evaluate probability of a data record belonging to a normal vs flat distribution",
+          "inputs": [
+            "new data record (D, I, F)",
+            "reported error of the record",
+            "parameters for normal distribution (based on reported error)",
+            "parameters for flat distribution (variance: (100°)², (50°)², (100 µT)²)"
+          ],
+          "outputs": [
+            "probability scores for normal distribution",
+            "probability scores for flat distribution"
+          ],
+          "keywords": [
+            "probability evaluation",
+            "normal distribution",
+            "flat distribution",
+            "data analysis",
+            "Naive Bayes"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Records that are more likely to stem from the flat distribution are considered outliers.",
+          "searchable_summary": "identify records as outliers if more likely from flat distribution",
+          "inputs": [
+            "probability scores from step 4"
+          ],
+          "outputs": [
+            "list of identified outlier records"
+          ],
+          "keywords": [
+            "outlier identification",
+            "Naive Bayes classification",
+            "probability comparison"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "By this procedure 276 records are identified and removed from the data set.",
+          "searchable_summary": "remove identified outlier records from the data set",
+          "inputs": [
+            "curated data set",
+            "list of identified outlier records"
+          ],
+          "outputs": [
+            "final filtered data set"
+          ],
+          "keywords": [
+            "data filtering",
+            "outlier removal",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "The final data set contains 18,735 records from 11,637 locations. It consists of 5,611 declinations, 7,028 inclinations, and 6,096 intensities.",
+          "searchable_summary": "report the size and composition of the final filtered data set",
+          "inputs": [
+            "final filtered data set"
+          ],
+          "outputs": [
+            "summary statistics (total records, locations, D/I/F counts)"
+          ],
+          "keywords": [
+            "data summary",
+            "data set size",
+            "data composition",
+            "reporting"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/246018781.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,143 @@
+{
+  "paper_title": "Using a composite flow law to model deformation in the NEEM deep ice core, Greenland",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Microstructure Analysis",
+      "description": "This method involves analyzing the microstructure of the NEEM deep ice core using light microscope images to determine the grain size distribution and its evolution with depth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The NEEM deep ice core was chosen because a comprehensive light microscope data set was available.",
+          "searchable_summary": "access light microscope data set for NEEM ice core",
+          "inputs": [
+            "NEEM ice core data"
+          ],
+          "outputs": [
+            "light microscope images"
+          ],
+          "keywords": [
+            "light microscope",
+            "NEEM ice core",
+            "data set"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Each LM image is about 90 mm long and about 55 mm wide and was digitally analyzed using the Ice-image software, which automatically detects the grain area of each grain in the cut sample surface by counting the pixels enclosed by grain boundaries.",
+          "searchable_summary": "analyze LM images using Ice-image software to detect grain areas",
+          "inputs": [
+            "LM images"
+          ],
+          "outputs": [
+            "grain area data"
+          ],
+          "keywords": [
+            "Ice-image software",
+            "grain area detection",
+            "image analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "A lower cut-off grain size diameter of 0.3 mm was used to exclude the small features that are produced as results of sample relaxation around air bubbles and segmentation by the analysis software.",
+          "searchable_summary": "apply lower cut-off of 0.3 mm to grain size data",
+          "inputs": [
+            "grain area data"
+          ],
+          "outputs": [
+            "filtered grain size data"
+          ],
+          "keywords": [
+            "grain size filtering",
+            "cut-off diameter"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "3D Volume Fraction Calculation",
+      "description": "This method converts 2D sectional areas to 3D volume fractions using the method of Heilbronner and Bruhn (1998), which corrects for the overrepresentation of small grains in LM images.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The method of Heilbronner and Bruhn (1998) was used to convert 2D sectional areas to 3D volume fractions.",
+          "searchable_summary": "convert 2D sectional areas to 3D volume fractions",
+          "inputs": [
+            "2D sectional areas"
+          ],
+          "outputs": [
+            "3D volume fractions"
+          ],
+          "keywords": [
+            "3D volume fraction",
+            "Heilbronner and Bruhn method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "This method uses an equivalent grain diameter that was determined for each grain and a 3D volume fraction was calculated with the assumption of a spherical grain.",
+          "searchable_summary": "calculate 3D volume fraction using equivalent grain diameter",
+          "inputs": [
+            "equivalent grain diameter"
+          ],
+          "outputs": [
+            "3D volume fraction"
+          ],
+          "keywords": [
+            "equivalent grain diameter",
+            "spherical grain assumption"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Strain Rate Calculation",
+      "description": "This method calculates the strain rate using Glen's flow law and the composite flow law, requiring information about the variation of stress with depth in the ice sheet.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "To calculate the strain rate using Glen's flow law and the composite flow law at the location of the NEEM ice core, information about the variation of stress with depth in the ice sheet is required.",
+          "searchable_summary": "calculate strain rate using Glen's flow law and composite flow law",
+          "inputs": [
+            "stress variation data",
+            "depth information"
+          ],
+          "outputs": [
+            "strain rate"
+          ],
+          "keywords": [
+            "strain rate",
+            "Glen's flow law",
+            "composite flow law"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The shear stress along an ice core can be estimated using the shallow ice approximation.",
+          "searchable_summary": "estimate shear stress using shallow ice approximation",
+          "inputs": [
+            "ice core data",
+            "surface slope"
+          ],
+          "outputs": [
+            "shear stress"
+          ],
+          "keywords": [
+            "shear stress",
+            "shallow ice approximation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/134651221.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

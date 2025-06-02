@@ -1,0 +1,271 @@
+{
+  "paper_title": "Analysis of the modern distribution of South African Gerbilliscus (Rodentia: Gerbillinae) with implications for Plio-Pleistocene palaeoenvironmental reconstruction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Georeferencing and Data Cleaning",
+      "description": "This method involves obtaining, cleaning, and standardizing georeferenced data of Gerbilliscus specimens to ensure accuracy and compatibility with modern coordinate systems.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "An initial data set of 2747 records of Gerbilliscus collected within South Africa, Lesotho and Swaziland was obtained from the mammal collection catalogue of the Transvaal Museum (TM), South Africa and online records from the Smithsonian Institution, National Museum of Natural History (NMNH), Washington DC, Division of Mammals Collection Database.",
+          "searchable_summary": "fetch Gerbilliscus records from TM and NMNH databases",
+          "inputs": [
+            "TM database",
+            "NMNH database"
+          ],
+          "outputs": [
+            "initial data set of 2747 records"
+          ],
+          "keywords": [
+            "data collection",
+            "museum records",
+            "Gerbilliscus"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All records for which latitudinal and longitudinal data were not available were removed, resulting in 1881 entries.",
+          "searchable_summary": "filter records to remove entries without lat/long data",
+          "inputs": [
+            "initial data set"
+          ],
+          "outputs": [
+            "filtered data set of 1881 entries"
+          ],
+          "keywords": [
+            "data cleaning",
+            "filtering",
+            "georeferencing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All specimens with latitudinal and longitudinal data reported in a box grid system were considered too coarse for this analysis and were excluded.",
+          "searchable_summary": "exclude records with coarse box grid system data",
+          "inputs": [
+            "filtered data set"
+          ],
+          "outputs": [
+            "refined data set"
+          ],
+          "keywords": [
+            "data exclusion",
+            "coordinate precision"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "All specimens were then projected using geographic information system software package ArcMap 9.2 in the Hartebeesthoek94 coordinate system.",
+          "searchable_summary": "project data into Hartebeesthoek94 coordinate system using ArcMap",
+          "inputs": [
+            "refined data set"
+          ],
+          "outputs": [
+            "projected data set"
+          ],
+          "keywords": [
+            "GIS",
+            "coordinate system",
+            "ArcMap"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Provenance and data validity was assessed, and points outside the coastal and state boundaries were rechecked and corrected.",
+          "searchable_summary": "validate and correct data points outside boundaries",
+          "inputs": [
+            "projected data set"
+          ],
+          "outputs": [
+            "validated data set"
+          ],
+          "keywords": [
+            "data validation",
+            "boundary correction"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Points within major rivers, lakes, and dams were adjusted to the closest point not within an aquatic area.",
+          "searchable_summary": "adjust points within aquatic areas",
+          "inputs": [
+            "validated data set"
+          ],
+          "outputs": [
+            "adjusted data set"
+          ],
+          "keywords": [
+            "data adjustment",
+            "aquatic areas"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "State or provincial placement was verified and corrected against current boundaries.",
+          "searchable_summary": "verify and correct state/provincial placement",
+          "inputs": [
+            "adjusted data set"
+          ],
+          "outputs": [
+            "corrected data set"
+          ],
+          "keywords": [
+            "state boundaries",
+            "provincial correction"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Records with specific locality information differing from known data were removed.",
+          "searchable_summary": "remove records with incorrect locality information",
+          "inputs": [
+            "corrected data set"
+          ],
+          "outputs": [
+            "final data set of 1877 georeferenced individuals"
+          ],
+          "keywords": [
+            "locality verification",
+            "data removal"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biome and Bioregion Analysis",
+      "description": "This method involves analyzing the presence of Gerbilliscus within specific vegetation types and assessing the influence of unique environmental conditions on their distribution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To assess genus presence within specific vegetation types, a search was run cross-referencing georeferenced specimens with the corresponding biome and bioregion for each locality.",
+          "searchable_summary": "cross-reference specimens with biome and bioregion data",
+          "inputs": [
+            "final data set",
+            "biome and bioregion data"
+          ],
+          "outputs": [
+            "cross-referenced data"
+          ],
+          "keywords": [
+            "biome analysis",
+            "bioregion cross-reference"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Climate data for Azonal Vegetation and its constituent BRLUs was derived by averaging scores from respective vegetation units.",
+          "searchable_summary": "average climate data for Azonal Vegetation",
+          "inputs": [
+            "Azonal Vegetation data",
+            "climate scores"
+          ],
+          "outputs": [
+            "averaged climate data"
+          ],
+          "keywords": [
+            "climate data",
+            "Azonal Vegetation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Climate data for the Desert BLU was derived by averaging scores from selected weather stations.",
+          "searchable_summary": "average climate data for Desert BLU",
+          "inputs": [
+            "Desert BLU data",
+            "weather station scores"
+          ],
+          "outputs": [
+            "averaged climate data for Desert BLU"
+          ],
+          "keywords": [
+            "Desert BLU",
+            "climate averaging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Climate data for the Gariep Desert BRLU was derived by averaging scores from weather stations in that area.",
+          "searchable_summary": "average climate data for Gariep Desert BRLU",
+          "inputs": [
+            "Gariep Desert BRLU data",
+            "weather station scores"
+          ],
+          "outputs": [
+            "averaged climate data for Gariep Desert BRLU"
+          ],
+          "keywords": [
+            "Gariep Desert",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Climate data for Azonal and Zonal & Intrazonal Forest BRLUs was derived by averaging scores from respective vegetation units.",
+          "searchable_summary": "average climate data for forest BRLUs",
+          "inputs": [
+            "forest BRLU data",
+            "vegetation unit scores"
+          ],
+          "outputs": [
+            "averaged climate data for forest BRLUs"
+          ],
+          "keywords": [
+            "forest BRLUs",
+            "climate averaging"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Climate data for the Indian Ocean Coastal Belt (IOCB) BLU was derived from specific vegetation units where georeferenced specimens were located.",
+          "searchable_summary": "derive climate data for IOCB BLU from specific vegetation units",
+          "inputs": [
+            "IOCB BLU data",
+            "vegetation unit data"
+          ],
+          "outputs": [
+            "climate data for IOCB BLU"
+          ],
+          "keywords": [
+            "IOCB BLU",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Percentage locality and specimen occurrence within each BLU and BRLU was calculated and compared to assess collector bias.",
+          "searchable_summary": "calculate and compare locality and specimen occurrence for bias assessment",
+          "inputs": [
+            "BLU and BRLU data",
+            "specimen occurrence data"
+          ],
+          "outputs": [
+            "bias assessment results"
+          ],
+          "keywords": [
+            "collector bias",
+            "locality occurrence"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54658033.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

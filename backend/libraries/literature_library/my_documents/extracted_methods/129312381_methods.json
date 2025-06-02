@@ -1,0 +1,188 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Rarefaction Analysis",
+      "description": "Rarefaction analysis is used in palaeoecology to estimate palynological richness, representing changes in landscape diversity. It estimates the number of pollen types based on a common pollen sum.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Rarefaction analysis was carried out using Psimpoll 4.27.",
+          "searchable_summary": "perform rarefaction analysis using Psimpoll 4.27",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "estimated palynological richness"
+          ],
+          "keywords": [
+            "rarefaction analysis",
+            "palynological richness",
+            "Psimpoll"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cross-Correlation Analysis",
+      "description": "Cross-correlation analysis evaluates the synchrony between the moisture balance index and CHAR influx over selected time periods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Cross-correlation analysis was performed using R and the stats library.",
+          "searchable_summary": "perform cross-correlation analysis using R stats library",
+          "inputs": [
+            "moisture balance index data",
+            "CHAR influx data"
+          ],
+          "outputs": [
+            "cross-correlation diagrams"
+          ],
+          "keywords": [
+            "cross-correlation",
+            "R",
+            "stats library"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Principal Component Analysis (PCA)",
+      "description": "PCA is applied to display relationships between samples and the direction of variation of significant taxa, identifying ecological regime shifts.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "PCA analysis was carried out on the cross-products matrix of variance/covariance (centred).",
+          "searchable_summary": "perform PCA on variance/covariance matrix",
+          "inputs": [
+            "taxa data exceeding 5% of total pollen sum"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "variance/covariance matrix"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Variables scores were calculated by weighted averaging.",
+          "searchable_summary": "calculate PCA variable scores by weighted averaging",
+          "inputs": [
+            "PCA results"
+          ],
+          "outputs": [
+            "variable scores"
+          ],
+          "keywords": [
+            "PCA",
+            "weighted averaging"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and Pollen Analysis",
+      "description": "This method involves collecting and analyzing pollen content from surface sediment samples to study modern pollen-vegetation representation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "30 surface sediment samples were collected from the surface to a depth of 1-2 cm.",
+          "searchable_summary": "collect surface sediment samples",
+          "inputs": [
+            "geographical coordinates"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "pollen analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Pollen samples were processed following standard methods, including chemical treatment and sieving.",
+          "searchable_summary": "process pollen samples with chemical treatment and sieving",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "processed pollen samples"
+          ],
+          "keywords": [
+            "pollen processing",
+            "chemical treatment",
+            "sieving"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Chronology and Sediment Analysis",
+      "description": "This method establishes the chronology of sediment sequences using AMS 14C dating and estimates organic matter content through loss on ignition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "AMS 14C dates were calibrated using CALIB 5.0.1 software.",
+          "searchable_summary": "calibrate AMS 14C dates using CALIB 5.0.1",
+          "inputs": [
+            "AMS 14C dates"
+          ],
+          "outputs": [
+            "calibrated dates"
+          ],
+          "keywords": [
+            "AMS 14C dating",
+            "calibration",
+            "CALIB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Age-depth model was obtained using MCAge software with a cubic smoothing spline and bootstrap approach.",
+          "searchable_summary": "create age-depth model using MCAge software",
+          "inputs": [
+            "calibrated dates"
+          ],
+          "outputs": [
+            "age-depth model"
+          ],
+          "keywords": [
+            "age-depth model",
+            "MCAge",
+            "bootstrap"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Loss on ignition was applied to estimate organic matter content.",
+          "searchable_summary": "estimate organic matter content using loss on ignition",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "organic matter content"
+          ],
+          "keywords": [
+            "loss on ignition",
+            "organic matter"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/129312381.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

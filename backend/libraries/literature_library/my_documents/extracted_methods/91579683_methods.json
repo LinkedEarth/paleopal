@@ -1,0 +1,183 @@
+{
+  "paper_title": "A New Map of Pleistocene Proglacial Lake Tight Based on GIS Modeling and Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DEM Data Acquisition and Preparation",
+      "description": "This method involves acquiring and preparing Digital Elevation Models (DEMs) from the USGS National Elevation Dataset to model the Lake Tight area.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "One-arc-second DEMs were downloaded through The National Map on the USGS website.",
+          "searchable_summary": "download 1-arc-second DEMs from USGS National Map",
+          "inputs": [
+            "USGS National Map URL"
+          ],
+          "outputs": [
+            "1-arc-second DEM files"
+          ],
+          "keywords": [
+            "DEM",
+            "USGS",
+            "elevation data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Eleven DEM coverages of areas of Ohio, West Virginia, and Kentucky were added to the GIS.",
+          "searchable_summary": "import DEM coverages into GIS",
+          "inputs": [
+            "DEM files"
+          ],
+          "outputs": [
+            "GIS project with DEM coverages"
+          ],
+          "keywords": [
+            "GIS",
+            "DEM",
+            "data import"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The DEMs were combined into one DEM.",
+          "searchable_summary": "merge multiple DEMs into a single DEM",
+          "inputs": [
+            "DEM coverages"
+          ],
+          "outputs": [
+            "combined DEM"
+          ],
+          "keywords": [
+            "DEM",
+            "merge",
+            "GIS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Contour and Boundary Definition",
+      "description": "This method defines contours and boundaries for Lake Tight using GIS and geomorphological considerations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The GIS created a 25-meter contour interval feature class from the DEMs, including a 275-meter limiting contour for Lake Tight.",
+          "searchable_summary": "generate contour feature class from DEMs",
+          "inputs": [
+            "combined DEM"
+          ],
+          "outputs": [
+            "contour feature class"
+          ],
+          "keywords": [
+            "contour",
+            "GIS",
+            "feature class"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The 275-meter contour and the boundaries developed for the glacial ice margin, Muskingum River area, and western boundary were combined into a single linear feature class.",
+          "searchable_summary": "combine contour and boundary features into a linear feature class",
+          "inputs": [
+            "contour feature class",
+            "boundary data"
+          ],
+          "outputs": [
+            "linear feature class"
+          ],
+          "keywords": [
+            "boundary",
+            "linear feature",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "This linear feature class was converted into a seamless polygon feature: the lake polygon.",
+          "searchable_summary": "convert linear feature class to polygon feature",
+          "inputs": [
+            "linear feature class"
+          ],
+          "outputs": [
+            "lake polygon"
+          ],
+          "keywords": [
+            "polygon",
+            "GIS",
+            "feature conversion"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Island Identification and Area Calculation",
+      "description": "This method identifies potential islands within Lake Tight and calculates the area of the lake excluding these islands.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Island polygons that contained at least 1 DEM point that was ≥277.5 meters were considered an island.",
+          "searchable_summary": "identify island polygons based on DEM point elevation",
+          "inputs": [
+            "lake polygon DEM",
+            "DEM point feature class"
+          ],
+          "outputs": [
+            "island polygons"
+          ],
+          "keywords": [
+            "island",
+            "DEM",
+            "elevation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A spatial location query captured all islands that did not have a DEM 277.5-point within them but were of an area comparable to or greater than that of the smallest island extracted by the DEM point method.",
+          "searchable_summary": "perform spatial query to identify additional islands",
+          "inputs": [
+            "island polygons",
+            "spatial data"
+          ],
+          "outputs": [
+            "final island feature class"
+          ],
+          "keywords": [
+            "spatial query",
+            "island",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The cumulative area of the island polygons was subtracted from the area of the lake polygon to determine the area of Lake Tight.",
+          "searchable_summary": "calculate lake area excluding islands",
+          "inputs": [
+            "lake polygon",
+            "island polygons"
+          ],
+          "outputs": [
+            "area of Lake Tight"
+          ],
+          "keywords": [
+            "area calculation",
+            "GIS",
+            "lake"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/91579683.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

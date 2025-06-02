@@ -300,8 +300,8 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 # It's already a dict
                 config_dict = {"configurable": config_obj}
             
-            # Execute the graph
-            result_state = self._graph.invoke(initial_state, config_dict)
+            # Execute the graph asynchronously to support async nodes
+            result_state = await self._graph.ainvoke(initial_state, config_dict)
             
             # Debug logging to see what the graph returned
             logger.info(f"Graph execution completed. Result state type: {type(result_state)}")

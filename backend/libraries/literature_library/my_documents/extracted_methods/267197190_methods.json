@@ -1,0 +1,382 @@
+{
+  "paper_title": "Sediment eDNA Study Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Sample Collection and Preservation",
+      "description": "Procedure for collecting surface sediment samples from marine areas off Greenland and Svalbard, including different collection methods based on water depth and location, sterilization of equipment, and preservation techniques for eDNA studies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Identify sample locations and water depths (from shore to 1460 m) in marine areas off west Greenland (64-75°N), east Greenland (70-79°N), and Svalbard (76-79°N).",
+          "searchable_summary": "identify geographic sampling locations and depths",
+          "inputs": [
+            "geographic coordinates",
+            "water depth range"
+          ],
+          "outputs": [
+            "list of sampling sites"
+          ],
+          "keywords": [
+            "sampling location",
+            "geographic coordinates",
+            "water depth"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Select collection method based on location characteristics (intertidal, shallow, deep). Methods include hand-held sampler (intertidal), SCUBA divers (shallow), and box or gravity corer (deep) from a research vessel.",
+          "searchable_summary": "select sediment collection method based on site characteristics",
+          "inputs": [
+            "site characteristics (intertidal, shallow, deep)"
+          ],
+          "outputs": [
+            "selected collection method"
+          ],
+          "keywords": [
+            "sampling method",
+            "sediment collection",
+            "hand-held sampler",
+            "SCUBA",
+            "box corer",
+            "gravity corer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Sterilize all collection material that came in contact with samples beforehand with 20% bleach.",
+          "searchable_summary": "sterilize sampling equipment with bleach",
+          "inputs": [
+            "collection equipment",
+            "20% bleach solution"
+          ],
+          "outputs": [
+            "sterilized collection equipment"
+          ],
+          "keywords": [
+            "sterilization",
+            "bleach",
+            "sampling equipment",
+            "contamination control"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Collect sediment samples, taking care to collect sediment greater than 2 cm away from material that was not sterilized such as the inner surface of cores.",
+          "searchable_summary": "collect sediment samples using selected method and sterile technique",
+          "inputs": [
+            "sampling site",
+            "sterilized equipment",
+            "selected collection method"
+          ],
+          "outputs": [
+            "raw sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "sample collection",
+            "sterile technique",
+            "environmental DNA"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "After collection, preserve sediment samples by either freezing or mixing with an equal volume of either RNAlater or DNAguard.",
+          "searchable_summary": "preserve sediment samples by freezing or chemical stabilization",
+          "inputs": [
+            "raw sediment samples",
+            "RNAlater",
+            "DNAguard"
+          ],
+          "outputs": [
+            "preserved sediment samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "freezing",
+            "RNAlater",
+            "DNAguard",
+            "eDNA preservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multivariate Generalized Linear Modelling (MGLM) Analysis",
+      "description": "Statistical analysis using Multivariate Generalized Linear Modelling (MGLM) to assess the relationship between environmental variables and the eDNA community (presence/absence data). Includes data preparation, model fitting, significance testing, and bias assessment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Define the dependent variable as the presence/absence of each taxa for each sample.",
+          "searchable_summary": "prepare eDNA community data as presence/absence matrix",
+          "inputs": [
+            "eDNA taxa abundance/occurrence data"
+          ],
+          "outputs": [
+            "taxa presence/absence matrix"
+          ],
+          "keywords": [
+            "data preparation",
+            "presence/absence data",
+            "eDNA community",
+            "taxa"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Remove non-marine species from the dataset (species not categorized by the WORRMS database as marine or estuarine).",
+          "searchable_summary": "filter non-marine species from eDNA dataset",
+          "inputs": [
+            "eDNA taxa dataset",
+            "WORRMS database classification"
+          ],
+          "outputs": [
+            "filtered marine/estuarine eDNA dataset"
+          ],
+          "keywords": [
+            "data filtering",
+            "species classification",
+            "WORRMS database",
+            "marine species",
+            "estuarine species"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Centre and scale predictor environmental variables (mean subtracted and divided by standard deviation).",
+          "searchable_summary": "standardize environmental predictor variables",
+          "inputs": [
+            "environmental variable data"
+          ],
+          "outputs": [
+            "centred and scaled environmental variables"
+          ],
+          "keywords": [
+            "data standardization",
+            "centering",
+            "scaling",
+            "environmental variables",
+            "feature scaling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Perform Multivariate Generalized Linear Modelling (MGLM) using the manyglm function within the mvabund package version 4.2.1 with a binomial distribution with cloglog link.",
+          "searchable_summary": "fit multivariate generalized linear model (MGLM)",
+          "inputs": [
+            "taxa presence/absence matrix",
+            "centred and scaled environmental variables"
+          ],
+          "outputs": [
+            "fitted MGLM model object"
+          ],
+          "keywords": [
+            "MGLM",
+            "multivariate analysis",
+            "generalized linear model",
+            "mvabund package",
+            "manyglm function",
+            "binomial distribution",
+            "cloglog link"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Assess model fit using a linear quantile plot and checking for patterns between residuals and sample or taxa.",
+          "searchable_summary": "evaluate MGLM model fit",
+          "inputs": [
+            "fitted MGLM model object"
+          ],
+          "outputs": [
+            "model fit diagnostics (plots, residual analysis)"
+          ],
+          "keywords": [
+            "model validation",
+            "model diagnostics",
+            "quantile plot",
+            "residuals",
+            "model fit"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Determine variable significance using the Wald statistic with 1000 permutations using the ANOVA function in the mvabund package with the score test and cor.type = 'shrink'.",
+          "searchable_summary": "perform significance testing for MGLM predictors using permutations",
+          "inputs": [
+            "fitted MGLM model object"
+          ],
+          "outputs": [
+            "variable significance test results (p-values, Wald statistics)"
+          ],
+          "keywords": [
+            "significance testing",
+            "Wald statistic",
+            "permutation test",
+            "ANOVA function",
+            "mvabund package",
+            "score test",
+            "multiple testing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Account for multiple tests when calculating the significant association between environmental variables and individual taxa using a step-down resampling procedure.",
+          "searchable_summary": "apply multiple testing correction using step-down resampling",
+          "inputs": [
+            "variable significance test results"
+          ],
+          "outputs": [
+            "adjusted p-values for multiple comparisons"
+          ],
+          "keywords": [
+            "multiple testing correction",
+            "step-down resampling",
+            "p-value adjustment",
+            "statistical significance"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Check for spatial autocorrelation by comparing the community similarity with the distance between samples (pairwise comparison of all samples).",
+          "searchable_summary": "assess spatial autocorrelation of community data",
+          "inputs": [
+            "community similarity matrix",
+            "sample geographic coordinates"
+          ],
+          "outputs": [
+            "spatial autocorrelation assessment (e.g., plot of similarity vs distance)"
+          ],
+          "keywords": [
+            "spatial autocorrelation",
+            "community similarity",
+            "pairwise comparison",
+            "distance decay"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "Run three additional multivariate GLM analyses to assess potential biases: separate models for the two different eDNA preservation methods (RNAlater and DNAgard) and when terrestrial species were included in the dataset.",
+          "searchable_summary": "perform bias assessment MGLM analyses",
+          "inputs": [
+            "taxa presence/absence matrix (original and with terrestrial species)",
+            "centred and scaled environmental variables",
+            "preservation method metadata"
+          ],
+          "outputs": [
+            "bias assessment MGLM model objects and results"
+          ],
+          "keywords": [
+            "bias assessment",
+            "MGLM",
+            "sensitivity analysis",
+            "preservation method",
+            "terrestrial species"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Nonmetric Multidimensional Scaling (NMDS) Analysis",
+      "description": "Visualization technique using Nonmetric Multidimensional Scaling (NMDS) to explore relationships between environmental variables (including latitude) and the eDNA community, and to assess patterns related to sample preservation method, collection method, and sample campaign.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Create a Bray-Curtis similarity matrix on presence/absence data.",
+          "searchable_summary": "calculate Bray-Curtis similarity matrix",
+          "inputs": [
+            "taxa presence/absence matrix"
+          ],
+          "outputs": [
+            "Bray-Curtis similarity matrix"
+          ],
+          "keywords": [
+            "similarity matrix",
+            "Bray-Curtis distance",
+            "community data",
+            "presence/absence data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calculate Nonmetric Multidimensional Scaling (NMDS) using the metaMDS function within the vegan package version 2.6.4.",
+          "searchable_summary": "perform Nonmetric Multidimensional Scaling (NMDS)",
+          "inputs": [
+            "Bray-Curtis similarity matrix"
+          ],
+          "outputs": [
+            "NMDS ordination result"
+          ],
+          "keywords": [
+            "NMDS",
+            "nonmetric multidimensional scaling",
+            "ordination",
+            "vegan package",
+            "metaMDS function"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Visualize the relationship and linearity between five environmental variables (including latitude) and the community using the ordisurf function within the vegan package to plot a general additive model based on thinplate splines with cross-validatory selection of smoothness.",
+          "searchable_summary": "visualize environmental variable relationships on NMDS plot using surface fitting",
+          "inputs": [
+            "NMDS ordination result",
+            "environmental variable data"
+          ],
+          "outputs": [
+            "NMDS plot with environmental variable surfaces"
+          ],
+          "keywords": [
+            "visualization",
+            "NMDS plot",
+            "environmental variables",
+            "ordisurf function",
+            "vegan package",
+            "GAM",
+            "thinplate splines",
+            "surface fitting"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Include an additional NMDS to look at the patterns associated with the sample preservation method, collection method and sample campaign.",
+          "searchable_summary": "visualize sample metadata patterns on NMDS plot",
+          "inputs": [
+            "NMDS ordination result",
+            "sample metadata (preservation method, collection method, campaign)"
+          ],
+          "outputs": [
+            "NMDS plot colored/shaped by metadata"
+          ],
+          "keywords": [
+            "visualization",
+            "NMDS plot",
+            "sample metadata",
+            "preservation method",
+            "collection method",
+            "sample campaign"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/267197190.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

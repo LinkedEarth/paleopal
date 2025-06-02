@@ -1,0 +1,175 @@
+{
+  "paper_title": "Earth System Model Analysis of How Astronomical Forcing Is Imprinted Onto the Marine Geological Record: The Role of the Inorganic (Carbonate) Carbon Cycle and Feedbacks",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "cGENIE Model Configuration",
+      "description": "The cGENIE model is configured to include spatiotemporal insolation forcing based on astronomical parameters, which are updated every 1,000 years to recalculate daily mean insolation at each latitude. This method is used to simulate past climate events and future carbon cycle responses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Combine a dynamic 3D ocean model with a simplified 2D energy-moisture-balance atmosphere model.",
+          "searchable_summary": "integrate 3D ocean model with 2D atmosphere model",
+          "inputs": [
+            "3D ocean model",
+            "2D atmosphere model"
+          ],
+          "outputs": [
+            "integrated climate model"
+          ],
+          "keywords": [
+            "cGENIE",
+            "ocean model",
+            "atmosphere model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Include a detailed representation of ocean biogeochemical cycles and the long-term carbon cycle.",
+          "searchable_summary": "add biogeochemical and carbon cycle representation",
+          "inputs": [
+            "biogeochemical cycles",
+            "carbon cycle data"
+          ],
+          "outputs": [
+            "enhanced climate model"
+          ],
+          "keywords": [
+            "biogeochemical cycles",
+            "carbon cycle"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Update parameters for eccentricity, obliquity, and precession every 1,000 years using the La2004 astronomical solution.",
+          "searchable_summary": "update astronomical parameters every 1,000 years",
+          "inputs": [
+            "La2004 astronomical solution"
+          ],
+          "outputs": [
+            "updated model parameters"
+          ],
+          "keywords": [
+            "eccentricity",
+            "obliquity",
+            "precession"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Recalculate daily mean insolation at each latitude based on updated astronomical parameters.",
+          "searchable_summary": "recalculate daily mean insolation",
+          "inputs": [
+            "astronomical parameters"
+          ],
+          "outputs": [
+            "daily mean insolation"
+          ],
+          "keywords": [
+            "insolation",
+            "latitude",
+            "astronomical parameters"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Experimental Design for Astronomical Forcing",
+      "description": "A series of experiments are conducted using the cGENIE model to investigate the effects of astronomical forcing on climate and the carbon cycle over 4 million years.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Run cGENIE transiently for 4 million years to evaluate astronomical cycles with periods up to 500 kyr.",
+          "searchable_summary": "simulate climate over 4 million years",
+          "inputs": [
+            "cGENIE model"
+          ],
+          "outputs": [
+            "climate simulation data"
+          ],
+          "keywords": [
+            "transient simulation",
+            "astronomical cycles"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Conduct a set of five simulations for both SYMM and ASYM configurations, increasing the complexity of the carbon cycle sequentially.",
+          "searchable_summary": "conduct simulations with varying carbon cycle complexity",
+          "inputs": [
+            "SYMM configuration",
+            "ASYM configuration"
+          ],
+          "outputs": [
+            "simulation results"
+          ],
+          "keywords": [
+            "SYMM",
+            "ASYM",
+            "carbon cycle"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "In Exp.0, disable all carbon cycle feedbacks and fix radiative forcing with respect to atmospheric CO2 composition.",
+          "searchable_summary": "disable carbon cycle feedbacks and fix radiative forcing",
+          "inputs": [
+            "atmospheric CO2 composition"
+          ],
+          "outputs": [
+            "Exp.0 simulation data"
+          ],
+          "keywords": [
+            "carbon cycle feedbacks",
+            "radiative forcing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "In Exp.1, allow variations in atmospheric CO2 to modulate surface temperature and fix export production of POC and CaCO3.",
+          "searchable_summary": "allow CO2 variations and fix export production",
+          "inputs": [
+            "atmospheric CO2",
+            "POC",
+            "CaCO3"
+          ],
+          "outputs": [
+            "Exp.1 simulation data"
+          ],
+          "keywords": [
+            "CO2 variations",
+            "POC",
+            "CaCO3"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "In Exp.2, allow POC export to vary with light and nutrient availability, and remineralize through the water column.",
+          "searchable_summary": "vary POC export and remineralize",
+          "inputs": [
+            "light availability",
+            "nutrient availability"
+          ],
+          "outputs": [
+            "Exp.2 simulation data"
+          ],
+          "keywords": [
+            "POC export",
+            "remineralization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/239200051.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

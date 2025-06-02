@@ -1,0 +1,311 @@
+{
+  "paper_title": "Insolation and Biome Analysis in the Eurasian Subarctic",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Insolation Calculation",
+      "description": "Calculation of insolation at the top of the Earth's atmosphere in the Eurasian Subarctic for the Holocene using the La2004 orbital model, which includes major planets, Pluto, and post-Newtonian corrections.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The calculation of insolation at the top of the Earth's atmosphere in the Eurasian Subarctic for the Holocene is carried out based on the solution La2004 for the long-period evolution of the Earth's orbit.",
+          "searchable_summary": "calculate insolation using La2004 orbital model",
+          "inputs": [
+            "La2004 orbital model parameters"
+          ],
+          "outputs": [
+            "insolation data"
+          ],
+          "keywords": [
+            "insolation",
+            "orbital model",
+            "La2004"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The orbital model takes into account eight major planets of the Solar System and the dwarf planet Pluto. The post-Newtonian general relativity corrections of order 1/c 2 due to the Sun are included.",
+          "searchable_summary": "include major planets and post-Newtonian corrections in model",
+          "inputs": [
+            "planetary data",
+            "general relativity corrections"
+          ],
+          "outputs": [
+            "enhanced orbital model"
+          ],
+          "keywords": [
+            "orbital model",
+            "general relativity",
+            "planets"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The Moon is treated as a separate object. In order to obtain a realistic evolution of the Earth-Moon System, which also takes into account the most important coefficient (dynamical form-factor of the Sun J2S) in the gravitational potential of the Earth and of the Moon, and the tidal dissipation in the Earth-Moon System.",
+          "searchable_summary": "model Earth-Moon system with J2S and tidal dissipation",
+          "inputs": [
+            "Earth-Moon system data",
+            "J2S coefficient"
+          ],
+          "outputs": [
+            "Earth-Moon system model"
+          ],
+          "keywords": [
+            "Earth-Moon system",
+            "J2S",
+            "tidal dissipation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The precession and obliquity equations for the Earth and the evolution of its rotation period is also integrated at the same time.",
+          "searchable_summary": "integrate precession and obliquity equations",
+          "inputs": [
+            "precession data",
+            "obliquity data"
+          ],
+          "outputs": [
+            "integrated Earth rotation model"
+          ],
+          "keywords": [
+            "precession",
+            "obliquity",
+            "Earth rotation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Surface Topography and Solar Radiation Analysis",
+      "description": "Analysis of surface topography and calculation of solar radiation for the recent period and Pliocene epoch using digital elevation models and hemispherical viewshed algorithm.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The surface topography was analyzed for the recent period (the Urals and West Siberia) and for the Pliocene epoch (West Siberia).",
+          "searchable_summary": "analyze surface topography for recent and Pliocene periods",
+          "inputs": [
+            "DEM data for recent and Pliocene periods"
+          ],
+          "outputs": [
+            "analyzed topography data"
+          ],
+          "keywords": [
+            "surface topography",
+            "DEM",
+            "Pliocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The digital elevation model (DEM) for the Pliocene (Pre-Yamalian time) was built based on a paleogeomorphological map at a scale of 1: 4,000,000.",
+          "searchable_summary": "build Pliocene DEM from paleogeomorphological map",
+          "inputs": [
+            "paleogeomorphological map"
+          ],
+          "outputs": [
+            "Pliocene DEM"
+          ],
+          "keywords": [
+            "DEM",
+            "Pliocene",
+            "paleogeomorphology"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "DEM of the Pliocene and the modern period were divided by parallels into segments of 1°.",
+          "searchable_summary": "divide DEM into 1° segments",
+          "inputs": [
+            "DEM data"
+          ],
+          "outputs": [
+            "segmented DEM data"
+          ],
+          "keywords": [
+            "DEM",
+            "segmentation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "For each segment, annual solar radiation was calculated (365 days for a non-leap year) at monthly intervals.",
+          "searchable_summary": "calculate annual solar radiation for each DEM segment",
+          "inputs": [
+            "segmented DEM data"
+          ],
+          "outputs": [
+            "solar radiation data"
+          ],
+          "keywords": [
+            "solar radiation",
+            "DEM",
+            "annual calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The sum of direct and diffuse radiation was determined using the methods of the hemispherical viewshed algorithm.",
+          "searchable_summary": "determine direct and diffuse radiation using viewshed algorithm",
+          "inputs": [
+            "solar radiation data"
+          ],
+          "outputs": [
+            "direct and diffuse radiation data"
+          ],
+          "keywords": [
+            "radiation",
+            "viewshed algorithm"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Since the cloud-cover data for the Pliocene were not available, we used constants for atmospheric transmissivity and diffuse proportion parameters for generally clear sky conditions.",
+          "searchable_summary": "apply constants for atmospheric transmissivity and diffuse proportion",
+          "inputs": [
+            "atmospheric constants"
+          ],
+          "outputs": [
+            "adjusted radiation data"
+          ],
+          "keywords": [
+            "atmospheric transmissivity",
+            "diffuse proportion"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Further, these segments were combined into single surface insolation models for the two analyzed periods, and an estimate of the transformation of the amount of solar radiation due to changes in the topography was obtained.",
+          "searchable_summary": "combine segments into insolation models and estimate transformation",
+          "inputs": [
+            "adjusted radiation data"
+          ],
+          "outputs": [
+            "surface insolation models"
+          ],
+          "keywords": [
+            "insolation models",
+            "topography transformation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biome Calculation and Mapping",
+      "description": "Calculation of biomes using pollen analysis data from peatland sections and mapping reconstructed biomes over time.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To calculate biomes, we used the results of pollen analysis of 24 sections of peatlands in the territory of the Middle, Northern, Subpolar, Polar Urals and South Yamal.",
+          "searchable_summary": "use pollen analysis data from peatland sections",
+          "inputs": [
+            "pollen analysis data"
+          ],
+          "outputs": [
+            "biome calculation inputs"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "peatlands",
+            "biomes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For calculations, we used the initial tables of pollen spectra: the percentage of pollen and spores of each sample, where the sum of pollen from trees and shrubs was taken as 100%.",
+          "searchable_summary": "process pollen spectra tables for biome calculations",
+          "inputs": [
+            "pollen spectra tables"
+          ],
+          "outputs": [
+            "processed pollen data"
+          ],
+          "keywords": [
+            "pollen spectra",
+            "biome calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "All examined sections are dated to 14 С, which allowed us to build depth-age models for each section Clam 2.0.",
+          "searchable_summary": "build depth-age models using Clam 2.0",
+          "inputs": [
+            "dated sections"
+          ],
+          "outputs": [
+            "depth-age models"
+          ],
+          "keywords": [
+            "depth-age models",
+            "Clam 2.0"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Reconstructions were carried out according to time sections of the Holocene with an interval of 1000 years, respectively, for a time of 11,000 years ago, 10,000, 9,000, ..., 0 years ago.",
+          "searchable_summary": "reconstruct biomes for Holocene time sections",
+          "inputs": [
+            "depth-age models"
+          ],
+          "outputs": [
+            "reconstructed biomes"
+          ],
+          "keywords": [
+            "biome reconstruction",
+            "Holocene"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "According to the coordinates of the sections, the reconstructed biomes were plotted on the map of the corresponding time slice in the form of conditional points colored in a specific color for each biome.",
+          "searchable_summary": "plot reconstructed biomes on map for each time slice",
+          "inputs": [
+            "reconstructed biomes",
+            "section coordinates"
+          ],
+          "outputs": [
+            "biome maps"
+          ],
+          "keywords": [
+            "biome mapping",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Modern biomes reconstructed from surface pollen spectrum are compared with the map 'Biomes of Russia'.",
+          "searchable_summary": "compare modern reconstructed biomes with Biomes of Russia map",
+          "inputs": [
+            "modern reconstructed biomes",
+            "Biomes of Russia map"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "biome validation",
+            "comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/213531293.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

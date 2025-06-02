@@ -1,0 +1,590 @@
+{
+  "paper_title": "Granular Crystal Wave Propagation Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Granular Crystal Experimental Setup",
+      "description": "Process for assembling and configuring the 1D diatomic granular crystal chains and associated equipment (actuator, force sensor, static load mechanism) for wave propagation experiments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Assemble five different 1D diatomic granular crystals composed of three-particle, sphere-cylinder-sphere, repeating unit cells as shown in Fig. 1(a).",
+          "searchable_summary": "assemble 1D diatomic granular crystals with specified unit cell structure",
+          "inputs": [
+            "particle types (sphere, cylinder)",
+            "unit cell structure (sphere-cylinder-sphere)",
+            "number of different crystal types (five)"
+          ],
+          "outputs": [
+            "five different assembled granular crystal chains"
+          ],
+          "keywords": [
+            "granular crystal",
+            "assembly",
+            "diatomic chain",
+            "unit cell"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The particles (spheres and cylinders) are made from 440C stainless steel, with radius R = 9.53 mm, elastic modulus E = 200 GPa, and Poisson's ratio ν = 0.3.",
+          "searchable_summary": "specify particle material and properties",
+          "inputs": [
+            "material name (440C stainless steel)",
+            "sphere radius (R)",
+            "elastic modulus (E)",
+            "Poisson's ratio (ν)"
+          ],
+          "outputs": [
+            "particle material and property specifications"
+          ],
+          "keywords": [
+            "material properties",
+            "stainless steel",
+            "elastic modulus",
+            "Poisson's ratio",
+            "particle dimensions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Each of the five chains is assembled with cylinders of a different length, L = [9.4, 12.5, 15.8, 18.7, 21.9] mm.",
+          "searchable_summary": "specify cylinder lengths for each chain type",
+          "inputs": [
+            "list of cylinder lengths (L)"
+          ],
+          "outputs": [
+            "cylinder length specifications for each chain"
+          ],
+          "keywords": [
+            "cylinder length",
+            "particle dimensions",
+            "experimental parameter"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The chains are 21 particles (7 unit cells) long.",
+          "searchable_summary": "specify total chain length",
+          "inputs": [
+            "total number of particles (21)",
+            "number of unit cells (7)"
+          ],
+          "outputs": [
+            "chain length specification"
+          ],
+          "keywords": [
+            "chain length",
+            "number of particles",
+            "unit cell"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "The mass of the spherical particles is measured to be m = 27.8 g and the mass of the cylindrical particles is measured to be M = [20.5, 27.3, 34.1, 40.7, 47.8] g for each of the corresponding cylinder lengths.",
+          "searchable_summary": "measure particle masses",
+          "inputs": [
+            "spherical particles",
+            "cylindrical particles (for each length)"
+          ],
+          "outputs": [
+            "spherical particle mass (m)",
+            "cylindrical particle masses (M)"
+          ],
+          "keywords": [
+            "mass measurement",
+            "particle mass",
+            "experimental data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "We align the spheres and cylinders in a horizontal 1D configuration using a containment structure of four polycarbonate rods (12.7 mm diameter). We hold the polycarbonate rods in place with polycarbonate guide plates spaced at intervals of 1 unit cell.",
+          "searchable_summary": "align particles horizontally using containment structure",
+          "inputs": [
+            "assembled chains",
+            "polycarbonate rods",
+            "polycarbonate guide plates"
+          ],
+          "outputs": [
+            "horizontally aligned granular chains within containment"
+          ],
+          "keywords": [
+            "particle alignment",
+            "containment structure",
+            "experimental setup"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "We apply low amplitude broadband noise to the granular crystals using a piezoelectric actuator mounted on a steel cube of height 88.9 mm which is fixed to the table.",
+          "searchable_summary": "mount piezoelectric actuator for excitation",
+          "inputs": [
+            "piezoelectric actuator",
+            "steel cube",
+            "table"
+          ],
+          "outputs": [
+            "mounted actuator setup"
+          ],
+          "keywords": [
+            "actuator mounting",
+            "piezoelectric actuator",
+            "excitation setup"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "other",
+          "description": "The force sensor is composed of a piezo-electric disk embedded with epoxy inside two halves of a R = 9.53 mm, 316 stainless steel sphere... The assembled force sensor is calibrated against a commercial dynamic force sensor, and has a measured total mass and resonant frequency of 28.0 g and 80 kHz, respectively.",
+          "searchable_summary": "prepare and calibrate dynamic force sensor",
+          "inputs": [
+            "piezo-electric disk",
+            "steel sphere halves",
+            "epoxy",
+            "commercial dynamic force sensor (for calibration)"
+          ],
+          "outputs": [
+            "calibrated dynamic force sensor",
+            "sensor mass",
+            "sensor resonant frequency"
+          ],
+          "keywords": [
+            "force sensor",
+            "piezoelectric sensor",
+            "calibration",
+            "sensor mass",
+            "resonant frequency"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "other",
+          "description": "We insert the dynamic force sensor in place of the last particle, located at the opposite end of the crystal from the actuator.",
+          "searchable_summary": "insert dynamic force sensor into the granular chain",
+          "inputs": [
+            "aligned granular chain",
+            "dynamic force sensor"
+          ],
+          "outputs": [
+            "granular chain with sensor at the end"
+          ],
+          "keywords": [
+            "sensor placement",
+            "granular chain",
+            "experimental setup"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "We condition its output with a 30 kHz cutoff 8-pole butterworth low pass filter and voltage amplifier.",
+          "searchable_summary": "condition force sensor output signal",
+          "inputs": [
+            "raw force sensor output signal",
+            "low pass filter (30 kHz cutoff, 8-pole butterworth)",
+            "voltage amplifier"
+          ],
+          "outputs": [
+            "conditioned force sensor signal"
+          ],
+          "keywords": [
+            "signal conditioning",
+            "low pass filter",
+            "butterworth filter",
+            "voltage amplifier",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "other",
+          "description": "At the opposite end of the crystal with respect to the piezoelectric actuator, we apply a static compressive force, F 0 , using a soft (compared to the contact stiffness of the particles) stainless steel linear compression spring (stiffness 1.24 kN/m).",
+          "searchable_summary": "apply static compressive force using a spring",
+          "inputs": [
+            "granular chain",
+            "linear compression spring (stiffness 1.24 kN/m)"
+          ],
+          "outputs": [
+            "granular chain under static compression"
+          ],
+          "keywords": [
+            "static compression",
+            "preload",
+            "spring",
+            "experimental setup"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "other",
+          "description": "The static compressive force applied to the chain is adjusted by positioning, and fixing to the table, a movable steel cube of height 76.2 mm so that the soft linear spring is compresssed.",
+          "searchable_summary": "adjust static force by positioning a steel cube",
+          "inputs": [
+            "linear compression spring",
+            "movable steel cube",
+            "table"
+          ],
+          "outputs": [
+            "adjusted static compression setup"
+          ],
+          "keywords": [
+            "static load application",
+            "experimental setup"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_fetch",
+          "description": "The resulting applied static load is measured with a static load cell placed in between the steel cube and the spring.",
+          "searchable_summary": "measure applied static load",
+          "inputs": [
+            "compressed spring setup",
+            "static load cell"
+          ],
+          "outputs": [
+            "static load value (F0)"
+          ],
+          "keywords": [
+            "static load measurement",
+            "load cell",
+            "experimental data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Experimental Linear Spectrum Characterization",
+      "description": "Procedure for exciting the granular crystal system with noise and measuring the dynamic force response to characterize the linear spectrum and transfer function, and comparing results to theoretical predictions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "We experimentally characterize the linear spectrum of the previously described diatomic chains with sphere-cylinder-sphere unit cells for varied cylinder length and static load.",
+          "searchable_summary": "use experimental setup to characterize linear spectrum",
+          "inputs": [
+            "granular crystal experimental setup (from Method 1)",
+            "varied cylinder lengths (L)",
+            "varied static loads (F0)"
+          ],
+          "outputs": [
+            "experimental data for linear spectrum characterization"
+          ],
+          "keywords": [
+            "experimental characterization",
+            "linear spectrum",
+            "granular crystal",
+            "experimental setup"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "We apply a low-amplitude (approximately 200 mN peak) bandwidth limited (3 − 15 kHz) noise excitation with the piezoelectric actuator.",
+          "searchable_summary": "apply noise excitation to granular chain",
+          "inputs": [
+            "piezoelectric actuator",
+            "noise signal parameters (amplitude, bandwidth)"
+          ],
+          "outputs": [
+            "excited granular chain"
+          ],
+          "keywords": [
+            "noise excitation",
+            "piezoelectric actuator",
+            "wave propagation",
+            "experimental procedure"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We measure the dynamic force using a sensor embedded in the last particle of the granular crystal as shown in Fig. 1 Fig. 4.",
+          "searchable_summary": "measure dynamic force response",
+          "inputs": [
+            "dynamic force sensor (conditioned output)",
+            "time"
+          ],
+          "outputs": [
+            "dynamic force-time history data"
+          ],
+          "keywords": [
+            "dynamic force measurement",
+            "time series data",
+            "data acquisition",
+            "force sensor"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "We plot the experimentally determined PSD transfer functions for the five previously described diatomic (three-particle unit cell) chains with varied cylinder length for fixed F 0 =20 N static compression (Fig. 5(a)), and static compression F 0 = [20,25,30,35,40] N, for fixed cylinder length L = 12.5 mm (M = 27.3 g) (Fig. 5(b)).",
+          "searchable_summary": "calculate and plot experimental PSD transfer functions",
+          "inputs": [
+            "dynamic force-time history data",
+            "excitation signal data (implicit)",
+            "cylinder lengths (L)",
+            "static loads (F0)"
+          ],
+          "outputs": [
+            "experimental PSD transfer function data",
+            "plots of PSD transfer functions"
+          ],
+          "keywords": [
+            "PSD",
+            "transfer function",
+            "spectral analysis",
+            "data analysis",
+            "plotting",
+            "frequency response"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "We plot with solid white lines the cutoff frequencies from the dispersion relation calculated using the experimentally determined Hertz contact coefficients A 1,exp and A 2,exp .",
+          "searchable_summary": "calculate theoretical cutoff frequencies using experimental coefficients",
+          "inputs": [
+            "dispersion relation formula",
+            "experimentally determined Hertz contact coefficients (A1,exp, A2,exp)"
+          ],
+          "outputs": [
+            "theoretical cutoff frequencies"
+          ],
+          "keywords": [
+            "dispersion relation",
+            "cutoff frequency",
+            "theoretical calculation",
+            "Hertz contact"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "We plot with solid white lines the cutoff frequencies from the dispersion relation calculated using the experimentally determined Hertz contact coefficients A 1,exp and A 2,exp .",
+          "searchable_summary": "overlay calculated cutoff frequencies on experimental PSD plots",
+          "inputs": [
+            "experimental PSD transfer function plots",
+            "calculated cutoff frequencies"
+          ],
+          "outputs": [
+            "plots showing experimental spectra and theoretical cutoffs"
+          ],
+          "keywords": [
+            "plotting",
+            "data visualization",
+            "frequency cutoff",
+            "spectral plot"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "We compare the experimentally determined A 1,exp and A 2,exp to the theoretically determined A 1 and A 2 in Table I...",
+          "searchable_summary": "compare experimental and theoretical contact coefficients",
+          "inputs": [
+            "experimentally determined contact coefficients (A1,exp, A2,exp)",
+            "theoretically determined contact coefficients (A1, A2)"
+          ],
+          "outputs": [
+            "comparison results (e.g., deviations, error ranges)"
+          ],
+          "keywords": [
+            "parameter comparison",
+            "experimental validation",
+            "theoretical comparison",
+            "Hertz contact"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "By comparing Fig. 5 to Fig. 3 we observe good qualitiative agreement between the numerical (state-space) and experimental spectra.",
+          "searchable_summary": "qualitatively compare experimental and numerical spectra",
+          "inputs": [
+            "experimental spectra (PSD plots)",
+            "numerical spectra (from State-Space Modeling method)"
+          ],
+          "outputs": [
+            "qualitative comparison observations"
+          ],
+          "keywords": [
+            "spectral comparison",
+            "experimental validation",
+            "model validation",
+            "qualitative analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "State-Space Modeling and Analysis",
+      "description": "Theoretical modeling of the finite granular crystal system using a state-space approach to compute the frequency response (bode diagram) for comparison with experimental results.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We study the finite linearized system corresponding to our experimental setup as shown in Fig. 1(b).",
+          "searchable_summary": "model the finite linearized system corresponding to the experimental setup",
+          "inputs": [
+            "experimental setup parameters (particle properties, dimensions, chain length)"
+          ],
+          "outputs": [
+            "finite linearized system model"
+          ],
+          "keywords": [
+            "system modeling",
+            "linearized system",
+            "finite system",
+            "granular chain model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "We model the actuator boundary of our system as a fixed 440C steel wall. We model the other end of the chain as a free boundary, as the stiffness of the spring used for static compression is much less than the characteristic stiffness of the particles in contact.",
+          "searchable_summary": "define boundary conditions for the system model",
+          "inputs": [
+            "system model"
+          ],
+          "outputs": [
+            "system model with defined boundary conditions (fixed, free)"
+          ],
+          "keywords": [
+            "boundary conditions",
+            "fixed boundary",
+            "free boundary",
+            "system modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The linearized equations of motion for the finite system are the same as Eqs. (4), except the equations for the first and last particles which are given by the following expressions: ...",
+          "searchable_summary": "use linearized equations of motion for the finite system",
+          "inputs": [
+            "system model",
+            "general linearized equations of motion (Eqs. 4)",
+            "modified equations for boundary particles"
+          ],
+          "outputs": [
+            "linearized equations of motion for the specific finite system"
+          ],
+          "keywords": [
+            "equations of motion",
+            "linearized system",
+            "dynamics modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Next, we apply the state-space approach, which can be written as 34 : where vectors x, u, and y are the state, input, and output vectors, respectively. Matrices A, B, C, and D are called state, input, output and direct transmission matrices, respectively.",
+          "searchable_summary": "apply the state-space approach to the system equations",
+          "inputs": [
+            "linearized equations of motion"
+          ],
+          "outputs": [
+            "state-space representation structure (vectors x, u, y; matrices A, B, C, D)"
+          ],
+          "keywords": [
+            "state-space representation",
+            "system dynamics",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "We choose as an input to the system the force F 1 , i.e., u = F 1 ...",
+          "searchable_summary": "define the system input vector",
+          "inputs": [
+            "state-space representation structure",
+            "actuator force (F1)"
+          ],
+          "outputs": [
+            "input vector definition (u = F1)"
+          ],
+          "keywords": [
+            "system input",
+            "control input",
+            "state-space"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "...and as an output , the averaged force of the two contacts of the last particle (which is analogous to what is measured by the embedded dynamic force sensor in our experimental setup) 12,24,25,33 .",
+          "searchable_summary": "define the system output vector",
+          "inputs": [
+            "state-space representation structure",
+            "last particle contact forces"
+          ],
+          "outputs": [
+            "output vector definition (y)"
+          ],
+          "keywords": [
+            "system output",
+            "measurement output",
+            "state-space"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Thus, for the linear system of Fig. 1(b), we obtain . . 0 , and D = 0. 0 is a zero matrix and I is the identity matrix (both of size N × N).",
+          "searchable_summary": "derive state-space matrices (A, B, C, D)",
+          "inputs": [
+            "linearized equations of motion",
+            "input vector definition",
+            "output vector definition",
+            "system parameters"
+          ],
+          "outputs": [
+            "state matrix (A)",
+            "input matrix (B)",
+            "output matrix (C)",
+            "direct transmission matrix (D)"
+          ],
+          "keywords": [
+            "state matrix",
+            "input matrix",
+            "output matrix",
+            "direct transmission matrix",
+            "system matrices",
+            "derivation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "We use the formulation in Eqs. 9 with MATLAB's (R2008b) bode function to compute the bode diagram of the frequency response for the experimental configurations described.",
+          "searchable_summary": "compute bode diagram (frequency response) using MATLAB",
+          "inputs": [
+            "state-space matrices (A, B, C, D)",
+            "MATLAB bode function"
+          ],
+          "outputs": [
+            "bode diagram data (frequency response magnitude and phase)"
+          ],
+          "keywords": [
+            "bode plot",
+            "frequency response",
+            "MATLAB",
+            "state-space analysis",
+            "numerical simulation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/43632553.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

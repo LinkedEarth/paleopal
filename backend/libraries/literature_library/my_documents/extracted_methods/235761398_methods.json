@@ -1,0 +1,222 @@
+{
+  "paper_title": "Pollen Data Analysis and Study Sites in Northwestern Europe",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Analysis",
+      "description": "This method involves analyzing time series data of airborne pollen concentrations to determine trends and seasonal characteristics. It includes calculating annual pollen integrals, determining peak pollen days, and analyzing trends using statistical tests.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The total taxon-specific airborne pollen accumulated during a yearly monitoring period was expressed as Annual Pollen Integral (API).",
+          "searchable_summary": "calculate Annual Pollen Integral (API) for each taxon",
+          "inputs": [
+            "daily pollen concentration data"
+          ],
+          "outputs": [
+            "Annual Pollen Integral (API)"
+          ],
+          "keywords": [
+            "API",
+            "pollen concentration",
+            "annual accumulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The peak value corresponds to the maximum daily pollen concentration measured during a yearly monitoring period.",
+          "searchable_summary": "identify peak daily pollen concentration",
+          "inputs": [
+            "daily pollen concentration data"
+          ],
+          "outputs": [
+            "peak daily pollen concentration"
+          ],
+          "keywords": [
+            "peak value",
+            "pollen concentration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The peak day is the day on which this maximum was reached, expressed as day number since January 1st.",
+          "searchable_summary": "determine peak pollen day",
+          "inputs": [
+            "daily pollen concentration data"
+          ],
+          "outputs": [
+            "peak day"
+          ],
+          "keywords": [
+            "peak day",
+            "pollen concentration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For the start/end dates of the pollen season, two definitions were used: (i) the day number since January 1st upon which the accumulated sum of daily pollen/m3 reached, respectively 1 and 99% of the API, or (ii) respectively 5 and 95%.",
+          "searchable_summary": "calculate start and end dates of pollen season based on API percentages",
+          "inputs": [
+            "daily pollen concentration data",
+            "API"
+          ],
+          "outputs": [
+            "start date",
+            "end date"
+          ],
+          "keywords": [
+            "pollen season",
+            "start date",
+            "end date",
+            "API"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Trends were analyzed using the nonparametric Spearman rank correlation test between the years and either one of the pollen parameters (API, peak, peak day, start, end, and length of the pollen season) for each site using STATA 14.1 software.",
+          "searchable_summary": "perform Spearman rank correlation test on pollen parameters",
+          "inputs": [
+            "pollen parameters",
+            "yearly data"
+          ],
+          "outputs": [
+            "Spearman correlation coefficients"
+          ],
+          "keywords": [
+            "Spearman rank correlation",
+            "pollen trends",
+            "STATA"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Bubble maps showing Spearman Rho coefficient values were generated with RStudio.",
+          "searchable_summary": "create bubble maps of Spearman Rho coefficients",
+          "inputs": [
+            "Spearman Rho coefficients"
+          ],
+          "outputs": [
+            "bubble maps"
+          ],
+          "keywords": [
+            "visualization",
+            "bubble maps",
+            "RStudio"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "To visualize the trends of the yearly parameters in boxplots, the pollen data were averaged per decade: 1981-1990, 1991-2000, 2001-2010, and 2011-2020.",
+          "searchable_summary": "create boxplots of decadal pollen data",
+          "inputs": [
+            "yearly pollen data"
+          ],
+          "outputs": [
+            "boxplots"
+          ],
+          "keywords": [
+            "boxplots",
+            "decadal trends",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "A one-way ANOVA with Bonferroni post-hoc comparison was conducted to compare the airborne pollen of the sequential decades of each monitoring site.",
+          "searchable_summary": "perform one-way ANOVA with Bonferroni post-hoc comparison",
+          "inputs": [
+            "decadal pollen data"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "Bonferroni",
+            "pollen comparison"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The association between pollen trends and weather trends followed the methodology described by Bruffaerts et al. using R and IDL.",
+          "searchable_summary": "analyze association between pollen and weather trends",
+          "inputs": [
+            "pollen trends",
+            "weather trends"
+          ],
+          "outputs": [
+            "association results"
+          ],
+          "keywords": [
+            "pollen trends",
+            "weather trends",
+            "association analysis"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Sen slopes were calculated for each day of the pollen season, grouped by day of the year.",
+          "searchable_summary": "calculate Sen slopes for daily pollen data",
+          "inputs": [
+            "daily pollen data"
+          ],
+          "outputs": [
+            "Sen slopes"
+          ],
+          "keywords": [
+            "Sen slopes",
+            "pollen season",
+            "trend analysis"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "LOESS smoothing of slopes (fraction of 0.1) of the in-season days.",
+          "searchable_summary": "apply LOESS smoothing to Sen slopes",
+          "inputs": [
+            "Sen slopes"
+          ],
+          "outputs": [
+            "smoothed slopes"
+          ],
+          "keywords": [
+            "LOESS smoothing",
+            "Sen slopes",
+            "trend analysis"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "The association of pollen and weather trends was then determined as the Spearman correlation of pairs of Sen slopes representing the pollen trend and the weather trend for the same in-season pollen day.",
+          "searchable_summary": "calculate Spearman correlation between pollen and weather Sen slopes",
+          "inputs": [
+            "pollen Sen slopes",
+            "weather Sen slopes"
+          ],
+          "outputs": [
+            "Spearman correlation coefficients"
+          ],
+          "keywords": [
+            "Spearman correlation",
+            "pollen trends",
+            "weather trends"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235761398.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

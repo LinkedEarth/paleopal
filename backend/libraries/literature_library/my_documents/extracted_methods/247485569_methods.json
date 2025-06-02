@@ -1,0 +1,237 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Pollen Data",
+      "description": "Statistical procedures used to analyze pollen data, including visualization, calculation of pollen season metrics, and modeling of environmental influences on pollen allergen potency (PAP).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "All the statistical analysis were carried out by using the R programming language, using the package Aerobiology for pollen data visualization.",
+          "searchable_summary": "use R and Aerobiology package for pollen data visualization",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "visualized pollen data"
+          ],
+          "keywords": [
+            "R programming",
+            "Aerobiology",
+            "data visualization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The MPS for the period 2010-2015 was calculated with the 95% method, taking as start date the moment when the concentration for one pollen type reached 2.5% and taking as end date the moment when the concentration reached the 97.5%.",
+          "searchable_summary": "calculate MPS using 95% method",
+          "inputs": [
+            "pollen concentration data"
+          ],
+          "outputs": [
+            "MPS values"
+          ],
+          "keywords": [
+            "MPS",
+            "95% method",
+            "pollen concentration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The number of days with pollen concentrations higher than 100 pollen grains/m3 (Betula) and 50 pollen grains/m3 (Poaceae) were quantified.",
+          "searchable_summary": "quantify days with high pollen concentrations",
+          "inputs": [
+            "pollen concentration data"
+          ],
+          "outputs": [
+            "number of high concentration days"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "threshold analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Generalized Additive Models (GAM) were established to explain the influencing parameters in PAP using the package mgcv with the expansion itsadug.",
+          "searchable_summary": "establish GAM models for PAP using mgcv and itsadug",
+          "inputs": [
+            "environmental parameters",
+            "pollen data"
+          ],
+          "outputs": [
+            "GAM model results"
+          ],
+          "keywords": [
+            "GAM",
+            "mgcv",
+            "itsadug",
+            "PAP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "To check for statistical differences between the PAP for Davos and Munich and calculations for Fig. S9, a Mann-Whitney U test was applied.",
+          "searchable_summary": "apply Mann-Whitney U test for PAP differences",
+          "inputs": [
+            "PAP data for Davos and Munich"
+          ],
+          "outputs": [
+            "p-value for PAP differences"
+          ],
+          "keywords": [
+            "Mann-Whitney U test",
+            "PAP",
+            "statistical differences"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen and Allergen Sampling",
+      "description": "Procedure for collecting and analyzing pollen and allergen samples from specific locations to calculate Pollen Allergen Potency (PAP).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Airborne pollen data from 2010 to 2015 were obtained from the pollen station of Davos-Wolfgang and Munich.",
+          "searchable_summary": "obtain airborne pollen data from stations",
+          "inputs": [
+            "pollen station locations"
+          ],
+          "outputs": [
+            "pollen data"
+          ],
+          "keywords": [
+            "pollen data",
+            "data collection",
+            "Davos",
+            "Munich"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Aeroallergens were daily sampled at the same locations with the same time interval as for pollen using a ChemVol 2400 high-volume cascade impactor.",
+          "searchable_summary": "sample aeroallergens using ChemVol 2400",
+          "inputs": [
+            "sampling locations",
+            "time interval"
+          ],
+          "outputs": [
+            "aeroallergen samples"
+          ],
+          "keywords": [
+            "aeroallergens",
+            "sampling",
+            "ChemVol 2400"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "After collection, samples were stored separately in polypropylene tubes at −80°C until further extraction.",
+          "searchable_summary": "store samples at −80°C for extraction",
+          "inputs": [
+            "collected samples"
+          ],
+          "outputs": [
+            "stored samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "extraction",
+            "polypropylene tubes"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The quantification of allergens was done with specific ELISA for Bet v 1 or Phl p 5.",
+          "searchable_summary": "quantify allergens using ELISA",
+          "inputs": [
+            "stored samples"
+          ],
+          "outputs": [
+            "allergen quantification"
+          ],
+          "keywords": [
+            "ELISA",
+            "allergen quantification",
+            "Bet v 1",
+            "Phl p 5"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Explanatory Model for PAP",
+      "description": "Development of explanatory models to understand the significance of various parameters on Pollen Allergen Potency (PAP) using Generalized Additive Models (GAM).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The time spent in the anther before releasing the pollen grains was found to be significant according to the GAM model.",
+          "searchable_summary": "model significance of anther time using GAM",
+          "inputs": [
+            "anther time data",
+            "pollen data"
+          ],
+          "outputs": [
+            "GAM model significance"
+          ],
+          "keywords": [
+            "GAM",
+            "anther time",
+            "pollen release"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The additive models explained that for Poaceae the PAP was higher at the beginning and at the end of the pollen season.",
+          "searchable_summary": "explain PAP variation for Poaceae using additive models",
+          "inputs": [
+            "pollen season data",
+            "Poaceae data"
+          ],
+          "outputs": [
+            "PAP variation explanation"
+          ],
+          "keywords": [
+            "additive models",
+            "PAP",
+            "Poaceae"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "For Betula, the GAM model explained 74.5% of the PAP for Munich and 66.1% for Davos.",
+          "searchable_summary": "explain PAP for Betula using GAM",
+          "inputs": [
+            "Betula data",
+            "environmental parameters"
+          ],
+          "outputs": [
+            "GAM model explanation"
+          ],
+          "keywords": [
+            "GAM",
+            "PAP",
+            "Betula"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247485569.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

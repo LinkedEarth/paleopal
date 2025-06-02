@@ -1,0 +1,593 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and Algal Culturing",
+      "description": "Process for acquiring and culturing Nitzschia palea strains for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We acquired 10 Nitzschia palea strains from culture collections.",
+          "searchable_summary": "obtain Nitzschia palea strains from culture collections",
+          "inputs": [
+            "culture collection identifiers"
+          ],
+          "outputs": [
+            "Nitzschia palea strains"
+          ],
+          "keywords": [
+            "Nitzschia palea",
+            "culture collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All strains were grown in a WC medium at 19°C and on a 16:8 h light:dark cycle.",
+          "searchable_summary": "culture strains in WC medium under specified conditions",
+          "inputs": [
+            "WC medium",
+            "temperature",
+            "light cycle"
+          ],
+          "outputs": [
+            "cultured strains"
+          ],
+          "keywords": [
+            "culturing",
+            "WC medium",
+            "light cycle"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We routinely examined the live cultures under a Zeiss Axio Imager M2 microscope.",
+          "searchable_summary": "microscopically examine live cultures",
+          "inputs": [
+            "live cultures"
+          ],
+          "outputs": [
+            "microscopic observations"
+          ],
+          "keywords": [
+            "microscopy",
+            "Zeiss Axio Imager"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "SEM Imaging and Morphometrics",
+      "description": "Procedure for preparing diatom samples for SEM imaging and conducting morphometric analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We removed organic material by oxidizing the diatoms with hydrogen peroxide and then rinsing them several times with distilled water.",
+          "searchable_summary": "clean diatoms by oxidation and rinsing",
+          "inputs": [
+            "diatom samples",
+            "hydrogen peroxide",
+            "distilled water"
+          ],
+          "outputs": [
+            "cleaned diatom samples"
+          ],
+          "keywords": [
+            "oxidation",
+            "cleaning",
+            "diatoms"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cleaned frustules were dried onto aluminum stubs and coated with platinum-palladium.",
+          "searchable_summary": "dry and coat diatom frustules for SEM",
+          "inputs": [
+            "cleaned frustules",
+            "aluminum stubs",
+            "platinum-palladium"
+          ],
+          "outputs": [
+            "coated frustules"
+          ],
+          "keywords": [
+            "SEM preparation",
+            "coating"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We collected 50 images per strain at magnifications ranging from 8000-15,000x.",
+          "searchable_summary": "capture SEM images at specified magnifications",
+          "inputs": [
+            "coated frustules"
+          ],
+          "outputs": [
+            "SEM images"
+          ],
+          "keywords": [
+            "SEM imaging",
+            "magnification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The width, length, stria density, and fibula density of each image were measured using Fiji-ImageJ.",
+          "searchable_summary": "measure morphometric features using Fiji-ImageJ",
+          "inputs": [
+            "SEM images"
+          ],
+          "outputs": [
+            "morphometric data"
+          ],
+          "keywords": [
+            "morphometrics",
+            "Fiji-ImageJ"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "We performed an Elliptic Fourier Analysis (EFA) using the R package Momocs.",
+          "searchable_summary": "conduct EFA using Momocs",
+          "inputs": [
+            "shape outlines"
+          ],
+          "outputs": [
+            "EFA results"
+          ],
+          "keywords": [
+            "Elliptic Fourier Analysis",
+            "Momocs"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "We performed a Principal Component Analysis (PCA) analysis using Momocs and visualized the first two principal components.",
+          "searchable_summary": "perform PCA and visualize components",
+          "inputs": [
+            "EFA results"
+          ],
+          "outputs": [
+            "PCA plots"
+          ],
+          "keywords": [
+            "PCA",
+            "visualization",
+            "Momocs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RNA Extraction and Transcriptome Sequencing",
+      "description": "Procedure for extracting RNA from cultures and sequencing the transcriptome.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We extracted total RNA from exponentially growing cultures using the Qiagen RNeasy Plant Mini Kit.",
+          "searchable_summary": "extract RNA using Qiagen RNeasy Plant Mini Kit",
+          "inputs": [
+            "exponentially growing cultures"
+          ],
+          "outputs": [
+            "total RNA"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "Qiagen"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cells were lysed with a Qiagen Tissue Lyser II by bead beating for 3 min.",
+          "searchable_summary": "lyse cells using bead beating",
+          "inputs": [
+            "cells",
+            "zirconia/silica beads"
+          ],
+          "outputs": [
+            "lysate"
+          ],
+          "keywords": [
+            "cell lysis",
+            "bead beating"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We assessed the quantity and quality of RNA samples on an Agilent 2100 Bioanalyzer system.",
+          "searchable_summary": "assess RNA quality using Agilent Bioanalyzer",
+          "inputs": [
+            "RNA samples"
+          ],
+          "outputs": [
+            "RNA quality metrics"
+          ],
+          "keywords": [
+            "RNA quality",
+            "Bioanalyzer"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Sequencing was performed at Baseclear BV on a Nova-Seq 6000 platform, generating 2 × 150 bp paired-end reads.",
+          "searchable_summary": "perform RNA sequencing on Nova-Seq 6000",
+          "inputs": [
+            "RNA samples"
+          ],
+          "outputs": [
+            "sequencing reads"
+          ],
+          "keywords": [
+            "RNA sequencing",
+            "Nova-Seq"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcriptome Assembly",
+      "description": "Process for filtering, assembling, and analyzing sequencing reads to construct transcriptomes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We inspected the quality of the raw reads using SolexaQA++.",
+          "searchable_summary": "inspect read quality with SolexaQA++",
+          "inputs": [
+            "raw sequencing reads"
+          ],
+          "outputs": [
+            "quality metrics"
+          ],
+          "keywords": [
+            "read quality",
+            "SolexaQA++"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Error-correction was performed using BFC with parameters: -k 31 and -s 50.",
+          "searchable_summary": "perform error correction with BFC",
+          "inputs": [
+            "raw reads"
+          ],
+          "outputs": [
+            "error-corrected reads"
+          ],
+          "keywords": [
+            "error correction",
+            "BFC"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sequencing reads were trimmed using Trimmomatic with specified options.",
+          "searchable_summary": "trim reads using Trimmomatic",
+          "inputs": [
+            "error-corrected reads"
+          ],
+          "outputs": [
+            "trimmed reads"
+          ],
+          "keywords": [
+            "read trimming",
+            "Trimmomatic"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We removed all reads mapping to plastid and mitochondrial genomes using bowtie2.",
+          "searchable_summary": "filter reads with bowtie2",
+          "inputs": [
+            "trimmed reads"
+          ],
+          "outputs": [
+            "filtered reads"
+          ],
+          "keywords": [
+            "read filtering",
+            "bowtie2"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The filtered reads were assembled using Trinity with strand-specific options.",
+          "searchable_summary": "assemble reads with Trinity",
+          "inputs": [
+            "filtered reads"
+          ],
+          "outputs": [
+            "assembled transcriptome"
+          ],
+          "keywords": [
+            "transcriptome assembly",
+            "Trinity"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "We assessed assembly quality by checking the recovery of conserved eukaryotic orthologs in the BUSCO database.",
+          "searchable_summary": "assess assembly quality with BUSCO",
+          "inputs": [
+            "assembled transcriptome"
+          ],
+          "outputs": [
+            "assembly quality metrics"
+          ],
+          "keywords": [
+            "assembly quality",
+            "BUSCO"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Assembled nuclear transcripts were translated into amino acid sequences with Trans-Decoder.",
+          "searchable_summary": "translate transcripts with Trans-Decoder",
+          "inputs": [
+            "assembled transcripts"
+          ],
+          "outputs": [
+            "amino acid sequences"
+          ],
+          "keywords": [
+            "translation",
+            "Trans-Decoder"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Redundant transcripts were filtered using CD-HIT with a sequence identity threshold of 0.99.",
+          "searchable_summary": "filter redundant transcripts with CD-HIT",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "non-redundant sequences"
+          ],
+          "keywords": [
+            "redundancy filtering",
+            "CD-HIT"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "We quantified transcript abundances using Salmon and selected the most highly expressed isoform per trinity gene.",
+          "searchable_summary": "quantify transcript abundances with Salmon",
+          "inputs": [
+            "non-redundant sequences"
+          ],
+          "outputs": [
+            "transcript abundances"
+          ],
+          "keywords": [
+            "transcript quantification",
+            "Salmon"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Orthology Inference and Species Tree Reconstruction",
+      "description": "Procedure for inferring orthologous clusters and reconstructing species trees.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We used OrthoFinder to construct putative orthologous clusters from the complete set of predicted proteins.",
+          "searchable_summary": "infer orthologous clusters with OrthoFinder",
+          "inputs": [
+            "predicted proteins"
+          ],
+          "outputs": [
+            "orthologous clusters"
+          ],
+          "keywords": [
+            "orthology inference",
+            "OrthoFinder"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We extracted coding sequences for orthogroups, aligned the amino acid sequences with MAFFT, and trimmed alignments with Phyx.",
+          "searchable_summary": "align and trim sequences with MAFFT and Phyx",
+          "inputs": [
+            "orthogroups"
+          ],
+          "outputs": [
+            "trimmed alignments"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MAFFT",
+            "Phyx"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Orthogroup gene trees were constructed using RAxML with the GTRCAT model and 100 rapid bootstrap replicates.",
+          "searchable_summary": "construct gene trees with RAxML",
+          "inputs": [
+            "trimmed alignments"
+          ],
+          "outputs": [
+            "gene trees"
+          ],
+          "keywords": [
+            "gene tree construction",
+            "RAxML"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Outlier long branches were removed with TreeShrink, and mono-and paraphyletic tips were pruned.",
+          "searchable_summary": "prune gene trees with TreeShrink",
+          "inputs": [
+            "gene trees"
+          ],
+          "outputs": [
+            "pruned gene trees"
+          ],
+          "keywords": [
+            "tree pruning",
+            "TreeShrink"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Maximum likelihood homolog trees were inferred using IQ-TREE 2 with 100 bootstrap replicates.",
+          "searchable_summary": "infer homolog trees with IQ-TREE 2",
+          "inputs": [
+            "pruned gene trees"
+          ],
+          "outputs": [
+            "homolog trees"
+          ],
+          "keywords": [
+            "homolog tree inference",
+            "IQ-TREE"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "We estimated two species trees using summary-coalescent and concatenation-based approaches.",
+          "searchable_summary": "estimate species trees with ASTRAL-III and IQ-TREE 2",
+          "inputs": [
+            "homolog trees"
+          ],
+          "outputs": [
+            "species trees"
+          ],
+          "keywords": [
+            "species tree estimation",
+            "ASTRAL-III",
+            "IQ-TREE"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Quantifying Genealogical Concordance",
+      "description": "Method for computing gene concordance factors and mapping them onto the species tree.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Gene concordance factors were computed using IQ-TREE 2 by comparing the alternative resolutions of quartets of taxa around each branch.",
+          "searchable_summary": "compute gene concordance factors with IQ-TREE 2",
+          "inputs": [
+            "species tree",
+            "gene trees"
+          ],
+          "outputs": [
+            "gene concordance factors"
+          ],
+          "keywords": [
+            "gene concordance",
+            "IQ-TREE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Gene concordance and discordance factors were mapped onto the species tree as pie charts.",
+          "searchable_summary": "visualize concordance factors on species tree",
+          "inputs": [
+            "gene concordance factors",
+            "species tree"
+          ],
+          "outputs": [
+            "visualized concordance factors"
+          ],
+          "keywords": [
+            "visualization",
+            "concordance factors"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Network Estimations and Introgression Tests",
+      "description": "Approaches for estimating phylogenetic networks and testing for introgression.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We estimated a phylogenetic network under maximum pseudo-likelihood using the InferNetwork_MPL command in PhyloNet.",
+          "searchable_summary": "estimate phylogenetic network with PhyloNet",
+          "inputs": [
+            "rooted gene trees"
+          ],
+          "outputs": [
+            "phylogenetic network"
+          ],
+          "keywords": [
+            "phylogenetic network",
+            "PhyloNet"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "We estimated a phylogenetic network using the NANUQ algorithm.",
+          "searchable_summary": "estimate phylogenetic network with NANUQ",
+          "inputs": [
+            "gene trees"
+          ],
+          "outputs": [
+            "phylogenetic network"
+          ],
+          "keywords": [
+            "phylogenetic network",
+            "NANUQ"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "We performed introgression tests for the putative hybrid with Patterson's D-statistic.",
+          "searchable_summary": "perform introgression test with Patterson's D-statistic",
+          "inputs": [
+            "gene trees",
+            "species tree"
+          ],
+          "outputs": [
+            "introgression test results"
+          ],
+          "keywords": [
+            "introgression test",
+            "Patterson's D-statistic"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248151612.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,212 @@
+{
+  "paper_title": "Solving the Schrödinger Equation with DF Potential using the GPS Method",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Solving Schrödinger Equation using GPS Method",
+      "description": "This method employs the Generalized Pseudospectral (GPS) approach to solve the non-relativistic radial Schrödinger equation for a Hamiltonian containing a DF or sDF potential. It utilizes a non-uniform spatial discretization achieved through a coordinate mapping from a semi-infinite domain [0, ∞] to a finite domain [-1, 1]. The problem is transformed into a symmetric matrix eigenvalue problem on the finite domain, which is then solved numerically to obtain energy eigenvalues and eigenfunctions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the desired radial Schrödinger equation to be solved, including the form of the DF or sDF potential v(r).",
+          "searchable_summary": "Define the radial Schrödinger equation and the potential function.",
+          "inputs": [
+            "Potential function v(r) (DF or sDF)",
+            "Radial coordinate r",
+            "Quantum numbers n, ℓ"
+          ],
+          "outputs": [
+            "Mathematical formulation of the radial Schrödinger equation"
+          ],
+          "keywords": [
+            "Schrödinger equation",
+            "radial equation",
+            "potential function",
+            "quantum mechanics",
+            "DF potential",
+            "sDF potential"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Map the semi-infinite domain r ∈ [0, ∞] onto a finite domain x ∈ [−1, 1] using an algebraic nonlinear mapping of the type r = r(x) with mapping parameters L and α.",
+          "searchable_summary": "Apply coordinate transformation from semi-infinite to finite domain.",
+          "inputs": [
+            "Radial coordinate r",
+            "Finite coordinate x",
+            "Mapping parameters L, α"
+          ],
+          "outputs": [
+            "Mapping function r(x)",
+            "Inverse mapping x(r)"
+          ],
+          "keywords": [
+            "Coordinate transformation",
+            "domain mapping",
+            "algebraic mapping",
+            "semi-infinite domain",
+            "finite domain"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Define the collocation points x_j (e.g., roots of the first derivative of Legendre polynomial P_N(x)) and the corresponding cardinal functions g_j(x) for the N-th order polynomial approximation on the finite domain x ∈ [-1, 1].",
+          "searchable_summary": "Define pseudospectral grid points and basis functions.",
+          "inputs": [
+            "Order of polynomial N",
+            "Type of pseudospectral scheme (e.g., Legendre)"
+          ],
+          "outputs": [
+            "Collocation points x_j",
+            "Cardinal functions g_j(x)"
+          ],
+          "keywords": [
+            "Pseudospectral method",
+            "collocation points",
+            "Legendre polynomial",
+            "basis functions",
+            "grid points"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Construct the matrix representation of the transformed Hamiltonian H_m(x) on the finite domain using the collocation points, cardinal functions, derivative matrices, the mapped potential v(r(x)), and derivatives of the mapping function.",
+          "searchable_summary": "Construct the symmetric matrix representation of the transformed Hamiltonian.",
+          "inputs": [
+            "Transformed Hamiltonian operator H_m(x)",
+            "Collocation points x_j",
+            "Cardinal functions g_j(x)",
+            "Derivative matrices",
+            "Mapped potential v(r(x))"
+          ],
+          "outputs": [
+            "Symmetric Hamiltonian matrix"
+          ],
+          "keywords": [
+            "Hamiltonian matrix",
+            "matrix representation",
+            "pseudospectral method",
+            "numerical methods",
+            "linear algebra"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Solve the symmetric matrix eigenvalue problem resulting from the transformed Hamiltonian using standard numerical routines to obtain the eigenvalues (energy levels) and eigenvectors (representing the wave functions).",
+          "searchable_summary": "Solve the symmetric matrix eigenvalue problem.",
+          "inputs": [
+            "Symmetric Hamiltonian matrix"
+          ],
+          "outputs": [
+            "Eigenvalues (energy levels E_n,ℓ)",
+            "Eigenvectors (representing wave functions)"
+          ],
+          "keywords": [
+            "Eigenvalue solver",
+            "numerical diagonalization",
+            "symmetric matrix",
+            "energy levels",
+            "wave functions",
+            "linear algebra"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Select and tune the mapping parameters (L, α) and the total number of radial points (N) by performing test calculations and comparing the resulting energy eigenvalues with existing, reliable results from the literature for known systems or states. Ensure convergence and accuracy, especially for high-lying states or challenging potential parameters.",
+          "searchable_summary": "Optimize mapping parameters and grid size for convergence and accuracy.",
+          "inputs": [
+            "Mapping parameters L, α",
+            "Number of points N",
+            "Reference energy values from literature"
+          ],
+          "outputs": [
+            "Optimized parameters L, α, N"
+          ],
+          "keywords": [
+            "Parameter tuning",
+            "optimization",
+            "convergence testing",
+            "grid size",
+            "numerical accuracy",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Apply the method with the optimized parameters to calculate the energy levels for specific target systems (e.g., diatomic molecules) with their respective potential parameters (r_e, D_e) and for the desired range of quantum numbers (n, ℓ).",
+          "searchable_summary": "Calculate energy levels for specific molecules using optimized parameters.",
+          "inputs": [
+            "Optimized parameters L, α, N",
+            "Molecular potential parameters (r_e, D_e)",
+            "Desired quantum numbers n, ℓ"
+          ],
+          "outputs": [
+            "Calculated energy levels E_n,ℓ for target systems"
+          ],
+          "keywords": [
+            "Molecular physics",
+            "diatomic molecules",
+            "potential parameters",
+            "energy calculation",
+            "quantum states"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Compare the calculated energy levels for the target systems with available literature values obtained from other theoretical or numerical methods (e.g., Nikiforov-Uvarov, amplitude-phase, asymptotic iteration, Numerov-Cooley) to validate the results.",
+          "searchable_summary": "Compare calculated energy levels with literature values.",
+          "inputs": [
+            "Calculated energy levels E_n,ℓ",
+            "Literature energy values"
+          ],
+          "outputs": [
+            "Comparison results",
+            "Assessment of agreement/deviation"
+          ],
+          "keywords": [
+            "Validation",
+            "comparison",
+            "literature data",
+            "numerical methods",
+            "theoretical methods",
+            "accuracy assessment"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Analyze the dependence of the calculated energy levels on the vibrational (n) and rotational (ℓ) quantum numbers and compare the qualitative behavior and trends with those observed for other potential models, such as the Morse potential.",
+          "searchable_summary": "Analyze energy level trends with respect to quantum numbers and compare with other potential models.",
+          "inputs": [
+            "Calculated energy levels E_n,ℓ",
+            "Quantum numbers n, ℓ",
+            "Energy trends from other potential models (e.g., Morse)"
+          ],
+          "outputs": [
+            "Analysis of energy trends",
+            "Comparison findings"
+          ],
+          "keywords": [
+            "Energy levels",
+            "quantum numbers",
+            "vibrational states",
+            "rotational states",
+            "energy trends",
+            "potential comparison",
+            "data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/97260434.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

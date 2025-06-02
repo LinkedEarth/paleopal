@@ -1,0 +1,384 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bioinformatic Analysis",
+      "description": "This method involves retrieving amino acid sequences, performing multiple sequence alignments, constructing a phylogenetic tree, and generating a sequence logo to analyze the evolutionary relationships and sequence conservation of OsPPR939 and its homologs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The full-length amino acid sequences of OsPPR939 and its 15 homologs were retrieved by BLASTP analysis (http://www.ncbi.nlm.nih.gov/Blast.cgi).",
+          "searchable_summary": "retrieve amino acid sequences using BLASTP",
+          "inputs": [
+            "OsPPR939 sequence"
+          ],
+          "outputs": [
+            "amino acid sequences of OsPPR939 and homologs"
+          ],
+          "keywords": [
+            "BLASTP",
+            "amino acid sequences",
+            "NCBI"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Multiple protein sequence alignments were performed using Clustal X.",
+          "searchable_summary": "perform multiple sequence alignment with Clustal X",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "Clustal X",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "A phylogenetic tree was constructed using MEGA v.6.0 based on the neighbor-joining method with the following parameters: p-distance model, pairwise deletion, and bootstrap (1000 replicates; random seed).",
+          "searchable_summary": "construct phylogenetic tree using MEGA v.6.0",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "MEGA",
+            "neighbor-joining"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "The 30 N-terminal amino acids of OsPPR939 and its Clustal X-aligned counterparts from the 15 homologs were used to generate a sequence logo using WebLogo.",
+          "searchable_summary": "generate sequence logo with WebLogo",
+          "inputs": [
+            "aligned N-terminal sequences"
+          ],
+          "outputs": [
+            "sequence logo"
+          ],
+          "keywords": [
+            "WebLogo",
+            "sequence logo",
+            "visualization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RNA Extraction and PCR Analysis",
+      "description": "This method describes the extraction of total RNA from rice tissues, synthesis of cDNA, and subsequent RT-PCR and qRT-PCR analysis to study gene expression.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Total RNA was isolated from rice tissues using RNAiso Plus reagent (TaKaRa).",
+          "searchable_summary": "isolate total RNA from rice tissues",
+          "inputs": [
+            "rice tissues"
+          ],
+          "outputs": [
+            "total RNA"
+          ],
+          "keywords": [
+            "RNA isolation",
+            "RNAiso Plus",
+            "TaKaRa"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The quality and quantity of total RNA were analyzed using a NanoDrop 1000 spectrophotometer.",
+          "searchable_summary": "analyze RNA quality and quantity with NanoDrop",
+          "inputs": [
+            "total RNA"
+          ],
+          "outputs": [
+            "RNA quality and quantity data"
+          ],
+          "keywords": [
+            "RNA analysis",
+            "NanoDrop",
+            "spectrophotometer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Approximately 2 µg of RNA per sample was used to synthesize cDNA with a PrimeScript RT reagent Kit with gDNA eraser (TaKaRa).",
+          "searchable_summary": "synthesize cDNA from RNA",
+          "inputs": [
+            "total RNA"
+          ],
+          "outputs": [
+            "cDNA"
+          ],
+          "keywords": [
+            "cDNA synthesis",
+            "PrimeScript RT",
+            "TaKaRa"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "qRT-PCR was performed on a LightCycler 96 using TaKaRa SYBR Premix Ex Taq II with a standard two-step protocol.",
+          "searchable_summary": "perform qRT-PCR analysis",
+          "inputs": [
+            "cDNA",
+            "primers"
+          ],
+          "outputs": [
+            "qRT-PCR data"
+          ],
+          "keywords": [
+            "qRT-PCR",
+            "LightCycler 96",
+            "SYBR Premix"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Complementation Analysis",
+      "description": "This method involves the functional complementation of mutant plants using a genomic DNA fragment of OsPPR939 to restore the wild type phenotype.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Wild type (Nipponbare) genomic DNA was used as a template to amplify a 7191-bp genomic DNA fragment of OsPPR939.",
+          "searchable_summary": "amplify genomic DNA fragment of OsPPR939",
+          "inputs": [
+            "Nipponbare genomic DNA"
+          ],
+          "outputs": [
+            "amplified DNA fragment"
+          ],
+          "keywords": [
+            "DNA amplification",
+            "OsPPR939",
+            "genomic DNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The amplified fragment was subcloned into the pCAMBIA1300 vector by In-Fusion cloning.",
+          "searchable_summary": "subclone DNA fragment into pCAMBIA1300 vector",
+          "inputs": [
+            "amplified DNA fragment"
+          ],
+          "outputs": [
+            "pCAMBIA1300 vector with insert"
+          ],
+          "keywords": [
+            "subcloning",
+            "In-Fusion cloning",
+            "pCAMBIA1300"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The resulting plasmid was transformed into Agrobacterium tumefaciens EHA105 for plant transformation.",
+          "searchable_summary": "transform plasmid into Agrobacterium for plant transformation",
+          "inputs": [
+            "pCAMBIA1300 vector with insert"
+          ],
+          "outputs": [
+            "transformed Agrobacterium"
+          ],
+          "keywords": [
+            "Agrobacterium transformation",
+            "EHA105",
+            "plant transformation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Transformed plants were selected on hygromycin, and independent transgenic lines were identified by PCR analysis.",
+          "searchable_summary": "select and validate transgenic plants",
+          "inputs": [
+            "transformed plants"
+          ],
+          "outputs": [
+            "validated transgenic lines"
+          ],
+          "keywords": [
+            "transgenic selection",
+            "hygromycin",
+            "PCR validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phenotypic Analysis of osppr939 Mutants",
+      "description": "This method involves the phenotypic characterization of osppr939 mutants to assess growth, development, and fertility compared to wild type plants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "osppr939-4 and osppr939-5 mutants were selected for phenotypic analysis based on their similar phenotypes.",
+          "searchable_summary": "select osppr939 mutants for phenotypic analysis",
+          "inputs": [
+            "osppr939-4",
+            "osppr939-5"
+          ],
+          "outputs": [
+            "selected mutants"
+          ],
+          "keywords": [
+            "mutant selection",
+            "phenotypic analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Phenotypic traits such as growth, plant height, panicle length, and pollen fertility were assessed.",
+          "searchable_summary": "assess phenotypic traits of mutants",
+          "inputs": [
+            "selected mutants"
+          ],
+          "outputs": [
+            "phenotypic data"
+          ],
+          "keywords": [
+            "phenotypic traits",
+            "growth analysis",
+            "fertility assessment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Pollen grains were stained with iodine potassium iodide (I2-KI) to assess fertility.",
+          "searchable_summary": "stain pollen grains to assess fertility",
+          "inputs": [
+            "pollen grains"
+          ],
+          "outputs": [
+            "stained pollen grains"
+          ],
+          "keywords": [
+            "pollen staining",
+            "fertility assessment",
+            "I2-KI"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Scanning electron microscopy was used to confirm pollen phenotype.",
+          "searchable_summary": "use SEM to confirm pollen phenotype",
+          "inputs": [
+            "pollen grains"
+          ],
+          "outputs": [
+            "SEM images"
+          ],
+          "keywords": [
+            "scanning electron microscopy",
+            "pollen phenotype"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis of OsPPR939",
+      "description": "This method explores the evolutionary relationships of OsPPR939 by performing a BLASTP search and constructing a phylogenetic tree.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A BLASTP search of the NCBI database was performed using the full-length OsPPR939 sequence as a query.",
+          "searchable_summary": "perform BLASTP search for OsPPR939 homologs",
+          "inputs": [
+            "OsPPR939 sequence"
+          ],
+          "outputs": [
+            "homolog sequences"
+          ],
+          "keywords": [
+            "BLASTP",
+            "NCBI",
+            "homolog search"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Phylogenetic analysis of the 15 homologs retrieved from 15 different species was performed.",
+          "searchable_summary": "perform phylogenetic analysis of homologs",
+          "inputs": [
+            "homolog sequences"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "homologs",
+            "evolution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Expression Analysis of OsPPR939",
+      "description": "This method examines the expression pattern of OsPPR939 using qRT-PCR in various tissues of wild type plants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Total RNA was extracted from vegetative and reproductive organs of wild type plants.",
+          "searchable_summary": "extract total RNA from plant tissues",
+          "inputs": [
+            "plant tissues"
+          ],
+          "outputs": [
+            "total RNA"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "plant tissues",
+            "expression analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "qRT-PCR was performed to examine the expression pattern of OsPPR939.",
+          "searchable_summary": "perform qRT-PCR for expression analysis",
+          "inputs": [
+            "total RNA",
+            "primers"
+          ],
+          "outputs": [
+            "expression data"
+          ],
+          "keywords": [
+            "qRT-PCR",
+            "expression pattern",
+            "OsPPR939"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/253640784.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

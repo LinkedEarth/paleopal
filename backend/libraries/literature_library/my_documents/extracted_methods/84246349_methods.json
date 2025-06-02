@@ -1,0 +1,259 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Community Structure Analysis",
+      "description": "Statistical analysis of species diversity, richness, and evenness to measure community structure and compare means among different substrates, sampling seasons, and site categories.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Species diversity (H'), richness (S) and evenness (E) were calculated following Shannon (1949).",
+          "searchable_summary": "calculate species diversity, richness, and evenness",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "H'",
+            "S",
+            "E"
+          ],
+          "keywords": [
+            "species diversity",
+            "richness",
+            "evenness",
+            "Shannon index"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A nonparametric test, Kruskal-Wallis, with Mann-Whitney pair-wise comparisons and Bonferroni correlation, was used to compare means of S, H´ and E among substrates sampled, and among the 4 sampling seasons and 3 sampling site categories.",
+          "searchable_summary": "perform Kruskal-Wallis test with pair-wise comparisons",
+          "inputs": [
+            "S",
+            "H'",
+            "E",
+            "substrates",
+            "sampling seasons",
+            "site categories"
+          ],
+          "outputs": [
+            "statistical comparison results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis",
+            "Mann-Whitney",
+            "Bonferroni correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Environmental Variable Analysis",
+      "description": "Analysis of environmental variables using transformations and two-way ANOVA to compare means among sampling periods and site categories.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The distributions of turbidity, conductivity, TDS, width, and embeddedness were positively skewed, and therefore were ln( × + 1) transformed.",
+          "searchable_summary": "apply log transformation to environmental variables",
+          "inputs": [
+            "turbidity",
+            "conductivity",
+            "TDS",
+            "width",
+            "embeddedness"
+          ],
+          "outputs": [
+            "transformed environmental variables"
+          ],
+          "keywords": [
+            "log transformation",
+            "data normalization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Two-way analysis of variance (two-way ANOVA) was used to compare means of environmental variables among the 4 sampling periods and among the 3 site categories.",
+          "searchable_summary": "perform two-way ANOVA on environmental variables",
+          "inputs": [
+            "transformed environmental variables",
+            "sampling periods",
+            "site categories"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "two-way ANOVA",
+            "environmental analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multivariate Data Analysis",
+      "description": "Multivariate analysis of diatom data to identify floristic variation gradients and relationships with environmental variables using DCA and CCA.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Preliminary de-trended correspondence analysis (DCA) was applied to the diatom data set to determine the length of the gradient.",
+          "searchable_summary": "perform DCA on diatom data",
+          "inputs": [
+            "diatom data set"
+          ],
+          "outputs": [
+            "gradient length"
+          ],
+          "keywords": [
+            "DCA",
+            "gradient analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Canonical Correspondence Analysis (CCA) was used to investigate relationships between predictor variables and benthic diatom communities.",
+          "searchable_summary": "perform CCA to analyze diatom community relationships",
+          "inputs": [
+            "diatom data set",
+            "predictor variables"
+          ],
+          "outputs": [
+            "CCA results"
+          ],
+          "keywords": [
+            "CCA",
+            "community analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Monte Carlo permutation tests (999 unrestricted permutations, p ≤ 0.05) were used to test the significance of the axis.",
+          "searchable_summary": "conduct Monte Carlo permutation tests for axis significance",
+          "inputs": [
+            "CCA results"
+          ],
+          "outputs": [
+            "test significance"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "permutation test"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Sampling and Preparation",
+      "description": "Collection and preparation of diatom samples from various substrates for laboratory analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Epilithic diatoms were sampled by scraping stones with a toothbrush.",
+          "searchable_summary": "collect epilithic diatoms by scraping stones",
+          "inputs": [
+            "stones"
+          ],
+          "outputs": [
+            "epilithic diatom samples"
+          ],
+          "keywords": [
+            "epilithic diatoms",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Epiphytic diatoms were sampled after Fisher and Dunbar (2007).",
+          "searchable_summary": "collect epiphytic diatoms following Fisher and Dunbar method",
+          "inputs": [
+            "macrophytes"
+          ],
+          "outputs": [
+            "epiphytic diatom samples"
+          ],
+          "keywords": [
+            "epiphytic diatoms",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Epipelic and epipsammic diatoms were sampled by pressing a Petri dish lid into the top layer of sand or silt/clay.",
+          "searchable_summary": "collect epipelic and epipsammic diatoms using Petri dish",
+          "inputs": [
+            "sand",
+            "silt/clay"
+          ],
+          "outputs": [
+            "epipelic and epipsammic diatom samples"
+          ],
+          "keywords": [
+            "epipelic diatoms",
+            "epipsammic diatoms",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Sub-samples of the diatom suspensions were cleaned of organic material using wet combustion with concentrated sulphuric acid.",
+          "searchable_summary": "clean diatom samples using wet combustion",
+          "inputs": [
+            "diatom suspensions"
+          ],
+          "outputs": [
+            "cleaned diatom samples"
+          ],
+          "keywords": [
+            "wet combustion",
+            "sample cleaning"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Three replicate slides were prepared for each sample.",
+          "searchable_summary": "prepare replicate slides for diatom samples",
+          "inputs": [
+            "cleaned diatom samples"
+          ],
+          "outputs": [
+            "replicate slides"
+          ],
+          "keywords": [
+            "slide preparation",
+            "replication"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Up to 600 valves per sample were identified and counted using the phase contrast light microscope.",
+          "searchable_summary": "identify and count diatom valves using microscope",
+          "inputs": [
+            "replicate slides"
+          ],
+          "outputs": [
+            "diatom counts"
+          ],
+          "keywords": [
+            "microscopy",
+            "diatom identification"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/84246349.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

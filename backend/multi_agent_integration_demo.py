@@ -82,53 +82,6 @@ async def call_agent_interactive(request: AgentRequest):
 
 # -----------------------------------------------------------------------------
 
-async def demo_automatic_sparql_integration():
-    """Demonstrate automatic SPARQL integration in code generation."""
-    print("\n" + "="*60)
-    print("DEMO 1: Automatic SPARQL Integration")
-    print("="*60)
-    
-    # Request that should trigger SPARQL data fetching
-    request = AgentRequest(
-        agent_type="code",
-        capability="generate_code",
-        user_input="Create code to analyze ice core temperature data from Greenland for the last 1000 years",
-        context={},
-        metadata={"llm_provider": "openai"}
-    )
-    
-    print(f"User Request: {request.user_input}")
-    print("\nExpected Flow:")
-    print("1. Code Agent detects SPARQL is needed")
-    print("2. Code Agent calls SPARQL Agent to find ice core data")
-    print("3. SPARQL Agent returns relevant datasets")
-    print("4. Code Agent generates Python code using the fetched data")
-    
-    try:
-        response = await call_agent_interactive(request)
-        
-        print(f"\nResponse Status: {response.status}")
-        print(f"Message: {response.message}")
-        
-        if response.result:
-            result = response.result
-            print(f"\nGenerated Code Length: {len(result.get('generated_code', ''))}")
-            print(f"Required Libraries: {result.get('required_libraries', [])}")
-            print(f"SPARQL Integration: {'Yes' if 'sparql' in str(result).lower() else 'No'}")
-            
-            # Show first few lines of generated code
-            code = result.get('generated_code', '')
-            if code:
-                lines = code.split('\n')[:10]
-                print(f"\nFirst 10 lines of generated code:")
-                for i, line in enumerate(lines, 1):
-                    print(f"{i:2d}: {line}")
-                if len(code.split('\n')) > 10:
-                    print("    ... (truncated)")
-        
-    except Exception as e:
-        print(f"Error: {e}")
-
 async def demo_workflow_manager():
     """Demonstrate workflow manager for complex multi-agent workflows."""
     print("\n" + "="*60)
@@ -136,16 +89,9 @@ async def demo_workflow_manager():
     print("="*60)
     
     # Complex request requiring multiple agents
-    complex_request = """Use corals d18O from past 10,000 years to understand how ENSO has changed"""
-    #I want to perform a comprehensive paleoclimate analysis:
-    #1. Find marine sediment data from the North Atlantic
-    #2. Find ice core data from Greenland  
-    #3. Create code to analyze both datasets for temperature trends
-    #4. Generate visualization code to compare the two records
-    #5. Perform correlation analysis between the datasets
-    #"""
+    complex_request = "Use corals d18O from past 10,000 years to understand how ENSO has changed"
     
-    print(f"Complex Request: {complex_request}")
+    print(f"Workflow Request: {complex_request}")
     
     # Step 1: Plan the workflow
     plan_request = AgentRequest(
@@ -153,7 +99,7 @@ async def demo_workflow_manager():
         capability="plan_workflow",
         user_input=complex_request,
         context={},
-        metadata={"llm_provider": "openai"}
+        metadata={"llm_provider": "google"}
     )
     
     print("\nStep 1: Planning workflow...")
@@ -293,7 +239,7 @@ async def demo_manual_agent_coordination():
                         "datasets_found": len(sparql_results)
                     }
                 },
-                metadata={"llm_provider": "openai"}
+                metadata={"llm_provider": "google"}
             )
             
             code_response = await agent_registry.route_request(code_request)
@@ -359,20 +305,16 @@ async def main():
     # Show agent status first
     await demo_agent_status()
     
-    # Demo 1: Automatic SPARQL integration
-    #await demo_automatic_sparql_integration()
-    
-    # Demo 2: Workflow manager
+    # Demo 1: Workflow manager
     await demo_workflow_manager()
     
-    # Demo 3: Manual agent coordination
-    #await demo_manual_agent_coordination()
+    # Demo 2: Manual agent coordination
+    await demo_manual_agent_coordination()
     
     print("\n" + "="*60)
     print("DEMO COMPLETE")
     print("="*60)
     print("The multi-agent integration system provides:")
-    print("✓ Automatic SPARQL data fetching in code generation")
     print("✓ Complex workflow planning and execution")
     print("✓ Inter-agent communication and context sharing")
     print("✓ Dependency management and error handling")

@@ -1,0 +1,178 @@
+{
+  "paper_title": "Mapping and Analysis of LIA Moraines in the Tian Shan",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Mapping LIA Moraines",
+      "description": "This method involves identifying and mapping Little Ice Age (LIA) moraines in the Tian Shan region using Google Earth imagery and converting these into shapefiles for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The delineated LIA moraines were saved as KML files from Google Earth.",
+          "searchable_summary": "export LIA moraines as KML files from Google Earth",
+          "inputs": [
+            "Google Earth imagery"
+          ],
+          "outputs": [
+            "KML files of LIA moraines"
+          ],
+          "keywords": [
+            "Google Earth",
+            "KML",
+            "LIA moraines"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "KML files were converted into shapefiles.",
+          "searchable_summary": "convert KML files to shapefiles",
+          "inputs": [
+            "KML files"
+          ],
+          "outputs": [
+            "shapefiles"
+          ],
+          "keywords": [
+            "KML",
+            "shapefiles",
+            "conversion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Polygons of LIA glacial extents were derived from overlapping the delineated LIA marginal moraine with its corresponding contemporary glacier(s).",
+          "searchable_summary": "derive LIA glacial extents by overlapping moraines with contemporary glaciers",
+          "inputs": [
+            "LIA moraine shapefiles",
+            "contemporary glacier data"
+          ],
+          "outputs": [
+            "LIA glacial extent polygons"
+          ],
+          "keywords": [
+            "polygons",
+            "overlapping",
+            "glacial extents"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "To produce the final map, the SRTM 1 arc-second DEM and contemporary and LIA glacial extents were integrated in ArcGIS 10.1 and projected to the Universal Transverse Mercator coordinate system, zone 45 N, in datum WGS1984.",
+          "searchable_summary": "integrate DEM and glacial extents in ArcGIS and project to UTM",
+          "inputs": [
+            "SRTM DEM",
+            "LIA glacial extents",
+            "ArcGIS 10.1"
+          ],
+          "outputs": [
+            "final map"
+          ],
+          "keywords": [
+            "ArcGIS",
+            "DEM",
+            "UTM",
+            "projection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Hillshaded relief was produced with 60% transparency and stacked under the DEM layer that was set with 30% transparency.",
+          "searchable_summary": "create hillshaded relief with transparency settings",
+          "inputs": [
+            "DEM layer"
+          ],
+          "outputs": [
+            "hillshaded relief"
+          ],
+          "keywords": [
+            "hillshade",
+            "transparency",
+            "relief"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Source Utilization",
+      "description": "This method describes the data sources used for mapping LIA glacial extents, including Google Earth imagery and SRTM DEM, and how these data were processed.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Google Earth high-resolution imagery was utilized as the major source to map the LIA glacial extents.",
+          "searchable_summary": "use Google Earth imagery for mapping LIA extents",
+          "inputs": [
+            "Google Earth imagery"
+          ],
+          "outputs": [
+            "mapped LIA extents"
+          ],
+          "keywords": [
+            "Google Earth",
+            "imagery",
+            "LIA extents"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The Shuttle Radar Topography Mission (SRTM) 1 arc-second digital elevation model (DEM) was downloaded from the USGS Earth Explorer.",
+          "searchable_summary": "download SRTM DEM from USGS Earth Explorer",
+          "inputs": [
+            "USGS Earth Explorer"
+          ],
+          "outputs": [
+            "SRTM DEM"
+          ],
+          "keywords": [
+            "SRTM",
+            "DEM",
+            "USGS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The SRTM DEM was clipped to the mapping area to help identify and calculate landform characteristics.",
+          "searchable_summary": "clip SRTM DEM to mapping area",
+          "inputs": [
+            "SRTM DEM",
+            "mapping area"
+          ],
+          "outputs": [
+            "clipped DEM"
+          ],
+          "keywords": [
+            "clipping",
+            "DEM",
+            "landform"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Contemporary glaciers in the eastern Tian Shan were extracted from the Second Glacier Inventory of China.",
+          "searchable_summary": "extract contemporary glaciers from Second Glacier Inventory of China",
+          "inputs": [
+            "Second Glacier Inventory of China"
+          ],
+          "outputs": [
+            "contemporary glacier data"
+          ],
+          "keywords": [
+            "glacier inventory",
+            "contemporary glaciers",
+            "extraction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/131053029.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

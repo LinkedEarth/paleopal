@@ -1,0 +1,249 @@
+{
+  "paper_title": "Grain-size, Foraminiferal, and Cluster Analysis in Coastal Sediment Studies",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Grain-size Analysis",
+      "description": "Grain-size analysis was conducted on surface samples to determine the distribution and characteristics of sediment particles, which is crucial for understanding sediment transport and depositional environments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Organics and carbonates were removed using 30% hydrogen peroxide and 10% hydrochloric acid and dried at 50°C for 72 h.",
+          "searchable_summary": "remove organics and carbonates from samples using chemical treatment and drying",
+          "inputs": [
+            "surface samples",
+            "30% hydrogen peroxide",
+            "10% hydrochloric acid"
+          ],
+          "outputs": [
+            "cleaned and dried samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "chemical treatment",
+            "drying"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Grain-size analysis was conducted using a Camsizer.",
+          "searchable_summary": "analyze grain size using Camsizer",
+          "inputs": [
+            "cleaned and dried samples"
+          ],
+          "outputs": [
+            "grain-size data"
+          ],
+          "keywords": [
+            "grain-size analysis",
+            "Camsizer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The average of three replicates was determined before converting grain-size values to the Wentworth-Phi Scale.",
+          "searchable_summary": "average replicates and convert to Wentworth-Phi Scale",
+          "inputs": [
+            "grain-size data"
+          ],
+          "outputs": [
+            "averaged and scaled grain-size data"
+          ],
+          "keywords": [
+            "replicate averaging",
+            "Wentworth-Phi Scale"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Grain-size values and abundances for each transect were interpolated and gridded using a Triangular Irregular Network (TIN) algorithm and plotted as Particle-Size Distribution (PSD) plots.",
+          "searchable_summary": "interpolate and plot grain-size data using TIN algorithm",
+          "inputs": [
+            "averaged and scaled grain-size data"
+          ],
+          "outputs": [
+            "PSD plots"
+          ],
+          "keywords": [
+            "interpolation",
+            "TIN algorithm",
+            "PSD plots"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Statistical parameters including mean, mode, standard deviation, skewness, kurtosis, and d10, d50, and d90 were used to characterize each sample.",
+          "searchable_summary": "calculate statistical parameters for grain-size characterization",
+          "inputs": [
+            "grain-size data"
+          ],
+          "outputs": [
+            "statistical parameters"
+          ],
+          "keywords": [
+            "statistical analysis",
+            "grain-size characterization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Foraminiferal Analysis",
+      "description": "Foraminiferal analysis was conducted to identify living versus dead individuals and to assess the total assemblage, which helps in understanding past environmental conditions and sediment transport.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Surface sediment samples were stained with Rose Bengal and stored in buffered ethanol to identify living versus dead individuals.",
+          "searchable_summary": "stain and store sediment samples to differentiate living and dead foraminifera",
+          "inputs": [
+            "surface sediment samples",
+            "Rose Bengal",
+            "buffered ethanol"
+          ],
+          "outputs": [
+            "stained sediment samples"
+          ],
+          "keywords": [
+            "staining",
+            "sample preservation",
+            "foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sediment samples were washed over a 63 lm sieve and wet split to obtain counts of ca 300 specimens.",
+          "searchable_summary": "wash and split sediment samples to count foraminifera",
+          "inputs": [
+            "stained sediment samples"
+          ],
+          "outputs": [
+            "foraminifera counts"
+          ],
+          "keywords": [
+            "sieving",
+            "wet splitting",
+            "foraminifera counting"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The total number of foraminifera contained within 10 cm3 was calculated for each sample site.",
+          "searchable_summary": "calculate total foraminifera per sample site",
+          "inputs": [
+            "foraminifera counts"
+          ],
+          "outputs": [
+            "total foraminifera per site"
+          ],
+          "keywords": [
+            "foraminifera calculation",
+            "sample site analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Elevation or depth, total foraminifera, abundance of dead individuals, dominant species, and taphonomic character were plotted against distance from the shoreline.",
+          "searchable_summary": "plot foraminiferal data against shoreline distance",
+          "inputs": [
+            "foraminiferal data",
+            "shoreline distance"
+          ],
+          "outputs": [
+            "foraminiferal plots"
+          ],
+          "keywords": [
+            "data plotting",
+            "shoreline analysis",
+            "foraminifera"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cluster Analysis",
+      "description": "Cluster analysis was used to objectively determine biofacies, taphofacies, lithofacies, and combination-facies, which were compared with observed geomorphic beach zones.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Taxonomic, taphonomic, and grain-size values were standardized by converting to abundances and calculating Z-scores.",
+          "searchable_summary": "standardize data by converting to abundances and calculating Z-scores",
+          "inputs": [
+            "taxonomic data",
+            "taphonomic data",
+            "grain-size data"
+          ],
+          "outputs": [
+            "standardized data"
+          ],
+          "keywords": [
+            "data standardization",
+            "Z-scores",
+            "abundances"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "PAM cluster analysis was performed using the 'cluster' package in R to identify zonation within the coastal transect.",
+          "searchable_summary": "perform PAM cluster analysis using R",
+          "inputs": [
+            "standardized data"
+          ],
+          "outputs": [
+            "clustered data"
+          ],
+          "keywords": [
+            "PAM",
+            "cluster analysis",
+            "R programming"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Silhouette plots were generated to estimate sample classification and determine the number of clusters.",
+          "searchable_summary": "generate silhouette plots to determine cluster number",
+          "inputs": [
+            "clustered data"
+          ],
+          "outputs": [
+            "silhouette plots"
+          ],
+          "keywords": [
+            "silhouette analysis",
+            "cluster determination"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Seven combinations of data were clustered using % abundances to determine spatial and regional variability.",
+          "searchable_summary": "cluster data combinations to assess variability",
+          "inputs": [
+            "% abundances"
+          ],
+          "outputs": [
+            "cluster analysis results"
+          ],
+          "keywords": [
+            "data clustering",
+            "spatial variability",
+            "regional variability"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/133767929.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

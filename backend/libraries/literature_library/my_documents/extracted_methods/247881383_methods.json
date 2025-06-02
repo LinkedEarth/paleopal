@@ -1,0 +1,294 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Compilation and Processing of Lake-Based GIC Records",
+      "description": "This method describes the process of compiling published Holocene lake-based glacier and ice cap (GIC) records from the Arctic, selecting relevant studies based on specific criteria, extracting key timing information on GIC fluctuations, calibrating radiocarbon ages, and transforming the data into a standardized binary format for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Compiled all published Holocene lake-based GIC records from the Arctic, which we define as land area above 58 • N.",
+          "searchable_summary": "Compile published scientific records on Holocene lake-based GIC variations in the Arctic.",
+          "inputs": [
+            "Published scientific literature (papers describing lake-based GIC reconstructions)"
+          ],
+          "outputs": [
+            "Database or list of potential Holocene lake-based GIC records from the Arctic"
+          ],
+          "keywords": [
+            "literature review",
+            "data compilation",
+            "scientific database",
+            "Arctic GIC records",
+            "Holocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Excluded ambiguous records (that do not clearly define when GICs were smaller than present or absent or when they regrew) and records with poor age control and included one non-lake-based study from the Russian Arctic (due to the dearth of published glacial lake records there).",
+          "searchable_summary": "Filter compiled records based on criteria: clear definition of GIC status (smaller/absent/regrowth) and sufficient age control. Include specific non-lake record if applicable.",
+          "inputs": [
+            "Database or list of potential Holocene lake-based GIC records"
+          ],
+          "outputs": [
+            "Database or list of selected Holocene lake-based GIC records for analysis"
+          ],
+          "keywords": [
+            "data filtering",
+            "data selection",
+            "quality control",
+            "age control",
+            "ambiguous data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "For each lake record we documented when GICs were smaller than present or had melted away completely (indicating that summer temperatures were warmer than present) in the early to middle Holocene and when the lake subsequently became glacially influenced again (indicating GIC regrowth and summer cooling) in the middle to late Holocene.",
+          "searchable_summary": "Extract and document the reported timings (ages) from selected records indicating periods when GICs were smaller than present/absent and when they regrew.",
+          "inputs": [
+            "Selected Holocene lake-based GIC records (published papers)"
+          ],
+          "outputs": [
+            "Table or database of GIC fluctuation timings (onset of smaller/absent, onset of regrowth) per record"
+          ],
+          "keywords": [
+            "data extraction",
+            "timing data",
+            "GIC fluctuations",
+            "Holocene",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Uncalibrated 14 C ages in original publications were calibrated and reported here as the median probability using CALIB version 8.2 and the IntCal20 calibration curve Stuiver et al., 2021) for terrestrial samples and the Marine20 calibration curve (Heaton et al., 2020) for marine samples.",
+          "searchable_summary": "Calibrate uncalibrated 14C ages using specified calibration curves (IntCal20, Marine20) and software (CALIB v8.2), reporting median probability.",
+          "inputs": [
+            "Uncalibrated 14C ages from selected records",
+            "Sample type (terrestrial or marine)",
+            "CALIB version 8.2 software",
+            "IntCal20 calibration curve",
+            "Marine20 calibration curve"
+          ],
+          "outputs": [
+            "Calibrated ages (ka BP) for relevant GIC fluctuation timings"
+          ],
+          "keywords": [
+            "age calibration",
+            "radiocarbon dating",
+            "14C",
+            "CALIB",
+            "IntCal20",
+            "Marine20",
+            "data processing",
+            "paleochronology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "To represent the lake-based evidence we took a binary approach and defined GIC status in 100-year intervals from 12-0 ka: 0 is glacially influenced, and 1 indicates a smaller-than-present or absent glacier or ice cap.",
+          "searchable_summary": "Assign a binary status (0: glacially influenced, 1: smaller/absent) to each record for 100-year intervals from 12-0 ka based on documented timings.",
+          "inputs": [
+            "Documented GIC fluctuation timings (calibrated ages)",
+            "100-year time intervals (12-0 ka)"
+          ],
+          "outputs": [
+            "Binary GIC status time series (100-year resolution) for each selected record"
+          ],
+          "keywords": [
+            "data transformation",
+            "binary data",
+            "time series",
+            "GIC status",
+            "data binning",
+            "paleoclimate reconstruction"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "We round the timing of all reported GIC evidence to the nearest 100-year interval in our analyses.",
+          "searchable_summary": "Round the timing of all reported GIC evidence (likely the boundaries of the binary status intervals) to the nearest 100-year interval.",
+          "inputs": [
+            "Documented GIC fluctuation timings (calibrated ages or interval boundaries)"
+          ],
+          "outputs": [
+            "Rounded timings or interval boundaries for GIC status changes"
+          ],
+          "keywords": [
+            "data rounding",
+            "time series processing",
+            "data precision",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "We used regional divisions defined by the Randolph Glacier Inventory (RGI6.0; RGI Consortium, 2017) but considered the Ural Mountains area to be part of the Russian Arctic... In Canada, all available lake-based records appropriate for our synthesis are located within the region defined as Arctic Canada South in the RGI.",
+          "searchable_summary": "Assign each record to a defined geographic region (Alaska, Arctic Canada South, Greenland, Iceland, Scandinavia, Svalbard, Russian Arctic) based on RGI6.0 divisions with specific modifications.",
+          "inputs": [
+            "List of selected records",
+            "Geographic location of records",
+            "RGI6.0 regional definitions",
+            "Specific regional definitions used in the study (Ural Mountains, Arctic Canada South)"
+          ],
+          "outputs": [
+            "Selected records grouped or tagged by region"
+          ],
+          "keywords": [
+            "data organization",
+            "regional grouping",
+            "geographic data",
+            "RGI",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Calculation of GIC Status Percentage",
+      "description": "This method involves calculating the percentage of compiled GIC records that indicate a smaller-than-present or absent glacier status within defined 100-year time intervals for specific regions and the entire Arctic.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We calculated the percent of GICs that were absent or smaller than present in 100-year intervals from 12-0 ka for each region and Arctic-wide.",
+          "searchable_summary": "For each 100-year interval (12-0 ka) and each region (and Arctic-wide), count the number of records with binary GIC status = 1 (smaller/absent).",
+          "inputs": [
+            "Binary GIC status time series (100-year resolution) for each record",
+            "Regional assignments for each record",
+            "100-year time intervals (12-0 ka)"
+          ],
+          "outputs": [
+            "Counts of smaller/absent GICs per 100-year interval per region and Arctic-wide"
+          ],
+          "keywords": [
+            "data aggregation",
+            "counting",
+            "time series analysis",
+            "regional analysis",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We calculated the percent of GICs that were absent or smaller than present in 100-year intervals from 12-0 ka for each region and Arctic-wide.",
+          "searchable_summary": "Calculate the percentage of records with GIC status = 1 (smaller/absent) out of the total number of records available for that interval and region (or Arctic-wide).",
+          "inputs": [
+            "Counts of smaller/absent GICs per 100-year interval per region and Arctic-wide",
+            "Total number of records available per 100-year interval per region and Arctic-wide"
+          ],
+          "outputs": [
+            "Percentage of smaller/absent GICs per 100-year interval per region and Arctic-wide"
+          ],
+          "keywords": [
+            "percentage calculation",
+            "data analysis",
+            "time series analysis",
+            "regional analysis",
+            "statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geospatial Analysis of GIC Elevation and ELA",
+      "description": "This method describes measuring present-day GIC elevation and estimating approximate steady-state Equilibrium-Line Altitude (ELA) for the locations of the compiled study records using external geospatial datasets (GLIMS, ArcticDEM) and a specific toolbox/method (AAR).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Present-day GIC extents were derived from the Global Land Ice Measurements from Space (GLIMS) dataset (Raup et al., 2007)...",
+          "searchable_summary": "Download or access present-day GIC extents from the GLIMS dataset for the locations corresponding to the compiled study records.",
+          "inputs": [
+            "Geographic coordinates or locations of study records"
+          ],
+          "outputs": [
+            "GLIMS glacier extent polygons or data for study locations"
+          ],
+          "keywords": [
+            "data download",
+            "geospatial data",
+            "GLIMS",
+            "glacier inventory",
+            "remote sensing data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "...and the ArcticDEM 32 m resolution mosaic product (Porter et al., 2018) was used to derive all elevation measurements.",
+          "searchable_summary": "Download or access the ArcticDEM 32 m resolution mosaic product for the areas covering the compiled study records' GIC locations.",
+          "inputs": [
+            "Geographic bounding boxes or areas covering study GIC locations"
+          ],
+          "outputs": [
+            "ArcticDEM raster data (elevation) for study areas"
+          ],
+          "keywords": [
+            "data download",
+            "geospatial data",
+            "DEM",
+            "Digital Elevation Model",
+            "ArcticDEM",
+            "remote sensing data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "...we measured GIC elevation...",
+          "searchable_summary": "Calculate elevation statistics (e.g., mean, min, max) for the present-day GICs at study locations using the ArcticDEM data and GLIMS extents.",
+          "inputs": [
+            "ArcticDEM raster data",
+            "GLIMS glacier extent polygons"
+          ],
+          "outputs": [
+            "GIC elevation measurements (e.g., mean elevation) for each study location"
+          ],
+          "keywords": [
+            "geospatial analysis",
+            "elevation extraction",
+            "raster analysis",
+            "vector analysis",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "...and the approximate steady-state ELA using geospatial methods for each study location. For the ELA estimates, we utilized a toolbox developed for automated calculation of GIC ELAs (Pellitero et al., 2015). We used the accumulation-area ratio method (AAR) with an assumed AAR value of 0.67 (a common value for high-latitude mountain glaciers in equilibrium)...",
+          "searchable_summary": "Estimate approximate steady-state Equilibrium-Line Altitude (ELA) for present-day GICs using a dedicated toolbox (Pellitero et al., 2015) and the Accumulation-Area Ratio (AAR) method with an assumed AAR of 0.67, based on ArcticDEM and GLIMS data.",
+          "inputs": [
+            "ArcticDEM raster data",
+            "GLIMS glacier extent polygons",
+            "AAR value (0.67)",
+            "ELA calculation toolbox/script (Pellitero et al., 2015)"
+          ],
+          "outputs": [
+            "Estimated ELA values for each study location"
+          ],
+          "keywords": [
+            "glaciology",
+            "ELA estimation",
+            "Equilibrium-Line Altitude",
+            "AAR method",
+            "geospatial modeling",
+            "glacier modeling",
+            "Pellitero toolbox"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247881383.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

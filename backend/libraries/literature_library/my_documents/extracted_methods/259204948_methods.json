@@ -1,0 +1,171 @@
+{
+  "paper_title": "Bioinformatics of capture enrichment data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bioinformatics Analysis of Capture Enrichment Data",
+      "description": "This method outlines the computational workflow applied to raw sequencing data from capture enrichment experiments, focusing on ancient DNA. It includes steps for quality control, read mapping, taxonomic classification, degradation analysis, and consensus sequence generation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Adapter sequences were removed and sequences were filtered using leeHom with the default ancient DNA settings (Renaud et al., 2014).",
+          "searchable_summary": "Remove adapter sequences and filter reads using leeHom with ancient DNA settings",
+          "inputs": [
+            "Raw sequencing reads (capture enrichment data)"
+          ],
+          "outputs": [
+            "Filtered reads"
+          ],
+          "keywords": [
+            "adapter removal",
+            "filtering",
+            "leeHom",
+            "ancient DNA",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Duplicates were removed",
+          "searchable_summary": "Remove duplicate reads from filtered sequences",
+          "inputs": [
+            "Filtered reads (from Step 1)"
+          ],
+          "outputs": [
+            "Filtered reads with duplicates removed"
+          ],
+          "keywords": [
+            "duplicate removal",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "filtered reads were mapped against a database of 73 mammal mitogenomes (Appendix 1-table 4) using BWA v. 0.7.17 (Li and Durbin, 2009)",
+          "searchable_summary": "Map filtered reads against a mammal mitogenome database using BWA",
+          "inputs": [
+            "Filtered reads with duplicates removed (from Step 2)",
+            "Database of 73 mammal mitogenomes"
+          ],
+          "outputs": [
+            "Mapped reads (alignments)"
+          ],
+          "keywords": [
+            "read mapping",
+            "BWA",
+            "mitogenome",
+            "mammal",
+            "ancient DNA",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "were blastn-aligned against the complete NCBI Genbank nucleotide database (Benson et al., 2009;retrieved March 14 2022) with a maximum e-value of 0.01.",
+          "searchable_summary": "Align filtered reads against NCBI Genbank nucleotide database using blastn",
+          "inputs": [
+            "Filtered reads with duplicates removed (from Step 2)",
+            "NCBI Genbank nucleotide database"
+          ],
+          "outputs": [
+            "Blast output files (alignments)"
+          ],
+          "keywords": [
+            "blastn",
+            "sequence alignment",
+            "NCBI Genbank",
+            "nucleotide database",
+            "e-value",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "All blast output files were processed using MEGAN Community Edition 6.19.8 using a weighted LCA algorithm (Huson et al., 2016).",
+          "searchable_summary": "Process blast output files for taxonomic assignment using MEGAN with weighted LCA algorithm",
+          "inputs": [
+            "Blast output files (from Step 4)"
+          ],
+          "outputs": [
+            "Taxonomic assignments/classifications"
+          ],
+          "keywords": [
+            "MEGAN",
+            "taxonomic assignment",
+            "LCA algorithm",
+            "blast analysis",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "aDNA degradation was examined using mapDamage 2.2.1 (Ginolhac et al., 2011) against a reference genome of M. primigenius (NC_007596.2).",
+          "searchable_summary": "Examine aDNA degradation patterns using mapDamage against a reference genome",
+          "inputs": [
+            "Mapped reads (from Step 3 or similar)",
+            "M. primigenius reference genome (NC_007596.2)"
+          ],
+          "outputs": [
+            "aDNA degradation report/statistics"
+          ],
+          "keywords": [
+            "aDNA degradation",
+            "mapDamage",
+            "ancient DNA",
+            "damage patterns",
+            "reference genome",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The reads blast-assigned to M. primigenius were mapped to the complete M. primigenius reference mitogenome to produce consensus sequences using Geneious Prime 2023.0.1 (Kearse et al., 2012).",
+          "searchable_summary": "Map reads assigned to M. primigenius to the M. primigenius reference mitogenome using Geneious Prime",
+          "inputs": [
+            "Reads assigned to M. primigenius (from Step 5)",
+            "M. primigenius reference mitogenome"
+          ],
+          "outputs": [
+            "Mapped reads (alignments specific to M. primigenius mitogenome)"
+          ],
+          "keywords": [
+            "read mapping",
+            "Geneious Prime",
+            "mitogenome",
+            "M. primigenius",
+            "ancient DNA",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The reads blast-assigned to M. primigenius were mapped to the complete M. primigenius reference mitogenome to produce consensus sequences using Geneious Prime 2023.0.1 (Kearse et al., 2012).",
+          "searchable_summary": "Produce consensus sequences from mapped reads using Geneious Prime",
+          "inputs": [
+            "Mapped reads (from Step 7)"
+          ],
+          "outputs": [
+            "Consensus sequences (M. primigenius mitogenome)"
+          ],
+          "keywords": [
+            "consensus sequence",
+            "Geneious Prime",
+            "mitogenome assembly",
+            "ancient DNA",
+            "bioinformatics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259204948.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

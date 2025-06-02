@@ -1,0 +1,157 @@
+{
+  "paper_title": "Analysis of Pollen Concentrations and Airborne Pollutants in the Madrid Region",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Collection and Preprocessing",
+      "description": "This method involves collecting daily data on pollen grain concentrations and airborne pollutant concentrations, followed by calculating monthly means for each measuring station and year.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The information provided on the variables for 'pollen grain concentrations' and 'airborne pollutant concentrations' refers to daily data.",
+          "searchable_summary": "collect daily data on pollen and pollutants",
+          "inputs": [
+            "daily pollen data",
+            "daily pollutant data"
+          ],
+          "outputs": [
+            "daily data records"
+          ],
+          "keywords": [
+            "data collection",
+            "pollen",
+            "pollutants"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "These were used to calculate the monthly means for each measuring station and for each year in the study.",
+          "searchable_summary": "calculate monthly means from daily data",
+          "inputs": [
+            "daily data records"
+          ],
+          "outputs": [
+            "monthly mean data"
+          ],
+          "keywords": [
+            "monthly means",
+            "data aggregation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Correlation Analysis",
+      "description": "This method uses statistical tools to calculate the degree of correlation between pollen concentrations and airborne pollutants, employing Spearman's rank correlation coefficient.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The data analysis tool, Statgraphics Centurion 18, was applied to calculate the degree of correlation between both variables.",
+          "searchable_summary": "use Statgraphics Centurion 18 to calculate correlation",
+          "inputs": [
+            "monthly mean data"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Statgraphics",
+            "correlation analysis",
+            "Spearman"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A multivariable analysis was conducted, calculating Spearman's linear correlation coefficient for the pollen types with each of the six variables for the six airborne pollutants in the study.",
+          "searchable_summary": "perform multivariable Spearman correlation analysis",
+          "inputs": [
+            "monthly mean data"
+          ],
+          "outputs": [
+            "Spearman correlation matrix"
+          ],
+          "keywords": [
+            "multivariable analysis",
+            "Spearman correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The correlation was first calculated for all the data from all the pollen concentrations and air pollutant measuring stations, and for the total years in the study.",
+          "searchable_summary": "calculate overall correlation for all data",
+          "inputs": [
+            "Spearman correlation matrix"
+          ],
+          "outputs": [
+            "overall correlation results"
+          ],
+          "keywords": [
+            "overall correlation",
+            "data aggregation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The correlation was then calculated for each of the 11 study zones.",
+          "searchable_summary": "calculate correlation for each study zone",
+          "inputs": [
+            "Spearman correlation matrix"
+          ],
+          "outputs": [
+            "zone-specific correlation results"
+          ],
+          "keywords": [
+            "zone-specific analysis",
+            "correlation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis of Variance and Multiple Rank Test",
+      "description": "This method involves performing an analysis of variance to determine significant differences in mean values, followed by a multiple rank test to identify specific year levels with significant differences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "An analysis of variance was carried out on the two types of variables to determine whether there is any significant difference in their mean values between one year level and another.",
+          "searchable_summary": "perform analysis of variance on variables",
+          "inputs": [
+            "monthly mean data"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "variance analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "In cases where the analysis of variance concluded that there is a significant difference, a multiple rank test was carried out using Fisher's least significant difference (LSD) method.",
+          "searchable_summary": "conduct multiple rank test using Fisher's LSD",
+          "inputs": [
+            "ANOVA results"
+          ],
+          "outputs": [
+            "rank test results"
+          ],
+          "keywords": [
+            "multiple rank test",
+            "Fisher's LSD"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248442930.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,228 @@
+{
+  "paper_title": "Statistical Analysis of Ecological Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Insect Distribution and Parasitism",
+      "description": "All statistical analyses were performed using R (version 3.6.1) (R Core Team 2019) in the graphical user interface R Studio. This method describes the procedures used for analyzing the vertical distribution of insect pests and their parasitoids, and the parasitism rates of pollen beetle larvae by T. heterocerus.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "The vertical distribution of insect pests and their parasitoids in the crop layer is presented as stacked bar plot based on the counts of each species over all sampling dates and years in the flowering canopy and the below flowering canopy.",
+          "searchable_summary": "Generate stacked bar plot showing vertical distribution of insect species counts by crop layer, sampling date, and year.",
+          "inputs": [
+            "Insect pest counts per species, sampling date, year",
+            "Parasitoid counts per species, sampling date, year",
+            "Crop layer information (flowering canopy, below flowering canopy)"
+          ],
+          "outputs": [
+            "Stacked bar plot visualization"
+          ],
+          "keywords": [
+            "stacked bar plot",
+            "visualization",
+            "R",
+            "ggplot2"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Independence of the pest species observations and crop layer was tested using a v 2 test.",
+          "searchable_summary": "Perform chi-squared test for independence between pest species observations and crop layer.",
+          "inputs": [
+            "Pest species observation data",
+            "Crop layer information"
+          ],
+          "outputs": [
+            "Chi-squared test results (statistic, p-value)"
+          ],
+          "keywords": [
+            "chi-squared test",
+            "independence test",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "For the parasitoid species observations Fisher's exact test was used to test independence from crop layer.",
+          "searchable_summary": "Perform Fisher's exact test for independence between parasitoid species observations and crop layer.",
+          "inputs": [
+            "Parasitoid species observation data",
+            "Crop layer information"
+          ],
+          "outputs": [
+            "Fisher's exact test results (p-value)"
+          ],
+          "keywords": [
+            "Fisher's exact test",
+            "independence test",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The parasitism rates of pollen beetle larvae by T. heterocerus were analysed separately for each year, because our aim was to present differences between insecticide treatments but not differences between years.",
+          "searchable_summary": "Separate parasitism rate data by year for subsequent analysis.",
+          "inputs": [
+            "Pollen beetle larvae parasitism rate data",
+            "Year information"
+          ],
+          "outputs": [
+            "Datasets subsetted by year"
+          ],
+          "keywords": [
+            "data processing",
+            "data splitting",
+            "subsetting",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "A generalized linear model (GLM) explaining the parasitism rate of pollen beetle larvae by the treatment, the sampling date, the interaction between treatment and sampling date and the block was fitted using a logit link function. A binomial error distribution was assumed...",
+          "searchable_summary": "Fit a Generalized Linear Model (GLM) for pollen beetle parasitism rate using logit link and binomial distribution, with treatment, sampling date, interaction, and block as predictors.",
+          "inputs": [
+            "Parasitism rate data (per year)",
+            "Treatment variable",
+            "Sampling date variable",
+            "Block variable"
+          ],
+          "outputs": [
+            "Fitted GLM model object"
+          ],
+          "keywords": [
+            "GLM",
+            "generalized linear model",
+            "logit link",
+            "binomial distribution",
+            "modeling",
+            "R"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "...and models were tested for overdispersion.",
+          "searchable_summary": "Test the fitted GLM for overdispersion.",
+          "inputs": [
+            "Fitted GLM model object"
+          ],
+          "outputs": [
+            "Overdispersion test results"
+          ],
+          "keywords": [
+            "overdispersion test",
+            "GLM diagnostics",
+            "validation",
+            "R"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The full model including all variables and interactions was systematically compared with the reduced models via the AICc. The model with the lowest AICc value was chosen as it indicates the best fit (Burnham and Anderson 2002).",
+          "searchable_summary": "Compare full and reduced GLM models using AICc and select the model with the lowest AICc value.",
+          "inputs": [
+            "Full GLM model object",
+            "Reduced GLM model objects"
+          ],
+          "outputs": [
+            "Selected GLM model object",
+            "AICc values for compared models"
+          ],
+          "keywords": [
+            "AICc",
+            "model comparison",
+            "model selection",
+            "R"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The effect of different variables by was tested with an ANOVA.",
+          "searchable_summary": "Perform ANOVA on the selected GLM to test the significance of different variables.",
+          "inputs": [
+            "Selected GLM model object"
+          ],
+          "outputs": [
+            "ANOVA results (F-statistics, p-values)"
+          ],
+          "keywords": [
+            "ANOVA",
+            "analysis of variance",
+            "GLM",
+            "data analysis",
+            "R"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "For model diagnostics the residuals were plotted against the predicted values and the explanatory variables.",
+          "searchable_summary": "Generate residual plots (residuals vs. predicted, residuals vs. explanatory variables) for GLM diagnostics.",
+          "inputs": [
+            "Selected GLM model object"
+          ],
+          "outputs": [
+            "Residual plots"
+          ],
+          "keywords": [
+            "residual plots",
+            "model diagnostics",
+            "validation",
+            "R"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "If some of the variables showed significance, a post-hoc analysis was done by performing a Tukey test at an a level of 0.05 using the package emmeans (Lenth et al. 2018).",
+          "searchable_summary": "Perform a Tukey post-hoc test at alpha=0.05 using the emmeans package if variables in the GLM are significant.",
+          "inputs": [
+            "Selected GLM model object",
+            "ANOVA results (indicating significant variables)",
+            "Alpha level (0.05)"
+          ],
+          "outputs": [
+            "Tukey post-hoc test results (pairwise comparisons, p-values)"
+          ],
+          "keywords": [
+            "Tukey test",
+            "post-hoc analysis",
+            "emmeans",
+            "data analysis",
+            "R"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "visualization",
+          "description": "Figures were created using the package ggplot2 (Wickham 2016). Regression lines were generated using the loess (locally estimated scatterplot smoothing) method implemented in the package.",
+          "searchable_summary": "Create figures using ggplot2 and generate loess regression lines where appropriate.",
+          "inputs": [
+            "Data for figures",
+            "Plot specifications"
+          ],
+          "outputs": [
+            "Figures with plots and loess regression lines"
+          ],
+          "keywords": [
+            "ggplot2",
+            "visualization",
+            "loess",
+            "regression line",
+            "R"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/239652130.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

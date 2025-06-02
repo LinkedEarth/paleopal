@@ -1,0 +1,157 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Thermal Regelation Analysis",
+      "description": "This method analyzes the thermal regelation process as a consequence of the premelted film around a particle, which affects its motion in the ice column. The method involves calculating the premelted film thickness and the velocity and diffusivity of particles under temperature gradients.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate the premelted film thickness using the formula d = RgT^2mN / (ρlqmΔT).",
+          "searchable_summary": "calculate premelted film thickness",
+          "inputs": [
+            "Rg",
+            "Tm",
+            "N",
+            "ρl",
+            "qm",
+            "ΔT"
+          ],
+          "outputs": [
+            "d"
+          ],
+          "keywords": [
+            "premelted film",
+            "thickness",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Determine the velocity U(˜z) and diffusivity ˜D(˜z) using the given formulas.",
+          "searchable_summary": "calculate velocity and diffusivity",
+          "inputs": [
+            "A2",
+            "A3",
+            "˜z",
+            "Rg",
+            "Tm",
+            "N",
+            "ν",
+            "R",
+            "kB"
+          ],
+          "outputs": [
+            "U(˜z)",
+            "˜D(˜z)"
+          ],
+          "keywords": [
+            "velocity",
+            "diffusivity",
+            "calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Method of Multiple Scales",
+      "description": "This method applies the method of multiple scales to analyze the macroscopic and microscopic scales of heat flux and particle motion. It involves scaling variables and deriving equations to understand the behavior of particles and nutrients under different conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the macroscopic length L and the small parameter ϵ as the ratio of particle scale l to L.",
+          "searchable_summary": "define macroscopic length and small parameter",
+          "inputs": [
+            "Tm",
+            "|∇T|",
+            "l"
+          ],
+          "outputs": [
+            "L",
+            "ϵ"
+          ],
+          "keywords": [
+            "macroscopic length",
+            "small parameter",
+            "scaling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Introduce dimensionless variables and scale equations using these variables.",
+          "searchable_summary": "introduce dimensionless variables and scale equations",
+          "inputs": [
+            "τ",
+            "˜η",
+            "˜r",
+            "˜t",
+            "˜v",
+            "˜va",
+            "˜D",
+            "˜Dch",
+            "˜C"
+          ],
+          "outputs": [
+            "η",
+            "r",
+            "t",
+            "v",
+            "va",
+            "D",
+            "Dch",
+            "C"
+          ],
+          "keywords": [
+            "dimensionless variables",
+            "scaling",
+            "equations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Derive the system of equations at each order in ϵ using a power series ansatz.",
+          "searchable_summary": "derive system of equations using power series ansatz",
+          "inputs": [
+            "P",
+            "C",
+            "ϵ"
+          ],
+          "outputs": [
+            "system of equations"
+          ],
+          "keywords": [
+            "power series",
+            "ansatz",
+            "equations"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Solve the derived equations using the weak formulation and solvability conditions.",
+          "searchable_summary": "solve equations using weak formulation",
+          "inputs": [
+            "derived equations",
+            "boundary conditions"
+          ],
+          "outputs": [
+            "solutions"
+          ],
+          "keywords": [
+            "weak formulation",
+            "solvability",
+            "solutions"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Biolocomotion_and_premelting_in_ice.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

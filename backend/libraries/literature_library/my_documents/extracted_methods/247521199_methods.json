@@ -1,0 +1,326 @@
+{
+  "paper_title": "Respiratory Symptoms and Pollen Exposure Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis using GAMMs",
+      "description": "Analysis of the association between pollen exposure and respiratory symptom scores using Generalized Additive Mixed Models (GAMMs) with quasi-Poisson distribution, accounting for temporal correlation and adjusting for covariates. This method allows for assessing both linear and nonlinear relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The association of pollen exposure with daytime and nighttime respiratory symptom scores was assessed using generalized additive mixed models (GAMMs) with quasi-Poisson distribution. GAMMs provide a general framework for extending linear mixed models. They allow the assessment of nonlinear relationships between exposure and outcome by using smooth functions.",
+          "searchable_summary": "Define statistical model framework (GAMM, quasi-Poisson) for association analysis",
+          "inputs": [
+            "Daytime respiratory symptom scores",
+            "Nighttime respiratory symptom scores",
+            "Pollen exposure data (combined, tree, grass)"
+          ],
+          "outputs": [
+            "Statistical model framework definition (GAMM, quasi-Poisson)"
+          ],
+          "keywords": [
+            "GAMM",
+            "Generalized Additive Mixed Model",
+            "quasi-Poisson",
+            "statistical modeling",
+            "association analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Random effect and autoregressive correlation structure (lag 1) were employed to account for temporal correlation of respiratory symptoms within each subject.",
+          "searchable_summary": "Specify random effects and temporal correlation structure (AR(1)) for GAMM",
+          "inputs": [
+            "Subject identifiers",
+            "Time series structure of symptom scores"
+          ],
+          "outputs": [
+            "Model structure definition (random effects, AR(1))"
+          ],
+          "keywords": [
+            "random effects",
+            "mixed model",
+            "autoregressive",
+            "AR(1)",
+            "temporal correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Separate models were built for combined, tree, and grass pollen.",
+          "searchable_summary": "Fit separate GAMM models for combined, tree, and grass pollen exposure",
+          "inputs": [
+            "Respiratory symptom scores",
+            "Combined pollen data",
+            "Tree pollen data",
+            "Grass pollen data",
+            "Model framework and structure"
+          ],
+          "outputs": [
+            "Fitted GAMM models (initial) for each pollen type"
+          ],
+          "keywords": [
+            "model fitting",
+            "GAMM",
+            "pollen exposure",
+            "respiratory symptoms"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "All models were adjusted for a priori selected risk factors identified in previous studies of this cohort: PM 2.5 , NO 2 , siblings, childcare, sex, breastfeeding, age, maternal smoking during pregnancy, temperature, and month (to control for seasonal variation of respiratory symptoms). In addition, models (except combined pollen models) were mutually adjusted for tree pollen and grass pollen.",
+          "searchable_summary": "Adjust GAMM models with a priori covariates and mutual pollen adjustment",
+          "inputs": [
+            "Fitted GAMM models (initial)",
+            "Covariate data (PM2.5, NO2, siblings, childcare, sex, breastfeeding, age, maternal smoking, temperature, month)",
+            "Tree pollen data",
+            "Grass pollen data"
+          ],
+          "outputs": [
+            "Fitted GAMM models (adjusted)"
+          ],
+          "keywords": [
+            "model adjustment",
+            "covariates",
+            "confounding",
+            "PM2.5",
+            "NO2",
+            "temperature",
+            "seasonal adjustment",
+            "mutual adjustment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Pollen groups and covariates were included as smoothing terms in case of a nonlinear relationship with respiratory symptom scores. If a nonlinear relationship has been identified, the sample was restricted to the range of pollen concentrations linearly associated with the outcome in order to obtain interpretable coefficient estimates.",
+          "searchable_summary": "Identify and handle nonlinear relationships using smoothing terms and sample restriction",
+          "inputs": [
+            "Fitted GAMM models",
+            "Pollen data",
+            "Covariate data",
+            "Model diagnostics (for nonlinearity)"
+          ],
+          "outputs": [
+            "Refined GAMM models (with smoothing terms)",
+            "Potentially filtered dataset (restricted range)"
+          ],
+          "keywords": [
+            "smoothing terms",
+            "nonlinear relationship",
+            "generalized additive model",
+            "sample restriction",
+            "model diagnostics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "To evaluate effect modification by maternal atopy or infant's sex, separate models including factor-smooth interaction terms were fitted. In order to assess effect modification by NO 2 and PM 2.5 , separate models were fitted including tensor product interaction terms (ti).",
+          "searchable_summary": "Fit GAMM models with interaction terms to assess effect modification by maternal atopy, infant sex, NO2, and PM2.5",
+          "inputs": [
+            "Respiratory symptom scores",
+            "Pollen data",
+            "Potential effect modifiers (maternal atopy, infant sex, NO2, PM2.5)",
+            "Model framework and structure"
+          ],
+          "outputs": [
+            "Fitted GAMM models with interaction terms"
+          ],
+          "keywords": [
+            "effect modification",
+            "interaction terms",
+            "factor-smooth interaction",
+            "tensor product interaction",
+            "maternal atopy",
+            "infant sex",
+            "NO2",
+            "PM2.5"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "In addition, three sensitivity analyses were performed. First, the association between pollen and respiratory symptoms was investigated considering additional risk factors: cat, dog, delivery mode, birthweight, maternal education, maternal atopy, season of birth, study center (to control for intercenter differences), and relative humidity.",
+          "searchable_summary": "Perform sensitivity analysis by including additional covariates in separate models",
+          "inputs": [
+            "Respiratory symptom scores",
+            "Pollen data",
+            "Additional covariates (cat, dog, delivery mode, birthweight, maternal education, maternal atopy, season of birth, study center, relative humidity)",
+            "Model framework and structure"
+          ],
+          "outputs": [
+            "Fitted GAMM models (sensitivity analysis)"
+          ],
+          "keywords": [
+            "sensitivity analysis",
+            "robustness check",
+            "additional covariates",
+            "model validation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Estimates are expressed as risk ratios (RRs) per 10% increase in pollen/m 3 (RR = 1.10 β ). An RR of 1.006 can be interpreted as a 0.6% increase in respiratory symptom score for an increase in pollen concentration by 10%.",
+          "searchable_summary": "Calculate and express model estimates as Risk Ratios (RRs) per 10% pollen increase",
+          "inputs": [
+            "Fitted GAMM model coefficients (β)"
+          ],
+          "outputs": [
+            "Risk Ratio estimates (RR)"
+          ],
+          "keywords": [
+            "risk ratio",
+            "RR",
+            "effect size",
+            "interpretation",
+            "exponentiate coefficients"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study Population Selection and Filtering",
+      "description": "Process for selecting the study population from the Basel-Bern Infant Lung Development (BILD) cohort based on specific inclusion and exclusion criteria, data availability, and ethical considerations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Data were collected from the Basel-Bern Infant Lung Development (BILD) cohort, an ongoing prospective birth cohort of unselected healthy infants.",
+          "searchable_summary": "Access data from the BILD cohort",
+          "inputs": [],
+          "outputs": [
+            "Raw BILD cohort data"
+          ],
+          "keywords": [
+            "cohort study",
+            "BILD cohort",
+            "data source",
+            "prospective cohort"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Exclusion criteria for the cohort study are ethnicity other than Caucasian, major birth defects, perinatal diseases, and major respiratory disease diagnosed after birth.",
+          "searchable_summary": "Filter cohort data based on general BILD cohort exclusion criteria",
+          "inputs": [
+            "Raw BILD cohort data",
+            "General BILD cohort exclusion criteria (ethnicity, birth defects, perinatal diseases, respiratory disease)"
+          ],
+          "outputs": [
+            "Filtered cohort data (initial)"
+          ],
+          "keywords": [
+            "data filtering",
+            "exclusion criteria",
+            "cohort selection",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Because air pollution data were only available from January 1, 2005, to January 1, 2017, solely infants enrolled in the BILD cohort between January 1, 2005, and January 1, 2016, were included in the present study.",
+          "searchable_summary": "Filter participants based on enrollment date range (Jan 1, 2005 to Jan 1, 2016)",
+          "inputs": [
+            "Filtered cohort data (initial)",
+            "Enrollment date range (2005-01-01 to 2016-01-01)"
+          ],
+          "outputs": [
+            "Filtered cohort data (by date)"
+          ],
+          "keywords": [
+            "data filtering",
+            "date range",
+            "time series data",
+            "data availability",
+            "enrollment date"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For the present study, the following additional exclusion criteria applied: preterm birth (< 37 weeks), <50 symptom scores assessed during the 1 st year of life (to ensure a comparable number of observations among infants), moved abroad, and missing data ( Figure S1).",
+          "searchable_summary": "Apply study-specific exclusion criteria (preterm birth, minimum symptom score count, location status, missing data)",
+          "inputs": [
+            "Filtered cohort data (by date)",
+            "Study-specific exclusion criteria (gestational age < 37 weeks, symptom score count < 50, moved abroad status, data completeness requirements)"
+          ],
+          "outputs": [
+            "Final study population dataset"
+          ],
+          "keywords": [
+            "data cleaning",
+            "exclusion criteria",
+            "missing data",
+            "data completeness",
+            "preterm birth",
+            "symptom scores",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "The Ethics Committee of Northwest and Central Switzerland (EKNZ, Basel, Switzerland) and the Bernese Cantonal Ethics Research Committee (KEK, Bern, Switzerland) approved the study protocol, and the written informed consent was obtained from the parents at enrollment.",
+          "searchable_summary": "Document ethical approval and informed consent process",
+          "inputs": [],
+          "outputs": [
+            "Documentation of ethical compliance (approval, consent)"
+          ],
+          "keywords": [
+            "ethics",
+            "informed consent",
+            "ethical approval",
+            "study protocol"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "We included in total 401 term-born infants with complete data for 14,874 measurement time points to analyze the association between pollen and respiratory symptoms during the first year of life ( Figure S1).",
+          "searchable_summary": "Count final number of participants and measurement time points included in the study",
+          "inputs": [
+            "Final study population dataset"
+          ],
+          "outputs": [
+            "Final sample size (N infants, N time points)"
+          ],
+          "keywords": [
+            "sample size",
+            "data count",
+            "study population",
+            "data summary"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Respiratory symptom scores were overall low ( Table 1 and Table S2). The mean ± SD symptom score from January through September across all years was 0.13 ± 0.13 for daytime respiratory symptoms and 0.12 ± 0.14 for nighttime respiratory symptoms. Within these months, infants on average ± SD had daytime respiratory symptoms for 3.92 ± 3.77 weeks and nighttime respira- Table 2 and Table S1.",
+          "searchable_summary": "Calculate and report descriptive statistics for respiratory symptom scores in the study population",
+          "inputs": [
+            "Respiratory symptom scores from final study population dataset"
+          ],
+          "outputs": [
+            "Summary statistics (mean, SD) for symptom scores"
+          ],
+          "keywords": [
+            "descriptive statistics",
+            "summary statistics",
+            "symptom scores",
+            "mean",
+            "standard deviation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247521199.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

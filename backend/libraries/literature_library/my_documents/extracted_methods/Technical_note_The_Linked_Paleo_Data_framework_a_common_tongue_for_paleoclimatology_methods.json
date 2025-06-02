@@ -1,0 +1,175 @@
+{
+  "paper_title": "The Linked Paleo Data framework",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "LiPD Data Structuring",
+      "description": "Process for structuring paleoData and chronData using JSON-LD and CSV files to efficiently store and describe metadata and tabular data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "LiPD adopts the Linked Data extension of BibJSON to describe publication metadata.",
+          "searchable_summary": "Use BibJSON to structure publication metadata in JSON-LD format.",
+          "inputs": [
+            "publication metadata"
+          ],
+          "outputs": [
+            "JSON-LD formatted metadata"
+          ],
+          "keywords": [
+            "BibJSON",
+            "JSON-LD",
+            "metadata"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For the paleoData and chronData components of LiPD, tabular data are stored separately in headerless CSV files.",
+          "searchable_summary": "Store tabular data in CSV files and reference them in JSON-LD.",
+          "inputs": [
+            "tabular data"
+          ],
+          "outputs": [
+            "CSV files",
+            "JSON-LD references"
+          ],
+          "keywords": [
+            "CSV",
+            "JSON-LD",
+            "data storage"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The description of the paleoData and chronData in the JSON-LD is structured to include metadata about the data columns.",
+          "searchable_summary": "Structure JSON-LD to include metadata for data columns.",
+          "inputs": [
+            "data columns",
+            "metadata"
+          ],
+          "outputs": [
+            "JSON-LD with column metadata"
+          ],
+          "keywords": [
+            "JSON-LD",
+            "metadata",
+            "data columns"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Each LiPD data set is packaged using BagIt, which provides a simple format for collecting and validating files for distribution.",
+          "searchable_summary": "Package LiPD data sets using BagIt for file validation and distribution.",
+          "inputs": [
+            "LiPD data set"
+          ],
+          "outputs": [
+            "BagIt package"
+          ],
+          "keywords": [
+            "BagIt",
+            "data packaging",
+            "file validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Preliminary Metadata Standard for Paleoclimatology",
+      "description": "Outline of a preliminary metadata standard for paleoclimatology to ensure consistent and rich metadata across datasets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Define base metadata including dataSetName, archiveType, and investigator.",
+          "searchable_summary": "Define base metadata fields for paleoclimatology datasets.",
+          "inputs": [
+            "dataset information"
+          ],
+          "outputs": [
+            "base metadata"
+          ],
+          "keywords": [
+            "metadata",
+            "paleoclimatology",
+            "base metadata"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Define geospatial metadata using GeoJSON including coordinates, type, and siteName.",
+          "searchable_summary": "Define geospatial metadata using GeoJSON format.",
+          "inputs": [
+            "geospatial information"
+          ],
+          "outputs": [
+            "GeoJSON metadata"
+          ],
+          "keywords": [
+            "GeoJSON",
+            "geospatial metadata",
+            "coordinates"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Define publication metadata using bibJSON including DOI, citation, and pubString.",
+          "searchable_summary": "Define publication metadata using bibJSON format.",
+          "inputs": [
+            "publication information"
+          ],
+          "outputs": [
+            "bibJSON metadata"
+          ],
+          "keywords": [
+            "bibJSON",
+            "publication metadata",
+            "DOI"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Define paleodata metadata including paleoDataTableName, filename, and climate-sensitive variable.",
+          "searchable_summary": "Define paleodata metadata fields for datasets.",
+          "inputs": [
+            "paleodata information"
+          ],
+          "outputs": [
+            "paleodata metadata"
+          ],
+          "keywords": [
+            "paleodata",
+            "metadata",
+            "climate-sensitive variable"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Define chronological metadata including chronDataTableName, filename, and chronology column metadata.",
+          "searchable_summary": "Define chronological metadata fields for datasets.",
+          "inputs": [
+            "chronological information"
+          ],
+          "outputs": [
+            "chronological metadata"
+          ],
+          "keywords": [
+            "chronological metadata",
+            "chronDataTableName",
+            "filename"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Technical_note_The_Linked_Paleo_Data_framework_a_common_tongue_for_paleoclimatology.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

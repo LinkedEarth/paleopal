@@ -1,0 +1,265 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Slurry Incubation Experiments",
+      "description": "A series of experiments conducted to measure BNF rates using unamended and amended sediment slurry incubations sampled from three sites. Different treatments were applied to assess the impact of various amendments on BNF rates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect sediment samples from three coastal marine sites using SCUBA and polycarbonate tubes.",
+          "searchable_summary": "collect sediment samples from marine sites using SCUBA",
+          "inputs": [
+            "SCUBA equipment",
+            "polycarbonate tubes"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment collection",
+            "SCUBA",
+            "marine sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Store sediment cores at 15°C and subsample for unamended BNF rate measurements.",
+          "searchable_summary": "store and subsample sediment cores for BNF rate measurements",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "subsampled sediment cores"
+          ],
+          "keywords": [
+            "sediment storage",
+            "BNF rate measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sieve collected sediments through 500-µm copper mesh to remove macrofauna and large components.",
+          "searchable_summary": "sieve sediments to remove macrofauna and large components",
+          "inputs": [
+            "collected sediments"
+          ],
+          "outputs": [
+            "sieved sediments"
+          ],
+          "keywords": [
+            "sieving",
+            "sediment processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Store sieved sediments in a mesocosm with aerated, UV-treated, 0.2 µm-filtered seawater.",
+          "searchable_summary": "store sieved sediments in mesocosm with filtered seawater",
+          "inputs": [
+            "sieved sediments",
+            "filtered seawater"
+          ],
+          "outputs": [
+            "mesocosm setup"
+          ],
+          "keywords": [
+            "mesocosm",
+            "sediment storage"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Conduct sediment slurry incubations with various treatments including macroalgae and glucose additions.",
+          "searchable_summary": "conduct sediment slurry incubations with treatments",
+          "inputs": [
+            "mesocosm samples",
+            "treatment materials"
+          ],
+          "outputs": [
+            "incubation results"
+          ],
+          "keywords": [
+            "sediment incubation",
+            "treatment application"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Analysis and Statistical Methods",
+      "description": "Statistical analysis of BNF rates using R, including linear regression, ANOVA, and non-parametric tests to assess the impact of treatments and site differences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Fit a linear regression model to calculate rates of C2H4 production from ARA incubations.",
+          "searchable_summary": "fit linear regression model for C2H4 production rates",
+          "inputs": [
+            "ARA incubation data"
+          ],
+          "outputs": [
+            "C2H4 production rates"
+          ],
+          "keywords": [
+            "linear regression",
+            "C2H4 production",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Estimate theoretical BNF rates using a 3:1 ratio of C2H2 reduction:N2 reduction.",
+          "searchable_summary": "estimate BNF rates using C2H2:N2 reduction ratio",
+          "inputs": [
+            "C2H4 production rates"
+          ],
+          "outputs": [
+            "BNF rates"
+          ],
+          "keywords": [
+            "BNF estimation",
+            "C2H2 reduction",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Perform Shapiro-Wilk test to determine departures from normality for BNF rates.",
+          "searchable_summary": "perform Shapiro-Wilk test for normality",
+          "inputs": [
+            "BNF rates"
+          ],
+          "outputs": [
+            "normality test results"
+          ],
+          "keywords": [
+            "Shapiro-Wilk test",
+            "normality",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Use Fligner-Killeen test to check for homogeneity of group variances in BNF rates.",
+          "searchable_summary": "perform Fligner-Killeen test for variance homogeneity",
+          "inputs": [
+            "BNF rates"
+          ],
+          "outputs": [
+            "variance homogeneity results"
+          ],
+          "keywords": [
+            "Fligner-Killeen test",
+            "variance",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Conduct two-way ANOVA and Tukey's HSD test for significant differences in BNF rates.",
+          "searchable_summary": "perform two-way ANOVA and Tukey's HSD test",
+          "inputs": [
+            "BNF rates",
+            "site and treatment factors"
+          ],
+          "outputs": [
+            "ANOVA results",
+            "pairwise comparison results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "Tukey's HSD",
+            "R"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Perform non-parametric two-way ANOVA and post-hoc test for data violating normality assumptions.",
+          "searchable_summary": "perform non-parametric ANOVA and post-hoc test",
+          "inputs": [
+            "BNF rates",
+            "site and treatment factors"
+          ],
+          "outputs": [
+            "non-parametric ANOVA results",
+            "post-hoc comparison results"
+          ],
+          "keywords": [
+            "non-parametric ANOVA",
+            "post-hoc test",
+            "R"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Calculate Bray-Curtis dissimilarity metric and perform NMDS for community visualization.",
+          "searchable_summary": "calculate Bray-Curtis dissimilarity and perform NMDS",
+          "inputs": [
+            "ASV relative abundance data"
+          ],
+          "outputs": [
+            "dissimilarity metric",
+            "NMDS plot"
+          ],
+          "keywords": [
+            "Bray-Curtis",
+            "NMDS",
+            "community analysis",
+            "R"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Perform hierarchical cluster analysis and ANOSIM test on Bray-Curtis distances.",
+          "searchable_summary": "perform hierarchical clustering and ANOSIM test",
+          "inputs": [
+            "Bray-Curtis distances"
+          ],
+          "outputs": [
+            "cluster analysis results",
+            "ANOSIM results"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "ANOSIM",
+            "R"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Conduct PERMANOVA test for grouping observations based on specified factors.",
+          "searchable_summary": "perform PERMANOVA test for group analysis",
+          "inputs": [
+            "Bray-Curtis distances",
+            "grouping factors"
+          ],
+          "outputs": [
+            "PERMANOVA results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "group analysis",
+            "R"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/266813680.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

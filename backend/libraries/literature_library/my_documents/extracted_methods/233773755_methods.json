@@ -1,0 +1,131 @@
+{
+  "paper_title": "A data-driven approach to snow reconstruction using tree rings",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Tree-Ring Data Compilation and Chronology Development",
+      "description": "This method involves compiling and processing tree-ring width measurements from various sites to develop standardized chronologies. These chronologies are used to analyze the influence of snowpack conditions on tree growth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We compiled raw total tree-ring width measurements from 954 sites for this study.",
+          "searchable_summary": "compile tree-ring width measurements from 954 sites",
+          "inputs": [
+            "site identifiers"
+          ],
+          "outputs": [
+            "raw tree-ring width measurements"
+          ],
+          "keywords": [
+            "tree-ring data",
+            "data compilation",
+            "hydroclimatic sensitivity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All raw measurement series were power transformed to normalize age-related growth trends.",
+          "searchable_summary": "apply power transformation to normalize growth trends",
+          "inputs": [
+            "raw tree-ring width measurements"
+          ],
+          "outputs": [
+            "normalized tree-ring width measurements"
+          ],
+          "keywords": [
+            "power transformation",
+            "normalization",
+            "growth trends"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Variance-stabilized using a 67% spline.",
+          "searchable_summary": "stabilize variance using a 67% spline",
+          "inputs": [
+            "normalized tree-ring width measurements"
+          ],
+          "outputs": [
+            "variance-stabilized measurements"
+          ],
+          "keywords": [
+            "variance stabilization",
+            "spline"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Detrended using a negative exponential curve or where that failed an age-dependent spline.",
+          "searchable_summary": "detrend data using negative exponential curve or age-dependent spline",
+          "inputs": [
+            "variance-stabilized measurements"
+          ],
+          "outputs": [
+            "detrended measurements"
+          ],
+          "keywords": [
+            "detrending",
+            "negative exponential curve",
+            "age-dependent spline"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Standardized using a biweight robust mean to develop new versions of each tree-ring chronology for this study.",
+          "searchable_summary": "standardize data using biweight robust mean",
+          "inputs": [
+            "detrended measurements"
+          ],
+          "outputs": [
+            "standardized tree-ring chronologies"
+          ],
+          "keywords": [
+            "standardization",
+            "biweight robust mean",
+            "chronology development"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The expressed population signal (EPS) was used as an estimate of the adequacy of the sample size for capturing the hypothetical population growth signal.",
+          "searchable_summary": "calculate EPS to estimate sample size adequacy",
+          "inputs": [
+            "standardized tree-ring chronologies"
+          ],
+          "outputs": [
+            "EPS values"
+          ],
+          "keywords": [
+            "expressed population signal",
+            "sample size adequacy"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "All chronologies were truncated at the conventional but arbitrary EPS value of 0.85.",
+          "searchable_summary": "truncate chronologies at EPS value of 0.85",
+          "inputs": [
+            "EPS values",
+            "standardized tree-ring chronologies"
+          ],
+          "outputs": [
+            "truncated chronologies"
+          ],
+          "keywords": [
+            "truncation",
+            "EPS threshold"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233773755.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

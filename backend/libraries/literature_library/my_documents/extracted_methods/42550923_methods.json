@@ -1,0 +1,178 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Model Data Collection",
+      "description": "Collection of climate model simulation data from PMIP3 and CMIP5 archives for analysis of paleoclimate and historical climate conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We use LM PMIP3 simulations and historical CMIP5 simulations from the models listed in table 1.",
+          "searchable_summary": "fetch LM PMIP3 and CMIP5 simulation data from specified models",
+          "inputs": [
+            "PMIP3 model list",
+            "CMIP5 model list"
+          ],
+          "outputs": [
+            "climate simulation data"
+          ],
+          "keywords": [
+            "PMIP3",
+            "CMIP5",
+            "climate models",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The PMIP3 simulations are performed with the same configurations and resolutions as the corresponding GCMs in the CMIP5 experiments.",
+          "searchable_summary": "ensure PMIP3 simulations match CMIP5 configurations and resolutions",
+          "inputs": [
+            "PMIP3 simulations",
+            "CMIP5 configurations"
+          ],
+          "outputs": [
+            "processed simulation data"
+          ],
+          "keywords": [
+            "simulation configuration",
+            "resolution matching"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We do not use two GCM simulations in the PMIP3/CMIP5 archive: the MIROC-ESM model and the IPSL-CM5A-LR LM simulation.",
+          "searchable_summary": "exclude MIROC-ESM and IPSL-CM5A-LR LM simulations from data collection",
+          "inputs": [
+            "PMIP3/CMIP5 archive"
+          ],
+          "outputs": [
+            "filtered climate simulation data"
+          ],
+          "keywords": [
+            "data exclusion",
+            "GCM simulations"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Data Analysis",
+      "description": "Analysis of climate data from LM and CMIP5 simulations to study surface air temperature and ground surface temperature over specified periods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The temporal interval of our analysis is defined by the LM simulations that extend from 850 to 1850 CE, concatenated to the CMIP5 Historical simulations spanning the period from 1850 to 2005 CE.",
+          "searchable_summary": "define analysis period using LM and CMIP5 historical simulations",
+          "inputs": [
+            "LM simulations",
+            "CMIP5 Historical simulations"
+          ],
+          "outputs": [
+            "defined analysis period"
+          ],
+          "keywords": [
+            "temporal analysis",
+            "historical simulations"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We use the monthly surface air temperature at 2 m (SAT) and the monthly GST, linearly interpolated to a depth of 1 m.",
+          "searchable_summary": "analyze monthly SAT and GST data, interpolate GST to 1 m depth",
+          "inputs": [
+            "monthly SAT data",
+            "monthly GST data"
+          ],
+          "outputs": [
+            "interpolated GST data"
+          ],
+          "keywords": [
+            "surface air temperature",
+            "ground surface temperature",
+            "interpolation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We also use the deepest subsurface temperature layer (DST) of each model.",
+          "searchable_summary": "analyze deepest subsurface temperature layer data",
+          "inputs": [
+            "DST data"
+          ],
+          "outputs": [
+            "analyzed DST data"
+          ],
+          "keywords": [
+            "subsurface temperature",
+            "climate analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Synthetic Profile Generation and Inversion",
+      "description": "Methodology for reconstructing ground surface temperature histories using a 1D forward model and inversion techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We employ a purely conductive 1D forward model using the anomalies of the PMIP3/CMIP5 simulated air and ground temperatures as upper boundary conditions.",
+          "searchable_summary": "use 1D forward model with PMIP3/CMIP5 temperature anomalies as boundary conditions",
+          "inputs": [
+            "PMIP3/CMIP5 temperature anomalies"
+          ],
+          "outputs": [
+            "synthetic temperature profiles"
+          ],
+          "keywords": [
+            "1D forward model",
+            "temperature anomalies",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "This forward model is used to generate synthetic profiles to a depth of 500 m.",
+          "searchable_summary": "generate synthetic temperature profiles to 500 m depth",
+          "inputs": [
+            "1D forward model"
+          ],
+          "outputs": [
+            "synthetic profiles"
+          ],
+          "keywords": [
+            "synthetic profiles",
+            "depth modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Subsequently, the synthetic profiles are inverted to retrieve the surface-temperature histories.",
+          "searchable_summary": "invert synthetic profiles to retrieve surface-temperature histories",
+          "inputs": [
+            "synthetic profiles"
+          ],
+          "outputs": [
+            "surface-temperature histories"
+          ],
+          "keywords": [
+            "profile inversion",
+            "temperature history"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/42550923.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

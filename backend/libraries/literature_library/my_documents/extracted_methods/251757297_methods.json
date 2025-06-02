@@ -1,0 +1,334 @@
+{
+  "paper_title": "Sediment Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Preparation for Laboratory Analysis",
+      "description": "Preparation of sediment samples by air-drying, sieving, and homogenization for subsequent laboratory analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "A total of 74 samples were taken for further laboratory treatment.",
+          "searchable_summary": "Obtain sediment samples",
+          "inputs": [],
+          "outputs": [
+            "raw sediment samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "sediment samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Analyses were performed using the fine-earth fraction (≤2.0 mm) of air-dried samples.",
+          "searchable_summary": "Air-dry sediment samples and select fine-earth fraction (<= 2.0 mm)",
+          "inputs": [
+            "raw sediment samples"
+          ],
+          "outputs": [
+            "air-dried fine-earth sediment fraction"
+          ],
+          "keywords": [
+            "air drying",
+            "sediment preparation",
+            "fine earth fraction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "The sediment colours were measured using a spectrophotometer (Konica Minolta CM-5) on sieved (<2000 µm), homogenized, and dried samples [61,62].",
+          "searchable_summary": "Sieve samples (<2000 µm), homogenize, and dry for colour measurement",
+          "inputs": [
+            "air-dried fine-earth sediment fraction"
+          ],
+          "outputs": [
+            "sieved, homogenized, dried sediment samples"
+          ],
+          "keywords": [
+            "sieving",
+            "homogenization",
+            "drying",
+            "sample preparation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Colour Measurement (L* value)",
+      "description": "Measurement of sediment colour using a spectrophotometer to determine the L* value, indicating light extinction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The sediment colours were measured using a spectrophotometer (Konica Minolta CM-5) on sieved (<2000 µm), homogenized, and dried samples [61,62].",
+          "searchable_summary": "Measure sediment colour using a spectrophotometer",
+          "inputs": [
+            "sieved, homogenized, dried sediment samples"
+          ],
+          "outputs": [
+            "sediment colour measurements"
+          ],
+          "keywords": [
+            "spectrophotometry",
+            "sediment colour",
+            "Konica Minolta CM-5"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In this study L* values were used to indicate the extinction of light (0 = absolute black, to 100 = absolute white) [61,63].",
+          "searchable_summary": "Extract L* values from colour measurements",
+          "inputs": [
+            "sediment colour measurements"
+          ],
+          "outputs": [
+            "L* values"
+          ],
+          "keywords": [
+            "L* value",
+            "CIELAB color space",
+            "data extraction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Carbon Content Analysis (TC, CaCO3, TIC, TOC)",
+      "description": "Determination of total carbon (TC), calcium carbonate (CaCO3), inorganic carbon (TIC), and organic carbon (TOC) content in sediment samples using elemental analysis and calcimetry.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Total carbon (TC) was measured on milled samples using an Elementar CN-analyser vario EL cube.",
+          "searchable_summary": "Mill sediment samples for elemental analysis",
+          "inputs": [
+            "air-dried fine-earth sediment fraction"
+          ],
+          "outputs": [
+            "milled sediment samples"
+          ],
+          "keywords": [
+            "milling",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Total carbon (TC) was measured on milled samples using an Elementar CN-analyser vario EL cube.",
+          "searchable_summary": "Measure Total Carbon (TC) content using a CN analyser",
+          "inputs": [
+            "milled sediment samples"
+          ],
+          "outputs": [
+            "Total Carbon (TC) content"
+          ],
+          "keywords": [
+            "elemental analysis",
+            "Total Carbon",
+            "TC",
+            "CN analyser",
+            "vario EL cube"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "CaCO3 content was determined using an Eijkelkamp Scheibler calcimeter.",
+          "searchable_summary": "Determine Calcium Carbonate (CaCO3) content using a calcimeter",
+          "inputs": [
+            "air-dried fine-earth sediment fraction"
+          ],
+          "outputs": [
+            "Calcium Carbonate (CaCO3) content"
+          ],
+          "keywords": [
+            "calcimetry",
+            "Calcium Carbonate",
+            "CaCO3",
+            "Scheibler calcimeter"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Inorganic carbon content (TIC) was calculated by multiplying CaCO3 by 0.12 [64,65].",
+          "searchable_summary": "Calculate Inorganic Carbon (TIC) from CaCO3 content",
+          "inputs": [
+            "Calcium Carbonate (CaCO3) content"
+          ],
+          "outputs": [
+            "Inorganic Carbon (TIC) content"
+          ],
+          "keywords": [
+            "calculation",
+            "Inorganic Carbon",
+            "TIC",
+            "stoichiometry"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Organic carbon content (TOC) was calculated by subtracting the TIC from the TC.",
+          "searchable_summary": "Calculate Organic Carbon (TOC) by subtracting TIC from TC",
+          "inputs": [
+            "Total Carbon (TC) content",
+            "Inorganic Carbon (TIC) content"
+          ],
+          "outputs": [
+            "Organic Carbon (TOC) content"
+          ],
+          "keywords": [
+            "calculation",
+            "Organic Carbon",
+            "TOC"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Particle Size Distribution Analysis (Laser Diffraction & ∆GSD)",
+      "description": "Determination of particle size distribution using laser diffraction after organic matter removal and dispersion, including calculation of grain size frequency using Mie theory and Fraunhofer approximation, and calculation of Delta GSD (∆GSD).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Organic matter was removed by treating the samples with 0.7 mL 15% hydrogen peroxide (H2O2) at 70 • C for several hours.",
+          "searchable_summary": "Remove organic matter from samples using hydrogen peroxide treatment",
+          "inputs": [
+            "air-dried fine-earth sediment fraction"
+          ],
+          "outputs": [
+            "sediment samples with organic matter removed"
+          ],
+          "keywords": [
+            "organic matter removal",
+            "hydrogen peroxide",
+            "H2O2",
+            "sample pre-treatment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "To keep particles dispersed, the samples were treated with 1.25 mL Na4P2O7 (0.1 mol·L−1 ) for 12 h on an overhead shaker [66,67].",
+          "searchable_summary": "Disperse particles using sodium pyrophosphate treatment",
+          "inputs": [
+            "sediment samples with organic matter removed"
+          ],
+          "outputs": [
+            "dispersed sediment samples"
+          ],
+          "keywords": [
+            "particle dispersion",
+            "sodium pyrophosphate",
+            "Na4P2O7",
+            "sample pre-treatment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Particle size distribution was measured using a Laser Diffraction Particle Size Analyzer (Beckman Coulter LS 13 320).",
+          "searchable_summary": "Measure particle size distribution using laser diffraction",
+          "inputs": [
+            "dispersed sediment samples"
+          ],
+          "outputs": [
+            "raw laser diffraction data"
+          ],
+          "keywords": [
+            "particle size analysis",
+            "laser diffraction",
+            "Beckman Coulter LS 13 320"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The grain size distribution was determined by applying the Mie theory (Fluid RI: 1.33; Sample RI: 1.55; Imaginary RI: 0.1) [68].",
+          "searchable_summary": "Calculate grain size frequency distribution using Mie theory",
+          "inputs": [
+            "raw laser diffraction data",
+            "Fluid RI",
+            "Sample RI",
+            "Imaginary RI"
+          ],
+          "outputs": [
+            "grain size frequency (Mie theory)"
+          ],
+          "keywords": [
+            "Mie theory",
+            "grain size distribution",
+            "particle size calculation",
+            "refractive index"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The ∆GSD is the difference between grain size frequency calculated with the Fraunhofer approximation and grain size frequency calculated with the Mie theory [69].",
+          "searchable_summary": "Calculate grain size frequency distribution using Fraunhofer approximation",
+          "inputs": [
+            "raw laser diffraction data"
+          ],
+          "outputs": [
+            "grain size frequency (Fraunhofer approximation)"
+          ],
+          "keywords": [
+            "Fraunhofer approximation",
+            "grain size distribution",
+            "particle size calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The ∆GSD is the difference between grain size frequency calculated with the Fraunhofer approximation and grain size frequency calculated with the Mie theory [69].",
+          "searchable_summary": "Calculate Delta GSD (∆GSD) as the difference between Fraunhofer and Mie grain size frequencies",
+          "inputs": [
+            "grain size frequency (Fraunhofer approximation)",
+            "grain size frequency (Mie theory)"
+          ],
+          "outputs": [
+            "Delta GSD (∆GSD)"
+          ],
+          "keywords": [
+            "Delta GSD",
+            "∆GSD",
+            "grain size analysis",
+            "data comparison"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "For numerical values, the deviations were additionally calculated for the grain size range 0.2 to 0.3 µm.",
+          "searchable_summary": "Calculate Delta GSD (∆GSD) for the 0.2 to 0.3 µm grain size range",
+          "inputs": [
+            "grain size frequency (Fraunhofer approximation)",
+            "grain size frequency (Mie theory)",
+            "grain size range (0.2-0.3 µm)"
+          ],
+          "outputs": [
+            "Delta GSD (∆GSD) for 0.2-0.3 µm range"
+          ],
+          "keywords": [
+            "Delta GSD",
+            "∆GSD",
+            "grain size analysis",
+            "specific size range"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251757297.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

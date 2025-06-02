@@ -1,0 +1,129 @@
+{
+  "paper_title": "Correlation between airborne pollen data and the risk of tick-borne encephalitis in northern Italy",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Collection and Standardization",
+      "description": "Process for collecting airborne pollen data using a Hirst-type sampler and standardizing the data for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Pollen data were recorded at Fondazione Edmund Mach, in San Michele all' Adige, Province of Trento, Italy, from 1989 to 2020.",
+          "searchable_summary": "record pollen data from 1989 to 2020 at Fondazione Edmund Mach",
+          "inputs": [
+            "location",
+            "time period"
+          ],
+          "outputs": [
+            "raw pollen data"
+          ],
+          "keywords": [
+            "pollen data",
+            "Fondazione Edmund Mach",
+            "Hirst-type sampler"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Airborne pollen was sampled by a Hirst-type sampler and analyzed following conventional techniques and standardized protocols (UNI EN 16868:2019).",
+          "searchable_summary": "analyze pollen samples using standardized protocols",
+          "inputs": [
+            "raw pollen data"
+          ],
+          "outputs": [
+            "analyzed pollen data"
+          ],
+          "keywords": [
+            "Hirst-type sampler",
+            "standardized protocols",
+            "UNI EN 16868:2019"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Standardize the pollen quantity collected during year y for each tree species T to standard scores by subtracting the mean and dividing by the standard deviation.",
+          "searchable_summary": "standardize pollen data to z-scores",
+          "inputs": [
+            "analyzed pollen data",
+            "mean",
+            "standard deviation"
+          ],
+          "outputs": [
+            "standardized pollen data"
+          ],
+          "keywords": [
+            "standardization",
+            "z-scores",
+            "mean",
+            "standard deviation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Transformation and Modeling",
+      "description": "Transform and model the data to investigate the association between pollen data and tick-borne encephalitis incidence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The annual TBE incidence I TBE (y) was transformed prior to analysis in order to normalize its distribution following the Box-Cox method.",
+          "searchable_summary": "apply Box-Cox transformation to TBE incidence data",
+          "inputs": [
+            "TBE incidence data"
+          ],
+          "outputs": [
+            "normalized TBE incidence data"
+          ],
+          "keywords": [
+            "Box-Cox transformation",
+            "normalization",
+            "TBE incidence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Develop univariate linear models to investigate the association between I TBE (y) * and the total amount of pollen of the tree species of interest collected during previous years.",
+          "searchable_summary": "create univariate linear models for pollen and TBE incidence",
+          "inputs": [
+            "normalized TBE incidence data",
+            "standardized pollen data"
+          ],
+          "outputs": [
+            "univariate linear models"
+          ],
+          "keywords": [
+            "univariate linear models",
+            "association",
+            "pollen",
+            "TBE incidence"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Build a full model by considering all covariates having a significant slope in the univariate models, checking for potential collinearity.",
+          "searchable_summary": "construct full model with significant covariates and check for collinearity",
+          "inputs": [
+            "univariate linear models"
+          ],
+          "outputs": [
+            "full model"
+          ],
+          "keywords": [
+            "full model",
+            "covariates",
+            "collinearity",
+            "AIC"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258843863.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

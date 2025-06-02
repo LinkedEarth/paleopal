@@ -1,0 +1,282 @@
+{
+  "paper_title": "Experimental and Modeling Study of Fluvio-Deltaic Systems",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Physical Fluvio-Deltaic Experiment and Data Acquisition",
+      "description": "Setup and execution of a physical experiment simulating a fluvio-deltaic system in a laboratory basin, including controlled inputs of water and sediment, constant base-level rise, and high-resolution surface topography data collection over time.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Set up a basin with dimensions 2.8 m wide, 4.2 m long, and 0.65 m deep.",
+          "searchable_summary": "Set up physical experimental basin with specified dimensions",
+          "inputs": [
+            "Basin dimensions (width: 2.8 m, length: 4.2 m, depth: 0.65 m)"
+          ],
+          "outputs": [
+            "Experimental basin setup"
+          ],
+          "keywords": [
+            "experimental setup",
+            "basin",
+            "laboratory experiment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Introduce a constant water discharge of 0.451 liters/s into the basin.",
+          "searchable_summary": "Control water discharge rate into experimental basin",
+          "inputs": [
+            "Water discharge rate (0.451 liters/s)"
+          ],
+          "outputs": [
+            "Controlled water flow in basin"
+          ],
+          "keywords": [
+            "water discharge",
+            "flow rate",
+            "experimental control"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Introduce a constant sediment discharge of 0.011 liters/s into the basin, using a mixture of 70% quartz sand with a median grain diameter (D50) of 110 mm and 30% coal sand with a D50 of 440 mm. Quartz sand and anthracite coal had a specific gravity of 2.65 and 1.3, respectively.",
+          "searchable_summary": "Control sediment discharge rate and composition into experimental basin",
+          "inputs": [
+            "Sediment discharge rate (0.011 liters/s)",
+            "Sediment composition (70% quartz sand, 30% coal sand)",
+            "Quartz sand properties (D50: 110 mm, specific gravity: 2.65)",
+            "Coal sand properties (D50: 440 mm, specific gravity: 1.3)"
+          ],
+          "outputs": [
+            "Controlled sediment supply in basin"
+          ],
+          "keywords": [
+            "sediment discharge",
+            "sediment mixture",
+            "grain size",
+            "specific gravity",
+            "experimental control"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Maintain a constant base-level rise (equivalent to subsidence rate) at 5 mm/hour using a computer-controlled weir system.",
+          "searchable_summary": "Control base-level rise rate using computer-controlled weir system",
+          "inputs": [
+            "Base-level rise rate (5 mm/hour)",
+            "Computer-controlled weir system"
+          ],
+          "outputs": [
+            "Controlled base-level in basin"
+          ],
+          "keywords": [
+            "base-level rise",
+            "subsidence",
+            "weir system",
+            "experimental control"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "Run the experiment for a total duration of 78.2 hours.",
+          "searchable_summary": "Run physical experiment for specified duration",
+          "inputs": [
+            "Experiment duration (78.2 hours)"
+          ],
+          "outputs": [
+            "Completed experimental run"
+          ],
+          "keywords": [
+            "experiment duration",
+            "laboratory experiment"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Obtain surface topography using a laser scanner every 2 min, generating a high-resolution evolution of the surface as aggradation proceeded.",
+          "searchable_summary": "Collect surface topography data using laser scanner at regular intervals",
+          "inputs": [
+            "Experimental surface",
+            "Laser scanner",
+            "Data acquisition interval (every 2 min)"
+          ],
+          "outputs": [
+            "Time series of high-resolution surface topography data"
+          ],
+          "keywords": [
+            "surface topography",
+            "laser scanner",
+            "data acquisition",
+            "time series data",
+            "geomorphology"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Calculate the compensation time (Tcomp) for the system based on the topographic roughness of the experimental surface and the maximum flow depth of channels on the experimental surface (18.5 mm). This yielded a Tcomp of 222 min for the system.",
+          "searchable_summary": "Calculate compensation time from topographic roughness and flow depth",
+          "inputs": [
+            "Surface topography data",
+            "Maximum flow depth (18.5 mm)"
+          ],
+          "outputs": [
+            "Compensation time (Tcomp)"
+          ],
+          "keywords": [
+            "compensation time",
+            "Tcomp",
+            "topographic roughness",
+            "flow depth",
+            "geomorphology",
+            "calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Proxy Simulation and Stratigraphic Integration",
+      "description": "Simulation of a hypothetical sinusoidal climate proxy signal and its integration with the depositional record of the physical experiment by sampling the signal based on depositional events in vertical columns, assigning ages via linear interpolation, and performing time series analysis on the resulting proxy record.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define a sinusoidal climate model P(t) = A sin(2pt/Tclimate), where P is a hypothetical climate parameter captured by a proxy, t is the time, A is the amplitude of the climate variation, and Tclimate is the period of the climate variation.",
+          "searchable_summary": "Define sinusoidal climate model function",
+          "inputs": [
+            "Climate model formula (P(t) = A sin(2pt/Tclimate))",
+            "Parameters (A: amplitude, Tclimate: period)"
+          ],
+          "outputs": [
+            "Climate model definition"
+          ],
+          "keywords": [
+            "climate model",
+            "sinusoidal model",
+            "mathematical model",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Run the climate model for the entirety of the experiment (78.2 hours) for five scenarios. These scenarios vary Tclimate relative to Tcomp at Tclimate = 0.5 * Tcomp, Tclimate = Tcomp, Tclimate = 2 * Tcomp, Tclimate = 3 * Tcomp, and Tclimate = 4 * Tcomp.",
+          "searchable_summary": "Run climate model simulation for multiple scenarios varying period relative to Tcomp",
+          "inputs": [
+            "Climate model (from step 1)",
+            "Experiment duration (78.2 hours)",
+            "Compensation time (Tcomp, from Method 1, step 7)",
+            "Scenario parameters (Tclimate values: 0.5*Tcomp, Tcomp, 2*Tcomp, 3*Tcomp, 4*Tcomp)"
+          ],
+          "outputs": [
+            "Simulated climate time series for each scenario"
+          ],
+          "keywords": [
+            "climate simulation",
+            "model scenarios",
+            "time series generation",
+            "parameter variation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For 100 random vertical columns in the basin transect (Fig. 1D), these climate sinusoids were then sampled by the coeval depositional events.",
+          "searchable_summary": "Sample simulated climate signal based on depositional events in random vertical columns",
+          "inputs": [
+            "Simulated climate time series (from step 2)",
+            "Depositional event data for experimental vertical columns (e.g., from surface topography data, Method 1, step 6)",
+            "Number of random columns (100)",
+            "Basin transect data (Fig. 1D)"
+          ],
+          "outputs": [
+            "Climate proxy values sampled at deposition times for selected columns"
+          ],
+          "keywords": [
+            "data sampling",
+            "climate proxy",
+            "depositional events",
+            "stratigraphic sampling",
+            "random sampling",
+            "vertical columns"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The climatic conditions that corresponded to periods of nondeposition and depositional events that were eroded were not represented.",
+          "searchable_summary": "Filter sampled climate data to exclude non-deposition and erosion periods",
+          "inputs": [
+            "Sampled climate proxy values (from step 3)",
+            "Information on non-deposition/erosion periods in experimental record"
+          ],
+          "outputs": [
+            "Filtered climate proxy record representing only deposited sediment"
+          ],
+          "keywords": [
+            "data filtering",
+            "non-deposition",
+            "erosion",
+            "stratigraphic record"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Subsequently, the time intervals represented by sediment deposition were reassigned to an age using a linear interpolation based on the proxy's position in the accumulated sediment column and the known start and end time of the experiment.",
+          "searchable_summary": "Assign ages to sampled proxy data using linear interpolation based on position and experiment duration",
+          "inputs": [
+            "Filtered climate proxy record (from step 4)",
+            "Proxy position in sediment column",
+            "Experiment start time",
+            "Experiment end time"
+          ],
+          "outputs": [
+            "Age-assigned climate proxy time series"
+          ],
+          "keywords": [
+            "age model",
+            "linear interpolation",
+            "stratigraphic age",
+            "time series dating",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Time series analysis was performed using the software Past3 version 3.14 (80) using the REDFIT protocol with n = 1000 Monte Carlo simulations of the autoregressive (AR1) process, oversampling and segmentation were set to 1, and a Blackman-Harris window was used. This is a standard methodology for time series analysis of unevenly sampled signals, specifically designed for paleoclimatic records (24,80).",
+          "searchable_summary": "Perform time series analysis using REDFIT protocol in Past3 software",
+          "inputs": [
+            "Age-assigned climate proxy time series (from step 5)",
+            "Past3 software (version 3.14)",
+            "REDFIT protocol parameters (n=1000 Monte Carlo simulations, AR1 process, oversampling=1, segmentation=1, Blackman-Harris window)"
+          ],
+          "outputs": [
+            "Time series analysis results (e.g., power spectrum, significance levels)"
+          ],
+          "keywords": [
+            "time series analysis",
+            "spectral analysis",
+            "REDFIT",
+            "Past3",
+            "paleoclimate",
+            "unevenly sampled data",
+            "Monte Carlo simulation",
+            "AR1 process",
+            "Blackman-Harris window"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/683443.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

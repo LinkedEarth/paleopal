@@ -1,0 +1,464 @@
+{
+  "paper_title": "Application of GIS and logistic regression to fossil pollen data in modelling present and past spatial distribution of the Colombian savanna",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spatial Interpolation",
+      "description": "Describes the use of Local Polynomial and Radial Basis Functions interpolation techniques to create spatial surfaces from measured points (likely pollen data, based on the paper title). Applied using the Geostatistical Analyst within ArcGIS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "In the Local Polynomial interpolation, a power of two is used and the weight distance optimised.",
+          "searchable_summary": "Perform Local Polynomial interpolation with specified parameters.",
+          "inputs": [
+            "Point data layer",
+            "Power parameter (2)",
+            "Weight distance optimization setting"
+          ],
+          "outputs": [
+            "Interpolated surface layer (Local Polynomial)"
+          ],
+          "keywords": [
+            "spatial interpolation",
+            "Local Polynomial",
+            "ArcGIS",
+            "Geostatistical Analyst",
+            "GIS",
+            "surface creation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Interpolated values less than zero were omitted from the analysis.",
+          "searchable_summary": "Filter interpolated surface to remove values below zero.",
+          "inputs": [
+            "Interpolated surface layer (Local Polynomial)"
+          ],
+          "outputs": [
+            "Filtered interpolated surface layer"
+          ],
+          "keywords": [
+            "data filtering",
+            "spatial data processing",
+            "GIS",
+            "thresholding"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply Radial Basis Functions interpolation using the ''multiquadratic function''.",
+          "searchable_summary": "Perform Radial Basis Functions interpolation using the multiquadratic function.",
+          "inputs": [
+            "Point data layer",
+            "Radial Basis Function type (multiquadratic)",
+            "Parameter decisions"
+          ],
+          "outputs": [
+            "Interpolated surface layer (Radial Basis Functions)"
+          ],
+          "keywords": [
+            "spatial interpolation",
+            "Radial Basis Functions",
+            "multiquadratic",
+            "ArcGIS",
+            "Geostatistical Analyst",
+            "GIS",
+            "surface creation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "There are more parameter decisions [for Radial Basis Functions], which allow a variety of map outputs. This flexibility of the different applications within the interpolation functions requires decision-making.",
+          "searchable_summary": "Configure parameters for Radial Basis Functions interpolation.",
+          "inputs": [
+            "Radial Basis Functions method",
+            "Desired output characteristics"
+          ],
+          "outputs": [
+            "Configured interpolation parameters"
+          ],
+          "keywords": [
+            "parameter tuning",
+            "spatial interpolation",
+            "Radial Basis Functions",
+            "configuration"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Binary Model Evaluation",
+      "description": "Describes the use of various metrics (Sensitivity, Specificity, Overall Accuracy, Cohen's Kappa, True Skill Statistic) to evaluate the predictive success of binary ecological models. Calculations are based on a confusion matrix.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "From a confusion matrix (Table 1) that records the number of (a) true presence, (b) false presence, (c) false absence and (d) true absence, all accuracy measures are calculated (Table 2).",
+          "searchable_summary": "Create a confusion matrix from observed and predicted binary outcomes.",
+          "inputs": [
+            "Observed binary outcomes (presence/absence)",
+            "Predicted binary outcomes (presence/absence)"
+          ],
+          "outputs": [
+            "Confusion matrix (counts of TP, FP, FN, TN)"
+          ],
+          "keywords": [
+            "confusion matrix",
+            "model evaluation",
+            "binary classification",
+            "true positive",
+            "false positive",
+            "true negative",
+            "false negative"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Sensitivity is the percentage of correctly predicted savanna occurrences to the total number of savanna pixels.",
+          "searchable_summary": "Calculate sensitivity from confusion matrix.",
+          "inputs": [
+            "Confusion matrix (TP, FN)"
+          ],
+          "outputs": [
+            "Sensitivity value"
+          ],
+          "keywords": [
+            "sensitivity",
+            "recall",
+            "model evaluation",
+            "binary classification",
+            "confusion matrix"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Specificity is defined as the proportion of correctly predicted absences of savanna to the total number of absences.",
+          "searchable_summary": "Calculate specificity from confusion matrix.",
+          "inputs": [
+            "Confusion matrix (TN, FP)"
+          ],
+          "outputs": [
+            "Specificity value"
+          ],
+          "keywords": [
+            "specificity",
+            "model evaluation",
+            "binary classification",
+            "confusion matrix"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The overall accuracy is defined as the percentage of correctly predicted raster-pixels to the total number of pixels in the area of interest.",
+          "searchable_summary": "Calculate overall accuracy from confusion matrix.",
+          "inputs": [
+            "Confusion matrix (TP, TN, total pixels)"
+          ],
+          "outputs": [
+            "Overall accuracy value"
+          ],
+          "keywords": [
+            "overall accuracy",
+            "model evaluation",
+            "binary classification",
+            "confusion matrix"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Cohen's Kappa coefficient is designed to reflect the models performance in absence and presence simultaneously.",
+          "searchable_summary": "Calculate Cohen's Kappa coefficient from confusion matrix.",
+          "inputs": [
+            "Confusion matrix (TP, FP, FN, TN)"
+          ],
+          "outputs": [
+            "Kappa coefficient value"
+          ],
+          "keywords": [
+            "Cohen's Kappa",
+            "Kappa statistic",
+            "model evaluation",
+            "binary classification",
+            "confusion matrix"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "We also include an alternative measure for the kappa statistic proposed by Allouche et al. (2006), the so-called True skill statistic (TSS). This measure is suitable for models that generate presence-absence predictions.",
+          "searchable_summary": "Calculate True Skill Statistic (TSS) from confusion matrix.",
+          "inputs": [
+            "Confusion matrix (TP, FP, FN, TN)"
+          ],
+          "outputs": [
+            "TSS value"
+          ],
+          "keywords": [
+            "True Skill Statistic",
+            "TSS",
+            "model evaluation",
+            "binary classification",
+            "confusion matrix"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "To interpret the power of the model calculated by the Kappa and the TSS measurement, the classification by Landis and Koch (1977) [is used].",
+          "searchable_summary": "Interpret model performance based on Kappa and TSS values using a standard classification scheme.",
+          "inputs": [
+            "Kappa value",
+            "TSS value",
+            "Landis and Koch (1977) classification table"
+          ],
+          "outputs": [
+            "Interpretation of model performance (e.g., \"good\", \"moderate\")"
+          ],
+          "keywords": [
+            "model interpretation",
+            "Kappa interpretation",
+            "TSS interpretation",
+            "Landis and Koch classification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Logistic Regression Model Validation (Spatial Comparison)",
+      "description": "Describes the process of validating the logistic regression model by implementing its outcome (logit equation) in a GIS, generating a predicted land-cover map, and comparing it spatially to the observed distribution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The outcome of the model (logit equation) is introduced into the GIS to let the model run with the related climate layers as a data source.",
+          "searchable_summary": "Apply logistic regression model equation within a GIS environment.",
+          "inputs": [
+            "Logistic regression model equation",
+            "GIS climate layers"
+          ],
+          "outputs": [
+            "Predicted spatial values (e.g., probability of savanna presence)"
+          ],
+          "keywords": [
+            "GIS modeling",
+            "spatial modeling",
+            "logistic regression",
+            "model application",
+            "geoprocessing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "A map of the predicted land-cover distribution is the result of this implementation.",
+          "searchable_summary": "Create a map from predicted spatial values.",
+          "inputs": [
+            "Predicted spatial values (e.g., probability raster)"
+          ],
+          "outputs": [
+            "Predicted land-cover map (e.g., binary presence/absence map derived from probability)"
+          ],
+          "keywords": [
+            "GIS mapping",
+            "spatial visualization",
+            "predicted map",
+            "land cover map"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "This map is subsequently compared to the actually observed spatial distribution of savanna to evaluate how well the model performs.",
+          "searchable_summary": "Compare predicted spatial distribution map with observed spatial distribution map.",
+          "inputs": [
+            "Predicted land-cover map",
+            "Observed land-cover map"
+          ],
+          "outputs": [
+            "Comparison results (qualitative or quantitative)"
+          ],
+          "keywords": [
+            "spatial comparison",
+            "map comparison",
+            "model validation",
+            "GIS analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "By subtracting the layers of the observed and predicted spatial distribution of savanna from one another in the GIS, the accuracy of the model can be illustrated, and a differentiation made between false presence and false absence predictions of savanna.",
+          "searchable_summary": "Perform spatial subtraction of observed and predicted binary maps in GIS.",
+          "inputs": [
+            "Observed land-cover map (binary)",
+            "Predicted land-cover map (binary)"
+          ],
+          "outputs": [
+            "Difference map highlighting agreement, false positives, and false negatives"
+          ],
+          "keywords": [
+            "GIS analysis",
+            "spatial overlay",
+            "map algebra",
+            "difference map",
+            "model error mapping",
+            "false positive",
+            "false negative"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Preparation and Sampling",
+      "description": "Describes the process of preparing the database by overlaying GIS layers, creating random and regular point rasters, and extracting underlying variable data for modeling.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "To understand how the variables spatially relate to each other, all layers were overlaid in the GIS.",
+          "searchable_summary": "Overlay multiple GIS raster or vector layers.",
+          "inputs": [
+            "Multiple GIS layers (variables)"
+          ],
+          "outputs": [
+            "Combined or aligned GIS layers"
+          ],
+          "keywords": [
+            "GIS",
+            "spatial data processing",
+            "layer overlay",
+            "geoprocessing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A GIS layer was created in which a random point raster was built. [...] the random point raster consisted of a layer of 2000 points scattered out over the area of interest.",
+          "searchable_summary": "Generate a random point layer within a specified area.",
+          "inputs": [
+            "Area of interest boundary",
+            "Number of points (2000)"
+          ],
+          "outputs": [
+            "Random point GIS layer"
+          ],
+          "keywords": [
+            "GIS",
+            "random sampling",
+            "point generation",
+            "spatial sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For every point, the underlying data of the variable layers was extracted into a DBF-format document.",
+          "searchable_summary": "Extract raster or vector attribute values at random point locations.",
+          "inputs": [
+            "Random point GIS layer",
+            "Overlayed variable GIS layers"
+          ],
+          "outputs": [
+            "Table or database file (DBF) containing extracted variable values for each random point"
+          ],
+          "keywords": [
+            "GIS",
+            "data extraction",
+            "spatial sampling",
+            "point sampling",
+            "attribute extraction",
+            "DBF"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "a second point layer of evenly spaced grid points was constructed, and the underlying data was extracted in a similar way (''regular sampling'', Hirzel and Guisan 2002). [...] the regular sample layer consisted of a square of 18 · 18 data points.",
+          "searchable_summary": "Generate a regular grid point layer within a specified area.",
+          "inputs": [
+            "Area of interest boundary",
+            "Grid dimensions (18x18)"
+          ],
+          "outputs": [
+            "Regular grid point GIS layer"
+          ],
+          "keywords": [
+            "GIS",
+            "regular sampling",
+            "grid generation",
+            "spatial sampling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "the underlying data was extracted in a similar way [as random points].",
+          "searchable_summary": "Extract raster or vector attribute values at regular grid point locations.",
+          "inputs": [
+            "Regular grid point GIS layer",
+            "Overlayed variable GIS layers"
+          ],
+          "outputs": [
+            "Table or database file (DBF) containing extracted variable values for each regular grid point"
+          ],
+          "keywords": [
+            "GIS",
+            "data extraction",
+            "spatial sampling",
+            "point sampling",
+            "attribute extraction",
+            "DBF"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The land-cover layer has been converted to a presence/absence layer of savanna.",
+          "searchable_summary": "Convert a categorical land cover layer into a binary presence/absence layer for a specific class.",
+          "inputs": [
+            "Land-cover GIS layer",
+            "Target class (savanna)"
+          ],
+          "outputs": [
+            "Binary presence/absence GIS layer"
+          ],
+          "keywords": [
+            "GIS",
+            "data reclassification",
+            "binary data",
+            "presence/absence",
+            "land cover"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "the outcomes of the descriptive statistics each form a separate GIS layer.",
+          "searchable_summary": "Create GIS layers from descriptive statistics results.",
+          "inputs": [
+            "Results of descriptive statistics"
+          ],
+          "outputs": [
+            "Separate GIS layers representing descriptive statistics outcomes"
+          ],
+          "keywords": [
+            "GIS",
+            "spatial data processing",
+            "data mapping",
+            "descriptive statistics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55347789.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

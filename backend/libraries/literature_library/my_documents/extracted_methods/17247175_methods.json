@@ -1,0 +1,87 @@
+{
+  "paper_title": "Eocene Meridional Sea Surface Temperature Gradients",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Paleolatitude Calculation",
+      "description": "This method involves using a paleolatitude calculator to test whether a detailed plate model and the latest paleomagnetic reference frame lead to corrections in the paleolatitudes originally determined for data points. It also determines lower-bound uncertainties of the corrected paleolatitudes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Input site latitude and longitude in decimal degrees, the age of the site, and the lower and upper age bounds into the paleolatitude calculator.",
+          "searchable_summary": "input site coordinates and age range into paleolatitude calculator",
+          "inputs": [
+            "site latitude",
+            "site longitude",
+            "site age",
+            "lower age bound",
+            "upper age bound"
+          ],
+          "outputs": [
+            "paleolatitude with error bars"
+          ],
+          "keywords": [
+            "paleolatitude",
+            "site coordinates",
+            "age range"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Compute paleolatitude curve using the full age range of the plate (fragment) on which the chosen site is located.",
+          "searchable_summary": "compute paleolatitude curve for full age range",
+          "inputs": [
+            "full age range of plate"
+          ],
+          "outputs": [
+            "paleolatitude curve"
+          ],
+          "keywords": [
+            "paleolatitude curve",
+            "age range",
+            "plate fragment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze the paleolatitude estimates with error bars, which may amount to ~15° in the Eocene.",
+          "searchable_summary": "analyze paleolatitude estimates with error bars",
+          "inputs": [
+            "paleolatitude estimates"
+          ],
+          "outputs": [
+            "analyzed paleolatitude estimates"
+          ],
+          "keywords": [
+            "paleolatitude estimates",
+            "error bars",
+            "Eocene"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Recalculate paleolatitudes of sites to determine significant shifts and compare with existing data.",
+          "searchable_summary": "recalculate and compare paleolatitudes",
+          "inputs": [
+            "site data",
+            "existing paleolatitude data"
+          ],
+          "outputs": [
+            "recalculated paleolatitudes",
+            "comparison results"
+          ],
+          "keywords": [
+            "paleolatitude recalculation",
+            "data comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/17247175.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

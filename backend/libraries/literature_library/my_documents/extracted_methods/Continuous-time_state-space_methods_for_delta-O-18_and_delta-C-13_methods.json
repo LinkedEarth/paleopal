@@ -1,0 +1,112 @@
+{
+  "paper_title": "Differentiating Measurement Equation Variances",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Measurement Equation Variance Differentiation by Study",
+      "description": "This method differentiates the measurement equation variances according to the study of origin for each data point. It is used to account for the dependency of measurement error variance on the data source, enhancing the model's accuracy by extending the parameter vector for maximum likelihood estimation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Modify the measurement equation to account for different studies as sources of data.",
+          "searchable_summary": "modify measurement equation to include study-specific variances",
+          "inputs": [
+            "data file with study sources",
+            "initial measurement equation"
+          ],
+          "outputs": [
+            "modified measurement equation"
+          ],
+          "keywords": [
+            "measurement equation",
+            "study-specific variance",
+            "data source"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Extend the parameter vector to be estimated by maximum likelihood to include study-specific variances.",
+          "searchable_summary": "extend parameter vector for maximum likelihood estimation",
+          "inputs": [
+            "modified measurement equation",
+            "study-specific data"
+          ],
+          "outputs": [
+            "extended parameter vector"
+          ],
+          "keywords": [
+            "maximum likelihood estimation",
+            "parameter vector",
+            "study-specific"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform linear regression of maximum likelihood estimates of study variances on the year of publication.",
+          "searchable_summary": "perform linear regression on study variances and publication year",
+          "inputs": [
+            "maximum likelihood estimates",
+            "year of publication"
+          ],
+          "outputs": [
+            "regression results",
+            "slope estimate",
+            "adjusted coefficient of determination"
+          ],
+          "keywords": [
+            "linear regression",
+            "study variances",
+            "publication year"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Measurement Equation Variance Differentiation by Species",
+      "description": "This method differentiates the measurement equation variances according to benthic foraminifera species. It is an alternative specification to account for different origins of the data, although it is found to be less effective than differentiation by study.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Modify the measurement equation to account for different species of benthic foraminifera.",
+          "searchable_summary": "modify measurement equation to include species-specific variances",
+          "inputs": [
+            "data file with species information",
+            "initial measurement equation"
+          ],
+          "outputs": [
+            "modified measurement equation"
+          ],
+          "keywords": [
+            "measurement equation",
+            "species-specific variance",
+            "benthic foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Extend the parameter vector to be estimated by maximum likelihood to include species-specific variances.",
+          "searchable_summary": "extend parameter vector for maximum likelihood estimation by species",
+          "inputs": [
+            "modified measurement equation",
+            "species-specific data"
+          ],
+          "outputs": [
+            "extended parameter vector"
+          ],
+          "keywords": [
+            "maximum likelihood estimation",
+            "parameter vector",
+            "species-specific"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Continuous-time_state-space_methods_for_delta-O-18_and_delta-C-13.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

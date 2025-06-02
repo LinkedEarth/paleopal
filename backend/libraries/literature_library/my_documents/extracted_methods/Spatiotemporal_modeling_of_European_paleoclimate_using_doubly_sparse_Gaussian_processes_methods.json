@@ -1,0 +1,264 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "S2CVI Training",
+      "description": "Training the S2CVI model with specified spatial and temporal inducing points over multiple epochs, updating parameters using natural gradients and hyperparameters using Adam optimizer.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We trained S2CVI with Ms = 100 spatial and Mt = 6 temporal inducing points over 30 epochs with a minibatch size of Nb = 1,000.",
+          "searchable_summary": "train S2CVI model with specified inducing points and minibatch size over 30 epochs",
+          "inputs": [
+            "Ms = 100",
+            "Mt = 6",
+            "Nb = 1,000",
+            "30 epochs"
+          ],
+          "outputs": [
+            "trained S2CVI model"
+          ],
+          "keywords": [
+            "S2CVI",
+            "training",
+            "inducing points",
+            "epochs",
+            "minibatch"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "At each iteration, the parameters of the variational posterior are first updated using natural gradients, and then all hyperparameters are updated using Adam.",
+          "searchable_summary": "update variational posterior parameters with natural gradients and hyperparameters with Adam optimizer",
+          "inputs": [
+            "variational posterior parameters",
+            "hyperparameters"
+          ],
+          "outputs": [
+            "updated parameters",
+            "updated hyperparameters"
+          ],
+          "keywords": [
+            "natural gradients",
+            "Adam optimizer",
+            "parameter update"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The coordinates of the spatial inducing points, which are constrained to stay within the spatial domain of the data, are treated as hyperparameters.",
+          "searchable_summary": "treat spatial inducing point coordinates as hyperparameters constrained within data domain",
+          "inputs": [
+            "spatial inducing point coordinates"
+          ],
+          "outputs": [
+            "constrained hyperparameters"
+          ],
+          "keywords": [
+            "spatial inducing points",
+            "hyperparameters",
+            "constraints"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "All predictions from the variational posterior for C were shifted by m(x) to obtain the approximate posterior for C.",
+          "searchable_summary": "shift predictions by m(x) to obtain approximate posterior for C",
+          "inputs": [
+            "predictions from variational posterior",
+            "m(x)"
+          ],
+          "outputs": [
+            "approximate posterior for C"
+          ],
+          "keywords": [
+            "predictions",
+            "variational posterior",
+            "approximate posterior"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Data Collection",
+      "description": "Collection and use of site-specific reconstructions of mean annual temperature from fossilized pollen.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We use 41,986 site-specific reconstructions of mean annual temperature from fossilized pollen collected at 826 sites and 1,607 time slices from the LegacyClimate 1.0 database.",
+          "searchable_summary": "collect site-specific temperature reconstructions from LegacyClimate 1.0 database",
+          "inputs": [
+            "LegacyClimate 1.0 database"
+          ],
+          "outputs": [
+            "41,986 temperature reconstructions"
+          ],
+          "keywords": [
+            "pollen data",
+            "temperature reconstructions",
+            "LegacyClimate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Simulation Data Collection",
+      "description": "Collection and preprocessing of simulation data from various models with different spatial and temporal coverage.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We use a total of ten models with different output coverage in space and time.",
+          "searchable_summary": "collect simulation data from ten models with varying coverage",
+          "inputs": [
+            "ten models"
+          ],
+          "outputs": [
+            "simulation data"
+          ],
+          "keywords": [
+            "simulation data",
+            "models",
+            "coverage"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Three models have been simulated only at MH, while five are available at both LGM and MH but no other time slices.",
+          "searchable_summary": "collect data from models simulated at MH and LGM",
+          "inputs": [
+            "three models at MH",
+            "five models at LGM and MH"
+          ],
+          "outputs": [
+            "model data at MH and LGM"
+          ],
+          "keywords": [
+            "MH",
+            "LGM",
+            "model simulation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "All of the above have a spatial grid spacing of 10 arcminutes and were downloaded from WorldClim 1.4.",
+          "searchable_summary": "download model data with 10 arcminutes grid spacing from WorldClim 1.4",
+          "inputs": [
+            "WorldClim 1.4"
+          ],
+          "outputs": [
+            "model data with 10 arcminutes grid"
+          ],
+          "keywords": [
+            "WorldClim",
+            "grid spacing",
+            "model data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Two models have been simulated at time slices spaced by 1,000 years ranging from LGM to MH and have a grid spacing of 30 arcminutes.",
+          "searchable_summary": "collect data from models with 1,000-year time slices and 30 arcminutes grid spacing",
+          "inputs": [
+            "two models"
+          ],
+          "outputs": [
+            "model data with 1,000-year slices"
+          ],
+          "keywords": [
+            "time slices",
+            "grid spacing",
+            "model data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We preprocessed the data by using radial basis functions to spatially interpolate within each lower-resolution MH simulation; these interpolations were then averaged to form a function m(x).",
+          "searchable_summary": "use radial basis functions to interpolate and average MH simulation data",
+          "inputs": [
+            "lower-resolution MH simulation data"
+          ],
+          "outputs": [
+            "function m(x)"
+          ],
+          "keywords": [
+            "radial basis functions",
+            "interpolation",
+            "averaging"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "This function m(x) was then subtracted from all data; this smoothed out the steep gradients in climate variables around mountain ranges and the coastline.",
+          "searchable_summary": "subtract m(x) from data to smooth climate variable gradients",
+          "inputs": [
+            "function m(x)",
+            "all data"
+          ],
+          "outputs": [
+            "smoothed data"
+          ],
+          "keywords": [
+            "smoothing",
+            "climate variables",
+            "gradients"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Consensus Model Construction",
+      "description": "Combining multiple spatiotemporally gridded simulations with reconstructions from fossilized pollen proxies to construct a continuous consensus model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Multiple spatiotemporally gridded simulations are combined with reconstructions from fossilized pollen proxies to construct a consensus model.",
+          "searchable_summary": "combine gridded simulations and pollen reconstructions to build consensus model",
+          "inputs": [
+            "spatiotemporally gridded simulations",
+            "pollen reconstructions"
+          ],
+          "outputs": [
+            "consensus model"
+          ],
+          "keywords": [
+            "consensus model",
+            "gridded simulations",
+            "pollen proxies"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "While the data are discrete in space and time, the consensus model is continuous in both space and time, and at any spatiotemporal point, the marginal posterior distribution of temperature can be queried.",
+          "searchable_summary": "ensure consensus model is continuous and allows querying of temperature distribution",
+          "inputs": [
+            "discrete data"
+          ],
+          "outputs": [
+            "continuous consensus model"
+          ],
+          "keywords": [
+            "continuous model",
+            "temperature distribution",
+            "query"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Spatiotemporal_modeling_of_European_paleoclimate_using_doubly_sparse_Gaussian_processes.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

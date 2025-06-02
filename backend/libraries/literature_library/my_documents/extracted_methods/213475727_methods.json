@@ -1,0 +1,155 @@
+{
+  "paper_title": "The dependency of the δ18O discrepancy between ice cores and model simulations on the spatial model resolution",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Simulation Setup",
+      "description": "This method describes the setup and execution of model simulations using COSMO_iso to evaluate the fractionating processes of stable water isotopes in Greenland. It involves downscaling outputs from the ECHAM5-wiso model and applying them to different spatial resolutions for both present-day and mid-Holocene periods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The nudged simulation outputs (standard and isotopic) from an isotope-enabled atmospheric model ECHAM5-wiso simulation are dynamically downscaled with COSMO_iso for the whole Arctic region.",
+          "searchable_summary": "downscale ECHAM5-wiso simulation outputs using COSMO_iso for Arctic region",
+          "inputs": [
+            "ECHAM5-wiso simulation outputs"
+          ],
+          "outputs": [
+            "COSMO_iso downscaled outputs for Arctic region"
+          ],
+          "keywords": [
+            "downscaling",
+            "COSMO_iso",
+            "ECHAM5-wiso",
+            "Arctic"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The simulation outputs from ECHAM5-wiso are at a T106 horizontal spatial resolution (1.1° x 1.1°) and on 31 atmospheric vertical levels. The dynamical fields were nudged every 6 hours towards ERA-Interim reanalysis data.",
+          "searchable_summary": "nudge ECHAM5-wiso outputs towards ERA-Interim reanalysis data every 6 hours",
+          "inputs": [
+            "ECHAM5-wiso outputs",
+            "ERA-Interim reanalysis data"
+          ],
+          "outputs": [
+            "Nudged ECHAM5-wiso outputs"
+          ],
+          "keywords": [
+            "nudge",
+            "ERA-Interim",
+            "reanalysis",
+            "ECHAM5-wiso"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The spatial resolution of COSMO_iso is 0.44° x 0.44°, corresponding to 50 km x 50 km in rotated coordinates (COSMO_iso_50km).",
+          "searchable_summary": "set COSMO_iso spatial resolution to 0.44° x 0.44°",
+          "inputs": [
+            "COSMO_iso configuration"
+          ],
+          "outputs": [
+            "COSMO_iso_50km configuration"
+          ],
+          "keywords": [
+            "COSMO_iso",
+            "spatial resolution",
+            "configuration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The COSMO_iso_50km simulation is further downscaled to a spatial resolution of 0.0625° x 0.0625° for Greenland (COSMO_iso_7km).",
+          "searchable_summary": "downscale COSMO_iso_50km to 0.0625° x 0.0625° for Greenland",
+          "inputs": [
+            "COSMO_iso_50km outputs"
+          ],
+          "outputs": [
+            "COSMO_iso_7km outputs"
+          ],
+          "keywords": [
+            "downscaling",
+            "COSMO_iso",
+            "Greenland"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "In the COSMO_iso runs, the horizontal wind fields above the 850 hPa level are spectrally nudged towards the reanalysis-based dynamical fields of ECHAM5-wiso.",
+          "searchable_summary": "spectrally nudge horizontal wind fields above 850 hPa towards ECHAM5-wiso fields",
+          "inputs": [
+            "COSMO_iso wind fields",
+            "ECHAM5-wiso dynamical fields"
+          ],
+          "outputs": [
+            "Nudged COSMO_iso wind fields"
+          ],
+          "keywords": [
+            "spectral nudging",
+            "wind fields",
+            "ECHAM5-wiso"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Atmospheric fields have been retrieved from a mid-Holocene simulation of the fully coupled model MPI-ESM-wiso.",
+          "searchable_summary": "retrieve atmospheric fields from MPI-ESM-wiso mid-Holocene simulation",
+          "inputs": [
+            "MPI-ESM-wiso mid-Holocene simulation"
+          ],
+          "outputs": [
+            "Atmospheric fields"
+          ],
+          "keywords": [
+            "MPI-ESM-wiso",
+            "mid-Holocene",
+            "atmospheric fields"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "With COSMO_iso, a representative time slice of 30 years is simulated for the mid-Holocene climate period.",
+          "searchable_summary": "simulate 30-year time slice for mid-Holocene using COSMO_iso",
+          "inputs": [
+            "COSMO_iso configuration",
+            "mid-Holocene atmospheric fields"
+          ],
+          "outputs": [
+            "30-year COSMO_iso simulation for mid-Holocene"
+          ],
+          "keywords": [
+            "COSMO_iso",
+            "mid-Holocene",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The greenhouse gas concentrations and the orbital parameters are adapted according to the Paleoclimate Modelling Intercomparison Project 4 experiment design.",
+          "searchable_summary": "adapt greenhouse gas concentrations and orbital parameters for PMIP4",
+          "inputs": [
+            "PMIP4 experiment design"
+          ],
+          "outputs": [
+            "Adapted greenhouse gas concentrations and orbital parameters"
+          ],
+          "keywords": [
+            "greenhouse gases",
+            "orbital parameters",
+            "PMIP4"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/213475727.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

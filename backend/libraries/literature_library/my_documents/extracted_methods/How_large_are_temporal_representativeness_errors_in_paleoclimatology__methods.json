@@ -1,0 +1,160 @@
+{
+  "paper_title": "Temporal Representativeness Errors in Paleoclimate Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Temporal Representativeness Error Estimation",
+      "description": "This method estimates the temporal representativeness (TR) errors when representing long-term climate means by shorter observed time-mean values. It is used to understand the discrepancies that arise when comparing paleoclimate data to model outputs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Define LGM target quantities as estimates of time means over the 4000-year period from 23,000 to 19,000 years ago.",
+          "searchable_summary": "define LGM target quantities for time means over 4000 years",
+          "inputs": [
+            "time period: 23,000 to 19,000 years ago"
+          ],
+          "outputs": [
+            "LGM target quantities"
+          ],
+          "keywords": [
+            "LGM",
+            "time means",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Consider TR errors arising from representing xLGM by an observed 1000-year time-mean value centered on 21 ka.",
+          "searchable_summary": "calculate TR errors for 1000-year time-mean centered on 21 ka",
+          "inputs": [
+            "xLGM",
+            "observed 1000-year time-mean"
+          ],
+          "outputs": [
+            "TR errors"
+          ],
+          "keywords": [
+            "TR errors",
+            "time-mean",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use the NGRIP 50-year average time series of oxygen isotope ratios (δ18O) to illustrate the procedure.",
+          "searchable_summary": "use NGRIP δ18O time series for TR error illustration",
+          "inputs": [
+            "NGRIP δ18O time series"
+          ],
+          "outputs": [
+            "illustrated TR error procedure"
+          ],
+          "keywords": [
+            "NGRIP",
+            "δ18O",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Smooth the NGRIP record with running means of length τx = 4000 and τy = 1000 to yield time series of potential target and observation values.",
+          "searchable_summary": "smooth NGRIP record with running means of 4000 and 1000 years",
+          "inputs": [
+            "NGRIP record",
+            "τx = 4000",
+            "τy = 1000"
+          ],
+          "outputs": [
+            "smoothed time series"
+          ],
+          "keywords": [
+            "smoothing",
+            "running means",
+            "NGRIP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate the difference θ(t) and its squared difference to estimate the error variance.",
+          "searchable_summary": "calculate difference and squared difference for error variance",
+          "inputs": [
+            "time series x(t)",
+            "time series y(t)"
+          ],
+          "outputs": [
+            "error variance"
+          ],
+          "keywords": [
+            "error variance",
+            "difference calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Perform wavelet analysis to diagnose variability in the frequency band responsible for TR errors.",
+          "searchable_summary": "perform wavelet analysis for TR error variability",
+          "inputs": [
+            "time series",
+            "frequency band"
+          ],
+          "outputs": [
+            "wavelet analysis results"
+          ],
+          "keywords": [
+            "wavelet analysis",
+            "frequency band",
+            "TR errors"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spectral Analysis of TR Errors",
+      "description": "This method explores the interactions between sampling parameters and signal spectra to understand how the spectral character of paleoclimate processes affects TR errors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Consider climate processes with power-law spectra to investigate how errors depend on the spectrum of r(t).",
+          "searchable_summary": "analyze climate processes with power-law spectra for TR errors",
+          "inputs": [
+            "climate processes",
+            "power-law spectra"
+          ],
+          "outputs": [
+            "error dependency analysis"
+          ],
+          "keywords": [
+            "power-law spectra",
+            "climate processes",
+            "TR errors"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform numerical integration of Eq. (A13) by global adaptive quadrature.",
+          "searchable_summary": "perform numerical integration using global adaptive quadrature",
+          "inputs": [
+            "Eq. (A13)"
+          ],
+          "outputs": [
+            "integrated results"
+          ],
+          "keywords": [
+            "numerical integration",
+            "adaptive quadrature"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/How_large_are_temporal_representativeness_errors_in_paleoclimatology_.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

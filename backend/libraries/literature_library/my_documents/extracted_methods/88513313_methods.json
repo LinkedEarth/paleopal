@@ -1,0 +1,173 @@
+{
+  "paper_title": "Extracting Common Time Trends from Concurrent Time Series: Maximum Autocorrelation Factors with Application to Tree Ring Time Series Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Simulation Study",
+      "description": "This method involves simulating parallel time series data to evaluate the performance of Maximum Autocorrelation Factors (MAF) and Principal Component Analysis (PCA) in extracting common time trends.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We do 100 simulations of p = 3 parallel time series of length n = 150, using the S+N model of Section 2.",
+          "searchable_summary": "simulate 100 parallel time series using S+N model",
+          "inputs": [
+            "p = 3",
+            "n = 150",
+            "S+N model parameters"
+          ],
+          "outputs": [
+            "simulated time series data"
+          ],
+          "keywords": [
+            "simulation",
+            "time series",
+            "S+N model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The time series is a rescaled and interpolated version of the mean annual surface time series for the northern hemisphere for the years 1850-2007.",
+          "searchable_summary": "rescale and interpolate time series data",
+          "inputs": [
+            "mean annual surface time series",
+            "years 1850-2007"
+          ],
+          "outputs": [
+            "rescaled and interpolated time series"
+          ],
+          "keywords": [
+            "rescaling",
+            "interpolation",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Two simulations of the data are shown with their associated smoothed MAF and PCA time series.",
+          "searchable_summary": "analyze simulations with MAF and PCA",
+          "inputs": [
+            "simulated time series data"
+          ],
+          "outputs": [
+            "smoothed MAF and PCA time series"
+          ],
+          "keywords": [
+            "MAF",
+            "PCA",
+            "time series analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tree Ring Data Analysis",
+      "description": "This method applies Maximum Autocorrelation Factors (MAF) to tree ring data to extract common underlying temporal signals.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We look at tree ring data from western United States obtained from Mann et al. [2008].",
+          "searchable_summary": "fetch tree ring data from Mann et al. [2008]",
+          "inputs": [
+            "Mann et al. [2008]"
+          ],
+          "outputs": [
+            "tree ring data"
+          ],
+          "keywords": [
+            "tree ring data",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The data has been pre-processed as described in Mann et al 's Supplemental section.",
+          "searchable_summary": "pre-process tree ring data",
+          "inputs": [
+            "raw tree ring data"
+          ],
+          "outputs": [
+            "pre-processed tree ring data"
+          ],
+          "keywords": [
+            "data preprocessing",
+            "tree ring"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We selected 21 concurrent tree ring time series for the period 1850-1999.",
+          "searchable_summary": "select 21 concurrent tree ring time series",
+          "inputs": [
+            "pre-processed tree ring data"
+          ],
+          "outputs": [
+            "selected time series"
+          ],
+          "keywords": [
+            "time series selection",
+            "tree ring"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The 3 first MAFs and PCs are shown where each time series is annotated by its sample autocorrelation.",
+          "searchable_summary": "compute first 3 MAFs and PCs",
+          "inputs": [
+            "selected time series"
+          ],
+          "outputs": [
+            "MAFs",
+            "PCs"
+          ],
+          "keywords": [
+            "MAF",
+            "PCA",
+            "autocorrelation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Sampling uncertainty estimates of the MAF factors can also be obtained through the block bootstrap.",
+          "searchable_summary": "perform block bootstrap for MAF uncertainty estimation",
+          "inputs": [
+            "MAF factors"
+          ],
+          "outputs": [
+            "uncertainty estimates"
+          ],
+          "keywords": [
+            "block bootstrap",
+            "uncertainty estimation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Hypothesis testing is performed using the MAF SNR estimate as the test statistic.",
+          "searchable_summary": "perform hypothesis testing using MAF SNR",
+          "inputs": [
+            "MAF SNR estimate"
+          ],
+          "outputs": [
+            "hypothesis test results"
+          ],
+          "keywords": [
+            "hypothesis testing",
+            "SNR",
+            "MAF"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/88513313.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

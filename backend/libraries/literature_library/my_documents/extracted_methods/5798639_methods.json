@@ -1,0 +1,784 @@
+{
+  "paper_title": "Global prediction of planktic foraminiferal fluxes from hydrographic and productivity data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Calibration Data Set Compilation and Processing",
+      "description": "Process for compiling and preparing the global dataset used to calibrate the foraminiferal flux model, including gathering existing data, adding new data, calculating mixed-layer depth, normalizing export production, and handling missing values. The dataset consists of planktic foraminiferal fluxes from sediment traps, actual SSTs, and export production data derived from organic carbon fluxes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To calibrate our model we used a global data set compiled by Žarić et al. (2005). This database contains planktic foraminiferal fluxes calculated from various sediment-trap investigations, actual SSTs taken from the IGOSS database (Reynolds and Smith, 1994) (http://iridl.ldeo.columbia.edu/SOURCES/.IGOSS/.nmc/) as well as export production data, which have been derived from organic carbon fluxes measured with the same traps.",
+          "searchable_summary": "Load initial calibration data from existing database (Žarić et al., 2005) including foraminiferal fluxes, SST, and PEX.",
+          "inputs": [
+            "Žarić et al. (2005) database (fluxes, SST, PEX)"
+          ],
+          "outputs": [
+            "Initial calibration dataset"
+          ],
+          "keywords": [
+            "database",
+            "load data",
+            "foraminifera",
+            "SST",
+            "PEX",
+            "sediment trap"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "We extended the database of Žarić et al. (2005) by adding several North Atlantic traps (Jensen, 1998; Peinert et al., 2000; Schröder-Ritzrau et al., 2000; Antia et al., 2001; Schiebel, 2002) complementing SST and PEX data for every sample as described by Žarić et al. (2005).",
+          "searchable_summary": "Incorporate additional sediment trap data from specified North Atlantic studies into the calibration dataset.",
+          "inputs": [
+            "Initial calibration dataset",
+            "Additional North Atlantic sediment trap data (fluxes, SST, PEX)"
+          ],
+          "outputs": [
+            "Extended calibration dataset"
+          ],
+          "keywords": [
+            "sediment trap",
+            "data integration",
+            "merge data",
+            "North Atlantic"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Furthermore we added information on the depths of the mixed layer. These were calculated from monthly temperature and salinity data obtained from the World Ocean Atlas 2001 (WOA 2001; Conkright et al., 2002) (http://www.nodc.noaa.gov/OC5/WOA01/) based on a constant density difference criterion of 0.125 sigma units between ocean surface and base of the mixed layer. In polar regions, where deep mixing occurs, a density difference of 10 −5 sigma units was used. The minimum mixed-layer depth was set to 25 m. The same value was used for sea-ice covered regions.",
+          "searchable_summary": "Obtain monthly temperature and salinity data from World Ocean Atlas 2001 (WOA 2001) for sediment trap locations.",
+          "inputs": [
+            "Sediment trap locations (lat/lon)",
+            "World Ocean Atlas 2001 (WOA 2001) database"
+          ],
+          "outputs": [
+            "Monthly T/S data series for each trap location"
+          ],
+          "keywords": [
+            "WOA 2001",
+            "temperature",
+            "salinity",
+            "ocean atlas",
+            "data access",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "These were calculated from monthly temperature and salinity data obtained from the World Ocean Atlas 2001 (WOA 2001; Conkright et al., 2002) (http://www.nodc.noaa.gov/OC5/WOA01/) based on a constant density difference criterion of 0.125 sigma units between ocean surface and base of the mixed layer. In polar regions, where deep mixing occurs, a density difference of 10 −5 sigma units was used. The minimum mixed-layer depth was set to 25 m. The same value was used for sea-ice covered regions.",
+          "searchable_summary": "Calculate Mixed-Layer Depth (MLD) from WOA 2001 T/S data using specified density difference criteria (0.125 sigma, 10^-5 sigma in polar regions) and a minimum depth of 25m.",
+          "inputs": [
+            "Monthly T/S data series for each trap location"
+          ],
+          "outputs": [
+            "Monthly MLD data series for each trap location"
+          ],
+          "keywords": [
+            "MLD calculation",
+            "mixed layer depth",
+            "density difference",
+            "oceanography",
+            "WOA 2001"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Data from the 1×1 • grid-points closest to each sediment trap position were transformed to weekly values, and mean mixed-layer depths were calculated for every sampling interval.",
+          "searchable_summary": "Transform monthly WOA 2001 grid data (T, S, MLD) to weekly values for sediment trap locations.",
+          "inputs": [
+            "Monthly T/S, MLD data series for each trap location"
+          ],
+          "outputs": [
+            "Weekly T/S, MLD data series for each trap location"
+          ],
+          "keywords": [
+            "time series processing",
+            "interpolation",
+            "weekly data",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Data from the 1×1 • grid-points closest to each sediment trap position were transformed to weekly values, and mean mixed-layer depths were calculated for every sampling interval.",
+          "searchable_summary": "Calculate mean MLD for each sediment trap sampling interval.",
+          "inputs": [
+            "Weekly MLD data series for each trap location",
+            "Sediment trap sampling intervals"
+          ],
+          "outputs": [
+            "Mean MLD values for each sample"
+          ],
+          "keywords": [
+            "time series aggregation",
+            "mean calculation",
+            "sampling interval"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "We applied the same time-lag between trap data and surface hydrography as described by Žarić et al. (2005): Due to life cycles of foraminifera an adjustment of two weeks was used for all sediment-trap data (Sautter and Thunell, 1991).",
+          "searchable_summary": "Apply a 2-week time lag to all sediment trap data (fluxes, SST, PEX, calculated MLD) relative to environmental parameters.",
+          "inputs": [
+            "Sediment trap data (fluxes, SST, PEX, MLD) with original timestamps"
+          ],
+          "outputs": [
+            "Sediment trap data with 2-week lagged timestamps"
+          ],
+          "keywords": [
+            "time series lag",
+            "data alignment",
+            "time shift"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "An additional one-week correction (i.e. 3 weeks in total) was used for traps deeper than 1750 m water depth to account for foraminiferal settling through the water column, which translates into assumed average sinking velocities of 500 m per day (Takahashi and Bé, 1984).",
+          "searchable_summary": "Apply an additional 1-week time lag (total 3 weeks) for sediment traps deeper than 1750m.",
+          "inputs": [
+            "2-week lagged sediment trap data",
+            "Sediment trap depths"
+          ],
+          "outputs": [
+            "Sediment trap data with depth-dependent lags"
+          ],
+          "keywords": [
+            "time series lag",
+            "depth correction",
+            "settling velocity"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "To account for remineralization during descent, the organic carbon fluxes have been normalized to an average trap depth of 1000 m by applying the power function proposed by Martin et al. (1987) with correction after Francois et al. (2002; Eq. 14 therein).",
+          "searchable_summary": "Normalize organic carbon fluxes to 1000m depth using the Martin et al. (1987) power function with Francois et al. (2002) correction to derive PEX.",
+          "inputs": [
+            "Organic carbon flux at trap depth",
+            "Trap depth"
+          ],
+          "outputs": [
+            "PEX at 1000m"
+          ],
+          "keywords": [
+            "export production",
+            "carbon flux",
+            "normalization",
+            "power function",
+            "remineralization",
+            "Martin curve"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Furthermore, where only fluxes of all occurring species were given, we set fluxes of the remaining species to zero (\"void observations\").",
+          "searchable_summary": "For samples where only total foraminiferal flux is given, set fluxes of species not explicitly listed to zero.",
+          "inputs": [
+            "Sediment trap flux data",
+            "List of species in sample"
+          ],
+          "outputs": [
+            "Flux data with imputed zeros for unlisted species"
+          ],
+          "keywords": [
+            "data imputation",
+            "zero filling",
+            "flux data",
+            "void observations"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "If no information was available on the organic carbon flux or if the total foraminiferal flux was zero, the sample was excluded from further investigation.",
+          "searchable_summary": "Exclude samples from the dataset if no information on organic carbon flux is available or if the total foraminiferal flux is zero.",
+          "inputs": [
+            "Processed calibration dataset"
+          ],
+          "outputs": [
+            "Final filtered calibration dataset (1327 samples)"
+          ],
+          "keywords": [
+            "data filtering",
+            "data cleaning",
+            "quality control",
+            "exclusion criteria",
+            "missing data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Foraminiferal Flux Model Development using ACE and Regression",
+      "description": "Development of an empirical model predicting foraminiferal species fluxes based on environmental parameters (SST, MLD, PEX) using the Alternating Conditional Expectation (ACE) algorithm for variable transformation and multiple linear regression. The model comprises look-up tables for transformations and species-dependent regression coefficients.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Foraminiferal flux data of the following 18 species were examined in our study: Globigerina bulloides, Globigerinella calida, G. siphonifera, Globigerinita glutinata, Globigerinoides ruber (white and pink varieties), G. sacculifer, Globorotalia inflata, G. menardii, G. scitula, G. truncatulinoides, Globoturborotalita rubescens, Neogloboquadrina dutertrei, N. pachyderma (sinistral and dextral coiling varieties), Orbulina universa, Pulleniatina obliquiloculata and Turborotalita quinqueloba. Each of these species was present in at least 15% of the samples.",
+          "searchable_summary": "Select the 18 specified foraminiferal species for model development.",
+          "inputs": [
+            "List of potential foraminiferal species"
+          ],
+          "outputs": [
+            "List of 18 selected species"
+          ],
+          "keywords": [
+            "species selection",
+            "taxonomy",
+            "foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For every analysis only those samples from the compilation were included, where all variables were available. Hence, the number of samples varied for every single species under consideration.",
+          "searchable_summary": "For each selected species, create a subset of the calibration data including only samples where all variables (species flux, SST, MLD, PEX) are available.",
+          "inputs": [
+            "Final filtered calibration dataset",
+            "List of selected species"
+          ],
+          "outputs": [
+            "Species-specific calibration subsets"
+          ],
+          "keywords": [
+            "data subsetting",
+            "missing data handling",
+            "complete cases",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "As there is no linear relationship between most foraminiferal fluxes and environmental parameters, we applied the ACE algorithm prior to regression to estimate optimal transformations for multiple regression and correlation (Breiman and Friedman, 1985). The algorithm transforms each variable such, that multiple linear regression of the transformed variables (denoted by an asterisk) yields the highest coefficients of determination (r 2 ). ... The inverse transformation necessitates that the transformation of species fluxes with the ACE algorithm is forced to behave strongly monotonic, so that each transformed flux corresponds to a single untransformed value.",
+          "searchable_summary": "Apply the ACE algorithm to each species-specific subset to estimate optimal transformations for SST, MLD, PEX (predictors) and the respective species flux (dependent variable), forcing the species flux transformation to be strongly monotonic.",
+          "inputs": [
+            "Species-specific calibration subsets"
+          ],
+          "outputs": [
+            "Optimal transformation functions/mappings for each variable (SST*, MLD*, PEX*, FLX*i)"
+          ],
+          "keywords": [
+            "ACE algorithm",
+            "Alternating Conditional Expectation",
+            "variable transformation",
+            "non-linear transformation",
+            "monotonic constraint",
+            "regression preparation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Look-up tables were derived from the ACE output to be used for variable transformations within the model (SST→SST * , MLD→MLD * , PEX→PEX * ) and regression parameters were estimated (see Fig. 1a).",
+          "searchable_summary": "Derive look-up tables from ACE output for transforming SST, MLD, and PEX to their optimally transformed values (SST*, MLD*, PEX*).",
+          "inputs": [
+            "ACE transformation functions for SST, MLD, PEX"
+          ],
+          "outputs": [
+            "Look-up tables (54 total: 3 variables * 18 species) for environmental transformation"
+          ],
+          "keywords": [
+            "look-up table",
+            "interpolation",
+            "data mapping",
+            "transformation table",
+            "ACE algorithm"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "For the statistical analysis being the basis of the model calibration we treated SST, MLD and PEX as predictor variables and the flux of the respective foraminiferal species (FLX) as the dependent variable: FLX * i = a 1i SST * + a 2i MLD * + a 3i PEX * + c i Here SST * , MLD * and PEX * are transformed values of seasurface temperature, mixed-layer depth, and export production in 1000 m water depth, respectively. FLX * i is the transformed flux of species i (i=1, . . ., 18), a 1i to a 3i are speciesdependent regression coefficients and c i a regression constant. ... regression parameters were estimated (see Fig. 1a).",
+          "searchable_summary": "Perform multiple linear regression for each species using the optimally transformed variables (SST*, MLD*, PEX*, FLX*i) to estimate regression coefficients and constant.",
+          "inputs": [
+            "Transformed species-specific calibration subsets (SST*, MLD*, PEX*, FLX*i)"
+          ],
+          "outputs": [
+            "Regression coefficients (a1i, a2i, a3i) and constant (ci) for each species"
+          ],
+          "keywords": [
+            "multiple linear regression",
+            "regression coefficients",
+            "statistical modeling",
+            "transformed variables",
+            "model calibration"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The calculated transformed species flux from Eq. ( 1) is back-transformed (FLX * →FLX) to obtain a flux in units of [ind.m −2 d −1 ]. The inverse transformation necessitates that the transformation of species fluxes with the ACE algorithm is forced to behave strongly monotonic, so that each transformed flux corresponds to a single untransformed value.",
+          "searchable_summary": "Derive look-up tables from the ACE output for back-transforming the calculated transformed species fluxes (FLX*i) to original flux units (FLXi), utilizing the strongly monotonic constraint.",
+          "inputs": [
+            "ACE transformation functions for species fluxes (FLX*i)"
+          ],
+          "outputs": [
+            "Look-up tables (18 total: 1 per species) for back-transformation"
+          ],
+          "keywords": [
+            "look-up table",
+            "inverse transformation",
+            "back-transformation",
+            "interpolation",
+            "ACE algorithm",
+            "flux units"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "According to the SST ranges of the individual species, which were derived as outlined in Žarić et al. (2005), cutoffs were defined to assure that species are not calculated out of their present-day SST range (Appendix A, Table A1).",
+          "searchable_summary": "Define SST range cutoffs for each species based on external data (Žarić et al., 2005, Appendix A, Table A1).",
+          "inputs": [
+            "External data source (Žarić et al., 2005, Table A1)"
+          ],
+          "outputs": [
+            "SST range cutoffs for each species"
+          ],
+          "keywords": [
+            "environmental limits",
+            "species distribution",
+            "SST range",
+            "cutoff",
+            "data lookup"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Global Foraminiferal Flux Prediction",
+      "description": "Application of the developed empirical model to a global gridded dataset of environmental parameters (SST, MLD, PEX) to predict monthly and annual foraminiferal species fluxes, total flux, richness, and diversity. This involves obtaining global environmental data, calculating PEX from primary production, forcing the model, transforming and back-transforming variables, applying cutoffs, aggregating results, and calculating biodiversity metrics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "For a global model run the foraminiferal flux model was forced with a global monthly data set of SST, MLD and PEX (1×1 • grid). SST data were obtained from the World Ocean Atlas 2001 (Conkright et al., 2002), the MLD was calculated as described above.",
+          "searchable_summary": "Obtain global monthly SST data on a 1x1 degree grid (e.g., World Ocean Atlas 2001).",
+          "inputs": [
+            "Global SST data source (e.g., WOA 2001)"
+          ],
+          "outputs": [
+            "Global monthly SST grid (1x1 degree)"
+          ],
+          "keywords": [
+            "global data",
+            "gridded data",
+            "SST",
+            "WOA 2001",
+            "data access"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For a global model run the foraminiferal flux model was forced with a global monthly data set of SST, MLD and PEX (1×1 • grid). ... the MLD was calculated as described above.",
+          "searchable_summary": "Calculate global monthly MLD data on a 1x1 degree grid using WOA 2001 T/S data and the specified density difference criteria (0.125 sigma, 10^-5 sigma in polar regions) and a minimum depth of 25m.",
+          "inputs": [
+            "Global monthly WOA 2001 T/S grids (1x1 degree)"
+          ],
+          "outputs": [
+            "Global monthly MLD grid (1x1 degree)"
+          ],
+          "keywords": [
+            "global data",
+            "gridded data",
+            "MLD calculation",
+            "mixed layer depth",
+            "WOA 2001",
+            "density difference"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "PEX was calculated from satellite-derived primary production data obtained from the Goddard Earth Sciences Data and Information Services Center Distributed Active Archive Center. We used Moderate Resolution Imaging Spectroradiometer (MODIS) data available as 8-day composites (http://daac.gsfc.nasa.gov/MODIS/Terra/ocean/MOAPW1.shtml)...",
+          "searchable_summary": "Obtain global 8-day composite satellite primary production data (e.g., MODIS).",
+          "inputs": [
+            "Global primary production data source (e.g., MODIS DAAC)"
+          ],
+          "outputs": [
+            "Global 8-day composite primary production grids"
+          ],
+          "keywords": [
+            "satellite data",
+            "primary production",
+            "MODIS",
+            "data access",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...and calculated monthly means for the time interval December 2002 to November 2003.",
+          "searchable_summary": "Calculate global monthly mean primary production from 8-day composites.",
+          "inputs": [
+            "Global 8-day composite primary production grids"
+          ],
+          "outputs": [
+            "Global monthly primary production grid"
+          ],
+          "keywords": [
+            "time series aggregation",
+            "monthly mean",
+            "satellite data processing",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "To estimate export production in 1000 m water depth (PEX) the following equation was applied (Antia et al., 2001): F Corg(z) = PP * (z/100) ^ -0.858 where F Corg is the organic carbon flux (g C m −2 yr −1 ) at depth z (m) and PP is primary production (g C m −2 yr −1 ). Using Eq. ( 2) should be considered as a first approximation, since the equation is based on annually averaged fluxes, but export ratios vary on shorter timescales due to seasonally changing productivity patterns (Antia, personal communication).",
+          "searchable_summary": "Calculate global monthly PEX at 1000m depth from monthly primary production using the specified power function equation (Antia et al., 2001).",
+          "inputs": [
+            "Global monthly primary production grid"
+          ],
+          "outputs": [
+            "Global monthly PEX grid (1x1 degree)"
+          ],
+          "keywords": [
+            "export production",
+            "carbon flux",
+            "primary production",
+            "empirical equation",
+            "global grid",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "For a global model run the foraminiferal flux model was forced with a global monthly data set of SST, MLD and PEX (1×1 • grid).",
+          "searchable_summary": "For each grid cell and month, force the foraminiferal flux model with the corresponding SST, MLD, and PEX values.",
+          "inputs": [
+            "Global monthly SST, MLD, PEX grids",
+            "Developed model (environmental transformation look-up tables, regression coefficients)"
+          ],
+          "outputs": [
+            "Intermediate model inputs per grid cell/month"
+          ],
+          "keywords": [
+            "model application",
+            "forcing data",
+            "global simulation",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The empirical model is based on a multiple linear regression approach. ... FLX * i = a 1i SST * + a 2i MLD * + a 3i PEX * + c i ... Look-up tables were derived from the ACE output to be used for variable transformations within the model (SST→SST * , MLD→MLD * , PEX→PEX * )...",
+          "searchable_summary": "For each species, grid cell, and month, calculate the transformed species flux (FLX*i) using the regression equation and transformed environmental inputs obtained via species-specific look-up tables.",
+          "inputs": [
+            "Monthly SST, MLD, PEX values for a grid cell",
+            "Species-specific environmental transformation look-up tables",
+            "Species-specific regression coefficients"
+          ],
+          "outputs": [
+            "Transformed species flux (FLX*i) for each species, grid cell, month"
+          ],
+          "keywords": [
+            "model prediction",
+            "transformed variables",
+            "regression equation",
+            "look-up table interpolation",
+            "ACE algorithm"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The calculated transformed species flux from Eq. ( 1) is back-transformed (FLX * →FLX) to obtain a flux in units of [ind.m −2 d −1 ]. ... Furthermore, it contains 18 look-up tables that permit back-transformation into single foraminiferal species fluxes.",
+          "searchable_summary": "Back-transform the calculated transformed species fluxes (FLX*i) to original flux units (FLXi) using the species-specific back-transformation look-up tables.",
+          "inputs": [
+            "Transformed species flux (FLX*i)",
+            "Species-specific back-transformation look-up table"
+          ],
+          "outputs": [
+            "Species flux (FLXi) in ind.m^-2 d^-1 for each species, grid cell, month"
+          ],
+          "keywords": [
+            "back-transformation",
+            "inverse transformation",
+            "look-up table interpolation",
+            "flux units",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "According to the SST ranges of the individual species, which were derived as outlined in Žarić et al. (2005), cutoffs were defined to assure that species are not calculated out of their present-day SST range (Appendix A, Table A1).",
+          "searchable_summary": "Apply SST range cutoffs: if the input SST for a grid cell/month is outside a species' defined range, set the calculated flux for that species to zero.",
+          "inputs": [
+            "Global monthly SST grid",
+            "Species-specific SST range cutoffs",
+            "Calculated monthly species fluxes"
+          ],
+          "outputs": [
+            "Monthly species fluxes with range cutoffs applied"
+          ],
+          "keywords": [
+            "environmental filtering",
+            "range limits",
+            "data masking",
+            "quality control",
+            "SST range"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "This implies that months with missing flux calculations due to missing PEX data do not yield any foraminiferal fluxes.",
+          "searchable_summary": "Handle months with missing PEX data: these months yield no foraminiferal fluxes.",
+          "inputs": [
+            "Global monthly PEX grid",
+            "Calculated monthly species fluxes"
+          ],
+          "outputs": [
+            "Monthly species fluxes with missing data handled"
+          ],
+          "keywords": [
+            "missing data",
+            "data masking",
+            "PEX data",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "...these are additionally converted to percentages of the modeled foraminiferal assemblage.",
+          "searchable_summary": "Calculate monthly percentages of the modeled foraminiferal assemblage for each species.",
+          "inputs": [
+            "Monthly species fluxes for all species in a grid cell"
+          ],
+          "outputs": [
+            "Monthly species percentages for each species, grid cell, month"
+          ],
+          "keywords": [
+            "relative abundance",
+            "species percentage",
+            "assemblage composition",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_processing",
+          "description": "Calculated monthly fluxes for the 18 foraminiferal species considered (see Fig. 1b) were annually averaged and also converted into relative abundances to allow for a comparison of the model results with coretop foraminiferal fauna data.",
+          "searchable_summary": "Annually average the calculated monthly species fluxes and percentages.",
+          "inputs": [
+            "Global monthly species fluxes and percentages"
+          ],
+          "outputs": [
+            "Global annual species fluxes and percentages grids"
+          ],
+          "keywords": [
+            "annual average",
+            "time series aggregation",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_processing",
+          "description": "Species fluxes were summed to assess total foraminiferal fluxes (note that \"total\" here means only the sum of the species included in the model).",
+          "searchable_summary": "Sum the annual species fluxes (of the 18 included species) to assess total foraminiferal flux.",
+          "inputs": [
+            "Global annual species fluxes grid"
+          ],
+          "outputs": [
+            "Global annual total foraminiferal flux grid"
+          ],
+          "keywords": [
+            "total flux",
+            "summation",
+            "assemblage flux",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_analysis",
+          "description": "For the global model output we determined species richness as the number of species present.",
+          "searchable_summary": "Determine species richness as the number of species present (non-zero flux) in each grid cell for the annual output.",
+          "inputs": [
+            "Global annual species fluxes grid"
+          ],
+          "outputs": [
+            "Global annual species richness grid"
+          ],
+          "keywords": [
+            "species richness",
+            "biodiversity metric",
+            "presence/absence",
+            "data analysis",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_analysis",
+          "description": "In addition, species diversity (H ), which takes into account the relative abundance p i of each species, was also determined after Shannon and Weaver (1949): H = − P i p i ln p i For a better comparison between the ocean basins, we combined the pink and white varieties of G. ruber when calculating species richness and diversity, since G. ruber (pink) occurs only in the Atlantic Ocean.",
+          "searchable_summary": "Calculate species diversity (Shannon index H) for the annual output using the formula H = -sum(p_i * ln(p_i)), where p_i is the relative abundance (percentage) of species i. Combine G. ruber (pink) and (white) for this calculation.",
+          "inputs": [
+            "Global annual species percentages grids"
+          ],
+          "outputs": [
+            "Global annual species diversity grid"
+          ],
+          "keywords": [
+            "species diversity",
+            "Shannon index",
+            "biodiversity metric",
+            "relative abundance",
+            "data analysis",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 16,
+          "category": "visualization",
+          "description": "Maps illustrating our results were generated using the software Ocean Data View (Schlitzer, 2002a).",
+          "searchable_summary": "Generate maps illustrating the results (e.g., total flux, richness, diversity, individual species abundances) using visualization software.",
+          "inputs": [
+            "Global annual grids (fluxes, percentages, richness, diversity)"
+          ],
+          "outputs": [
+            "Maps (image files, plots)"
+          ],
+          "keywords": [
+            "mapping",
+            "visualization",
+            "geographical plot",
+            "Ocean Data View",
+            "data visualization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Output Comparison with Coretop Data",
+      "description": "Comparison of the global model's annual output (total flux, richness, diversity, individual species abundances) with observed foraminiferal assemblages from surface sediments (coretops) to evaluate model performance and validate predictions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The modeled annual total foraminiferal flux is shown in Fig. 2. Low fluxes were calculated across the tropics and in polar regions. A wide band of high foraminiferal fluxes can be seen in the northern hemisphere (>30 • N), a comparably narrow band of highest fluxes in the Southern Ocean (predominantly between 30-45 • S). Increased planktic foraminiferal fluxes were also predicted within the major Eastern Boundary Currents. Figure 3 illustrates species richness calculated from the global model output as compared to the richness monitored in surface sediments. ... Furthermore, the distribution pattern of species diversities H calculated for the model output after Shannon and Weaver (1949) resembles coretop diversity patterns (Fig. 4). ... The comparison of modeled annual relative abundances of individual species with their abundances in surface sediments revealed that the global abundance patterns of some species match favorably well with their seafloor record while others are not properly reproduced. For example, Figs. 5-8 show modeled and coretop relative abundances of the four species N. pachyderma (sin.), N. pachyderma (dex.), G. bulloides and G. siphonifera, respectively...",
+          "searchable_summary": "Obtain coretop foraminiferal fauna data, including species abundances, richness, and diversity.",
+          "inputs": [
+            "Coretop data source (surface sediment foraminiferal assemblages)"
+          ],
+          "outputs": [
+            "Coretop dataset (species abundances, richness, diversity)"
+          ],
+          "keywords": [
+            "coretop data",
+            "sediment data",
+            "foraminifera",
+            "data access",
+            "paleoceanography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The modeled annual total foraminiferal flux is shown in Fig. 2. ...",
+          "searchable_summary": "Compare the spatial patterns of modeled annual total foraminiferal flux with coretop data.",
+          "inputs": [
+            "Global annual total foraminiferal flux grid (from Global Foraminiferal Flux Prediction)",
+            "Coretop total flux data"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, statistics, qualitative assessment)"
+          ],
+          "keywords": [
+            "model validation",
+            "spatial comparison",
+            "total flux",
+            "coretop data",
+            "pattern comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Figure 3 illustrates species richness calculated from the global model output as compared to the richness monitored in surface sediments.",
+          "searchable_summary": "Compare the spatial patterns of modeled annual species richness with coretop data.",
+          "inputs": [
+            "Global annual species richness grid (from Global Foraminiferal Flux Prediction)",
+            "Coretop species richness data"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, statistics, qualitative assessment)"
+          ],
+          "keywords": [
+            "model validation",
+            "spatial comparison",
+            "species richness",
+            "coretop data",
+            "pattern comparison",
+            "biodiversity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Furthermore, the distribution pattern of species diversities H calculated for the model output after Shannon and Weaver (1949) resembles coretop diversity patterns (Fig. 4).",
+          "searchable_summary": "Compare the spatial patterns of modeled annual species diversity (Shannon index) with coretop data.",
+          "inputs": [
+            "Global annual species diversity grid (from Global Foraminiferal Flux Prediction)",
+            "Coretop species diversity data"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, statistics, qualitative assessment)"
+          ],
+          "keywords": [
+            "model validation",
+            "spatial comparison",
+            "species diversity",
+            "Shannon index",
+            "coretop data",
+            "pattern comparison",
+            "biodiversity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The comparison of modeled annual relative abundances of individual species with their abundances in surface sediments revealed that the global abundance patterns of some species match favorably well with their seafloor record while others are not properly reproduced. For example, Figs. 5-8 show modeled and coretop relative abundances of the four species N. pachyderma (sin.), N. pachyderma (dex.), G. bulloides and G. siphonifera, respectively, which were among the species better predicted in the model.",
+          "searchable_summary": "Compare the spatial patterns of modeled annual relative abundances for individual species with their abundances in surface sediments (coretops).",
+          "inputs": [
+            "Global annual species percentages grids (from Global Foraminiferal Flux Prediction)",
+            "Coretop species abundance data"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, statistics, qualitative assessment)"
+          ],
+          "keywords": [
+            "model validation",
+            "spatial comparison",
+            "species abundance",
+            "relative abundance",
+            "coretop data",
+            "pattern comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/5798639.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

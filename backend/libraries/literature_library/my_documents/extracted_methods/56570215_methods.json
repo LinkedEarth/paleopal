@@ -1,0 +1,191 @@
+{
+  "paper_title": "Palaeogeographical Reconstructions Using GIS Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Digital Terrain Model (DTM) Creation",
+      "description": "Process for creating a Digital Terrain Model (DTM) using Soviet topographic maps and correcting it for changes due to human activities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The DTM was created, using 1 : 10 000 and 1 : 25 000 Soviet topographic maps.",
+          "searchable_summary": "create DTM from Soviet topographic maps",
+          "inputs": [
+            "1:10,000 Soviet topographic maps",
+            "1:25,000 Soviet topographic maps"
+          ],
+          "outputs": [
+            "Initial DTM"
+          ],
+          "keywords": [
+            "DTM",
+            "topographic maps",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The thickness of the cultural layer was removed, according to maps compiled by Zobel (2008).",
+          "searchable_summary": "remove cultural layer thickness from DTM",
+          "inputs": [
+            "Initial DTM",
+            "Zobel (2008) maps"
+          ],
+          "outputs": [
+            "Corrected DTM"
+          ],
+          "keywords": [
+            "cultural layer",
+            "DTM correction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To correct the DTM elevation and coastline, the Russian maps from the end of the 19th century were also used.",
+          "searchable_summary": "correct DTM elevation and coastline using 19th-century Russian maps",
+          "inputs": [
+            "Corrected DTM",
+            "19th-century Russian maps"
+          ],
+          "outputs": [
+            "Final DTM"
+          ],
+          "keywords": [
+            "elevation correction",
+            "coastline correction",
+            "historical maps"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Interpolated Water Level Surface Derivation",
+      "description": "Derivation of interpolated water level surfaces using point kriging approach from coastal formation databases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The interpolated water level surfaces were derived from the BIL, Ancylus Lake and Litorina Sea coastal formation databases.",
+          "searchable_summary": "fetch water level data from coastal formation databases",
+          "inputs": [
+            "BIL database",
+            "Ancylus Lake database",
+            "Litorina Sea database"
+          ],
+          "outputs": [
+            "Water level data"
+          ],
+          "keywords": [
+            "water level",
+            "coastal formation",
+            "databases"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Using a point kriging approach, interpolated surfaces were created.",
+          "searchable_summary": "perform point kriging to interpolate water level surfaces",
+          "inputs": [
+            "Water level data"
+          ],
+          "outputs": [
+            "Interpolated water level surfaces"
+          ],
+          "keywords": [
+            "kriging",
+            "interpolation",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Residuals, i.e., the difference of the actual site elevation from the interpolated surface, were calculated to find out the erroneous data and omit sites with residuals more than 1 m.",
+          "searchable_summary": "calculate residuals and filter out erroneous data",
+          "inputs": [
+            "Interpolated water level surfaces",
+            "Actual site elevations"
+          ],
+          "outputs": [
+            "Filtered water level surfaces"
+          ],
+          "keywords": [
+            "residuals",
+            "error filtering",
+            "data cleaning"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Palaeoreconstruction Modelling",
+      "description": "Modelling palaeoreconstructions for different time slices based on water level fluctuation curves and assumptions about land uplift.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Palaeoreconstructions for 4400, 3000, 2000 and 1000 cal yr BP were based on the water level fluctuation curve compiled for the Tallinn area.",
+          "searchable_summary": "model palaeoreconstructions using water level fluctuation curve",
+          "inputs": [
+            "Water level fluctuation curve"
+          ],
+          "outputs": [
+            "Palaeoreconstruction models"
+          ],
+          "keywords": [
+            "palaeoreconstruction",
+            "water level",
+            "modelling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Assuming that land uplift decreased linearly after the Litorina Sea transgression.",
+          "searchable_summary": "apply linear land uplift assumption to models",
+          "inputs": [
+            "Palaeoreconstruction models"
+          ],
+          "outputs": [
+            "Adjusted palaeoreconstruction models"
+          ],
+          "keywords": [
+            "land uplift",
+            "linear assumption",
+            "postglacial"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Dating Calibration",
+      "description": "Calibration of radiocarbon dates used to estimate the age of different stages of the Baltic Sea.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The radiocarbon dates were calibrated according to the calibration data set from Reimer et al. (2004) and CALIB5.0.1 software.",
+          "searchable_summary": "calibrate radiocarbon dates using CALIB5.0.1",
+          "inputs": [
+            "Radiocarbon dates",
+            "Reimer et al. (2004) calibration data set"
+          ],
+          "outputs": [
+            "Calibrated radiocarbon dates"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "calibration",
+            "CALIB5.0.1"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56570215.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

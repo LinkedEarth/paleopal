@@ -1,0 +1,238 @@
+{
+  "paper_title": "Gazelle Body Size Variation Analysis in the Southern Levant",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Gazelle Body Size Data Collection and Preparation",
+      "description": "Process of collecting and compiling gazelle body size measurements from archaeological sites and modern skeletal collections, including criteria for element selection and measurement for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The body size data investigated here derive from 13 assemblages from 10 archaeological sites located in the Mediterranean zone and coastal plain of northern Israel (Fig 1).",
+          "searchable_summary": "Identify archaeological sites and assemblages for data collection.",
+          "inputs": [
+            "list of archaeological sites",
+            "list of assemblages",
+            "geographical location (northern Israel)"
+          ],
+          "outputs": [
+            "identified archaeological sites and assemblages"
+          ],
+          "keywords": [
+            "archaeology",
+            "data collection",
+            "site identification",
+            "assemblage"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Our study of gazelle body size variation began with the collection of 2D measurements of gazelle elements from the modern skeletal collections curated in the National Collections of Israel curated by Rivka Rabinovich at the Hebrew University of Jerusalem [21,48].",
+          "searchable_summary": "Collect 2D measurements from gazelle elements in modern skeletal collections.",
+          "inputs": [
+            "modern gazelle skeletal collections"
+          ],
+          "outputs": [
+            "2D measurements from modern gazelle elements"
+          ],
+          "keywords": [
+            "modern collections",
+            "skeletal measurements",
+            "2D measurements",
+            "data collection",
+            "zooarchaeology"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The analysis of these measurements was used to determine which elements were best suited to distinguishing the sex of gazelles [48]. Ultimately, we selected 22 measurements from 11 elements for targeted data collection from archaeological assemblages.",
+          "searchable_summary": "Analyze modern collection measurements to select elements and measurements for archaeological data collection.",
+          "inputs": [
+            "2D measurements from modern gazelle elements"
+          ],
+          "outputs": [
+            "selected elements and measurements for archaeological study (22 measurements from 11 elements)"
+          ],
+          "keywords": [
+            "measurement analysis",
+            "element selection",
+            "sex determination",
+            "archaeological data preparation",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "We collected these measurements both by compiling data that had previously been collected by collaborating researchers (Nahal Hadera V, Hefzibah, Neve David, el-Wad Terrace, Hayonim Cave, Hilazon Tachtit and Hayonim Terrace), or through the targeted study of the selected elements from additional sites (Motza, Yiftah'el, Hatoula) to fill out a Late Epipaleolithic and Pre-Pottery Neolithic sequence in the Mediterranean zone of the southern Levant.",
+          "searchable_summary": "Compile existing gazelle body size data and collect new data from selected archaeological sites and periods.",
+          "inputs": [
+            "list of archaeological sites",
+            "selected elements and measurements",
+            "previously collected data",
+            "archaeological assemblages"
+          ],
+          "outputs": [
+            "compiled and newly collected gazelle body size measurements from archaeological sites"
+          ],
+          "keywords": [
+            "data compilation",
+            "data collection",
+            "archaeological data",
+            "gazelle measurements",
+            "zooarchaeology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The measurements were taken only from those elements that were fully fused (no line of fusion was visible) or ossified (in elements that grow through ossification such as the astragalus).",
+          "searchable_summary": "Filter collected measurements to include only those from fully fused or ossified elements.",
+          "inputs": [
+            "compiled and newly collected gazelle body size measurements"
+          ],
+          "outputs": [
+            "filtered gazelle body size measurements (from fused/ossified elements)"
+          ],
+          "keywords": [
+            "data filtering",
+            "bone fusion",
+            "ossification",
+            "data quality control",
+            "zooarchaeology"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "Because the live weight of the specimens in the modern collection are not known, we were unable to determine which elements and measurements provided the best proxies for body size. Instead, from this database, we chose the elements (following [51]) with the largest number of datapoints for more intensive study (Fig 2): (1) distal depth of the tibia (Dd), (2) distal breadth (Bd) of the calcaneum, and (3) greatest length of the second phalanx (GLpe) ( Table 1; Individual measurements in S1 Appendix).",
+          "searchable_summary": "Select specific elements and measurements (distal tibia Dd, calcaneum Bd, second phalanx GLpe) for intensive study based on data availability.",
+          "inputs": [
+            "filtered gazelle body size measurements",
+            "list of potential elements/measurements"
+          ],
+          "outputs": [
+            "selected elements and measurements for intensive study (Dd, Bd, GLpe)"
+          ],
+          "keywords": [
+            "data selection",
+            "element selection",
+            "measurement selection",
+            "data availability",
+            "zooarchaeology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Gazelle Body Size Variation",
+      "description": "Statistical procedures used to compare gazelle body size measurements across different time periods, including visualization and hypothesis testing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "We constructed notched boxplots to compare the median distribution of measurement size among time periods. In notched boxplots, the line in the middle of the box represents the median, while the portions above and below the line (the hinges) represent the lower and upper quartiles (25 th to 75 th percentiles). The notches represent the 95% confidence interval of the median, so non-overlapping notches indicate that the medians are statistically different at the 95% confidence interval level.",
+          "searchable_summary": "Construct notched boxplots to visualize and compare median measurement size distribution across time periods.",
+          "inputs": [
+            "selected gazelle body size measurements",
+            "time period labels"
+          ],
+          "outputs": [
+            "notched boxplots"
+          ],
+          "keywords": [
+            "boxplots",
+            "notched boxplots",
+            "visualization",
+            "median comparison",
+            "statistical graphics",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We performed an ANOVA to confirm that there was a statistical difference in the group means overall.",
+          "searchable_summary": "Perform one-way ANOVA to test for overall statistical difference in means across time periods.",
+          "inputs": [
+            "selected gazelle body size measurements",
+            "time period labels"
+          ],
+          "outputs": [
+            "ANOVA test results (p-value, F-statistic)"
+          ],
+          "keywords": [
+            "ANOVA",
+            "analysis of variance",
+            "statistical test",
+            "group comparison",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We then ran a pairwise t-test as a post-hoc test using Holm's method of correction to assess which specific time periods were statistically different from one another.",
+          "searchable_summary": "Perform pairwise t-tests with Holm's correction as a post-hoc analysis to identify specific time periods with statistically different means.",
+          "inputs": [
+            "selected gazelle body size measurements",
+            "time period labels",
+            "ANOVA results"
+          ],
+          "outputs": [
+            "pairwise t-test results (p-values, adjusted p-values)"
+          ],
+          "keywords": [
+            "pairwise t-test",
+            "post-hoc test",
+            "Holm's correction",
+            "multiple comparisons",
+            "statistical test",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "We checked the skewness of each time period using the skewness and kurtosis functions (type 1) from the library e1071 in R.",
+          "searchable_summary": "Calculate skewness and kurtosis for each time period's measurements.",
+          "inputs": [
+            "selected gazelle body size measurements",
+            "time period labels"
+          ],
+          "outputs": [
+            "skewness values per time period",
+            "kurtosis values per time period"
+          ],
+          "keywords": [
+            "skewness",
+            "kurtosis",
+            "descriptive statistics",
+            "data distribution",
+            "e1071 R package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "All analyses were conducted in the R environment [52] and all data and code are available as S2 and S3 Appendices.",
+          "searchable_summary": "Specify the software environment used for analysis and data/code availability.",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "R programming language",
+            "statistical software",
+            "data availability",
+            "code availability"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251952202.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

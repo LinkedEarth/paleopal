@@ -1,0 +1,157 @@
+{
+  "paper_title": "Species Distribution and Environmental Influence Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Principal Component Analysis (PCA) for Environmental Influence",
+      "description": "This method uses Principal Component Analysis (PCA) to examine the variance and correlation across 19 environmental measurements to understand the distribution of B. morio and B. pauloensis species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect environmental measurements from WorldClim for the sampled range of B. morio and B. pauloensis.",
+          "searchable_summary": "fetch environmental data from WorldClim",
+          "inputs": [
+            "species range data",
+            "WorldClim API"
+          ],
+          "outputs": [
+            "environmental measurements"
+          ],
+          "keywords": [
+            "WorldClim",
+            "environmental data",
+            "species range"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform PCA to examine variance and correlation across the environmental measurements.",
+          "searchable_summary": "conduct PCA on environmental data",
+          "inputs": [
+            "environmental measurements"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "variance",
+            "correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Plot environmental conditions at a single point per grid cell per mitochondrial lineage for each species.",
+          "searchable_summary": "plot PCA results for species",
+          "inputs": [
+            "PCA results",
+            "species data"
+          ],
+          "outputs": [
+            "PCA plots"
+          ],
+          "keywords": [
+            "plotting",
+            "visualization",
+            "species distribution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Altitude Influence Verification",
+      "description": "This method verifies the influence of altitude on the distribution of B. morio and B. pauloensis by extracting altitude values for sampling localities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extract altitude values for sampling localities using GTOPO 30 digital elevation model.",
+          "searchable_summary": "extract altitude data from GTOPO 30",
+          "inputs": [
+            "sampling localities",
+            "GTOPO 30"
+          ],
+          "outputs": [
+            "altitude values"
+          ],
+          "keywords": [
+            "altitude",
+            "GTOPO 30",
+            "elevation model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mapping with R",
+      "description": "This method involves creating maps using R to visualize the distribution of species and environmental data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Create maps using R with Raster and Maptools packages.",
+          "searchable_summary": "generate maps in R using Raster and Maptools",
+          "inputs": [
+            "species distribution data",
+            "environmental data"
+          ],
+          "outputs": [
+            "maps"
+          ],
+          "keywords": [
+            "R",
+            "mapping",
+            "Raster",
+            "Maptools"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and DNA Extraction",
+      "description": "This method describes the collection of bee specimens and the extraction of DNA using the Chelex® 100 method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect 183 individuals of B. morio and 221 B. pauloensis during field trips and from museum collections.",
+          "searchable_summary": "collect bee specimens from field and museums",
+          "inputs": [
+            "field trip data",
+            "museum collections"
+          ],
+          "outputs": [
+            "bee specimens"
+          ],
+          "keywords": [
+            "specimen collection",
+            "field trips",
+            "museum"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Perform DNA extraction using the Chelex® 100 method.",
+          "searchable_summary": "extract DNA using Chelex® 100",
+          "inputs": [
+            "bee specimens"
+          ],
+          "outputs": [
+            "DNA samples"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "Chelex® 100",
+            "genetic analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/18809024.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

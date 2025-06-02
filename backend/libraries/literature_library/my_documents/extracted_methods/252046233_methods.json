@@ -1,0 +1,118 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Compositional Variability Analysis",
+      "description": "This method explores the effect of seasonal temperatures on the compositional variability of snail data using principal coordinates analysis (PCoA) and canonical correspondence analysis (CCA).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "PCoA based on Bray-Curtis dissimilarity distances was conducted to explore the entire compositional variation among the samples.",
+          "searchable_summary": "perform PCoA using Bray-Curtis dissimilarity to analyze compositional variation",
+          "inputs": [
+            "snail data",
+            "Bray-Curtis dissimilarity"
+          ],
+          "outputs": [
+            "PCoA results"
+          ],
+          "keywords": [
+            "PCoA",
+            "Bray-Curtis",
+            "compositional variation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Target environmental variables were correlated to the ordination space to determine their association with the main compositional turnover.",
+          "searchable_summary": "correlate environmental variables with ordination space",
+          "inputs": [
+            "PCoA results",
+            "environmental variables"
+          ],
+          "outputs": [
+            "correlation results"
+          ],
+          "keywords": [
+            "correlation",
+            "ordination space",
+            "environmental variables"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Detrended correspondence analysis (DCA) was used to calculate the gradient length of compositional turnover in standard deviation (SD) units.",
+          "searchable_summary": "perform DCA to calculate gradient length in SD units",
+          "inputs": [
+            "snail compositional data"
+          ],
+          "outputs": [
+            "gradient length in SD units"
+          ],
+          "keywords": [
+            "DCA",
+            "gradient length",
+            "SD units"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "CCA analysis was undertaken, and variables were selected after removing high multicollinearity until the Variance Inflation Factors (VIFs) were low.",
+          "searchable_summary": "perform CCA analysis with low VIF variables",
+          "inputs": [
+            "snail data",
+            "environmental variables"
+          ],
+          "outputs": [
+            "CCA results"
+          ],
+          "keywords": [
+            "CCA",
+            "multicollinearity",
+            "VIF"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "A combined model comprising a forward selection model was used to determine the uncorrelated variation, and a single model to test each variable separately.",
+          "searchable_summary": "use forward selection model to determine uncorrelated variation",
+          "inputs": [
+            "CCA results"
+          ],
+          "outputs": [
+            "uncorrelated variation results"
+          ],
+          "keywords": [
+            "forward selection",
+            "uncorrelated variation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The statistical significance of each variable was evaluated by Monte Carlo permutation tests with 999 permutations.",
+          "searchable_summary": "perform Monte Carlo permutation tests for statistical significance",
+          "inputs": [
+            "variable data"
+          ],
+          "outputs": [
+            "statistical significance results"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "permutation tests",
+            "statistical significance"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252046233.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

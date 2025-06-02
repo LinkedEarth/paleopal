@@ -1,0 +1,130 @@
+{
+  "paper_title": "European pollen-based REVEALS land-cover reconstructions for the Holocene: methodology, mapping and potentials",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "RPP Dataset Standardization",
+      "description": "Process for producing a new standard Relative Pollen Productivity (RPP) dataset for Europe by selecting and recalculating RPP values from various studies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "List RPP values from 16 selected studies according to models used.",
+          "searchable_summary": "compile RPP values from selected studies",
+          "inputs": [
+            "RPP values from studies",
+            "model information"
+          ],
+          "outputs": [
+            "compiled RPP list"
+          ],
+          "keywords": [
+            "RPP",
+            "data compilation",
+            "model information"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use mean of selected RPP values for each taxon in the new standard RPP dataset.",
+          "searchable_summary": "calculate mean RPP values for each taxon",
+          "inputs": [
+            "selected RPP values"
+          ],
+          "outputs": [
+            "mean RPP values"
+          ],
+          "keywords": [
+            "mean calculation",
+            "RPP dataset"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Select RPP values obtained with the ERV sub-model considered to have provided the best results.",
+          "searchable_summary": "select best ERV sub-model RPP values",
+          "inputs": [
+            "ERV sub-model RPP values"
+          ],
+          "outputs": [
+            "selected RPP values"
+          ],
+          "keywords": [
+            "ERV model",
+            "RPP selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Recalculate RPPs relative to Poaceae if another reference taxon was used.",
+          "searchable_summary": "recalculate RPPs relative to Poaceae",
+          "inputs": [
+            "RPP values",
+            "reference taxon"
+          ],
+          "outputs": [
+            "RPP values relative to Poaceae"
+          ],
+          "keywords": [
+            "RPP recalculation",
+            "Poaceae"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Exclude RPP values not significantly different from zero or considered uncertain.",
+          "searchable_summary": "filter out uncertain RPP values",
+          "inputs": [
+            "RPP values",
+            "significance criteria"
+          ],
+          "outputs": [
+            "filtered RPP values"
+          ],
+          "keywords": [
+            "RPP filtering",
+            "significance"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Calculate mean RPP values based on available estimates, excluding outliers.",
+          "searchable_summary": "calculate mean RPP excluding outliers",
+          "inputs": [
+            "RPP estimates"
+          ],
+          "outputs": [
+            "mean RPP values"
+          ],
+          "keywords": [
+            "mean calculation",
+            "outlier exclusion"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Calculate standard deviations for mean RPP values using the delta method.",
+          "searchable_summary": "calculate SDs using delta method",
+          "inputs": [
+            "mean RPP values"
+          ],
+          "outputs": [
+            "standard deviations"
+          ],
+          "keywords": [
+            "standard deviation",
+            "delta method"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260451836.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

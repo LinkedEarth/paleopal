@@ -1,0 +1,152 @@
+{
+  "paper_title": "Dating a tropical ice core by time–frequency analysis of ion concentration depth profiles",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Direct Evaluation of Time Delay Estimates",
+      "description": "This method evaluates the time delay estimates using spectrogram and scalogram from pre-processed nitrate concentration depth profiles. It aims to determine the concentration of nitrate as a function of time delay estimates using Fourier time-frequency and wavelet transforms.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Determine the time delay estimates, t(d), with the spectrogram and the scalogram.",
+          "searchable_summary": "calculate time delay estimates using spectrogram and scalogram",
+          "inputs": [
+            "nitrate concentration depth profile"
+          ],
+          "outputs": [
+            "time delay estimates"
+          ],
+          "keywords": [
+            "time delay",
+            "spectrogram",
+            "scalogram"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use a spline transformation to get the concentration of NO3 as a function of the time delay estimate.",
+          "searchable_summary": "apply spline transformation to obtain nitrate concentration as a function of time delay",
+          "inputs": [
+            "time delay estimates",
+            "nitrate concentration depth profile"
+          ],
+          "outputs": [
+            "nitrate concentration as a function of time delay"
+          ],
+          "keywords": [
+            "spline transformation",
+            "nitrate concentration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Present the spectrograms of S NO3(t) for Fourier time-frequency and wavelet transforms.",
+          "searchable_summary": "visualize spectrograms for Fourier and wavelet transforms",
+          "inputs": [
+            "nitrate concentration as a function of time delay"
+          ],
+          "outputs": [
+            "spectrograms"
+          ],
+          "keywords": [
+            "spectrogram",
+            "Fourier transform",
+            "wavelet transform"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Check the quality of the method by analyzing the spectrograms for time delay values lower than 160 years.",
+          "searchable_summary": "validate method by analyzing spectrograms for non-aliased data",
+          "inputs": [
+            "spectrograms"
+          ],
+          "outputs": [
+            "method validation results"
+          ],
+          "keywords": [
+            "method validation",
+            "spectrogram analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Pre-processing",
+      "description": "This method involves pre-processing nitrate concentration data to make it suitable for time-frequency analysis. It includes interpolation, thresholding, and filtering to remove high impulses and ensure regular distribution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply thresholding to avoid divergence phenomena by determining the threshold from the histogram of the concentration.",
+          "searchable_summary": "apply thresholding based on concentration histogram",
+          "inputs": [
+            "nitrate concentration data"
+          ],
+          "outputs": [
+            "thresholded concentration data"
+          ],
+          "keywords": [
+            "thresholding",
+            "histogram analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Apply four interpolation methods: linear, nearest neighbour, Hermite polynomial, and spline.",
+          "searchable_summary": "interpolate data using linear, nearest neighbour, Hermite polynomial, and spline methods",
+          "inputs": [
+            "thresholded concentration data"
+          ],
+          "outputs": [
+            "interpolated concentration profiles"
+          ],
+          "keywords": [
+            "interpolation",
+            "spline",
+            "Hermite polynomial"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Remove the mean concentration value after interpolation.",
+          "searchable_summary": "remove mean concentration value from interpolated data",
+          "inputs": [
+            "interpolated concentration profiles"
+          ],
+          "outputs": [
+            "mean-removed concentration profiles"
+          ],
+          "keywords": [
+            "mean removal",
+            "data normalization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Estimate the averaged concentration spectrum and apply a high-pass filter to eliminate low frequencies.",
+          "searchable_summary": "estimate concentration spectrum and apply high-pass filter",
+          "inputs": [
+            "mean-removed concentration profiles"
+          ],
+          "outputs": [
+            "filtered concentration spectrum"
+          ],
+          "keywords": [
+            "spectrum estimation",
+            "high-pass filter"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54686504.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

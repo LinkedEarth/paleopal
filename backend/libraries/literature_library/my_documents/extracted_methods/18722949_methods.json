@@ -1,0 +1,134 @@
+{
+  "paper_title": "Molecular Dynamics Simulation of Dimer on Substrate",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Molecular Dynamics Simulation",
+      "description": "Simulating the deterministic and thermal dynamics of a dimer moving on a periodic one-dimensional substrate using Langevin dynamics. The particle-substrate interaction is a sinusoidal function, and the interparticle interaction is a harmonic potential. The equations of motion are integrated using a velocity-Verlet algorithm, and trajectories are averaged over multiple realizations for thermal diffusion cases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the physical model including particle types (dimer atoms), substrate potential (sinusoidal function of amplitude 2U 0 and period a), and interparticle potential (harmonic potential with spring constant K and equilibrium length l).",
+          "searchable_summary": "Define physical model for dimer on 1D periodic substrate with specified potentials",
+          "inputs": [
+            "System components (dimer, 1D periodic substrate)",
+            "Potential function types (sinusoidal, harmonic)"
+          ],
+          "outputs": [
+            "Physical model definition"
+          ],
+          "keywords": [
+            "physical model",
+            "dimer",
+            "substrate",
+            "potential",
+            "sinusoidal potential",
+            "harmonic potential"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Incorporate Langevin dynamics into the equations of motion to account for finite temperature T, including a damping term mηẋ i and stochastically fluctuating forces f i satisfying < f i (t) >= 0 and < f i (t)f j (0) >= 2mηk B T δ ij δ(t).",
+          "searchable_summary": "Implement Langevin dynamics for finite temperature simulation",
+          "inputs": [
+            "Deterministic equations of motion",
+            "Temperature T",
+            "Damping coefficient η",
+            "Mass m",
+            "Boltzmann constant k_B"
+          ],
+          "outputs": [
+            "Langevin equations of motion"
+          ],
+          "keywords": [
+            "Langevin dynamics",
+            "stochastic force",
+            "damping",
+            "finite temperature",
+            "equations of motion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Set specific representative parameter values for the simulation: a = 0.25 nm, U 0 = 0.2 eV, m = 5×10 −26 kg, η = 0.7 ps −1 . The values of K and l will be given in the caption of each figure.",
+          "searchable_summary": "Set simulation parameters for the defined model",
+          "inputs": [
+            "Parameterized model definition",
+            "Specific parameter values (a, U0, m, η, K, l)"
+          ],
+          "outputs": [
+            "Fully parameterized model"
+          ],
+          "keywords": [
+            "simulation parameters",
+            "physical constants",
+            "parameter setting"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Choose and configure the integration algorithm, using a velocity-Verlet algorithm, with a time step ∆ = 10 −16 s.",
+          "searchable_summary": "Configure velocity-Verlet integration algorithm with specified time step",
+          "inputs": [
+            "Parameterized model",
+            "Integration algorithm name (velocity-Verlet)",
+            "Time step ∆"
+          ],
+          "outputs": [
+            "Simulation setup"
+          ],
+          "keywords": [
+            "velocity-Verlet",
+            "integration algorithm",
+            "time step",
+            "molecular dynamics setup"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Perform molecular dynamics (MD) simulations, integrating the equations of motion using the configured algorithm and time step.",
+          "searchable_summary": "Run molecular dynamics simulation to generate trajectories",
+          "inputs": [
+            "Langevin equations of motion",
+            "Simulation setup",
+            "Initial conditions (positions x1, x2 and velocities ẋ1, ẋ2)"
+          ],
+          "outputs": [
+            "Simulation trajectories (x1(t), x2(t), ẋ1(t), ẋ2(t) over time)"
+          ],
+          "keywords": [
+            "molecular dynamics",
+            "simulation",
+            "integrate equations of motion",
+            "trajectory generation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Averaging the trajectories over several thousands of realizations in the case of thermal diffusion, in order to reduce the statistical noise.",
+          "searchable_summary": "Average simulation trajectories over multiple realizations",
+          "inputs": [
+            "Multiple simulation trajectories (realizations)"
+          ],
+          "outputs": [
+            "Averaged simulation results (e.g., mean position, velocity, diffusion coefficient)"
+          ],
+          "keywords": [
+            "trajectory averaging",
+            "ensemble average",
+            "statistical noise reduction",
+            "thermal diffusion"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/18722949.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

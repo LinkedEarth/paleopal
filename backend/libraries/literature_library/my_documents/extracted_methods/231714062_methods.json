@@ -1,0 +1,199 @@
+{
+  "paper_title": "Transcriptome Analysis Paper",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Transcriptome Analysis Pipeline",
+      "description": "A computational pipeline for processing raw RNA-seq data, quantifying gene expression, and identifying differentially expressed genes (DEGs) in Brassica napus under heat stress conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Quality checks for the raw fastq files were conducted using FastQC v0.11.8 (Andrews, 2010).",
+          "searchable_summary": "Perform quality control on raw sequencing data using FastQC",
+          "inputs": [
+            "raw fastq files"
+          ],
+          "outputs": [
+            "FastQC reports"
+          ],
+          "keywords": [
+            "FastQC",
+            "fastq",
+            "quality control",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Reference transcriptome file for Brassica napus was downloaded from Genoscope 1 .",
+          "searchable_summary": "Download reference transcriptome file",
+          "inputs": [
+            "Genoscope URL/source"
+          ],
+          "outputs": [
+            "Brassica napus reference transcriptome file"
+          ],
+          "keywords": [
+            "download",
+            "transcriptome",
+            "Brassica napus",
+            "Genoscope"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Transcript expression was quantified using Kallisto v0.44.0 (Bray et al., 2016).",
+          "searchable_summary": "Quantify transcript expression using Kallisto",
+          "inputs": [
+            "raw fastq files",
+            "Brassica napus reference transcriptome file"
+          ],
+          "outputs": [
+            "Kallisto output (transcript counts, abundance, length)"
+          ],
+          "keywords": [
+            "Kallisto",
+            "transcript quantification",
+            "RNA-seq alignment-free"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The transcript expression levels were converted to gene expression levels using tximport (Soneson et al., 2015) v1.6.0 (countsFromAbundance = \"no\").",
+          "searchable_summary": "Aggregate transcript counts to gene counts using tximport",
+          "inputs": [
+            "Kallisto output",
+            "transcript-to-gene mapping (implied)"
+          ],
+          "outputs": [
+            "tximport output (gene counts)"
+          ],
+          "keywords": [
+            "tximport",
+            "gene expression",
+            "transcript-to-gene aggregation",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The low-count genes were prefiltered by keeping only those genes that have at least 5 counts in total.",
+          "searchable_summary": "Filter out low-count genes",
+          "inputs": [
+            "tximport output (gene counts)"
+          ],
+          "outputs": [
+            "Filtered gene counts"
+          ],
+          "keywords": [
+            "filtering",
+            "low-count genes",
+            "gene expression"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The tximport data was loaded into DESeq2 with DESeqDataSetFromTximport thus creating offset and correcting for changes to the average transcript length across samples .",
+          "searchable_summary": "Prepare data for DESeq2 analysis using DESeqDataSetFromTximport",
+          "inputs": [
+            "tximport output (gene counts)",
+            "sample information/design"
+          ],
+          "outputs": [
+            "DESeqDataSet object"
+          ],
+          "keywords": [
+            "DESeq2",
+            "DESeqDataSetFromTximport",
+            "RNA-seq analysis",
+            "data preparation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Principal component analysis (PCA) was conducted to determine the relatedness of the biological replicates (Supplementary Figure S1A).",
+          "searchable_summary": "Perform Principal Component Analysis (PCA) on gene expression data",
+          "inputs": [
+            "DESeqDataSet object (or normalized counts)"
+          ],
+          "outputs": [
+            "PCA results (coordinates, variance explained)"
+          ],
+          "keywords": [
+            "PCA",
+            "Principal Component Analysis",
+            "data exploration",
+            "biological replicates"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Pairwise contrasts were performed between control and heat-stressed samples to identify differentially expressed genes (DEGs) in response to heat stress.",
+          "searchable_summary": "Perform pairwise differential expression analysis using DESeq2",
+          "inputs": [
+            "DESeqDataSet object",
+            "experimental design (contrasts)"
+          ],
+          "outputs": [
+            "DESeqResults object (raw p-values, LFCs)"
+          ],
+          "keywords": [
+            "DESeq2",
+            "differential expression analysis",
+            "pairwise contrasts",
+            "DEGs",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "To generate more accurate log 2 foldchange estimates lfcShrink (type = \"apeglm\") function was used.",
+          "searchable_summary": "Apply LFC shrinkage to differential expression results",
+          "inputs": [
+            "DESeqResults object (raw)",
+            "DESeqDataSet object"
+          ],
+          "outputs": [
+            "DESeqResults object (shrunk LFCs)"
+          ],
+          "keywords": [
+            "lfcShrink",
+            "apeglm",
+            "log2 fold change shrinkage",
+            "DESeq2"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "The thresholds for differential expression were set at fold change 1.5 and p-adjusted value cut off 0.01 (lfcthreshold = 0.585, altHypothesis = \"greaterAbs, \" alpha = 0.01, pAdjustMethod = \"BH\") for the alternate hypothesis, BH: Benjamini-Hochberg Zhu et al., 2019).",
+          "searchable_summary": "Filter differential expression results based on fold change and adjusted p-value thresholds",
+          "inputs": [
+            "DESeqResults object (shrunk LFCs, adjusted p-values)"
+          ],
+          "outputs": [
+            "List of differentially expressed genes (DEGs)"
+          ],
+          "keywords": [
+            "differential expression thresholds",
+            "fold change",
+            "p-adjusted value",
+            "Benjamini-Hochberg",
+            "DEG filtering"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/231714062.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

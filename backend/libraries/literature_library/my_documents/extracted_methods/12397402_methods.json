@@ -1,0 +1,186 @@
+{
+  "paper_title": "Phylogeographical Study of Ephedra Species",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sampling of Ephedra Species",
+      "description": "Collection of samples from various Ephedra species distributed in the QTP and adjacent regions for phylogeographical study based on cpDNA sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Young branchlets were collected from 107 populations (totaling 1435 individuals), most of which were represented by individuals that were at least 50 m apart from each other.",
+          "searchable_summary": "collect young branchlets from 107 populations of Ephedra species",
+          "inputs": [
+            "Ephedra species locations"
+          ],
+          "outputs": [
+            "collected branchlets"
+          ],
+          "keywords": [
+            "sampling",
+            "Ephedra",
+            "branchlets"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "One individual of the Mediterranean E. nebrodensis was sampled as outgroup based on previous phylogenetic analyses.",
+          "searchable_summary": "sample E. nebrodensis as outgroup",
+          "inputs": [
+            "E. nebrodensis location"
+          ],
+          "outputs": [
+            "sampled E. nebrodensis"
+          ],
+          "keywords": [
+            "outgroup",
+            "sampling",
+            "E. nebrodensis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "37 species were sampled in the combined cpDNA analysis.",
+          "searchable_summary": "sample 37 species for cpDNA analysis",
+          "inputs": [
+            "species list"
+          ],
+          "outputs": [
+            "sampled species"
+          ],
+          "keywords": [
+            "cpDNA",
+            "sampling",
+            "species"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Sequence Alignment and Diversity Analysis",
+      "description": "Alignment of DNA sequences and estimation of molecular diversity indices for each population and species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The DNA sequences were aligned using the program Clustal X and manually adjusted in BioEdit v. 7.0.9.",
+          "searchable_summary": "align DNA sequences using Clustal X and adjust in BioEdit",
+          "inputs": [
+            "DNA sequences"
+          ],
+          "outputs": [
+            "aligned DNA sequences"
+          ],
+          "keywords": [
+            "DNA alignment",
+            "Clustal X",
+            "BioEdit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Arlequin 3.11 was used to estimate the molecular diversity indices, including the number of segregating sites (S), number of haplotypes (N h ), haplotype diversity (H d ) and nucleotide diversity (p), for each population and species.",
+          "searchable_summary": "estimate molecular diversity indices using Arlequin 3.11",
+          "inputs": [
+            "aligned DNA sequences"
+          ],
+          "outputs": [
+            "molecular diversity indices"
+          ],
+          "keywords": [
+            "molecular diversity",
+            "Arlequin",
+            "haplotype diversity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "Reconstruction of evolutionary relationships of chlorotypes using maximum parsimony, maximum likelihood, and Bayesian inference.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The evolutionary relationships of the chlorotypes were reconstructed with maximum parsimony (MP), maximum likelihood (ML) and Bayesian inference (BI), using PAUP*4.0b10, PhyML 3.0, and MrBayes 3.1.2, respectively.",
+          "searchable_summary": "reconstruct evolutionary relationships using MP, ML, and BI",
+          "inputs": [
+            "aligned DNA sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "maximum parsimony",
+            "maximum likelihood",
+            "Bayesian inference"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Bootstrap analysis was conducted with 1000 replicates using the same heuristic search settings.",
+          "searchable_summary": "perform bootstrap analysis with 1000 replicates",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "bootstrap values"
+          ],
+          "keywords": [
+            "bootstrap analysis",
+            "phylogenetic validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Divergence Time Estimation",
+      "description": "Estimation of divergence times of chlorotypes using molecular clock analysis and BEAST software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Divergence times were estimated with BEAST v1.7.2, using the HKY+I+G substitution model, an uncorrelated lognormal relaxed clock model, the Yule model of speciation and a user-specified starting tree (ML tree).",
+          "searchable_summary": "estimate divergence times using BEAST with HKY+I+G model",
+          "inputs": [
+            "phylogenetic trees",
+            "substitution model"
+          ],
+          "outputs": [
+            "divergence times"
+          ],
+          "keywords": [
+            "divergence time",
+            "BEAST",
+            "molecular clock"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The MCMC analysis was run for 10,000,000 generations to estimate the mean posterior divergence times with standard deviations.",
+          "searchable_summary": "run MCMC analysis for 10,000,000 generations",
+          "inputs": [
+            "BEAST configuration"
+          ],
+          "outputs": [
+            "posterior divergence times"
+          ],
+          "keywords": [
+            "MCMC",
+            "posterior estimation",
+            "BEAST"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/12397402.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

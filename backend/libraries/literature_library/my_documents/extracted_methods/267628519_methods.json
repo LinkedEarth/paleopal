@@ -1,0 +1,200 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Principal Component Analysis",
+      "description": "Principal Component Analysis (PCA) was used to compare covariance within freshwater-marine divergence associated regions among samples using ecology informative markers. The ancient samples were included in the PCA computations to provide a quality control measure, ensuring that any sequencing or data processing errors would be evident as outliers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We used pseudo-haploid genotype calls of present-day marine and freshwater sticklebacks and the ancient samples.",
+          "searchable_summary": "use pseudo-haploid genotype calls for PCA",
+          "inputs": [
+            "genotype calls of marine sticklebacks",
+            "genotype calls of freshwater sticklebacks",
+            "genotype calls of ancient samples"
+          ],
+          "outputs": [
+            "prepared data for PCA"
+          ],
+          "keywords": [
+            "genotype calls",
+            "pseudo-haploid",
+            "PCA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We compared covariance within freshwater-marine divergence associated regions among samples using ecology informative markers.",
+          "searchable_summary": "compare covariance using ecology informative markers",
+          "inputs": [
+            "prepared data for PCA",
+            "ecology informative markers"
+          ],
+          "outputs": [
+            "covariance comparison results"
+          ],
+          "keywords": [
+            "covariance",
+            "ecology markers",
+            "divergence"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Additional filtering steps included in these analyses were the removal of regions of poor mapping quality (Q < 20), removal of sites with low base quality scores (q < 20), calling only SNPs inferred with a likelihood ratio test (LRT) of P < 0.000001, a minimum allele frequency of 0.25, specifying uniquely mapping reads only, and the removal of transitions to avoid bias from C to T and G to A DNA damage patterns.",
+          "searchable_summary": "filter data based on quality and allele frequency",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "filtered genotype data"
+          ],
+          "keywords": [
+            "filtering",
+            "quality control",
+            "SNPs",
+            "allele frequency"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The eigenvectors from the covariance matrix were generated with the R function 'eigen', and significance was determined with a Tracy-Widom test performed in the R-package AssocTest to evaluate the statistical significance of each principal component.",
+          "searchable_summary": "generate eigenvectors and perform Tracy-Widom test",
+          "inputs": [
+            "covariance matrix"
+          ],
+          "outputs": [
+            "eigenvectors",
+            "significance of principal components"
+          ],
+          "keywords": [
+            "eigenvectors",
+            "Tracy-Widom test",
+            "R",
+            "AssocTest"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sub-sampling Sediment Layers",
+      "description": "This method involves the destructive sampling of sediment cores collected in 2021 for sedimentary DNA analyses. The process includes splitting the cores, sieving for stickleback remains, and sampling sediment layers while avoiding contamination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The three cores collected in 2021 were sampled destructively for sedimentary DNA analyses.",
+          "searchable_summary": "destructively sample sediment cores for DNA analysis",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment cores",
+            "DNA analysis",
+            "destructive sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "These were first split longitudinally into two halves at the laboratory.",
+          "searchable_summary": "split sediment cores longitudinally",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "halved sediment cores"
+          ],
+          "keywords": [
+            "splitting",
+            "longitudinal",
+            "sediment cores"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "One half was wet-sieved with a 125mm mesh for additional stickleback hard parts, such as bones, bony plates and spines.",
+          "searchable_summary": "wet-sieve sediment for stickleback remains",
+          "inputs": [
+            "halved sediment core"
+          ],
+          "outputs": [
+            "sieved sediment",
+            "stickleback remains"
+          ],
+          "keywords": [
+            "wet-sieving",
+            "stickleback",
+            "mesh"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Sediment layers spanning the marine-lacustrine transition were sampled from the remaining half.",
+          "searchable_summary": "sample sediment layers from marine-lacustrine transition",
+          "inputs": [
+            "remaining half of sediment core"
+          ],
+          "outputs": [
+            "sediment layer samples"
+          ],
+          "keywords": [
+            "marine-lacustrine transition",
+            "sediment layers"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "To further avoid cross-contamination between sediment layers, all equipment was sterilized using bleach and 70% ethanol, and latex gloves and paper sleeves were changed between each sampling.",
+          "searchable_summary": "sterilize equipment and change gloves between samplings",
+          "inputs": [
+            "sampling equipment",
+            "bleach",
+            "70% ethanol",
+            "latex gloves",
+            "paper sleeves"
+          ],
+          "outputs": [
+            "sterilized equipment"
+          ],
+          "keywords": [
+            "sterilization",
+            "cross-contamination",
+            "equipment"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Sediment layers were transferred to sterile UV-treated 50ml falcon centrifuge tubes for DNA extraction.",
+          "searchable_summary": "transfer sediment layers to sterile tubes for DNA extraction",
+          "inputs": [
+            "sediment layer samples"
+          ],
+          "outputs": [
+            "sediment samples in sterile tubes"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "sterile tubes",
+            "sediment transfer"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/267628519.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

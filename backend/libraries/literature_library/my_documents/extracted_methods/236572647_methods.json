@@ -1,0 +1,330 @@
+{
+  "paper_title": "Analysis of the A. formosa genome and comparison with CCM components in other diatoms",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Cultivation and Sample Preparation",
+      "description": "Process for cultivating A. formosa and preparing samples for genomic and RNA extraction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A culture of A. formosa from Esthwaite Water (CCAP 1005/24) was grown at 16.5°C with a 12:12 h light:dark cycle illuminated with a photon irradiance of 50 µmol photon m −2 s −1 and shaken at 110 rpm.",
+          "searchable_summary": "grow A. formosa culture under specified conditions",
+          "inputs": [
+            "A. formosa culture",
+            "temperature",
+            "light cycle",
+            "photon irradiance",
+            "shaking speed"
+          ],
+          "outputs": [
+            "cultivated A. formosa culture"
+          ],
+          "keywords": [
+            "culture growth",
+            "A. formosa",
+            "light cycle",
+            "temperature"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Genomic DNA and RNA were extracted from cultures in exponential phase containing about 2.5 × 10^7 and 10^8 cells ml −1 of A. formosa, respectively.",
+          "searchable_summary": "extract genomic DNA and RNA from A. formosa cultures",
+          "inputs": [
+            "A. formosa culture"
+          ],
+          "outputs": [
+            "genomic DNA",
+            "RNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "RNA extraction",
+            "A. formosa"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Cultures were filtered on 8-µm and then 0.22-µm membranes, frozen in liquid nitrogen and stored at -80°C.",
+          "searchable_summary": "filter and store A. formosa cultures",
+          "inputs": [
+            "A. formosa culture"
+          ],
+          "outputs": [
+            "filtered and stored A. formosa samples"
+          ],
+          "keywords": [
+            "filtration",
+            "liquid nitrogen",
+            "storage"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA and RNA Extraction",
+      "description": "Protocols for extracting DNA and RNA from A. formosa cultures.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "DNA was extracted following a hexadecyltrimethylammonium bromide (CTAB)-based protocol adapted from (Bruckner et al. 2008).",
+          "searchable_summary": "extract DNA using CTAB protocol",
+          "inputs": [
+            "A. formosa samples"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "CTAB protocol"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "RNA was extracted using TRI-reagent (Sigma-Aldrich, St. Louis, Missouri, USA) and the SV total RNA isolation system (Promega, Madison, Wisconsin, USA).",
+          "searchable_summary": "extract RNA using TRI-reagent and SV total RNA isolation system",
+          "inputs": [
+            "A. formosa samples"
+          ],
+          "outputs": [
+            "extracted RNA"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "TRI-reagent",
+            "SV total RNA isolation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genome Sequencing and Assembly",
+      "description": "Sequencing and assembly of the A. formosa genome using Illumina and Pacific Biosciences technologies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "DNA sequencing was performed using Illumina NextSeq 500 technology.",
+          "searchable_summary": "perform DNA sequencing with Illumina NextSeq 500",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "sequenced DNA data"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "Illumina NextSeq 500"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequencing was completed by RNAseq to annotate the eukaryotic genes that contain exons and introns.",
+          "searchable_summary": "perform RNAseq for gene annotation",
+          "inputs": [
+            "extracted RNA"
+          ],
+          "outputs": [
+            "annotated gene data"
+          ],
+          "keywords": [
+            "RNAseq",
+            "gene annotation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Fourteen single-molecule real-time cells on a Pacific Biosciences RSII sequencer were used to improve sequencing quality of the genome.",
+          "searchable_summary": "use Pacific Biosciences RSII for high-quality genome sequencing",
+          "inputs": [
+            "sequenced DNA data"
+          ],
+          "outputs": [
+            "high-quality genome sequence"
+          ],
+          "keywords": [
+            "Pacific Biosciences RSII",
+            "genome sequencing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Genome assembly was performed using the hierarchical genome-assembly process software HGAP.",
+          "searchable_summary": "assemble genome using HGAP software",
+          "inputs": [
+            "high-quality genome sequence"
+          ],
+          "outputs": [
+            "assembled genome"
+          ],
+          "keywords": [
+            "genome assembly",
+            "HGAP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Annotated using MAKER.",
+          "searchable_summary": "annotate genome using MAKER",
+          "inputs": [
+            "assembled genome"
+          ],
+          "outputs": [
+            "annotated genome"
+          ],
+          "keywords": [
+            "genome annotation",
+            "MAKER"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Comparative Genomic Analysis",
+      "description": "Comparison of A. formosa genome with existing databases to identify genes encoding components of the CCM.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The genome of A. formosa was compared to existing databases to identify genes encoding components of the CCM: all subclasses of carbonic anhydrase (CA) and SLC families 4 and 26 (SLC4 and SLC26).",
+          "searchable_summary": "compare A. formosa genome with databases for CCM components",
+          "inputs": [
+            "annotated genome",
+            "existing databases"
+          ],
+          "outputs": [
+            "identified CCM component genes"
+          ],
+          "keywords": [
+            "genome comparison",
+            "CCM components",
+            "carbonic anhydrase",
+            "SLC families"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Performed a BLAST search using BioEdit software and proteins of Phaeodactylum tricornutum Bohlin as queries.",
+          "searchable_summary": "perform BLAST search with BioEdit using Phaeodactylum tricornutum proteins",
+          "inputs": [
+            "A. formosa proteins",
+            "Phaeodactylum tricornutum proteins"
+          ],
+          "outputs": [
+            "BLAST search results"
+          ],
+          "keywords": [
+            "BLAST search",
+            "BioEdit",
+            "protein comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The identity of each protein was checked and aligned using Multiple Sequence Comparison by Log-Expectation (MUSCLE).",
+          "searchable_summary": "align protein sequences using MUSCLE",
+          "inputs": [
+            "BLAST search results"
+          ],
+          "outputs": [
+            "aligned protein sequences"
+          ],
+          "keywords": [
+            "protein alignment",
+            "MUSCLE"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Alignments were imported into Genedoc and similar residues were shaded using the conservation mode.",
+          "searchable_summary": "import alignments into Genedoc and shade similar residues",
+          "inputs": [
+            "aligned protein sequences"
+          ],
+          "outputs": [
+            "shaded protein alignments"
+          ],
+          "keywords": [
+            "Genedoc",
+            "protein alignment",
+            "conservation mode"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein Topology and Localization Prediction",
+      "description": "Prediction of the topology and localization of SLC and CA proteins in A. formosa.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The topology of the putative SLCs was predicted using TMHMM v2 to confirm that they were transmembrane proteins.",
+          "searchable_summary": "predict SLC protein topology using TMHMM v2",
+          "inputs": [
+            "SLC protein sequences"
+          ],
+          "outputs": [
+            "predicted SLC topology"
+          ],
+          "keywords": [
+            "protein topology",
+            "TMHMM",
+            "transmembrane proteins"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The 2D structure was predicted using Hydrophobic Cluster Analysis (HCA).",
+          "searchable_summary": "predict 2D protein structure using HCA",
+          "inputs": [
+            "protein sequences"
+          ],
+          "outputs": [
+            "predicted 2D structure"
+          ],
+          "keywords": [
+            "2D structure prediction",
+            "HCA",
+            "protein analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The location of the CA and SLC proteins was determined, based on their signal peptides, using HECTAR.",
+          "searchable_summary": "determine protein location using HECTAR",
+          "inputs": [
+            "protein sequences",
+            "signal peptides"
+          ],
+          "outputs": [
+            "protein localization"
+          ],
+          "keywords": [
+            "protein localization",
+            "HECTAR",
+            "signal peptides"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236572647.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

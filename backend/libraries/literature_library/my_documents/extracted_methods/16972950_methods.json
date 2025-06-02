@@ -1,0 +1,161 @@
+{
+  "paper_title": "ORCHIDEE-WET Model Methane Emissions Simulation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Wetland Methane Emissions Calculation",
+      "description": "This method calculates the wetland methane emissions for each grid cell and time step using the ORCHIDEE-WET model. It incorporates the extent and flux density of wetlands with varying water table depths, using a combination of the TOPMODEL approach and a modified version of the Walter et al. (2001) model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Compute wetland CH4 emissions for each grid cell and time step using the ORCHIDEE-WET model.",
+          "searchable_summary": "calculate wetland methane emissions using ORCHIDEE-WET model",
+          "inputs": [
+            "grid cell data",
+            "time step data"
+          ],
+          "outputs": [
+            "CH4 emissions data"
+          ],
+          "keywords": [
+            "methane emissions",
+            "ORCHIDEE-WET",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Compute the extent and CH4 flux density of wetlands with a water table depth equal to WTD i using a coupling of ORCHIDEE-WET with TOPMODEL and a modified Walter et al. (2001) model.",
+          "searchable_summary": "compute wetland extent and flux density using TOPMODEL and modified Walter model",
+          "inputs": [
+            "water table depth",
+            "ORCHIDEE-WET model"
+          ],
+          "outputs": [
+            "wetland extent",
+            "CH4 flux density"
+          ],
+          "keywords": [
+            "wetland extent",
+            "flux density",
+            "TOPMODEL",
+            "Walter model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Simulate soil water content resulting from a hydrologic budget accounting for inputs and losses.",
+          "searchable_summary": "simulate soil water content from hydrologic budget",
+          "inputs": [
+            "snowmelt",
+            "rainfall",
+            "soil evaporation",
+            "transpiration",
+            "sublimation",
+            "deep drainage",
+            "surface runoff"
+          ],
+          "outputs": [
+            "soil water content"
+          ],
+          "keywords": [
+            "soil water content",
+            "hydrologic budget"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Distribute mean soil water deficit over each grid cell as a function of the subgrid topographic index distribution.",
+          "searchable_summary": "distribute soil water deficit using topographic index",
+          "inputs": [
+            "soil water content",
+            "topographic index"
+          ],
+          "outputs": [
+            "soil water deficit distribution"
+          ],
+          "keywords": [
+            "soil water deficit",
+            "topographic index"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Compute inundated wetland extents from field capacity extents.",
+          "searchable_summary": "compute inundated wetland extents from field capacity",
+          "inputs": [
+            "field capacity extents"
+          ],
+          "outputs": [
+            "inundated wetland extents"
+          ],
+          "keywords": [
+            "wetland extents",
+            "field capacity"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Parameterize topographic index distribution shift to simulate current global wetland fraction.",
+          "searchable_summary": "parameterize topographic index shift for wetland fraction simulation",
+          "inputs": [
+            "topographic index distribution",
+            "global wetland fraction target"
+          ],
+          "outputs": [
+            "parameterized topographic index"
+          ],
+          "keywords": [
+            "topographic index",
+            "parameterization",
+            "wetland fraction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Compute CH4 flux densities using a modified Walter et al. (2001) model with labile carbon pool from ORCHIDEE-WET.",
+          "searchable_summary": "compute CH4 flux densities using modified Walter model and labile carbon pool",
+          "inputs": [
+            "labile carbon pool",
+            "temperature data"
+          ],
+          "outputs": [
+            "CH4 flux densities"
+          ],
+          "keywords": [
+            "CH4 flux densities",
+            "Walter model",
+            "labile carbon pool"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Optimize parameter α0 against three sites and extrapolate at large band scale.",
+          "searchable_summary": "optimize and extrapolate parameter α0 for methanogenesis",
+          "inputs": [
+            "site data",
+            "CRU climatology"
+          ],
+          "outputs": [
+            "optimized α0"
+          ],
+          "keywords": [
+            "parameter optimization",
+            "methanogenesis",
+            "α0"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16972950.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

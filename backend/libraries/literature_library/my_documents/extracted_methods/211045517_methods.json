@@ -1,0 +1,383 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Incubation and Gas Measurement",
+      "description": "Anoxic incubations were used to determine CO2 and methane production rates in sediment samples. This method involves preparing sediment samples in a controlled anoxic environment, incubating them, and measuring gas concentrations to study microbial activity and gas production.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Triplicates of 20 g of sediment for each sample were placed in 120-mL bottles and closed with butyl rubber stoppers.",
+          "searchable_summary": "prepare sediment samples in bottles for incubation",
+          "inputs": [
+            "sediment samples",
+            "120-mL bottles",
+            "butyl rubber stoppers"
+          ],
+          "outputs": [
+            "prepared sediment samples in bottles"
+          ],
+          "keywords": [
+            "sediment preparation",
+            "anoxic incubation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were handled under a constant flow of molecular nitrogen to minimize oxygen exposure.",
+          "searchable_summary": "maintain anoxic conditions using molecular nitrogen",
+          "inputs": [
+            "molecular nitrogen",
+            "sediment samples"
+          ],
+          "outputs": [
+            "anoxic sediment samples"
+          ],
+          "keywords": [
+            "anoxic conditions",
+            "nitrogen flow"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Each of the triplicates was amended with 5 mL oxygen free water and the headspace was repeatedly exchanged with pure nitrogen.",
+          "searchable_summary": "add oxygen-free water and exchange headspace with nitrogen",
+          "inputs": [
+            "oxygen-free water",
+            "pure nitrogen"
+          ],
+          "outputs": [
+            "anoxic sediment samples with nitrogen headspace"
+          ],
+          "keywords": [
+            "headspace exchange",
+            "oxygen-free water"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Molecular nitrogen was added to establish a slight overpressure inside each bottle.",
+          "searchable_summary": "establish overpressure with molecular nitrogen",
+          "inputs": [
+            "molecular nitrogen"
+          ],
+          "outputs": [
+            "bottles with overpressure"
+          ],
+          "keywords": [
+            "overpressure",
+            "molecular nitrogen"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Samples were incubated in the dark at 4°C for 2501 days (Kurungnakh Island) and for up to 1229 days (Bol'shoy Lyakhovsky Island).",
+          "searchable_summary": "incubate samples in the dark at 4°C",
+          "inputs": [
+            "prepared sediment samples"
+          ],
+          "outputs": [
+            "incubated sediment samples"
+          ],
+          "keywords": [
+            "incubation",
+            "dark conditions"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Carbon dioxide and methane concentrations in the headspace were measured with a gas chromatograph.",
+          "searchable_summary": "measure CO2 and methane concentrations using gas chromatograph",
+          "inputs": [
+            "incubated sediment samples"
+          ],
+          "outputs": [
+            "CO2 and methane concentration data"
+          ],
+          "keywords": [
+            "gas chromatography",
+            "CO2 measurement",
+            "methane measurement"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The amount of gas in the headspace was calculated based on headspace volume, incubation temperature and pressure inside the bottle using the ideal gas law.",
+          "searchable_summary": "calculate gas amount using ideal gas law",
+          "inputs": [
+            "headspace volume",
+            "incubation temperature",
+            "pressure"
+          ],
+          "outputs": [
+            "calculated gas amount"
+          ],
+          "keywords": [
+            "ideal gas law",
+            "gas calculation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The amount of gas dissolved in water was calculated based on the gas concentration in the headspace, pressure inside the bottle, water content, pH and gas solubility.",
+          "searchable_summary": "calculate dissolved gas amount using solubility and pH",
+          "inputs": [
+            "gas concentration",
+            "pressure",
+            "water content",
+            "pH",
+            "gas solubility"
+          ],
+          "outputs": [
+            "dissolved gas amount"
+          ],
+          "keywords": [
+            "gas solubility",
+            "dissolved gas calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Analysis and Bioinformatics",
+      "description": "This method involves processing sequencing data to analyze microbial composition. It includes demultiplexing, quality filtering, sequence inference, and taxonomy assignment to study microbial diversity and abundance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Libraries were demultiplexed using Cutadapt where primer sequences had a maximum error rate of 10% and barcodes were required to have a phred score higher than Q25 without any mismatches.",
+          "searchable_summary": "demultiplex libraries using Cutadapt with error rate and phred score criteria",
+          "inputs": [
+            "sequencing libraries",
+            "primer sequences",
+            "barcodes"
+          ],
+          "outputs": [
+            "demultiplexed libraries"
+          ],
+          "keywords": [
+            "demultiplexing",
+            "Cutadapt",
+            "phred score"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were further processed using the DADA2 pipeline. Read sequences were truncated (250/200 forward/reverse) and quality-filtered before the error model was generated.",
+          "searchable_summary": "process samples using DADA2 pipeline with truncation and quality filtering",
+          "inputs": [
+            "demultiplexed libraries"
+          ],
+          "outputs": [
+            "quality-filtered sequences"
+          ],
+          "keywords": [
+            "DADA2",
+            "quality filtering",
+            "truncation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "After dereplication, sample inference and merging of the paired-end reads, reads are required to have a minimum length of 200 bp.",
+          "searchable_summary": "dereplicate, infer samples, and merge reads with minimum length requirement",
+          "inputs": [
+            "quality-filtered sequences"
+          ],
+          "outputs": [
+            "merged reads"
+          ],
+          "keywords": [
+            "dereplication",
+            "sample inference",
+            "read merging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The orientation of the reads was standardized by calculating the hamming distances of the sequences and their reverse complement.",
+          "searchable_summary": "standardize read orientation using hamming distances",
+          "inputs": [
+            "merged reads"
+          ],
+          "outputs": [
+            "standardized reads"
+          ],
+          "keywords": [
+            "read orientation",
+            "hamming distance"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The sequence table has been created and chimeras were removed using a de novo approach.",
+          "searchable_summary": "create sequence table and remove chimeras de novo",
+          "inputs": [
+            "standardized reads"
+          ],
+          "outputs": [
+            "chimera-free sequence table"
+          ],
+          "keywords": [
+            "chimera removal",
+            "sequence table"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The amplicon sequence variants (ASV) were assigned to the SILVA taxonomy database using vsearch.",
+          "searchable_summary": "assign ASVs to SILVA taxonomy using vsearch",
+          "inputs": [
+            "chimera-free sequence table"
+          ],
+          "outputs": [
+            "taxonomically assigned ASVs"
+          ],
+          "keywords": [
+            "ASV assignment",
+            "SILVA database",
+            "vsearch"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "Relative abundances are used for the visualization and comparison of the microbial composition of the samples.",
+          "searchable_summary": "visualize microbial composition using relative abundances",
+          "inputs": [
+            "taxonomically assigned ASVs"
+          ],
+          "outputs": [
+            "microbial composition visualization"
+          ],
+          "keywords": [
+            "relative abundance",
+            "microbial composition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study Sites and Sampling",
+      "description": "This method describes the process of obtaining and handling permafrost core samples from drilling campaigns in Northeast Siberia, ensuring minimal contamination and proper storage for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Samples obtained during two drilling campaigns in Northeast Siberia: one on Kurungnakh Island and the second on Bol'shoy Lyakhovsky Island.",
+          "searchable_summary": "collect permafrost samples from drilling campaigns",
+          "inputs": [
+            "drilling equipment",
+            "location coordinates"
+          ],
+          "outputs": [
+            "permafrost core samples"
+          ],
+          "keywords": [
+            "drilling",
+            "permafrost samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Drilling was performed without drilling fluids to avoid microbiological contamination.",
+          "searchable_summary": "perform drilling without fluids to prevent contamination",
+          "inputs": [
+            "drilling equipment"
+          ],
+          "outputs": [
+            "uncontaminated core samples"
+          ],
+          "keywords": [
+            "contamination prevention",
+            "drilling fluids"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Core segments were placed into sterile plastic bags immediately after removal and stored at about −8°C.",
+          "searchable_summary": "store core segments in sterile bags at −8°C",
+          "inputs": [
+            "core segments",
+            "sterile plastic bags"
+          ],
+          "outputs": [
+            "stored core segments"
+          ],
+          "keywords": [
+            "sterile storage",
+            "core segments"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Cores were transported in frozen conditions in insulated containers with cool packs to Potsdam, Germany.",
+          "searchable_summary": "transport cores in frozen conditions to Germany",
+          "inputs": [
+            "insulated containers",
+            "cool packs"
+          ],
+          "outputs": [
+            "transported core samples"
+          ],
+          "keywords": [
+            "frozen transport",
+            "insulated containers"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Core segments were split along their axis into halves using sterile sampling devices, with a diamond saw in an ice laboratory at −10°C.",
+          "searchable_summary": "split core segments using diamond saw in ice lab",
+          "inputs": [
+            "core segments",
+            "diamond saw"
+          ],
+          "outputs": [
+            "halved core segments"
+          ],
+          "keywords": [
+            "core splitting",
+            "diamond saw"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "During subsampling, the outer core layer (1-2 cm) was removed to eliminate potentially contaminated outer soil layers.",
+          "searchable_summary": "remove outer core layer to prevent contamination",
+          "inputs": [
+            "halved core segments"
+          ],
+          "outputs": [
+            "cleaned core segments"
+          ],
+          "keywords": [
+            "subsampling",
+            "contamination removal"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/211045517.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

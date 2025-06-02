@@ -1,0 +1,176 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Univariate Analysis",
+      "description": "A one-way analysis of variance (ANOVA) was performed to test the null hypothesis of no difference in quality criteria and essential amino acid content between pollen species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform a one-way ANOVA to test the null hypothesis of no difference in quality criteria and essential amino acid content between pollen species.",
+          "searchable_summary": "perform one-way ANOVA on pollen species data",
+          "inputs": [
+            "quality criteria data",
+            "essential amino acid content data"
+          ],
+          "outputs": [
+            "p-value for each hypothesis test"
+          ],
+          "keywords": [
+            "one-way ANOVA",
+            "hypothesis testing",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Check assumptions for ANOVA: independent observations, normality of residuals (normal QQ-plot and Shapiro test), and homoscedasticity (Bartlett test).",
+          "searchable_summary": "validate ANOVA assumptions using Shapiro and Bartlett tests",
+          "inputs": [
+            "residuals from ANOVA"
+          ],
+          "outputs": [
+            "p-values for Shapiro and Bartlett tests"
+          ],
+          "keywords": [
+            "ANOVA assumptions",
+            "Shapiro test",
+            "Bartlett test"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform multiple pairwise comparisons (post-hoc test) when ANOVA is significant. Adjust p-values using Bonferroni's correction.",
+          "searchable_summary": "conduct post-hoc tests with Bonferroni correction",
+          "inputs": [
+            "ANOVA results"
+          ],
+          "outputs": [
+            "adjusted p-values for pairwise comparisons"
+          ],
+          "keywords": [
+            "post-hoc test",
+            "Bonferroni correction",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multivariate Analysis",
+      "description": "Multivariate analyses were conducted to detect differences between diet compositions using perMANOVA and nMDS ordination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform a perMANOVA using Bray-Curtis distances and 999 permutations to detect differences between diet compositions.",
+          "searchable_summary": "execute perMANOVA with Bray-Curtis distances",
+          "inputs": [
+            "diet composition data"
+          ],
+          "outputs": [
+            "perMANOVA results"
+          ],
+          "keywords": [
+            "perMANOVA",
+            "Bray-Curtis",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Verify multivariate homogeneity of within-group covariance matrices using the 'betadisper' function.",
+          "searchable_summary": "check multivariate homogeneity with betadisper",
+          "inputs": [
+            "diet composition data"
+          ],
+          "outputs": [
+            "p-value for homogeneity test"
+          ],
+          "keywords": [
+            "betadisper",
+            "homogeneity",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Conduct multiple pairwise comparisons when perMANOVA is significant. Adjust p-values using Bonferroni's correction.",
+          "searchable_summary": "perform pairwise comparisons with Bonferroni correction",
+          "inputs": [
+            "perMANOVA results"
+          ],
+          "outputs": [
+            "adjusted p-values for pairwise comparisons"
+          ],
+          "keywords": [
+            "pairwise comparisons",
+            "Bonferroni correction",
+            "R"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Visually assess differences on a non-metric multidimensional scaling (nMDS) ordination using a Bray-Curtis similarity matrix.",
+          "searchable_summary": "create nMDS ordination plot with Bray-Curtis matrix",
+          "inputs": [
+            "diet composition data"
+          ],
+          "outputs": [
+            "nMDS ordination plot"
+          ],
+          "keywords": [
+            "nMDS",
+            "ordination",
+            "Bray-Curtis",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Perform indicator compound analyses using the 'indval' function to identify compounds indicative of one diet.",
+          "searchable_summary": "identify indicator compounds with indval function",
+          "inputs": [
+            "diet composition data"
+          ],
+          "outputs": [
+            "indicator compounds"
+          ],
+          "keywords": [
+            "indicator compounds",
+            "indval",
+            "R"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate the Bray-Curtis dissimilarity index to measure deviation of essential pollen amino acid composition from the ideal composition.",
+          "searchable_summary": "compute Bray-Curtis dissimilarity index for amino acid composition",
+          "inputs": [
+            "essential pollen amino acid composition",
+            "ideal composition"
+          ],
+          "outputs": [
+            "Bray-Curtis dissimilarity index"
+          ],
+          "keywords": [
+            "Bray-Curtis index",
+            "dissimilarity",
+            "R"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4127236.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

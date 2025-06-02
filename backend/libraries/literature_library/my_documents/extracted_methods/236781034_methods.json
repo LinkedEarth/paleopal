@@ -1,0 +1,373 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Core Sampling",
+      "description": "Process for collecting sediment cores and preparing samples from Site U1443 for analysis, including discrete samples for isotope analysis and U-channels for XRF scanning.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Samples used in this study are from Site U1443 (5 • 23.01 N, 90 • 21.71 E, water depth 2924 m), drilled during IODP Expedition 353... At Site U1443, the use of Advanced Piston Coring (APC) and half-length APC drilling techniques down to > 200 m CSF... allowed recovery of a compete, spliced Neogene sedimentary section spanning 0-195 m CCSF...",
+          "searchable_summary": "Drill sediment cores using APC and half-length APC techniques at Site U1443",
+          "inputs": [
+            "Site coordinates (5° 23.01 N, 90° 21.71 E)",
+            "Water depth (2924 m)",
+            "Drilling techniques (APC, half-length APC)"
+          ],
+          "outputs": [
+            "Sediment cores (e.g., U1443B, U1443C)",
+            "Spliced sedimentary section (0-195 m CCSF)"
+          ],
+          "keywords": [
+            "IODP Expedition 353",
+            "Site U1443",
+            "APC",
+            "half-length APC",
+            "sediment coring",
+            "core recovery",
+            "spliced section"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Late Miocene records cover the interval 70.06 m CCSF (U1443B 7H 5W 75-76 cm) to 122.76 m CCSF (U1443C 15H 4W 148-149 cm), following the revised shipboard splice... Cores were sampled (1 cm half rounds) at a depth resolution of 4 cm in the upper part of the late Miocene interval (70.06-114.18 m) and 2 cm in the lower part (114.18-122.76 m)...",
+          "searchable_summary": "Sample sediment cores at specified depth intervals and resolutions for discrete analysis",
+          "inputs": [
+            "Recovered sediment cores",
+            "Spliced section depth range (70.06-122.76 m CCSF)",
+            "Sampling resolution (4 cm, 2 cm)"
+          ],
+          "outputs": [
+            "Discrete sediment samples (1 cm half rounds)"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "core sampling",
+            "depth resolution",
+            "CCSF",
+            "Late Miocene"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "U-channels for XRF scanning were sampled from archive halves of sediment cores at Kochi Core Centre (Japan) during the post-cruise sampling party for 39 sections included in the splice...",
+          "searchable_summary": "Sample U-channels from archive halves of sediment cores for XRF scanning",
+          "inputs": [
+            "Archive halves of sediment cores",
+            "Spliced sections"
+          ],
+          "outputs": [
+            "U-channel samples"
+          ],
+          "keywords": [
+            "U-channel sampling",
+            "XRF scanning",
+            "archive halves",
+            "sediment cores"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age Model Construction and Validation",
+      "description": "Procedures used to establish a chronological framework for the sediment core samples, including biostratigraphy, magnetostratigraphy, and astronomical tuning, and validating the resulting age model using spectral analysis and comparison with independent records.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Seven calcareous nannofossil bio-events dated between 9.53 and 5.04 Ma were identified at ∼ 0.5 to 1 m resolution in Site U1443 splice samples...",
+          "searchable_summary": "Identify calcareous nannofossil bio-events in sediment samples",
+          "inputs": [
+            "Sediment samples (splice samples)",
+            "Calcareous nannofossil biostratigraphic data",
+            "Published bio-event ages"
+          ],
+          "outputs": [
+            "List of identified bio-events with depths and preliminary ages"
+          ],
+          "keywords": [
+            "biostratigraphy",
+            "nannofossils",
+            "bio-events",
+            "age datums"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "To check for orbital periodicities prior to tuning, wavelet analyses were performed on benthic isotope records in the depth domain and on the revised nannofossil-based age model (using a fourth-order polynomial fit, Fig All time series were first interpolated to constant depth or age resolution, such that the maximum resolution present was preserved (2 cm and 2 kyr for benthic isotope records in the depth and age domain, respectively). Records were then detrended to remove signals with periods longer than one-third of the length of the dataset using the \"bandpass\" function in the R package Astrochron (Meyers, 2014).",
+          "searchable_summary": "Perform wavelet analysis on benthic isotope records and age model after interpolation and detrending",
+          "inputs": [
+            "Benthic isotope records (δ18O, δ13C) in depth domain",
+            "Nannofossil-based age model",
+            "Time series data",
+            "R package Astrochron"
+          ],
+          "outputs": [
+            "Wavelet analysis results (e.g., periodicity identification)",
+            "Interpolated and detrended time series"
+          ],
+          "keywords": [
+            "wavelet analysis",
+            "orbital periodicity",
+            "benthic isotopes",
+            "age model",
+            "interpolation",
+            "detrending",
+            "R package Astrochron",
+            "bandpass filter"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Using revised nannofossil datums (Table S2, Fig. S1) and shipboard magnetostratigraphy as preliminary age-depth tie points ( Fig. 3), an astronomical age model was constructed by tuning our monospecific benthic δ 18 O record to an eccentricity plus tilt (ET) target curve (Laskar et al., 2004) (Table S3, Fig. 4). We used a minimal tuning approach, tying ET maxima to benthic δ 18 O minima, with at most one tie point per ∼ 100 kyr and often one every 200-300 kyr...",
+          "searchable_summary": "Construct astronomical age model by tuning benthic δ18O record to an ET target curve using biostratigraphic and magnetostratigraphic tie points",
+          "inputs": [
+            "Revised nannofossil datums",
+            "Shipboard magnetostratigraphy",
+            "Monospecific benthic δ18O record",
+            "Eccentricity plus tilt (ET) target curve (Laskar et al., 2004)",
+            "Tuning parameters (minimal tuning, tie point criteria)"
+          ],
+          "outputs": [
+            "Astronomical age model (age-depth relationship)",
+            "Tuned benthic δ18O record"
+          ],
+          "keywords": [
+            "astronomical tuning",
+            "age model",
+            "benthic δ18O",
+            "eccentricity",
+            "tilt",
+            "ET target curve",
+            "age-depth tie points",
+            "biostratigraphy",
+            "magnetostratigraphy"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Both wavelet analyses (Fig. 4f, g) and spectral analyses (Fig. S2e, f) of the tuned benthic records reveal significant (> 99 %) orbital periodicities of ∼ 405 and 41 kyr for δ 18 O and ∼ 405, 125, 95, 53, and 41 kyr for δ 13 C...",
+          "searchable_summary": "Perform wavelet and spectral analyses on tuned benthic isotope records",
+          "inputs": [
+            "Tuned benthic δ18O record",
+            "Tuned benthic δ13C record"
+          ],
+          "outputs": [
+            "Wavelet analysis results",
+            "Spectral analysis results (identified periodicities, significance levels)"
+          ],
+          "keywords": [
+            "wavelet analysis",
+            "spectral analysis",
+            "tuned benthic isotopes",
+            "orbital periodicity",
+            "δ18O",
+            "δ13C"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Cross-spectral analysis between δ 18 O and δ 13 C reveals > 95 % coherency in the 41 and 405 kyr bands (Fig. S4a).",
+          "searchable_summary": "Perform cross-spectral analysis between tuned benthic δ18O and δ13C records",
+          "inputs": [
+            "Tuned benthic δ18O record",
+            "Tuned benthic δ13C record"
+          ],
+          "outputs": [
+            "Cross-spectral analysis results (coherency, phase)"
+          ],
+          "keywords": [
+            "cross-spectral analysis",
+            "benthic isotopes",
+            "δ18O",
+            "δ13C",
+            "coherency"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Our age model is supported by close agreement between Site U1443 benthic δ 18 O and δ 13 C data and independent orbitally tuned benthic isotope records from the South China Sea (ODP 1146) , equatorial Pacific (IODP Sites U1338 and 1337)... and equatorial Atlantic (ODP Sites 926 and 999)... (Figs. S5, S6).",
+          "searchable_summary": "Validate age model by comparing U1443 benthic isotope data and age model with independent records from other sites",
+          "inputs": [
+            "Site U1443 tuned benthic δ18O and δ13C records",
+            "Site U1443 age model",
+            "Independent orbitally tuned benthic isotope records and age models from other sites (e.g., ODP 1146, U1338, U1337, ODP 926, 999)"
+          ],
+          "outputs": [
+            "Validation assessment (agreement/discrepancy)"
+          ],
+          "keywords": [
+            "age model validation",
+            "data comparison",
+            "benthic isotopes",
+            "orbitally tuned records",
+            "inter-site comparison"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Mean temporal resolution of the Site U1443 benthic isotope record is 4.2 kyr. Between 9 and 7.6 Ma, mean benthic δ 18 O values vary between 2.5 ‰ and 2.8 ‰... Between 7.6 and 6.7 Ma, mean values vary between 0.7 ‰ and 1.1 ‰... then decrease from ∼ 1 ‰ to −0.2 ‰ between 7.6 and 6.7 Ma, reflecting the globally recognized Late Miocene Carbon Isotope Shift (LMCIS)...",
+          "searchable_summary": "Analyze mean values, trends, and features (e.g., LMCIS) in tuned benthic isotope records",
+          "inputs": [
+            "Tuned benthic δ18O record",
+            "Tuned benthic δ13C record"
+          ],
+          "outputs": [
+            "Statistical summaries (mean, range)",
+            "Identified trends and features (e.g., LMCIS timing, magnitude)"
+          ],
+          "keywords": [
+            "data analysis",
+            "benthic isotopes",
+            "δ18O",
+            "δ13C",
+            "mean values",
+            "trends",
+            "LMCIS",
+            "Late Miocene Carbon Isotope Shift"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "All δ 18 O records are based on Cibicidoides wuellerstorfi or C. mundulus; therefore no corrections are applied, following Jöhnck et al. (2021). The Site 926 record includes δ 13 C corrections for some samples due to the multispecific nature of the record (Drury et al., 2017). No correction was applied to C. wuellerstorfi or C. mundulus δ 13 C values.",
+          "searchable_summary": "Apply species-specific corrections to benthic isotope data if necessary",
+          "inputs": [
+            "Benthic isotope data",
+            "Foraminifer species identification",
+            "Published correction factors (if applicable)"
+          ],
+          "outputs": [
+            "Corrected benthic isotope data (or confirmation of no correction needed)"
+          ],
+          "keywords": [
+            "isotope correction",
+            "benthic foraminifera",
+            "Cibicidoides",
+            "δ18O",
+            "δ13C",
+            "species correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "XRF Data Processing and Analysis",
+      "description": "Procedures for processing raw XRF scanning data, calibrating elemental counts, calculating derived parameters like CaCO3 content, and analyzing elemental trends, including validation of derived parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Scanning XRF results are shown in Fig. 6. Raw and calibrated elemental data show consistent trends and amplitude variability (Fig. 6).",
+          "searchable_summary": "Obtain raw scanning XRF data",
+          "inputs": [
+            "U-channel samples (from Sediment Core Sampling method)"
+          ],
+          "outputs": [
+            "Raw XRF counts-per-second data for various elements"
+          ],
+          "keywords": [
+            "XRF scanning",
+            "raw data",
+            "elemental data",
+            "counts-per-second"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For Ti, Ba, Al, and Mn, the re-scaled counts-per-second values in the 113.37 to 122.76 m CCSF interval (Lübbers et al., 2019) fell outside of our calibration range; thus data below 113.6 m (∼ 8.15 Ma) were not converted to concentrations (Fig. 6).",
+          "searchable_summary": "Calibrate raw XRF counts-per-second to elemental concentrations, noting calibration range limitations",
+          "inputs": [
+            "Raw XRF counts-per-second data",
+            "Calibration standards/curves",
+            "Depth information",
+            "Calibration range limits"
+          ],
+          "outputs": [
+            "Calibrated elemental concentration data (or re-scaled counts where calibration is not possible)"
+          ],
+          "keywords": [
+            "XRF calibration",
+            "elemental concentration",
+            "data processing",
+            "counts-per-second",
+            "calibration range"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Confidence in our method of calculating CaCO 3 content is provided by very good agreement with independent %CaCO 3 estimates for the middle and early late Miocene interval of Site U1443 based on calibration of XRF-derived counts of (Ca/ (Ca, Al, Si, K, Ti, Mn, Fe, S)) to discrete CaCO 3 measurements (Lübbers et al., 2019)...",
+          "searchable_summary": "Calculate CaCO3 content from XRF-derived elemental counts using a specified ratio",
+          "inputs": [
+            "Calibrated elemental concentration data (or re-scaled counts) for Ca, Al, Si, K, Ti, Mn, Fe, S",
+            "Calculation formula (Ca / (Ca, Al, Si, K, Ti, Mn, Fe, S))"
+          ],
+          "outputs": [
+            "Calculated CaCO3 content data"
+          ],
+          "keywords": [
+            "CaCO3 calculation",
+            "XRF data",
+            "elemental ratios",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "In brief, Al, Si, Ti, Fe, Rb, and K show similar trends... Ca and Ba show a minor long-term decrease... while Sr and Mn increase... All elements show high-frequency variability throughout.",
+          "searchable_summary": "Analyze trends and variability in calibrated elemental concentrations and calculated CaCO3 content",
+          "inputs": [
+            "Calibrated elemental concentration data",
+            "Calculated CaCO3 content data",
+            "Depth/age information"
+          ],
+          "outputs": [
+            "Identified trends (long-term, short-term)",
+            "Variability characteristics"
+          ],
+          "keywords": [
+            "data analysis",
+            "elemental trends",
+            "XRF data",
+            "CaCO3",
+            "variability"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Confidence in our method of calculating CaCO 3 content is provided by very good agreement with independent %CaCO 3 estimates...",
+          "searchable_summary": "Validate calculated CaCO3 content by comparing with independent estimates",
+          "inputs": [
+            "Calculated CaCO3 content data",
+            "Independent CaCO3 estimates (e.g., from discrete measurements or other calibrations)"
+          ],
+          "outputs": [
+            "Validation assessment (agreement)"
+          ],
+          "keywords": [
+            "data validation",
+            "CaCO3",
+            "XRF data",
+            "data comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236781034.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

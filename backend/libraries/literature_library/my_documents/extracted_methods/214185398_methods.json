@@ -1,0 +1,115 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Hydrological Change Inference and Data Analysis",
+      "description": "Methods used to infer hydrological changes from sediment core data (pollen and grain size) and compare with precipitation data, including correlation analysis and data scaling.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Determine transitions by analyzing the changes in the relationship between the pollen and grain size in the WHD core before (26 samples: 50-24 cm) and after 1967 (23 samples: 23-0 cm).",
+          "searchable_summary": "analyze relationship changes between two datasets across different time periods/sections",
+          "inputs": [
+            "Pollen data (WHD core)",
+            "Grain size data (WHD core)"
+          ],
+          "outputs": [
+            "Analysis of relationship changes"
+          ],
+          "keywords": [
+            "relationship analysis",
+            "time series analysis",
+            "sediment core data",
+            "pollen data",
+            "grain size data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Relations between grain size data and pollen data were explored using Pearson correlation analysis.",
+          "searchable_summary": "perform Pearson correlation analysis between two datasets",
+          "inputs": [
+            "Grain size data",
+            "Pollen data"
+          ],
+          "outputs": [
+            "Pearson correlation coefficients",
+            "Correlation matrix"
+          ],
+          "keywords": [
+            "Pearson correlation",
+            "correlation analysis",
+            "statistical analysis",
+            "data relationship"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The scaled value grain size (D50) was compared to precipitation... The scaling process is described: Where xD is the original value of D50 at a certain depth in the sediment core,xDmin is the minimum value of D50 through the core, xDmax is the maximum value of D50 through the core, and ZD50 is the scaled value of D50 at a certain depth in the core. (Formula: Z = (x - x_min) / (x_max - x_min))",
+          "searchable_summary": "scale data using min-max normalization formula",
+          "inputs": [
+            "Original D50 data (xD)",
+            "Minimum D50 value (xDmin)",
+            "Maximum D50 value (xDmax)"
+          ],
+          "outputs": [
+            "Scaled D50 data (ZD50)"
+          ],
+          "keywords": [
+            "data scaling",
+            "normalization",
+            "min-max scaling",
+            "data preprocessing",
+            "D50"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The scaling process was also applied to the precipitation data, described: Where xP is the original value of precipitation in a certain year, xPmin is the minimum value of precipitation, xPmax is the maximum value of precipitation, and ZPrecipitation is the scaled value of precipitation in a certain year. (Formula: Z = (x - x_min) / (x_max - x_min))",
+          "searchable_summary": "scale data using min-max normalization formula",
+          "inputs": [
+            "Original precipitation data (xP)",
+            "Minimum precipitation value (xPmin)",
+            "Maximum precipitation value (xPmax)"
+          ],
+          "outputs": [
+            "Scaled precipitation data (ZPrecipitation)"
+          ],
+          "keywords": [
+            "data scaling",
+            "normalization",
+            "min-max scaling",
+            "data preprocessing",
+            "precipitation data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The scaled value grain size (D50) was compared to precipitation (1916-1937 and 1951-2000) from climate observation station Huangshi Station in the lake catchment.",
+          "searchable_summary": "compare two scaled time series datasets",
+          "inputs": [
+            "Scaled D50 data (ZD50)",
+            "Scaled precipitation data (ZPrecipitation)"
+          ],
+          "outputs": [
+            "Comparison results"
+          ],
+          "keywords": [
+            "data comparison",
+            "time series comparison",
+            "scaled data",
+            "environmental data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/214185398.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

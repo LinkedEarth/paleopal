@@ -1,0 +1,240 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Culture Data Collection and Normalization",
+      "description": "This method involves collecting and normalizing culture data for the relationship between Mg/Ca and carbonate system parameters for various foraminifera species. The purpose is to determine the pH sensitivity and examine the relationship between seawater Mg/Ca and shell Mg/Ca.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Utilize data from culture experiments of G. ruber grown at the Interuniversity Institute for Marine Science, Eilat, between January 2010 and November 2013.",
+          "searchable_summary": "fetch culture experiment data for G. ruber",
+          "inputs": [
+            "G. ruber culture experiments"
+          ],
+          "outputs": [
+            "raw culture data"
+          ],
+          "keywords": [
+            "culture data",
+            "G. ruber",
+            "experiment data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Normalize Mg/Ca to the ratio expected at 26°C and a salinity of 35‰, specific to each species.",
+          "searchable_summary": "normalize Mg/Ca data to standard conditions",
+          "inputs": [
+            "raw Mg/Ca data",
+            "temperature",
+            "salinity"
+          ],
+          "outputs": [
+            "normalized Mg/Ca data"
+          ],
+          "keywords": [
+            "normalization",
+            "Mg/Ca",
+            "temperature",
+            "salinity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For G. ruber, use the Mg/Ca-temperature calibration of Kisakürek et al. (2008), the Mg/Ca-salinity relationship of Hönisch et al. (2013), and the seawater-test Mg/Ca calibration of Evans et al. (2016).",
+          "searchable_summary": "apply specific calibrations to G. ruber data",
+          "inputs": [
+            "G. ruber data",
+            "calibration equations"
+          ],
+          "outputs": [
+            "calibrated G. ruber data"
+          ],
+          "keywords": [
+            "calibration",
+            "G. ruber",
+            "Mg/Ca"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For G. bulloides and O. universa, normalize data to 26°C assuming exponential coefficient of 0.09.",
+          "searchable_summary": "normalize G. bulloides and O. universa data to 26°C",
+          "inputs": [
+            "G. bulloides data",
+            "O. universa data"
+          ],
+          "outputs": [
+            "normalized data for G. bulloides and O. universa"
+          ],
+          "keywords": [
+            "normalization",
+            "G. bulloides",
+            "O. universa",
+            "temperature"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Calculate DIC and [CO2−3] using co2sys based on constants from Raitzsch et al. (2010).",
+          "searchable_summary": "calculate DIC and carbonate ion concentration",
+          "inputs": [
+            "co2sys constants",
+            "raw data"
+          ],
+          "outputs": [
+            "DIC",
+            "carbonate ion concentration"
+          ],
+          "keywords": [
+            "DIC",
+            "carbonate chemistry",
+            "co2sys"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Laser-ablation Analysis",
+      "description": "This method describes the laser-ablation analysis of foraminifera cultures to measure Mg/Ca ratios using a laser-ablation system.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Clean foraminifera in 10% NaOCl, rinse in deionised water, and mount on carbon tape.",
+          "searchable_summary": "prepare foraminifera samples for laser-ablation",
+          "inputs": [
+            "foraminifera samples"
+          ],
+          "outputs": [
+            "prepared samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "foraminifera",
+            "laser-ablation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Identify individual chambers precipitated in culture by elevated 135Ba/138Ba.",
+          "searchable_summary": "identify cultured chambers by Ba isotope ratio",
+          "inputs": [
+            "prepared samples"
+          ],
+          "outputs": [
+            "identified chambers"
+          ],
+          "keywords": [
+            "isotope analysis",
+            "Ba ratio",
+            "chamber identification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Use NIST610 as a calibration standard for Mg.",
+          "searchable_summary": "calibrate Mg measurements using NIST610",
+          "inputs": [
+            "NIST610 standard",
+            "Mg measurements"
+          ],
+          "outputs": [
+            "calibrated Mg data"
+          ],
+          "keywords": [
+            "calibration",
+            "NIST610",
+            "Mg"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Perform data reduction using in-house Matlab software.",
+          "searchable_summary": "reduce data using Matlab software",
+          "inputs": [
+            "raw laser-ablation data"
+          ],
+          "outputs": [
+            "reduced data"
+          ],
+          "keywords": [
+            "data reduction",
+            "Matlab",
+            "laser-ablation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "St. Stephens Quarry Laser-ablation Data Analysis",
+      "description": "This method involves analyzing laser-ablation data from St. Stephens Quarry to assess foraminifera preservation and compare with solution ICPMS data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Assess Mn/Ca ratios to evaluate diagenetic overgrowths.",
+          "searchable_summary": "evaluate Mn/Ca ratios for diagenetic bias",
+          "inputs": [
+            "laser-ablation data"
+          ],
+          "outputs": [
+            "Mn/Ca assessment"
+          ],
+          "keywords": [
+            "Mn/Ca ratio",
+            "diagenetic overgrowth",
+            "foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compare laser-ablation Mg/Ca data with solution ICPMS data.",
+          "searchable_summary": "compare laser-ablation and solution ICPMS Mg/Ca data",
+          "inputs": [
+            "laser-ablation data",
+            "solution ICPMS data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "Mg/Ca comparison",
+            "ICPMS",
+            "laser-ablation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Infer applicability of solution analyses calibrations to laser-ablation data.",
+          "searchable_summary": "validate calibration applicability between methods",
+          "inputs": [
+            "comparison results"
+          ],
+          "outputs": [
+            "validation conclusion"
+          ],
+          "keywords": [
+            "calibration validation",
+            "solution analysis",
+            "laser-ablation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/32332224.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

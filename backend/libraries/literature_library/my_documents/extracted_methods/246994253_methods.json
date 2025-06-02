@@ -1,0 +1,487 @@
+{
+  "paper_title": "Allergy Database Analysis and Patient Characterization",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Patient Selection and Grouping",
+      "description": "Retrospective scanning of an anonymized allergy database to identify patients with positive skin prick test (SPT) to birch, filter based on specific IgE (sIgE) results for Bet v 1 and profilin, and divide them into distinct groups based on their serological patterns for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Retrospectively scanned this database for patients who had a positive skin prick test (SPT) to birch between September 2002 and April 2018.",
+          "searchable_summary": "query allergy database for patients with positive birch SPT within a date range",
+          "inputs": [
+            "anonymized allergy database",
+            "SPT results (birch)",
+            "date range (Sept 2002 - April 2018)"
+          ],
+          "outputs": [
+            "list of patients with positive birch SPT"
+          ],
+          "keywords": [
+            "database query",
+            "retrospective analysis",
+            "skin prick test",
+            "allergy database"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A total of 1148 patients had received diagnostics for specific IgE to the allergen components Bet v 1 and profilin (Bet v 2 and/or Phl p 12).",
+          "searchable_summary": "filter patients based on availability of sIgE diagnostics for Bet v 1 and profilin",
+          "inputs": [
+            "list of patients with positive birch SPT",
+            "sIgE diagnostic records (Bet v 1, profilin)"
+          ],
+          "outputs": [
+            "list of patients with positive birch SPT and sIgE diagnostics for Bet v 1/profilin"
+          ],
+          "keywords": [
+            "data filtering",
+            "specific IgE",
+            "allergen components",
+            "Bet v 1",
+            "profilin"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Based on the serological pattern, we divided the patient collective into the following groups: Bet v 1 positive and profilin negative (group A, n=800 patients), Bet v 1 positive and profilin positive (group B, n=121 patients), as control group Bet v 1 negative and profilin negative (group C, n=198 patients) and Bet v 1 negative and profilin positive (group D, n=29).",
+          "searchable_summary": "categorize patients into groups based on Bet v 1 and profilin sIgE results",
+          "inputs": [
+            "list of patients with sIgE results",
+            "Bet v 1 sIgE results",
+            "profilin sIgE results"
+          ],
+          "outputs": [
+            "patient groups (A, B, C, D) based on sIgE patterns"
+          ],
+          "keywords": [
+            "data grouping",
+            "patient stratification",
+            "serological pattern",
+            "Bet v 1",
+            "profilin",
+            "specific IgE"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "As we wanted to have a look at the relevance of profilin in context of birch pollen allergic patients, individuals with characteristics \"Bet v 1 -/profilin +\" were not informative in our context, and therefore this group was not analyzed.",
+          "searchable_summary": "exclude group D (Bet v 1 negative/profilin positive) from analysis",
+          "inputs": [
+            "patient groups (A, B, C, D)"
+          ],
+          "outputs": [
+            "patient groups for analysis (A, B, C)"
+          ],
+          "keywords": [
+            "data exclusion",
+            "patient cohort definition",
+            "study design"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The final study cohort included 1119 patients.",
+          "searchable_summary": "define the final study cohort size",
+          "inputs": [
+            "patient groups for analysis (A, B, C)"
+          ],
+          "outputs": [
+            "final study cohort"
+          ],
+          "keywords": [
+            "cohort definition",
+            "sample size"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Skin Prick Test (SPT) Procedure",
+      "description": "Standardized procedure for performing skin prick tests using specific allergen solutions and controls, with defined criteria for reading and classifying positive results.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "For SPT the solutions by ALK-Abelló, Wedel, Germany had been used.",
+          "searchable_summary": "use ALK-Abelló SPT solutions",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "skin prick test",
+            "allergen solutions",
+            "ALK-Abelló"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "We had performed SPT to birch, hazel, alder, ash, timothy grass, rye, mugwort, pellitory, ragweed, Dermatophagoides pteronyssinus, Dermatophagoides farinae, dog, cat, Alternaria and Aspergillus.",
+          "searchable_summary": "perform SPT for a specified panel of allergens",
+          "inputs": [
+            "SPT solutions",
+            "list of allergens"
+          ],
+          "outputs": [],
+          "keywords": [
+            "skin prick test",
+            "allergen panel",
+            "allergy diagnostics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "in combination with histamine dihydrochloride solution at 1 mg/mL as positive control",
+          "searchable_summary": "use histamine solution as positive control for SPT",
+          "inputs": [
+            "histamine solution (1 mg/mL)"
+          ],
+          "outputs": [],
+          "keywords": [
+            "skin prick test",
+            "positive control",
+            "histamine"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "and allergen-free saline solution as negative control",
+          "searchable_summary": "use saline solution as negative control for SPT",
+          "inputs": [
+            "saline solution"
+          ],
+          "outputs": [],
+          "keywords": [
+            "skin prick test",
+            "negative control",
+            "saline"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "read 20 min after application.",
+          "searchable_summary": "read SPT results after 20 minutes",
+          "inputs": [],
+          "outputs": [
+            "SPT wheal/flare reactions"
+          ],
+          "keywords": [
+            "skin prick test",
+            "reading time",
+            "allergy diagnostics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The SPT has been considered positive with a wheal ≥3 mm in diameter",
+          "searchable_summary": "define positive SPT result based on wheal diameter threshold",
+          "inputs": [
+            "SPT wheal diameter measurement"
+          ],
+          "outputs": [
+            "positive/negative SPT result"
+          ],
+          "keywords": [
+            "skin prick test",
+            "positive criteria",
+            "wheal diameter",
+            "thresholding"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "(divided into the following categories: ≥3 to 4 mm; ≥4 to 5 mm; ≥5 to 6; ≥6 mm)",
+          "searchable_summary": "classify positive SPT results into categories based on wheal size ranges",
+          "inputs": [
+            "positive SPT wheal diameter measurement"
+          ],
+          "outputs": [
+            "SPT wheal size category"
+          ],
+          "keywords": [
+            "skin prick test",
+            "classification",
+            "wheal size",
+            "categorization"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "The procedure and classification were in line with European standards and published guidelines. 13,14",
+          "searchable_summary": "ensure SPT procedure and classification comply with standards/guidelines",
+          "inputs": [
+            "SPT procedure details",
+            "SPT classification criteria",
+            "European standards/guidelines"
+          ],
+          "outputs": [
+            "compliance status"
+          ],
+          "keywords": [
+            "standardization",
+            "guidelines",
+            "quality control",
+            "validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fluorescence Enzyme Immunoassay (FEIA) for sIgE",
+      "description": "Method used to detect and quantify specific IgE (sIgE) antibodies to allergen components Bet v 1 and profilin using a commercially available test kit.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "The FEIA (fluorescence enzyme immunoassay) method was used to detect IgE reactivity to allergen components Bet v 1 and profilin (Bet v 2 and/or Phl p 12)",
+          "searchable_summary": "perform FEIA to detect sIgE to Bet v 1 and profilin",
+          "inputs": [
+            "patient serum sample"
+          ],
+          "outputs": [
+            "sIgE reactivity data (raw)"
+          ],
+          "keywords": [
+            "FEIA",
+            "fluorescence enzyme immunoassay",
+            "specific IgE",
+            "allergen components",
+            "Bet v 1",
+            "profilin",
+            "allergy diagnostics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "with a commercially available test kit (UniCAP, Thermo Fisher Scientific, Freiburg, Germany).",
+          "searchable_summary": "use UniCAP test kit for FEIA",
+          "inputs": [
+            "UniCAP test kit"
+          ],
+          "outputs": [],
+          "keywords": [
+            "FEIA kit",
+            "UniCAP",
+            "Thermo Fisher Scientific",
+            "commercial assay"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "All procedures were in accordance with the manufacturer'ś instructions.",
+          "searchable_summary": "follow manufacturer's instructions for FEIA procedure",
+          "inputs": [
+            "manufacturer's instructions"
+          ],
+          "outputs": [],
+          "keywords": [
+            "protocol adherence",
+            "manufacturer instructions",
+            "standard operating procedure"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Results were reported as concentrations (kU/L).",
+          "searchable_summary": "report FEIA results as sIgE concentrations in kU/L",
+          "inputs": [
+            "sIgE reactivity data (raw)"
+          ],
+          "outputs": [
+            "sIgE concentrations (kU/L)"
+          ],
+          "keywords": [
+            "data reporting",
+            "concentration units",
+            "kU/L",
+            "specific IgE"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Clinical Data Collection",
+      "description": "Collection of patient medical history, demographic data, and detailed symptom information using standardized questionnaires and interviews.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Further, the medical history was registered, partially by a standardized clinical history questionnaire containing demographic data, living environment, complaints of the upper and lower airways, gastrointestinal symptoms and oral allergy symptoms.",
+          "searchable_summary": "collect medical history and demographic/symptom data using a standardized questionnaire",
+          "inputs": [
+            "standardized clinical history questionnaire",
+            "patient interview"
+          ],
+          "outputs": [
+            "medical history data",
+            "demographic data",
+            "symptom data (airway, GI, oral allergy)"
+          ],
+          "keywords": [
+            "data collection",
+            "questionnaire",
+            "medical history",
+            "demographics",
+            "symptoms"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The clinical symptoms were assessed by a standardized questionnaire (an extended version of the standardized German adapted version of the Rhinoconjunctivitis Quality of Life Questionnaire by Juniper).",
+          "searchable_summary": "assess clinical symptoms using an extended RQLQ questionnaire",
+          "inputs": [
+            "extended RQLQ questionnaire (German adapted)",
+            "patient self-report"
+          ],
+          "outputs": [
+            "clinical symptom severity data"
+          ],
+          "keywords": [
+            "data collection",
+            "questionnaire",
+            "clinical symptoms",
+            "RQLQ",
+            "patient reported outcomes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Oral allergy syndrome was verified by means of case history only by using a standardized interview.",
+          "searchable_summary": "verify oral allergy syndrome diagnosis via standardized interview",
+          "inputs": [
+            "standardized interview protocol",
+            "patient interview"
+          ],
+          "outputs": [
+            "oral allergy syndrome verification status"
+          ],
+          "keywords": [
+            "data collection",
+            "interview",
+            "oral allergy syndrome",
+            "diagnosis verification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "We documented patient-reported immediate adverse reactions after ingestion of plant foods.",
+          "searchable_summary": "document patient-reported immediate adverse food reactions",
+          "inputs": [
+            "patient self-report",
+            "interview/questionnaire data"
+          ],
+          "outputs": [
+            "adverse food reaction data"
+          ],
+          "keywords": [
+            "data collection",
+            "patient reported outcomes",
+            "adverse reactions",
+            "food allergy"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Overall, the following fields of interest were interrogated: diagnosis from the allergic symptom complex, general experience with food, reactions to food, allergic rhinitis and atopic comorbidities ( Table 3).",
+          "searchable_summary": "structure collected data according to predefined fields of interest",
+          "inputs": [
+            "medical history data",
+            "symptom data",
+            "adverse food reaction data"
+          ],
+          "outputs": [
+            "structured patient data (diagnosis, food experience, food reactions, rhinitis, comorbidities)"
+          ],
+          "keywords": [
+            "data structuring",
+            "data organization",
+            "clinical data",
+            "allergy phenotypes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the collected patient data, including software used and the specific test applied to compare groups.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Statistical analysis was performed using R, version 3.5.1 (R Core Team (2018), Vienna, Austria) and Excel (Microsoft, Redmond, WA, USA).",
+          "searchable_summary": "perform statistical analysis using R and Excel software",
+          "inputs": [
+            "structured patient data"
+          ],
+          "outputs": [],
+          "keywords": [
+            "statistical analysis",
+            "R software",
+            "Excel",
+            "data analysis tools"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The parametric Pearson's chi-square test was utilized for testing statistically significant differences between the groups.",
+          "searchable_summary": "apply Pearson's chi-square test to compare groups",
+          "inputs": [
+            "structured patient data",
+            "patient groups (A, B, C)"
+          ],
+          "outputs": [
+            "chi-square test results",
+            "p-values"
+          ],
+          "keywords": [
+            "statistical test",
+            "Pearson's chi-square test",
+            "group comparison",
+            "categorical data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "A p-value of <0.05 was considered significant.",
+          "searchable_summary": "define statistical significance threshold",
+          "inputs": [
+            "p-values from statistical tests"
+          ],
+          "outputs": [
+            "statistical significance determination"
+          ],
+          "keywords": [
+            "statistical significance",
+            "p-value",
+            "significance level",
+            "alpha threshold"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/246994253.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

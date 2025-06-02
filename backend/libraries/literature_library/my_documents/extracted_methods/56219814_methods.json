@@ -1,0 +1,339 @@
+{
+  "paper_title": "Bioinformatics Analysis of Protein Sequences",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Retrieval and Homology Search",
+      "description": "This method describes the process of obtaining the initial protein sequence of interest and identifying homologous sequences from a public database using a basic local alignment search tool.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Ory S1 Protein (query protein) sequence from Oryza sativa was retrieved from NCBI database [7] .",
+          "searchable_summary": "retrieve protein sequence from NCBI database",
+          "inputs": [
+            "Protein name (Ory S1 Protein)",
+            "Organism (Oryza sativa)",
+            "Database (NCBI)"
+          ],
+          "outputs": [
+            "Query protein sequence"
+          ],
+          "keywords": [
+            "NCBI",
+            "protein sequence",
+            "retrieval",
+            "Oryza sativa"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Basic local alignment search tool was used to retrieve the homologous sequences by querying against non-redundant database (nr).",
+          "searchable_summary": "perform BLAST search for homologous sequences against non-redundant database",
+          "inputs": [
+            "Query protein sequence",
+            "Database (NCBI non-redundant)"
+          ],
+          "outputs": [
+            "List of homologous sequences",
+            "Alignment scores"
+          ],
+          "keywords": [
+            "BLAST",
+            "homology search",
+            "sequence alignment",
+            "non-redundant database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pairwise Sequence Alignment",
+      "description": "This method involves aligning individual homologous sequences against the query protein sequence to assess their similarity and proximity using a dynamic programming algorithm.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Dynamic programming algorithm was used to align individual homologous sequence(s) with the query protein sequence to find the proximity.",
+          "searchable_summary": "perform pairwise sequence alignment using dynamic programming",
+          "inputs": [
+            "Query protein sequence",
+            "Individual homologous sequences"
+          ],
+          "outputs": [
+            "Pairwise alignments",
+            "Alignment scores (e.g., proximity scores)"
+          ],
+          "keywords": [
+            "pairwise alignment",
+            "dynamic programming",
+            "sequence alignment",
+            "homologous sequences"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "LALIGN program which implements Huang and Miller algorithm was utilized for this study [8] .",
+          "searchable_summary": "utilize LALIGN program for pairwise alignment",
+          "inputs": [
+            "Query protein sequence",
+            "Individual homologous sequences"
+          ],
+          "outputs": [
+            "Pairwise alignments",
+            "Alignment scores"
+          ],
+          "keywords": [
+            "LALIGN",
+            "Huang and Miller algorithm",
+            "pairwise alignment tool"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multiple Sequence Alignment and Consensus Sequence Generation",
+      "description": "This method selects a subset of homologous sequences based on pairwise alignment scores and performs a multiple sequence alignment to identify conserved regions, followed by generating a consensus sequence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Nine close homologous sequences were selected for further study based on pairwise alignment score.",
+          "searchable_summary": "select top homologous sequences based on pairwise alignment scores",
+          "inputs": [
+            "List of homologous sequences",
+            "Pairwise alignment scores"
+          ],
+          "outputs": [
+            "Selected subset of homologous sequences (n=9)"
+          ],
+          "keywords": [
+            "sequence selection",
+            "homologous sequences",
+            "alignment score filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "ClustalW, a neighbor joining algorithm based tool was used to find the Multiple Sequence Alignment (MSA) [9]",
+          "searchable_summary": "perform multiple sequence alignment using ClustalW",
+          "inputs": [
+            "Selected subset of homologous sequences"
+          ],
+          "outputs": [
+            "Multiple sequence alignment (MSA)"
+          ],
+          "keywords": [
+            "multiple sequence alignment",
+            "MSA",
+            "ClustalW",
+            "neighbor joining algorithm"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "and a consensus sequence was prepared based on the MSA.",
+          "searchable_summary": "generate consensus sequence from multiple sequence alignment",
+          "inputs": [
+            "Multiple sequence alignment (MSA)"
+          ],
+          "outputs": [
+            "Consensus sequence"
+          ],
+          "keywords": [
+            "consensus sequence",
+            "MSA processing",
+            "sequence generation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Domain and Motif Detection",
+      "description": "This method identifies functional domains and recurring sequence motifs within the protein sequences using specialized bioinformatics tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Domain positions of the sequences were identified using InterPro, an integrated resource for protein families, domains and sites that combines a number of databases (referred to as member databases) using diverse methodologies and a varying degree of biological information on well-characterized proteins to derive domain positions in the protein sequence [10] .",
+          "searchable_summary": "identify protein domain positions using InterPro",
+          "inputs": [
+            "Protein sequences (homologous sequences, consensus sequence)"
+          ],
+          "outputs": [
+            "Identified domain positions",
+            "Domain annotations"
+          ],
+          "keywords": [
+            "protein domain detection",
+            "InterPro",
+            "domain annotation",
+            "bioinformatics database"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Multiple Em for Motif Elicitation (MEME) was also used to find common motifs found in the MSA [11] .",
+          "searchable_summary": "find common sequence motifs using MEME",
+          "inputs": [
+            "Multiple sequence alignment (MSA)"
+          ],
+          "outputs": [
+            "Identified sequence motifs",
+            "Motif positions",
+            "Motif probabilities"
+          ],
+          "keywords": [
+            "sequence motif detection",
+            "MEME",
+            "motif discovery",
+            "MSA analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein Homology Modeling",
+      "description": "This method constructs 3D structural models for the protein sequences based on known template structures using homology modeling techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "All 20 allergen homolog sequences and the consensus domain sequences were modeled using homology modeling method using same template (1n10A).",
+          "searchable_summary": "perform protein homology modeling using a specified template",
+          "inputs": [
+            "Protein sequences (20 allergen homologs, consensus domain sequences)",
+            "Template PDB ID (1n10A)"
+          ],
+          "outputs": [
+            "3D protein models"
+          ],
+          "keywords": [
+            "protein homology modeling",
+            "comparative modeling",
+            "3D structure prediction",
+            "protein modeling template"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "MODELLER, a homology modeling tool which implements comparative protein structure modeling by spatial restraints, was utilized for the present study to construct protein models [12,13] .",
+          "searchable_summary": "utilize MODELLER tool for protein structure modeling",
+          "inputs": [
+            "Protein sequences",
+            "Template structure",
+            "Alignment between sequence and template"
+          ],
+          "outputs": [
+            "3D protein models (MODELLER output)"
+          ],
+          "keywords": [
+            "MODELLER",
+            "homology modeling tool",
+            "spatial restraints",
+            "protein structure modeling software"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Binding Pocket Exploration and Validation",
+      "description": "This method identifies potential ligand binding pockets within the modeled protein structures and validates their functional significance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "CASTp server, which used weighted Delaunay triangulation and the alpha complex by shape measurement of the domain structure was used for the present study to locate the binding pockets [14] .",
+          "searchable_summary": "locate protein binding pockets using CASTp server",
+          "inputs": [
+            "3D protein models (domain structures)"
+          ],
+          "outputs": [
+            "Identified binding pockets",
+            "Pocket coordinates"
+          ],
+          "keywords": [
+            "binding pocket detection",
+            "CASTp server",
+            "weighted Delaunay triangulation",
+            "alpha complex",
+            "protein structure analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "This tool measures analytically the area and volume of each pocket and cavity, both in solvent accessible surface (SA, Richards' surface) and molecular surface (MS, Connolly's surface).",
+          "searchable_summary": "measure area and volume of identified binding pockets",
+          "inputs": [
+            "Identified binding pockets",
+            "3D protein models"
+          ],
+          "outputs": [
+            "Pocket area (SA, MS)",
+            "Pocket volume (SA, MS)"
+          ],
+          "keywords": [
+            "pocket measurement",
+            "solvent accessible surface",
+            "molecular surface",
+            "pocket volume",
+            "pocket area"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The obtained pockets were validated based on their functional significance and its contribution to the essentiality and allergenicity of the organisms.",
+          "searchable_summary": "validate binding pockets based on functional significance, essentiality, and allergenicity",
+          "inputs": [
+            "Identified binding pockets",
+            "Pocket properties (area, volume)",
+            "Biological context (essentiality, allergenicity)"
+          ],
+          "outputs": [
+            "Validated binding pockets",
+            "Assessment of pocket significance"
+          ],
+          "keywords": [
+            "pocket validation",
+            "functional significance",
+            "essentiality",
+            "allergenicity",
+            "biological validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Finally, the target's functionality significance and its role in IgE interactions were validated in the light of literature search.",
+          "searchable_summary": "validate target protein functionality and IgE interaction role using literature search",
+          "inputs": [
+            "Target protein",
+            "Identified pockets/domains",
+            "Literature database"
+          ],
+          "outputs": [
+            "Validated functional significance",
+            "Validated role in IgE interactions"
+          ],
+          "keywords": [
+            "literature validation",
+            "protein function",
+            "IgE interaction",
+            "allergenicity",
+            "literature search"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56219814.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

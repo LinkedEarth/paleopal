@@ -1,0 +1,301 @@
+{
+  "paper_title": "MicrogAMBI Method Extraction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "MicrogAMBI Index Calculation and Taxa Assignment",
+      "description": "This method describes the process for identifying microbial taxa, assigning them to ecological groups (EGs) based on surveyed literature and their association with pollution inputs, and calculating the microgAMBI index from the relative abundance ratio of sensitive/indifferent (EGI) and tolerant/opportunistic (EGIII) taxa to classify ecological status. It also includes the process for expanding the taxa list and defining criteria for EG assignment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Microbial taxa were identified via the taxonomic classification of genomic sequences",
+          "searchable_summary": "Perform taxonomic classification of genomic sequences to identify microbial taxa",
+          "inputs": [
+            "Genomic sequences"
+          ],
+          "outputs": [
+            "Identified microbial taxa"
+          ],
+          "keywords": [
+            "taxonomic classification",
+            "genomic sequences",
+            "microbial identification",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "assigned to EGs based on surveyed literature, as described in the initial paper [5].",
+          "searchable_summary": "Assign identified microbial taxa to Ecological Groups (EGs) based on surveyed literature",
+          "inputs": [
+            "Identified microbial taxa",
+            "Surveyed literature [5]"
+          ],
+          "outputs": [
+            "Taxa assigned to EGs"
+          ],
+          "keywords": [
+            "ecological groups",
+            "taxa assignment",
+            "literature basis",
+            "database lookup"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Following the principle of AMBI, which was simplified to two single responses, microbes not associated with pollution inputs were included in the sensitive and indifferent taxa (EGI), while those associated with pollution inputs were included in the tolerant and opportunistic taxa (EGIII)",
+          "searchable_summary": "Categorize EGs into EGI (sensitive/indifferent) and EGIII (tolerant/opportunistic) based on pollution association",
+          "inputs": [
+            "Taxa assigned to EGs",
+            "AMBI principle",
+            "Pollution association information"
+          ],
+          "outputs": [
+            "Taxa categorized into EGI and EGIII"
+          ],
+          "keywords": [
+            "AMBI",
+            "ecological groups",
+            "pollution indicators",
+            "EGI",
+            "EGIII"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "To expand the initial taxa list, a literature review was done to identify microbial taxa frequently observed in environmental studies.",
+          "searchable_summary": "Conduct literature review to expand the initial taxa list with frequently observed taxa",
+          "inputs": [
+            "Scientific literature",
+            "Environmental studies"
+          ],
+          "outputs": [
+            "Expanded list of microbial taxa"
+          ],
+          "keywords": [
+            "literature review",
+            "taxa list expansion",
+            "environmental microbiology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The criteria for assigning these taxa to the two aforementioned EGs follow the approach outlined by Aylagas et al. [5]. Specifically, a taxon is assigned to EGIII when: (i) is dominant in organic matter-enriched sediments; (ii) exhibits response to organic pollution; (iii) is predominantly found in anoxic methane-rich sediments; (iv) is identified as a nitrite oxidizer and related to nitrogen",
+          "searchable_summary": "Assign expanded taxa to EGs (EGI or EGIII) based on defined criteria from Aylagas et al. [5]",
+          "inputs": [
+            "Expanded list of microbial taxa",
+            "Assignment criteria [5]"
+          ],
+          "outputs": [
+            "Expanded taxa list with EG assignments"
+          ],
+          "keywords": [
+            "taxa assignment criteria",
+            "ecological groups",
+            "EGIII",
+            "pollution indicators",
+            "criteria-based classification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Within each sample, the relative abundance ratio of EGI and EGIII was used to calculate the index",
+          "searchable_summary": "Calculate the relative abundance ratio of EGI and EGIII within each sample",
+          "inputs": [
+            "Sample data with taxon abundances",
+            "Taxa categorized into EGI and EGIII"
+          ],
+          "outputs": [
+            "Relative abundance ratio of EGI and EGIII per sample"
+          ],
+          "keywords": [
+            "relative abundance",
+            "EGI",
+            "EGIII",
+            "ratio calculation",
+            "microbial community analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "the relative abundance ratio of EGI and EGIII was used to calculate the index",
+          "searchable_summary": "Calculate the microgAMBI index using the relative abundance ratio of EGI and EGIII",
+          "inputs": [
+            "Relative abundance ratio of EGI and EGIII"
+          ],
+          "outputs": [
+            "microgAMBI index value per sample"
+          ],
+          "keywords": [
+            "microgAMBI",
+            "index calculation",
+            "ecological index"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "which provides an ecological classification of high, good, moderate, poor, or bad status [5]",
+          "searchable_summary": "Classify ecological status (high, good, moderate, poor, bad) based on the microgAMBI index value",
+          "inputs": [
+            "microgAMBI index value",
+            "Ecological status thresholds [5]"
+          ],
+          "outputs": [
+            "Ecological status classification per sample"
+          ],
+          "keywords": [
+            "ecological status",
+            "classification",
+            "microgAMBI interpretation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Taxa List Database Usage and Curation",
+      "description": "This method describes the structure and content of the taxa list database (GigaDB, Open Office template) used for microgAMBI calculation, including data preparation, using the template for calculation, accessing taxon information, and the process of database curation to ensure data quality.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Access the taxa list database available in the GigaDB database [16], as an Open Office template allowing the calculation of microgAMBI.",
+          "searchable_summary": "Access the taxa list database template from GigaDB",
+          "inputs": [
+            "GigaDB database [16] location"
+          ],
+          "outputs": [
+            "Open Office template file"
+          ],
+          "keywords": [
+            "database access",
+            "GigaDB",
+            "Open Office template"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The first sheet is a stepwise guide... on how the user should prepare the data to calculate the index... (in the case of genus, without 'sp.'; hence, it is better to remove this in the datasets to be tested)",
+          "searchable_summary": "Prepare user data for microgAMBI calculation template, including removing 'sp.' from genus names",
+          "inputs": [
+            "Raw user data (e.g., taxon abundances with genus names)",
+            "Stepwise guide (Template Sheet 1)"
+          ],
+          "outputs": [
+            "Prepared user data (formatted, 'sp.' removed)"
+          ],
+          "keywords": [
+            "data preparation",
+            "data formatting",
+            "guide following",
+            "string manipulation",
+            "taxon names"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The second one ('template'), is an empty spreadsheet template to be filled in with the data",
+          "searchable_summary": "Fill in the 'template' spreadsheet (Sheet 2) with the prepared user data",
+          "inputs": [
+            "Prepared user data",
+            "'template' spreadsheet (Template Sheet 2)"
+          ],
+          "outputs": [
+            "Populated 'template' spreadsheet"
+          ],
+          "keywords": [
+            "spreadsheet input",
+            "data entry",
+            "template usage"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "...and the necessary equations to obtain the ecological status by station, as originally described in Aylagas et al. [5].",
+          "searchable_summary": "Utilize the embedded equations in the 'template' spreadsheet to obtain the ecological status by station",
+          "inputs": [
+            "Populated 'template' spreadsheet"
+          ],
+          "outputs": [
+            "Ecological status classification per station"
+          ],
+          "keywords": [
+            "spreadsheet calculation",
+            "automated analysis",
+            "ecological status",
+            "Aylagas et al. [5]"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "The third sheet is also available as a TSV file ('taxa list') that includes: (i) in column A, the correlative number of each taxon; (ii) in column B, the name of each taxon...; (iii) in column E, the assignation of taxa to a corresponding EG; (iv) in column G, the literature on which the decision to assign a taxon to an EG was based on; and (v) in column H, comments about the decision on assigning the taxon to an EG.",
+          "searchable_summary": "Refer to the 'taxa list' sheet (Sheet 3) for detailed information on each taxon",
+          "inputs": [
+            "'taxa list' sheet (Template Sheet 3)",
+            "Taxon identifier"
+          ],
+          "outputs": [
+            "Taxon details (ID, name, EG, literature basis, comments)"
+          ],
+          "keywords": [
+            "data lookup",
+            "taxa information",
+            "database query",
+            "TSV file"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "For each of them, the DOI (Digital Object Identifier) or other URI (Uniform Resource Identifier) links are provided in column F to access one or more papers supporting the assignation.",
+          "searchable_summary": "Access supporting literature for taxon assignments using provided DOI or URI links from the 'taxa list' sheet",
+          "inputs": [
+            "DOI/URI links (from Taxa list Sheet 3)"
+          ],
+          "outputs": [
+            "Supporting literature"
+          ],
+          "keywords": [
+            "literature access",
+            "DOI",
+            "URI",
+            "reference lookup"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "To ensure the quality of the data, the database was curated, checking the accepted taxa",
+          "searchable_summary": "Perform quality control and curation of the taxa list database by checking accepted taxa and verifying assignments/links",
+          "inputs": [
+            "Taxa list database",
+            "Supporting literature",
+            "External links"
+          ],
+          "outputs": [
+            "Curated taxa list database"
+          ],
+          "keywords": [
+            "database curation",
+            "data quality control",
+            "validation",
+            "literature verification"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260913013.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

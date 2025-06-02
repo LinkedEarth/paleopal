@@ -1,0 +1,225 @@
+{
+  "paper_title": "Environmental Study Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sampling and Data Collection",
+      "description": "Process for identifying sampling sites and collecting water quality and diatom data at specified times, noting environmental conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Thirty three sites were identified in the Groot Marico and Molopo River systems for the study (Fig. 1).",
+          "searchable_summary": "Define geographical sampling locations for environmental monitoring",
+          "inputs": [
+            "River system names (Groot Marico, Molopo)",
+            "Number of sites (33)"
+          ],
+          "outputs": [
+            "List of 33 sampling site locations"
+          ],
+          "keywords": [
+            "sampling sites",
+            "geographical locations",
+            "site selection",
+            "environmental monitoring network"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Samples were collected... at the sites...",
+          "searchable_summary": "Collect environmental samples (water quality, biological) at defined locations",
+          "inputs": [
+            "List of sampling site locations",
+            "Sampling equipment",
+            "Measurement protocols for water quality and diatoms"
+          ],
+          "outputs": [
+            "Raw water quality data",
+            "Raw diatom samples/data"
+          ],
+          "keywords": [
+            "environmental sampling",
+            "water quality data",
+            "diatom data",
+            "field collection",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Samples were collected in April, June, September and November 2005 at the sites...",
+          "searchable_summary": "Specify sampling schedule and timing for data collection",
+          "inputs": [
+            "Sampling schedule (April, June, September, November 2005)"
+          ],
+          "outputs": [
+            "Data collected with associated timestamps/sampling events"
+          ],
+          "keywords": [
+            "sampling schedule",
+            "time series data",
+            "environmental monitoring",
+            "seasonal sampling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "...as water levels permitted (at times certain samples could not be collected due to low water levels), resulting in a total of 102 separate data points with diatom data and same-day water quality data.",
+          "searchable_summary": "Record environmental conditions affecting data collection success and report total data points collected",
+          "inputs": [
+            "Water level observations during sampling",
+            "Raw collected data"
+          ],
+          "outputs": [
+            "Metadata on sampling conditions (e.g., missing data points due to low water)",
+            "Final count of collected data points (102)"
+          ],
+          "keywords": [
+            "sampling conditions",
+            "water levels",
+            "data completeness",
+            "metadata",
+            "data inventory"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Procedures for analyzing collected water quality and biological data using multiple regressions, correlation analysis, and principle component analysis, including data standardization and handling multicollinearity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Before analysis, all the data were standardised by subtracting the sample mean and dividing the result by the sample standard deviation (Hair et al., 1998).",
+          "searchable_summary": "Standardize numerical data (z-score normalization)",
+          "inputs": [
+            "Raw collected dataset"
+          ],
+          "outputs": [
+            "Standardized dataset"
+          ],
+          "keywords": [
+            "data standardization",
+            "z-score",
+            "normalization",
+            "data preprocessing",
+            "scaling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Multiple regressions... were performed using the STATISTICA software package... For the regressions the forward stepwise method was chosen...",
+          "searchable_summary": "Perform multiple linear regression with forward stepwise feature selection",
+          "inputs": [
+            "Standardized dataset (excluding variables identified for exclusion)",
+            "Dependent variable(s)",
+            "Potential independent variables"
+          ],
+          "outputs": [
+            "Regression model(s)",
+            "Regression coefficients",
+            "Statistical significance (p-values)",
+            "R^2 values"
+          ],
+          "keywords": [
+            "multiple regression",
+            "linear regression",
+            "stepwise regression",
+            "forward selection",
+            "statistical modeling",
+            "STATISTICA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "...correlation analysis were performed using the STATISTICA software package...",
+          "searchable_summary": "Calculate pairwise correlation coefficients between variables",
+          "inputs": [
+            "Standardized dataset (or relevant subset)"
+          ],
+          "outputs": [
+            "Correlation matrix",
+            "Pairwise correlation coefficients"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "correlation matrix",
+            "pairwise correlation",
+            "STATISTICA"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For the purpose of the multiple regressions the Electrical Conductivity and Total Alkalinity were left out of the analysis as these variables contributed to multi-colinearity in the data...",
+          "searchable_summary": "Remove specific variables from a dataset for regression analysis based on multicollinearity",
+          "inputs": [
+            "Standardized dataset",
+            "Variables identified for exclusion (Electrical Conductivity, Total Alkalinity)",
+            "Correlation analysis results (used to identify multicollinearity)"
+          ],
+          "outputs": [
+            "Dataset subset for regression analysis"
+          ],
+          "keywords": [
+            "feature selection",
+            "variable exclusion",
+            "multicollinearity",
+            "data subsetting",
+            "regression preprocessing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The R 2 value was used, instead of the R value, as it is a stricter measure of the predictability of multiple regression.",
+          "searchable_summary": "Report R-squared as the primary metric for evaluating multiple regression model fit",
+          "inputs": [
+            "Multiple regression model results"
+          ],
+          "outputs": [
+            "R^2 value for each regression model"
+          ],
+          "keywords": [
+            "R-squared",
+            "coefficient of determination",
+            "regression metrics",
+            "model evaluation",
+            "statistical reporting"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "...principle component analysis (PCA) was performed using CANOCO for Windows...",
+          "searchable_summary": "Perform Principal Component Analysis (PCA)",
+          "inputs": [
+            "Standardized dataset (or relevant subset)"
+          ],
+          "outputs": [
+            "PCA loadings",
+            "PCA scores",
+            "Explained variance per component",
+            "PCA plot data"
+          ],
+          "keywords": [
+            "Principal Component Analysis",
+            "PCA",
+            "multivariate analysis",
+            "dimensionality reduction",
+            "CANOCO"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56564724.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

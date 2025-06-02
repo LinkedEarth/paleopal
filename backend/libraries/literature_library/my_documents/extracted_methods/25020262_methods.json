@@ -1,0 +1,270 @@
+{
+  "paper_title": "Sedimentary Ancient DNA and Pollen Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sedimentary Ancient DNA Metabarcoding",
+      "description": "This method involves extracting and amplifying ancient DNA from sediment samples to identify and analyze the presence of various taxa through sequencing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sedimentary ancient DNA extractions and polymerase chain reactions (PCRs) followed the same procedures as described in [30].",
+          "searchable_summary": "perform DNA extraction and PCR on sediment samples",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "extracted DNA",
+            "PCR products"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "PCR",
+            "sedimentary DNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Two positive PCR products were pooled for sequencing under the condition that the extraction and PCR negative controls remained negative.",
+          "searchable_summary": "pool positive PCR products for sequencing",
+          "inputs": [
+            "positive PCR products"
+          ],
+          "outputs": [
+            "pooled PCR products"
+          ],
+          "keywords": [
+            "PCR pooling",
+            "sequencing preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Purified all PCR products using the MinElute PCR Purification Kit, following the manufacturer's recommendations.",
+          "searchable_summary": "purify PCR products using MinElute kit",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "purified PCR products"
+          ],
+          "keywords": [
+            "PCR purification",
+            "MinElute kit"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "DNA concentrations were estimated with the dsDNA BR Assay and the Qubit 2.0 fluorometer.",
+          "searchable_summary": "estimate DNA concentration using Qubit fluorometer",
+          "inputs": [
+            "purified PCR products"
+          ],
+          "outputs": [
+            "DNA concentration estimates"
+          ],
+          "keywords": [
+            "DNA concentration",
+            "Qubit fluorometer"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Purified PCR-products were pooled such that 60 ng DNA of each PCR-product was in the final multiplex.",
+          "searchable_summary": "pool PCR products to achieve balanced DNA concentration",
+          "inputs": [
+            "purified PCR products",
+            "DNA concentration estimates"
+          ],
+          "outputs": [
+            "pooled PCR products for sequencing"
+          ],
+          "keywords": [
+            "DNA pooling",
+            "multiplex preparation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Library preparation and paired-end sequencing were performed by Fasteris SA sequencing service using an Illumina HiSeq 2500 platform.",
+          "searchable_summary": "perform library preparation and sequencing using Illumina HiSeq",
+          "inputs": [
+            "pooled PCR products"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "library preparation",
+            "Illumina sequencing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Sample Treatment and Analysis",
+      "description": "This method involves extracting and analyzing pollen from sediment samples to identify and quantify different plant taxa.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Pollen extraction of 1 mL sediment was performed following the standard procedure including HCL, KOH, HF (including boiling) and acetolysis.",
+          "searchable_summary": "extract pollen from sediment using chemical treatment",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "extracted pollen"
+          ],
+          "keywords": [
+            "pollen extraction",
+            "chemical treatment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A Lycopodium spore tablet was added to each sample to estimate the pollen concentration.",
+          "searchable_summary": "add Lycopodium spore tablet to estimate pollen concentration",
+          "inputs": [
+            "extracted pollen",
+            "Lycopodium spore tablet"
+          ],
+          "outputs": [
+            "pollen concentration estimate"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "Lycopodium spore"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Pollen slides were analysed with a Zeiss Axioskop 2 light microscope (400-600× magnification).",
+          "searchable_summary": "analyze pollen slides using light microscope",
+          "inputs": [
+            "pollen slides"
+          ],
+          "outputs": [
+            "pollen identification data"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "microscopy"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Taxonomic identification was based on published pollen and non-pollen palynomorph atlases and a pollen reference collection.",
+          "searchable_summary": "identify pollen taxa using reference atlases and collections",
+          "inputs": [
+            "pollen identification data"
+          ],
+          "outputs": [
+            "taxonomic identification"
+          ],
+          "keywords": [
+            "taxonomic identification",
+            "pollen atlas"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Filtering of Illumina Sequencing Data and Taxonomic Assignments",
+      "description": "This method involves quality checking and filtering Illumina sequencing data, followed by taxonomic assignment using reference databases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The sequence quality was checked using FastQC.",
+          "searchable_summary": "check sequence quality using FastQC",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "quality reports"
+          ],
+          "keywords": [
+            "sequence quality",
+            "FastQC"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All bioinformatic filtering steps were performed using OBITools.",
+          "searchable_summary": "perform bioinformatic filtering using OBITools",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "filtered sequences"
+          ],
+          "keywords": [
+            "bioinformatics",
+            "OBITools"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The taxonomic assignments were performed using two reference databases.",
+          "searchable_summary": "assign taxonomy using reference databases",
+          "inputs": [
+            "filtered sequences"
+          ],
+          "outputs": [
+            "taxonomic assignments"
+          ],
+          "keywords": [
+            "taxonomic assignment",
+            "reference database"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Rare sequences that exhibited less than 10 counts in a sample were excluded from the analyses.",
+          "searchable_summary": "exclude rare sequences with less than 10 counts",
+          "inputs": [
+            "taxonomic assignments"
+          ],
+          "outputs": [
+            "filtered taxonomic assignments"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "rare sequence exclusion"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Exotic sequences assigned to cultivated plants or those highly unlikely to occur in arctic or boreal landscapes were also excluded.",
+          "searchable_summary": "exclude exotic sequences unlikely to occur in study area",
+          "inputs": [
+            "filtered taxonomic assignments"
+          ],
+          "outputs": [
+            "final taxonomic dataset"
+          ],
+          "keywords": [
+            "exotic sequence exclusion",
+            "dataset refinement"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/25020262.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,118 @@
+{
+  "paper_title": "Spectral Data Processing and Analysis for Pollen Identification",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spectral Data Processing",
+      "description": "This method involves processing spectral data to prepare it for analysis, including standardization, baseline correction, atmospheric suppression, and smoothing. These steps are necessary to remove noise and atmospheric effects, ensuring accurate comparison and analysis of the spectra.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Average spectra were calculated from multiple replicates for every sample.",
+          "searchable_summary": "calculate average spectra from replicates",
+          "inputs": [
+            "replicate spectra"
+          ],
+          "outputs": [
+            "average spectra"
+          ],
+          "keywords": [
+            "average spectra",
+            "replicates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All average spectra were z-score standardised by finding their mean amplitude, subtracting the mean from the actual values, and dividing by the standard deviation.",
+          "searchable_summary": "standardize spectra using z-score",
+          "inputs": [
+            "average spectra"
+          ],
+          "outputs": [
+            "z-score standardized spectra"
+          ],
+          "keywords": [
+            "z-score",
+            "standardization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Truncation, baseline correction, and/or atmospheric suppression of the region from 1800 to 2700 cm−1 were applied to remove the effects of CO2 and scattering.",
+          "searchable_summary": "apply truncation, baseline correction, and atmospheric suppression",
+          "inputs": [
+            "z-score standardized spectra"
+          ],
+          "outputs": [
+            "processed spectra"
+          ],
+          "keywords": [
+            "truncation",
+            "baseline correction",
+            "atmospheric suppression"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Generate first and second derivatives of spectra, and apply Savitsky-Golay spectral smoothing.",
+          "searchable_summary": "apply Savitsky-Golay smoothing and derivative generation",
+          "inputs": [
+            "processed spectra"
+          ],
+          "outputs": [
+            "smoothed and derived spectra"
+          ],
+          "keywords": [
+            "Savitsky-Golay",
+            "smoothing",
+            "derivatives"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spectral Data Analysis",
+      "description": "This method involves analyzing processed spectral data using Principal Component Analysis (PCA) and k-nearest neighbour (k-nn) analyses to visualize and classify the spectra for pollen identification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Principal Component Analysis (PCA) was used to visualise all resultant data from the processing steps.",
+          "searchable_summary": "perform PCA on processed spectral data",
+          "inputs": [
+            "smoothed and derived spectra"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Using the R-package, Class, k-nearest neighbour (k-nn) analyses were performed, using leave-one-out cross-validation to generate identification success rates.",
+          "searchable_summary": "perform k-nn analysis with leave-one-out cross-validation",
+          "inputs": [
+            "PCA results"
+          ],
+          "outputs": [
+            "identification success rates"
+          ],
+          "keywords": [
+            "k-nearest neighbour",
+            "cross-validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/51950532.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

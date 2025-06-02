@@ -1,0 +1,226 @@
+{
+  "paper_title": "Geomorphic Surface Mapping and Offset Measurements",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Geomorphic Surface Mapping",
+      "description": "This method involves using satellite images and digital elevation models to characterize and interpret alluvial fan surfaces and fault traces in the study area.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Landsat satellite images, Google Earth images, and high-resolution digital elevation models (DEMs) with a resolution of <0.2 m/pix constructed for specific sites were used.",
+          "searchable_summary": "use satellite images and DEMs for geomorphic mapping",
+          "inputs": [
+            "Landsat images",
+            "Google Earth images",
+            "DEMs"
+          ],
+          "outputs": [
+            "characterized geomorphic surfaces"
+          ],
+          "keywords": [
+            "satellite images",
+            "DEMs",
+            "geomorphic mapping"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Several field visits were conducted to verify our interpretations of mapping and to choose suitable sites for further study.",
+          "searchable_summary": "conduct field visits to verify mapping interpretations",
+          "inputs": [
+            "mapping interpretations"
+          ],
+          "outputs": [
+            "verified mapping interpretations"
+          ],
+          "keywords": [
+            "field visits",
+            "verification",
+            "mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Structure from Motion (SfM) Photogrammetry",
+      "description": "This method uses photogrammetry to create high-resolution DEMs for illustrating subtle morphology and making accurate measurements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Photos were acquired with a digital camera carried on a DJI Phantom 4 Pro UAV.",
+          "searchable_summary": "capture photos using UAV for photogrammetry",
+          "inputs": [
+            "UAV",
+            "digital camera"
+          ],
+          "outputs": [
+            "photos for photogrammetry"
+          ],
+          "keywords": [
+            "UAV",
+            "photogrammetry",
+            "digital camera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The DEMs were created using Agisoft Photoscan software.",
+          "searchable_summary": "create DEMs using Agisoft Photoscan",
+          "inputs": [
+            "photos"
+          ],
+          "outputs": [
+            "high-resolution DEMs"
+          ],
+          "keywords": [
+            "Agisoft Photoscan",
+            "DEMs",
+            "photogrammetry"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Several ground controlling points (GCP) were evenly placed throughout the survey area and measured using differential GPS (dGPS) to scale and position the 3D models.",
+          "searchable_summary": "use GCPs and dGPS to scale and position 3D models",
+          "inputs": [
+            "GCPs",
+            "dGPS"
+          ],
+          "outputs": [
+            "scaled and positioned 3D models"
+          ],
+          "keywords": [
+            "GCP",
+            "dGPS",
+            "3D models"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Offset Measurement and Analysis",
+      "description": "This method involves extracting topographic profiles and using software to determine vertical and lateral offsets of geomorphic features.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Topographic profiles across the fault trace were extracted from the DEMs.",
+          "searchable_summary": "extract topographic profiles from DEMs",
+          "inputs": [
+            "DEMs"
+          ],
+          "outputs": [
+            "topographic profiles"
+          ],
+          "keywords": [
+            "topographic profiles",
+            "DEMs",
+            "fault trace"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Fit trend lines to both the hanging wall and footwall surfaces by least squares linear regressions.",
+          "searchable_summary": "perform linear regression on hanging and footwall surfaces",
+          "inputs": [
+            "topographic profiles"
+          ],
+          "outputs": [
+            "trend lines"
+          ],
+          "keywords": [
+            "linear regression",
+            "trend lines",
+            "hanging wall",
+            "footwall"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Use the mean value of vertical distance between the hanging wall and the footwall to determine the absolute height of scarps and the standard error.",
+          "searchable_summary": "calculate scarp height and standard error",
+          "inputs": [
+            "trend lines"
+          ],
+          "outputs": [
+            "scarp height",
+            "standard error"
+          ],
+          "keywords": [
+            "scarp height",
+            "standard error",
+            "vertical distance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Use LaDiCaoz_V2.1 Matlab software to obtain optimal left lateral offsets of displaced geomorphic features.",
+          "searchable_summary": "determine lateral offsets using LaDiCaoz_V2.1",
+          "inputs": [
+            "hillshade plots",
+            "field observations"
+          ],
+          "outputs": [
+            "lateral offsets"
+          ],
+          "keywords": [
+            "LaDiCaoz_V2.1",
+            "lateral offsets",
+            "geomorphic features"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "10 Be Exposure Dating",
+      "description": "This method uses in situ produced cosmogenic 10 Be exposure dating to determine the timing of alluvial fan abandonment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sediments exposed on these fan surfaces are mainly comprised of quartz-rich angular to subangular clasts or gravels.",
+          "searchable_summary": "identify quartz-rich sediments for exposure dating",
+          "inputs": [
+            "sediments"
+          ],
+          "outputs": [
+            "quartz-rich sediments"
+          ],
+          "keywords": [
+            "quartz-rich sediments",
+            "exposure dating",
+            "alluvial fans"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Use in situ produced cosmogenic 10 Be exposure dating method to constrain the abandonment timing of alluvial fan surfaces.",
+          "searchable_summary": "apply 10 Be exposure dating to determine fan abandonment timing",
+          "inputs": [
+            "quartz-rich sediments"
+          ],
+          "outputs": [
+            "abandonment timing"
+          ],
+          "keywords": [
+            "10 Be exposure dating",
+            "abandonment timing",
+            "cosmogenic dating"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234183295.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

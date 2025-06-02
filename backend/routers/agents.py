@@ -11,6 +11,11 @@ from services.agent_registry import agent_registry
 from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
 from agents.code import CodeGenerationAgent
 from agents.workflow.workflow_manager_agent import WorkflowManagerAgent
+from utils.agent_utils import (
+    create_sparql_agent_with_config, 
+    create_code_agent_with_config, 
+    route_agent_request_with_custom_config
+)
 
 logger = logging.getLogger(__name__)
 
@@ -36,13 +41,6 @@ def initialize_agents():
         logger.info("All agents initialized successfully")
     except Exception as e:
         logger.error(f"Error initializing agents: {e}")
-
-def create_sparql_agent_with_config(enable_clarification: bool = True, clarification_threshold: str = "conservative"):
-    """Create a SPARQL agent with specific clarification configuration."""
-    return SparqlGenerationAgent(
-        enable_clarification=enable_clarification,
-        clarification_threshold=clarification_threshold
-    )
 
 # Initialize agents when module loads
 initialize_agents()
@@ -86,27 +84,11 @@ async def handle_agent_request(request: AgentRequest):
     Route a request to the appropriate agent.
     
     This is the main entry point for multi-agent interactions.
-    Supports clarification configuration for SPARQL agents via metadata.
+    Supports clarification configuration for SPARQL and code agents via metadata.
     """
     try:
-        logger.info(f"Handling agent request: {request.agent_type}.{request.capability}")
-        
-        # Check if this is a SPARQL agent request with clarification config
-        if request.agent_type == "sparql":
-            # Extract clarification configuration from metadata
-            enable_clarification = request.metadata.get("enable_clarification", True)
-            clarification_threshold = request.metadata.get("clarification_threshold", "conservative")
-            
-            # Create a SPARQL agent with the specified configuration
-            if enable_clarification != True or clarification_threshold != "conservative":
-                logger.info(f"Creating SPARQL agent with custom clarification config: enable={enable_clarification}, threshold={clarification_threshold}")
-                sparql_agent = create_sparql_agent_with_config(enable_clarification, clarification_threshold)
-                response = await sparql_agent.handle_request(request)
-                return response
-        
-        # Route the request through the registry (default behavior)
-        response = await agent_registry.route_request(request)
-        
+        # Use the utility function to handle custom agent creation
+        response = await route_agent_request_with_custom_config(request)
         return response
     except Exception as e:
         logger.error(f"Error handling agent request: {e}", exc_info=True)
@@ -164,7 +146,7 @@ async def call_agent_capability(
     Call a specific capability of an agent.
     
     This is a convenience endpoint for direct capability calls.
-    Supports clarification configuration for SPARQL agents.
+    Supports clarification configuration for SPARQL and code agents.
     """
     try:
         # Extract common fields
@@ -185,22 +167,8 @@ async def call_agent_capability(
             metadata=metadata
         )
         
-        # Check if this is a SPARQL agent request with clarification config
-        if agent_type == "sparql":
-            # Extract clarification configuration from metadata
-            enable_clarification = metadata.get("enable_clarification", True)
-            clarification_threshold = metadata.get("clarification_threshold", "conservative")
-            
-            # Create a SPARQL agent with the specified configuration
-            if enable_clarification != True or clarification_threshold != "conservative":
-                logger.info(f"Creating SPARQL agent with custom clarification config: enable={enable_clarification}, threshold={clarification_threshold}")
-                sparql_agent = create_sparql_agent_with_config(enable_clarification, clarification_threshold)
-                response = await sparql_agent.handle_request(agent_request)
-                return response
-        
-        # Route the request through the registry (default behavior)
-        response = await agent_registry.route_request(agent_request)
-        
+        # Use the utility function to handle custom agent creation
+        response = await route_agent_request_with_custom_config(agent_request)
         return response
     except Exception as e:
         logger.error(f"Error calling agent capability: {e}", exc_info=True)

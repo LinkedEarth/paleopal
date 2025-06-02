@@ -1,0 +1,221 @@
+{
+  "paper_title": "Paleopalynological Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Parsimony Analysis of Endemicity (PAE)",
+      "description": "Parsimony Analysis of Endemicity (Rosen, 1988;Morrone and Crisci, 1995;Ramírez-Arriaga et al., 2008, 2014) was used to compare the palynomorph diversity of Cuayuca Formation outcrop sections... In hierarchic grouping, sections were clustered according to the presence of taxa.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The WINCLADA data matrix from PAE analysis (Nixon, 2002) shows rows that correspond to outcrop sections and columns for palynomorphs, whose presence (1) or absence (0) in each section is indicated.",
+          "searchable_summary": "Create a presence/absence data matrix for sections and palynomorphs",
+          "inputs": [
+            "List of outcrop sections",
+            "List of palynomorphs",
+            "Presence/absence data for each palynomorph in each section"
+          ],
+          "outputs": [
+            "Presence/absence data matrix (e.g., WINCLADA format)"
+          ],
+          "keywords": [
+            "data matrix",
+            "presence/absence",
+            "palynomorphs",
+            "sections",
+            "WINCLADA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "NONA was used to carry out the parsimony analysis (Goloboff, 1993).",
+          "searchable_summary": "Perform parsimony analysis using NONA software",
+          "inputs": [
+            "Presence/absence data matrix"
+          ],
+          "outputs": [
+            "Parsimony tree(s)",
+            "Analysis results"
+          ],
+          "keywords": [
+            "parsimony analysis",
+            "NONA",
+            "phylogenetic analysis",
+            "biogeography"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The PAE analysis included a heuristic search with tree bisection and reconnection (TBR), branch swapping with 500 replications holding 10 trees per replication, and further expanding the memory to hold up to 10,000 trees.",
+          "searchable_summary": "Configure parsimony analysis parameters (heuristic search, TBR, replications, tree limits, memory)",
+          "inputs": [
+            "Parsimony analysis software (NONA)",
+            "Analysis settings"
+          ],
+          "outputs": [
+            "Configured parsimony analysis run"
+          ],
+          "keywords": [
+            "heuristic search",
+            "TBR",
+            "branch swapping",
+            "replications",
+            "tree limit",
+            "NONA",
+            "parsimony settings"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "WINCLADA calculated three statistics that reflect the degree of conflict among data: a) Length=L; b) Consistency Index=CI; and c) Retention Index=RI.",
+          "searchable_summary": "Calculate parsimony statistics (Length, Consistency Index, Retention Index)",
+          "inputs": [
+            "Parsimony analysis results (trees)",
+            "WINCLADA software"
+          ],
+          "outputs": [
+            "Parsimony statistics (L, CI, RI)"
+          ],
+          "keywords": [
+            "parsimony statistics",
+            "tree length",
+            "consistency index",
+            "retention index",
+            "L",
+            "CI",
+            "RI",
+            "WINCLADA"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "In the present work, clades are supported by the presence of palynomorphs, and unique occurrences are emphasized with black circles.",
+          "searchable_summary": "Identify and interpret clades and unique occurrences based on parsimony analysis results",
+          "inputs": [
+            "Parsimony tree(s)",
+            "Presence/absence data matrix"
+          ],
+          "outputs": [
+            "Identified clades",
+            "Unique palynomorph occurrences associated with clades"
+          ],
+          "keywords": [
+            "clade identification",
+            "unique occurrences",
+            "parsimony tree interpretation",
+            "biogeographic analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "CONISS Analysis",
+      "description": "CONISS analysis was applied to recognize paleopalynological changes throughout Cuayuca Formation Mcy Member. The graph (Figure 8) shows four paleopalynological groups.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "pollen assemblages were plotted",
+          "searchable_summary": "Plot pollen assemblages",
+          "inputs": [
+            "Pollen assemblage data (e.g., species abundance/presence per sample/section)"
+          ],
+          "outputs": [
+            "Pollen assemblage plot (e.g., diagram)"
+          ],
+          "keywords": [
+            "pollen diagram",
+            "assemblage plot",
+            "palynology visualization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "a CONISS analysis was applied",
+          "searchable_summary": "Perform CONISS (Constrained Incremental Sum of Squares) analysis",
+          "inputs": [
+            "Pollen assemblage data"
+          ],
+          "outputs": [
+            "CONISS dendrogram",
+            "Clustering results"
+          ],
+          "keywords": [
+            "CONISS",
+            "constrained incremental sum of squares",
+            "cluster analysis",
+            "palynology",
+            "stratigraphic analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "to recognize paleopalynological changes throughout Cuayuca Formation Mcy Member. The graph (Figure 8) shows four paleopalynological groups.",
+          "searchable_summary": "Identify paleopalynological groups based on CONISS clustering",
+          "inputs": [
+            "CONISS dendrogram",
+            "Pollen assemblage plot"
+          ],
+          "outputs": [
+            "Defined paleopalynological groups/zones"
+          ],
+          "keywords": [
+            "paleopalynological zones",
+            "group identification",
+            "cluster interpretation",
+            "CONISS results"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Samples taken from the base of the Cuayuca Formation, group A, are characterized by the dominance of Alnus vera, Rhoipites and Tubulifloridites; group B shows dominance of the Momipites group and Tubulifloridites; Momipites group and Liliacidites characterize group C; finally, group D shows abundance of temperate elements such as Momipites group, Ulmipollenites...",
+          "searchable_summary": "Characterize paleopalynological groups by dominant taxa/elements",
+          "inputs": [
+            "Defined paleopalynological groups",
+            "Pollen assemblage data"
+          ],
+          "outputs": [
+            "Description of each paleopalynological group (dominant taxa, ecological interpretation)"
+          ],
+          "keywords": [
+            "group characterization",
+            "dominant taxa",
+            "pollen analysis",
+            "paleoecology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "In summary, within the upper sections of the Cuayuca Formation, tropical deciduous forest, and arid tropical scrub, as well as cloud forest and Pinus forest are well represented, contrasting with the lower sections, where Rhoipites and Tubulifloridites elements from tropical deciduous forest are dominant.",
+          "searchable_summary": "Summarize paleopalynological changes and interpret paleoenvironments across sections based on group distribution",
+          "inputs": [
+            "Characterized paleopalynological groups",
+            "Stratigraphic position of sections/samples"
+          ],
+          "outputs": [
+            "Summary of paleopalynological changes",
+            "Paleoenvironmental interpretation across stratigraphy"
+          ],
+          "keywords": [
+            "paleoenvironmental reconstruction",
+            "stratigraphic palynology",
+            "paleoclimate",
+            "vegetation change",
+            "palynological summary"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55217286.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,414 @@
+{
+  "paper_title": "Absorbed dose calculation for a realistic CT-derived mouse phantom irradiated with a standard Cs-137 cell irradiator using a Monte Carlo method",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "PMMA Phantom Dose Measurement",
+      "description": "Experimental procedure using a PMMA phantom and Gafchromic EBT3 film to measure the dose profile from a standard Cs-137 cell irradiator, replicating a mouse soft tissue xenograft model setup.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "A PMMA phantom, manufactured by our research group [50], was used for dose measurement. The phantom was made of a PMMA slab with dimensions of (6.75 × 2.25 × 1.50) cm 3 and an extrusion with diameter of (0.50 × 0.50 × 0.75) cm 3 was implanted on the side to represent the radiological characteristics and approximate shape of a mouse soft tissue with a xenograft tumour model in the flank as demonstrated in Fig 3A.",
+          "searchable_summary": "Fabricate a PMMA phantom with specific dimensions and an extrusion representing a tumour model.",
+          "inputs": [
+            "PMMA material",
+            "Design specifications (dimensions, extrusion)"
+          ],
+          "outputs": [
+            "Fabricated PMMA phantom"
+          ],
+          "keywords": [
+            "PMMA phantom",
+            "phantom fabrication",
+            "xenograft model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The phantom was sliced into two equivalent slabs to allow for the secure placement of radiochromic film.",
+          "searchable_summary": "Slice the PMMA phantom into two equivalent slabs.",
+          "inputs": [
+            "Fabricated PMMA phantom"
+          ],
+          "outputs": [
+            "Two PMMA phantom slabs"
+          ],
+          "keywords": [
+            "phantom slicing",
+            "PMMA phantom"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "A piece of Gafchromic EBT3 film (Ashland Inc, Covington, Kentucky, USA) was first placed on the handmade polystyrene in the collimator and was irradiated.",
+          "searchable_summary": "Place Gafchromic EBT3 film on polystyrene support within the collimator and irradiate it.",
+          "inputs": [
+            "Gafchromic EBT3 film",
+            "Polystyrene support",
+            "Cs-137 irradiator"
+          ],
+          "outputs": [
+            "Irradiated Gafchromic film (for field marking)"
+          ],
+          "keywords": [
+            "Gafchromic EBT3 film",
+            "irradiation",
+            "collimator"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Then the corresponding field was marked on the polystyrene support to indicate the collimated field.",
+          "searchable_summary": "Mark the collimated field on the polystyrene support based on the irradiated film.",
+          "inputs": [
+            "Irradiated Gafchromic film (with field impression)",
+            "Polystyrene support"
+          ],
+          "outputs": [
+            "Polystyrene support with marked collimated field"
+          ],
+          "keywords": [
+            "field marking",
+            "collimated field"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "A rectangular piece of Gafchromic EBT3 film was sandwiched between the slabs and the phantom was placed inside the collimator, positioning the sandwiched Gafchromic EBT3 film right at the midplane of the collimator.",
+          "searchable_summary": "Sandwich a rectangular piece of Gafchromic EBT3 film between the PMMA slabs and position the assembled phantom with film at the collimator midplane.",
+          "inputs": [
+            "Two PMMA phantom slabs",
+            "Rectangular Gafchromic EBT3 film",
+            "Collimator"
+          ],
+          "outputs": [
+            "Assembled PMMA phantom with sandwiched film positioned in collimator"
+          ],
+          "keywords": [
+            "Gafchromic EBT3 film",
+            "phantom assembly",
+            "positioning",
+            "collimator"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "The tumour model was accurately positioned within the indicated collimated beam and the PMMA phantom was irradiated to obtain dose profile measurement.",
+          "searchable_summary": "Accurately position the tumour model within the marked collimated beam and irradiate the PMMA phantom.",
+          "inputs": [
+            "Assembled PMMA phantom positioned in collimator",
+            "Polystyrene support with marked field",
+            "Cs-137 irradiator"
+          ],
+          "outputs": [
+            "Irradiated Gafchromic EBT3 film (for dose measurement)"
+          ],
+          "keywords": [
+            "tumour model positioning",
+            "irradiation",
+            "dose measurement"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Film dosimetry was performed based on the Gafchromic film dosimetry procedure given in previous studies [50,55], and a dose profile measurement was obtained.",
+          "searchable_summary": "Perform Gafchromic film dosimetry analysis on the irradiated film to obtain a dose profile measurement.",
+          "inputs": [
+            "Irradiated Gafchromic EBT3 film (for dose measurement)",
+            "Gafchromic film dosimetry procedure [50, 55]"
+          ],
+          "outputs": [
+            "Dose profile measurement data"
+          ],
+          "keywords": [
+            "film dosimetry",
+            "Gafchromic film",
+            "dose profile",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "PMMA Phantom Dose Calculation (Monte Carlo)",
+      "description": "Monte Carlo simulation using EGSnrc/DOSXYZnrc to calculate the dose distribution within the PMMA phantom setup, replicating the experimental irradiation conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "MC modelling of the PMMA phantom irradiation was performed and phantom doses were calculated.",
+          "searchable_summary": "Set up and run Monte Carlo simulation for PMMA phantom irradiation to calculate doses.",
+          "inputs": [
+            "Experimental setup details (geometry, source, materials)"
+          ],
+          "outputs": [
+            "Calculated phantom doses (raw simulation output)"
+          ],
+          "keywords": [
+            "Monte Carlo simulation",
+            "radiation transport",
+            "dose calculation",
+            "EGSnrc",
+            "DOSXYZnrc"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Material-specific data files for the PMMA phantom were created using EGSnrc PEGS4 [52].",
+          "searchable_summary": "Create material data files for PMMA using EGSnrc PEGS4.",
+          "inputs": [
+            "Material properties (PMMA)",
+            "EGSnrc PEGS4 software"
+          ],
+          "outputs": [
+            "PEGS4 material data files (e.g., PMMA521ICRU)"
+          ],
+          "keywords": [
+            "EGSnrc",
+            "PEGS4",
+            "material data",
+            "radiation transport"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The experimental irradiation set-up of the PMMA phantom (which was described in the previous section) was replicated using DOSXYZnrc (a user code for EGSnrc) [56].",
+          "searchable_summary": "Replicate the experimental PMMA phantom irradiation setup in DOSXYZnrc.",
+          "inputs": [
+            "Experimental setup details (geometry, source, positioning)",
+            "EGSnrc/DOSXYZnrc software"
+          ],
+          "outputs": [
+            "DOSXYZnrc simulation geometry and source definition"
+          ],
+          "keywords": [
+            "DOSXYZnrc",
+            "EGSnrc",
+            "simulation setup",
+            "geometry definition"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The voxels for the PMMA phantom and outside the phantom were set to PMMA521ICRU and ICRUAIR521 (material name for PMMA and air in EGSnrc).",
+          "searchable_summary": "Assign material properties (PMMA, air) to voxels in the DOSXYZnrc geometry.",
+          "inputs": [
+            "DOSXYZnrc simulation geometry",
+            "PEGS4 material data files (PMMA521ICRU, ICRUAIR521)"
+          ],
+          "outputs": [
+            "Voxelized geometry with assigned materials"
+          ],
+          "keywords": [
+            "voxelization",
+            "material assignment",
+            "DOSXYZnrc",
+            "EGSnrc"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The phase-space source (as described in section 2.2.2) was positioned at 0 and 180 degrees to the phantom geometry the particles transported through the voxelized phantom.",
+          "searchable_summary": "Position the phase-space source relative to the phantom geometry and simulate particle transport.",
+          "inputs": [
+            "Voxelized geometry with assigned materials",
+            "Phase-space source data (from section 2.2.2)",
+            "Source positioning parameters (0 and 180 degrees)"
+          ],
+          "outputs": [
+            "Particle transport simulation results (energy deposition)"
+          ],
+          "keywords": [
+            "phase-space source",
+            "source positioning",
+            "particle transport",
+            "Monte Carlo simulation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The tumour model centre point was set as the isocentre for phase-space file and dose deposited in each voxel was calculated and written to the '.3DDOSE' file (default output file of DOSXYZnrc code).",
+          "searchable_summary": "Set the tumour model center as the isocenter, calculate dose deposited in each voxel, and write results to a .3DDOSE file.",
+          "inputs": [
+            "Particle transport simulation results (energy deposition)",
+            "Tumour model center coordinates",
+            "Voxel dimensions"
+          ],
+          "outputs": [
+            "Dose deposited per voxel",
+            ".3DDOSE output file"
+          ],
+          "keywords": [
+            "isocentre",
+            "dose calculation",
+            "voxel dose",
+            "DOSXYZnrc output",
+            ".3DDOSE file"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The interactions explained in section 2.2.2 were also included in DOSXYZnrc simulations [56].",
+          "searchable_summary": "Include specified radiation interaction physics in the DOSXYZnrc simulation.",
+          "inputs": [
+            "Radiation interaction physics details (from section 2.2.2)",
+            "DOSXYZnrc simulation setup"
+          ],
+          "outputs": [
+            "DOSXYZnrc simulation with specified physics"
+          ],
+          "keywords": [
+            "radiation physics",
+            "interactions",
+            "DOSXYZnrc",
+            "Monte Carlo simulation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "5 × 10 9 gamma-ray photon histories were used for dose calculation [47].",
+          "searchable_summary": "Run the simulation using 5 x 10^9 gamma-ray photon histories.",
+          "inputs": [
+            "DOSXYZnrc simulation setup",
+            "Number of histories (5e9)"
+          ],
+          "outputs": [
+            "Completed Monte Carlo simulation run"
+          ],
+          "keywords": [
+            "simulation histories",
+            "Monte Carlo statistics",
+            "gamma-ray photons"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Dose Distribution Visualization and DVH Analysis",
+      "description": "Analysis of calculated dose distributions from Monte Carlo simulations through visual review and generation of Dose-Volume Histograms (DVHs) using the CERR toolkit.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To visualize the calculated doses on the image set, both the CT-image set and 3DDOSE files were loaded into CERR and coronal and sagittal isodose lines and dose colourwash were displayed.",
+          "searchable_summary": "Load CT image set and 3DDOSE file into CERR and display coronal/sagittal isodose lines and dose colourwash.",
+          "inputs": [
+            "CT-image set",
+            ".3DDOSE file (from MC simulation)",
+            "CERR software"
+          ],
+          "outputs": [
+            "Data loaded in CERR",
+            "Visual display of dose distribution (isodose lines, colourwash)"
+          ],
+          "keywords": [
+            "CERR",
+            "data loading",
+            "CT images",
+            ".3DDOSE file",
+            "visualization",
+            "isodose lines",
+            "dose colourwash"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The tumour, heart, liver, Llung (left lung), Rlung (right lung), Lkidney (left kidney), Rkidney (right kidney), and spinal column were contoured on each slice of the CT-image set for DVHs generation.",
+          "searchable_summary": "Contour specified organs-at-risk (OARs) and the tumour on each slice of the CT image set.",
+          "inputs": [
+            "CT-image set",
+            "CERR software"
+          ],
+          "outputs": [
+            "Contoured structures (Regions of Interest - ROIs)"
+          ],
+          "keywords": [
+            "contouring",
+            "ROI definition",
+            "OARs",
+            "tumour",
+            "CT images",
+            "CERR"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "To perform an accurate contouring for the tumour and all OARs, a whole-body mouse ATLAS from coregistered x-ray CT data of a normal mouse was used as guideline [61].",
+          "searchable_summary": "Use a whole-body mouse ATLAS as a guideline for accurate contouring.",
+          "inputs": [
+            "Whole-body mouse ATLAS [61]",
+            "CT-image set"
+          ],
+          "outputs": [
+            "Improved contouring accuracy"
+          ],
+          "keywords": [
+            "mouse atlas",
+            "contouring guideline",
+            "image registration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "To convert the calculated MC doses to absolute dose for DVH analysis, the calibration method proposed by Popescu et al [62] was employed.",
+          "searchable_summary": "Convert calculated Monte Carlo doses to absolute doses using the calibration method by Popescu et al [62].",
+          "inputs": [
+            "Calculated MC doses (.3DDOSE file)",
+            "Calibration method [62]"
+          ],
+          "outputs": [
+            "Absolute dose distribution data"
+          ],
+          "keywords": [
+            "dose calibration",
+            "absolute dose",
+            "Monte Carlo dose conversion",
+            "Popescu method"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Then the DVHs were plotted for 20 Gy absolute prescribed dose.",
+          "searchable_summary": "Calculate and plot Dose-Volume Histograms (DVHs) for contoured structures based on absolute dose distribution and a 20 Gy prescribed dose.",
+          "inputs": [
+            "Absolute dose distribution data",
+            "Contoured structures (ROIs)",
+            "Prescribed dose (20 Gy)",
+            "CERR software"
+          ],
+          "outputs": [
+            "Dose-Volume Histograms (DVH data and plots)"
+          ],
+          "keywords": [
+            "DVH",
+            "Dose-Volume Histogram",
+            "data analysis",
+            "plotting",
+            "CERR",
+            "prescribed dose"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256500683.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

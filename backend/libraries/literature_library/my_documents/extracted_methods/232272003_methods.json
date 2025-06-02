@@ -1,0 +1,227 @@
+{
+  "paper_title": "Al/10 Be Dating Method",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Al/10 Be Burial Dating",
+      "description": "The Al/10 Be burial dating method is used to determine the burial age of rocks by measuring the ratio of cosmogenic radionuclides 26 Al and 10 Be. This method is based on the principle that these radionuclides are produced by cosmic rays at the surface and decay exponentially with depth. The method involves calculating the production rates and decay of these isotopes to estimate the burial age.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Calculate the production rates of 26 Al and 10 Be using the online program CRONUS-Earth based on longitude, latitude, and elevation.",
+          "searchable_summary": "calculate production rates of 26 Al and 10 Be using CRONUS-Earth",
+          "inputs": [
+            "longitude",
+            "latitude",
+            "elevation"
+          ],
+          "outputs": [
+            "production rates of 26 Al and 10 Be"
+          ],
+          "keywords": [
+            "CRONUS-Earth",
+            "production rates",
+            "cosmogenic radionuclides"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Approximate the production rate of 10 Be at a certain depth using the sum of four exponentials.",
+          "searchable_summary": "approximate 10 Be production rate using exponential sum",
+          "inputs": [
+            "depth",
+            "production rate factors",
+            "penetration length factors"
+          ],
+          "outputs": [
+            "approximated production rate of 10 Be"
+          ],
+          "keywords": [
+            "exponential approximation",
+            "10 Be production rate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate the production rate of 26 Al at the same depth using the ratio of 6.8.",
+          "searchable_summary": "calculate 26 Al production rate using ratio",
+          "inputs": [
+            "approximated production rate of 10 Be"
+          ],
+          "outputs": [
+            "production rate of 26 Al"
+          ],
+          "keywords": [
+            "26 Al production rate",
+            "ratio calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Substitute the minimum age into formula (10) to calculate the contents of N 26,pb and N 10,pb after burial.",
+          "searchable_summary": "calculate N 26,pb and N 10,pb using minimum age",
+          "inputs": [
+            "minimum age"
+          ],
+          "outputs": [
+            "N 26,pb",
+            "N 10,pb"
+          ],
+          "keywords": [
+            "N 26,pb",
+            "N 10,pb",
+            "minimum age"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Subtract N 26,pb and N 10,pb from measured contents to yield N 26, inh and N 10, inh.",
+          "searchable_summary": "calculate N 26, inh and N 10, inh by subtraction",
+          "inputs": [
+            "measured contents",
+            "N 26,pb",
+            "N 10,pb"
+          ],
+          "outputs": [
+            "N 26, inh",
+            "N 10, inh"
+          ],
+          "keywords": [
+            "N 26, inh",
+            "N 10, inh",
+            "subtraction"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Use formula (8) with N 26, inh and N 10, inh to calculate a new age.",
+          "searchable_summary": "calculate new age using formula (8)",
+          "inputs": [
+            "N 26, inh",
+            "N 10, inh"
+          ],
+          "outputs": [
+            "new age"
+          ],
+          "keywords": [
+            "new age calculation",
+            "formula (8)"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Iterate the process to obtain the corrected age.",
+          "searchable_summary": "iterate to obtain corrected age",
+          "inputs": [
+            "new age"
+          ],
+          "outputs": [
+            "corrected age"
+          ],
+          "keywords": [
+            "iteration",
+            "corrected age"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Quartz Sample Preparation and Analysis",
+      "description": "This method involves the preparation and analysis of quartz samples for Al/10 Be dating. It includes etching, pulverizing, and testing the purity of quartz samples, followed by chemical separation and measurement of Al and Be isotopes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Etch the sample for 40 minutes using 38% HF to remove the surface layer that might be contaminated.",
+          "searchable_summary": "etch quartz sample with HF",
+          "inputs": [
+            "quartz sample"
+          ],
+          "outputs": [
+            "etched quartz sample"
+          ],
+          "keywords": [
+            "etching",
+            "HF",
+            "quartz"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Rinse and dry the etched sample, then pulverize and remove impure particles.",
+          "searchable_summary": "rinse, dry, pulverize, and purify quartz sample",
+          "inputs": [
+            "etched quartz sample"
+          ],
+          "outputs": [
+            "purified quartz particles"
+          ],
+          "keywords": [
+            "rinsing",
+            "drying",
+            "pulverizing",
+            "purification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Obtain 0.25-0.5 mm quartz particles.",
+          "searchable_summary": "obtain specific size quartz particles",
+          "inputs": [
+            "purified quartz particles"
+          ],
+          "outputs": [
+            "0.25-0.5 mm quartz particles"
+          ],
+          "keywords": [
+            "quartz particle size"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Measure the aluminum content of each 0.5 g subsample using ICP-OES.",
+          "searchable_summary": "measure Al content with ICP-OES",
+          "inputs": [
+            "0.5 g quartz subsample"
+          ],
+          "outputs": [
+            "Al content"
+          ],
+          "keywords": [
+            "ICP-OES",
+            "aluminum content"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Send qualified quartz samples to the Purdue Rare Isotope Measurement (PRIME) Laboratory for chemical separation, target preparation, and AMS measurement of Al and Be.",
+          "searchable_summary": "send samples for AMS measurement",
+          "inputs": [
+            "qualified quartz samples"
+          ],
+          "outputs": [
+            "AMS measurement results"
+          ],
+          "keywords": [
+            "AMS",
+            "chemical separation",
+            "PRIME Laboratory"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232272003.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

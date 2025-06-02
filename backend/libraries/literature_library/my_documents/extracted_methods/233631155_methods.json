@@ -1,0 +1,183 @@
+{
+  "paper_title": "Statistical Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Environmental and Behavioral Data",
+      "description": "This method describes the statistical procedures used to analyze the relationships between pollen/fungal spores, microclimate parameters, and occupants' behavior. The analysis includes descriptive statistics, cross-correlation, and multivariate regression modeling. All analyses were performed using MATLAB™ (version R2015b).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Descriptive statistics for all of the variables-pollen and fungal spores, microclimate parameters (T air , RH, WS), occupants' presence, and door and window opening times-were calculated.",
+          "searchable_summary": "calculate descriptive statistics for all collected variables",
+          "inputs": [
+            "pollen and fungal spores data",
+            "microclimate parameters (T air, RH, WS) data",
+            "occupants' presence data",
+            "door and window opening times data"
+          ],
+          "outputs": [
+            "descriptive statistics (mean, standard deviation, etc.) for each variable"
+          ],
+          "keywords": [
+            "descriptive statistics",
+            "summary statistics",
+            "mean",
+            "standard deviation",
+            "variance",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The cross-correlation was used as the preliminary procedure, which included a data preprocessing stage in order to improve the calculation of the correlations and the subsequent multivariate regression analysis (MR).",
+          "searchable_summary": "perform data preprocessing before correlation and regression analysis",
+          "inputs": [
+            "all collected variables data"
+          ],
+          "outputs": [
+            "preprocessed data"
+          ],
+          "keywords": [
+            "data preprocessing",
+            "data cleaning",
+            "data transformation",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The cross-correlation was used as the preliminary procedure...",
+          "searchable_summary": "perform cross-correlation analysis on preprocessed data",
+          "inputs": [
+            "preprocessed data"
+          ],
+          "outputs": [
+            "cross-correlation coefficients or matrix"
+          ],
+          "keywords": [
+            "cross-correlation",
+            "correlation analysis",
+            "time series analysis",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For the MR analysis, the data were aggregated on 6-hourly averages, starting with a 4-hourly time resolution (0-6; 6-12; 12-18; 18-24)...",
+          "searchable_summary": "aggregate data to 6-hourly averages for specific time blocks",
+          "inputs": [
+            "preprocessed data (at original resolution, e.g., 4-hourly)"
+          ],
+          "outputs": [
+            "data aggregated to 6-hourly averages"
+          ],
+          "keywords": [
+            "data aggregation",
+            "time series aggregation",
+            "averaging",
+            "resampling",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "...and each variable was crossed with all of the other ones.",
+          "searchable_summary": "create variable combinations or interaction terms for regression analysis",
+          "inputs": [
+            "aggregated data"
+          ],
+          "outputs": [
+            "data with crossed variables or potential predictors"
+          ],
+          "keywords": [
+            "variable crossing",
+            "interaction terms",
+            "feature engineering",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "This analysis was composed of three models using the occupants' behavior and microclimate as the input variables in order to reproduce the observed pollen and fungal spore values. In particular, the following three MR have been adopted in order to forecast the pollen and fungal spores trend: the first model uses all of the input variables (MR all ).",
+          "searchable_summary": "perform multivariate regression using all available input variables (occupants' behavior and microclimate)",
+          "inputs": [
+            "aggregated and crossed data",
+            "pollen and fungal spore values (dependent variable)",
+            "occupants' behavior data (independent variables)",
+            "microclimate data (independent variables)"
+          ],
+          "outputs": [
+            "Multivariate Regression Model 1 (MR all)",
+            "model coefficients",
+            "model performance metrics"
+          ],
+          "keywords": [
+            "multivariate regression",
+            "linear regression",
+            "statistical modeling",
+            "regression analysis",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "...the second model does not include the open door (MR no ) and T air among the input variables (MR no _ od-Tair ).",
+          "searchable_summary": "perform multivariate regression excluding open door and T air variables",
+          "inputs": [
+            "aggregated and crossed data",
+            "pollen and fungal spore values (dependent variable)",
+            "occupants' behavior data (excluding open door) (independent variables)",
+            "microclimate data (excluding T air) (independent variables)"
+          ],
+          "outputs": [
+            "Multivariate Regression Model 2 (MR no_od-Tair)",
+            "model coefficients",
+            "model performance metrics"
+          ],
+          "keywords": [
+            "multivariate regression",
+            "linear regression",
+            "statistical modeling",
+            "regression analysis",
+            "variable selection",
+            "MATLAB"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "...and the third model considers only the occupants' behavior as the input variable (MR ob ).",
+          "searchable_summary": "perform multivariate regression using only occupants' behavior variables",
+          "inputs": [
+            "aggregated and crossed data",
+            "pollen and fungal spore values (dependent variable)",
+            "occupants' behavior data (independent variables)"
+          ],
+          "outputs": [
+            "Multivariate Regression Model 3 (MR ob)",
+            "model coefficients",
+            "model performance metrics"
+          ],
+          "keywords": [
+            "multivariate regression",
+            "linear regression",
+            "statistical modeling",
+            "regression analysis",
+            "variable selection",
+            "MATLAB"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233631155.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

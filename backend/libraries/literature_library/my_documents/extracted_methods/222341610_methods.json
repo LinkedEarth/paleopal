@@ -1,0 +1,127 @@
+{
+  "paper_title": "Unified gas-kinetic wave-particle methods V: diatomic molecular flow",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Unified Gas-Kinetic Wave-Particle Method",
+      "description": "The UGKWP method improves the UGKP method by evaluating the free transport terms in numerical flux analytically and sampling only collisionless hydro-particles. This method is used to simulate diatomic molecular flow.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sample the particle quantities (m_k, x_k, v_k, e_k, ω_k, κ_k) by Eq.(26) and Eq. (27) for each newly added collisionless hydro-particle P_k from the hydro-quantities e^(-∆t/τ) W_h.",
+          "searchable_summary": "Sample particle quantities for collisionless hydro-particles",
+          "inputs": [
+            "hydro-quantities e^(-∆t/τ) W_h"
+          ],
+          "outputs": [
+            "particle quantities (m_k, x_k, v_k, e_k, ω_k, κ_k)"
+          ],
+          "keywords": [
+            "particle sampling",
+            "collisionless particles",
+            "hydro-quantities"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sample free streaming time t_f,k by Eq. (24) for particles P_k from W_p. Classify particles into collisionless and collisional particles, then stream all particles by Eq. (28).",
+          "searchable_summary": "Sample free streaming time and classify particles",
+          "inputs": [
+            "particles P_k",
+            "W_p"
+          ],
+          "outputs": [
+            "classified particles",
+            "streamed particles"
+          ],
+          "keywords": [
+            "free streaming",
+            "particle classification",
+            "particle streaming"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate the net free streaming flow W_fr by Eq. (29), and evaluate the equilibrium flux F_eq and free transport flux F_h_fr,s by Eq.(18) and Eq.(33), respectively.",
+          "searchable_summary": "Calculate net free streaming flow and evaluate fluxes",
+          "inputs": [
+            "streamed particles"
+          ],
+          "outputs": [
+            "net free streaming flow W_fr",
+            "equilibrium flux F_eq",
+            "free transport flux F_h_fr,s"
+          ],
+          "keywords": [
+            "free streaming flow",
+            "equilibrium flux",
+            "transport flux"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Rykov Kinetic Model for Diatomic Gas",
+      "description": "The Rykov kinetic model describes the behavior of diatomic gases with translational and rotational degrees of freedom, focusing on the distribution function and its relation to macroscopic variables.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Re-write the Rykov kinetic model equation in a more convenient form.",
+          "searchable_summary": "Reformulate Rykov kinetic model equation",
+          "inputs": [
+            "Rykov kinetic model equation"
+          ],
+          "outputs": [
+            "reformulated Rykov kinetic model equation"
+          ],
+          "keywords": [
+            "Rykov kinetic model",
+            "equation reformulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Construct the UGKP method on a discretized physical space and time, defining cell averaged conservative variables.",
+          "searchable_summary": "Construct UGKP method on discretized space and time",
+          "inputs": [
+            "discretized physical space",
+            "discretized time"
+          ],
+          "outputs": [
+            "cell averaged conservative variables"
+          ],
+          "keywords": [
+            "UGKP method",
+            "discretization",
+            "conservative variables"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calculate the equilibrium flux term F_eq,s analytically and the free streaming flux term F_fr,s using simulating particles.",
+          "searchable_summary": "Calculate equilibrium and free streaming flux terms",
+          "inputs": [
+            "simulating particles"
+          ],
+          "outputs": [
+            "equilibrium flux term F_eq,s",
+            "free streaming flux term F_fr,s"
+          ],
+          "keywords": [
+            "equilibrium flux",
+            "free streaming flux",
+            "simulating particles"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/222341610.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

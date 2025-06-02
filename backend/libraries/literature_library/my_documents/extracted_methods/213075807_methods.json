@@ -1,0 +1,248 @@
+{
+  "paper_title": "Tree-Ring Width and Stable Carbon Isotope Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Tree-Ring Width Analysis",
+      "description": "Process for collecting and analyzing tree-ring width (TRW) samples to study growth patterns and environmental influences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sampled 11 trees and collected 21 cores on the Murina site and 16 trees and 27 cores on the Hridsko site.",
+          "searchable_summary": "collect tree core samples from specified sites",
+          "inputs": [
+            "Murina site",
+            "Hridsko site"
+          ],
+          "outputs": [
+            "tree core samples"
+          ],
+          "keywords": [
+            "tree-ring width",
+            "core sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cores were stored in plastic holders and transported to the laboratory.",
+          "searchable_summary": "store and transport tree core samples to lab",
+          "inputs": [
+            "tree core samples"
+          ],
+          "outputs": [
+            "tree core samples in lab"
+          ],
+          "keywords": [
+            "sample storage",
+            "transport"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "TRW cores were dried, glued onto wooden holders, and sanded with progressively finer sanding paper.",
+          "searchable_summary": "prepare tree core samples for analysis",
+          "inputs": [
+            "tree core samples"
+          ],
+          "outputs": [
+            "prepared tree core samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "sanding"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Scanned both types of tree core using the ATRICS system; TRW measured using CooRecorder and CDendro programs.",
+          "searchable_summary": "scan and measure tree core samples",
+          "inputs": [
+            "prepared tree core samples"
+          ],
+          "outputs": [
+            "scanned and measured data"
+          ],
+          "keywords": [
+            "scanning",
+            "measurement",
+            "ATRICS",
+            "CooRecorder",
+            "CDendro"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Standardized individual TRW series using a 67% cubic smoothing spline with a 50% frequency cut-off in the dplR library.",
+          "searchable_summary": "standardize TRW series using cubic smoothing spline",
+          "inputs": [
+            "measured TRW data"
+          ],
+          "outputs": [
+            "standardized TRW series"
+          ],
+          "keywords": [
+            "standardization",
+            "cubic smoothing spline",
+            "dplR"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculated departures from the regression curve and pre-whitened index values using an autoregressive model.",
+          "searchable_summary": "calculate departures and pre-whiten index values",
+          "inputs": [
+            "standardized TRW series"
+          ],
+          "outputs": [
+            "pre-whitened index values"
+          ],
+          "keywords": [
+            "regression",
+            "pre-whitening",
+            "autoregressive model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Stable Carbon Isotope Analysis",
+      "description": "Procedure for analyzing stable carbon isotope ratios (δ 13 C) in tree rings to study environmental changes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Isolated α-cellulose from wood slivers using chemical baths.",
+          "searchable_summary": "isolate α-cellulose from wood samples",
+          "inputs": [
+            "wood slivers"
+          ],
+          "outputs": [
+            "α-cellulose"
+          ],
+          "keywords": [
+            "α-cellulose",
+            "chemical extraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Homogenized cellulose with ultrasound, froze at −80 °C, and freeze-dried.",
+          "searchable_summary": "homogenize and freeze-dry cellulose samples",
+          "inputs": [
+            "α-cellulose"
+          ],
+          "outputs": [
+            "freeze-dried cellulose"
+          ],
+          "keywords": [
+            "homogenization",
+            "freeze-drying"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Combusted cellulose samples and analyzed using a mass spectrometer.",
+          "searchable_summary": "analyze cellulose samples with mass spectrometer",
+          "inputs": [
+            "freeze-dried cellulose"
+          ],
+          "outputs": [
+            "δ 13 C data"
+          ],
+          "keywords": [
+            "combustion",
+            "mass spectrometry",
+            "δ 13 C"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Applied atmospheric and PIN corrections to δ 13 C series.",
+          "searchable_summary": "apply corrections to δ 13 C series",
+          "inputs": [
+            "δ 13 C data"
+          ],
+          "outputs": [
+            "corrected δ 13 C series"
+          ],
+          "keywords": [
+            "atmospheric correction",
+            "PIN correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate-Growth Relationship Analysis",
+      "description": "Analysis of the relationship between climate variables and tree growth using TRW and δ 13 C data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculated the expressed population signal (EPS) to assess the common signal in chronologies.",
+          "searchable_summary": "calculate EPS for common signal assessment",
+          "inputs": [
+            "TRW series",
+            "δ 13 C series"
+          ],
+          "outputs": [
+            "EPS value"
+          ],
+          "keywords": [
+            "EPS",
+            "common signal"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compared TRW and δ 13 C chronologies to climate variables using bootstrapped correlation coefficients.",
+          "searchable_summary": "compare chronologies to climate variables",
+          "inputs": [
+            "TRW series",
+            "δ 13 C series",
+            "climate data"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation",
+            "climate variables",
+            "treeclim"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Investigated spatial correlation patterns using temperature and precipitation gridded data.",
+          "searchable_summary": "analyze spatial correlation patterns",
+          "inputs": [
+            "climate data",
+            "TRW series",
+            "δ 13 C series"
+          ],
+          "outputs": [
+            "spatial correlation patterns"
+          ],
+          "keywords": [
+            "spatial correlation",
+            "gridded data",
+            "CRU TS"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/213075807.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

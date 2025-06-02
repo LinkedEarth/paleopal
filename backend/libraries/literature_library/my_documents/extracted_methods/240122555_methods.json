@@ -1,0 +1,199 @@
+{
+  "paper_title": "Chlorophyll Fluorescence Measurements",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Photosynthetic Efficiency Measurement",
+      "description": "Process for measuring photosynthetic efficiency using a pulse amplitude modulation fluorometer to determine the fluorescence of PSII.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Prior to measurement, the number of cells was equalized by adding a quantity of medium to achieve approximately 7700 cells mL −1.",
+          "searchable_summary": "equalize cell concentration to 7700 cells/mL",
+          "inputs": [
+            "cell suspension",
+            "medium"
+          ],
+          "outputs": [
+            "equalized cell suspension"
+          ],
+          "keywords": [
+            "cell concentration",
+            "medium addition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Immediately after sampling, the algal suspension was acclimated in darkness for 5 min at 16°C and put in 5 mL Quartz cuvettes.",
+          "searchable_summary": "acclimate algal suspension in darkness at 16°C for 5 minutes",
+          "inputs": [
+            "algal suspension"
+          ],
+          "outputs": [
+            "acclimated algal suspension"
+          ],
+          "keywords": [
+            "dark acclimation",
+            "temperature control"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The suspensions were gently stirred using a small magnetic bean during the fluorescence measurements.",
+          "searchable_summary": "stir suspensions with magnetic stirrer during measurements",
+          "inputs": [
+            "acclimated algal suspension"
+          ],
+          "outputs": [
+            "stirred algal suspension"
+          ],
+          "keywords": [
+            "stirring",
+            "magnetic stirrer"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The maximum quantum yield (Fv/Fm) was measured at time zero (n = 6).",
+          "searchable_summary": "measure maximum quantum yield Fv/Fm",
+          "inputs": [
+            "stirred algal suspension"
+          ],
+          "outputs": [
+            "Fv/Fm values"
+          ],
+          "keywords": [
+            "quantum yield",
+            "fluorescence measurement"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "After dark incubation, a pulse of weak, far-red light was applied to empty the electron pool from QA.",
+          "searchable_summary": "apply far-red light pulse to empty electron pool",
+          "inputs": [
+            "stirred algal suspension"
+          ],
+          "outputs": [
+            "electron pool emptied suspension"
+          ],
+          "keywords": [
+            "far-red light",
+            "electron pool"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The initial fluorescence (F0) was measured with red measuring light and the maximum fluorescence (Fm) was determined using a saturating white light pulse.",
+          "searchable_summary": "measure initial fluorescence F0 and maximum fluorescence Fm",
+          "inputs": [
+            "electron pool emptied suspension"
+          ],
+          "outputs": [
+            "F0 and Fm values"
+          ],
+          "keywords": [
+            "initial fluorescence",
+            "maximum fluorescence"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Photosynthesis-Irradiance Curve Measurement",
+      "description": "Procedure for measuring photosynthesis in terms of the relative electron transport rate (rETR) versus irradiance curves using a pulse amplitude modulation fluorometer.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Photosynthesis (in terms of the relative electron transport rate, rETR = PFR · ∆F/Fm) versus irradiance curves were also measured.",
+          "searchable_summary": "measure rETR versus irradiance curves",
+          "inputs": [
+            "fluorescence data"
+          ],
+          "outputs": [
+            "rETR curves"
+          ],
+          "keywords": [
+            "rETR",
+            "irradiance curves"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Thirteen levels of light intensity from white light LED of the Water PAM, ranging from 5 to 1679 µmol photons m−2 s−1, were used to create the rETR curves, the duration of each intensity being 30 s.",
+          "searchable_summary": "apply 13 levels of light intensity to create rETR curves",
+          "inputs": [
+            "light intensity levels"
+          ],
+          "outputs": [
+            "rETR curves"
+          ],
+          "keywords": [
+            "light intensity",
+            "rETR curves"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The hyperbolic tangent model of Jassby and Platt (1976) was used to estimate rETR curve parameters.",
+          "searchable_summary": "apply hyperbolic tangent model to estimate rETR parameters",
+          "inputs": [
+            "rETR curves"
+          ],
+          "outputs": [
+            "rETR parameters"
+          ],
+          "keywords": [
+            "hyperbolic tangent model",
+            "rETR parameters"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The saturation irradiance for electron transport (Ik) was calculated as the light intensity at which the initial slope of the curve (α) intercepts the horizontal asymptote (rETRmax).",
+          "searchable_summary": "calculate saturation irradiance Ik",
+          "inputs": [
+            "rETR parameters"
+          ],
+          "outputs": [
+            "Ik value"
+          ],
+          "keywords": [
+            "saturation irradiance",
+            "Ik calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The curve fit was calculated with the Solver Module of MS-Excel using the least squares method and comparing differences between measured and calculated data.",
+          "searchable_summary": "perform curve fitting using least squares method in Excel",
+          "inputs": [
+            "measured data",
+            "calculated data"
+          ],
+          "outputs": [
+            "curve fit results"
+          ],
+          "keywords": [
+            "curve fitting",
+            "least squares",
+            "Excel"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/240122555.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,274 @@
+{
+  "paper_title": "Analysis of diatom assemblages in Olechówka stream",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Analysis of Diatom Assemblages",
+      "description": "This method describes the process for collecting, processing, and analyzing phytobenthic diatom samples from a stream. It includes initial observation for viability, qualitative and quantitative analysis, classification of species dominance and constancy, data transformation and reduction, sample grouping via hierarchical clustering, and multivariate analysis (PCA) to relate species composition to hydrochemical parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Phytobenthic samples of diatoms were collected in October 2017, January, March, May, July and August 2018 from zones of mid-speed water current. Diatom material was collected according to the procedure described in Szczepocka, Żelazna Wieczorek & Nowicka-Krawczyk (2019). In total, 23 fresh samples were collected. Each sample was coded according to the following scheme: a stream name code (O -the Olechówka), followed by two digits of the year of sampling, two digits of the month of sampling, and the 'S' symbol followed by the number of the sampling site.",
+          "searchable_summary": "Collect phytobenthic diatom samples from specified locations and times following a standard procedure.",
+          "inputs": [
+            "Sampling sites (Olechówka stream sites 1-5)",
+            "Sampling dates (Oct 2017, Jan, Mar, May, Jul, Aug 2018)",
+            "Sampling procedure (Szczepocka et al., 2019)"
+          ],
+          "outputs": [
+            "23 fresh phytobenthic diatom samples",
+            "Coded samples"
+          ],
+          "keywords": [
+            "diatom sampling",
+            "phytobenthos",
+            "sample collection",
+            "field sampling",
+            "aquatic sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The samples were initially observed while fresh to assess whether the diatoms were alive or not. Fresh diatom samples from all study sites were investigated in the Nikon Eclipse 50i light microscope with 10 × 40, 10 × 60 magnification in order to evaluate the percentage of living/dead cells.",
+          "searchable_summary": "Observe fresh diatom samples under a light microscope to determine the percentage of living and dead cells.",
+          "inputs": [
+            "Fresh diatom samples",
+            "Light microscope"
+          ],
+          "outputs": [
+            "Percentage of living/dead diatom cells per sample/taxon"
+          ],
+          "keywords": [
+            "diatom viability",
+            "fresh sample observation",
+            "light microscopy",
+            "living/dead cells",
+            "microscopic analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The correct ecological state assessment should be based on taxa occurring with 90% in living forms (Zgrundo Peszek & Poradowska, 2018). Moreover, in the case of taxa which occurred in 90% of dead forms at river sites below the reservoirs and simultaneously they dominated in reservoirs in living forms, they were excluded from bioassesment.",
+          "searchable_summary": "Exclude diatom taxa from ecological assessment based on viability criteria (percentage of living cells) and location relative to reservoirs.",
+          "inputs": [
+            "Diatom taxa list",
+            "Percentage of living/dead cells per taxon/sample",
+            "Sample location (below/in reservoirs)",
+            "Dominance data"
+          ],
+          "outputs": [
+            "Filtered list of diatom taxa for bioassessment"
+          ],
+          "keywords": [
+            "diatom bioassessment",
+            "taxa exclusion",
+            "viability threshold",
+            "data filtering",
+            "ecological assessment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The qualitative analysis was performed according to Hofmann, Werum &Lange-Bertalot (2011) andLange-Bertalot et al. (2017)",
+          "searchable_summary": "Perform qualitative analysis of diatom assemblages using specified taxonomic keys to identify taxa.",
+          "inputs": [
+            "Diatom samples",
+            "Taxonomic keys (Hofmann et al., 2011; Lange-Bertalot et al., 2017)"
+          ],
+          "outputs": [
+            "List of identified diatom taxa per sample"
+          ],
+          "keywords": [
+            "diatom identification",
+            "qualitative analysis",
+            "taxonomy",
+            "microscopy",
+            "species identification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "while the quantitative analysis Cholnoky (1968).",
+          "searchable_summary": "Perform quantitative analysis of diatom assemblages using a specified method to determine abundance.",
+          "inputs": [
+            "Diatom samples",
+            "Quantitative analysis method (Cholnoky, 1968)"
+          ],
+          "outputs": [
+            "Abundance data for identified diatom taxa per sample"
+          ],
+          "keywords": [
+            "diatom abundance",
+            "quantitative analysis",
+            "microscopy",
+            "counting",
+            "species abundance"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The dominant species were distinguished according to Rakowska (2001). Since dominant species have the most significant impact on the results of biological assessment, for the purpose of the study, this group was additionally divided into three subgroups depending on a percentage share in assemblages ( % SH): species of low dominance (low-dominant, LD) with 5% ≥ % SH >11%, species with medium dominance (medium-dominant, MD) with 11% ≥ % SH >21%, and species with high dominance (high-dominant, HD) % SH ≥ 21%.",
+          "searchable_summary": "Classify diatom species into dominance categories (Low, Medium, High Dominance) based on their percentage share in each sample.",
+          "inputs": [
+            "Abundance data per taxon per sample",
+            "Dominance criteria (% SH thresholds: LD, MD, HD)"
+          ],
+          "outputs": [
+            "List of dominant species with their dominance category per sample"
+          ],
+          "keywords": [
+            "dominant species",
+            "species classification",
+            "percentage share",
+            "ecological metrics",
+            "dominance categories"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The species constancy was determined according to the Braun-Blanquet scale (Bohr, 1962).",
+          "searchable_summary": "Determine the constancy of diatom species across all samples using the Braun-Blanquet scale.",
+          "inputs": [
+            "Presence/absence data for each taxon across all samples",
+            "Braun-Blanquet scale definition (Bohr, 1962)"
+          ],
+          "outputs": [
+            "Constancy value or category for each diatom species"
+          ],
+          "keywords": [
+            "species constancy",
+            "Braun-Blanquet scale",
+            "frequency analysis",
+            "ecological metrics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The initial step in the analysis was performed to reduce the species set and adjust the matrix to a specified number of species (n = 50, transformed by square root) by including only the species important for the next comparison of the studied samples.",
+          "searchable_summary": "Transform abundance data using square root and reduce the species matrix to include only the 50 most important species.",
+          "inputs": [
+            "Abundance data matrix (samples x species)"
+          ],
+          "outputs": [
+            "Transformed and reduced abundance matrix (samples x 50 important species)"
+          ],
+          "keywords": [
+            "data transformation",
+            "square root transformation",
+            "species selection",
+            "data matrix reduction",
+            "ecological data processing"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "visualization",
+          "description": "To align the plots with regard to the range and quality of data, a Shade plot was used. The plot displays a matrix with species (rectangles gray-shading shows the abundance of diatom species, scale was expressed as Log (X+1); white indicated an absence of species while black indicated maximum abundance).",
+          "searchable_summary": "Generate a Shade plot (heatmap) to visualize the transformed and reduced species abundance matrix, using Log(X+1) scale for abundance.",
+          "inputs": [
+            "Transformed and reduced abundance matrix"
+          ],
+          "outputs": [
+            "Shade plot visualization"
+          ],
+          "keywords": [
+            "shade plot",
+            "heatmap",
+            "data visualization",
+            "species abundance plot",
+            "ecological data visualization"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "The samples were grouped by hierarchical clustering analysis (HCA) using Bray-Curtis similarity coefficient on transformed data (Clarke et al., 2014).",
+          "searchable_summary": "Perform hierarchical clustering analysis on transformed abundance data using Bray-Curtis similarity to group samples based on assemblage structure.",
+          "inputs": [
+            "Transformed abundance matrix"
+          ],
+          "outputs": [
+            "Sample clusters",
+            "Dendrogram"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "HCA",
+            "Bray-Curtis similarity",
+            "sample grouping",
+            "multivariate analysis",
+            "cluster analysis"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "The analysis was preceded by Interactiveforward-selection test to select the best-fitting hydrochemical factors for interpreting the summary in species composition. Factors with significance level P ≤ 0.05 were chosen for PCA analysis.",
+          "searchable_summary": "Perform interactive forward selection to identify statistically significant hydrochemical variables (P ≤ 0.05) that best explain variation in species composition.",
+          "inputs": [
+            "Species abundance data",
+            "Hydrochemical parameters data"
+          ],
+          "outputs": [
+            "List of selected significant hydrochemical parameters"
+          ],
+          "keywords": [
+            "forward selection",
+            "variable selection",
+            "statistical significance",
+            "environmental variables",
+            "multivariate analysis",
+            "stepwise selection"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "modeling",
+          "description": "To summarize the variation in species composition and quantity and to interpret this summary with the help of the best-fitting subset of hydrochemical parameters, the multivariate data analyses were performed. The response data were compositional with 2.2 SD gradient; therefore, the Constrained linear method-a Principal Component Analysis with supplementary variables was chosen. For the response data centering by species was applied without any data transformation.",
+          "searchable_summary": "Perform Constrained Principal Component Analysis (PCA) with selected hydrochemical parameters as constraining/supplementary variables on species-centered abundance data.",
+          "inputs": [
+            "Species abundance data (centered by species)",
+            "Selected significant hydrochemical parameters"
+          ],
+          "outputs": [
+            "PCA ordination results (e.g., site/species scores, eigenvalues)",
+            "Variance explained by components",
+            "PCA ordination plot data"
+          ],
+          "keywords": [
+            "multivariate analysis",
+            "PCA",
+            "Principal Component Analysis",
+            "constrained ordination",
+            "ecological data analysis",
+            "environmental correlation"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "other",
+          "description": "Multivariate data analyses were performed using Canoco for Windows 5.0 Software.",
+          "searchable_summary": "Specify the software used for multivariate data analysis (PCA, forward selection).",
+          "inputs": [],
+          "outputs": [],
+          "keywords": [
+            "Canoco",
+            "statistical software",
+            "ecological software",
+            "data analysis tool"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/244535436.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

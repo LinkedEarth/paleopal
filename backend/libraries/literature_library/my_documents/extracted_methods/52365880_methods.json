@@ -1,0 +1,129 @@
+{
+  "paper_title": "Ice Core Chronology and Error Correlation Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Datice Experiment Setup",
+      "description": "This method describes the setup and execution of Datice experiments to calculate coherent chronologies for ice and gas phases using palaeo-observations and background parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Provide palaeo-observations and background parameters T b k (z), A b k (z), and C b k (z) with their respective uncertainties.",
+          "searchable_summary": "input palaeo-observations and background parameters with uncertainties",
+          "inputs": [
+            "palaeo-observations",
+            "T b k (z)",
+            "A b k (z)",
+            "C b k (z)",
+            "uncertainties"
+          ],
+          "outputs": [
+            "input data for Datice"
+          ],
+          "keywords": [
+            "palaeo-observations",
+            "background parameters",
+            "Datice"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Minimize the cost function J to refine the background by identifying correction functions τ k (z), α k (z), and γ k (z) at each depth level z k.",
+          "searchable_summary": "minimize cost function to refine background model",
+          "inputs": [
+            "cost function J",
+            "background model"
+          ],
+          "outputs": [
+            "refined background model",
+            "correction functions"
+          ],
+          "keywords": [
+            "cost function",
+            "minimization",
+            "correction functions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Deduce a particular age model from a set of correction functions.",
+          "searchable_summary": "derive age model from correction functions",
+          "inputs": [
+            "correction functions"
+          ],
+          "outputs": [
+            "age model"
+          ],
+          "keywords": [
+            "age model",
+            "correction functions"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Error Correlation and Sampling Influence",
+      "description": "This method investigates the influence of sampling rates and error correlation assumptions on the accuracy of ice core chronology models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Run experiments with markers sampled at uniform rates (100, 200, 300 years) and adaptive sampling (40-140 years).",
+          "searchable_summary": "conduct experiments with different sampling rates",
+          "inputs": [
+            "sampling rates",
+            "markers"
+          ],
+          "outputs": [
+            "experiment results"
+          ],
+          "keywords": [
+            "sampling rates",
+            "markers",
+            "experiments"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze the influence of error correlation by comparing AddMCE and SqrAddMCE assumptions.",
+          "searchable_summary": "compare error correlation assumptions",
+          "inputs": [
+            "AddMCE assumption",
+            "SqrAddMCE assumption"
+          ],
+          "outputs": [
+            "error correlation analysis"
+          ],
+          "keywords": [
+            "error correlation",
+            "AddMCE",
+            "SqrAddMCE"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Implement a correlation coefficient that smoothly decreases with the distance between markers.",
+          "searchable_summary": "implement smoothly decreasing correlation coefficient",
+          "inputs": [
+            "distance between markers"
+          ],
+          "outputs": [
+            "correlation coefficient"
+          ],
+          "keywords": [
+            "correlation coefficient",
+            "distance",
+            "markers"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/52365880.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

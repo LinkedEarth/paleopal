@@ -1,0 +1,163 @@
+{
+  "paper_title": "Inferred Rodent Faunal Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Rodent Species Database Compilation and Environmental Data Integration",
+      "description": "This method describes the process of compiling and filtering a database of rodent species from fossil sites, creating a structured matrix, assigning species to faunal components, and integrating independent isotopic data by fitting a smoothed curve and interpolating values for each fossil site's age.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Our database is derived from Gómez Cano 6 and considers all rodent species recorded at the studied fossil sites, including 209 species.",
+          "searchable_summary": "Load rodent species database from source",
+          "inputs": [
+            "Gómez Cano 6 database"
+          ],
+          "outputs": [
+            "Initial rodent species database"
+          ],
+          "keywords": [
+            "database",
+            "rodent species",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In order to reduce sampling biases, this database included well sampled fossil sites, which recorded a minimum of 100 m1 + m2 + M1 + M2, following van der Meulen and Daams 18 . Only a few fossil sites with a lower sample size were allowed as they were the only representatives of poorly sampled areas or because they were part of stratigraphically important sequences.",
+          "searchable_summary": "Filter fossil sites based on minimum sample size of rodent teeth",
+          "inputs": [
+            "Initial rodent species database",
+            "sample size threshold (100 m1+m2+M1+M2)"
+          ],
+          "outputs": [
+            "Filtered rodent species database (by site sample size)"
+          ],
+          "keywords": [
+            "data filtering",
+            "sample size bias",
+            "paleontology",
+            "rodent teeth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We employed this dataset of rodent species to compile a matrix with information on the number of species and percentage of species of each genus and family in each fossil site.",
+          "searchable_summary": "Compile matrix of species counts and percentages per site, genus, and family",
+          "inputs": [
+            "Filtered rodent species database (by site sample size)"
+          ],
+          "outputs": [
+            "Species matrix (counts and percentages)"
+          ],
+          "keywords": [
+            "data matrix",
+            "species counts",
+            "species percentages",
+            "genus",
+            "family",
+            "fossil site"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "As in other studies 16 , we only analysed taxa that were determined at the species level in each fossil site to avoid potential noise in the data due to unidentified taxa.",
+          "searchable_summary": "Filter species matrix to include only species identified at the species level",
+          "inputs": [
+            "Species matrix (counts and percentages)"
+          ],
+          "outputs": [
+            "Filtered species matrix (species-level only)"
+          ],
+          "keywords": [
+            "data filtering",
+            "taxonomic resolution",
+            "species level",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We also assigned all the species in our matrix into the faunal components (FC) defined by Gómez Cano,et al. 7 , which grouped genera with similar ecological affinities ( Supplementary Fig. 2).",
+          "searchable_summary": "Assign species to predefined faunal components",
+          "inputs": [
+            "Filtered species matrix (species-level only)",
+            "Faunal component definitions (Gómez Cano, et al. 7)"
+          ],
+          "outputs": [
+            "Species matrix with faunal component assignments"
+          ],
+          "keywords": [
+            "data assignment",
+            "faunal components",
+            "ecological affinities",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Finally, we also compiled independent bibliographic information for isotopic data contemporary to fossil sites included in our work 7 ;",
+          "searchable_summary": "Compile independent bibliographic isotopic data",
+          "inputs": [
+            "Bibliographic sources (Gómez Cano, et al. 7 and others)"
+          ],
+          "outputs": [
+            "Compiled isotopic data"
+          ],
+          "keywords": [
+            "data compilation",
+            "isotopic data",
+            "bibliographic research",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "this work follows Gómez Cano, et al. 7 by fitting a smoothed curve to the isotopic information provided by Zachos, et al. 51",
+          "searchable_summary": "Fit a smoothed curve to global marine isotopic data (δ18O)",
+          "inputs": [
+            "Global marine isotopic data (Zachos, et al. 51)"
+          ],
+          "outputs": [
+            "Smoothed isotopic curve model"
+          ],
+          "keywords": [
+            "curve fitting",
+            "smoothing",
+            "isotopic data",
+            "δ18O",
+            "paleoclimate modeling"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "and interpolate δ 18 O values for the age of each fossil site.",
+          "searchable_summary": "Interpolate δ18O values from the smoothed curve for each fossil site age",
+          "inputs": [
+            "Smoothed isotopic curve model",
+            "Ages of fossil sites"
+          ],
+          "outputs": [
+            "Interpolated δ18O values for each fossil site"
+          ],
+          "keywords": [
+            "interpolation",
+            "δ18O",
+            "fossil site age",
+            "paleoclimate data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/205650643.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

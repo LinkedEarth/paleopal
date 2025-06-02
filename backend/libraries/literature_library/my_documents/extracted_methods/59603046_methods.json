@@ -1,0 +1,333 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of YBI",
+      "description": "To identify significant differences in Yearly Biomass Increment (YBI) between years, a pairwise comparison of YBI for single trees with a two-way ANOVA (tree × year) and Bonferroni correction was applied.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A pairwise comparison of YBI for single trees with a two-way ANOVA (tree × year) and Bonferroni correction was applied in SPSS.",
+          "searchable_summary": "perform two-way ANOVA with Bonferroni correction on YBI data",
+          "inputs": [
+            "YBI data",
+            "tree identifiers",
+            "year identifiers"
+          ],
+          "outputs": [
+            "ANOVA results",
+            "significance levels"
+          ],
+          "keywords": [
+            "ANOVA",
+            "Bonferroni correction",
+            "SPSS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Trend Analysis and Removal",
+      "description": "To assess and remove the trend of decreasing YBI with time, which could be due to factors like fertilization treatment or age-related decline.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Remove the trend of decreasing YBI with time before comparisons to NEP and GPP.",
+          "searchable_summary": "remove temporal trend from YBI data",
+          "inputs": [
+            "YBI data",
+            "time series"
+          ],
+          "outputs": [
+            "detrended YBI data"
+          ],
+          "keywords": [
+            "trend removal",
+            "time series analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Linear Regression Analysis",
+      "description": "To assess the period of accumulated NEP or GPP on which the YBI depended, linear regressions were performed between YBI and GPP or NEP.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform linear regressions between YBI and GPP or NEP calculated for all possible periods starting from April of the year before the YBI value to October of the year of the YBI value with a 1-month time resolution.",
+          "searchable_summary": "perform linear regression between YBI and GPP/NEP over specified periods",
+          "inputs": [
+            "YBI data",
+            "GPP data",
+            "NEP data",
+            "time periods"
+          ],
+          "outputs": [
+            "regression coefficients",
+            "p-values"
+          ],
+          "keywords": [
+            "linear regression",
+            "YBI",
+            "GPP",
+            "NEP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Residuals were checked for normality using a Shapiro-Wilk test.",
+          "searchable_summary": "check regression residuals for normality using Shapiro-Wilk test",
+          "inputs": [
+            "regression residuals"
+          ],
+          "outputs": [
+            "normality test results"
+          ],
+          "keywords": [
+            "Shapiro-Wilk test",
+            "normality",
+            "residuals"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tree Growth Measurements",
+      "description": "Sampling and measurement of tree growth parameters including diameter, height, and tree-ring widths for biomass calculation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In December 2002, 15 pines and 15 spruces were sampled for growth determination.",
+          "searchable_summary": "sample trees for growth determination",
+          "inputs": [
+            "tree species",
+            "sampling date"
+          ],
+          "outputs": [
+            "tree samples"
+          ],
+          "keywords": [
+            "tree sampling",
+            "growth determination"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Measure diameter of candidate trees along transects west and southwest from the tower.",
+          "searchable_summary": "measure tree diameter along specified transects",
+          "inputs": [
+            "candidate trees",
+            "transect locations"
+          ],
+          "outputs": [
+            "tree diameter measurements"
+          ],
+          "keywords": [
+            "tree diameter",
+            "transects"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Take two tree cores, 90° apart, at breast height with an increment borer.",
+          "searchable_summary": "extract tree cores at breast height",
+          "inputs": [
+            "tree",
+            "increment borer"
+          ],
+          "outputs": [
+            "tree cores"
+          ],
+          "keywords": [
+            "tree coring",
+            "increment borer"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Measure tree-ring widths on an Aniol-measuring machine with a binocular microscope.",
+          "searchable_summary": "measure tree-ring widths using Aniol-measuring machine",
+          "inputs": [
+            "tree cores"
+          ],
+          "outputs": [
+            "tree-ring width data"
+          ],
+          "keywords": [
+            "tree-ring measurement",
+            "Aniol-measuring machine"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Crossdate tree rings using t value and Gleichläufigkeit statistical tests.",
+          "searchable_summary": "perform crossdating of tree rings using statistical tests",
+          "inputs": [
+            "tree-ring data"
+          ],
+          "outputs": [
+            "crossdated tree-ring data"
+          ],
+          "keywords": [
+            "crossdating",
+            "t value",
+            "Gleichläufigkeit"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Assign tree heights for each year using standard height development curves.",
+          "searchable_summary": "model tree height development using standard curves",
+          "inputs": [
+            "current tree height",
+            "annual growth rings"
+          ],
+          "outputs": [
+            "yearly tree heights"
+          ],
+          "keywords": [
+            "tree height modeling",
+            "growth curves"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Calculate biomass components from height and diameter using allometric functions.",
+          "searchable_summary": "calculate biomass using allometric functions",
+          "inputs": [
+            "tree height",
+            "tree diameter"
+          ],
+          "outputs": [
+            "biomass components"
+          ],
+          "keywords": [
+            "biomass calculation",
+            "allometric functions"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Flux Measurements",
+      "description": "Measurement and analysis of net ecosystem exchange (NEE) and related parameters using a sonic anemometer and infrared gas analyser.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Measure NEE at a height of 35 m using a SOLENT three-dimensional sonic anemometer and a LI-6262 infrared gas analyser.",
+          "searchable_summary": "measure NEE using sonic anemometer and gas analyser",
+          "inputs": [
+            "sonic anemometer",
+            "infrared gas analyser"
+          ],
+          "outputs": [
+            "NEE data"
+          ],
+          "keywords": [
+            "NEE measurement",
+            "sonic anemometer",
+            "infrared gas analyser"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate fluxes based on 30-min averages and correct using standard methods.",
+          "searchable_summary": "calculate and correct fluxes from 30-min averages",
+          "inputs": [
+            "raw NEE data"
+          ],
+          "outputs": [
+            "corrected flux data"
+          ],
+          "keywords": [
+            "flux calculation",
+            "data correction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Fit regression functions to 2-month periods of nighttime NEE values.",
+          "searchable_summary": "fit regression functions to nighttime NEE data",
+          "inputs": [
+            "nighttime NEE data"
+          ],
+          "outputs": [
+            "regression parameters"
+          ],
+          "keywords": [
+            "regression fitting",
+            "nighttime NEE"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Extrapolate functions to daytime period and calculate GPP as daytime R minus daytime NEE.",
+          "searchable_summary": "extrapolate functions and calculate GPP",
+          "inputs": [
+            "regression functions",
+            "daytime NEE data"
+          ],
+          "outputs": [
+            "GPP data"
+          ],
+          "keywords": [
+            "GPP calculation",
+            "extrapolation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Replace gaps in NEE up to 2 h with linear interpolation and model longer gaps with a light-response function.",
+          "searchable_summary": "interpolate short gaps and model long gaps in NEE data",
+          "inputs": [
+            "NEE data",
+            "light-response function"
+          ],
+          "outputs": [
+            "gap-filled NEE data"
+          ],
+          "keywords": [
+            "gap filling",
+            "light-response function"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Calculate Net Ecosystem Production (NEP) as -1 × NEE and sum NEP and GPP for 1-month periods.",
+          "searchable_summary": "calculate NEP and sum NEP and GPP monthly",
+          "inputs": [
+            "NEE data",
+            "GPP data"
+          ],
+          "outputs": [
+            "monthly NEP and GPP"
+          ],
+          "keywords": [
+            "NEP calculation",
+            "monthly summation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/59603046.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

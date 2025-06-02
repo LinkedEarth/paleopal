@@ -1,0 +1,159 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Matrix Method",
+      "description": "A method for simulating climate forcing in ice-sheet models using a matrix of pre-calculated GCM simulation outputs, allowing interpolation between different climate states based on model state parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Using the definition by Pollard (2010), a climate matrix is a collection of pre-calculated output data from several steady-state GCM simulations, called 'snapshots', that differ from each other in one or more key parameters.",
+          "searchable_summary": "collect pre-calculated GCM simulation outputs",
+          "inputs": [
+            "GCM simulation outputs",
+            "key parameters"
+          ],
+          "outputs": [
+            "climate matrix"
+          ],
+          "keywords": [
+            "GCM",
+            "climate matrix",
+            "snapshots"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "When performing a simulation with an ice-sheet model, at every point in time during the simulation the prescribed climate forcing is determined by combining the climate states constituting the matrix according to the position of the model state within the matrix.",
+          "searchable_summary": "combine climate states based on model state",
+          "inputs": [
+            "climate matrix",
+            "model state"
+          ],
+          "outputs": [
+            "prescribed climate forcing"
+          ],
+          "keywords": [
+            "climate forcing",
+            "interpolation",
+            "ice-sheet model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "When the ice-sheet model is in a state corresponding to one of the GCM snapshots, the climate from this snapshot will be prescribed.",
+          "searchable_summary": "prescribe climate from matching GCM snapshot",
+          "inputs": [
+            "GCM snapshot",
+            "model state"
+          ],
+          "outputs": [
+            "prescribed climate"
+          ],
+          "keywords": [
+            "GCM snapshot",
+            "climate prescription"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "When the ice-sheet model is in a state lying in between different GCM snapshots, the prescribed climate is an interpolation of these snapshots.",
+          "searchable_summary": "interpolate climate between GCM snapshots",
+          "inputs": [
+            "GCM snapshots",
+            "model state"
+          ],
+          "outputs": [
+            "interpolated climate"
+          ],
+          "keywords": [
+            "interpolation",
+            "GCM snapshots"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Inverse Method",
+      "description": "An inverse forward modeling approach to determine pCO2 based on the difference between modelled and observed benthic d 18 O, adapted to use the climate matrix for regional climate determination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The modelled benthic d 18 O is calculated using ice volume, ice-sheet d 18 O and deep-water temperatures relative to PD for every 100 years.",
+          "searchable_summary": "calculate modelled benthic d 18 O",
+          "inputs": [
+            "ice volume",
+            "ice-sheet d 18 O",
+            "deep-water temperatures"
+          ],
+          "outputs": [
+            "modelled benthic d 18 O"
+          ],
+          "keywords": [
+            "benthic d 18 O",
+            "ice volume",
+            "deep-water temperature"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Adapt the approach for our model set-up by using the difference between modelled and observed d 18 O to calculate a value for pCO2, which is subsequently forwarded to the climate matrix.",
+          "searchable_summary": "calculate pCO2 from d 18 O difference",
+          "inputs": [
+            "modelled d 18 O",
+            "observed d 18 O"
+          ],
+          "outputs": [
+            "calculated pCO2"
+          ],
+          "keywords": [
+            "pCO2",
+            "d 18 O difference",
+            "climate matrix"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The scaling factor changes to 120 ppmv / per mill d 18 O change in order to produce a glacial interglacial contrast of 90 ppmv pCO2.",
+          "searchable_summary": "adjust scaling factor for pCO2 calculation",
+          "inputs": [
+            "d 18 O change"
+          ],
+          "outputs": [
+            "adjusted scaling factor"
+          ],
+          "keywords": [
+            "scaling factor",
+            "pCO2 calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "For forcing the inverse routine, the LR04 stack was used.",
+          "searchable_summary": "use LR04 stack for inverse routine",
+          "inputs": [
+            "LR04 stack"
+          ],
+          "outputs": [
+            "forced inverse routine"
+          ],
+          "keywords": [
+            "LR04 stack",
+            "inverse routine"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/134722208.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

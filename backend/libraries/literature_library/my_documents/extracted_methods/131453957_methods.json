@@ -1,0 +1,258 @@
+{
+  "paper_title": "Velocity Structure in Marine Sediments with Gas Hydrate Reflectors in Offshore SW Taiwan, from OBS Data Tomography",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "2-D Tomographic Modeling",
+      "description": "This method involves performing 2-D tomographic modeling using the Tomo2D software to obtain an initial image of the velocity structure along the profiles. It uses a hybrid method for forward modeling and regularized LSQR solution for inversion to derive a reliable initial velocity model for 2-D inversion.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform 2-D tomographic modeling using Tomo2D to obtain an initial image of the velocity structure.",
+          "searchable_summary": "use Tomo2D for 2-D tomographic modeling to image velocity structure",
+          "inputs": [
+            "Tomo2D software",
+            "velocity model"
+          ],
+          "outputs": [
+            "initial velocity structure image"
+          ],
+          "keywords": [
+            "2-D tomographic modeling",
+            "Tomo2D",
+            "velocity structure"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use a hybrid method based on graph and ray-bending methods for forward solution.",
+          "searchable_summary": "apply hybrid graph and ray-bending methods for forward solution",
+          "inputs": [
+            "velocity model"
+          ],
+          "outputs": [
+            "forward solution"
+          ],
+          "keywords": [
+            "graph method",
+            "ray-bending",
+            "forward solution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Perform inversion using regularized LSQR solution.",
+          "searchable_summary": "perform inversion with regularized LSQR solution",
+          "inputs": [
+            "forward solution"
+          ],
+          "outputs": [
+            "inverted velocity model"
+          ],
+          "keywords": [
+            "inversion",
+            "LSQR solution"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Construct an initial 1-D velocity model modified from previous studies.",
+          "searchable_summary": "construct initial 1-D velocity model from previous studies",
+          "inputs": [
+            "previous studies"
+          ],
+          "outputs": [
+            "1-D velocity model"
+          ],
+          "keywords": [
+            "1-D velocity model",
+            "initial model"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Generate primary refractions, reflections, and corresponding seismograms using RAYAMP-PC.",
+          "searchable_summary": "use RAYAMP-PC to generate refractions, reflections, and seismograms",
+          "inputs": [
+            "1-D velocity model"
+          ],
+          "outputs": [
+            "seismograms"
+          ],
+          "keywords": [
+            "RAYAMP-PC",
+            "refractions",
+            "reflections",
+            "seismograms"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Adjust interfaces and velocity contrasts until satisfactory matches between observed and synthetic record sections are achieved.",
+          "searchable_summary": "adjust model interfaces and velocity contrasts for match with observations",
+          "inputs": [
+            "seismograms",
+            "observed data"
+          ],
+          "outputs": [
+            "adjusted velocity model"
+          ],
+          "keywords": [
+            "interface adjustment",
+            "velocity contrast",
+            "model matching"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Convert the model to a grid model for Tomo2D.",
+          "searchable_summary": "convert velocity model to grid model for Tomo2D",
+          "inputs": [
+            "adjusted velocity model"
+          ],
+          "outputs": [
+            "grid model"
+          ],
+          "keywords": [
+            "grid model",
+            "Tomo2D"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Evaluate improvements to the velocity model using root-mean-square and normalized chi squared statistical tests.",
+          "searchable_summary": "evaluate model improvements with statistical tests",
+          "inputs": [
+            "travel-time residuals"
+          ],
+          "outputs": [
+            "model evaluation metrics"
+          ],
+          "keywords": [
+            "root-mean-square",
+            "chi squared",
+            "model evaluation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "Investigate solution quality using a checkerboard test procedure.",
+          "searchable_summary": "perform checkerboard test for solution quality",
+          "inputs": [
+            "synthetic velocity model"
+          ],
+          "outputs": [
+            "solution quality assessment"
+          ],
+          "keywords": [
+            "checkerboard test",
+            "solution quality"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "OBS Data Acquisition",
+      "description": "This method describes the acquisition of seismic data along four transects in SW Taiwan using ocean bottom seismometers (OBS) and multi-channel seismic (MCS) data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Acquire seismic refraction data using 6 French IFEMER's ocean bottom seismometers.",
+          "searchable_summary": "acquire seismic refraction data with ocean bottom seismometers",
+          "inputs": [
+            "OBS equipment",
+            "transects"
+          ],
+          "outputs": [
+            "seismic refraction data"
+          ],
+          "keywords": [
+            "seismic refraction",
+            "OBS",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Apply a 4-33 Hz band-pass filtering to the OBS data.",
+          "searchable_summary": "apply band-pass filtering to OBS data",
+          "inputs": [
+            "OBS data"
+          ],
+          "outputs": [
+            "filtered OBS data"
+          ],
+          "keywords": [
+            "band-pass filtering",
+            "OBS data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Fire an air-gun at a 30-s interval at about 4 knots to yield spaced seismic traces of 50 m.",
+          "searchable_summary": "fire air-gun for seismic trace acquisition",
+          "inputs": [
+            "air-gun",
+            "vessel speed"
+          ],
+          "outputs": [
+            "seismic traces"
+          ],
+          "keywords": [
+            "air-gun",
+            "seismic traces",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Correlate main horizons such as direct water arrivals and reflections between seafloor and BSR seen in the MCS section to the OBS-recordings.",
+          "searchable_summary": "correlate MCS horizons with OBS recordings",
+          "inputs": [
+            "MCS data",
+            "OBS data"
+          ],
+          "outputs": [
+            "correlated seismic data"
+          ],
+          "keywords": [
+            "horizon correlation",
+            "MCS",
+            "OBS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Use only the first arrivals picked from offsets up to 3 km in the seismic inversion.",
+          "searchable_summary": "select first arrivals for seismic inversion",
+          "inputs": [
+            "seismic data"
+          ],
+          "outputs": [
+            "selected first arrivals"
+          ],
+          "keywords": [
+            "first arrivals",
+            "seismic inversion"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/131453957.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

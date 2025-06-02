@@ -1,0 +1,233 @@
+{
+  "paper_title": "Miocene Climate Simulations and Data-Model Comparison",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Miocene Climate Model Setup",
+      "description": "Setup of the Miocene climate model simulations using AWI-ESM2.1 to study the effects of different CO2 concentrations and boundary conditions on climate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Prescribe an atmospheric CO2 concentration of 450 ppm for the reference Miocene simulation (MIO_450).",
+          "searchable_summary": "set atmospheric CO2 concentration to 450 ppm in climate model",
+          "inputs": [
+            "CO2 concentration"
+          ],
+          "outputs": [
+            "configured climate model"
+          ],
+          "keywords": [
+            "CO2 concentration",
+            "climate model",
+            "Miocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Implement high-resolution paleobathymetry and paleotopography of the Middle Miocene.",
+          "searchable_summary": "apply paleobathymetry and paleotopography to climate model",
+          "inputs": [
+            "paleobathymetry data",
+            "paleotopography data"
+          ],
+          "outputs": [
+            "configured climate model"
+          ],
+          "keywords": [
+            "paleobathymetry",
+            "paleotopography",
+            "Miocene"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Create an ocean mesh using the paleobathymetry and paleotopography.",
+          "searchable_summary": "generate ocean mesh from paleobathymetry and paleotopography",
+          "inputs": [
+            "paleobathymetry data",
+            "paleotopography data"
+          ],
+          "outputs": [
+            "ocean mesh"
+          ],
+          "keywords": [
+            "ocean mesh",
+            "paleobathymetry",
+            "paleotopography"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Run FESOM2 in standalone mode for around 300 model years to create an initial spin-up of the ocean state.",
+          "searchable_summary": "run FESOM2 standalone for ocean state spin-up",
+          "inputs": [
+            "ocean mesh",
+            "initial conditions"
+          ],
+          "outputs": [
+            "spun-up ocean state"
+          ],
+          "keywords": [
+            "FESOM2",
+            "spin-up",
+            "ocean model"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Initialize the coupled atmosphere-ocean model from the standalone ocean spin-up and integrate for 1,000 model years.",
+          "searchable_summary": "initialize coupled model from ocean spin-up and integrate",
+          "inputs": [
+            "spun-up ocean state"
+          ],
+          "outputs": [
+            "quasi-equilibrium climate model state"
+          ],
+          "keywords": [
+            "coupled model",
+            "integration",
+            "climate model"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Perform additional simulations (MIO_280, MIO_720, PI_450) to analyze effects of CO2 and boundary conditions.",
+          "searchable_summary": "run additional climate simulations with varying CO2 and conditions",
+          "inputs": [
+            "CO2 concentrations",
+            "boundary conditions"
+          ],
+          "outputs": [
+            "simulation results"
+          ],
+          "keywords": [
+            "climate simulation",
+            "CO2 effects",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Utilize factor separation analysis to analyze the effect of boundary conditions and their interactions.",
+          "searchable_summary": "perform factor separation analysis on simulation results",
+          "inputs": [
+            "simulation results"
+          ],
+          "outputs": [
+            "analysis of boundary condition effects"
+          ],
+          "keywords": [
+            "factor separation",
+            "boundary conditions",
+            "climate analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Employ zero-dimensional and one-dimensional energy balance models to investigate mechanisms governing global surface temperature changes.",
+          "searchable_summary": "use energy balance models to study temperature change mechanisms",
+          "inputs": [
+            "climate model data"
+          ],
+          "outputs": [
+            "temperature change analysis"
+          ],
+          "keywords": [
+            "energy balance model",
+            "temperature change",
+            "climate mechanisms"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data-Model Comparison",
+      "description": "Comparison of simulated annual-mean surface temperatures with proxy data estimates for the Miocene period.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Compare simulated annual-mean surface temperatures of land and ocean against available proxy data estimates.",
+          "searchable_summary": "compare simulated temperatures with proxy data",
+          "inputs": [
+            "simulated temperatures",
+            "proxy data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "temperature comparison",
+            "proxy data",
+            "Miocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze the meridional temperature gradient in simulations and compare with proxy data.",
+          "searchable_summary": "analyze and compare meridional temperature gradient",
+          "inputs": [
+            "simulated temperature gradients",
+            "proxy data gradients"
+          ],
+          "outputs": [
+            "gradient comparison results"
+          ],
+          "keywords": [
+            "meridional gradient",
+            "temperature analysis",
+            "proxy comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Calculate correlation coefficients and RMSE between simulations and proxy data.",
+          "searchable_summary": "calculate correlation and RMSE for model validation",
+          "inputs": [
+            "simulation data",
+            "proxy data"
+          ],
+          "outputs": [
+            "correlation coefficients",
+            "RMSE values"
+          ],
+          "keywords": [
+            "correlation",
+            "RMSE",
+            "model validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Evaluate model performance in capturing low to mid-latitude temperature distribution.",
+          "searchable_summary": "evaluate model performance for latitude temperature distribution",
+          "inputs": [
+            "simulation data",
+            "proxy data"
+          ],
+          "outputs": [
+            "performance evaluation"
+          ],
+          "keywords": [
+            "model performance",
+            "latitude distribution",
+            "temperature"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256220311.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

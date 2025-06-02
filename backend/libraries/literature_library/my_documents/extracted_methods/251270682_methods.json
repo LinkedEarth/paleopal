@@ -1,0 +1,360 @@
+{
+  "paper_title": "Plant Gene Analysis Paper",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Tree Construction and Analysis",
+      "description": "Process for obtaining protein sequences, performing multiple sequence alignment, identifying domains and signals, and constructing a phylogenetic tree to study evolutionary relationships of C2H2 Zinc Finger Proteins (ZFPs).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "C2H2 ZFP sequences were obtained from the NCBI database (https://www.ncbi.nlm. nih.gov/ accessed on 6 April 2015).",
+          "searchable_summary": "download protein sequences from NCBI database",
+          "inputs": [
+            "NCBI database URL",
+            "Search query (C2H2 ZFP)"
+          ],
+          "outputs": [
+            "Protein sequences (e.g., FASTA format)"
+          ],
+          "keywords": [
+            "NCBI",
+            "sequence database",
+            "protein sequence",
+            "data download"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Multiple protein sequence alignments were done by using the MEGA X software (version 11.0) [48] with ClustalW, and default parameters [49].",
+          "searchable_summary": "perform multiple protein sequence alignment using MEGA X and ClustalW",
+          "inputs": [
+            "Protein sequences"
+          ],
+          "outputs": [
+            "Aligned protein sequences"
+          ],
+          "keywords": [
+            "multiple sequence alignment",
+            "protein alignment",
+            "MEGA X",
+            "ClustalW",
+            "bioinformatics software"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For the alignment edition, we used BioEdit (version 7.2) [50].",
+          "searchable_summary": "edit multiple sequence alignment using BioEdit",
+          "inputs": [
+            "Aligned protein sequences"
+          ],
+          "outputs": [
+            "Edited aligned protein sequences"
+          ],
+          "keywords": [
+            "alignment editing",
+            "BioEdit",
+            "sequence manipulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The identification of the C2H2 Zinc finger domains was performed in InterProScan (https://www.ebi.ac.uk/interpro/ search/sequence/ accessed on 21 April 2015) [51].",
+          "searchable_summary": "identify protein domains using InterProScan",
+          "inputs": [
+            "Protein sequences",
+            "InterProScan database URL"
+          ],
+          "outputs": [
+            "Protein domain predictions (e.g., coordinates, domain type)"
+          ],
+          "keywords": [
+            "protein domain identification",
+            "InterProScan",
+            "C2H2 zinc finger",
+            "bioinformatics tool"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The nuclear localization signal was determined in NLStradamus (http://www.moseslab.csb.utoronto.ca/NLStradamus/ accessed on 21 April 2015) [47].",
+          "searchable_summary": "predict nuclear localization signal using NLStradamus",
+          "inputs": [
+            "Protein sequences",
+            "NLStradamus tool URL"
+          ],
+          "outputs": [
+            "Nuclear localization signal predictions"
+          ],
+          "keywords": [
+            "nuclear localization signal",
+            "NLS prediction",
+            "NLStradamus",
+            "bioinformatics tool"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Phylogenetic analysis was performed with MEGA X software (version 11.0 Philadelphia, USA) [48] by the Neighbor-Joining method [53], and the bootstrap resampling method using 1000 replicates [54].",
+          "searchable_summary": "construct phylogenetic tree using Neighbor-Joining method with bootstrap in MEGA X",
+          "inputs": [
+            "Edited aligned protein sequences"
+          ],
+          "outputs": [
+            "Phylogenetic tree (e.g., Newick format)",
+            "Bootstrap support values"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "Neighbor-Joining",
+            "bootstrap",
+            "MEGA X",
+            "evolutionary tree"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Subcellular Localization by Transient Expression",
+      "description": "Method to determine the subcellular location of a protein (AtZAT4) by transiently expressing a fluorescent protein fusion (AtZAT4:sGFP) in plant cells (onion epidermal cells) via bombardment transformation and observing the fluorescence signal.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "transiently expressed a carboxyl-terminal fusion of AtZAT4 to the green fluorescent protein (GFP) under the control of CaMV 35S promoter",
+          "searchable_summary": "construct expression vector for protein-GFP fusion under CaMV 35S promoter",
+          "inputs": [
+            "AtZAT4 coding sequence",
+            "GFP coding sequence",
+            "CaMV 35S promoter sequence",
+            "Expression vector backbone"
+          ],
+          "outputs": [
+            "Recombinant plasmid DNA (AtZAT4:sGFP fusion construct)"
+          ],
+          "keywords": [
+            "gene fusion",
+            "expression vector",
+            "CaMV 35S promoter",
+            "molecular cloning",
+            "plasmid construction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "transiently expressed ... in onion epidermal cells using the bombardment transformation method",
+          "searchable_summary": "perform transient transformation of plant cells using gene bombardment",
+          "inputs": [
+            "Recombinant plasmid DNA",
+            "Onion epidermal cells",
+            "Gene bombardment apparatus (e.g., gene gun)"
+          ],
+          "outputs": [
+            "Transformed onion epidermal cells expressing fusion protein"
+          ],
+          "keywords": [
+            "transient expression",
+            "bombardment transformation",
+            "gene gun",
+            "plant transformation",
+            "onion epidermal cells"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "The signal of AtZAT4:sGFP was observed only in the nucleus, while the control showed a GFP signal in both the nucleus and cytoplasm.",
+          "searchable_summary": "observe and image fluorescence signal in transformed cells using microscopy",
+          "inputs": [
+            "Transformed onion epidermal cells",
+            "Fluorescence microscope"
+          ],
+          "outputs": [
+            "Microscopic images of fluorescence localization",
+            "Observations of subcellular localization"
+          ],
+          "keywords": [
+            "fluorescence microscopy",
+            "GFP imaging",
+            "subcellular localization",
+            "cell imaging"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Gene Expression Analysis by RT-qPCR",
+      "description": "Method to measure the transcript levels of a specific gene (AtZAT4) in different plant tissues and developmental stages using reverse transcription-quantitative real-time PCR (RT-qPCR).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "proceeded to measure the level of transcripts using reverse transcription-quantitative real-time PCR (RT-qPCR) in 5-and 10-day-old seedlings and in different A. thaliana vegetative and reproductive tissues.",
+          "searchable_summary": "collect plant tissue samples for RNA extraction",
+          "inputs": [
+            "Arabidopsis thaliana plants (various ages and tissues)"
+          ],
+          "outputs": [
+            "Plant tissue samples"
+          ],
+          "keywords": [
+            "plant tissue collection",
+            "sample preparation",
+            "Arabidopsis thaliana"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "proceeded to measure the level of transcripts using reverse transcription-quantitative real-time PCR (RT-qPCR)",
+          "searchable_summary": "perform RT-qPCR to measure gene transcript levels",
+          "inputs": [
+            "RNA extracted from tissue samples (implied)",
+            "RT-qPCR primers (for AtZAT4 and reference gene AtF-box)",
+            "Reverse transcription kit (implied)",
+            "qPCR master mix (implied)",
+            "RT-qPCR machine"
+          ],
+          "outputs": [
+            "Raw RT-qPCR data (Ct values)"
+          ],
+          "keywords": [
+            "RT-qPCR",
+            "quantitative PCR",
+            "gene expression",
+            "transcript levels",
+            "Ct value"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The constituti expression of the gene AtF-box [32] ... were used for normalization.",
+          "searchable_summary": "normalize RT-qPCR data using a reference gene (AtF-box)",
+          "inputs": [
+            "Raw Ct values for target gene (AtZAT4) and reference gene (AtF-box)"
+          ],
+          "outputs": [
+            "Normalized Ct values (ΔCt)"
+          ],
+          "keywords": [
+            "RT-qPCR normalization",
+            "reference gene",
+            "housekeeping gene",
+            "data normalization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "the 2 −ΔΔCt method described by Livak and Schmittgen (200 [33] were used for normalization.",
+          "searchable_summary": "calculate relative gene expression using the 2^-ΔΔCt method",
+          "inputs": [
+            "Normalized Ct values (ΔCt) for samples and calibrator"
+          ],
+          "outputs": [
+            "Relative transcript levels (fold change, 2^-ΔΔCt values)"
+          ],
+          "keywords": [
+            "2^-ΔΔCt method",
+            "relative gene expression",
+            "fold change",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Data correspond to the mean  SE.",
+          "searchable_summary": "calculate mean and standard error of relative expression data",
+          "inputs": [
+            "Relative transcript levels from multiple biological/technical replicates"
+          ],
+          "outputs": [
+            "Mean relative expression values",
+            "Standard error (SE) values"
+          ],
+          "keywords": [
+            "mean",
+            "standard error",
+            "descriptive statistics",
+            "data aggregation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Significant differences (p ≤ 0.05) are shown with differe letters.",
+          "searchable_summary": "perform statistical test to determine significant differences",
+          "inputs": [
+            "Relative transcript levels",
+            "Experimental group assignments"
+          ],
+          "outputs": [
+            "Statistical test results (e.g., p-values, significance letters)"
+          ],
+          "keywords": [
+            "statistical significance",
+            "hypothesis testing",
+            "p-value",
+            "statistical test"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "In Silico Gene Expression Visualization",
+      "description": "Method to visualize gene expression patterns in different plant tissues and developmental stages using publicly available online databases like the eFP-browser.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "visualized in silico in the eFP-browser (http://bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi, accessed on 21 April 2015)",
+          "searchable_summary": "access online gene expression database (eFP-browser)",
+          "inputs": [
+            "eFP-browser URL"
+          ],
+          "outputs": [
+            "eFP-browser web interface"
+          ],
+          "keywords": [
+            "web database",
+            "online tool",
+            "data access"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "visualized in silico in the eFP-browser ... in which AtZAT4 showed high levels of expression in mature pollen and stamens, and also in seeds.",
+          "searchable_summary": "search for gene and visualize expression profile in eFP-browser",
+          "inputs": [
+            "eFP-browser web interface",
+            "Gene identifier (AT2G45120)"
+          ],
+          "outputs": [
+            "Gene expression visualization (e.g., heat map, bar chart)",
+            "Expression data"
+          ],
+          "keywords": [
+            "gene expression database",
+            "eFP-browser",
+            "in silico expression",
+            "data visualization",
+            "gene identifier"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251270682.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1268,8 +1268,15 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
     try:
         logger.info("=== DETECT CLARIFICATION NODE CALLED ===")
         
+        # Debug logging to see what the config object looks like
+        logger.info(f"Config type: {type(config)}")
+        logger.info(f"Config content: {config}")
+        if hasattr(config, '__dict__'):
+            logger.info(f"Config attributes: {config.__dict__}")
+        
         # Check if clarification is disabled in config
         enable_clarification = get_config_value(config, 'enable_clarification', True)
+        logger.info(f"Retrieved enable_clarification: {enable_clarification}")
         if not enable_clarification:
             logger.info("Clarification detection disabled in config")
             return {"needs_clarification": False}

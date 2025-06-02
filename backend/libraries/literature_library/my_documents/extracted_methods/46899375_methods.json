@@ -1,0 +1,176 @@
+{
+  "paper_title": "The Pliocene Model Intercomparison Project (PlioMIP) Phase 2: scientific objectives and experimental design",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Output Data Handling and Formatting",
+      "description": "Procedures for formatting, processing, and storing model simulation output data according to PlioMIP Phase 2 guidelines, including specific requirements for core experiments designated as CMIP6/PMIP simulations and general constraints for all experiments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "If the PlioMIP Phase 2 core experiment is adopted as a CMIP6 simulation, model data for this experiment must use the Climate Model Output Rewriter (CMOR) format.",
+          "searchable_summary": "Format climate model output data using CMOR library for core experiments",
+          "inputs": [
+            "Raw model output data from PlioMIP Phase 2 core experiments"
+          ],
+          "outputs": [
+            "CMOR-formatted model data files"
+          ],
+          "keywords": [
+            "CMOR",
+            "climate model output",
+            "data formatting",
+            "CMIP6",
+            "PMIP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "If the PlioMIP Phase 2 core experiment is adopted as a CMIP6 simulation, model data must be stored on an ESGF node.",
+          "searchable_summary": "Store CMOR-formatted model data on ESGF node for core experiments",
+          "inputs": [
+            "CMOR-formatted model data files"
+          ],
+          "outputs": [
+            "Data stored on ESGF node"
+          ],
+          "keywords": [
+            "ESGF",
+            "data storage",
+            "climate data repository",
+            "CMIP6",
+            "PMIP"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "PlioMIP Phase 2 has modified the established variable list outlined by the third phase of the PMIP project. The list of required variables can be found on the PlioMIP Phase 2 website.",
+          "searchable_summary": "Ensure model output variables match the required list from the PlioMIP Phase 2 website",
+          "inputs": [
+            "Model output data",
+            "PlioMIP Phase 2 required variable list (from website)"
+          ],
+          "outputs": [
+            "Validated set of model output variables"
+          ],
+          "keywords": [
+            "variable list",
+            "data validation",
+            "climate model output",
+            "PlioMIP"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "All model outputs will be submitted initially to a data repository at the University of Leeds (including the PlioMIP Phase 2 core experiment, which may have data replicated in CMOR format on an ESGF node).",
+          "searchable_summary": "Submit all model output data to the University of Leeds data repository",
+          "inputs": [
+            "Model output data files (various formats, including potentially CMOR)"
+          ],
+          "outputs": [
+            "Data stored in University of Leeds repository"
+          ],
+          "keywords": [
+            "data submission",
+            "data repository",
+            "data storage",
+            "PlioMIP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The data files have to be in the (now widely used) NetCDF binary file format.",
+          "searchable_summary": "Convert model output data files to NetCDF format",
+          "inputs": [
+            "Model output data files (potentially in various internal formats)"
+          ],
+          "outputs": [
+            "Data files in NetCDF format"
+          ],
+          "keywords": [
+            "NetCDF",
+            "data format conversion",
+            "climate model output"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Data files must conform to the CF (Climate and Forecast) metadata convention.",
+          "searchable_summary": "Add or validate CF metadata in NetCDF files",
+          "inputs": [
+            "NetCDF data files"
+          ],
+          "outputs": [
+            "NetCDF files with CF-compliant metadata"
+          ],
+          "keywords": [
+            "NetCDF",
+            "CF metadata",
+            "metadata standards",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "There must be only one output variable per file.",
+          "searchable_summary": "Split multi-variable NetCDF files into single-variable files",
+          "inputs": [
+            "NetCDF files (potentially with multiple variables)"
+          ],
+          "outputs": [
+            "NetCDF files, each containing a single variable"
+          ],
+          "keywords": [
+            "NetCDF",
+            "data file structure",
+            "single variable file"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "For the data that are a function of longitude and latitude, only regular grids (grids representable as a Cartesian product of longitude and latitude axes) are allowed.",
+          "searchable_summary": "Ensure or regrid spatial data to regular grids",
+          "inputs": [
+            "Spatial model output data (latitude, longitude)"
+          ],
+          "outputs": [
+            "Spatial data on regular grids"
+          ],
+          "keywords": [
+            "regular grid",
+            "spatial data",
+            "regridding",
+            "climate model output"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "The file names have to follow the PMIP2 file name convention and be unique.",
+          "searchable_summary": "Rename data files according to PMIP2 convention and ensure uniqueness",
+          "inputs": [
+            "Data files"
+          ],
+          "outputs": [
+            "Renamed data files with unique PMIP2-compliant names"
+          ],
+          "keywords": [
+            "file naming convention",
+            "PMIP2",
+            "data management"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/46899375.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

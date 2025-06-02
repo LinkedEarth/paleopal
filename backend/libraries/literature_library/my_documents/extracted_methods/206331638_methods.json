@@ -1,0 +1,221 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Collection of Germinating Pollen and Pollen Tubes for RNA Extraction",
+      "description": "A method to collect a large amount of germinated Arabidopsis pollen for microarray experiments, improving upon previous methods by achieving a higher germination rate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Develop a thin liquid layer in vitro PG method for Arabidopsis pollen grains to germinate well in vitro.",
+          "searchable_summary": "create in vitro environment for pollen germination",
+          "inputs": [
+            "Arabidopsis pollen grains",
+            "liquid medium"
+          ],
+          "outputs": [
+            "germinated pollen grains"
+          ],
+          "keywords": [
+            "pollen germination",
+            "in vitro",
+            "Arabidopsis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Collect pollen grains at 45 min after incubation in liquid medium as the HP sample.",
+          "searchable_summary": "collect pollen grains after 45 min incubation",
+          "inputs": [
+            "incubated pollen grains"
+          ],
+          "outputs": [
+            "HP sample"
+          ],
+          "keywords": [
+            "pollen collection",
+            "incubation time"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Extract RNA from the collected pollen grains to represent the transcriptome information for PG.",
+          "searchable_summary": "extract RNA from pollen grains",
+          "inputs": [
+            "HP sample"
+          ],
+          "outputs": [
+            "RNA samples"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "transcriptome"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "GeneChip Data Analysis",
+      "description": "Analysis of microarray data using Affymetrix software to ensure reproducibility and reliability, including normalization and detection of transcriptionally changed genes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Conduct two biological replicates and extract RNAs from two independent plant populations.",
+          "searchable_summary": "perform biological replicates and RNA extraction",
+          "inputs": [
+            "plant populations"
+          ],
+          "outputs": [
+            "RNA samples"
+          ],
+          "keywords": [
+            "biological replicates",
+            "RNA extraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze scanned arrays with Affymetrix GCOS 1.0 (MAS 5.0) software to generate detection calls.",
+          "searchable_summary": "analyze arrays with Affymetrix GCOS",
+          "inputs": [
+            "scanned arrays"
+          ],
+          "outputs": [
+            "detection calls"
+          ],
+          "keywords": [
+            "Affymetrix GCOS",
+            "detection calls"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Normalize all six data sets using Affymetrix GCOS software with TGT value set to 100.",
+          "searchable_summary": "normalize data sets with Affymetrix GCOS",
+          "inputs": [
+            "data sets"
+          ],
+          "outputs": [
+            "normalized data sets"
+          ],
+          "keywords": [
+            "normalization",
+            "Affymetrix GCOS"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate signal ratio between two stages to represent fold change of gene transcription.",
+          "searchable_summary": "calculate fold change of gene transcription",
+          "inputs": [
+            "normalized data sets"
+          ],
+          "outputs": [
+            "fold change values"
+          ],
+          "keywords": [
+            "fold change",
+            "gene transcription"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Determine transcriptionally changed genes using exclusive approach and fold change criteria.",
+          "searchable_summary": "identify transcriptionally changed genes",
+          "inputs": [
+            "fold change values"
+          ],
+          "outputs": [
+            "transcriptionally changed genes"
+          ],
+          "keywords": [
+            "transcriptional change",
+            "gene expression"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Gene Ontology and Family Analysis",
+      "description": "Analysis of genes with altered transcription levels during PG and PTG using Gene Ontology and gene family tables to classify and identify functional categories.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Conduct Gene Ontology (GO) analysis using FunCat Scheme version 2.0 web service.",
+          "searchable_summary": "perform GO analysis with FunCat Scheme",
+          "inputs": [
+            "genes with altered transcription"
+          ],
+          "outputs": [
+            "GO categories"
+          ],
+          "keywords": [
+            "Gene Ontology",
+            "FunCat Scheme"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Classify genes into 14 main GO categories based on transcription changes.",
+          "searchable_summary": "classify genes into GO categories",
+          "inputs": [
+            "GO analysis results"
+          ],
+          "outputs": [
+            "classified GO categories"
+          ],
+          "keywords": [
+            "GO classification",
+            "gene categories"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Use gene family tables to further analyze potential functions of genes with altered transcription.",
+          "searchable_summary": "analyze gene functions using family tables",
+          "inputs": [
+            "gene family tables",
+            "altered transcription genes"
+          ],
+          "outputs": [
+            "functional categories"
+          ],
+          "keywords": [
+            "gene family",
+            "functional analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Integrate contents of gene family tables to identify important functional categories.",
+          "searchable_summary": "integrate gene family data for functional analysis",
+          "inputs": [
+            "gene family tables"
+          ],
+          "outputs": [
+            "important functional categories"
+          ],
+          "keywords": [
+            "data integration",
+            "functional categories"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/206331638.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

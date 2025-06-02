@@ -1,0 +1,284 @@
+{
+  "paper_title": "Statistical Analysis of Foraging Behavior",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Generalized Linear Models (GLMs) Construction",
+      "description": "Construction of GLMs to assess the impact of intrinsic and extrinsic variables on differences in size of FR, FA, LAX, and the number of vegetation habitats.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Generalized linear models (GLMs) were constructed with the 'stats' package to assess how intrinsic (body mass, skeletal size, and sex) and extrinsic (rainfall, time of year, and the number of GPS fixes) variables affected differences in the size of FR, FA, LAX and the number of vegetation habitats within the FR and FA.",
+          "searchable_summary": "construct GLMs using R 'stats' package to assess impact of variables on FR, FA, LAX sizes",
+          "inputs": [
+            "body mass",
+            "skeletal size",
+            "sex",
+            "rainfall",
+            "time of year",
+            "number of GPS fixes"
+          ],
+          "outputs": [
+            "GLM models"
+          ],
+          "keywords": [
+            "GLM",
+            "R",
+            "stats package",
+            "intrinsic variables",
+            "extrinsic variables"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Linear Mixed-Effect Models (LMMs) Construction",
+      "description": "Construction of LMMs to assess distances traveled between roost sites and nightly FAs, and total nightly foraging dispersal distances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Linear mixed-effect models (LMMs) were constructed with the 'lme4' package to assess the distance traveled between roost sites and nightly FAs, the distance traveled between nightly used FAs, and total nightly foraging dispersal distances.",
+          "searchable_summary": "construct LMMs using R 'lme4' package to assess travel distances",
+          "inputs": [
+            "distance traveled between roost sites and nightly FAs",
+            "distance traveled between nightly used FAs",
+            "total nightly foraging dispersal distances"
+          ],
+          "outputs": [
+            "LMM models"
+          ],
+          "keywords": [
+            "LMM",
+            "R",
+            "lme4 package",
+            "travel distances"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Poisson Generalized Mixed-Effect Model (GLMM) Construction",
+      "description": "Construction of a Poisson GLMM to assess the number of nightly foraging sites visited.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A Poisson generalized mixed-effect model (GLMM) with a log-link function was constructed with the 'lme4' package to assess the number of nightly foraging sites visited.",
+          "searchable_summary": "construct Poisson GLMM using R 'lme4' package to assess foraging sites",
+          "inputs": [
+            "number of nightly foraging sites visited"
+          ],
+          "outputs": [
+            "Poisson GLMM model"
+          ],
+          "keywords": [
+            "Poisson GLMM",
+            "R",
+            "lme4 package",
+            "foraging sites"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Poisson GLM Construction",
+      "description": "Construction of a Poisson GLM to assess the diversity of floral resources visited.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A Poisson GLM with a log-link function was constructed to assess the diversity of floral resource visited.",
+          "searchable_summary": "construct Poisson GLM to assess floral resource diversity",
+          "inputs": [
+            "diversity of floral resources visited"
+          ],
+          "outputs": [
+            "Poisson GLM model"
+          ],
+          "keywords": [
+            "Poisson GLM",
+            "floral resources",
+            "diversity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Principal Component Analysis (PCA) for Skeletal Size",
+      "description": "Estimation of a single metric for skeletal size using PCA on morphological measurements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A single metric for skeletal size was estimated using the score values from a principal component analysis (PCA) on the morphological measurements of forearm length, thumb length, claw length and tibia length.",
+          "searchable_summary": "perform PCA on morphological measurements to estimate skeletal size",
+          "inputs": [
+            "forearm length",
+            "thumb length",
+            "claw length",
+            "tibia length"
+          ],
+          "outputs": [
+            "skeletal size metric"
+          ],
+          "keywords": [
+            "PCA",
+            "skeletal size",
+            "morphological measurements"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ordered Quantile (ORQ) Normalization",
+      "description": "Normalization of response variables in model sets using ORQ transformation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "To normalize the response variable in each of the constructed model sets, excluding the Poisson GLM, an Ordered Quantile (ORQ) normalization transformation was applied to the response variables FR, FA, LAX, distance from roost to FAs, distance between FAs, nightly dispersal distances, and foraging distance between simultaneous tracked individuals.",
+          "searchable_summary": "apply ORQ normalization to response variables",
+          "inputs": [
+            "response variables FR, FA, LAX",
+            "distance from roost to FAs",
+            "distance between FAs",
+            "nightly dispersal distances",
+            "foraging distance"
+          ],
+          "outputs": [
+            "normalized response variables"
+          ],
+          "keywords": [
+            "ORQ normalization",
+            "response variables",
+            "normalization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Rescaling of Explanatory Variables",
+      "description": "Rescaling of explanatory variables body mass and rainfall using the default scale function in R.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The explanatory variables body mass and rainfall were rescaled using the default scale function in R.",
+          "searchable_summary": "rescale body mass and rainfall using R scale function",
+          "inputs": [
+            "body mass",
+            "rainfall"
+          ],
+          "outputs": [
+            "rescaled body mass",
+            "rescaled rainfall"
+          ],
+          "keywords": [
+            "rescale",
+            "R",
+            "scale function",
+            "explanatory variables"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Collinearity Check Using Pearson's Correlations",
+      "description": "Checking for collinearity between explanatory variables using Pearson's correlations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pearson's correlations were used to check for collinearity between explanatory variables.",
+          "searchable_summary": "perform Pearson's correlation to check collinearity",
+          "inputs": [
+            "explanatory variables"
+          ],
+          "outputs": [
+            "collinearity assessment"
+          ],
+          "keywords": [
+            "Pearson's correlation",
+            "collinearity",
+            "explanatory variables"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Comparison Using Akaike Information Criterion (AICc)",
+      "description": "Comparison of candidate models using AICc to determine competitive models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Candidate models were compared using Akaike Information Criterion for small sample sizes (AICc).",
+          "searchable_summary": "compare models using AICc",
+          "inputs": [
+            "candidate models"
+          ],
+          "outputs": [
+            "competitive models"
+          ],
+          "keywords": [
+            "AICc",
+            "model comparison",
+            "candidate models"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Averaging Using MuMin Package",
+      "description": "Averaging of competitive models using the MuMin package.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We considered all models within ΔAICc ≤ 2 to be competitive and were then averaged using the 'MuMin' package.",
+          "searchable_summary": "average competitive models using MuMin package",
+          "inputs": [
+            "competitive models"
+          ],
+          "outputs": [
+            "averaged models"
+          ],
+          "keywords": [
+            "model averaging",
+            "MuMin package",
+            "competitive models"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Variance Explained by Fixed Effects",
+      "description": "Computation of R² values to determine the proportion of variance explained by fixed effects in models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The proportion of variance explained by the fixed effects retained in each of the models was considered by computing the R² values using the 'rsq' package for each GLM and the 'partR2' package for each LMM and GLMM.",
+          "searchable_summary": "compute R² values to assess variance explained by fixed effects",
+          "inputs": [
+            "GLM models",
+            "LMM models",
+            "GLMM models"
+          ],
+          "outputs": [
+            "R² values"
+          ],
+          "keywords": [
+            "R² values",
+            "variance explained",
+            "fixed effects"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248089102.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

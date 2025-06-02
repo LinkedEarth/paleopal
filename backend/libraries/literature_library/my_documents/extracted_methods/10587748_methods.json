@@ -1,0 +1,131 @@
+{
+  "paper_title": "Project-specific model configuration",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Model Forcing Configuration",
+      "description": "This method describes the configuration of the HadCM3 climate model, which is forced with prescribed changes in orbit, greenhouse gases, and ice-sheet evolution. The method is used to simulate climate conditions over the Holocene period.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Orbital parameters are taken from Berger and Loutre (1991).",
+          "searchable_summary": "retrieve orbital parameters from Berger and Loutre (1991)",
+          "inputs": [
+            "Berger and Loutre (1991)"
+          ],
+          "outputs": [
+            "orbital parameters"
+          ],
+          "keywords": [
+            "orbital parameters",
+            "Berger and Loutre"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Atmospheric concentrations of gases are determined from ice cores (CO2 from Vostok and CH4, and N2O from EPICA).",
+          "searchable_summary": "obtain atmospheric gas concentrations from ice core data",
+          "inputs": [
+            "Vostok ice core data",
+            "EPICA ice core data"
+          ],
+          "outputs": [
+            "CO2, CH4, N2O concentrations"
+          ],
+          "keywords": [
+            "ice core data",
+            "atmospheric gases"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The ice-sheet evolution is estimated using the ICE5G model of Peltier (2004).",
+          "searchable_summary": "estimate ice-sheet evolution using ICE5G model",
+          "inputs": [
+            "ICE5G model"
+          ],
+          "outputs": [
+            "ice-sheet evolution data"
+          ],
+          "keywords": [
+            "ice-sheet evolution",
+            "ICE5G model"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "To prescribe Holocene ALCC, the KK10 data set of Kaplan et al. (2009, 2011) was used. The data at 1000-year intervals were taken and upscaled to the spatial resolution of HadCM3 to formulate a time series of cropland masks.",
+          "searchable_summary": "process KK10 dataset to create cropland masks for HadCM3",
+          "inputs": [
+            "KK10 dataset"
+          ],
+          "outputs": [
+            "cropland masks"
+          ],
+          "keywords": [
+            "ALCC",
+            "cropland masks",
+            "KK10 dataset"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "For each simulation, the boundary condition forcings (orbit, greenhouse gases, and ice sheets) were specified, and in all simulations the initial conditions were the same, based on a spun-up early industrial simulation.",
+          "searchable_summary": "set boundary conditions and initial conditions for climate simulations",
+          "inputs": [
+            "boundary condition forcings",
+            "initial conditions"
+          ],
+          "outputs": [
+            "configured climate model"
+          ],
+          "keywords": [
+            "boundary conditions",
+            "initial conditions",
+            "climate simulation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Simulations were run for 1000 years.",
+          "searchable_summary": "run climate model simulations for 1000 years",
+          "inputs": [
+            "configured climate model"
+          ],
+          "outputs": [
+            "simulation results"
+          ],
+          "keywords": [
+            "climate simulation",
+            "1000 years"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "By the final 500 years of the simulation, the climate system had adjusted to a new surface equilibrium, and thus these final 500 years were averaged to result in the mean altered climatic conditions.",
+          "searchable_summary": "average final 500 years of simulation to determine mean climatic conditions",
+          "inputs": [
+            "simulation results"
+          ],
+          "outputs": [
+            "mean altered climatic conditions"
+          ],
+          "keywords": [
+            "climate equilibrium",
+            "averaging",
+            "mean conditions"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/10587748.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

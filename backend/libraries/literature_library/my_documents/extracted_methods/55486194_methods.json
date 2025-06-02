@@ -1,0 +1,214 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bootstrapped KDE Method for Radiocarbon Data",
+      "description": "This method tests the effectiveness of a bootstrapped Kernel Density Estimation (KDE) approach to simulate radiocarbon data informed by historical demographic events, such as the Black Death, to identify patterns in population history.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Historic demographic data were used to simulate various numbers of calendar dates whose frequency distribution in time was randomly sampled from the demographic data supplied by Contreras and Meadows (2014) for the period AD 1000 to 1700.",
+          "searchable_summary": "simulate calendar dates from historic demographic data",
+          "inputs": [
+            "historic demographic data"
+          ],
+          "outputs": [
+            "simulated calendar dates"
+          ],
+          "keywords": [
+            "simulation",
+            "demographic data",
+            "calendar dates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "These were back-calibrated and re-calibrated (Timpson et al. 2014) and used to build a bootstrapped Gaussian KDE based on the Monte Carlo process described previously.",
+          "searchable_summary": "calibrate and build bootstrapped Gaussian KDE",
+          "inputs": [
+            "simulated calendar dates"
+          ],
+          "outputs": [
+            "bootstrapped Gaussian KDE"
+          ],
+          "keywords": [
+            "calibration",
+            "Gaussian KDE",
+            "Monte Carlo"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The radiocarbon dates were simulated several times, and subsequent runs of Monte Carlo sampling and kernel density estimation were undertaken on each set of simulated dates.",
+          "searchable_summary": "perform Monte Carlo sampling and KDE on simulated dates",
+          "inputs": [
+            "simulated dates"
+          ],
+          "outputs": [
+            "KDE models"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "kernel density estimation",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The process was repeated for a null model, where population growth was even and not interrupted by the Black Death.",
+          "searchable_summary": "validate KDE model with null model",
+          "inputs": [
+            "null model data"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "null model",
+            "validation",
+            "population growth"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "GIS Analysis for Archaeological Chronology",
+      "description": "This method uses Geographic Information Systems (GIS) to study the spatial distribution of archaeological data, visualizing chronological information to reveal interactions between temporal and spatial properties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Adding spatial dimensions to the analysis of archaeological chronology can be very revealing.",
+          "searchable_summary": "add spatial dimensions to archaeological chronology analysis",
+          "inputs": [
+            "archaeological chronology data"
+          ],
+          "outputs": [
+            "spatially visualized data"
+          ],
+          "keywords": [
+            "GIS",
+            "spatial analysis",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The spatial density of finds or sites is calculated using a 2D Gaussian kernel, then visualised as a ratio of data density to a control surface.",
+          "searchable_summary": "calculate and visualize spatial density using 2D Gaussian kernel",
+          "inputs": [
+            "finds or sites data"
+          ],
+          "outputs": [
+            "spatial density visualization"
+          ],
+          "keywords": [
+            "Gaussian kernel",
+            "spatial density",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "For radiocarbon data, a relative risk method is used where the spatial density of all dated sites is used to generate a sampling intensity map.",
+          "searchable_summary": "generate sampling intensity map using relative risk method",
+          "inputs": [
+            "radiocarbon data"
+          ],
+          "outputs": [
+            "sampling intensity map"
+          ],
+          "keywords": [
+            "relative risk",
+            "sampling intensity",
+            "radiocarbon"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The ratio of site density in a given time horizon to the sampling intensity map is used to map out spatiotemporal changes in population patterns.",
+          "searchable_summary": "map spatiotemporal changes using site density ratio",
+          "inputs": [
+            "site density data",
+            "sampling intensity map"
+          ],
+          "outputs": [
+            "spatiotemporal change maps"
+          ],
+          "keywords": [
+            "spatiotemporal changes",
+            "population patterns",
+            "mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Point Estimates and Bootstrapping for 14 C Calibration",
+      "description": "This method involves characterizing radiocarbon dates by point estimates and using bootstrapping to address the error margin in calibration, providing a conservative confidence interval for models of 14 C dates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Characterise each radiocarbon date by an average value, a best guess at a single point in time that describes the samples' age.",
+          "searchable_summary": "calculate point estimates for radiocarbon dates",
+          "inputs": [
+            "radiocarbon dates"
+          ],
+          "outputs": [
+            "point estimates"
+          ],
+          "keywords": [
+            "point estimates",
+            "radiocarbon",
+            "average value"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Bootstrapping involves randomly Monte Carlo sampling one point from each probability distribution of each 14 C date in a set of dates.",
+          "searchable_summary": "perform bootstrapping with Monte Carlo sampling on 14 C dates",
+          "inputs": [
+            "probability distributions of 14 C dates"
+          ],
+          "outputs": [
+            "bootstrapped samples"
+          ],
+          "keywords": [
+            "bootstrapping",
+            "Monte Carlo",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The bootstrapping process develops a set of results that incorporate the error margin caused by the calibration process.",
+          "searchable_summary": "develop results incorporating calibration error margin",
+          "inputs": [
+            "bootstrapped samples"
+          ],
+          "outputs": [
+            "results with error margin"
+          ],
+          "keywords": [
+            "calibration error",
+            "bootstrapping",
+            "results"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55486194.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

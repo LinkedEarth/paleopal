@@ -1,0 +1,249 @@
+{
+  "paper_title": "Genetic analysis of the invasive alga Didymosphenia geminata in Southern Argentina: Evidence of a Pleistocene origin of local lineages",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and DNA Extraction",
+      "description": "Collection of D. geminata mats from various rivers in Argentinean Patagonia and Tierra del Fuego, followed by DNA extraction for genetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "D. geminata mats were collected at eight rivers distributed along about 1600 km in western Argentinean Patagonia and Tierra del Fuego.",
+          "searchable_summary": "collect D. geminata mats from specified rivers",
+          "inputs": [
+            "river locations",
+            "collection equipment"
+          ],
+          "outputs": [
+            "D. geminata mat samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "D. geminata",
+            "Patagonia"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sixteen samples were selected based on presence, abundance and integrity of cell content, complexity, river bed coverage, and geographic origin.",
+          "searchable_summary": "select samples based on specific criteria",
+          "inputs": [
+            "collected samples"
+          ],
+          "outputs": [
+            "selected samples"
+          ],
+          "keywords": [
+            "sample selection",
+            "criteria"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Details on sampling procedures and DNA extraction methods have been described elsewhere.",
+          "searchable_summary": "perform DNA extraction on selected samples",
+          "inputs": [
+            "selected samples"
+          ],
+          "outputs": [
+            "DNA extracts"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "PCR Amplification and Sequencing",
+      "description": "Optimization of PCR amplifications using DNA templates from whole benthic samples and isolated didymo cells, followed by sequencing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "PCR amplifications were optimized using DNA templates obtained from both whole benthic samples and didymo cells isolated from the mats.",
+          "searchable_summary": "optimize PCR amplifications using DNA templates",
+          "inputs": [
+            "DNA templates",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "PCR products"
+          ],
+          "keywords": [
+            "PCR optimization",
+            "DNA templates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "PCRs were made using oligonucleotides described in previous studies.",
+          "searchable_summary": "perform PCR using specific oligonucleotides",
+          "inputs": [
+            "oligonucleotides",
+            "PCR products"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "PCR",
+            "oligonucleotides"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR products were analyzed by electrophoresis in agarose gels stained with Redgel and visualization under UV light.",
+          "searchable_summary": "analyze PCR products using agarose gel electrophoresis",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "gel images"
+          ],
+          "keywords": [
+            "electrophoresis",
+            "agarose gel"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Three independent PCRs were purified using QIAquick PCR Purification Kit and re-analyzed by electrophoresis.",
+          "searchable_summary": "purify and re-analyze PCR products",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "purified DNA"
+          ],
+          "keywords": [
+            "PCR purification",
+            "electrophoresis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The purifications were checked by photometric analysis using a Nano spectrophotometer and finally sequenced by Sanger chemistry.",
+          "searchable_summary": "perform photometric analysis and sequence DNA",
+          "inputs": [
+            "purified DNA"
+          ],
+          "outputs": [
+            "sequenced DNA"
+          ],
+          "keywords": [
+            "photometric analysis",
+            "Sanger sequencing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Inference",
+      "description": "Inference of Maximum Likelihood trees using RAxML-ng under evolutionary models inferred by jModelTest 2.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Maximum Likelihood trees were inferred by the program RAxML-ng under evolutionary models inferred by jModelTest 2.",
+          "searchable_summary": "infer Maximum Likelihood trees using RAxML-ng",
+          "inputs": [
+            "sequence data",
+            "evolutionary models"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "Maximum Likelihood",
+            "RAxML-ng",
+            "phylogenetic trees"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Tree searches consisted in 20 initial Parsimony trees that were rearranged by tree bisection and reconnection.",
+          "searchable_summary": "perform tree searches and rearrangement",
+          "inputs": [
+            "initial Parsimony trees"
+          ],
+          "outputs": [
+            "rearranged trees"
+          ],
+          "keywords": [
+            "tree search",
+            "Parsimony",
+            "TBR"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Branch supports were calculated with the bootstrap routines implemented in RAxML-ng and TNT.",
+          "searchable_summary": "calculate branch supports using bootstrap",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "branch support values"
+          ],
+          "keywords": [
+            "bootstrap",
+            "branch support"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Penalized Likelihood Dating",
+      "description": "Penalized Likelihood analyses using the chronos function from the R package ape to estimate divergence times.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Penalized Likelihood analyses were performed with the chronos function from the R package ape.",
+          "searchable_summary": "perform Penalized Likelihood analyses using chronos",
+          "inputs": [
+            "phylogenetic trees",
+            "chronos function"
+          ],
+          "outputs": [
+            "divergence time estimates"
+          ],
+          "keywords": [
+            "Penalized Likelihood",
+            "chronos",
+            "divergence time"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The performance of different k and λ settings was explored by a cross-validation criterion.",
+          "searchable_summary": "explore k and λ settings using cross-validation",
+          "inputs": [
+            "k and λ settings"
+          ],
+          "outputs": [
+            "cross-validation scores"
+          ],
+          "keywords": [
+            "cross-validation",
+            "parameter tuning"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/209169494.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

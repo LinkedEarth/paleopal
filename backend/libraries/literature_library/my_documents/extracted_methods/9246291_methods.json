@@ -1,0 +1,102 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Analysis of Flagellum Coding Genes",
+      "description": "This method studies the evolutionary pattern of flagellum coding genes in diatoms and other algae using a maximum likelihood relationship approach.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sequences for the IFT172 and IFT88 genes involved in the flagellum development identified in L. danicus were downloaded from NCBI nucleotide database through homology searches using blastn.",
+          "searchable_summary": "download IFT172 and IFT88 gene sequences from NCBI using blastn",
+          "inputs": [
+            "NCBI nucleotide database",
+            "blastn search parameters"
+          ],
+          "outputs": [
+            "IFT172 and IFT88 gene sequences"
+          ],
+          "keywords": [
+            "NCBI",
+            "blastn",
+            "gene sequences",
+            "IFT172",
+            "IFT88"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Sequences were also obtained by local BLAST searches from the transcript dataset that constituted many publicly available transcriptomes of species sequenced within the Marine microbial eukaryotic transcriptome sequencing project (e-value smaller or equal to 1e-10).",
+          "searchable_summary": "perform local BLAST searches on transcript datasets with e-value <= 1e-10",
+          "inputs": [
+            "transcript dataset",
+            "BLAST search parameters"
+          ],
+          "outputs": [
+            "gene sequences from transcriptomes"
+          ],
+          "keywords": [
+            "local BLAST",
+            "transcriptomes",
+            "e-value"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Obtained sequences were gathered into datasets and sequence alignment was generated using MUSCLE version 3.8.31.",
+          "searchable_summary": "align gene sequences using MUSCLE v3.8.31",
+          "inputs": [
+            "gene sequences"
+          ],
+          "outputs": [
+            "aligned gene sequences"
+          ],
+          "keywords": [
+            "MUSCLE",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Any misalignments were corrected manually.",
+          "searchable_summary": "manually correct sequence misalignments",
+          "inputs": [
+            "aligned gene sequences"
+          ],
+          "outputs": [
+            "corrected aligned gene sequences"
+          ],
+          "keywords": [
+            "manual correction",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Phylogenies for each of the dataset was constructed following a maximum likelihood approach using the WAG amino acid substitution model with a discrete gamma distribution and nonparametric bootstrap of 1000 replicates.",
+          "searchable_summary": "construct phylogenies using maximum likelihood with WAG model and bootstrap",
+          "inputs": [
+            "corrected aligned gene sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "maximum likelihood",
+            "WAG model",
+            "bootstrap"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/9246291.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

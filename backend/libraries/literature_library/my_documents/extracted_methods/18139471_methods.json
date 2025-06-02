@@ -1,0 +1,252 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phase Space Reconstruction",
+      "description": "This method involves reconstructing the phase space of an irregular time series to analyze the dynamics of the system that produced the signal. It is used to unfold the dynamics of the system completely by embedding the time series in a higher-dimensional space.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The irregular time series is linearly interpolated to a regular time step, 4 yr in the results shown here.",
+          "searchable_summary": "interpolate time series to regular 4-year intervals",
+          "inputs": [
+            "irregular time series"
+          ],
+          "outputs": [
+            "regular time series"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Data after the last DO is discarded for producing the phase space reconstruction.",
+          "searchable_summary": "discard data after last DO event",
+          "inputs": [
+            "regular time series"
+          ],
+          "outputs": [
+            "truncated time series"
+          ],
+          "keywords": [
+            "data truncation",
+            "DO event"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "After detrending, an optimal time lag has to be empirically chosen, guided by the first minimum of the average mutual information function (20 yr in our case).",
+          "searchable_summary": "detrend time series and choose optimal time lag using mutual information",
+          "inputs": [
+            "truncated time series"
+          ],
+          "outputs": [
+            "detrended time series",
+            "optimal time lag"
+          ],
+          "keywords": [
+            "detrending",
+            "mutual information",
+            "time lag"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "With copies of the regular time series lagged by multiples of the optimal time lag as coordinates, a phase space reconstruction is obtained.",
+          "searchable_summary": "perform phase space reconstruction using lagged time series",
+          "inputs": [
+            "detrended time series",
+            "optimal time lag"
+          ],
+          "outputs": [
+            "phase space reconstruction"
+          ],
+          "keywords": [
+            "phase space reconstruction",
+            "lagged time series"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The number of dimensions is chosen as the minimum one that brings the fraction of empirical global false neighbours to the background value.",
+          "searchable_summary": "determine embedding dimension using global false neighbours",
+          "inputs": [
+            "phase space reconstruction"
+          ],
+          "outputs": [
+            "embedding dimension"
+          ],
+          "keywords": [
+            "embedding dimension",
+            "global false neighbours"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The Scientific Tools for Python (SciPy) implementation of the kd-tree algorithm is used for computing distances in the n-dimensional space.",
+          "searchable_summary": "compute distances using SciPy kd-tree algorithm",
+          "inputs": [
+            "phase space reconstruction",
+            "embedding dimension"
+          ],
+          "outputs": [
+            "distances in n-dimensional space"
+          ],
+          "keywords": [
+            "kd-tree",
+            "SciPy",
+            "distance computation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The results are converted to a polar coordinate system and the anomaly from the average is considered.",
+          "searchable_summary": "convert results to polar coordinates and calculate anomaly",
+          "inputs": [
+            "distances in n-dimensional space"
+          ],
+          "outputs": [
+            "polar coordinates",
+            "anomaly"
+          ],
+          "keywords": [
+            "polar coordinates",
+            "anomaly calculation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The PDFs for the coordinates distributions are computed through a gaussian kernel estimation.",
+          "searchable_summary": "compute PDFs using gaussian kernel estimation",
+          "inputs": [
+            "polar coordinates"
+          ],
+          "outputs": [
+            "PDFs of coordinates"
+          ],
+          "keywords": [
+            "PDF",
+            "gaussian kernel estimation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "The error of the PDFs is defined as the standard deviation of an ensemble of 50,000 synthetic datasets, obtained by bootstrapping.",
+          "searchable_summary": "calculate PDF error using bootstrapping",
+          "inputs": [
+            "PDFs of coordinates"
+          ],
+          "outputs": [
+            "PDF error"
+          ],
+          "keywords": [
+            "bootstrapping",
+            "error estimation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fluctuations Analysis",
+      "description": "This method analyzes fluctuations in the ice core record to identify early warning signals (EWSs) of tipping points. It involves computing EWSs in a sliding window and analyzing the variance and trends in the time series.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The EWSs of the time series are computed in a sliding window of 250 yr wide, and the results are plotted at the right end of the sliding window to avoid contamination from points after the DO onset.",
+          "searchable_summary": "compute EWSs in 250-year sliding window",
+          "inputs": [
+            "time series"
+          ],
+          "outputs": [
+            "EWSs"
+          ],
+          "keywords": [
+            "EWS",
+            "sliding window"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The time series is first linearly interpolated to a step of 4 yr and approximately 60 points are used in the window.",
+          "searchable_summary": "interpolate time series to 4-year steps",
+          "inputs": [
+            "time series"
+          ],
+          "outputs": [
+            "interpolated time series"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The data is linearly detrended in the window before the computation, to compensate for potential nonstationarities in the time series.",
+          "searchable_summary": "detrend data in sliding window",
+          "inputs": [
+            "interpolated time series"
+          ],
+          "outputs": [
+            "detrended time series"
+          ],
+          "keywords": [
+            "detrending",
+            "nonstationarity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "In the computation of the DFA exponent, 10 boxes lengths were used, ranging from 16 to 52 yr.",
+          "searchable_summary": "compute DFA exponent with box lengths 16-52 years",
+          "inputs": [
+            "detrended time series"
+          ],
+          "outputs": [
+            "DFA exponent"
+          ],
+          "keywords": [
+            "DFA exponent",
+            "box lengths"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Different time steps for the interpolation and boxes lengths were tested. The results show small sensitivity to these choices, as long as the time step is kept below approximately 10 yr.",
+          "searchable_summary": "test sensitivity to interpolation and box lengths",
+          "inputs": [
+            "interpolated time series",
+            "box lengths"
+          ],
+          "outputs": [
+            "sensitivity analysis results"
+          ],
+          "keywords": [
+            "sensitivity analysis",
+            "interpolation",
+            "box lengths"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/18139471.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

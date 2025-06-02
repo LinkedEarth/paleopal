@@ -1,0 +1,116 @@
+{
+  "paper_title": "Statistical Analysis of Clinical Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures were applied to analyze outcome variables and covariates, comparing different product groups (overall AIT, non-AIT control, natural SLIT, natural SCIT, and four individual allergoid SCIT formulations). Analyses included regression models and survival analysis, with all tests being two-sided and a significance level of P < 0.05. Analyses were performed using SAS 9.4 software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Descriptive statistics were presented for all outcome variables and covariates, split by grouped or individual products (ie, overall AIT, non-AIT control, natural SLIT, natural SCIT and four individual allergoid SCIT formulations).",
+          "searchable_summary": "calculate descriptive statistics for outcome variables and covariates, grouped by product type",
+          "inputs": [
+            "outcome variables",
+            "covariates",
+            "grouped or individual products variable"
+          ],
+          "outputs": [
+            "descriptive statistics (e.g., mean, standard deviation, counts)"
+          ],
+          "keywords": [
+            "descriptive statistics",
+            "summary statistics",
+            "group by",
+            "SAS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Analyses of medication intake progression (AR or asthma) were carried out by regression using a general linear model, with the ratio of annual number of prescriptions in the analysis period vs the pre-index period used as the outcome variable.",
+          "searchable_summary": "perform general linear model regression on the ratio of annual prescriptions",
+          "inputs": [
+            "ratio of annual prescriptions (analysis period / pre-index period)",
+            "covariates (implicitly, based on general analysis description)"
+          ],
+          "outputs": [
+            "general linear model results (e.g., coefficients, p-values)"
+          ],
+          "keywords": [
+            "general linear model",
+            "GLM",
+            "regression",
+            "medication intake",
+            "SAS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Analysis of asthma medication intake as a Y/N variable was achieved by logistic regression. Because the probability of asthma medication intake occurrence would also depend on length of analytical time span, the individual length of this period was included as a covariate.",
+          "searchable_summary": "perform logistic regression on binary asthma medication intake, including analysis time span as a covariate",
+          "inputs": [
+            "asthma medication intake (Y/N)",
+            "length of analytical time span",
+            "covariates (implicitly)"
+          ],
+          "outputs": [
+            "logistic regression results (e.g., odds ratios, p-values)"
+          ],
+          "keywords": [
+            "logistic regression",
+            "binary outcome",
+            "asthma medication",
+            "covariate",
+            "SAS"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Time to asthma medication intake was investigated using survival analysis.",
+          "searchable_summary": "perform survival analysis on time to asthma medication intake",
+          "inputs": [
+            "time to asthma medication intake",
+            "event status (asthma medication intake occurred/censored)",
+            "grouping variable (AIT vs non-AIT, implicitly)"
+          ],
+          "outputs": [
+            "survival analysis results (e.g., Kaplan-Meier curves, hazard ratios, log-rank test p-value)"
+          ],
+          "keywords": [
+            "survival analysis",
+            "time to event",
+            "Kaplan-Meier",
+            "Cox regression",
+            "SAS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The proportion of patients with any level of treatment between the AIT and non-AIT control groups was also analysed by logistic regression.",
+          "searchable_summary": "perform logistic regression to compare the proportion of patients with any treatment between two groups",
+          "inputs": [
+            "treatment status (any level of treatment Y/N)",
+            "grouping variable (AIT vs non-AIT control)"
+          ],
+          "outputs": [
+            "logistic regression results (e.g., odds ratio for group difference, p-value)"
+          ],
+          "keywords": [
+            "logistic regression",
+            "proportion comparison",
+            "binary outcome",
+            "group comparison",
+            "SAS"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/52156325.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

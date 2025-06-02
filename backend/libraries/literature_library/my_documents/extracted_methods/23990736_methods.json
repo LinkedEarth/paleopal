@@ -1,0 +1,407 @@
+{
+  "paper_title": "Comprehensive Cell-specific Protein Analysis in Early and Late Pollen Development",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Plant Growth and Pollen Collection",
+      "description": "This method describes the process of growing tobacco plants under controlled greenhouse conditions and collecting pollen from flowers for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Tobacco was grown under greenhouse conditions (12 h of light, 120 mol m Ϫ2 s Ϫ1 , 23°C during the day, 20°C at night, 60% humidity).",
+          "searchable_summary": "grow tobacco plants under specified greenhouse conditions",
+          "inputs": [
+            "light duration",
+            "light intensity",
+            "day temperature",
+            "night temperature",
+            "humidity"
+          ],
+          "outputs": [
+            "grown tobacco plants"
+          ],
+          "keywords": [
+            "greenhouse",
+            "tobacco",
+            "growth conditions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Flowers of different sizes were collected, and the anthers of individual flowers were sampled in 200 l of 10% mannitol.",
+          "searchable_summary": "collect flowers and sample anthers in mannitol solution",
+          "inputs": [
+            "flowers",
+            "10% mannitol solution"
+          ],
+          "outputs": [
+            "anther samples"
+          ],
+          "keywords": [
+            "flower collection",
+            "anther sampling",
+            "mannitol"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Anthers were gently squeezed open and vortexed, and the supernatant including the released pollen was transferred to a new tube.",
+          "searchable_summary": "release pollen from anthers and transfer supernatant",
+          "inputs": [
+            "anther samples"
+          ],
+          "outputs": [
+            "pollen supernatant"
+          ],
+          "keywords": [
+            "pollen release",
+            "vortex",
+            "supernatant transfer"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Pollen was spun down at 100 ϫ g for 1 min and washed twice with 10% mannitol.",
+          "searchable_summary": "centrifuge and wash pollen with mannitol",
+          "inputs": [
+            "pollen supernatant",
+            "centrifuge",
+            "10% mannitol"
+          ],
+          "outputs": [
+            "washed pollen"
+          ],
+          "keywords": [
+            "centrifugation",
+            "pollen washing",
+            "mannitol"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "A subfraction of the pollen of each individual flower was analyzed under a microscope to determine the developmental stage.",
+          "searchable_summary": "microscopically analyze pollen developmental stage",
+          "inputs": [
+            "pollen subfraction"
+          ],
+          "outputs": [
+            "developmental stage determination"
+          ],
+          "keywords": [
+            "microscopy",
+            "pollen analysis",
+            "developmental stage"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Samples not representing a stage with at least 90% of their pollen were discarded.",
+          "searchable_summary": "discard samples not meeting stage purity criteria",
+          "inputs": [
+            "developmental stage determination"
+          ],
+          "outputs": [
+            "filtered pollen samples"
+          ],
+          "keywords": [
+            "sample filtering",
+            "stage purity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microscopy",
+      "description": "This method involves the preparation and imaging of pollen samples using confocal microscopy to analyze their structure and composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Pollen samples were fixed in 10% mannitol and 4% formaldehyde overnight, collected via centrifugation, and resuspended in 1 g/ml DAPI and 1% triton X-100 5 min prior to microscopy.",
+          "searchable_summary": "fix and stain pollen samples for microscopy",
+          "inputs": [
+            "pollen samples",
+            "10% mannitol",
+            "4% formaldehyde",
+            "DAPI",
+            "triton X-100"
+          ],
+          "outputs": [
+            "stained pollen samples"
+          ],
+          "keywords": [
+            "pollen fixation",
+            "DAPI staining",
+            "microscopy preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Images were recorded with an upright point laser scanning confocal microscope (LSM780, Zeiss, Oberkochen, Germany) using a 405-nm diode laser for excitation and a band-pass filter ranging from 450 -550 nm.",
+          "searchable_summary": "capture images using confocal microscopy",
+          "inputs": [
+            "stained pollen samples",
+            "confocal microscope"
+          ],
+          "outputs": [
+            "microscopy images"
+          ],
+          "keywords": [
+            "confocal microscopy",
+            "image capture",
+            "laser scanning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Acquired images were processed using Fiji software.",
+          "searchable_summary": "process microscopy images with Fiji software",
+          "inputs": [
+            "microscopy images"
+          ],
+          "outputs": [
+            "processed images"
+          ],
+          "keywords": [
+            "image processing",
+            "Fiji software",
+            "microscopy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Quantitative Proteome Analysis",
+      "description": "This method describes the process of analyzing pollen proteins using GeLC-LTQ-Orbitrap mass spectrometry to identify and quantify proteins.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Pollen from between 5 and 30 flowers was pooled, freeze-dried, cooled in liquid nitrogen, and ground for 3 min in a shaking mill using three 2-mm steel balls per tube.",
+          "searchable_summary": "prepare pollen samples by freeze-drying and grinding",
+          "inputs": [
+            "pollen from flowers"
+          ],
+          "outputs": [
+            "ground pollen samples"
+          ],
+          "keywords": [
+            "freeze-drying",
+            "grinding",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The pollen fragments were resuspended in 200 l of protein extraction buffer and incubated for 5 min at room temperature.",
+          "searchable_summary": "resuspend pollen fragments in protein extraction buffer",
+          "inputs": [
+            "ground pollen samples",
+            "protein extraction buffer"
+          ],
+          "outputs": [
+            "resuspended pollen fragments"
+          ],
+          "keywords": [
+            "protein extraction",
+            "buffer resuspension"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Samples were mixed again by pipetting, incubated for 3 min at 90°C, and then centrifuged at 21,000 ϫ g for 5 min at room temperature.",
+          "searchable_summary": "incubate and centrifuge pollen samples",
+          "inputs": [
+            "resuspended pollen fragments"
+          ],
+          "outputs": [
+            "centrifuged samples"
+          ],
+          "keywords": [
+            "incubation",
+            "centrifugation",
+            "sample processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Supernatants were carefully transferred to a new tube. After the addition of an equal volume of 1.4 M sucrose, proteins were extracted twice with Tris-EDTA buffer-equilibrated phenol.",
+          "searchable_summary": "extract proteins using sucrose and phenol",
+          "inputs": [
+            "centrifuged samples",
+            "1.4 M sucrose",
+            "Tris-EDTA buffer-equilibrated phenol"
+          ],
+          "outputs": [
+            "protein extracts"
+          ],
+          "keywords": [
+            "protein extraction",
+            "sucrose",
+            "phenol"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The combined phenolic phases were counter-extracted with 0.7 M sucrose and subsequently mixed with five volumes of 0.1 M ammonium-acetate in methanol to precipitate the proteins.",
+          "searchable_summary": "precipitate proteins with ammonium-acetate",
+          "inputs": [
+            "phenolic phases",
+            "0.7 M sucrose",
+            "0.1 M ammonium-acetate in methanol"
+          ],
+          "outputs": [
+            "precipitated proteins"
+          ],
+          "keywords": [
+            "protein precipitation",
+            "ammonium-acetate",
+            "methanol"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "After 16 h of incubation at Ϫ20°C, samples were centrifuged for 5 min at 5000 ϫ g at 5°C. The pellet was washed twice with 0.1 M ammonium-acetate and once with acetone and then air-dried.",
+          "searchable_summary": "wash and dry protein pellets",
+          "inputs": [
+            "precipitated proteins"
+          ],
+          "outputs": [
+            "dried protein pellets"
+          ],
+          "keywords": [
+            "protein washing",
+            "acetone",
+            "air-drying"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Pellets were redissolved in 6 M urea, 5% SDS, and protein concentrations were estimated via bicinchoninic acid assay.",
+          "searchable_summary": "redissolve protein pellets and estimate concentration",
+          "inputs": [
+            "dried protein pellets",
+            "6 M urea",
+            "5% SDS"
+          ],
+          "outputs": [
+            "protein concentration estimates"
+          ],
+          "keywords": [
+            "protein redissolution",
+            "bicinchoninic acid assay",
+            "SDS"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Proteins were analyzed via a new gel-LC-MS protocol.",
+          "searchable_summary": "analyze proteins using gel-LC-MS",
+          "inputs": [
+            "protein samples"
+          ],
+          "outputs": [
+            "protein analysis data"
+          ],
+          "keywords": [
+            "gel-LC-MS",
+            "protein analysis",
+            "mass spectrometry"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multivariate Statistical and Bioinformatic Data Analysis",
+      "description": "This method involves the use of multivariate statistical analyses and bioinformatics tools to analyze proteomic data from pollen samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Multivariate statistical analyses such as principal components analysis (PCA) and k-means clustering were performed with the statistical toolbox COVAIN.",
+          "searchable_summary": "perform PCA and k-means clustering using COVAIN",
+          "inputs": [
+            "proteomic data"
+          ],
+          "outputs": [
+            "PCA and clustering results"
+          ],
+          "keywords": [
+            "PCA",
+            "k-means clustering",
+            "COVAIN"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Missing values were estimated from the dataset, and data were log transformed before the PCA.",
+          "searchable_summary": "estimate missing values and log transform data",
+          "inputs": [
+            "proteomic data"
+          ],
+          "outputs": [
+            "transformed data"
+          ],
+          "keywords": [
+            "missing value estimation",
+            "log transformation",
+            "data preprocessing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "For cluster analysis, the mean NSAF value of each developmental stage was calculated and normalized for each protein.",
+          "searchable_summary": "calculate and normalize mean NSAF values",
+          "inputs": [
+            "proteomic data"
+          ],
+          "outputs": [
+            "normalized NSAF values"
+          ],
+          "keywords": [
+            "NSAF",
+            "normalization",
+            "cluster analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "All proteins in the three used databases were blasted for the closest Arabidopsis homologue using an unpublished Python script.",
+          "searchable_summary": "blast proteins for Arabidopsis homologues",
+          "inputs": [
+            "protein sequences",
+            "Arabidopsis database"
+          ],
+          "outputs": [
+            "Arabidopsis homologues"
+          ],
+          "keywords": [
+            "BLAST",
+            "homologue search",
+            "Arabidopsis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/23990736.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

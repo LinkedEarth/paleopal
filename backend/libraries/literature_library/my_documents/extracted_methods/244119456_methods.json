@@ -1,0 +1,212 @@
+{
+  "paper_title": "AFT Thermochronology and Thermal History Modeling",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "AFT Sample Preparation and Dating",
+      "description": "Process for preparing and dating apatite fission-track (AFT) samples to determine the thermal history of rock samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 10 AFT samples were collected from Paleogene strata of the Lulehe Fm. and Xiaganchaigou Fm. in the lower part of the HLG section.",
+          "searchable_summary": "collect AFT samples from specified geological formations",
+          "inputs": [
+            "Paleogene strata",
+            "Lulehe Fm.",
+            "Xiaganchaigou Fm."
+          ],
+          "outputs": [
+            "AFT samples"
+          ],
+          "keywords": [
+            "AFT samples",
+            "geological formations",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The sandstone samples were crushed, washed, and sieved. Apatite grains were extracted using conventional magnetic and heavy-liquid separation techniques.",
+          "searchable_summary": "process sandstone samples to extract apatite grains",
+          "inputs": [
+            "sandstone samples"
+          ],
+          "outputs": [
+            "apatite grains"
+          ],
+          "keywords": [
+            "sample processing",
+            "apatite extraction",
+            "magnetic separation",
+            "heavy-liquid separation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apatite aliquots were mounted in epoxy, ground, polished, and etched for 20 s in a 5 N HNO3 solution at 20°C.",
+          "searchable_summary": "prepare apatite aliquots for track revelation",
+          "inputs": [
+            "apatite grains",
+            "epoxy",
+            "5 N HNO3 solution"
+          ],
+          "outputs": [
+            "prepared apatite aliquots"
+          ],
+          "keywords": [
+            "apatite preparation",
+            "epoxy mounting",
+            "etching"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Samples, age standards, and dosimeter glasses were packed with external detectors and irradiated at the Thermal Irradiation Center at Oregon State University.",
+          "searchable_summary": "irradiate samples with external detectors",
+          "inputs": [
+            "samples",
+            "age standards",
+            "dosimeter glasses",
+            "external detectors"
+          ],
+          "outputs": [
+            "irradiated samples"
+          ],
+          "keywords": [
+            "irradiation",
+            "external detectors",
+            "dosimeter glasses"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Fission-track counting was performed using a fully manual method on an Autoscan fission-track counting system.",
+          "searchable_summary": "count fission tracks using Autoscan system",
+          "inputs": [
+            "irradiated samples"
+          ],
+          "outputs": [
+            "fission-track counts"
+          ],
+          "keywords": [
+            "fission-track counting",
+            "Autoscan system"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The χ2 test was performed on single grain ages of each sample to quantify AFT age homogeneity.",
+          "searchable_summary": "perform χ2 test on single grain ages",
+          "inputs": [
+            "single grain ages"
+          ],
+          "outputs": [
+            "AFT age homogeneity"
+          ],
+          "keywords": [
+            "χ2 test",
+            "age homogeneity"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The observed age distributions of each sample were decomposed into grain age components using RadialPlotter and DensityPlotter programs.",
+          "searchable_summary": "decompose age distributions using RadialPlotter and DensityPlotter",
+          "inputs": [
+            "age distributions"
+          ],
+          "outputs": [
+            "grain age components"
+          ],
+          "keywords": [
+            "age decomposition",
+            "RadialPlotter",
+            "DensityPlotter"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Thermal History Modeling",
+      "description": "Modeling the post-depositional thermal history of samples using AFT age and length data to understand the thermal evolution of detrital rocks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We used the HeFTy program to model the thermal history.",
+          "searchable_summary": "use HeFTy program for thermal history modeling",
+          "inputs": [
+            "AFT ages",
+            "track lengths",
+            "Dpars"
+          ],
+          "outputs": [
+            "modeled thermal history"
+          ],
+          "keywords": [
+            "HeFTy program",
+            "thermal history modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Defined prior constraints for the thermal modeling, including depositional age with ±5 Ma error and temperature ranges.",
+          "searchable_summary": "set prior constraints for thermal modeling",
+          "inputs": [
+            "depositional age",
+            "temperature ranges"
+          ],
+          "outputs": [
+            "prior constraints"
+          ],
+          "keywords": [
+            "prior constraints",
+            "thermal modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "All models run with 500,000 iterations.",
+          "searchable_summary": "run thermal models with 500,000 iterations",
+          "inputs": [
+            "thermal models"
+          ],
+          "outputs": [
+            "modeled results"
+          ],
+          "keywords": [
+            "model iterations",
+            "thermal modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The inversion results show thermal histories with two stages during post-deposition with a thermal transition in age ranges from 10-3 Ma.",
+          "searchable_summary": "validate thermal history results with inversion",
+          "inputs": [
+            "modeled results"
+          ],
+          "outputs": [
+            "validated thermal histories"
+          ],
+          "keywords": [
+            "thermal history validation",
+            "inversion results"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/244119456.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

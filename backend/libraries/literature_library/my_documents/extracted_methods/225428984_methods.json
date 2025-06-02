@@ -1,0 +1,147 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Gravity Core Collection",
+      "description": "Process for collecting a sediment gravity core through a hot-water-drilled borehole at the Whillans Ice Stream grounding zone.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We collected a 70 cm-long gravity core through a hot-water-drilled borehole (Rack, 2016;Tulaczyk et al., 2014) located~3 km downstream from the modern grounding line of Whillans Ice Stream (Begeman et al., 2018(Begeman et al., , 2020.",
+          "searchable_summary": "Collect a sediment gravity core through a borehole.",
+          "inputs": [
+            "Hot-water-drilled borehole",
+            "Gravity corer",
+            "Study location coordinates (84.33543°S, 163.61187°W)"
+          ],
+          "outputs": [
+            "70 cm-long sediment gravity core sample"
+          ],
+          "keywords": [
+            "gravity core",
+            "borehole",
+            "sediment core",
+            "sample collection",
+            "WISSARD Project"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ramped Pyrolysis Oxidation (RPO) Data Treatment",
+      "description": "Procedures for processing and analyzing data obtained from the Ramped Pyrolysis Oxidation (RPO) process applied to sediment samples, including normalization, decomposition, modeling, blank correction, and radiocarbon age calibration.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We normalized the thermograph (evolution of CO 2 as a function of temperature from the RPO process) of each sample to total pCO 2 produced in each run to compare the thermochemical stability of carbon separation at each core depth.",
+          "searchable_summary": "Normalize RPO thermograph data.",
+          "inputs": [
+            "RPO thermograph data (CO2 vs temperature)",
+            "Total pCO2 for each RPO run"
+          ],
+          "outputs": [
+            "Normalized RPO thermograph data"
+          ],
+          "keywords": [
+            "RPO",
+            "thermograph",
+            "pCO2",
+            "normalization",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We iteratively decomposed each thermograph into reaction components, assuming a Gaussian distribution of activation energies in the temperature domain within each component and using a nonlinear least squares technique to minimize residuals.",
+          "searchable_summary": "Decompose thermograph into reaction components using nonlinear least squares.",
+          "inputs": [
+            "Normalized thermograph data"
+          ],
+          "outputs": [
+            "Thermograph reaction components",
+            "Minimized residuals"
+          ],
+          "keywords": [
+            "thermograph decomposition",
+            "reaction components",
+            "Gaussian distribution",
+            "activation energy",
+            "nonlinear least squares",
+            "residual minimization",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "To quantitatively relate information from thermographs to carbon bond strength and chemical stability, we modeled thermal activation energy distributions for each sample following Hemingway (2017) and Hemingway et al. (2017).",
+          "searchable_summary": "Model thermal activation energy distributions from thermograph data.",
+          "inputs": [
+            "Thermograph data (potentially normalized/decomposed data)"
+          ],
+          "outputs": [
+            "Modeled thermal activation energy distributions"
+          ],
+          "keywords": [
+            "thermal activation energy",
+            "modeling",
+            "carbon bond strength",
+            "chemical stability",
+            "RPO analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We blank corrected all 14 C ages to account for uncertainty due to the RPO preparation process (Fernandez et al., 2014;Text S3).",
+          "searchable_summary": "Blank correct radiocarbon ages from RPO.",
+          "inputs": [
+            "Raw 14C ages from RPO",
+            "RPO preparation blank data"
+          ],
+          "outputs": [
+            "Blank-corrected 14C ages"
+          ],
+          "keywords": [
+            "radiocarbon age",
+            "14C age",
+            "blank correction",
+            "RPO preparation",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We calibrated radiocarbon ages ( 14 C year) of low temperature RPO intervals to calendar years (year B.P.) using the Marine20 curve in Calib 8.2 (Heaton et al., 2020) and a local reservoir correction of 1,101 ± 120 years reflecting measured living amphipods from the site and prescribed uncertainties on reservoir ages due to different water masses intruding onto the Antarctic margin (Hall et al., 2010;King et al., 2018;Kingslake et al., 2018; Text S4).",
+          "searchable_summary": "Calibrate radiocarbon ages to calendar years using Marine20 curve and local reservoir correction.",
+          "inputs": [
+            "Blank-corrected 14C ages (specifically for low temperature RPO intervals)",
+            "Marine20 calibration curve",
+            "Calib 8.2 software",
+            "Local reservoir correction value (1101 ± 120 years)"
+          ],
+          "outputs": [
+            "Calibrated calendar ages (year B.P.)"
+          ],
+          "keywords": [
+            "radiocarbon age calibration",
+            "14C age",
+            "calendar age",
+            "year B.P.",
+            "Marine20 curve",
+            "Calib 8.2",
+            "reservoir correction",
+            "data processing"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/225428984.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

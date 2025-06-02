@@ -1,0 +1,319 @@
+{
+  "paper_title": "Statistical Analysis of Pollen Transfer Networks",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Network Analysis with Gephi",
+      "description": "This method involves creating and analyzing unipartite directed networks to study pollen transfer between plant species using Gephi software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Create unipartite directed networks using Gephi version 0.9.2.",
+          "searchable_summary": "create directed networks in Gephi",
+          "inputs": [
+            "pollen transfer data"
+          ],
+          "outputs": [
+            "directed network graphs"
+          ],
+          "keywords": [
+            "Gephi",
+            "network analysis",
+            "directed networks"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate in-and out-degree numbers for each species in the network.",
+          "searchable_summary": "calculate in-degree and out-degree for network nodes",
+          "inputs": [
+            "network graphs"
+          ],
+          "outputs": [
+            "in-degree values",
+            "out-degree values"
+          ],
+          "keywords": [
+            "degree calculation",
+            "network metrics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Identify hub-donor, hub-receptor, or neutral species based on in-and out-degree values.",
+          "searchable_summary": "classify species as hub-donor, hub-receptor, or neutral",
+          "inputs": [
+            "in-degree values",
+            "out-degree values"
+          ],
+          "outputs": [
+            "species classification"
+          ],
+          "keywords": [
+            "species classification",
+            "network roles"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate weighted in-and out-degree values.",
+          "searchable_summary": "calculate weighted degree values",
+          "inputs": [
+            "network graphs",
+            "pollen grain numbers"
+          ],
+          "outputs": [
+            "weighted in-degree values",
+            "weighted out-degree values"
+          ],
+          "keywords": [
+            "weighted degree",
+            "network metrics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate modularity using the optimization algorithm of Blondel et al.",
+          "searchable_summary": "calculate network modularity",
+          "inputs": [
+            "network graphs"
+          ],
+          "outputs": [
+            "modularity values"
+          ],
+          "keywords": [
+            "modularity",
+            "Blondel algorithm"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Run the modularity algorithm 25 times for each network and select the most likely results.",
+          "searchable_summary": "validate modularity results by multiple runs",
+          "inputs": [
+            "network graphs"
+          ],
+          "outputs": [
+            "validated modularity results"
+          ],
+          "keywords": [
+            "modularity validation",
+            "repeated runs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Generalized Linear Mixed Models (GLMMs) Analysis",
+      "description": "This method uses GLMMs to test relationships between network metrics and floral traits or abundance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform GLMMs with a beta distribution to test relationships between in-and out-degree values and floral traits.",
+          "searchable_summary": "perform beta-distributed GLMMs",
+          "inputs": [
+            "in-degree values",
+            "out-degree values",
+            "floral traits"
+          ],
+          "outputs": [
+            "GLMM results"
+          ],
+          "keywords": [
+            "GLMM",
+            "beta distribution",
+            "floral traits"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Perform Poisson-distributed GLMMs to test relationships between weighted in-and out-degree values and floral traits.",
+          "searchable_summary": "perform Poisson-distributed GLMMs",
+          "inputs": [
+            "weighted in-degree values",
+            "weighted out-degree values",
+            "floral traits"
+          ],
+          "outputs": [
+            "GLMM results"
+          ],
+          "keywords": [
+            "GLMM",
+            "Poisson distribution",
+            "floral traits"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Validate model fit using the DHARMa-package.",
+          "searchable_summary": "validate GLMM model fit",
+          "inputs": [
+            "GLMM models"
+          ],
+          "outputs": [
+            "validated model fit"
+          ],
+          "keywords": [
+            "model validation",
+            "DHARMa"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Linear Regression Models (LM) Analysis",
+      "description": "This method uses linear regression models to test the effect of community parameters on network modularity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use linear regression models to test the effect of community parameters on modularity.",
+          "searchable_summary": "perform linear regression on modularity",
+          "inputs": [
+            "community parameters",
+            "modularity values"
+          ],
+          "outputs": [
+            "linear regression results"
+          ],
+          "keywords": [
+            "linear regression",
+            "modularity",
+            "community parameters"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Random Forest Analysis",
+      "description": "This method uses random forest analysis to determine the importance of floral traits in module classification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform random forest analysis to classify plant species into modules based on floral traits.",
+          "searchable_summary": "perform random forest classification",
+          "inputs": [
+            "floral traits",
+            "module classifications"
+          ],
+          "outputs": [
+            "random forest results"
+          ],
+          "keywords": [
+            "random forest",
+            "classification",
+            "floral traits"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Estimate the importance of each floral trait for classification using the importance-function.",
+          "searchable_summary": "estimate variable importance in random forest",
+          "inputs": [
+            "random forest model"
+          ],
+          "outputs": [
+            "variable importance"
+          ],
+          "keywords": [
+            "variable importance",
+            "random forest"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Binomial GLMMs Analysis",
+      "description": "This method uses binomial GLMMs to test the relationship between floral traits, abundance, and received HP percentage.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform binomial GLMMs to test the relationship between floral traits, abundance, and received HP percentage.",
+          "searchable_summary": "perform binomial GLMMs",
+          "inputs": [
+            "floral traits",
+            "abundance",
+            "received HP percentage"
+          ],
+          "outputs": [
+            "GLMM results"
+          ],
+          "keywords": [
+            "binomial GLMM",
+            "floral traits",
+            "HP percentage"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Determine significance of fixed factors via likelihood ratio test.",
+          "searchable_summary": "perform likelihood ratio test",
+          "inputs": [
+            "GLMM models"
+          ],
+          "outputs": [
+            "significance results"
+          ],
+          "keywords": [
+            "likelihood ratio test",
+            "significance"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Ensure model convergence by adjusting optimizer settings if necessary.",
+          "searchable_summary": "adjust optimizer for model convergence",
+          "inputs": [
+            "GLMM models"
+          ],
+          "outputs": [
+            "converged models"
+          ],
+          "keywords": [
+            "model convergence",
+            "optimizer settings"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sample Completeness Estimation",
+      "description": "This method estimates sample completeness using rarefaction curves to assess species sampling adequacy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate sample and incidence-based rarefaction curves using the iNEXT-package.",
+          "searchable_summary": "calculate rarefaction curves",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "rarefaction curves"
+          ],
+          "keywords": [
+            "rarefaction",
+            "iNEXT",
+            "sampling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/222149728.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

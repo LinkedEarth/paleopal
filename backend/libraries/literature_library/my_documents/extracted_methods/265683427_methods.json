@@ -1,0 +1,235 @@
+{
+  "paper_title": "Raw data processing",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Raw Sequencing Data Processing",
+      "description": "Processing of raw sequencing reads from different sets of individuals (142 previously processed, 112 newly incorporated, and ancestral representatives) using distinct but related bioinformatics pipelines to align reads to a reference genome, filter low-quality data, and prepare for downstream analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "For the 142 individuals from Castruita, Westbury, and Lorenzen [4], raw sequencing reads were previously processed with the PALEOMIX [21] pipeline. Internally, adapter sequences, stretches of Ns, and low-quality bases were trimmed and filtered with AdapterRemovalv2 [22] using default parameters.",
+          "searchable_summary": "Trim adapter sequences and filter low-quality bases from raw sequencing reads using AdapterRemovalv2 (for 142 individuals)",
+          "inputs": [
+            "Raw sequencing reads (142 individuals)"
+          ],
+          "outputs": [
+            "Cleaned sequencing reads (142 individuals)"
+          ],
+          "keywords": [
+            "AdapterRemovalv2",
+            "trimming",
+            "quality filtering",
+            "adapter removal",
+            "sequencing reads",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "BWA v0.7.15 [23] aln was used to map the cleaned reads to the pseudo-chromosomal polar bear genome (Genbank accession: GCA_000687225.1) from Liu et al [3], with default parameters.",
+          "searchable_summary": "Map cleaned sequencing reads to a reference genome using BWA aln (for 142 individuals)",
+          "inputs": [
+            "Cleaned sequencing reads (142 individuals)",
+            "Polar bear reference genome (GCA_000687225.1)"
+          ],
+          "outputs": [
+            "Mapped sequencing reads (SAM/BAM format, 142 individuals)"
+          ],
+          "keywords": [
+            "BWA aln",
+            "mapping",
+            "alignment",
+            "genome",
+            "sequencing reads",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Reads with mapping quality of less than 30 were filtered using SAMtools v1.6 [24].",
+          "searchable_summary": "Filter mapped sequencing reads based on mapping quality using SAMtools (for 142 individuals)",
+          "inputs": [
+            "Mapped sequencing reads (142 individuals)"
+          ],
+          "outputs": [
+            "Mapping quality filtered reads (142 individuals)"
+          ],
+          "keywords": [
+            "SAMtools",
+            "mapping quality",
+            "filtering",
+            "BAM/SAM",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Duplicates were removed with picard v2.6.0 [25].",
+          "searchable_summary": "Remove duplicate reads from mapped sequencing data using picard (for 142 individuals)",
+          "inputs": [
+            "Mapping quality filtered reads (142 individuals)"
+          ],
+          "outputs": [
+            "Duplicate-removed reads (142 individuals)"
+          ],
+          "keywords": [
+            "picard",
+            "duplicate removal",
+            "PCR duplicates",
+            "sequencing data",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Possible paralogs were filtered using SAMtools.",
+          "searchable_summary": "Filter possible paralogous reads using SAMtools (for 142 individuals)",
+          "inputs": [
+            "Duplicate-removed reads (142 individuals)"
+          ],
+          "outputs": [
+            "Paralogs-filtered reads (142 individuals)"
+          ],
+          "keywords": [
+            "SAMtools",
+            "paralogs",
+            "filtering",
+            "sequencing data",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Finally, local realignment around indels was performed using GATK (v 3.3) [26].",
+          "searchable_summary": "Perform local realignment around indels using GATK (for 142 individuals)",
+          "inputs": [
+            "Paralogs-filtered reads (142 individuals)"
+          ],
+          "outputs": [
+            "Indel-realigned reads (142 individuals)"
+          ],
+          "keywords": [
+            "GATK",
+            "indel realignment",
+            "alignment",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "For the 112 newly incorporated individuals, we trimmed adapter sequences and merged overlapping read pairs with Fastp v0.23.2 [27].",
+          "searchable_summary": "Trim adapter sequences and merge overlapping read pairs using Fastp (for 112 individuals)",
+          "inputs": [
+            "Raw sequencing reads (112 individuals)"
+          ],
+          "outputs": [
+            "Cleaned and merged sequencing reads (112 individuals)"
+          ],
+          "keywords": [
+            "Fastp",
+            "trimming",
+            "merging",
+            "paired-end reads",
+            "sequencing reads",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "We mapped the cleaned reads to the same pseudochromosome polar bear genome with BWA v0.7.15 [28] aln with the seed disabled (-l 690).",
+          "searchable_summary": "Map cleaned sequencing reads to a reference genome using BWA aln with seed disabled (for 112 individuals and ancestral representatives)",
+          "inputs": [
+            "Cleaned and merged sequencing reads (112 individuals, ancestral representatives)",
+            "Polar bear reference genome (GCA_000687225.1)"
+          ],
+          "outputs": [
+            "Mapped sequencing reads (SAM/BAM format, 112 individuals, ancestral representatives)"
+          ],
+          "keywords": [
+            "BWA aln",
+            "mapping",
+            "alignment",
+            "genome",
+            "sequencing reads",
+            "seed disabled",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "We used SAMtools v1.6 [24] to filter the reads with mapping quality of less than 30 and remove duplicates.",
+          "searchable_summary": "Filter mapped reads by mapping quality and remove duplicates using SAMtools (for 112 individuals and ancestral representatives)",
+          "inputs": [
+            "Mapped sequencing reads (112 individuals, ancestral representatives)"
+          ],
+          "outputs": [
+            "Mapping quality filtered and duplicate-removed reads (112 individuals, ancestral representatives)"
+          ],
+          "keywords": [
+            "SAMtools",
+            "mapping quality",
+            "filtering",
+            "duplicate removal",
+            "BAM/SAM",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "We assessed aDNA damage in the two Late Pleistocene polar bear individuals and adjusted base quality scores around damage using Mapdamage2 (-rescale) [29,30].",
+          "searchable_summary": "Assess aDNA damage and adjust base quality scores using Mapdamage2 (for 2 Late Pleistocene individuals)",
+          "inputs": [
+            "Mapped sequencing reads (2 Late Pleistocene individuals)"
+          ],
+          "outputs": [
+            "Base quality adjusted reads (2 Late Pleistocene individuals)"
+          ],
+          "keywords": [
+            "Mapdamage2",
+            "aDNA damage",
+            "base quality score recalibration",
+            "ancient DNA",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "To determine the ancestral allele, we included single individual representatives of the spectacled bear and the giant panda (Bioprojects PRJNA472085 and PRJNA38683). We mapped the reads to the same pseudochromosome polar bear genome following the same approach as the 112 newly incorporated modern individuals.",
+          "searchable_summary": "Map sequencing reads from spectacled bear and giant panda to the polar bear reference genome for ancestral allele determination using the same procedure as the 112 individuals (BWA aln with seed disabled, SAMtools filtering/duplicate removal)",
+          "inputs": [
+            "Raw sequencing reads (spectacled bear, giant panda)",
+            "Polar bear reference genome (GCA_000687225.1)"
+          ],
+          "outputs": [
+            "Mapped sequencing reads (ancestral representatives)"
+          ],
+          "keywords": [
+            "BWA aln",
+            "mapping",
+            "alignment",
+            "genome",
+            "sequencing reads",
+            "ancestral allele",
+            "bioinformatics",
+            "spectacled bear",
+            "giant panda"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/265683427.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

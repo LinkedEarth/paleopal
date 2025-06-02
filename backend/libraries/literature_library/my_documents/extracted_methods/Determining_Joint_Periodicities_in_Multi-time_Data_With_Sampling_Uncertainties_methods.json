@@ -1,0 +1,219 @@
+{
+  "paper_title": "Frequency Estimation in Paleoclimatology Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Frequency Estimation Without Missampling",
+      "description": "This method examines the frequency estimation process when the sampling patterns for each data set are known, using periodogram-based methods and a proposed estimator.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Examine the case when the sampling patterns for each data set is known.",
+          "searchable_summary": "analyze frequency estimation with known sampling patterns",
+          "inputs": [
+            "sampling patterns",
+            "data sets"
+          ],
+          "outputs": [
+            "frequency MSEk",
+            "CRB comparison"
+          ],
+          "keywords": [
+            "frequency estimation",
+            "sampling patterns",
+            "MSE",
+            "CRB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use 4 zooming steps, starting with 16 initial bins with active threshold τ = 10−5, λ = 15, ζ(m) = 10 for all m, and q is a vector of ones.",
+          "searchable_summary": "apply zooming steps with specified parameters",
+          "inputs": [
+            "initial bins",
+            "active threshold",
+            "parameters λ, ζ(m), q"
+          ],
+          "outputs": [
+            "processed frequency estimates"
+          ],
+          "keywords": [
+            "zooming steps",
+            "frequency processing",
+            "parameters"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Compare the MSE of the proposed method to the CRB.",
+          "searchable_summary": "validate frequency estimates against CRB",
+          "inputs": [
+            "MSE of proposed method",
+            "CRB"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "MSE",
+            "CRB",
+            "validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Frequency Estimation With Missampling",
+      "description": "This method incorporates expected missampling into the frequency estimation process, comparing the results to the MCRB and CRB.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Incorporate the expected missampling as described above.",
+          "searchable_summary": "analyze frequency estimation with missampling",
+          "inputs": [
+            "expected missampling",
+            "data sets"
+          ],
+          "outputs": [
+            "frequency MSEk with missampling"
+          ],
+          "keywords": [
+            "missampling",
+            "frequency estimation",
+            "MSE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Compare the MSE to the MCRB and CRB.",
+          "searchable_summary": "validate frequency estimates with missampling against MCRB and CRB",
+          "inputs": [
+            "MSE with missampling",
+            "MCRB",
+            "CRB"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "MSE",
+            "MCRB",
+            "CRB",
+            "validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Real Data Frequency Estimation",
+      "description": "This method applies the frequency estimation process to real data from ice cores, comparing the results to expected frequencies from orbital theory.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use data from three different ice cores: Vostok, Taylor Dome, and Dome F.",
+          "searchable_summary": "fetch ice core data from Vostok, Taylor Dome, and Dome F",
+          "inputs": [
+            "Vostok ice core data",
+            "Taylor Dome ice core data",
+            "Dome F ice core data"
+          ],
+          "outputs": [
+            "fetched ice core data"
+          ],
+          "keywords": [
+            "ice core data",
+            "Vostok",
+            "Taylor Dome",
+            "Dome F"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compute the results of the method and compare to expected frequencies from orbital theory.",
+          "searchable_summary": "analyze ice core data for frequency estimation and compare to orbital theory",
+          "inputs": [
+            "ice core data",
+            "orbital theory frequencies"
+          ],
+          "outputs": [
+            "estimated frequencies",
+            "comparison to orbital theory"
+          ],
+          "keywords": [
+            "frequency estimation",
+            "orbital theory",
+            "ice core analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Proposed Estimation Approach",
+      "description": "This method describes a sparse reconstruction framework for estimating frequency content in paleoclimatology data, accounting for sampling uncertainties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Form the proposed estimator using a sparse reconstruction framework with a separate wideband dictionary for each data set.",
+          "searchable_summary": "implement sparse reconstruction framework with wideband dictionaries",
+          "inputs": [
+            "data sets",
+            "wideband dictionaries"
+          ],
+          "outputs": [
+            "proposed estimator"
+          ],
+          "keywords": [
+            "sparse reconstruction",
+            "wideband dictionary",
+            "estimator"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Solve the penalized regression problem to estimate the global spectrum.",
+          "searchable_summary": "solve penalized regression for global spectrum estimation",
+          "inputs": [
+            "penalized regression problem",
+            "data sets"
+          ],
+          "outputs": [
+            "global spectrum estimate"
+          ],
+          "keywords": [
+            "penalized regression",
+            "global spectrum",
+            "estimation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Iteratively refine the wideband dictionaries to increase resolution.",
+          "searchable_summary": "refine wideband dictionaries iteratively",
+          "inputs": [
+            "initial wideband dictionaries"
+          ],
+          "outputs": [
+            "refined wideband dictionaries"
+          ],
+          "keywords": [
+            "dictionary refinement",
+            "resolution",
+            "iterative process"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Determining_Joint_Periodicities_in_Multi-time_Data_With_Sampling_Uncertainties.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

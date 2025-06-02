@@ -1,0 +1,165 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Binned Correlation Technique",
+      "description": "This method converts unevenly spaced paleoclimate time series into evenly spaced time series by resampling into time bins and assigning mean values within those bins. It is used to estimate the correlation between two paleoclimate time series with different timescales.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Resample the unevenly spaced paleoclimate time series into time bins on a regular grid.",
+          "searchable_summary": "resample time series into regular time bins",
+          "inputs": [
+            "unevenly spaced paleoclimate time series"
+          ],
+          "outputs": [
+            "evenly spaced time series"
+          ],
+          "keywords": [
+            "binned correlation",
+            "time series resampling",
+            "R package BINCOR"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Assign the mean values of the variable under scrutiny within those bins.",
+          "searchable_summary": "calculate mean values within time bins",
+          "inputs": [
+            "time bins",
+            "variable values"
+          ],
+          "outputs": [
+            "mean values for each time bin"
+          ],
+          "keywords": [
+            "mean calculation",
+            "time bins"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Robust Correlation Approach",
+      "description": "This method estimates the time-dependence of the strength of association between large-scale reconstructed time series and Mediterranean forest pollen using a robust correlation approach that accounts for serial dependence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Estimate Pearson's correlation coefficients that take into account the serial dependence of the time series.",
+          "searchable_summary": "compute Pearson's correlation with serial dependence",
+          "inputs": [
+            "time series data"
+          ],
+          "outputs": [
+            "Pearson's correlation coefficients"
+          ],
+          "keywords": [
+            "Pearson's correlation",
+            "serial dependence",
+            "time series analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Estimate a confidence interval (95%) using a nonparametric stationary bootstrap technique.",
+          "searchable_summary": "perform stationary bootstrap for confidence interval",
+          "inputs": [
+            "correlation coefficients",
+            "time series data"
+          ],
+          "outputs": [
+            "confidence interval"
+          ],
+          "keywords": [
+            "bootstrap",
+            "confidence interval",
+            "nonparametric"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "iLOVECLIM Model Simulation",
+      "description": "This method involves running the iLOVECLIM model to simulate climate conditions, including an equilibrium run and a transient run, to study the oxygen isotopic composition of precipitation and calcite.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform an equilibrium run for 5000 years under climatic conditions at 800 ka.",
+          "searchable_summary": "run equilibrium climate model simulation",
+          "inputs": [
+            "climatic conditions at 800 ka"
+          ],
+          "outputs": [
+            "equilibrium model output"
+          ],
+          "keywords": [
+            "equilibrium run",
+            "climate model",
+            "iLOVECLIM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Run a transient simulation between 800 and 670 ka with updated insolation, greenhouse gas concentrations, and prescribed ice sheets reconstruction.",
+          "searchable_summary": "run transient climate model simulation",
+          "inputs": [
+            "insolation",
+            "greenhouse gas concentrations",
+            "ice sheets reconstruction"
+          ],
+          "outputs": [
+            "transient model output"
+          ],
+          "keywords": [
+            "transient run",
+            "climate model",
+            "iLOVECLIM"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Convert values from SMOW scale to VPDB scale using the equation of Coplen et al.",
+          "searchable_summary": "convert isotopic values from SMOW to VPDB scale",
+          "inputs": [
+            "isotopic values in SMOW scale"
+          ],
+          "outputs": [
+            "isotopic values in VPDB scale"
+          ],
+          "keywords": [
+            "isotopic conversion",
+            "SMOW",
+            "VPDB"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Smooth the values using a 10-year running mean.",
+          "searchable_summary": "apply 10-year running mean smoothing",
+          "inputs": [
+            "isotopic values"
+          ],
+          "outputs": [
+            "smoothed isotopic values"
+          ],
+          "keywords": [
+            "running mean",
+            "smoothing",
+            "time series"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258617381.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

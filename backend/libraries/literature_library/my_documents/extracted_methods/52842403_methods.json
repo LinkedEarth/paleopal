@@ -1,0 +1,117 @@
+{
+  "paper_title": "Inferring locomotor behaviours in Miocene New World monkeys using finite element analysis, geometric morphometrics and machine-learning classification techniques applied to talar morphology",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Machine Learning Model Parameter Tuning and Fossil Classification",
+      "description": "This method describes the process of optimizing machine learning model parameters using the 'caret' package's grid search capabilities (automatic and manual) on biomechanical and morphometric datasets. The goal is to identify the best performing model, which is then used to classify a fossil sample by calculating class probabilities for different locomotor categories.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We first started with an automatic grid search by setting the 'tuneLength' option to indicate the number of different values to try for each algorithm parameter (we initially set this parameter to 10 in all the tested models). This only supports integer algorithm parameters, thus providing a quick first guess as to what values to try and which models are more promising.",
+          "searchable_summary": "Perform automatic grid search for ML model parameter tuning using caret package",
+          "inputs": [
+            "Machine learning models",
+            "Biomechanical dataset",
+            "Morphometric dataset",
+            "'tuneLength' parameter (e.g., 10)"
+          ],
+          "outputs": [
+            "Initial model performance results",
+            "Identification of promising models and parameter ranges"
+          ],
+          "keywords": [
+            "machine learning",
+            "parameter tuning",
+            "grid search",
+            "caret package",
+            "automatic tuning",
+            "tuneLength"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Then the models that were the most accurate for each one of the datasets (i.e., biomechanical and morphometric data) were further tuned by setting a manual grid search.",
+          "searchable_summary": "Identify best performing ML models from initial tuning results",
+          "inputs": [
+            "Initial model performance results from Step 1"
+          ],
+          "outputs": [
+            "List of promising ML models for each dataset"
+          ],
+          "keywords": [
+            "model selection",
+            "performance evaluation",
+            "accuracy"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "In the grid, each algorithm parameter was specified as a vector of possible values. These vectors were combined to define all the possible combinations to try in order to further improve the performance of the model.",
+          "searchable_summary": "Perform manual grid search for selected ML model parameter tuning using caret package",
+          "inputs": [
+            "Selected ML models (from Step 2)",
+            "Biomechanical dataset",
+            "Morphometric dataset",
+            "Manual grid definition (parameter vectors)"
+          ],
+          "outputs": [
+            "Detailed model performance results for various parameter combinations",
+            "Identification of optimal parameters"
+          ],
+          "keywords": [
+            "machine learning",
+            "parameter tuning",
+            "grid search",
+            "caret package",
+            "manual tuning",
+            "hyperparameter optimization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Then using the best final model the fossil sample was classified...",
+          "searchable_summary": "Select the overall best performing ML model after comprehensive tuning",
+          "inputs": [
+            "Detailed model performance results from Step 3"
+          ],
+          "outputs": [
+            "The best final ML model"
+          ],
+          "keywords": [
+            "model selection",
+            "best model",
+            "performance optimization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Then using the best final model the fossil sample was classified into the different locomotor categories by computing the class probabilities of belonging to each one of the categories.",
+          "searchable_summary": "Classify a fossil sample using the best trained ML model and compute class probabilities",
+          "inputs": [
+            "Best final ML model (from Step 4)",
+            "Fossil sample data"
+          ],
+          "outputs": [
+            "Classification results for the fossil sample",
+            "Class probabilities for locomotor categories"
+          ],
+          "keywords": [
+            "classification",
+            "prediction",
+            "machine learning",
+            "fossil analysis",
+            "class probabilities"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/52842403.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

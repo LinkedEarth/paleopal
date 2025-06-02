@@ -1,0 +1,219 @@
+{
+  "paper_title": "High-throughput sequence analysis reveals structural diversity and improved potency among RNA inhibitors of HIV reverse transcriptase",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Analysis",
+      "description": "This method involves the analysis of RNA sequences to identify structural diversity and potency among RNA inhibitors of HIV reverse transcriptase. It includes trimming, quality filtering, clustering, alignment, and covariance model (CM) searching to predict and refine RNA structures.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Constant regions (primer-binding sequences) were first removed from the 5' and 3' ends of all reads to eliminate biases introduced by the trivial nature of their conservation.",
+          "searchable_summary": "Remove constant regions from sequence reads",
+          "inputs": [
+            "sequence reads"
+          ],
+          "outputs": [
+            "trimmed reads"
+          ],
+          "keywords": [
+            "sequence trimming",
+            "primer-binding sequences"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For trimmed reads that had any position with a Qphred score of 13 or less the entire read was removed from further analysis.",
+          "searchable_summary": "Filter reads based on quality score",
+          "inputs": [
+            "trimmed reads",
+            "Qphred scores"
+          ],
+          "outputs": [
+            "quality-filtered reads"
+          ],
+          "keywords": [
+            "quality filtering",
+            "Qphred score"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The remaining reads were ranked according to abundance and then clustered based on sequence edit distance (Levenshtein distance).",
+          "searchable_summary": "Cluster reads based on abundance and edit distance",
+          "inputs": [
+            "quality-filtered reads"
+          ],
+          "outputs": [
+            "clusters of reads"
+          ],
+          "keywords": [
+            "clustering",
+            "Levenshtein distance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "For the 100 most abundant clusters, the sequences within each cluster were aligned using Mafft, and these alignments were used to predict basepairing patterns using RNAalifold.",
+          "searchable_summary": "Align sequences and predict basepairing patterns",
+          "inputs": [
+            "clusters of reads"
+          ],
+          "outputs": [
+            "aligned sequences",
+            "predicted basepairing patterns"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "basepairing prediction",
+            "Mafft",
+            "RNAalifold"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "These alignments and the centroid structures predicted by RNAalifold were then used to generate covariance models (CMs) using Infernal.",
+          "searchable_summary": "Generate covariance models using Infernal",
+          "inputs": [
+            "aligned sequences",
+            "predicted basepairing patterns"
+          ],
+          "outputs": [
+            "covariance models"
+          ],
+          "keywords": [
+            "covariance models",
+            "Infernal"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Infernal was then used to calibrate and search the covariance models against the population.",
+          "searchable_summary": "Calibrate and search covariance models",
+          "inputs": [
+            "covariance models",
+            "sequence population"
+          ],
+          "outputs": [
+            "search results"
+          ],
+          "keywords": [
+            "model calibration",
+            "model searching",
+            "Infernal"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The CMs were searched against a reduced sequence data set comprising only the most abundant sequence in each of the top 5000 clusters identified in each population.",
+          "searchable_summary": "Search CMs against reduced sequence data set",
+          "inputs": [
+            "covariance models",
+            "reduced sequence data set"
+          ],
+          "outputs": [
+            "search results"
+          ],
+          "keywords": [
+            "reduced data set",
+            "CM searching"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Groups of clusters identified by the first round of CM searches were aligned to the CM and used to generate a new refined CM.",
+          "searchable_summary": "Align clusters to CM and refine",
+          "inputs": [
+            "initial CM search results"
+          ],
+          "outputs": [
+            "refined covariance models"
+          ],
+          "keywords": [
+            "CM refinement",
+            "cluster alignment"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The sequences from the reduced data set were aligned to their respective CMs and R2R was used to visualize sequence and structure conservation.",
+          "searchable_summary": "Align sequences to CMs and visualize conservation",
+          "inputs": [
+            "reduced sequence data set",
+            "refined covariance models"
+          ],
+          "outputs": [
+            "visualizations of sequence and structure conservation"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "structure conservation",
+            "R2R"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Basepairs that were conserved from the original intra-cluster based prediction in more than 80% of the clusters identified by the CM searching were used to generate the new CMs.",
+          "searchable_summary": "Generate new CMs based on conserved basepairs",
+          "inputs": [
+            "conserved basepairs",
+            "CM search results"
+          ],
+          "outputs": [
+            "new covariance models"
+          ],
+          "keywords": [
+            "basepair conservation",
+            "CM generation"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "The new CMs were then aligned to the single cluster from which they were originally derived, and that alignment was used to seed an additional 10 rounds of CM searching and refinement to yield the final CM.",
+          "searchable_summary": "Align new CMs to original cluster and refine",
+          "inputs": [
+            "new covariance models",
+            "original cluster"
+          ],
+          "outputs": [
+            "final covariance models"
+          ],
+          "keywords": [
+            "CM alignment",
+            "CM refinement"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "To identify clusters that utilize the constant regions of the RNA sequence to form their functional structures, the two 24 nt primer-binding sequences were appended to the 5' and 3' ends of the 5000 sequences in the data set and the final refined CMs were used to search these ~118 nucleotide full-length sequences.",
+          "searchable_summary": "Append primer-binding sequences and search with final CMs",
+          "inputs": [
+            "5000 sequences",
+            "final refined covariance models"
+          ],
+          "outputs": [
+            "search results with appended sequences"
+          ],
+          "keywords": [
+            "primer-binding sequences",
+            "full-length sequence search"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/2027595.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

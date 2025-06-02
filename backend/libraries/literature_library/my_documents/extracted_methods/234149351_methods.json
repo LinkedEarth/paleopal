@@ -1,0 +1,192 @@
+{
+  "paper_title": "Redundancy and Variation Partitioning Analysis in Diatom Community Composition",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Redundancy and Variation Partitioning Analysis",
+      "description": "This method uses redundancy analysis (RDA) with forward selection and Monte Carlo permutation tests to determine which geographical and environmental variables significantly explain variation in diatom community composition across lakes. Variation partitioning analysis is applied to assess the unique contributions of local environmental, climatic, spatial, and historical variables.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Select a subset of lakes (n = 213) with available measurements of specific conductance, pH, Na+, K+, Mg2+, Ca2+, Cl−, NO3−-N, NH4+-N, PO43+-P, temperature, and spatial and historical variables.",
+          "searchable_summary": "filter lakes with complete environmental and spatial data",
+          "inputs": [
+            "lake dataset"
+          ],
+          "outputs": [
+            "filtered lake dataset"
+          ],
+          "keywords": [
+            "data filtering",
+            "lake measurements",
+            "environmental variables"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Transform environmental variables logarithmically, except pH, which is square root transformed.",
+          "searchable_summary": "apply logarithmic and square root transformations to environmental variables",
+          "inputs": [
+            "environmental variables"
+          ],
+          "outputs": [
+            "transformed environmental variables"
+          ],
+          "keywords": [
+            "logarithmic transformation",
+            "square root transformation",
+            "data normalization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Create three matrices: 1) biotic matrix with Hellinger-transformed presence-absence data, 2) matrix with limnological and temperature variables, 3) matrix with spatial and historical variables.",
+          "searchable_summary": "construct biotic, limnological, and spatial matrices",
+          "inputs": [
+            "species data",
+            "environmental data",
+            "spatial data"
+          ],
+          "outputs": [
+            "biotic matrix",
+            "limnological matrix",
+            "spatial matrix"
+          ],
+          "keywords": [
+            "matrix construction",
+            "Hellinger transformation",
+            "data structuring"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform principal coordinate analysis (PCoA) to obtain PCNM vectors from geographic distances.",
+          "searchable_summary": "conduct PCoA to derive PCNM vectors",
+          "inputs": [
+            "geographic distance matrix"
+          ],
+          "outputs": [
+            "PCNM vectors"
+          ],
+          "keywords": [
+            "PCoA",
+            "PCNM vectors",
+            "geographic analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Select significantly spatially autocorrelated PCNM vectors using Moran's I.",
+          "searchable_summary": "select significant PCNM vectors using Moran's I",
+          "inputs": [
+            "PCNM vectors"
+          ],
+          "outputs": [
+            "significant PCNM vectors"
+          ],
+          "keywords": [
+            "Moran's I",
+            "spatial autocorrelation",
+            "PCNM selection"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Model latitude and longitude using distance-based Moran Eigenvector Maps (dbMEM).",
+          "searchable_summary": "model spatial coordinates with dbMEM",
+          "inputs": [
+            "latitude",
+            "longitude",
+            "PCNM vectors"
+          ],
+          "outputs": [
+            "dbMEM vectors"
+          ],
+          "keywords": [
+            "dbMEM",
+            "spatial modeling",
+            "eigenvector maps"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Perform variation inflation factor (VIF) analysis to reduce multicollinearity, removing variables with VIF > 10.",
+          "searchable_summary": "conduct VIF analysis to remove multicollinear variables",
+          "inputs": [
+            "environmental variables"
+          ],
+          "outputs": [
+            "reduced set of variables"
+          ],
+          "keywords": [
+            "VIF analysis",
+            "multicollinearity",
+            "variable selection"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Conduct variation partitioning to assess unique contributions of environmental, climatic, spatial, and historical variables.",
+          "searchable_summary": "perform variation partitioning analysis",
+          "inputs": [
+            "biotic matrix",
+            "limnological matrix",
+            "spatial matrix"
+          ],
+          "outputs": [
+            "variation partitioning results"
+          ],
+          "keywords": [
+            "variation partitioning",
+            "unique contributions",
+            "community structure"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "Use Monte Carlo permutation tests (999 permutations) to assess significance of ordination axes.",
+          "searchable_summary": "validate ordination axes with Monte Carlo permutation tests",
+          "inputs": [
+            "ordination axes"
+          ],
+          "outputs": [
+            "significance results"
+          ],
+          "keywords": [
+            "Monte Carlo tests",
+            "permutation",
+            "ordination significance"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Adjust multiple coefficients of determination (R² adj) to correct for sample size and number of predictors.",
+          "searchable_summary": "adjust R² for sample size and predictor count",
+          "inputs": [
+            "coefficients of determination"
+          ],
+          "outputs": [
+            "adjusted R² values"
+          ],
+          "keywords": [
+            "R² adjustment",
+            "sample size correction",
+            "predictor adjustment"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234149351.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

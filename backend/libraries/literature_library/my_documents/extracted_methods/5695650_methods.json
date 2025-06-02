@@ -1,0 +1,236 @@
+{
+  "paper_title": "Mitochondrial Analysis of the Most Basal Canid Reveals Deep Divergence between Eastern and Western North American Gray Foxes (Urocyon spp.) and Ancient Roots in Pleistocene California",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA Extraction and Amplification",
+      "description": "Process for extracting DNA from various sample types and amplifying specific mitochondrial regions for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extracted DNA using Qiagen DNeasy blood and tissue kits for blood and tissue samples and QIAamp DNA stool kits for scats, following manufacturer's protocols.",
+          "searchable_summary": "extract DNA from blood, tissue, and scat samples using Qiagen kits",
+          "inputs": [
+            "blood samples",
+            "tissue samples",
+            "scat samples"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "Qiagen kits",
+            "blood",
+            "tissue",
+            "scat"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For hair extractions, digested the follicles overnight, followed by DNA purification using phenol/chloroform, and cleaned up using Amicon Ultra centrifuge filters.",
+          "searchable_summary": "purify DNA from hair follicles using phenol/chloroform and Amicon filters",
+          "inputs": [
+            "hair follicles"
+          ],
+          "outputs": [
+            "purified DNA"
+          ],
+          "keywords": [
+            "DNA purification",
+            "hair follicles",
+            "phenol/chloroform",
+            "Amicon filters"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Performed polymerase chain reaction (PCR) to amplify a 441 bp portion of mitochondrial cytochrome b using specific primers.",
+          "searchable_summary": "amplify mitochondrial cytochrome b using PCR",
+          "inputs": [
+            "extracted DNA",
+            "primers RF14724, RF15149"
+          ],
+          "outputs": [
+            "amplified cytochrome b fragment"
+          ],
+          "keywords": [
+            "PCR",
+            "cytochrome b",
+            "amplification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Performed PCR to amplify a portion of D loop using specific primers and thermoprofile.",
+          "searchable_summary": "amplify D loop region using PCR",
+          "inputs": [
+            "extracted DNA",
+            "primers H16498, L15910"
+          ],
+          "outputs": [
+            "amplified D loop fragment"
+          ],
+          "keywords": [
+            "PCR",
+            "D loop",
+            "amplification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Sequenced fragments in both directions for D loop and only in the forward direction for cytochrome b.",
+          "searchable_summary": "sequence DNA fragments for D loop and cytochrome b",
+          "inputs": [
+            "amplified fragments"
+          ],
+          "outputs": [
+            "sequenced DNA fragments"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "D loop",
+            "cytochrome b"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic and Genetic Analysis",
+      "description": "Procedures for constructing phylogenetic trees and analyzing genetic diversity and structure among gray fox populations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Constructed phylogenetic trees using maximum likelihood and Bayesian approaches with trees rooted to red fox and coyote outgroups.",
+          "searchable_summary": "construct phylogenetic trees using maximum likelihood and Bayesian methods",
+          "inputs": [
+            "785 bp haplotypes",
+            "outgroup sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "maximum likelihood",
+            "Bayesian"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Estimated haplotype and nucleotide diversity using Arlequin 3.5.",
+          "searchable_summary": "calculate haplotype and nucleotide diversity",
+          "inputs": [
+            "DNA sequences"
+          ],
+          "outputs": [
+            "haplotype diversity",
+            "nucleotide diversity"
+          ],
+          "keywords": [
+            "haplotype diversity",
+            "nucleotide diversity",
+            "Arlequin"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Estimated divergence time using MCMC simulations in the program IMa2.",
+          "searchable_summary": "estimate divergence time using MCMC simulations",
+          "inputs": [
+            "DNA sequences",
+            "mutation rates"
+          ],
+          "outputs": [
+            "divergence time estimates"
+          ],
+          "keywords": [
+            "divergence time",
+            "MCMC",
+            "IMa2"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Tested for population growth by calculating Fu's F S and comparing to a distribution from coalescent simulations.",
+          "searchable_summary": "test for population growth using Fu's F S",
+          "inputs": [
+            "DNA sequences"
+          ],
+          "outputs": [
+            "population growth test results"
+          ],
+          "keywords": [
+            "population growth",
+            "Fu's F S",
+            "coalescent simulations"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Constructed a Bayesian skyline plot to estimate effective population size through time.",
+          "searchable_summary": "create Bayesian skyline plot for population size estimation",
+          "inputs": [
+            "DNA sequences",
+            "mutation rates"
+          ],
+          "outputs": [
+            "Bayesian skyline plot"
+          ],
+          "keywords": [
+            "Bayesian skyline plot",
+            "population size",
+            "MCMC"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Visualized relationships among haplotypes using a median-joining network.",
+          "searchable_summary": "create median-joining network for haplotype relationships",
+          "inputs": [
+            "haplotypes"
+          ],
+          "outputs": [
+            "median-joining network"
+          ],
+          "keywords": [
+            "median-joining network",
+            "haplotypes",
+            "Network software"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Evaluated population structure using SAMOVA and Mantel tests.",
+          "searchable_summary": "analyze population structure using SAMOVA and Mantel tests",
+          "inputs": [
+            "DNA sequences",
+            "geographical data"
+          ],
+          "outputs": [
+            "population structure analysis"
+          ],
+          "keywords": [
+            "population structure",
+            "SAMOVA",
+            "Mantel test"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/5695650.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

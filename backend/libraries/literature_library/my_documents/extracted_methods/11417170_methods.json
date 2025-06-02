@@ -1,0 +1,275 @@
+{
+  "paper_title": "Identification and Analysis of SIT Sequences in Diatoms",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Identification of Transcribed SIT Sequences",
+      "description": "This method involves verifying or extending gene models predicted to encode SITs by mapping transcriptome sequence reads from various diatom species to their respective genomes. The goal is to identify full-length transcribed SIT gene sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Mapped sequence reads originated from transcriptomes of triplicate cultures of each species grown in artificial seawater and harvested during specific growth phases.",
+          "searchable_summary": "fetch transcriptome sequence reads from NCBI GEO",
+          "inputs": [
+            "NCBI GEO accession #GSE56132"
+          ],
+          "outputs": [
+            "mapped sequence reads"
+          ],
+          "keywords": [
+            "transcriptome",
+            "sequence reads",
+            "NCBI GEO"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Reads were mapped to the diatom genomes using SEAStAR software.",
+          "searchable_summary": "map sequence reads to genomes using SEAStAR",
+          "inputs": [
+            "sequence reads",
+            "diatom genomes"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "SEAStAR",
+            "genome mapping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Determine transcript fold change of SIT sequences in nutrient starved relative to nutrient replete growth conditions.",
+          "searchable_summary": "calculate transcript fold change using SEAStAR",
+          "inputs": [
+            "mapped reads",
+            "growth condition data"
+          ],
+          "outputs": [
+            "fold change data"
+          ],
+          "keywords": [
+            "fold change",
+            "nutrient conditions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Extract and combine transcript read coverage for each SIT gene using SEAStAR tool ref_select.",
+          "searchable_summary": "extract read coverage using SEAStAR ref_select",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "combined read coverage"
+          ],
+          "keywords": [
+            "read coverage",
+            "SEAStAR ref_select"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Visualize coverage of reads that mapped to each SIT sequence in R and compare to the gene model.",
+          "searchable_summary": "visualize read coverage in R",
+          "inputs": [
+            "combined read coverage",
+            "gene model"
+          ],
+          "outputs": [
+            "coverage visualization"
+          ],
+          "keywords": [
+            "R",
+            "visualization",
+            "gene model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogeny of SIT Gene Homologs",
+      "description": "This method identifies SIT homologs using search tools and databases, aligns sequences, and constructs a phylogenetic tree to understand evolutionary relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use BLAST to search protein and translated nucleotide sequences from NCBI nonredundant databases.",
+          "searchable_summary": "search NCBI databases using BLAST",
+          "inputs": [
+            "NCBI nonredundant databases"
+          ],
+          "outputs": [
+            "BLAST search results"
+          ],
+          "keywords": [
+            "BLAST",
+            "NCBI",
+            "protein sequences"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Align sequences to the translated full-length SIT protein sequences using MAFFT.",
+          "searchable_summary": "align sequences using MAFFT",
+          "inputs": [
+            "BLAST search results",
+            "SIT protein sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "MAFFT",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Create a Hidden Markov Model (HMM) profile of the reference alignment using hmmbuild.",
+          "searchable_summary": "create HMM profile using hmmbuild",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "HMM profile"
+          ],
+          "keywords": [
+            "HMM",
+            "hmmbuild"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Identify homologous sequences in MMETSP using hmmsearch against predicted protein sequences.",
+          "searchable_summary": "identify homologs using hmmsearch",
+          "inputs": [
+            "HMM profile",
+            "MMETSP data"
+          ],
+          "outputs": [
+            "homologous sequences"
+          ],
+          "keywords": [
+            "hmmsearch",
+            "MMETSP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Calculate a phylogenetic tree from the trimmed protein alignment using RAXML.",
+          "searchable_summary": "calculate phylogenetic tree using RAXML",
+          "inputs": [
+            "trimmed protein alignment"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "RAXML",
+            "phylogenetic tree"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcription of SITs in Mixed Field Communities",
+      "description": "This method involves collecting and processing samples from mixed plankton communities to analyze SIT transcription using metatranscriptome sequencing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect surface seawater samples at specified stations using a Lutz double diaphragm pump.",
+          "searchable_summary": "collect seawater samples using diaphragm pump",
+          "inputs": [
+            "station locations"
+          ],
+          "outputs": [
+            "seawater samples"
+          ],
+          "keywords": [
+            "seawater collection",
+            "diaphragm pump"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter seawater through a 2 µm polycarbonate filter and quantify biogenic silica.",
+          "searchable_summary": "filter seawater and quantify silica",
+          "inputs": [
+            "seawater samples"
+          ],
+          "outputs": [
+            "filtered samples",
+            "biogenic silica data"
+          ],
+          "keywords": [
+            "filtration",
+            "biogenic silica"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Extract RNA from cells on frozen filters using the Totally RNA extraction kit.",
+          "searchable_summary": "extract RNA using Totally RNA kit",
+          "inputs": [
+            "frozen filters"
+          ],
+          "outputs": [
+            "extracted RNA"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "Totally RNA kit"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Convert amplified polyA-selected RNA to double-stranded cDNA.",
+          "searchable_summary": "convert RNA to cDNA",
+          "inputs": [
+            "amplified RNA"
+          ],
+          "outputs": [
+            "double-stranded cDNA"
+          ],
+          "keywords": [
+            "cDNA synthesis",
+            "RNA conversion"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Sequence cDNA libraries on Illumina MiSeq and HiSeq systems.",
+          "searchable_summary": "sequence cDNA libraries using Illumina",
+          "inputs": [
+            "cDNA libraries"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "Illumina sequencing",
+            "cDNA libraries"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/11417170.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

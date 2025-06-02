@@ -1,0 +1,156 @@
+{
+  "paper_title": "Modeling Approach and Numerical Ice Flow Model for Jakobshavn Isbrae",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Dynamic Ice Flow Modeling",
+      "description": "A dynamic depth-and width-integrated numerical ice flow model is used to study the long-term retreat pattern of marine-terminating glaciers, specifically Jakobshavn Isbrae. The model is based on mass continuity and balances driving stress, longitudinal stress gradient, and basal and lateral drag. It incorporates a robust treatment of the grounding line and a dynamic marine boundary, allowing for multiple model runs over several centuries.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Construct a dynamic depth-and width-integrated numerical ice flow model for marine-terminating glaciers.",
+          "searchable_summary": "construct numerical ice flow model for marine-terminating glaciers",
+          "inputs": [
+            "glacier data",
+            "climate forcing parameters"
+          ],
+          "outputs": [
+            "ice flow model"
+          ],
+          "keywords": [
+            "ice flow model",
+            "marine-terminating glaciers",
+            "numerical modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Implement climate forcing as a slow linear change in surface mass balance, crevasse water depth, submarine melt, and buttressing by sea ice.",
+          "searchable_summary": "implement climate forcing in ice flow model",
+          "inputs": [
+            "climate data",
+            "model parameters"
+          ],
+          "outputs": [
+            "climate-forced ice flow model"
+          ],
+          "keywords": [
+            "climate forcing",
+            "surface mass balance",
+            "submarine melt"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Numerical Ice Flow Model Calculation",
+      "description": "The numerical ice flow model calculates time-varying ice thickness using a depth-and width-integrated continuity equation. It accounts for lateral and basal resistance, longitudinal stress gradient, and driving stress. The model uses a Weertman-type basal sliding law and calculates stress balance based on various parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Calculate time-varying ice thickness from along-flow ice flux and mass balance using a continuity equation.",
+          "searchable_summary": "calculate ice thickness using continuity equation",
+          "inputs": [
+            "ice flux data",
+            "mass balance data"
+          ],
+          "outputs": [
+            "ice thickness"
+          ],
+          "keywords": [
+            "ice thickness",
+            "continuity equation",
+            "mass balance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Parameterize lateral resistance using width-integrated horizontal shear stress and apply a Weertman-type basal sliding law.",
+          "searchable_summary": "apply basal sliding law and parameterize lateral resistance",
+          "inputs": [
+            "shear stress data",
+            "pressure data"
+          ],
+          "outputs": [
+            "resistance parameters"
+          ],
+          "keywords": [
+            "basal sliding law",
+            "lateral resistance",
+            "shear stress"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calculate stress balance using surface elevation, gravitational acceleration, glacier depth, and ice and ocean water densities.",
+          "searchable_summary": "calculate stress balance for ice flow model",
+          "inputs": [
+            "surface elevation",
+            "gravitational acceleration",
+            "glacier depth",
+            "density data"
+          ],
+          "outputs": [
+            "stress balance"
+          ],
+          "keywords": [
+            "stress balance",
+            "glacier dynamics",
+            "density"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Glacier Geometry",
+      "description": "The model glacier geometry is defined by the trough and fjord dimensions, obtained from satellite images and topography data. The geometry is crucial for simulating the glacier's behavior and retreat patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain fjord width from satellite images and channel width from topography data.",
+          "searchable_summary": "fetch fjord and channel width from satellite and topography data",
+          "inputs": [
+            "satellite images",
+            "topography data"
+          ],
+          "outputs": [
+            "fjord width",
+            "channel width"
+          ],
+          "keywords": [
+            "fjord width",
+            "satellite images",
+            "topography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Define glacier depth using along-flow bed topography profile and obtain bathymetry from gravity data.",
+          "searchable_summary": "define glacier depth and obtain bathymetry",
+          "inputs": [
+            "bed topography profile",
+            "gravity data"
+          ],
+          "outputs": [
+            "glacier depth",
+            "bathymetry"
+          ],
+          "keywords": [
+            "glacier depth",
+            "bathymetry",
+            "gravity data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/58895955.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

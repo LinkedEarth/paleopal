@@ -20,13 +20,18 @@ logger = logging.getLogger(__name__)
 class CodeGenerationAgent(BaseLangGraphAgent):
     """Agent that generates Python code for paleoclimate analysis workflows using LangGraph."""
 
-    def __init__(self):
+    def __init__(self, enable_clarification: bool = True, clarification_threshold: str = "conservative"):
         super().__init__(
             agent_type="code",
             name="Code Generation Agent",
             description="Generates Python code (notebooks / scripts) for data-analysis tasks using PyLiPD / Pyleoclim",
             state_class=CodeAgentState
         )
+        
+        # Store clarification configuration for passing to config
+        self.enable_clarification = enable_clarification
+        self.clarification_threshold = clarification_threshold
+        
         self._register_capabilities()
 
     def _register_capabilities(self):
@@ -104,6 +109,8 @@ class CodeGenerationAgent(BaseLangGraphAgent):
         return CodeAgentConfig(
             llm=llm,
             code_embedding_service=code_embeddings,
+            enable_clarification=self.enable_clarification,
+            clarification_threshold=self.clarification_threshold
         )
 
     def _create_result_from_state(self, state: Dict[str, Any]) -> Dict[str, Any]:

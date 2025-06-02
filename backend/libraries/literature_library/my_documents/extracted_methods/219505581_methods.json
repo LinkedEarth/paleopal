@@ -1,0 +1,238 @@
+{
+  "paper_title": "Ice Core and Climate Model Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Analysis",
+      "description": "Process for analyzing ice core samples to obtain high-resolution records of nitrate and isotopic compositions, and to date the ice core sections.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The core was drilled in the clean air sector at Kohnen Station, DML on the high-elevation East Antarctic Plateau.",
+          "searchable_summary": "drill ice core at Kohnen Station, DML",
+          "inputs": [
+            "location coordinates",
+            "drilling equipment"
+          ],
+          "outputs": [
+            "ice core samples"
+          ],
+          "keywords": [
+            "ice core drilling",
+            "Antarctic Plateau"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The core was analyzed for continuous flow analysis (CFA) of nitrate (NO3), sodium (Na), and magnesium (Mg) mass concentrations and electrolytic meltwater conductivity at the British Antarctic Survey (BAS), Cambridge.",
+          "searchable_summary": "perform CFA for nitrate, sodium, magnesium concentrations",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "concentration data"
+          ],
+          "keywords": [
+            "continuous flow analysis",
+            "nitrate",
+            "sodium",
+            "magnesium"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Discrete sections for the 15N(NO3) composition were analyzed at the Institute of Environmental Geosciences (IGE), University of Grenoble.",
+          "searchable_summary": "analyze 15N(NO3) composition in discrete ice core sections",
+          "inputs": [
+            "ice core sections"
+          ],
+          "outputs": [
+            "isotopic composition data"
+          ],
+          "keywords": [
+            "isotopic analysis",
+            "15N(NO3)"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Dating was achieved by annual layer counting of measured concentrations of Na and Mg following previous studies at DML.",
+          "searchable_summary": "date ice core using annual layer counting of Na and Mg concentrations",
+          "inputs": [
+            "concentration data"
+          ],
+          "outputs": [
+            "dated ice core sections"
+          ],
+          "keywords": [
+            "annual layer counting",
+            "dating ice cores"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Description and Changes",
+      "description": "Description of the coupled chemistry-climate model used, including updates and changes made to simulate atmospheric conditions and reactions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The model consists of the UKCA module together with the UK Met Office Unified Model, with prescribed sea ice and sea surface temperatures.",
+          "searchable_summary": "configure UKCA and UM with prescribed sea ice and SST",
+          "inputs": [
+            "UKCA module",
+            "UM",
+            "sea ice data",
+            "SST data"
+          ],
+          "outputs": [
+            "configured climate model"
+          ],
+          "keywords": [
+            "UKCA",
+            "Unified Model",
+            "sea ice",
+            "SST"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The model includes the aerosol scheme, GLOMAP-mode, to simulate the direct and indirect radiative effects.",
+          "searchable_summary": "integrate GLOMAP-mode for aerosol effects",
+          "inputs": [
+            "GLOMAP-mode"
+          ],
+          "outputs": [
+            "aerosol simulation"
+          ],
+          "keywords": [
+            "GLOMAP-mode",
+            "aerosol effects"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Stratospheric ozone concentrations are determined by sets of photochemical reactions and catalytic cycles.",
+          "searchable_summary": "simulate stratospheric ozone with photochemical reactions",
+          "inputs": [
+            "photochemical reaction data"
+          ],
+          "outputs": [
+            "ozone concentration data"
+          ],
+          "keywords": [
+            "stratospheric ozone",
+            "photochemical reactions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "We add eight new heterogeneous reactions to the model involving chlorine and bromine species.",
+          "searchable_summary": "add heterogeneous reactions for chlorine and bromine",
+          "inputs": [
+            "reaction data",
+            "chlorine species",
+            "bromine species"
+          ],
+          "outputs": [
+            "updated reaction model"
+          ],
+          "keywords": [
+            "heterogeneous reactions",
+            "chlorine",
+            "bromine"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Validation",
+      "description": "Validation of the model changes by simulating historical and volcanic events to compare with observed data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "The changes to the stratospheric chemistry are tested by running the model for 30 years in a year 2000 time slice experiment.",
+          "searchable_summary": "run 30-year model simulation for year 2000 validation",
+          "inputs": [
+            "CMIP6 trace gases",
+            "SST forcings"
+          ],
+          "outputs": [
+            "model validation data"
+          ],
+          "keywords": [
+            "model validation",
+            "stratospheric chemistry"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "To assess the model response to a volcanic perturbation, we simulate the eruption of Mount Pinatubo.",
+          "searchable_summary": "simulate Mount Pinatubo eruption for model validation",
+          "inputs": [
+            "CMIP6 forcings",
+            "volcanic emission data"
+          ],
+          "outputs": [
+            "volcanic perturbation data"
+          ],
+          "keywords": [
+            "volcanic perturbation",
+            "Pinatubo eruption"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Volcanic Perturbations in Model",
+      "description": "Investigation of the effects of explosive volcanoes on the stratosphere using preindustrial forcings and a series of volcanic perturbation runs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Using the CMIP6 preindustrial forcings, a year 1850 control run is produced.",
+          "searchable_summary": "produce year 1850 control run with preindustrial forcings",
+          "inputs": [
+            "CMIP6 preindustrial forcings"
+          ],
+          "outputs": [
+            "control run data"
+          ],
+          "keywords": [
+            "control run",
+            "preindustrial forcings"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The effect from explosive volcanoes is investigated by running a series of four volcanic perturbation runs.",
+          "searchable_summary": "run volcanic perturbation simulations",
+          "inputs": [
+            "control run data",
+            "volcanic emission scenarios"
+          ],
+          "outputs": [
+            "perturbation run data"
+          ],
+          "keywords": [
+            "volcanic perturbation",
+            "stratosphere"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219505581.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

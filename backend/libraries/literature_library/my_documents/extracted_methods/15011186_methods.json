@@ -1,0 +1,128 @@
+{
+  "paper_title": "Isotope-Based Geographic Origin Assignment",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Interval Approach",
+      "description": "The interval approach compares derived enamel sample results with 87Sr/86Sr and δ18O isoscapes for the Caribbean to determine potential geographic origins by identifying raster cells with overlapping isotope ranges.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Estimate total error/variance (Ɛ) including analytical error, population variance, and mean absolute error (MAE) of interpolated isoscapes.",
+          "searchable_summary": "calculate total error/variance for isotope values",
+          "inputs": [
+            "analytical error",
+            "population variance",
+            "MAE"
+          ],
+          "outputs": [
+            "total error/variance (Ɛ)"
+          ],
+          "keywords": [
+            "error estimation",
+            "variance calculation",
+            "isoscape"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Use measured enamel isotope data to conduct geographic assignments to maps of predicted enamel isotope composition.",
+          "searchable_summary": "assign geographic origins based on enamel isotope data",
+          "inputs": [
+            "measured enamel isotope data",
+            "predicted isoscape maps"
+          ],
+          "outputs": [
+            "geographic assignment map"
+          ],
+          "keywords": [
+            "geographic assignment",
+            "isotope analysis",
+            "isoscape"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Visualize results by coding raster cells as potential or non-potential places of origin based on overlap with measured isotope values.",
+          "searchable_summary": "visualize geographic origin assignments on map",
+          "inputs": [
+            "geographic assignment map"
+          ],
+          "outputs": [
+            "visualized map with potential origins"
+          ],
+          "keywords": [
+            "visualization",
+            "map coding",
+            "isotope overlap"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Likelihood Approach",
+      "description": "The likelihood approach uses dual-isotope values to assess geographic origin likelihood by calculating a spatially explicit normal probability density function, improving upon the interval approach by avoiding thresholding.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Calculate likelihood of specific geographic origin using a spatially explicit normal probability density function.",
+          "searchable_summary": "compute likelihood of origin using normal pdf",
+          "inputs": [
+            "dual-isotope values",
+            "isoscape parameters"
+          ],
+          "outputs": [
+            "likelihood values for each raster cell"
+          ],
+          "keywords": [
+            "probability density function",
+            "likelihood calculation",
+            "isotope analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Evaluate likelihood at each cell to determine the most likely origin point.",
+          "searchable_summary": "evaluate likelihood to find most likely origin",
+          "inputs": [
+            "likelihood values",
+            "raster cells"
+          ],
+          "outputs": [
+            "most likely origin point"
+          ],
+          "keywords": [
+            "likelihood evaluation",
+            "origin determination",
+            "isotope data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Visualize results using univariate and bivariate normal probability density functions to highlight areas of high likelihood of origin.",
+          "searchable_summary": "visualize high likelihood areas on map",
+          "inputs": [
+            "likelihood values",
+            "probability density functions"
+          ],
+          "outputs": [
+            "visualized map with high likelihood areas"
+          ],
+          "keywords": [
+            "visualization",
+            "probability density",
+            "isotope mapping"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15011186.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

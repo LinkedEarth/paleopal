@@ -1,0 +1,537 @@
+{
+  "paper_title": "Sediment Carbon Stock Assessment Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Sample Acquisition",
+      "description": "Process of acquiring archival and newly collected surficial sediment samples from the UK EEZ for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Acquire archival surficial sediment samples from the British Geological Survey (BGS) sample repository (Keyworth, United Kingdom), representing two distinct phases of sampling from the UK EEZ: UK Hydrographic Office (UKHO) programme (2005 onwards) and large scale BGS surveys (1970s and early 1980s).",
+          "searchable_summary": "Acquire archival sediment samples from BGS repository.",
+          "inputs": [
+            "BGS sample repository access",
+            "Survey details (UKHO, BGS 1970s/80s)"
+          ],
+          "outputs": [
+            "Archival sediment samples (UKHO, BGS legacy)"
+          ],
+          "keywords": [
+            "sediment samples",
+            "archival data",
+            "BGS",
+            "UKHO",
+            "repository"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Collect new Day grab samples in July 2019 from the continental shelf within the Scottish sector of the UK EEZ onboard the MRV Scotia, and from the Scottish fjords.",
+          "searchable_summary": "Collect new sediment samples using Day grab.",
+          "inputs": [
+            "Research vessel (MRV Scotia)",
+            "Day grab sampler",
+            "Sampling locations (Scottish shelf, fjords)"
+          ],
+          "outputs": [
+            "Newly collected sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "Day grab",
+            "marine survey",
+            "Scottish EEZ",
+            "fjords"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Describe all collected samples (archival and new) according to a modified Folk classification scheme.",
+          "searchable_summary": "Classify sediment samples using Folk classification.",
+          "inputs": [
+            "Sediment samples (archival, new)",
+            "Modified Folk classification scheme"
+          ],
+          "outputs": [
+            "Sediment sample descriptions (Folk class)"
+          ],
+          "keywords": [
+            "sediment classification",
+            "Folk classification",
+            "sediment type"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Obtain associated data (additional grain size, geochemical data, calcium carbonate (CaCO3) concentration) for archival samples from the BGS repository descriptions.",
+          "searchable_summary": "Obtain associated data (grain size, geochemistry, CaCO3) for archival samples.",
+          "inputs": [
+            "BGS sample repository descriptions",
+            "Archival sediment samples"
+          ],
+          "outputs": [
+            "Associated data (grain size, geochemistry, CaCO3) linked to archival samples"
+          ],
+          "keywords": [
+            "archival data",
+            "grain size",
+            "geochemistry",
+            "calcium carbonate",
+            "CaCO3",
+            "BGS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bulk Sediment Carbon Analysis (Soli TOC)",
+      "description": "Process for quantifying bulk sediment Organic Carbon (OC) and Inorganic Carbon (IC) content using the Elementar Soli TOC instrument and the temperature gradient method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Freeze dry the 619 surface samples.",
+          "searchable_summary": "Freeze dry sediment samples.",
+          "inputs": [
+            "Sediment samples"
+          ],
+          "outputs": [
+            "Freeze-dried sediment samples"
+          ],
+          "keywords": [
+            "freeze drying",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Homogenize freeze dried samples to a fine powder.",
+          "searchable_summary": "Homogenize freeze-dried sediment samples.",
+          "inputs": [
+            "Freeze-dried sediment samples"
+          ],
+          "outputs": [
+            "Homogenized sediment powder"
+          ],
+          "keywords": [
+            "homogenization",
+            "sample preparation",
+            "powdering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Weigh 30 mg of homogenized sample into a steel crucible.",
+          "searchable_summary": "Weigh sediment sample aliquot.",
+          "inputs": [
+            "Homogenized sediment powder",
+            "Steel crucible",
+            "Balance"
+          ],
+          "outputs": [
+            "Weighed sample aliquot in crucible"
+          ],
+          "keywords": [
+            "weighing",
+            "sample preparation",
+            "aliquot"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Place crucible into the Elementar Soli TOC instrument.",
+          "searchable_summary": "Load sample into Soli TOC analyzer.",
+          "inputs": [
+            "Weighed sample aliquot in crucible",
+            "Elementar Soli TOC instrument"
+          ],
+          "outputs": [
+            "Soli TOC instrument loaded with sample"
+          ],
+          "keywords": [
+            "Soli TOC",
+            "elemental analysis",
+            "instrument operation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Perform analysis using the temperature gradient method (DIN 19539), involving ramped heating of the sample at a rate of 70°C min−1 through sequential furnace temperatures of 400°C, 600°C and 900°C.",
+          "searchable_summary": "Perform temperature gradient analysis for carbon content using Soli TOC.",
+          "inputs": [
+            "Soli TOC instrument loaded with sample",
+            "Temperature gradient method parameters (400°C, 600°C, 900°C, 70°C/min ramp rate)"
+          ],
+          "outputs": [
+            "CO2 evolution data at different temperature windows"
+          ],
+          "keywords": [
+            "Soli TOC",
+            "temperature gradient method",
+            "elemental analysis",
+            "DIN 19539",
+            "carbon analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Measure the amount of CO2 produced from each of the temperature windows (0-400°C, 400-600°C, 600-900°C) by infrared spectrometry.",
+          "searchable_summary": "Measure CO2 evolution by infrared spectrometry.",
+          "inputs": [
+            "CO2 evolution data",
+            "Infrared spectrometer (part of Soli TOC)"
+          ],
+          "outputs": [
+            "Measured CO2 amounts for TOC, ROC, and TIC temperature windows"
+          ],
+          "keywords": [
+            "infrared spectrometry",
+            "CO2 measurement",
+            "TOC",
+            "ROC",
+            "TIC"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Calculate Organic Carbon (OC) as the sum of Total Organic Carbon (TOC) (0-400°C CO2) and Residual Oxidizable Carbon (ROC) (400-600°C CO2).",
+          "searchable_summary": "Calculate Organic Carbon (OC) from TOC and ROC measurements.",
+          "inputs": [
+            "Measured TOC values",
+            "Measured ROC values"
+          ],
+          "outputs": [
+            "Calculated OC values"
+          ],
+          "keywords": [
+            "organic carbon",
+            "OC calculation",
+            "TOC",
+            "ROC"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Calculate Inorganic Carbon (IC) as the Total Inorganic Carbon (TIC) value (600-900°C CO2).",
+          "searchable_summary": "Calculate Inorganic Carbon (IC) from TIC measurement.",
+          "inputs": [
+            "Measured TIC value"
+          ],
+          "outputs": [
+            "Calculated IC values"
+          ],
+          "keywords": [
+            "inorganic carbon",
+            "IC calculation",
+            "TIC"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "Perform quality control by analyzing triplicate measurements (n=20) and repeat analysis of standard reference material B2290 (n=50).",
+          "searchable_summary": "Perform quality control for carbon analysis using triplicates and standards.",
+          "inputs": [
+            "Sediment samples",
+            "Standard reference material B2290",
+            "Soli TOC instrument",
+            "Analysis procedure"
+          ],
+          "outputs": [
+            "Quality control data (standard deviations, deviations from reference values)"
+          ],
+          "keywords": [
+            "quality control",
+            "QC",
+            "triplicate analysis",
+            "standard reference material",
+            "B2290"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study Area Zoning",
+      "description": "Process of defining and delineating distinct spatial zones within the UK EEZ based on geographical features and environmental characteristics to reflect differences in sedimentological and biogeochemical processes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Define the overall study area encompassing the UK EEZ (743,959 km2) and associated UK Crown Dependencies (Isle of Man and Channel Islands, 10,057 km2).",
+          "searchable_summary": "Define study area boundaries.",
+          "inputs": [
+            "Geographical coordinates/boundaries of UK EEZ and Crown Dependencies"
+          ],
+          "outputs": [
+            "Defined study area polygon/boundaries"
+          ],
+          "keywords": [
+            "study area",
+            "geographical boundaries",
+            "UK EEZ"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Identify key geographical features and environmental characteristics within the study area relevant to sediment properties and carbon content (e.g., fjords, coastlines, estuaries, continental shelf, shelf slope, deep sea, oceanographic currents like the Scottish Coastal Current).",
+          "searchable_summary": "Identify relevant geographical and environmental features.",
+          "inputs": [
+            "Maps",
+            "Bathymetry data",
+            "Oceanographic data",
+            "Geological data of the study area"
+          ],
+          "outputs": [
+            "List/map of relevant features"
+          ],
+          "keywords": [
+            "geographical features",
+            "environmental characteristics",
+            "bathymetry",
+            "oceanography",
+            "geomorphology"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Delineate four distinct zones within the study area: 1) fjords, 2) coastal and inshore, 3) continental shelf, and 4) shelf slope and deep sea.",
+          "searchable_summary": "Delineate spatial zones within the study area.",
+          "inputs": [
+            "Defined study area",
+            "Identified geographical/environmental features",
+            "Zoning criteria"
+          ],
+          "outputs": [
+            "Spatial polygons/boundaries for each zone"
+          ],
+          "keywords": [
+            "spatial zoning",
+            "geographical zones",
+            "marine environments"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Define the specific boundaries for each zone based on established criteria, such as geographical extent (e.g., Scottish sea lochs, Northern Irish sea loughs for fjords), distance from coastline (e.g., 5 km buffer for coastal/inshore), inclusion of large estuaries, influence of oceanographic currents (e.g., Scottish Coastal Current for coastal/shelf boundary), and bathymetric features (e.g., shelf break for shelf/deep sea boundary).",
+          "searchable_summary": "Define zone boundaries based on specific criteria.",
+          "inputs": [
+            "Geographical data",
+            "Coastline data",
+            "Bathymetry data",
+            "Estuary locations",
+            "Oceanographic current data",
+            "Zoning criteria (distances, features)"
+          ],
+          "outputs": [
+            "Precise spatial boundaries for the four zones"
+          ],
+          "keywords": [
+            "zone boundaries",
+            "spatial analysis",
+            "GIS",
+            "coastline buffer",
+            "shelf break",
+            "oceanographic currents"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Carbon Data Compilation and Processing",
+      "description": "Process of compiling, screening, and processing existing surficial Organic Carbon (OC) and Inorganic Carbon (IC) data from various sources, including the use and validation of legacy calcium carbonate (CaCO3) data as an IC proxy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Compile surficial OC data from a variety of sources across the UK EEZ (Supplementary Table S2).",
+          "searchable_summary": "Compile existing surficial OC data from multiple sources.",
+          "inputs": [
+            "Various data sources (databases, publications, Supplementary Table S2)"
+          ],
+          "outputs": [
+            "Raw compiled OC dataset"
+          ],
+          "keywords": [
+            "data compilation",
+            "OC data",
+            "existing data",
+            "data integration"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Screen compiled OC data for quality control, ensuring only OC data collected from bulk samples are used; OC measured from specific size fractions are rejected.",
+          "searchable_summary": "Screen compiled OC data for quality control (bulk samples only).",
+          "inputs": [
+            "Raw compiled OC dataset",
+            "Metadata indicating sample type (bulk vs. size fraction)"
+          ],
+          "outputs": [
+            "Filtered OC dataset (bulk samples only)"
+          ],
+          "keywords": [
+            "data screening",
+            "quality control",
+            "data filtering",
+            "bulk samples"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Screen the filtered OC data to identify associated information, such as sediment descriptions (Folk class).",
+          "searchable_summary": "Identify associated sediment descriptions in OC data.",
+          "inputs": [
+            "Filtered OC dataset",
+            "Associated metadata (sediment descriptions)"
+          ],
+          "outputs": [
+            "OC dataset with linked sediment descriptions"
+          ],
+          "keywords": [
+            "data screening",
+            "metadata",
+            "sediment description",
+            "Folk class"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Group the OC data points that have an associated sediment Folk class to determine the relationship between OC and sediment type for the UK EEZ (Supplementary Figure S3B).",
+          "searchable_summary": "Group OC data by sediment type for relationship analysis.",
+          "inputs": [
+            "OC dataset with linked sediment descriptions"
+          ],
+          "outputs": [
+            "Grouped OC data by Folk class"
+          ],
+          "keywords": [
+            "data grouping",
+            "sediment type",
+            "OC relationship",
+            "Folk class"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Group the remaining OC data points with no associated sediment class to be used as a groundtruthing and validation dataset (Supplementary Figure S4).",
+          "searchable_summary": "Group remaining OC data for validation.",
+          "inputs": [
+            "Filtered OC dataset (excluding data used in step 4)"
+          ],
+          "outputs": [
+            "OC dataset for groundtruthing/validation"
+          ],
+          "keywords": [
+            "data grouping",
+            "validation data",
+            "groundtruthing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Compile legacy BGS CaCO3 content data for seabed sediment samples collected in the 1970s and 1980s (Supplementary Figure S3C).",
+          "searchable_summary": "Compile legacy BGS CaCO3 data.",
+          "inputs": [
+            "BGS data archives (1970s/80s surveys)"
+          ],
+          "outputs": [
+            "Raw compiled legacy CaCO3 dataset"
+          ],
+          "keywords": [
+            "data compilation",
+            "legacy data",
+            "BGS",
+            "calcium carbonate",
+            "CaCO3"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Convert the legacy CaCO3 content to Inorganic Carbon (IC) content using simple stoichiometry, where 12% by mass of CaCO3 is C.",
+          "searchable_summary": "Convert CaCO3 content to Inorganic Carbon (IC).",
+          "inputs": [
+            "Legacy CaCO3 dataset",
+            "Stoichiometric conversion factor (0.12)"
+          ],
+          "outputs": [
+            "Legacy IC dataset derived from CaCO3"
+          ],
+          "keywords": [
+            "data conversion",
+            "stoichiometry",
+            "calcium carbonate",
+            "CaCO3",
+            "inorganic carbon",
+            "IC"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Compare the legacy CaCO3-derived IC values against the directly measured IC values (obtained from the Geochemical Analysis method) for the BGS archive sediment samples that were collected in this study, to test the reliability of the legacy data as a proxy for IC content.",
+          "searchable_summary": "Validate legacy CaCO3-derived IC data against direct IC measurements.",
+          "inputs": [
+            "Legacy IC dataset (from step 7)",
+            "Directly measured IC dataset (from Method 2) for overlapping samples (BGS archive samples collected in this study)"
+          ],
+          "outputs": [
+            "Comparison results",
+            "Assessment of legacy data reliability"
+          ],
+          "keywords": [
+            "data validation",
+            "proxy data",
+            "legacy data",
+            "IC",
+            "CaCO3",
+            "comparison"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Sub-divide the compiled OC data with associated sediment descriptions (from step 4) based on spatial location (e.g., inshore vs. offshore environments) to overcome potential biasing of OC values within sediment classes.",
+          "searchable_summary": "Sub-divide OC data by sediment type and spatial location.",
+          "inputs": [
+            "Grouped OC data by Folk class (from step 4)",
+            "Spatial location data for samples",
+            "Defined spatial zones (from Method 3)"
+          ],
+          "outputs": [
+            "Sub-divided OC data groups (e.g., Mud - Inshore, Mud - Offshore)"
+          ],
+          "keywords": [
+            "data sub-division",
+            "spatial processing",
+            "sediment type",
+            "spatial zones",
+            "biasing correction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232106837.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

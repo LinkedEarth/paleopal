@@ -1,0 +1,158 @@
+{
+  "paper_title": "Rovibrational Analysis using 6-Parametric Spectral Expansion",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Rovibrational Analysis using 6-Parametric Spectral Expansion",
+      "description": "This method applies a 6-parametric spectral expansion formula (Eq. 4), derived from the rovibrational Schrödinger equation with a Morse potential, to experimental rovibrational data of diatomic molecules. A least squares fitting routine is used to determine the best values of the spectral parameters {ω, ωx, α, B, C, D}. The fitted parameters are then used to predict rovibrational spectra and calculate potential parameters {r0, D0, α} using specific relations. The fitting procedure uses statistical weights taken as equal to one, and uncertainties are reported as one standard deviation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Select diatomic molecules for analysis, such as HF, 132 XeH+, and 7 LiH.",
+          "searchable_summary": "Select target diatomic molecules for rovibrational analysis.",
+          "inputs": [
+            "List of potential diatomic molecules"
+          ],
+          "outputs": [
+            "Selected diatomic molecules"
+          ],
+          "keywords": [
+            "diatomic molecule",
+            "molecular spectroscopy",
+            "target selection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Obtain experimental rovibrational energy levels or transition frequencies for the selected molecules.",
+          "searchable_summary": "Fetch experimental rovibrational data for selected molecules.",
+          "inputs": [
+            "Selected diatomic molecules"
+          ],
+          "outputs": [
+            "Experimental rovibrational data (energy levels or frequencies) with uncertainties"
+          ],
+          "keywords": [
+            "experimental data",
+            "rovibrational spectroscopy",
+            "molecular data",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Determine the best values of the spectral parameters {ω, ωx, α, B, C, D} by applying a least squares routine to the experimental data using the full 6-parametric spectral expansion formula (Eq. 4). Statistical weights are taken as equal to one.",
+          "searchable_summary": "Perform 6-parametric least squares fitting of experimental rovibrational data to the spectral expansion formula.",
+          "inputs": [
+            "Experimental rovibrational data (from Step 2)",
+            "6-parametric spectral expansion formula (Eq. 4)"
+          ],
+          "outputs": [
+            "Fitted spectral parameters {ω, ωx, α, B, C, D}",
+            "Standard errors of fitted parameters",
+            "Sigma standard error of the fit"
+          ],
+          "keywords": [
+            "least squares fitting",
+            "parameter estimation",
+            "spectral parameters",
+            "rovibrational energy",
+            "molecular modeling",
+            "6-parametric model",
+            "statistical weight"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Optionally, determine the spectral parameters using the 5-parametric version of the formula (Eq. 4 with C = 0) via a least squares routine.",
+          "searchable_summary": "Perform 5-parametric least squares fitting of experimental rovibrational data.",
+          "inputs": [
+            "Experimental rovibrational data (from Step 2)",
+            "5-parametric spectral expansion formula (Eq. 4 with C=0)"
+          ],
+          "outputs": [
+            "Fitted spectral parameters {ω, ωx, α, B, D}",
+            "Standard errors of fitted parameters",
+            "Sigma standard error of the fit"
+          ],
+          "keywords": [
+            "least squares fitting",
+            "parameter estimation",
+            "spectral parameters",
+            "rovibrational energy",
+            "molecular modeling",
+            "5-parametric model"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Calculate rovibrational transition frequencies using the fitted spectral parameters obtained from both the 5-parametric and 6-parametric fits.",
+          "searchable_summary": "Calculate rovibrational transition frequencies from fitted spectral parameters.",
+          "inputs": [
+            "Fitted spectral parameters (from Step 3 and Step 4)",
+            "Spectral expansion formula (Eq. 4)"
+          ],
+          "outputs": [
+            "Calculated rovibrational transition frequencies"
+          ],
+          "keywords": [
+            "transition frequencies",
+            "rovibrational spectra",
+            "spectral calculation",
+            "molecular transitions"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Calculate the potential parameters {r0, D0, α} from the fitted spectral parameters using specific relations (Eqs. 7-9 and others). The set of spectral parameters used for this calculation is chosen based on having the relatively smallest standard errors (e.g., {ω,ωx, B} for HF and 132 XeH+, {ω, α, B} for 7 LiH).",
+          "searchable_summary": "Calculate molecular potential parameters from selected fitted spectral parameters.",
+          "inputs": [
+            "Fitted spectral parameters (from Step 3)",
+            "Specific relations for potential parameters (Eqs. 7-9 etc.)",
+            "Criteria for selecting spectral parameters (e.g., smallest standard errors)"
+          ],
+          "outputs": [
+            "Calculated potential parameters {r0, D0, α}"
+          ],
+          "keywords": [
+            "potential parameters",
+            "molecular potential",
+            "Morse potential",
+            "parameter calculation",
+            "derived parameters"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "Present the calculated frequencies, the sigma standard errors of the fit, the spectral parameters obtained by the fitting procedure, and the potential parameters calculated.",
+          "searchable_summary": "Report and present results of rovibrational analysis.",
+          "inputs": [
+            "Calculated frequencies (from Step 5)",
+            "Sigma standard errors of fit (from Step 3 and 4)",
+            "Fitted spectral parameters (from Step 3 and 4)",
+            "Calculated potential parameters (from Step 6)"
+          ],
+          "outputs": [
+            "Tables and/or figures summarizing results"
+          ],
+          "keywords": [
+            "results reporting",
+            "data presentation",
+            "tables",
+            "figures",
+            "scientific reporting"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54603108.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,164 @@
+{
+  "paper_title": "Climate reconstructions methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Modern Pollen Training Data Set Selection",
+      "description": "Process for selecting a modern pollen training data set from sites within a 2000-km radius around Lake Ilirney to ensure taxonomic consistency and cover a large environmental gradient.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select modern pollen training data set from sites within a 2000-km radius around Lake Ilirney.",
+          "searchable_summary": "select modern pollen data from sites within 2000-km radius",
+          "inputs": [
+            "site location data",
+            "radius specification"
+          ],
+          "outputs": [
+            "selected pollen data set"
+          ],
+          "keywords": [
+            "pollen data",
+            "site selection",
+            "radius"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Harmonize the selected data set taxonomically with the fossil taxa.",
+          "searchable_summary": "harmonize pollen data set with fossil taxa",
+          "inputs": [
+            "selected pollen data set",
+            "fossil taxa data"
+          ],
+          "outputs": [
+            "harmonized pollen data set"
+          ],
+          "keywords": [
+            "taxonomic harmonization",
+            "fossil taxa"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Data Extraction",
+      "description": "Extraction of mean July temperature and annual precipitation data for modern pollen sites from WorldClim 2 data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extract mean July temperature (T July) and annual precipitation (P ann) for all modern pollen sites from WorldClim 2 data.",
+          "searchable_summary": "extract climate data from WorldClim 2 for pollen sites",
+          "inputs": [
+            "modern pollen sites",
+            "WorldClim 2 data"
+          ],
+          "outputs": [
+            "T July data",
+            "P ann data"
+          ],
+          "keywords": [
+            "climate data",
+            "WorldClim",
+            "temperature",
+            "precipitation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Reconstruction Using Modern Analogue Technique",
+      "description": "Perform climate reconstructions using the modern analogue technique (MAT) transfer function with the selected modern pollen training data set.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform climate reconstructions using the MAT transfer function, taking seven analogues in the modern pollen training data set into account.",
+          "searchable_summary": "apply MAT transfer function for climate reconstruction",
+          "inputs": [
+            "modern pollen training data set",
+            "MAT-function"
+          ],
+          "outputs": [
+            "climate reconstruction results"
+          ],
+          "keywords": [
+            "MAT",
+            "climate reconstruction",
+            "transfer function"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Significance Testing",
+      "description": "Perform statistical significance testing for the climate reconstruction using the randomTF-function.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Perform statistical significance test for the reconstruction using the randomTF-function in the palaeoSig package.",
+          "searchable_summary": "perform significance test using randomTF-function",
+          "inputs": [
+            "climate reconstruction results",
+            "randomTF-function"
+          ],
+          "outputs": [
+            "significance test results"
+          ],
+          "keywords": [
+            "statistical significance",
+            "randomTF",
+            "palaeoSig"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Test the significance of T July reconstruction with P ann as a conditional variable and vice versa.",
+          "searchable_summary": "test significance of T July with P ann as conditional variable",
+          "inputs": [
+            "T July reconstruction",
+            "P ann data"
+          ],
+          "outputs": [
+            "conditional significance test results"
+          ],
+          "keywords": [
+            "conditional significance",
+            "T July",
+            "P ann"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Estimation of Prediction Error",
+      "description": "Estimate the root mean square error of prediction (RMSEP) from cross-validation of the calibration set.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Estimate RMSEP from cross-validation of the calibration set.",
+          "searchable_summary": "estimate RMSEP from cross-validation",
+          "inputs": [
+            "calibration set"
+          ],
+          "outputs": [
+            "RMSEP values"
+          ],
+          "keywords": [
+            "RMSEP",
+            "cross-validation",
+            "prediction error"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233615175.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

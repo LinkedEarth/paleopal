@@ -1,0 +1,433 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Zircon U-Pb Age Analysis using SIMS",
+      "description": "Process for determining the age of zircon samples using Secondary Ion Mass Spectrometry (SIMS) by analyzing U-Pb isotopic ratios. Analyses were conducted at IGGCAS and SKLaBIG GIGCAS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Zircon U-Pb analyses for sample 5133-1 and samples 11WL59-2 and 11WL60-3 were conducted using the Cameca IMS-1280 SIMS (CASIMS) at the Institute of Geology and Geophysics, Chinese Academy of Sciences (IGGCAS) and the State Key Laboratory of Isotope Geochemistry, Guangzhou Institute of Geochemistry, Chinese Academy of Sciences (SKLaBIG GIGCAS), respectively.",
+          "searchable_summary": "Perform SIMS analysis on zircon samples for U-Pb dating.",
+          "inputs": [
+            "Zircon samples (5133-1, 11WL59-2, 11WL60-3)"
+          ],
+          "outputs": [
+            "Raw secondary ion beam intensity data"
+          ],
+          "keywords": [
+            "SIMS",
+            "Cameca IMS-1280",
+            "Zircon U-Pb",
+            "Isotope analysis",
+            "Geochronology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The O 2 À primary ion beam with an intensity of ca. 10 nA was accelerated at À 13 kV.",
+          "searchable_summary": "Configure SIMS primary ion beam parameters.",
+          "inputs": [
+            "SIMS instrument",
+            "O2- primary beam settings (intensity, acceleration voltage)"
+          ],
+          "outputs": [
+            "Configured SIMS instrument"
+          ],
+          "keywords": [
+            "SIMS",
+            "Primary ion beam",
+            "Instrument setup"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "The ellipsoidal spot is about 20 Â 30 mm in size. The aperture illumination mode (Kohler illumination) was used with a 200 mm primary beam mass filter aperture to produce even sputtering over the entire analysed area.",
+          "searchable_summary": "Set SIMS analysis spot size and illumination mode.",
+          "inputs": [
+            "SIMS instrument",
+            "Spot size (20x30 um)",
+            "Illumination mode (Kohler)",
+            "Aperture size (200 um)"
+          ],
+          "outputs": [
+            "Configured SIMS instrument"
+          ],
+          "keywords": [
+            "SIMS",
+            "Spot size",
+            "Kohler illumination",
+            "Aperture"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "In the secondary ion beam optics, a 60 eV energy window was used, together with a mass resolution of ca. 5,400. Rectangular lenses were activated in the secondary ion optics to increase the transmission at high-mass resolution.",
+          "searchable_summary": "Configure SIMS secondary ion beam optics and mass resolution.",
+          "inputs": [
+            "SIMS instrument",
+            "Energy window (60 eV)",
+            "Mass resolution (5400)",
+            "Rectangular lenses setting"
+          ],
+          "outputs": [
+            "Configured SIMS instrument"
+          ],
+          "keywords": [
+            "SIMS",
+            "Secondary ion optics",
+            "Energy window",
+            "Mass resolution",
+            "Rectangular lenses"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "A single electron multiplier was used on ion-counting mode to measure secondary ion beam intensities by peak jumping sequence: 196 ( 90 Zr 2  .24 s, 2.08 s, 1.04 s, 2.08 s, 2.08 s, 2.08 s and 0.24 s, respectively. Each measurement consisted of seven cycles, and the total analytical time is ca. 12 min.",
+          "searchable_summary": "Measure secondary ion beam intensities using peak jumping sequence on SIMS.",
+          "inputs": [
+            "SIMS instrument",
+            "Peak jumping sequence (list of isotopes/masses and dwell times)",
+            "Number of cycles (7)"
+          ],
+          "outputs": [
+            "Raw ion count data for specified isotopes/masses"
+          ],
+          "keywords": [
+            "SIMS",
+            "Ion counting",
+            "Peak jumping",
+            "Secondary ion intensity",
+            "Electron multiplier"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Calibration of Pb/U ratios is relative to the zircon standard TEMORA 2 (417 Myr ago) based on an observed linear relationship between ln( 206 Pb/ 238 U) and ln( 238 U 16 O 2 / 238 U).",
+          "searchable_summary": "Calibrate Pb/U ratios using TEMORA 2 standard and linear regression.",
+          "inputs": [
+            "Raw ion count data for TEMORA 2",
+            "TEMORA 2 age (417 Myr)",
+            "Raw ion count data for samples",
+            "Observed linear relationship model (ln(206Pb/238U) vs ln(238U16O2/238U))"
+          ],
+          "outputs": [
+            "Calibrated Pb/U ratios for samples"
+          ],
+          "keywords": [
+            "SIMS calibration",
+            "Pb/U ratio",
+            "TEMORA 2",
+            "Standard reference material",
+            "Linear regression",
+            "Isotope ratio"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "U and Th concentrations of unknowns were determined relative to the standard zircon 91500 (1,065 Myr ago) with Th and U concentrations of ca. 29 p.p.m. and 81 p.p.m., respectively.",
+          "searchable_summary": "Determine U and Th concentrations using 91500 standard.",
+          "inputs": [
+            "Raw ion count data for 91500",
+            "91500 U/Th concentrations (29 ppm Th, 81 ppm U)",
+            "Raw ion count data for samples"
+          ],
+          "outputs": [
+            "U and Th concentrations for samples"
+          ],
+          "keywords": [
+            "SIMS calibration",
+            "U concentration",
+            "Th concentration",
+            "91500",
+            "Standard reference material"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Measured compositions were corrected for common Pb using non-radiogenic 204 Pb.",
+          "searchable_summary": "Correct measured isotopic compositions for common lead using 204Pb.",
+          "inputs": [
+            "Measured isotopic compositions (including 204Pb)",
+            "Common Pb correction model (e.g., based on 204Pb)"
+          ],
+          "outputs": [
+            "Common Pb corrected isotopic compositions"
+          ],
+          "keywords": [
+            "Common Pb correction",
+            "Isotope geochemistry",
+            "204Pb",
+            "Data processing"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Uncertainties on individual analyses are reported at 1s level; mean ages for pooled U-Pb analyses are quoted at 95% confidence.",
+          "searchable_summary": "Calculate and report uncertainties (1s) and mean ages (95% confidence) for U-Pb data.",
+          "inputs": [
+            "Corrected isotopic compositions",
+            "Individual analysis ages",
+            "Pooled analysis ages"
+          ],
+          "outputs": [
+            "Uncertainties (1s)",
+            "Mean ages (95% confidence interval)"
+          ],
+          "keywords": [
+            "Uncertainty calculation",
+            "Standard deviation",
+            "Confidence interval",
+            "Mean age",
+            "Statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geochemical and Mineral Composition Analysis",
+      "description": "Analytical procedures used to determine the major element composition of individual minerals, and the major, trace, and Sr-Nd isotopic compositions of whole-rock samples. Analyses were carried on at the SKLaBIG GIGCAS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Major elements were measured on individual minerals using a JEOL JXA-8100 Superprobe with an accelerating potential of 15 kV and sample current of 20 nA.",
+          "searchable_summary": "Measure major element composition of individual minerals using EPMA.",
+          "inputs": [
+            "Individual mineral samples",
+            "JEOL JXA-8100 Superprobe",
+            "EPMA settings (15 kV, 20 nA)"
+          ],
+          "outputs": [
+            "Major element concentrations (wt.%) for individual minerals"
+          ],
+          "keywords": [
+            "EPMA",
+            "Electron probe microanalyzer",
+            "JEOL JXA-8100",
+            "Mineral composition",
+            "Major elements"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Whole-rock major element oxides (wt.%) for whole-rock powders were determined using a Varian Vista PRO ICP-AES using wavelength X-ray fluorescence spectrometry with analytical errors better than 2%.",
+          "searchable_summary": "Determine whole-rock major element oxides using ICP-AES or XRF.",
+          "inputs": [
+            "Whole-rock powder samples",
+            "Varian Vista PRO ICP-AES or XRF instrument"
+          ],
+          "outputs": [
+            "Whole-rock major element oxide concentrations (wt.%)"
+          ],
+          "keywords": [
+            "ICP-AES",
+            "XRF",
+            "Whole-rock geochemistry",
+            "Major elements",
+            "Oxide composition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Whole-rock trace elements, including the REEs, were analysed using a Perkin-Elmer ELAN 6000 inductively-coupled plasma source mass spectrometer (ICP-MS). Analytical precision for most elements is better than 3%.",
+          "searchable_summary": "Analyze whole-rock trace elements and REEs using ICP-MS.",
+          "inputs": [
+            "Whole-rock samples",
+            "Perkin-Elmer ELAN 6000 ICP-MS instrument"
+          ],
+          "outputs": [
+            "Whole-rock trace element and REE concentrations (ppm, ppb)"
+          ],
+          "keywords": [
+            "ICP-MS",
+            "Whole-rock geochemistry",
+            "Trace elements",
+            "REE",
+            "Rare Earth Elements"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Whole-rock Sr and Nd isotopic compositions of selected samples were determined using a Micromass Isoprobe multi-collector mass spectrometer (MC-ICP-MS).",
+          "searchable_summary": "Determine whole-rock Sr and Nd isotopic compositions using MC-ICP-MS.",
+          "inputs": [
+            "Selected whole-rock samples",
+            "Micromass Isoprobe MC-ICP-MS instrument"
+          ],
+          "outputs": [
+            "Raw Sr and Nd isotopic ratios (e.g., 87Sr/86Sr, 143Nd/144Nd)"
+          ],
+          "keywords": [
+            "MC-ICP-MS",
+            "Isotope geochemistry",
+            "Sr isotopes",
+            "Nd isotopes",
+            "Whole-rock"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The 87 Sr/ 86 Sr ratio of the NBS987 standard and 143 Nd/ 144 Nd ratio of the Shin Etsu JNdi-1 standard measured were 0.710288 ± 28 (2s) and 0.512109±12 (2s), respectively.",
+          "searchable_summary": "Measure standard isotopic ratios for Sr (NBS987) and Nd (JNdi-1) using MC-ICP-MS.",
+          "inputs": [
+            "NBS987 standard",
+            "JNdi-1 standard",
+            "MC-ICP-MS instrument"
+          ],
+          "outputs": [
+            "Measured standard isotopic ratios and uncertainties"
+          ],
+          "keywords": [
+            "MC-ICP-MS",
+            "Isotope standard",
+            "NBS987",
+            "JNdi-1",
+            "Sr isotope",
+            "Nd isotope"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "All measured 143 Nd/ 144 Nd and 86 Sr/ 88 Sr ratios are fractionation corrected to 146 Nd/ 144 Nd ¼ 0.7219 and 86 Sr/ 88 Sr ¼ 0.1194, respectively.",
+          "searchable_summary": "Apply mass fractionation correction to measured Sr and Nd isotopic ratios.",
+          "inputs": [
+            "Measured Sr and Nd isotopic ratios",
+            "Fractionation correction factors (146Nd/144Nd=0.7219, 86Sr/88Sr=0.1194)"
+          ],
+          "outputs": [
+            "Mass fractionation corrected Sr and Nd isotopic ratios"
+          ],
+          "keywords": [
+            "Mass fractionation correction",
+            "Isotope geochemistry",
+            "Sr isotope",
+            "Nd isotope",
+            "Data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Partial Melting Degree Calculation",
+      "description": "Calculation of the degree of partial melting for crust-derived magmas using simple batch melting models, constrained by isotopic and trace element data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "These are constrained by comparing estimates of Rb/Sr in the source from combined Nd and Sr isotope ratios...",
+          "searchable_summary": "Estimate source Rb/Sr ratio using combined Nd and Sr isotopic data.",
+          "inputs": [
+            "Whole-rock Sr isotopic ratios",
+            "Whole-rock Nd isotopic ratios",
+            "Isotopic evolution models"
+          ],
+          "outputs": [
+            "Estimated Rb/Sr ratio of the source"
+          ],
+          "keywords": [
+            "Isotope geochemistry",
+            "Rb/Sr ratio",
+            "Sr isotope",
+            "Nd isotope",
+            "Source composition",
+            "Geochemical modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "...with the Rb/Sr ratios of the rocks analysed...",
+          "searchable_summary": "Compare estimated source Rb/Sr ratio with measured whole-rock Rb/Sr ratios.",
+          "inputs": [
+            "Estimated source Rb/Sr ratio",
+            "Measured whole-rock Rb/Sr ratios"
+          ],
+          "outputs": [
+            "Comparison results (e.g., difference, ratio)"
+          ],
+          "keywords": [
+            "Rb/Sr ratio",
+            "Whole-rock geochemistry",
+            "Source composition",
+            "Data comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "...and the REE contents of the felsic magmatic lavas together with appropriate distribution coefficients for the different minerals.",
+          "searchable_summary": "Incorporate REE contents of lavas and mineral-melt distribution coefficients into melting model.",
+          "inputs": [
+            "Whole-rock REE concentrations for felsic lavas",
+            "Mineral-melt distribution coefficients for relevant minerals"
+          ],
+          "outputs": [
+            "Parameters for melting model based on REE"
+          ],
+          "keywords": [
+            "REE",
+            "Rare Earth Elements",
+            "Distribution coefficient",
+            "Mineral-melt partitioning",
+            "Geochemical modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The calculated degrees of partial melting for the crust-derived magmas are based on simple batch melting models. The detailed methods and equations are presented in Supplementary Methods.",
+          "searchable_summary": "Calculate partial melting degrees using simple batch melting models.",
+          "inputs": [
+            "Estimated source composition (including Rb/Sr)",
+            "Measured rock composition (Rb/Sr, REE)",
+            "Mineral-melt distribution coefficients",
+            "Batch melting model equations (from Supplementary Methods)"
+          ],
+          "outputs": [
+            "Calculated degrees of partial melting"
+          ],
+          "keywords": [
+            "Partial melting",
+            "Batch melting model",
+            "Geochemical modeling",
+            "Crustal melting",
+            "Degree of melting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "The detailed methods and equations are presented in Supplementary Methods.",
+          "searchable_summary": "Consult supplementary materials for detailed partial melting model equations.",
+          "inputs": [
+            "Reference to Supplementary Methods"
+          ],
+          "outputs": [],
+          "keywords": [
+            "Supplementary methods",
+            "Geochemical modeling",
+            "Equations"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/17947463.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

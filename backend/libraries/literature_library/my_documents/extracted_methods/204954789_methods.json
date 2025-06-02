@@ -1,0 +1,250 @@
+{
+  "paper_title": "Reconstructing Soil Erosion Dynamics Using Paleolimnological Records",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Soil Erosion Reconstruction",
+      "description": "Reconstructing soil erosion dynamics using paleolimnological records from lake sediments, focusing on sediment accumulation rates (SARs) and geochemical signatures.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Paleolimnological records were used to reconstruct a signal of soil erosion at both the annual and centennial scale for the past 12,000 y.",
+          "searchable_summary": "fetch paleolimnological records for soil erosion reconstruction",
+          "inputs": [
+            "paleolimnological records"
+          ],
+          "outputs": [
+            "soil erosion signal"
+          ],
+          "keywords": [
+            "paleolimnology",
+            "soil erosion",
+            "sediment records"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "SARs from central profundal position in a lake can provide an estimation of gross changes in the rate of allochthonous inputs related to erosion.",
+          "searchable_summary": "process SARs to estimate allochthonous input changes",
+          "inputs": [
+            "SARs"
+          ],
+          "outputs": [
+            "estimation of allochthonous input changes"
+          ],
+          "keywords": [
+            "SAR",
+            "allochthonous inputs",
+            "erosion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Radiocarbon (14C) dating of lake sediments can document the rates at which sediment accumulated over the past 50,000 y.",
+          "searchable_summary": "perform radiocarbon dating on lake sediments",
+          "inputs": [
+            "lake sediments"
+          ],
+          "outputs": [
+            "sediment accumulation rates"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "sediment accumulation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Collection and Site Selection",
+      "description": "Collection of palynological and radiometric data from lake sediment records and selection of suitable study sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Palynological and radiometric data of lake sediment records were collected in May 2017 from three open source databases: the GPD, the EPD, and the APD.",
+          "searchable_summary": "collect palynological and radiometric data from databases",
+          "inputs": [
+            "GPD",
+            "EPD",
+            "APD databases"
+          ],
+          "outputs": [
+            "lake sediment records"
+          ],
+          "keywords": [
+            "palynology",
+            "radiometry",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sites included in our analyses had to satisfy several conditions.",
+          "searchable_summary": "filter sites based on specific conditions",
+          "inputs": [
+            "initial site list"
+          ],
+          "outputs": [
+            "filtered site list"
+          ],
+          "keywords": [
+            "site selection",
+            "data filtering"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiocarbon Age/Depth Modeling",
+      "description": "Calibration of radiocarbon ages to calendar years and creation of age-depth models for sediment cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A total of 4,581 radiocarbon ages were calibrated to calendar (±2 σ) years before present using the CLAM 2.2 package in R software.",
+          "searchable_summary": "calibrate radiocarbon ages using CLAM 2.2 in R",
+          "inputs": [
+            "radiocarbon ages"
+          ],
+          "outputs": [
+            "calibrated calendar ages"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "CLAM 2.2",
+            "R software"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "For each core, 14C dates were processed semiautomatically to obtain 632 age-depth models after 1,000 iterations for each profile.",
+          "searchable_summary": "create age-depth models for sediment cores",
+          "inputs": [
+            "14C dates"
+          ],
+          "outputs": [
+            "age-depth models"
+          ],
+          "keywords": [
+            "age-depth modeling",
+            "sediment cores"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Holocene Land Cover and Climate Data Analysis",
+      "description": "Analysis of land cover changes and climate data over the Holocene using pollen records and climate simulations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Climate time series for the past 8,000 y were collected from the transient Holocene simulation with MPI-ESM-1.2 LR.",
+          "searchable_summary": "collect climate time series from MPI-ESM-1.2 LR simulation",
+          "inputs": [
+            "MPI-ESM-1.2 LR simulation"
+          ],
+          "outputs": [
+            "climate time series"
+          ],
+          "keywords": [
+            "climate data",
+            "Holocene",
+            "MPI-ESM-1.2 LR"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Time series were resampled at 50 and 10 y using piecewise cubic Hermitean interpolation polynomials (Pchip-R).",
+          "searchable_summary": "resample time series using Pchip-R",
+          "inputs": [
+            "climate time series"
+          ],
+          "outputs": [
+            "resampled time series"
+          ],
+          "keywords": [
+            "time series resampling",
+            "Pchip-R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sensitivity Analysis on Annual Records",
+      "description": "Investigation of the contribution of lake productivity to temporal variations of SARs using multiple proxies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Quantified the proportion of variation in the annual SAR measurements for each varved record that could be explained by the terrigenous vs. lacustrine productivity signals.",
+          "searchable_summary": "analyze SAR variation using terrigenous and lacustrine signals",
+          "inputs": [
+            "annual SAR measurements",
+            "varved records"
+          ],
+          "outputs": [
+            "proportion of variation explained"
+          ],
+          "keywords": [
+            "SAR variation",
+            "terrigenous signals",
+            "lacustrine productivity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Numerical Analysis",
+      "description": "Use of Generalized Additive Models (GAMs) to analyze the impacts of climate and land cover drivers on erosion dynamics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We ran 632 models using the lake SAR time series as the response variable, the normalized AP percentage, precipitation, and air temperatures as fixed effect explanatory variables.",
+          "searchable_summary": "run GAMs with SAR time series and climate variables",
+          "inputs": [
+            "SAR time series",
+            "AP percentage",
+            "precipitation",
+            "air temperatures"
+          ],
+          "outputs": [
+            "GAM model results"
+          ],
+          "keywords": [
+            "GAM",
+            "SAR",
+            "climate drivers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Confidence intervals were derived using the SEs produced by the predict.gam function in R.",
+          "searchable_summary": "derive confidence intervals using predict.gam in R",
+          "inputs": [
+            "GAM model results"
+          ],
+          "outputs": [
+            "confidence intervals"
+          ],
+          "keywords": [
+            "confidence intervals",
+            "predict.gam",
+            "R software"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/204954789.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

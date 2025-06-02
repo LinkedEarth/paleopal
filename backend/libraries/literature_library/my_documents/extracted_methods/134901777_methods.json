@@ -1,0 +1,372 @@
+{
+  "paper_title": "Petrophysical Analysis of Gas Reservoirs",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Acquisition",
+      "description": "Process of collecting various types of subsurface data from exploration and appraisal wells targeting Dacian gas-bearing reservoirs, including wireline logs, formation tester data, core data, and XRD analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collected wireline geophysical logs, including total gamma ray, apparent resistivity (Dual Laterolog, Laterolog Array and focused microresistivity tools), neutron porosity, litho-density (bulk density and photoelectric factor) and compressional sonic transit time. For some of the recently drilled wells, electrical imaging (FMI -Fullbore Formation Microimager) and nuclear magnetic resonance (CMR -Combinable Magnetic Resonance Tool) logs were also available.",
+          "searchable_summary": "Collect wireline geophysical logs from wells.",
+          "inputs": [
+            "Exploration/appraisal wells",
+            "Dacian reservoirs"
+          ],
+          "outputs": [
+            "Wireline log data (GR, resistivity, neutron, density, sonic, FMI, CMR)"
+          ],
+          "keywords": [
+            "wireline logging",
+            "geophysical logs",
+            "data acquisition",
+            "GR",
+            "resistivity",
+            "neutron porosity",
+            "density",
+            "sonic",
+            "FMI",
+            "CMR"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Collected formation tester pressure measurements and fluid samples (RFT -Repeat Formation Tester and MDT -Modular Formation Dynamics Tester).",
+          "searchable_summary": "Collect formation tester pressure measurements and fluid samples.",
+          "inputs": [
+            "Exploration/appraisal wells",
+            "Dacian reservoirs"
+          ],
+          "outputs": [
+            "Formation pressure data",
+            "Fluid samples (gas)"
+          ],
+          "keywords": [
+            "formation tester",
+            "RFT",
+            "MDT",
+            "pressure measurement",
+            "fluid sampling",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Collected conventional and special laboratory petrophysical measurements on cores.",
+          "searchable_summary": "Collect laboratory petrophysical measurements on cores.",
+          "inputs": [
+            "Core samples from wells"
+          ],
+          "outputs": [
+            "Core analysis data (petrophysical properties, Archie parameters, matrix density)"
+          ],
+          "keywords": [
+            "core analysis",
+            "petrophysical measurements",
+            "laboratory analysis",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Collected X-ray diffraction (XRD) analyses data.",
+          "searchable_summary": "Collect X-ray diffraction analysis data on cores.",
+          "inputs": [
+            "Core samples from wells"
+          ],
+          "outputs": [
+            "XRD analysis data (clay content, mineralogy)"
+          ],
+          "keywords": [
+            "XRD",
+            "X-ray diffraction",
+            "core analysis",
+            "clay mineralogy",
+            "data acquisition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Formation Tester Data Analysis",
+      "description": "Analysis of pressure measurements and fluid samples obtained from wireline formation testers to determine reservoir pressure, fluid composition, and density.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Analyzed 105 successful pressure measurements carried out with wireline formation testers in the wells from Field A and Field B.",
+          "searchable_summary": "Analyze formation pressure measurements to determine reservoir pressure ranges.",
+          "inputs": [
+            "Formation pressure data"
+          ],
+          "outputs": [
+            "Reservoir pressure ranges (psia, bar)"
+          ],
+          "keywords": [
+            "formation pressure",
+            "reservoir pressure",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyzed gas samples collected during wireline testing operations in three wells drilled in these fields.",
+          "searchable_summary": "Analyze gas samples to determine composition (methane, H2S).",
+          "inputs": [
+            "Gas fluid samples"
+          ],
+          "outputs": [
+            "Gas composition (methane content, H2S presence)"
+          ],
+          "keywords": [
+            "gas analysis",
+            "fluid composition",
+            "methane",
+            "H2S"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculated gas density at the reservoirs pressure and temperature (38 -40 °C, measured in the wireline logging and formation tester runs).",
+          "searchable_summary": "Calculate gas density at reservoir pressure and temperature.",
+          "inputs": [
+            "Gas composition",
+            "Reservoir pressure",
+            "Reservoir temperature"
+          ],
+          "outputs": [
+            "Gas density (g/cm³)"
+          ],
+          "keywords": [
+            "gas density",
+            "fluid properties",
+            "calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "X-ray Diffraction (XRD) Analysis",
+      "description": "Analysis of core samples using X-ray diffraction to determine total clay content and identify clay mineral types.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Performed XRD analyses on 16 core samples extracted from the \"Sand\" reservoir facies of Field A.",
+          "searchable_summary": "Perform X-ray diffraction analysis on core samples.",
+          "inputs": [
+            "Core samples"
+          ],
+          "outputs": [
+            "Raw XRD data"
+          ],
+          "keywords": [
+            "XRD",
+            "X-ray diffraction",
+            "core analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Determined total clay content ranging from 13% to 53% by weight (29% on average).",
+          "searchable_summary": "Process XRD data to determine total clay content by weight.",
+          "inputs": [
+            "Raw XRD data"
+          ],
+          "outputs": [
+            "Total clay content (% by weight)"
+          ],
+          "keywords": [
+            "clay content",
+            "XRD data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Identified the clays present as predominantly illite + mica, mixed-layer illite/smectite and chlorite, with only subordinate kaolinite observed.",
+          "searchable_summary": "Analyze XRD data to identify and quantify clay mineral types.",
+          "inputs": [
+            "Raw XRD data"
+          ],
+          "outputs": [
+            "Clay mineral types (illite+mica, mixed-layer illite/smectite, chlorite, kaolinite) and relative proportions"
+          ],
+          "keywords": [
+            "clay mineralogy",
+            "XRD analysis",
+            "mineral identification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Wireline Log Data Processing and Interpretation",
+      "description": "Detailed processing and interpretation of wireline geophysical logs using petrophysical models appropriate for shaly sands to derive reservoir properties like clay volume, porosity, water saturation, and fluid volumes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Clay volume (Vclay) estimation by using a combination of gamma ray and density-neutron clay indicators. A linear clay volume estimated from the GR log (Vclay,GR) was calibrated against a clay volume estimated from the density-neutron crossplot (Vclay,DN) in order to obtain Vclay,GR ≈ Vclay,DN ≈ 1 (100%) at the depth levels with good hole conditions and a maximum and consistent separation between the neutron and density curves (ϕN -ϕD) on a sandstone compatible porosity scale. The corresponding expressions are ... (formulas provided in text). Once calibrated against Vclay,DN on clay/shale or water-bearing intervals, Vclay,GR can be used as a valid clay volume estimator for the entire interpreted intervals, because it is not affected by light hydrocarbon (gas) effects.",
+          "searchable_summary": "Estimate clay volume from gamma ray and density-neutron logs, calibrate gamma ray estimate using density-neutron estimate in non-gas zones.",
+          "inputs": [
+            "GR log",
+            "Neutron porosity log (ϕN)",
+            "Density log (δ)",
+            "Sandstone matrix density (δma)",
+            "Clay density (δclay)",
+            "Pore fluid density (δf)",
+            "GRclean",
+            "GRclay",
+            "ϕNclay",
+            "ϕDclay"
+          ],
+          "outputs": [
+            "Clay volume (Vclay)"
+          ],
+          "keywords": [
+            "Vclay",
+            "clay volume",
+            "gamma ray log",
+            "density log",
+            "neutron log",
+            "density-neutron crossplot",
+            "shaly sands",
+            "petrophysical interpretation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Effective porosity (ϕ) estimation by using a density-neutron crossplot porosity model appropriate for shaly sands. The matrix (grain) densities δma of 2.67 -2.69 g/cm 3 used in the calculations were obtained from measurements on core plugs. The clay parameters were statistically selected from the logs, resulting neutron porosities ϕNclay = 0.45 -0.50 and densities δclay = 2.25 -2.26 g/cm 3 .",
+          "searchable_summary": "Estimate effective porosity using a density-neutron crossplot model for shaly sands.",
+          "inputs": [
+            "Neutron porosity log (ϕN)",
+            "Density log (δ)",
+            "Sandstone matrix density (δma)",
+            "Clay parameters (ϕNclay, δclay)"
+          ],
+          "outputs": [
+            "Effective porosity (ϕ)"
+          ],
+          "keywords": [
+            "effective porosity",
+            "density-neutron crossplot",
+            "shaly sands",
+            "petrophysical interpretation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Estimation of formation water resistivity (ρw) by using effective porosity vs. true resistivity Pickett crossplots [6], i.e. log(ϕ) = f(log(ρt)), and approximating ρt with the deepest investigation apparent resistivity curves RLA5 (Fig. 4). For the wells of Field A we obtained ρw = 0.5 -0.6 Ω·m at formations temperature, corresponding to salinities of 6600 -9100 ppm equivalent NaCl. For the wells of Field B we obtained ρw = 0.9 -1.2 Ω·m at formations temperature, corresponding to salinities of 3400 -4700 ppm equivalent NaCl.",
+          "searchable_summary": "Estimate formation water resistivity using Pickett crossplots of effective porosity and deep resistivity.",
+          "inputs": [
+            "Effective porosity (ϕ)",
+            "Deep resistivity log (RLA5 or similar)",
+            "Formation temperature"
+          ],
+          "outputs": [
+            "Formation water resistivity (ρw)",
+            "Equivalent NaCl salinity"
+          ],
+          "keywords": [
+            "formation water resistivity",
+            "ρw",
+            "Pickett plot",
+            "resistivity log",
+            "salinity",
+            "petrophysical interpretation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Estimation of water saturations (Sw, Sxo) and total, movable and residual hydrocarbon saturations (Sh, Shm, Shr) in the reservoir intervals by using a shaly sands saturation model [7], in the effective porosity system. Clay resistivities were statistically selected from the logs (ρclay = 5.2 -8.5 Ω·m) and the water saturations were computed using Archie parameters [8] measured on core plugs, at a confining pressure representative for reservoir conditions. For Field A the average values of these parameters were a = 1.0 (the socalled tortuosity factor), m = 1.71 (cementation exponent), n = 1.67 (saturation exponent) and for Field B the average parameters were a = 1.0, m = 1.54, n = 1.33.",
+          "searchable_summary": "Estimate water and hydrocarbon saturations using a shaly sands model and Archie parameters.",
+          "inputs": [
+            "Effective porosity (ϕ)",
+            "True resistivity (ρt)",
+            "Clay resistivity (ρclay)",
+            "Formation water resistivity (ρw)",
+            "Archie parameters (a, m, n)"
+          ],
+          "outputs": [
+            "Water saturation (Sw)",
+            "Flushed zone water saturation (Sxo)",
+            "Total hydrocarbon saturation (Sh)",
+            "Movable hydrocarbon saturation (Shm)",
+            "Residual hydrocarbon saturation (Shr)"
+          ],
+          "keywords": [
+            "water saturation",
+            "hydrocarbon saturation",
+            "shaly sands model",
+            "Archie equation",
+            "Sw",
+            "Sh",
+            "petrophysical interpretation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Processing the CMR T2 transverse relaxation time distribution, in order to compute claybound water, capillary-bound water and free fluid volumes (T2 cutoffs of 3 ms and 33 ms, typical for sands / sandstones, were used to separate the three types of pore fluids), as well as a CMR-derived water saturation.",
+          "searchable_summary": "Process CMR T2 distribution to calculate fluid volumes (clay-bound, capillary-bound, free fluid) and CMR-derived water saturation using T2 cutoffs.",
+          "inputs": [
+            "CMR T2 distribution log"
+          ],
+          "outputs": [
+            "Clay-bound water volume",
+            "Capillary-bound water volume",
+            "Free fluid volume",
+            "CMR-derived water saturation"
+          ],
+          "keywords": [
+            "CMR log",
+            "T2 distribution",
+            "nuclear magnetic resonance",
+            "bound water",
+            "free fluid",
+            "water saturation",
+            "petrophysical interpretation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Linear regression analysis on the good quality formation pressure data, in order to derive the pressure gradients (∆p/∆H, where p -measured formations pressure, H -true vertical depth), the formation fluids in-situ densities and to identify the probable gas-water contacts (GWC).",
+          "searchable_summary": "Perform linear regression on formation pressure vs. depth data to calculate pressure gradients, fluid densities, and identify gas-water contacts.",
+          "inputs": [
+            "Formation pressure measurements (p)",
+            "True vertical depth (H)"
+          ],
+          "outputs": [
+            "Pressure gradients (∆p/∆H)",
+            "In-situ fluid densities",
+            "Probable gas-water contacts (GWC)"
+          ],
+          "keywords": [
+            "formation pressure",
+            "pressure gradient",
+            "fluid density",
+            "gas-water contact",
+            "GWC",
+            "linear regression",
+            "data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/134901777.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,253 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Processing and Phylogenetic Analysis",
+      "description": "This method involves processing raw sequencing reads to remove artifacts, assembling them into paired-end reads, and performing quality filtering. It also includes taxonomic assignment and clustering into Operational Taxonomic Units (OTUs) for phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw reads were de-multiplexed to samples based on their barcode sequences and MiSeq overhangs, primers, and barcode sequences were removed.",
+          "searchable_summary": "De-multiplex and clean raw sequencing reads",
+          "inputs": [
+            "raw sequencing reads",
+            "barcode sequences",
+            "MiSeq overhangs"
+          ],
+          "outputs": [
+            "cleaned reads"
+          ],
+          "keywords": [
+            "de-multiplexing",
+            "barcode removal",
+            "MiSeq"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequences were assembled to paired-end reads and quality-filtered in Mothur version 1.39.5.",
+          "searchable_summary": "Assemble and quality-filter paired-end reads using Mothur",
+          "inputs": [
+            "cleaned reads"
+          ],
+          "outputs": [
+            "quality-filtered reads"
+          ],
+          "keywords": [
+            "paired-end assembly",
+            "quality filtering",
+            "Mothur"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Quality-filtered reads were aligned against the SILVA database and chimeric sequences were removed with UCHIME algorithm in Mothur.",
+          "searchable_summary": "Align reads to SILVA database and remove chimeras using UCHIME",
+          "inputs": [
+            "quality-filtered reads",
+            "SILVA database"
+          ],
+          "outputs": [
+            "aligned reads"
+          ],
+          "keywords": [
+            "alignment",
+            "SILVA",
+            "UCHIME",
+            "chimera removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Taxonomic assignment of all sequences was performed in Mothur against the SILVA database.",
+          "searchable_summary": "Assign taxonomy using SILVA database in Mothur",
+          "inputs": [
+            "aligned reads",
+            "SILVA database"
+          ],
+          "outputs": [
+            "taxonomically assigned sequences"
+          ],
+          "keywords": [
+            "taxonomic assignment",
+            "SILVA",
+            "Mothur"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Clustering into OTUs was done using a 95% similarity sequence cutoff.",
+          "searchable_summary": "Cluster sequences into OTUs with 95% similarity cutoff",
+          "inputs": [
+            "taxonomically assigned sequences"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Representative sequences for each OTU were determined as the centroids of the distance matrix.",
+          "searchable_summary": "Determine representative sequences for OTUs",
+          "inputs": [
+            "OTUs"
+          ],
+          "outputs": [
+            "representative sequences"
+          ],
+          "keywords": [
+            "representative sequences",
+            "centroids",
+            "distance matrix"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Representative sequences of unclassified OTUs were aligned in a standalone BLAST search against the NCBI's non-redundant nucleotide database.",
+          "searchable_summary": "Perform BLAST search for unclassified OTUs",
+          "inputs": [
+            "unclassified OTUs",
+            "NCBI database"
+          ],
+          "outputs": [
+            "BLAST results"
+          ],
+          "keywords": [
+            "BLAST",
+            "NCBI",
+            "unclassified OTUs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Identification of Foraminiferal Specimens and Phylogenetic Analysis",
+      "description": "This method involves the taxonomic identification of foraminiferal specimens based on sequence reads and constructing a phylogenetic tree to analyze the relationships among OTUs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Taxonomic identification was based on the TF with the greatest number of reads in each specimen.",
+          "searchable_summary": "Identify taxonomy based on TF read counts",
+          "inputs": [
+            "TF reads"
+          ],
+          "outputs": [
+            "taxonomic identification"
+          ],
+          "keywords": [
+            "taxonomic identification",
+            "TF reads"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Representative TF sequences were aligned alongside sequences of their closest relatives and known foraminiferal species.",
+          "searchable_summary": "Align TF sequences with known relatives",
+          "inputs": [
+            "TF sequences",
+            "known species sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "TF sequences",
+            "foraminiferal species"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Maximum likelihood phylogenetic tree was constructed using MEGA7.",
+          "searchable_summary": "Construct phylogenetic tree using MEGA7",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "maximum likelihood",
+            "MEGA7"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Site Description and Sampling",
+      "description": "This method describes the sampling of sediment cores from intertidal mudflat localities and the processing of these samples for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Two intertidal mudflat localities were sampled in November 2015 at the Dutch Wadden Sea.",
+          "searchable_summary": "Sample sediment cores from mudflat localities",
+          "inputs": [
+            "sampling equipment",
+            "site locations"
+          ],
+          "outputs": [
+            "sediment cores"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "mudflat",
+            "Wadden Sea"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sediment cores were processed by slicing, centrifuging, and freeze-drying.",
+          "searchable_summary": "Process sediment cores by slicing and freeze-drying",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "processed sediment samples"
+          ],
+          "keywords": [
+            "sediment processing",
+            "freeze-drying",
+            "centrifuging"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Environmental DNA samples and foraminiferal specimens were obtained from sediment slices.",
+          "searchable_summary": "Extract eDNA and foraminiferal specimens from sediment",
+          "inputs": [
+            "sediment slices"
+          ],
+          "outputs": [
+            "eDNA samples",
+            "foraminiferal specimens"
+          ],
+          "keywords": [
+            "eDNA extraction",
+            "foraminiferal specimens"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/167209783.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

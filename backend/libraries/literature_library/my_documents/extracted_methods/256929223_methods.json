@@ -1,0 +1,269 @@
+{
+  "paper_title": "Ice Core Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Drilling and Sampling",
+      "description": "Procedure for drilling an ice core, transporting it, and preparing samples for subsequent analyses, including cleaning, sectioning, melting, storage, and collection of organic matter for dating.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In February 2003, a 22.53 m long core was drilled to the bedrock, using a 10-cm diameter drill, driven by a 220 V engine.",
+          "searchable_summary": "drill ice core to bedrock",
+          "inputs": [
+            "drilling equipment (10-cm diameter drill, 220V engine)",
+            "ice/glacier location"
+          ],
+          "outputs": [
+            "22.53 m ice core"
+          ],
+          "keywords": [
+            "ice core drilling",
+            "glacier drilling",
+            "environmental sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "A total of 56 ice cores, ranging in length between 21 and 63 cm, were recovered and transported in frozen state to Stockholm University, Sweden.",
+          "searchable_summary": "recover and transport ice core sections",
+          "inputs": [
+            "drilled ice core"
+          ],
+          "outputs": [
+            "56 ice core sections (21-63 cm)",
+            "transported frozen samples"
+          ],
+          "keywords": [
+            "ice core recovery",
+            "sample transport",
+            "frozen storage"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "In the cold laboratory, the ice core was cut lengthwise, half of it being archived.",
+          "searchable_summary": "cut ice core lengthwise and archive half",
+          "inputs": [
+            "ice core sections"
+          ],
+          "outputs": [
+            "ice core halves (working half, archive half)"
+          ],
+          "keywords": [
+            "ice core processing",
+            "sample archiving",
+            "cold laboratory"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The remaining half was cleaned by removing the outer layer of ice (0.5-1 cm thick), and subsequently cut in 1-2 cm wide samples that were allowed to melt at room temperature and stored in 20 ml high-density polyethylene flasks before analyses.",
+          "searchable_summary": "clean, section, melt, and store ice core samples",
+          "inputs": [
+            "working half of ice core"
+          ],
+          "outputs": [
+            "melted ice core samples (in flasks)"
+          ],
+          "keywords": [
+            "ice core cleaning",
+            "sample sectioning",
+            "sample melting",
+            "sample storage",
+            "polyethylene flasks"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Organic matter (leaf pieces and pine needles) was handpicked from the ice core for 14 C dating.",
+          "searchable_summary": "handpick organic matter from ice core for dating",
+          "inputs": [
+            "ice core sections"
+          ],
+          "outputs": [
+            "organic matter samples"
+          ],
+          "keywords": [
+            "organic matter collection",
+            "ice core analysis",
+            "sample preparation",
+            "radiocarbon dating"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ice Core Dating and Depth-Age Model Construction",
+      "description": "Methodology for dating ice core samples using 14C analysis, filtering results, and constructing a depth-age model using Bayesian software, incorporating historical information.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 35 samples were submitted for 14 C dating to the Poznan Radiocarbon Laboratory (Poland).",
+          "searchable_summary": "submit samples for radiocarbon dating",
+          "inputs": [
+            "organic matter samples",
+            "ice core samples (implicitly)"
+          ],
+          "outputs": [
+            "submitted samples"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "14C dating",
+            "sample submission"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Of the resulting 29 determined ages, three were obviously contaminated (two with young organic matter, and one with old carbon, possibly by incorporating \"infinite\" aged carbon from the cave's host-rock).",
+          "searchable_summary": "identify and exclude contaminated radiocarbon ages",
+          "inputs": [
+            "determined 14C ages (29)"
+          ],
+          "outputs": [
+            "filtered 14C ages (26)"
+          ],
+          "keywords": [
+            "data filtering",
+            "quality control",
+            "radiocarbon dating",
+            "contamination"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The SIC core chronology (Fig. 2d) was constructed using the Bayesian software Bacon, which assumes that accumulation rate is always positive and can vary gradually from depth to depth.",
+          "searchable_summary": "construct ice core depth-age model using Bayesian software",
+          "inputs": [
+            "filtered 14C ages",
+            "sample depths",
+            "Bayesian software (Bacon)"
+          ],
+          "outputs": [
+            "ice core depth-age model"
+          ],
+          "keywords": [
+            "depth-age model",
+            "ice core chronology",
+            "Bayesian modeling",
+            "Bacon software",
+            "paleoclimate reconstruction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Historical observations have shown that between AD 1863 and 1982, enhanced melting and related changes in the geometry of the ice block led to the loss of ~100 cm of ice.",
+          "searchable_summary": "incorporate historical ice loss information into age model",
+          "inputs": [
+            "historical records of ice loss",
+            "depth-age model"
+          ],
+          "outputs": [
+            "adjusted depth-age model (implicitly)"
+          ],
+          "keywords": [
+            "historical data",
+            "ice loss",
+            "chronology adjustment",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Based on annual ice accumulation rates derived independently of the current one (between 0.9 and 1.6 cm/year, with a mean value of ~1.3 cm/yr), we estimated an age of AD 1860 ± 20 (similar to 90 cal BP) for the top of the ice core.",
+          "searchable_summary": "estimate age of ice core top based on accumulation rates",
+          "inputs": [
+            "independent accumulation rate estimates",
+            "ice core top depth"
+          ],
+          "outputs": [
+            "estimated age of core top"
+          ],
+          "keywords": [
+            "accumulation rate",
+            "ice core dating",
+            "age estimation",
+            "paleoclimate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Stable Isotope Analysis",
+      "description": "Measurement of stable isotopes (δ18O and δ2H) in melted ice core samples using Isotope Ratio Mass Spectrometry and reporting results on a standard scale.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Stable isotope analyses were performed at the School of Geosciences, University of South Florida, using the equilibration method on a Thermo Delta V Advantage Isotope Ratio Mass Spectrometer.",
+          "searchable_summary": "perform stable isotope analysis using IRMS",
+          "inputs": [
+            "melted ice core samples",
+            "Isotope Ratio Mass Spectrometer (Thermo Delta V Advantage)"
+          ],
+          "outputs": [
+            "raw isotope ratio data (δ18O, δ2H)"
+          ],
+          "keywords": [
+            "stable isotope analysis",
+            "isotope ratio mass spectrometry",
+            "IRMS",
+            "equilibration method",
+            "δ18O",
+            "δ2H"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The results were normalized to the VSMOW-SLAP scale and reported in the conventional δ notation, in ‰ (per mil) against VSMOW.",
+          "searchable_summary": "normalize and report stable isotope results on VSMOW-SLAP scale",
+          "inputs": [
+            "raw isotope ratio data"
+          ],
+          "outputs": [
+            "normalized stable isotope values (δ18O, δ2H in ‰)"
+          ],
+          "keywords": [
+            "data normalization",
+            "isotope scaling",
+            "VSMOW-SLAP scale",
+            "delta notation",
+            "per mil"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "with precision better than ±0.2‰ and ±1‰ for δ 18 O and δ 2 H, respectively (Supplementary Dataset 3).",
+          "searchable_summary": "report analytical precision for stable isotope measurements",
+          "inputs": [
+            "stable isotope measurement data"
+          ],
+          "outputs": [
+            "precision values (±0.2‰ for δ18O, ±1‰ for δ2H)"
+          ],
+          "keywords": [
+            "analytical precision",
+            "measurement uncertainty",
+            "quality control",
+            "stable isotopes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256929223.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

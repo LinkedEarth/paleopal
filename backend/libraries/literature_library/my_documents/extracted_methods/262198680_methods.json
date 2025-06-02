@@ -1,0 +1,392 @@
+{
+  "paper_title": "Climate Simulation and Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Simulation Setup",
+      "description": "Setting up and running climate simulations using the Community Earth System Model version 2 (CESM2) with specific configurations (preindustrial control, full LGM, LGM ice sheets only) and resolution, prescribing LGM ice sheets using the ICE-6G reconstruction, and running for a specific duration after spin-up.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Configure CESM2 for a preindustrial control simulation.",
+          "searchable_summary": "configure CESM2 preindustrial control simulation",
+          "inputs": [],
+          "outputs": [
+            "CESM2 configuration for preindustrial control"
+          ],
+          "keywords": [
+            "CESM2",
+            "climate model",
+            "preindustrial",
+            "simulation setup"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Configure CESM2 for a full LGM simulation, including lower greenhouse gas concentrations and modified insolation.",
+          "searchable_summary": "configure CESM2 full LGM simulation",
+          "inputs": [
+            "LGM greenhouse gas concentrations",
+            "LGM insolation parameters"
+          ],
+          "outputs": [
+            "CESM2 configuration for full LGM"
+          ],
+          "keywords": [
+            "CESM2",
+            "climate model",
+            "LGM",
+            "Last Glacial Maximum",
+            "simulation setup"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Configure CESM2 for a simulation with LGM ice sheets but otherwise the same as preindustrial.",
+          "searchable_summary": "configure CESM2 LGM ice sheets only simulation",
+          "inputs": [],
+          "outputs": [
+            "CESM2 configuration for LGM ice sheets only"
+          ],
+          "keywords": [
+            "CESM2",
+            "climate model",
+            "LGM ice sheets",
+            "simulation setup"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Set the model horizontal resolution to 0.9° × 1.25° for the atmosphere/land and 1° for the ocean/sea ice in all simulations.",
+          "searchable_summary": "set CESM2 model horizontal resolution",
+          "inputs": [
+            "resolution parameters"
+          ],
+          "outputs": [
+            "CESM2 configuration with specified resolution"
+          ],
+          "keywords": [
+            "CESM2",
+            "resolution",
+            "grid",
+            "model setup"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Prescribe the LGM ice sheet using the ICE-6G reconstruction at 21 ka in the two relevant cases (full LGM and LGM ice sheets only simulations).",
+          "searchable_summary": "prescribe LGM ice sheet boundary condition using ICE-6G",
+          "inputs": [
+            "ICE-6G reconstruction (21 ka)"
+          ],
+          "outputs": [
+            "CESM2 configuration with prescribed LGM ice sheet"
+          ],
+          "keywords": [
+            "CESM2",
+            "ice sheet",
+            "boundary condition",
+            "ICE-6G",
+            "LGM"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Run simulations for a period of spin-up (details in Text S1).",
+          "searchable_summary": "run CESM2 spin-up simulation",
+          "inputs": [
+            "CESM2 configuration",
+            "spin-up duration (from Text S1)"
+          ],
+          "outputs": [
+            "Spun-up CESM2 simulation state"
+          ],
+          "keywords": [
+            "CESM2",
+            "spin-up",
+            "simulation run"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Run simulations for 100 years after the spin-up period for analysis.",
+          "searchable_summary": "run CESM2 production simulation for 100 years",
+          "inputs": [
+            "Spun-up CESM2 simulation state",
+            "simulation duration (100 years)"
+          ],
+          "outputs": [
+            "CESM2 simulation output (climate variables for 100 years)"
+          ],
+          "keywords": [
+            "CESM2",
+            "simulation run",
+            "climate data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Significance Testing",
+      "description": "Applying a two-sided t-test to determine the statistical significance of differences between simulation results and filtering results to show only significant differences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform a two-sided t-test on differences between simulations.",
+          "searchable_summary": "perform two-sided t-test on simulation differences",
+          "inputs": [
+            "Simulation results (e.g., variable differences between simulations)"
+          ],
+          "outputs": [
+            "t-test statistics (t-values, p-values)"
+          ],
+          "keywords": [
+            "t-test",
+            "statistical significance",
+            "hypothesis testing",
+            "climate data analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter results to display only significant differences (p < 0.01).",
+          "searchable_summary": "filter results by p-value threshold",
+          "inputs": [
+            "Simulation results",
+            "p-values from t-test",
+            "significance level (0.01)"
+          ],
+          "outputs": [
+            "Simulation differences masked by significance"
+          ],
+          "keywords": [
+            "filtering",
+            "p-value",
+            "thresholding",
+            "data masking"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Extreme Precipitation Calculation",
+      "description": "Defining and calculating extreme precipitation as the all-interval 99th percentile locally using 6-hourly precipitation data from simulations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain 6-hourly precipitation data from simulations.",
+          "searchable_summary": "load 6-hourly precipitation data from simulation output",
+          "inputs": [
+            "CESM2 simulation output"
+          ],
+          "outputs": [
+            "6-hourly precipitation data"
+          ],
+          "keywords": [
+            "precipitation",
+            "climate data",
+            "time series",
+            "data loading"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate the value of precipitation at the all-interval 99th percentile locally for each simulation.",
+          "searchable_summary": "calculate local 99th percentile of precipitation",
+          "inputs": [
+            "6-hourly precipitation data"
+          ],
+          "outputs": [
+            "Local 99th percentile precipitation values"
+          ],
+          "keywords": [
+            "percentile",
+            "extreme value",
+            "precipitation",
+            "local analysis",
+            "climate statistics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compare the calculated 99th percentile values between simulations to show the change in that value.",
+          "searchable_summary": "compare extreme precipitation values between simulations",
+          "inputs": [
+            "Local 99th percentile precipitation values from different simulations"
+          ],
+          "outputs": [
+            "Differences in local 99th percentile precipitation"
+          ],
+          "keywords": [
+            "comparison",
+            "climate change impact",
+            "extreme precipitation",
+            "difference calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Atmospheric River (AR) Identification",
+      "description": "Identifying Atmospheric Rivers using the \"Lora_v2\" algorithm based on 6-hourly integrated vapor transport (IVT) regions that exceed a threshold value, which depends on the 30-day running mean of the zonally averaged integrated water vapor.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain 6-hourly integrated vapor transport (IVT) data from simulations.",
+          "searchable_summary": "load 6-hourly integrated vapor transport (IVT) data",
+          "inputs": [
+            "CESM2 simulation output"
+          ],
+          "outputs": [
+            "6-hourly IVT data"
+          ],
+          "keywords": [
+            "IVT",
+            "integrated vapor transport",
+            "climate data",
+            "time series",
+            "data loading"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate the 30-day running mean of the zonally averaged integrated water vapor.",
+          "searchable_summary": "calculate 30-day running mean of zonally averaged integrated water vapor",
+          "inputs": [
+            "6-hourly IVT data"
+          ],
+          "outputs": [
+            "30-day running mean zonally averaged integrated water vapor"
+          ],
+          "keywords": [
+            "running mean",
+            "zonal average",
+            "integrated water vapor",
+            "time series analysis",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Determine a threshold value for IVT based on the 30-day running mean of the zonally averaged integrated water vapor, accounting for background climate state.",
+          "searchable_summary": "calculate IVT threshold based on background climate state",
+          "inputs": [
+            "30-day running mean zonally averaged integrated water vapor"
+          ],
+          "outputs": [
+            "IVT threshold values"
+          ],
+          "keywords": [
+            "thresholding",
+            "algorithm",
+            "Lora_v2",
+            "IVT",
+            "climate state adjustment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify AR regions using the algorithm (\"Lora_v2\") where 6-hourly IVT exceeds the calculated threshold.",
+          "searchable_summary": "apply Lora_v2 algorithm to identify AR regions based on IVT threshold",
+          "inputs": [
+            "6-hourly IVT data",
+            "IVT threshold values"
+          ],
+          "outputs": [
+            "Atmospheric River (AR) mask/regions"
+          ],
+          "keywords": [
+            "Atmospheric River",
+            "AR detection",
+            "Lora_v2",
+            "algorithm",
+            "IVT",
+            "region identification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "AR-Associated Variable Definition",
+      "description": "Defining Atmospheric River (AR) IVT and AR precipitation simply as IVT and precipitation that are concurrent with identified AR regions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Load identified AR regions from the AR identification method.",
+          "searchable_summary": "load identified AR regions",
+          "inputs": [
+            "Atmospheric River (AR) mask/regions from AR Identification method"
+          ],
+          "outputs": [
+            "AR mask/regions"
+          ],
+          "keywords": [
+            "Atmospheric River",
+            "AR detection",
+            "data loading",
+            "mask"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Extract IVT values that are concurrent with the identified AR regions.",
+          "searchable_summary": "extract IVT values within AR regions",
+          "inputs": [
+            "6-hourly IVT data",
+            "AR mask/regions"
+          ],
+          "outputs": [
+            "AR IVT values"
+          ],
+          "keywords": [
+            "IVT",
+            "Atmospheric River",
+            "masking",
+            "filtering",
+            "data extraction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Extract precipitation values that are concurrent with the identified AR regions.",
+          "searchable_summary": "extract precipitation values within AR regions",
+          "inputs": [
+            "6-hourly precipitation data",
+            "AR mask/regions"
+          ],
+          "outputs": [
+            "AR precipitation values"
+          ],
+          "keywords": [
+            "precipitation",
+            "Atmospheric River",
+            "masking",
+            "filtering",
+            "data extraction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/262198680.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,191 @@
+{
+  "paper_title": "WAVE CLIMATE MODEL",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Wave Climate Model Construction",
+      "description": "Procedure for constructing a generic wave climate model for the study area using historical wave statistics, wind data, bathymetry, and manual wave refraction diagram techniques for current and past coastline scenarios. This model provides parameters like wave incidence angles and height transformation factors along the shoreline.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Signifi cant direct measurements of the wave regime in the study area are not available. Wave statistics (height and period) used in this study were extracted from Hogben and Lumb (1967) (Area 37), which registered data obtained from visual observations taken on the open sea from ships.",
+          "searchable_summary": "Extract historical wave statistics (height, period) from published source (Hogben and Lumb 1967).",
+          "inputs": [
+            "Hogben and Lumb (1967) publication"
+          ],
+          "outputs": [
+            "Initial wave statistics (height, period) for Area 37"
+          ],
+          "keywords": [
+            "wave statistics",
+            "historical data",
+            "publication extraction",
+            "Hogben and Lumb"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Following are the average annual directions and frequencies of winds (the latter redimensioned to 100%) (DHN 1993), regarding a time series from 1951 to 1972, that can generate waves directed to the coastline:",
+          "searchable_summary": "Extract average annual wind directions and frequencies from published source (DHN 1993) and normalize frequencies.",
+          "inputs": [
+            "DHN (1993) publication (wind data time series 1951-1972)"
+          ],
+          "outputs": [
+            "Average annual wind directions",
+            "Normalized wind frequencies"
+          ],
+          "keywords": [
+            "wind data",
+            "historical data",
+            "frequency normalization",
+            "publication extraction",
+            "DHN"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For these wave directions, the predominant periods and heights associated to them were considered to be, according to Hogben and Lumb (1967): period of 5 sec and height of 1 m for NE and E waves and period of 6.5 sec and height of 1.5 m for SE and SSE waves.",
+          "searchable_summary": "Select predominant wave periods and heights based on wind direction and historical wave statistics.",
+          "inputs": [
+            "Wind directions (from Step 2)",
+            "Wave statistics (from Step 1)"
+          ],
+          "outputs": [
+            "Predominant wave periods and heights for specific directions (NE, E, SE, SSE)"
+          ],
+          "keywords": [
+            "wave period",
+            "wave height",
+            "wind-wave relationship",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The bathymetric data used in the construction of these diagrams were extracted from a Brazilian Navy nautical chart on an approximate scale of 1:300,000.",
+          "searchable_summary": "Obtain bathymetry data from a nautical chart.",
+          "inputs": [
+            "Brazilian Navy nautical chart (approx. 1:300,000 scale)"
+          ],
+          "outputs": [
+            "Bathymetric data (depth contours)"
+          ],
+          "keywords": [
+            "bathymetry",
+            "nautical chart",
+            "depth data",
+            "data extraction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "In addi-tion to the present coastline (Fig. 2), refraction diagrams were constructed for three other distinct Holocene scenarios for the coastline position described by Dominguez (1987) and Dominguez and Wanless (1991) (Fig. 3): a) around approximately 5600 cal yr B.P., corresponding to the barrier-island coastline (Fig. 4), b) immediately after 5600 cal yr BP, corresponding to the coastline position during the deposition of the fi rst generation of marine terraces (Fig. 5), and c) around approximately 3800 cal yr BP, corresponding to the coastline position after the end of the deposition of the fi rst generation of marine terraces (Fig. 6). The current position of the coastline corresponds to the second generation of marine terraces, with the Doce River discharging into the ocean through a single channel (Fig. 2A).",
+          "searchable_summary": "Define coastline geometries for current conditions and three distinct Holocene scenarios based on published sources.",
+          "inputs": [
+            "Dominguez (1987) publication",
+            "Dominguez and Wanless (1991) publication"
+          ],
+          "outputs": [
+            "Coastline geometries for four time periods (current, ~5600 BP, post-5600 BP, ~3800 BP)"
+          ],
+          "keywords": [
+            "coastline evolution",
+            "paleocoastline",
+            "Holocene",
+            "data definition",
+            "geomorphology"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Based on these data, wave refraction diagrams were constructed manually, in accordance with the procedures described in CERC (1984), resulting in a generic wave climate model for the area under study.",
+          "searchable_summary": "Manually construct wave refraction diagrams using bathymetry and selected wave parameters according to CERC (1984) procedures.",
+          "inputs": [
+            "Bathymetric data (from Step 4)",
+            "Selected wave parameters (period, height, direction) (from Step 3)",
+            "CERC (1984) procedures"
+          ],
+          "outputs": [
+            "Manual wave refraction diagrams (initial wave rays)"
+          ],
+          "keywords": [
+            "wave refraction",
+            "manual construction",
+            "CERC",
+            "wave modeling",
+            "wave rays"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The waves were not propagated to water depths less than 10 m, which is the closest limit to the coastline on the nautical chart. The refraction diagrams constructed based on current boundary conditions, had their wave-rays refracted to the 10 m isobath...",
+          "searchable_summary": "Propagate wave rays on the diagrams from offshore towards the coast, stopping propagation at the 10 m isobath.",
+          "inputs": [
+            "Manual wave refraction diagrams (from Step 6)",
+            "10 m isobath location (from Step 4)"
+          ],
+          "outputs": [
+            "Wave refraction diagrams with rays propagated to 10m depth"
+          ],
+          "keywords": [
+            "wave propagation",
+            "wave rays",
+            "isobath",
+            "depth limit",
+            "refraction modeling"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "...and, from there, the last propagation direction was maintained, extending to the coastlines mentioned above (Figs. 2B and 4B to 6B). Refraction diagrams for waves with a 5-s period, coming from NE and E, and 6,5-s period, coming from SE and SSE.",
+          "searchable_summary": "Extend the last propagation direction of wave rays from the 10 m isobath to intersect each of the defined coastline scenarios.",
+          "inputs": [
+            "Wave refraction diagrams (from Step 7)",
+            "Coastline geometries (from Step 5)"
+          ],
+          "outputs": [
+            "Completed wave refraction diagrams showing wave ray intersection with different coastlines"
+          ],
+          "keywords": [
+            "wave ray extension",
+            "coastline intersection",
+            "paleocoastline modeling",
+            "refraction modeling"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Here are also shown: 1) different segments into which the shoreline was rectilinearized, 2) incidence angles formed by the wave-rays in relation to the coastal segments and 3) measurements of b and b o (see text) used to estimate wave height along the shore segments.",
+          "searchable_summary": "Rectilinearize shoreline segments and analyze completed refraction diagrams to measure wave incidence angles and b/b_o values.",
+          "inputs": [
+            "Completed wave refraction diagrams (from Step 8)",
+            "Defined coastline segments"
+          ],
+          "outputs": [
+            "Wave incidence angles for each coastal segment and wave condition",
+            "b and b_o values for each coastal segment and wave condition"
+          ],
+          "keywords": [
+            "wave incidence angle",
+            "wave height transformation",
+            "b/b_o",
+            "shoreline analysis",
+            "refraction diagram analysis",
+            "coastal analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/11695317.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

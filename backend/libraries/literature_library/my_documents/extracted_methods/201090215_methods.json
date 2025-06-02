@@ -1,0 +1,345 @@
+{
+  "paper_title": "DNA Extraction and 16S rRNA Community Analysis of Bioreactor Communities",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA Extraction and 16S rRNA Community Analysis",
+      "description": "This method describes the process of extracting DNA from bioreactor communities and analyzing the 16S rRNA gene sequences to study microbial community composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "DNA extraction on electrode biofilms was conducted as previously described (Lam et al., 2018).",
+          "searchable_summary": "conduct DNA extraction on electrode biofilms",
+          "inputs": [
+            "electrode biofilms"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "electrode biofilms"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Planktonic cells were collected by centrifuging 50 mL of media from the bioreactors at 10,000 rpm for 10 min at 4°C.",
+          "searchable_summary": "centrifuge bioreactor media to collect planktonic cells",
+          "inputs": [
+            "50 mL bioreactor media"
+          ],
+          "outputs": [
+            "cell pellets"
+          ],
+          "keywords": [
+            "centrifugation",
+            "planktonic cells"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Resultant cell pellets and electrode biomass were directly added to bead beating tubes from a MO BIO PowerSoil DNA Isolation Kit.",
+          "searchable_summary": "add cell pellets and biomass to bead beating tubes",
+          "inputs": [
+            "cell pellets",
+            "electrode biomass"
+          ],
+          "outputs": [
+            "prepared samples for DNA extraction"
+          ],
+          "keywords": [
+            "bead beating",
+            "DNA isolation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "DNA extraction was performed using the MO BIO PowerSoil DNA Isolation Kit following manufacturer's protocols.",
+          "searchable_summary": "perform DNA extraction using PowerSoil kit",
+          "inputs": [
+            "prepared samples"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "PowerSoil kit"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Extracted DNA quality and quantity was assessed using a Nanodrop.",
+          "searchable_summary": "assess DNA quality and quantity with Nanodrop",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "DNA quality and quantity data"
+          ],
+          "keywords": [
+            "DNA quality",
+            "Nanodrop"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Illumina MiSeq paired-end sequencing was done on the V4 hypervariable region of the 16S rRNA gene.",
+          "searchable_summary": "perform Illumina MiSeq sequencing on 16S rRNA gene",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "Illumina MiSeq",
+            "16S rRNA sequencing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Ribosomal sequences were amplified with a 30-cycle PCR reaction with a 53°C annealing temp using barcoded 515F primer paired with 806R primer.",
+          "searchable_summary": "amplify ribosomal sequences with PCR",
+          "inputs": [
+            "extracted DNA",
+            "515F primer",
+            "806R primer"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "PCR",
+            "ribosomal sequences"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Amplicons were pooled and purified with calibrated Agencourt Ampure XP beads.",
+          "searchable_summary": "purify amplicons with Ampure XP beads",
+          "inputs": [
+            "amplified DNA"
+          ],
+          "outputs": [
+            "purified amplicons"
+          ],
+          "keywords": [
+            "amplicon purification",
+            "Ampure XP beads"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "DNA libraries were prepared using the resultant PCR product with the Illumina TruSeq DNA library preparation protocol.",
+          "searchable_summary": "prepare DNA libraries with TruSeq protocol",
+          "inputs": [
+            "purified amplicons"
+          ],
+          "outputs": [
+            "DNA libraries"
+          ],
+          "keywords": [
+            "DNA library preparation",
+            "TruSeq"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Sequenced on an Illumina MiSeq following manufacturer's procedures.",
+          "searchable_summary": "sequence DNA libraries on Illumina MiSeq",
+          "inputs": [
+            "DNA libraries"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "Illumina MiSeq",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "QIIME bioinformatics pipeline was applied for barcode removal, quality filtering, and chimera checks.",
+          "searchable_summary": "apply QIIME pipeline for sequence processing",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "processed sequencing data"
+          ],
+          "keywords": [
+            "QIIME",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "De novo OTU picking was utilized for taxonomy assignment based on 97% similarity.",
+          "searchable_summary": "perform OTU picking for taxonomy assignment",
+          "inputs": [
+            "processed sequencing data"
+          ],
+          "outputs": [
+            "OTU data"
+          ],
+          "keywords": [
+            "OTU picking",
+            "taxonomy assignment"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "Phylogenetic analysis was conducted using the Greengenes database.",
+          "searchable_summary": "conduct phylogenetic analysis with Greengenes",
+          "inputs": [
+            "OTU data"
+          ],
+          "outputs": [
+            "phylogenetic data"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "Greengenes"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_analysis",
+          "description": "Downstream analyses of 16S rRNA sequencing data such as NMDS were run with the R package, Phyloseq.",
+          "searchable_summary": "perform NMDS analysis with Phyloseq",
+          "inputs": [
+            "phylogenetic data"
+          ],
+          "outputs": [
+            "NMDS results"
+          ],
+          "keywords": [
+            "NMDS",
+            "Phyloseq"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_analysis",
+          "description": "Evaluation of the contribution of different variables to bioreactor microbial community variation was done using PERMANOVA with the Adonis function.",
+          "searchable_summary": "evaluate community variation with PERMANOVA",
+          "inputs": [
+            "NMDS results"
+          ],
+          "outputs": [
+            "PERMANOVA results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "Adonis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis of Isolates",
+      "description": "This method outlines the process for taxonomic classification and phylogenetic analysis of microbial isolates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Stocks were streaked on enriched seawater agar plates or agar plates made with FeCl2 or S0 as electron donor sources.",
+          "searchable_summary": "streak stocks on agar plates with different electron donors",
+          "inputs": [
+            "microbial stocks"
+          ],
+          "outputs": [
+            "colonies on agar plates"
+          ],
+          "keywords": [
+            "agar plates",
+            "electron donors"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "PCR was performed directly on colonies or DNA extracted from pellets of overnight liquid cultures to amplify the 16S rRNA gene with the primers 27F and 1492R.",
+          "searchable_summary": "amplify 16S rRNA gene with PCR",
+          "inputs": [
+            "colonies",
+            "27F primer",
+            "1492R primer"
+          ],
+          "outputs": [
+            "amplified 16S rRNA gene"
+          ],
+          "keywords": [
+            "PCR",
+            "16S rRNA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Purified PCR product was sequenced with both primers.",
+          "searchable_summary": "sequence purified PCR product",
+          "inputs": [
+            "amplified 16S rRNA gene"
+          ],
+          "outputs": [
+            "sequence data"
+          ],
+          "keywords": [
+            "sequencing",
+            "PCR product"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Sequences were quality checked using BioEdit and aligned against the SILVA database using the SINA aligner.",
+          "searchable_summary": "quality check and align sequences with SILVA",
+          "inputs": [
+            "sequence data"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "SILVA"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Maximum likelihood phylogenetic trees were built using the RAxML program with the ARB software package interface.",
+          "searchable_summary": "build phylogenetic trees with RAxML",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic trees",
+            "RAxML"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/201090215.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

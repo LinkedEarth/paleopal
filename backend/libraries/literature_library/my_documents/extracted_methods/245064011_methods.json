@@ -1,0 +1,217 @@
+{
+  "paper_title": "Material and methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Larvae Collection and Karyotype Analysis",
+      "description": "Collection of larvae from a specific location and analysis of their karyotype using the ethanol-orcein technique.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Four IV instar larvae were collected from a small bay overgrown with sedge (Carex sp.) of an unnamed lake in Gydan Peninsula, Tazovskiy District, Yamalo-Nenets Autonomous Region.",
+          "searchable_summary": "collect larvae from specified location",
+          "inputs": [
+            "location coordinates",
+            "date"
+          ],
+          "outputs": [
+            "larvae samples"
+          ],
+          "keywords": [
+            "larvae collection",
+            "field sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All larvae were used for karyotype analysis by the ethanol-orcein technique.",
+          "searchable_summary": "perform karyotype analysis using ethanol-orcein technique",
+          "inputs": [
+            "larvae samples"
+          ],
+          "outputs": [
+            "karyotype data"
+          ],
+          "keywords": [
+            "karyotype analysis",
+            "ethanol-orcein"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microscopy Analysis",
+      "description": "Microscopy analysis of larvae using a light microscope and camera for morphological study.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A Micromed-6C light microscope equipped with standard oil objective x100, and camera ToupCam5.1 were used for microscopy analysis.",
+          "searchable_summary": "use light microscope and camera for microscopy analysis",
+          "inputs": [
+            "larvae samples"
+          ],
+          "outputs": [
+            "microscopy images"
+          ],
+          "keywords": [
+            "microscopy",
+            "light microscope",
+            "camera"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Extraction and PCR Amplification",
+      "description": "Extraction of total DNA from larvae and amplification of the COI gene using specific primers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "One larva was taken for the total DNA extraction using a 'M-sorb-OOM' kit with magnet particles according to the manufacturer's protocol.",
+          "searchable_summary": "extract DNA using M-sorb-OOM kit",
+          "inputs": [
+            "larva sample"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "M-sorb-OOM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For amplification of COI gene we used primers LCO1490 and HCO2198.",
+          "searchable_summary": "amplify COI gene using specific primers",
+          "inputs": [
+            "extracted DNA",
+            "primers"
+          ],
+          "outputs": [
+            "amplified COI gene"
+          ],
+          "keywords": [
+            "PCR",
+            "COI gene",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR performed at 94 °С (3 min), followed by 30 cycles at 94 °С (15 s), 50 °С (45 s), 72 °С (60 s) and a final one at 72 °С (8 min).",
+          "searchable_summary": "perform PCR with specified thermal cycling conditions",
+          "inputs": [
+            "PCR reagents",
+            "thermal cycler"
+          ],
+          "outputs": [
+            "PCR product"
+          ],
+          "keywords": [
+            "PCR",
+            "thermal cycling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "PCR products were visualized on 1% agarose gels and later purified by ethanol and ammonium acetate.",
+          "searchable_summary": "visualize and purify PCR products using agarose gel and ethanol",
+          "inputs": [
+            "PCR product"
+          ],
+          "outputs": [
+            "purified PCR product"
+          ],
+          "keywords": [
+            "gel electrophoresis",
+            "PCR purification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Alignment and Phylogenetic Analysis",
+      "description": "Alignment of COI nucleotide sequences and phylogenetic analysis using Bayesian inference.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "For alignment of COI nucleotide sequences we used MUSCLE algorithm in the MEGA6 software.",
+          "searchable_summary": "align COI sequences using MUSCLE in MEGA6",
+          "inputs": [
+            "COI sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MUSCLE",
+            "MEGA6"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The MEGA6 was used to calculate pairwise genetic distances Kimura 2-parameter (K2P).",
+          "searchable_summary": "calculate genetic distances using K2P in MEGA6",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "genetic distances"
+          ],
+          "keywords": [
+            "genetic distance",
+            "K2P",
+            "MEGA6"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The Bayesian analysis was performed using MrBayes v.3.2.6 software with settings suggested by Karmokov (2019).",
+          "searchable_summary": "perform Bayesian analysis using MrBayes",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "Bayesian analysis",
+            "MrBayes",
+            "phylogenetics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "The phylogenetic trees resulting in Bayesian inference analyses were visualized and edited using FigTree v.1.4.3 software.",
+          "searchable_summary": "visualize phylogenetic trees using FigTree",
+          "inputs": [
+            "phylogenetic tree"
+          ],
+          "outputs": [
+            "visualized phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "visualization",
+            "FigTree"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/245064011.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

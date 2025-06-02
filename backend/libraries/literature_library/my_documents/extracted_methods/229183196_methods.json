@@ -1,0 +1,474 @@
+{
+  "paper_title": "Remote Sensing of Lake Sediment Core Particle Size Using Hyperspectral Image Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Preparation and Particle Size Measurement",
+      "description": "This method describes the process for preparing sediment cores for analysis, including splitting and slicing, and the subsequent measurement of sediment particle size distribution using laser granulometry.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The sediment cores were split lengthwise, with one half used for particle size and other destructive laboratory analyses; the other half was used for hyperspectral imaging and then preserved as an archive.",
+          "searchable_summary": "split sediment cores lengthwise",
+          "inputs": [
+            "sediment cores"
+          ],
+          "outputs": [
+            "core half for destructive analysis",
+            "core half for hyperspectral imaging/archive"
+          ],
+          "keywords": [
+            "sediment core",
+            "splitting",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cores used for destructive analyses were sliced into discrete 0.5 or 1.0 cm sections and stored in sealed WhirlPak bags.",
+          "searchable_summary": "slice sediment core sections",
+          "inputs": [
+            "core half for destructive analysis"
+          ],
+          "outputs": [
+            "sliced sediment sections (0.5/1.0 cm)",
+            "sealed bags"
+          ],
+          "keywords": [
+            "sediment core",
+            "slicing",
+            "sectioning",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Sample preparation and analysis of the size distribution of sediments was carried out with laser granulometry using a Horiba granulometer (model LA950v2) following the methods of Narancic et al. [24]. This device operates according to the Mie optical principle (including Fraunhofer approximation) for fine sediments whose size spectrum ranges from 0.11 to 3000 µm. The operation lasted approximately two minutes for each sample, from the introduction of the samples into the granulometer to the export of the results;",
+          "searchable_summary": "measure particle size distribution using laser granulometry",
+          "inputs": [
+            "sliced sediment sections"
+          ],
+          "outputs": [
+            "particle size distribution data"
+          ],
+          "keywords": [
+            "particle size",
+            "laser granulometry",
+            "Horiba LA950v2",
+            "Mie scattering",
+            "Fraunhofer approximation",
+            "sediment analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "mean particle size values were calculated based on the Folk and Ward [25] method using the Gradistat program [26].",
+          "searchable_summary": "calculate mean particle size using Folk and Ward method",
+          "inputs": [
+            "particle size distribution data"
+          ],
+          "outputs": [
+            "mean particle size values"
+          ],
+          "keywords": [
+            "mean particle size",
+            "Folk and Ward method",
+            "Gradistat",
+            "sediment analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hyperspectral Data Acquisition",
+      "description": "This method details the process of preparing sediment core surfaces, setting up the hyperspectral scanning system, acquiring hyperspectral images in VNIR and SWIR ranges, and normalizing the raw image data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sediment core surfaces were cleaned and flattened by removing protrusions (using a knife, single-edge razor blade or a glass microscope slide) in order to get the optimum focus along the detector arrays and expose fine sediment structures, while removing irregularities such as depressions or bumps [27].",
+          "searchable_summary": "clean and flatten sediment core surfaces for imaging",
+          "inputs": [
+            "core half for hyperspectral imaging"
+          ],
+          "outputs": [
+            "prepared sediment core surface"
+          ],
+          "keywords": [
+            "sediment core",
+            "surface preparation",
+            "hyperspectral imaging",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Because other planned analyses included light-and temperature-sensitive components such as pigments and DNA, leaving the cores to dry for hours was not possible, and so cores were covered with transparent plastic film to mitigate the effects of water reflectance.",
+          "searchable_summary": "cover sediment cores with plastic film",
+          "inputs": [
+            "prepared sediment core surface"
+          ],
+          "outputs": [
+            "covered sediment core"
+          ],
+          "keywords": [
+            "sediment core",
+            "sample handling",
+            "water reflectance mitigation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Each sediment core was positioned in the middle of the scanning table and in the field of view of the cameras, with the top of the core facing toward the focus grid and the camera, and the level of the core surface was adjusted to the same height as the focus grid.",
+          "searchable_summary": "position and align sediment core for scanning",
+          "inputs": [
+            "covered sediment core",
+            "scanning table",
+            "hyperspectral cameras"
+          ],
+          "outputs": [
+            "aligned sediment core on scanning table"
+          ],
+          "keywords": [
+            "sediment core",
+            "scanning setup",
+            "alignment",
+            "hyperspectral imaging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The scanning system uses two rows of seven 50-W quartz-halogen lamps to ensure optimum illumination angle and light intensity, with the light radiated to the surface of the sediment core in all directions (i.e., hemispherical incident radiance) and conical beam reflected back to the sensors [28].",
+          "searchable_summary": "illuminate sediment core surface",
+          "inputs": [
+            "aligned sediment core",
+            "scanning system lamps"
+          ],
+          "outputs": [
+            "illuminated sediment core surface"
+          ],
+          "keywords": [
+            "illumination",
+            "scanning setup",
+            "hyperspectral imaging"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "After optimizing the operational parameters such as camera settings and scanning table speed, sediment cores were scanned with a scanner system equipped with two hyperspectral cameras (Specim Ltd., Oulu, Finland) working in the SWIR and VNIR wavelengths of the electromagnetic spectrum.",
+          "searchable_summary": "optimize scanner parameters and scan sediment cores",
+          "inputs": [
+            "aligned sediment core",
+            "hyperspectral scanner system",
+            "VNIR camera",
+            "SWIR camera"
+          ],
+          "outputs": [
+            "raw VNIR hyperspectral image",
+            "raw SWIR hyperspectral image"
+          ],
+          "keywords": [
+            "hyperspectral scanning",
+            "VNIR",
+            "SWIR",
+            "data acquisition",
+            "Specim"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "After capturing the hyperspectral data, the normalization of the raw hyperspectral image to the dark and white references was performed according to Equation (1): where HSI Raw is the Raw hyperspectral image, DF av is the dark reference, and WF av is the white reference averaged into a single frame. The output is the fraction of reflected light in relation to the white standard.",
+          "searchable_summary": "normalize raw hyperspectral image using dark and white references",
+          "inputs": [
+            "raw hyperspectral image (VNIR or SWIR)",
+            "dark reference (DF_av)",
+            "white reference (WF_av)"
+          ],
+          "outputs": [
+            "normalized hyperspectral image (reflectance)"
+          ],
+          "keywords": [
+            "hyperspectral data",
+            "normalization",
+            "dark reference",
+            "white reference",
+            "reflectance",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The analyses were performed on a selected transect in the middle of each sediment core.",
+          "searchable_summary": "select a central transect from the normalized image for analysis",
+          "inputs": [
+            "normalized hyperspectral image"
+          ],
+          "outputs": [
+            "selected hyperspectral transect data"
+          ],
+          "keywords": [
+            "hyperspectral data",
+            "transect selection",
+            "region of interest",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "VNIR/SWIR Data Integration",
+      "description": "This method describes the process of fusing hyperspectral data acquired from separate VNIR and SWIR cameras into a single integrated image using the SIFT flow algorithm.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "In this procedure, the VNIR image was down-sampled to 200 µm resolution to give it the same pixel size as the SWIR image.",
+          "searchable_summary": "down-sample VNIR image resolution",
+          "inputs": [
+            "normalized VNIR hyperspectral image"
+          ],
+          "outputs": [
+            "down-sampled VNIR image (200 µm resolution)"
+          ],
+          "keywords": [
+            "hyperspectral data",
+            "VNIR",
+            "down-sampling",
+            "resolution matching",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Subsequently, the registration was performed by subjecting the first principal components (PCs) of the VNIR and SWIR sensor images to the SIFT flow algorithm [40].",
+          "searchable_summary": "register VNIR and SWIR images using SIFT flow on first principal components",
+          "inputs": [
+            "down-sampled VNIR image",
+            "normalized SWIR image"
+          ],
+          "outputs": [
+            "registered VNIR and SWIR images"
+          ],
+          "keywords": [
+            "image registration",
+            "SIFT flow",
+            "principal component analysis",
+            "PCA",
+            "hyperspectral data fusion",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Finally, after transformation of the SWIR image to the VNIR image space and removing the overlapping bands between 969.29 and 1001.49 nm, an integrated hyperspectral image consisting of 932 bands was constructed.",
+          "searchable_summary": "transform SWIR image, remove overlapping bands, and construct integrated hyperspectral image",
+          "inputs": [
+            "registered VNIR image",
+            "registered SWIR image"
+          ],
+          "outputs": [
+            "integrated VNIR/SWIR hyperspectral image (932 bands)"
+          ],
+          "keywords": [
+            "image transformation",
+            "band removal",
+            "hyperspectral data fusion",
+            "data integration",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hyperspectral Model Fitting",
+      "description": "This method describes the process of preparing hyperspectral spectral data using various transformations, splitting the data for calibration and validation, and building predictive regression models (RF, SVR, PLSR, MLR, PCR) to predict sediment properties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Prior to fitting the models, we applied different transformation techniques to the raw spectral data to evaluate their performance in model development, including absorbance (AB), continuum removal (CR), reflectance first derivative (RFD), reflectance second derivative (RSD), first derivative of absorbance (AFD), and second derivative of absorbance (ASD) transformations [51,52].",
+          "searchable_summary": "apply spectral transformation techniques to hyperspectral data",
+          "inputs": [
+            "raw spectral data (from integrated image or transect)"
+          ],
+          "outputs": [
+            "transformed spectral data (AB, CR, RFD, RSD, AFD, ASD)"
+          ],
+          "keywords": [
+            "spectral transformation",
+            "absorbance",
+            "continuum removal",
+            "spectral derivative",
+            "data processing",
+            "hyperspectral data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In the training process, the available input spectra were randomly divided into calibration (80%) and validation (20%) sets, and the calibration set was used for building the predictive models based on RF, SVR, PLSR, MLR, and PCR.",
+          "searchable_summary": "randomly split spectral data into calibration (80%) and validation (20%) sets",
+          "inputs": [
+            "transformed spectral data",
+            "corresponding target variable data (e.g., particle size)"
+          ],
+          "outputs": [
+            "calibration spectral set",
+            "validation spectral set",
+            "calibration target set",
+            "validation target set"
+          ],
+          "keywords": [
+            "data splitting",
+            "calibration set",
+            "validation set",
+            "random split",
+            "machine learning",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The predictive models were generated and validated for the six lakes separately using their respective calibration and validation sets.",
+          "searchable_summary": "build and validate predictive models (RF, SVR, PLSR, MLR, PCR) for each lake individually",
+          "inputs": [
+            "calibration spectral set (per lake)",
+            "calibration target set (per lake)",
+            "validation spectral set (per lake)",
+            "validation target set (per lake)"
+          ],
+          "outputs": [
+            "trained models (per lake)",
+            "validation results (per lake)"
+          ],
+          "keywords": [
+            "predictive modeling",
+            "Random Forest",
+            "Support Vector Regression",
+            "Partial Least Squares Regression",
+            "Multiple Linear Regression",
+            "Principal Component Regression",
+            "model training",
+            "model validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "An aggregate model was also generated based on a combined calibration set which incorporated all six individual datasets to examine the applicability of a single model across different lake environments.",
+          "searchable_summary": "build an aggregate predictive model using combined calibration data from all lakes",
+          "inputs": [
+            "combined calibration spectral set (all lakes)",
+            "combined calibration target set (all lakes)"
+          ],
+          "outputs": [
+            "trained aggregate model"
+          ],
+          "keywords": [
+            "predictive modeling",
+            "aggregate model",
+            "combined dataset",
+            "model training"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Experiments were conducted using MATLAB and Python programming languages on a 3.4 GHz processor with 16 GB of RAM. To avoid bias, each scenario was repeated 10 times and the averages are reported.",
+          "searchable_summary": "repeat model training and validation 10 times and average results",
+          "inputs": [
+            "calibration/validation data splits",
+            "model training/validation procedures"
+          ],
+          "outputs": [
+            "averaged model performance metrics"
+          ],
+          "keywords": [
+            "model evaluation",
+            "cross-validation",
+            "repetition",
+            "statistical analysis",
+            "bias reduction"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "All RF regression models were constructed using the parameter values Mtry = n/3, nodesize = 5, and Ntree = 500 (n = number of bands).",
+          "searchable_summary": "configure Random Forest model hyperparameters",
+          "inputs": [
+            "RF model object",
+            "number of bands (n)"
+          ],
+          "outputs": [
+            "configured RF model object"
+          ],
+          "keywords": [
+            "Random Forest",
+            "hyperparameter tuning",
+            "Mtry",
+            "nodesize",
+            "Ntree",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "The grid search method was implemented to find the optimum SVR hyperparameters (kernel function = RBF and C = 1000).",
+          "searchable_summary": "perform grid search for SVR hyperparameters",
+          "inputs": [
+            "SVR model object",
+            "hyperparameter search space (e.g., kernel, C)"
+          ],
+          "outputs": [
+            "optimized SVR hyperparameters",
+            "configured SVR model object"
+          ],
+          "keywords": [
+            "Support Vector Regression",
+            "hyperparameter tuning",
+            "grid search",
+            "kernel function",
+            "RBF",
+            "C parameter",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "The partial least squares regression model was implemented with 10 orthogonal predictors.",
+          "searchable_summary": "configure Partial Least Squares Regression model with 10 components",
+          "inputs": [
+            "PLSR model object"
+          ],
+          "outputs": [
+            "configured PLSR model object"
+          ],
+          "keywords": [
+            "Partial Least Squares Regression",
+            "PLSR",
+            "number of components",
+            "modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/229183196.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

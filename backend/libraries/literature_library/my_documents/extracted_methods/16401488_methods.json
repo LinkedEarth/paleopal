@@ -1,0 +1,354 @@
+{
+  "paper_title": "Methods for Differential Expression and RNA Sequencing",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Differential Expression Analysis",
+      "description": "Differential expression analysis was performed on raw count data using the R package edgeR. Count data from single-end libraries were merged with the counts for their respective paired-end sequenced samples for analysis. The H. melpomene dataset thus comprised of three tissuesmouthparts, antennae and legs-from males and females, and three biological replicates of each. The remaining four species included six libraries per species, comprised of the three tissue types, each from one male and one female. In order to obtain contigs that demonstrated signals of strong upregulation in the mouthparts, differential expression analyses were performed to compare mouthparts gene expression to antennal and leg tissues, the latter tissues being used as \"control\" tissues due to their similarity to the proboscis in terms of developmental specification. Data from each species were analyzed separately. Each data set was filtered to remove contigs with low expression, retaining those contigs with > 1 count per million in at least three groups for the H. melpomene data, and at least two groups for the other four species. Data were normalized between samples using the default TMM normalization method (Robinson and Oshlack 2010).\nThe H. melpomene count data were analyzed using a generalized linear model in edgeR, modeled as~tissue + sex. The remaining four species were modeled using the classic edgeR approach for single factor designs, with male and female samples grouped as biological replicates of each tissue type. In order to control for performing multiple tests, a false discovery rate (FDR; adjusted P-values) was calculated for each contig as per Storey and Tibshirani (2003). Contigs were defined as showing evidence of significant upregulation in the mouthparts when the FDR was < 0.05 and contig expression increased by > 1 log fold change (logFC) compared with the other tissues. Heatmaps were constructed with the R package Heatplus (Ploner 2012). The expression of several candidate genes in the proboscis, labial palps, and salivary glands was verified using reverse transcription polymerase chain reaction (RT-PCR; see Supplementary Methods and supplementary table S2, Supplementary Material online for details).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Count data from single-end libraries were merged with the counts for their respective paired-end sequenced samples for analysis.",
+          "searchable_summary": "Merge gene count data from single-end and paired-end sequencing libraries",
+          "inputs": [
+            "Raw count data (single-end)",
+            "Raw count data (paired-end)"
+          ],
+          "outputs": [
+            "Merged count data table"
+          ],
+          "keywords": [
+            "merge data",
+            "count data",
+            "RNA-seq",
+            "single-end",
+            "paired-end"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Each data set was filtered to remove contigs with low expression, retaining those contigs with > 1 count per million in at least three groups for the H. melpomene data, and at least two groups for the other four species.",
+          "searchable_summary": "Filter contigs with low expression based on CPM threshold per group",
+          "inputs": [
+            "Merged count data table",
+            "CPM threshold (1)",
+            "Minimum group count (3 for H. melpomene, 2 for others)"
+          ],
+          "outputs": [
+            "Filtered count data table"
+          ],
+          "keywords": [
+            "filter data",
+            "low expression",
+            "CPM",
+            "edgeR",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Data were normalized between samples using the default TMM normalization method (Robinson and Oshlack 2010).",
+          "searchable_summary": "Normalize filtered count data using TMM method",
+          "inputs": [
+            "Filtered count data table"
+          ],
+          "outputs": [
+            "Normalized count data table"
+          ],
+          "keywords": [
+            "normalize data",
+            "TMM normalization",
+            "edgeR",
+            "RNA-seq"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The H. melpomene count data were analyzed using a generalized linear model in edgeR, modeled as~tissue + sex.",
+          "searchable_summary": "Perform differential expression analysis for H. melpomene using edgeR GLM with model ~tissue + sex",
+          "inputs": [
+            "Normalized H. melpomene count data",
+            "Experimental design (tissue, sex factors)"
+          ],
+          "outputs": [
+            "edgeR GLM results object"
+          ],
+          "keywords": [
+            "differential expression",
+            "edgeR",
+            "generalized linear model",
+            "GLM",
+            "RNA-seq",
+            "H. melpomene"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The remaining four species were modeled using the classic edgeR approach for single factor designs, with male and female samples grouped as biological replicates of each tissue type.",
+          "searchable_summary": "Perform differential expression analysis for other species using classic edgeR approach",
+          "inputs": [
+            "Normalized count data for other species",
+            "Experimental design (tissue factor, grouped sex)"
+          ],
+          "outputs": [
+            "edgeR classic results object"
+          ],
+          "keywords": [
+            "differential expression",
+            "edgeR",
+            "classic edgeR",
+            "RNA-seq",
+            "H. erato",
+            "H. doris",
+            "H. sara",
+            "E. isabella"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "In order to control for performing multiple tests, a false discovery rate (FDR; adjusted P-values) was calculated for each contig as per Storey and Tibshirani (2003).",
+          "searchable_summary": "Calculate False Discovery Rate (FDR) for multiple test correction",
+          "inputs": [
+            "Differential expression p-values"
+          ],
+          "outputs": [
+            "Differential expression results with FDR values"
+          ],
+          "keywords": [
+            "FDR",
+            "false discovery rate",
+            "multiple testing correction",
+            "adjusted p-value",
+            "edgeR"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Contigs were defined as showing evidence of significant upregulation in the mouthparts when the FDR was < 0.05 and contig expression increased by > 1 log fold change (logFC) compared with the other tissues.",
+          "searchable_summary": "Identify significantly upregulated contigs based on FDR < 0.05 and logFC > 1",
+          "inputs": [
+            "Differential expression results with FDR and logFC"
+          ],
+          "outputs": [
+            "List/table of significantly upregulated contigs"
+          ],
+          "keywords": [
+            "significant genes",
+            "upregulated",
+            "differential expression",
+            "FDR",
+            "log fold change",
+            "filtering results"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "Heatmaps were constructed with the R package Heatplus (Ploner 2012).",
+          "searchable_summary": "Construct heatmaps of expression data for selected contigs",
+          "inputs": [
+            "Normalized expression data",
+            "List of contigs for visualization"
+          ],
+          "outputs": [
+            "Heatmap image file"
+          ],
+          "keywords": [
+            "heatmap",
+            "visualization",
+            "gene expression",
+            "Heatplus R package"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "The expression of several candidate genes in the proboscis, labial palps, and salivary glands was verified using reverse transcription polymerase chain reaction (RT-PCR; see Supplementary Methods and supplementary table S2, Supplementary Material online for details).",
+          "searchable_summary": "Verify candidate gene expression using RT-PCR (laboratory method)",
+          "inputs": [
+            "Candidate genes",
+            "Biological samples (proboscis, labial palps, salivary glands)"
+          ],
+          "outputs": [
+            "RT-PCR results"
+          ],
+          "keywords": [
+            "RT-PCR",
+            "gene expression validation",
+            "laboratory method"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling, mRNA Extraction and Sequencing",
+      "description": "Butterfly samples were obtained from a Costa Rican butterfly farm, Suministros Entomoló gicos Costarricenses, S.A. Butterflies were shipped as pupae and hung within a humidified chamber at room temperature until eclosion. Adult butterflies were fed on diluted~1:10 100% honey and were then fresh frozen in À80 C freezer 1-2 days after eclosion. mRNA was extracted from the antennae, legs (all six legs) and mouthparts (proboscis and labial palps) of one male and one female H. erato, H. doris, H. sara, and a nonpollen feeding sister species to Heliconius, Eueides isabella, using TRIzol (Life Technologies, Inc.). The labial palps were included due to their potential for a role in feeding. Illumina sequencing resulted in 24 sequenced libraries of 100 bp paired-end reads (see Supplementary Methods for details). Raw read data were also obtained for H. melpomene rosina from Briscoe et al. (2013), which includes three biological replicate males and three females for each tissue type (ArrayExpress accession: E-TAB-1500). These data include resequenced samples from each tissue type of one male and one female comprising of 100 bp singleend reads. See supplementary table S1, Supplementary Material online for details of samples used in this study. Illumina read libraries are available as fastq files from the ArrayExpress database (www.ebi.ac.uk/arrayexpress), accession number E-MTAB-3446.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Butterfly samples were obtained from a Costa Rican butterfly farm, Suministros Entomoló gicos Costarricenses, S.A. Butterflies were shipped as pupae...",
+          "searchable_summary": "Obtain butterfly pupae samples from a supplier",
+          "inputs": [
+            "Supplier information"
+          ],
+          "outputs": [
+            "Butterfly pupae"
+          ],
+          "keywords": [
+            "sample collection",
+            "biological samples",
+            "butterfly",
+            "pupae"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "...and hung within a humidified chamber at room temperature until eclosion.",
+          "searchable_summary": "Rear butterfly pupae in a humidified chamber until eclosion",
+          "inputs": [
+            "Butterfly pupae",
+            "Humidified chamber"
+          ],
+          "outputs": [
+            "Adult butterflies"
+          ],
+          "keywords": [
+            "animal rearing",
+            "eclosion",
+            "laboratory procedure"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Adult butterflies were fed on diluted~1:10 100% honey...",
+          "searchable_summary": "Feed adult butterflies with diluted honey",
+          "inputs": [
+            "Adult butterflies",
+            "Diluted honey"
+          ],
+          "outputs": [
+            "Fed adult butterflies"
+          ],
+          "keywords": [
+            "animal feeding",
+            "laboratory procedure"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "...and were then fresh frozen in À80 C freezer 1-2 days after eclosion.",
+          "searchable_summary": "Fresh freeze adult butterflies at -80 C",
+          "inputs": [
+            "Adult butterflies"
+          ],
+          "outputs": [
+            "Frozen butterfly samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "freezing",
+            "-80C"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "mRNA was extracted from the antennae, legs (all six legs) and mouthparts (proboscis and labial palps) of one male and one female H. erato, H. doris, H. sara, and a nonpollen feeding sister species to Heliconius, Eueides isabella, using TRIzol (Life Technologies, Inc.).",
+          "searchable_summary": "Extract mRNA from specific tissues (antennae, legs, mouthparts) using TRIzol",
+          "inputs": [
+            "Frozen butterfly samples",
+            "TRIzol reagent",
+            "Dissection tools"
+          ],
+          "outputs": [
+            "Extracted RNA/mRNA"
+          ],
+          "keywords": [
+            "mRNA extraction",
+            "RNA extraction",
+            "TRIzol",
+            "tissue dissection",
+            "laboratory procedure"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Illumina sequencing resulted in 24 sequenced libraries of 100 bp paired-end reads (see Supplementary Methods for details).",
+          "searchable_summary": "Perform Illumina sequencing (100 bp paired-end reads) on extracted RNA",
+          "inputs": [
+            "Extracted RNA/mRNA",
+            "Sequencing reagents",
+            "Illumina sequencer"
+          ],
+          "outputs": [
+            "Raw sequencing reads (fastq files)"
+          ],
+          "keywords": [
+            "Illumina sequencing",
+            "RNA-seq",
+            "library preparation",
+            "paired-end reads",
+            "fastq"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Raw read data were also obtained for H. melpomene rosina from Briscoe et al. (2013)... (ArrayExpress accession: E-TAB-1500). These data include resequenced samples from each tissue type of one male and one female comprising of 100 bp singleend reads.",
+          "searchable_summary": "Download raw sequencing data for H. melpomene from ArrayExpress accession E-TAB-1500",
+          "inputs": [
+            "ArrayExpress accession E-TAB-1500"
+          ],
+          "outputs": [
+            "Raw sequencing reads (fastq files) for H. melpomene"
+          ],
+          "keywords": [
+            "data download",
+            "ArrayExpress",
+            "public data",
+            "RNA-seq",
+            "fastq",
+            "H. melpomene"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "Illumina read libraries are available as fastq files from the ArrayExpress database (www.ebi.ac.uk/arrayexpress), accession number E-MTAB-3446.",
+          "searchable_summary": "Download raw sequencing data for other species from ArrayExpress accession E-MTAB-3446",
+          "inputs": [
+            "ArrayExpress accession E-MTAB-3446"
+          ],
+          "outputs": [
+            "Raw sequencing reads (fastq files) for H. erato, H. doris, H. sara, E. isabella"
+          ],
+          "keywords": [
+            "data download",
+            "ArrayExpress",
+            "public data",
+            "RNA-seq",
+            "fastq",
+            "H. erato",
+            "H. doris",
+            "H. sara",
+            "E. isabella"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16401488.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

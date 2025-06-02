@@ -1,0 +1,343 @@
+{
+  "paper_title": "Effects of marine sediment as agricultural substrate on soil microbial diversity: an amplicon sequencing study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis with R Software",
+      "description": "This method involves using R software to perform statistical analysis on biodiversity data, including alpha and beta diversity comparisons, and testing the significance of community structure groups.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Alpha diversity comparisons were performed using Kruskal-Wallis non-parametric test.",
+          "searchable_summary": "perform Kruskal-Wallis non-parametric test for alpha diversity",
+          "inputs": [
+            "alpha diversity data"
+          ],
+          "outputs": [
+            "Kruskal-Wallis test results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis",
+            "alpha diversity",
+            "non-parametric test"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Beta diversity distance matrices were used to calculate principal coordinates analysis (PCoA) and to make ordination plots.",
+          "searchable_summary": "calculate PCoA and create ordination plots from beta diversity matrices",
+          "inputs": [
+            "beta diversity distance matrices"
+          ],
+          "outputs": [
+            "PCoA results",
+            "ordination plots"
+          ],
+          "keywords": [
+            "PCoA",
+            "ordination plots",
+            "beta diversity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The significance of groups present in community structure was tested using Permanova and ANOSIM tests.",
+          "searchable_summary": "perform Permanova and ANOSIM tests for community structure significance",
+          "inputs": [
+            "community structure data"
+          ],
+          "outputs": [
+            "Permanova test results",
+            "ANOSIM test results"
+          ],
+          "keywords": [
+            "Permanova",
+            "ANOSIM",
+            "community structure"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "A multivariate analogue of Levene's test for homogeneity of variances, Permdisp test, was used to identify location vs. dispersion effects.",
+          "searchable_summary": "perform Permdisp test for homogeneity of variances",
+          "inputs": [
+            "variance data"
+          ],
+          "outputs": [
+            "Permdisp test results"
+          ],
+          "keywords": [
+            "Permdisp",
+            "homogeneity of variances"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Differential relative abundance of taxa was tested using ANCOM and Kruskal Wallis non-parametric test.",
+          "searchable_summary": "test differential relative abundance using ANCOM and Kruskal Wallis",
+          "inputs": [
+            "taxa abundance data"
+          ],
+          "outputs": [
+            "ANCOM results",
+            "Kruskal Wallis test results"
+          ],
+          "keywords": [
+            "ANCOM",
+            "Kruskal Wallis",
+            "relative abundance"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "After Kruskal Wallis, Conover's test with FDR Benjamini-Hochberg correction was added for pairwise comparison.",
+          "searchable_summary": "perform Conover's test with FDR Benjamini-Hochberg correction for pairwise comparison",
+          "inputs": [
+            "Kruskal Wallis test results"
+          ],
+          "outputs": [
+            "Conover's test results"
+          ],
+          "keywords": [
+            "Conover's test",
+            "FDR Benjamini-Hochberg",
+            "pairwise comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bioinformatic Processing and Analysis",
+      "description": "This method involves processing raw sequencing reads using QIIME2 and Dada2 for quality control, subsampling, and calculating diversity metrics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw demultiplexed forward and reverse reads were processed with microbiome bioinformatics platform QIIME2.",
+          "searchable_summary": "process raw reads using QIIME2",
+          "inputs": [
+            "raw demultiplexed reads"
+          ],
+          "outputs": [
+            "processed reads"
+          ],
+          "keywords": [
+            "QIIME2",
+            "bioinformatics",
+            "sequence processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Dada2 was used as QIIME 2 plugin for sequence quality control.",
+          "searchable_summary": "perform sequence quality control using Dada2",
+          "inputs": [
+            "processed reads"
+          ],
+          "outputs": [
+            "quality-controlled reads"
+          ],
+          "keywords": [
+            "Dada2",
+            "quality control",
+            "QIIME2 plugin"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All the samples were subsampled up to 24,665 reads to even sample size and make quantitative comparisons.",
+          "searchable_summary": "subsample reads to 24,665 for even sample size",
+          "inputs": [
+            "quality-controlled reads"
+          ],
+          "outputs": [
+            "subsampled reads"
+          ],
+          "keywords": [
+            "subsampling",
+            "even sample size",
+            "quantitative comparison"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Phylotype data was used to calculate alpha diversity metrics: Observed OTUs, Evenness, and Shannon's diversity index.",
+          "searchable_summary": "calculate alpha diversity metrics from phylotype data",
+          "inputs": [
+            "phylotype data"
+          ],
+          "outputs": [
+            "alpha diversity metrics"
+          ],
+          "keywords": [
+            "alpha diversity",
+            "OTUs",
+            "Shannon's index"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Phylotype and phylogenetic data were used to calculate beta diversity metrics: Unweighted Unifrac, Weighted Unifrac, Jaccard, and Bray Curtis distances.",
+          "searchable_summary": "calculate beta diversity metrics from phylotype and phylogenetic data",
+          "inputs": [
+            "phylotype data",
+            "phylogenetic data"
+          ],
+          "outputs": [
+            "beta diversity metrics"
+          ],
+          "keywords": [
+            "beta diversity",
+            "Unifrac",
+            "Jaccard",
+            "Bray Curtis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Taxonomic assignment of phylotypes was performed using a Bayesian Classifier trained with Silva database version 138.",
+          "searchable_summary": "perform taxonomic assignment using Bayesian Classifier with Silva database",
+          "inputs": [
+            "phylotype sequences"
+          ],
+          "outputs": [
+            "taxonomic assignments"
+          ],
+          "keywords": [
+            "taxonomic assignment",
+            "Bayesian Classifier",
+            "Silva database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis Based on Clusters of Orthologous Genes (COGs)",
+      "description": "This method involves analyzing protein sequences using the COG database to infer functions and classify them based on their representation in different samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Analyzing the results with the COG database, 4291 protein sequences with correspondence to a COG number were identified in the bacterial genome of the control samples.",
+          "searchable_summary": "identify protein sequences with COG numbers in control samples",
+          "inputs": [
+            "bacterial genome sequences"
+          ],
+          "outputs": [
+            "COG-identified protein sequences"
+          ],
+          "keywords": [
+            "COG database",
+            "protein sequences",
+            "bacterial genome"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "For samples containing marine port sediment, the number of correlated sequences was slightly higher.",
+          "searchable_summary": "compare COG-identified sequences in marine sediment samples",
+          "inputs": [
+            "marine sediment genome sequences"
+          ],
+          "outputs": [
+            "COG-identified protein sequences"
+          ],
+          "keywords": [
+            "COG database",
+            "marine sediment",
+            "protein sequences"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "By inferring the function of the identified proteins and classifying them, the results showed the most represented functional groups.",
+          "searchable_summary": "infer and classify protein functions from COG data",
+          "inputs": [
+            "COG-identified protein sequences"
+          ],
+          "outputs": [
+            "classified protein functions"
+          ],
+          "keywords": [
+            "protein function",
+            "classification",
+            "COG data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis Based on the Kyoto Encyclopedia of Genes and Genomes (KEGG)",
+      "description": "This method involves identifying metabolic pathways in soil samples using taxonomic profiling and comparing results to the KEGG database.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Taxonomic profiling was performed on soil samples and the results were compared to the KEGG database.",
+          "searchable_summary": "perform taxonomic profiling and compare to KEGG database",
+          "inputs": [
+            "soil sample data"
+          ],
+          "outputs": [
+            "KEGG pathway identification"
+          ],
+          "keywords": [
+            "taxonomic profiling",
+            "KEGG database",
+            "metabolic pathways"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Enrichment analysis was performed on the significant pathways using Fisher's test.",
+          "searchable_summary": "perform enrichment analysis using Fisher's test on significant pathways",
+          "inputs": [
+            "significant pathways"
+          ],
+          "outputs": [
+            "enrichment analysis results"
+          ],
+          "keywords": [
+            "enrichment analysis",
+            "Fisher's test",
+            "significant pathways"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Based on this analysis, 61 pathways were defined as more enriched, and among those, 30 pathways were identified as dominant.",
+          "searchable_summary": "identify enriched and dominant pathways from analysis",
+          "inputs": [
+            "enrichment analysis results"
+          ],
+          "outputs": [
+            "enriched pathways",
+            "dominant pathways"
+          ],
+          "keywords": [
+            "enriched pathways",
+            "dominant pathways",
+            "KEGG analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260621254.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

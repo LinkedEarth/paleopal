@@ -1,0 +1,117 @@
+{
+  "paper_title": "Static GPS measurements",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Static GPS Data Collection and Processing",
+      "description": "This method describes the collection and processing of GPS data to measure shoreline height using Trimble dual-frequency receivers. The procedure involves collecting data during two survey periods, processing baselines, and obtaining fixed solutions for precise coordinates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "GPS data that measure shoreline height were collected during two survey periods in 2015 and 2016 using two Trimble dual-frequency receivers: 5700 and NetR9 with Zephyr and Zephyr Geodetic antennas.",
+          "searchable_summary": "collect GPS data using Trimble dual-frequency receivers",
+          "inputs": [
+            "Trimble 5700 receiver",
+            "Trimble NetR9 receiver",
+            "Zephyr antenna",
+            "Zephyr Geodetic antenna"
+          ],
+          "outputs": [
+            "raw GPS data"
+          ],
+          "keywords": [
+            "GPS data collection",
+            "Trimble receivers",
+            "shoreline height"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Each GPS point was occupied for at least 10 min, following a rapid static method.",
+          "searchable_summary": "occupy each GPS point for 10 minutes using rapid static method",
+          "inputs": [
+            "GPS points"
+          ],
+          "outputs": [
+            "occupied GPS points"
+          ],
+          "keywords": [
+            "rapid static method",
+            "GPS point occupation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To obtain precise coordinates for each point, we followed the GPS differential procedure.",
+          "searchable_summary": "apply GPS differential procedure for precise coordinates",
+          "inputs": [
+            "occupied GPS points"
+          ],
+          "outputs": [
+            "precise GPS coordinates"
+          ],
+          "keywords": [
+            "GPS differential procedure",
+            "coordinate precision"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We processed baselines and obtained fixed solutions for 64 GPS points; when two baselines were processed for the same point, we adjusted both results for a robust solution.",
+          "searchable_summary": "process baselines and obtain fixed solutions for GPS points",
+          "inputs": [
+            "precise GPS coordinates"
+          ],
+          "outputs": [
+            "fixed GPS solutions"
+          ],
+          "keywords": [
+            "baseline processing",
+            "fixed solutions",
+            "GPS data adjustment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The mean difference between the elevations in the DEM and the GPS sites was 0.27 ± 1.07 m. Of the 64 GPS sites, 48 (75%) agreed within 1 m with the DEM.",
+          "searchable_summary": "validate GPS data against DEM elevations",
+          "inputs": [
+            "fixed GPS solutions",
+            "DEM data"
+          ],
+          "outputs": [
+            "validation results"
+          ],
+          "keywords": [
+            "DEM comparison",
+            "elevation validation",
+            "GPS accuracy"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Thus, we attributed a total uncertainty for each GPS position of ±3 m.",
+          "searchable_summary": "attribute uncertainty to GPS positions",
+          "inputs": [
+            "validation results"
+          ],
+          "outputs": [
+            "GPS position uncertainty"
+          ],
+          "keywords": [
+            "uncertainty estimation",
+            "GPS position accuracy"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/49619387.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

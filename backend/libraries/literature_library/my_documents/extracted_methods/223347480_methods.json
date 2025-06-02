@@ -1,0 +1,225 @@
+{
+  "paper_title": "DNA Sequence Analysis and Character Based Identification",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA Sequence Assembly and Alignment",
+      "description": "This method involves assembling forward and reverse DNA sequences, aligning them, and manually adjusting them for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Following sequencing, the forward and reverse sequences were assembled using BioEdit ver. 5.0.",
+          "searchable_summary": "assemble forward and reverse DNA sequences using BioEdit",
+          "inputs": [
+            "forward DNA sequence",
+            "reverse DNA sequence"
+          ],
+          "outputs": [
+            "assembled DNA sequence"
+          ],
+          "keywords": [
+            "DNA assembly",
+            "BioEdit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequences were aligned using CLUSTAL X and manually adjusted in MEGA X.",
+          "searchable_summary": "align DNA sequences using CLUSTAL X and adjust in MEGA X",
+          "inputs": [
+            "assembled DNA sequence"
+          ],
+          "outputs": [
+            "aligned DNA sequence"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "CLUSTAL X",
+            "MEGA X"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "BLAST Analysis and Species Delimitation",
+      "description": "This method uses BLAST algorithms to compare DNA sequences with GenBank sequences and applies a species threshold for delimitation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "DNA sequences were compared with GenBank sequences using BLAST algorithms and a cut-off species threshold of 98.41% was used for delimitation of yeast species.",
+          "searchable_summary": "compare DNA sequences with GenBank using BLAST and apply species threshold",
+          "inputs": [
+            "aligned DNA sequence",
+            "GenBank database"
+          ],
+          "outputs": [
+            "species delimitation results"
+          ],
+          "keywords": [
+            "BLAST",
+            "species delimitation",
+            "GenBank"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The species that were first time barcoded were confirmed by double checking BLAST search similarity values and by searching for ITS gene sequences of the species in GenBank.",
+          "searchable_summary": "confirm new species barcoding by checking BLAST similarity and ITS gene sequences",
+          "inputs": [
+            "BLAST results",
+            "GenBank ITS gene sequences"
+          ],
+          "outputs": [
+            "confirmed new species barcoding"
+          ],
+          "keywords": [
+            "species confirmation",
+            "ITS gene",
+            "BLAST"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Tree Construction",
+      "description": "This method constructs a phylogenetic tree using the Neighbor-Joining method and evaluates it with bootstrap tests.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Using the reference sequences extracted from GenBank, the Neighbor-Joining method was used for tree based yeast species identification.",
+          "searchable_summary": "construct phylogenetic tree using Neighbor-Joining method",
+          "inputs": [
+            "reference sequences from GenBank"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "Neighbor-Joining",
+            "GenBank"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "In the bootstrap test, the percentage of replicate trees in which the associated taxa clustered together (100 replicates) is indicated as circles next to the branches.",
+          "searchable_summary": "perform bootstrap test on phylogenetic tree with 100 replicates",
+          "inputs": [
+            "phylogenetic tree"
+          ],
+          "outputs": [
+            "bootstrap test results"
+          ],
+          "keywords": [
+            "bootstrap test",
+            "phylogenetic validation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "The NJ trees were manipulated in interactive Tree of Life (iTOL) database for better representation.",
+          "searchable_summary": "visualize phylogenetic tree using iTOL",
+          "inputs": [
+            "phylogenetic tree"
+          ],
+          "outputs": [
+            "visualized phylogenetic tree"
+          ],
+          "keywords": [
+            "iTOL",
+            "tree visualization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Release and Accessibility",
+      "description": "This method describes the release of DNA sequences to GenBank and the Barcode of Life database for public access.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "DNA sequences generated in the present study were released to GenBank and could be accessed through accession numbers: KJ706221-KJ707237.",
+          "searchable_summary": "release DNA sequences to GenBank with accession numbers",
+          "inputs": [
+            "DNA sequences"
+          ],
+          "outputs": [
+            "GenBank accession numbers"
+          ],
+          "keywords": [
+            "GenBank",
+            "data release"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Entire dataset produced in this study could also be accessed through Barcode of life database under the project title 'DNA barcoding marine yeast' with a tag, 'DBMY' or through a digital object identifier.",
+          "searchable_summary": "make dataset accessible through Barcode of Life database and DOI",
+          "inputs": [
+            "DNA dataset"
+          ],
+          "outputs": [
+            "Barcode of Life database entry",
+            "DOI"
+          ],
+          "keywords": [
+            "Barcode of Life",
+            "DOI",
+            "data accessibility"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Character Based Identification and BLAST Analysis",
+      "description": "This method involves character-based identification of ITS sequences and BLAST analysis to identify and confirm new yeast species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "BLAST analysis revealed that 13 yeast species were barcoded for the first time and individual search of the ITS gene of those species in GenBank did not yield any results.",
+          "searchable_summary": "perform BLAST analysis to identify new yeast species",
+          "inputs": [
+            "ITS sequences",
+            "GenBank database"
+          ],
+          "outputs": [
+            "new yeast species identification"
+          ],
+          "keywords": [
+            "BLAST",
+            "ITS gene",
+            "yeast species"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The overall intra-species K2P distance average was 0.33% which was well below the threshold proposed for the yeast species (1.59%).",
+          "searchable_summary": "calculate K2P distance for intra-species comparison",
+          "inputs": [
+            "ITS sequences"
+          ],
+          "outputs": [
+            "K2P distance values"
+          ],
+          "keywords": [
+            "K2P distance",
+            "intra-species comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/223347480.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

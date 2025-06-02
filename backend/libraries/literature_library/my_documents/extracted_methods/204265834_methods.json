@@ -1,0 +1,346 @@
+{
+  "paper_title": "Elemental analysis of foraminifera using LA-ICP-MS and Sampling Strategy",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Elemental Analysis of Foraminifera using LA-ICP-MS",
+      "description": "This method describes the process for analyzing the elemental composition of foraminifera specimens using Laser Ablation Inductively Coupled Plasma Mass Spectrometry (LA-ICP-MS). It includes sample selection, laser ablation, mass spectrometry, data calibration using standards, outlier removal, screening for contamination, and calculation of specimen averages and variability.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In total 13 samples (Table 1), were analysed with six specimens per sample and six laser spots per specimen on consecutive chambers. Two samples only contain two and five E. batialis specimens, respectively, due to low abundance. Specimens for this study were picked from the two size fractions 150-250 mm and > 250 mm. This study is exclusively based on E. batialis specimens.",
+          "searchable_summary": "Select specific foraminifera specimens (Elphidium batialis) from core samples based on sample list, depth, and size fraction.",
+          "inputs": [
+            "Core samples (IODP Site U1343, specific depth intervals)",
+            "Table 1 (sample list)",
+            "Size fraction criteria (150-250 µm, >250 µm)",
+            "Species identification (Elphidium batialis)"
+          ],
+          "outputs": [
+            "Selected Elphidium batialis specimens"
+          ],
+          "keywords": [
+            "foraminifera",
+            "sample selection",
+            "specimen picking",
+            "core samples",
+            "Elphidium batialis",
+            "size fraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Laser inductively coupled plasma mass spectrometer (LA-ICP-MS) analyses were performed at Cardiff University using an ArF excimer 193 nm laser ablation system with dual volume laser ablation cell (RESOlution S-155 ASI) coupled to a Thermo Scientific TM ELEMENT XR TM magnetic sector field ICP-MS.",
+          "searchable_summary": "Configure LA-ICP-MS instrument for analysis.",
+          "inputs": [
+            "LA-ICP-MS instrument",
+            "Laser system (ArF excimer 193 nm)",
+            "Laser ablation cell (dual volume)",
+            "ICP-MS unit (Thermo Scientific ELEMENT XR)"
+          ],
+          "outputs": [
+            "Configured LA-ICP-MS system"
+          ],
+          "keywords": [
+            "LA-ICP-MS",
+            "instrument setup",
+            "mass spectrometry",
+            "experimental setup",
+            "laser ablation system"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "six laser spots per specimen on consecutive chambers. LA-ICP-MS operating conditions varied based on the size fraction of E. batialis specimens (Table 2).",
+          "searchable_summary": "Perform laser ablation on foraminifera specimens using specified parameters.",
+          "inputs": [
+            "Selected specimens",
+            "Configured LA-ICP-MS system",
+            "Table 2 (operating conditions)",
+            "Laser spot pattern (6 spots/specimen, consecutive chambers)"
+          ],
+          "outputs": [
+            "Ablated material",
+            "Raw time-resolved ICP-MS signal data"
+          ],
+          "keywords": [
+            "laser ablation",
+            "foraminifera",
+            "LA-ICP-MS",
+            "ablation spots",
+            "time-resolved data",
+            "operating conditions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "all samples were analysed for the isotopes 25 Mg, 26 Mg, 27 Al, 43 Ca, 48 Ca, 55 Mn, 87 Sr, 88 Sr, 238 U. all remaining isotopes that were measured in low resolution (LR) mode.",
+          "searchable_summary": "Measure isotope signals using ICP-MS in low resolution mode.",
+          "inputs": [
+            "Raw time-resolved ICP-MS signal data",
+            "Isotope list (LR: 25Mg, 26Mg, 27Al, 43Ca, 48Ca, 55Mn, 87Sr, 88Sr, 238U)"
+          ],
+          "outputs": [
+            "Raw time-resolved isotope intensity data (LR)"
+          ],
+          "keywords": [
+            "ICP-MS",
+            "isotope measurement",
+            "low resolution",
+            "mass spectrometry",
+            "raw data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Additionally, 56 Fe was measured on four samples from the >250 mm size fraction... 56 Fe has to be measured in medium resolution (MR) mode of the ICP-MS... the four samples for Fe analysis were ablated in LR mode first and re-ablated in MR mode on the same chambers.",
+          "searchable_summary": "Measure 56 Fe isotope signal using ICP-MS in medium resolution mode on specific samples after re-ablation.",
+          "inputs": [
+            "Raw time-resolved ICP-MS signal data (from re-ablation)",
+            "Isotope list (MR: 56 Fe)",
+            "Specific sample list (4 samples from >250 µm fraction)"
+          ],
+          "outputs": [
+            "Raw time-resolved 56 Fe isotope intensity data (MR)"
+          ],
+          "keywords": [
+            "ICP-MS",
+            "isotope measurement",
+            "medium resolution",
+            "Fe-56",
+            "spectral interference",
+            "re-ablation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The NIST SRM 612 ... was acquired at the beginning and end of every sequence and calibrated using NIST SRM 610 for external reproducibility (Table 3). NIST SRM 612 was also used to tune the magnetic sector field ICP-MS to minimize oxide formation and elemental fractionation (ThO/Th < 0.3%, Th/U $ 1).",
+          "searchable_summary": "Measure NIST SRM 612 standard for instrument tuning and quality control.",
+          "inputs": [
+            "NIST SRM 612 standard",
+            "Configured LA-ICP-MS system",
+            "Measurement frequency (sequence start/end)",
+            "Tuning criteria (ThO/Th < 0.3%, Th/U ≈ 1)"
+          ],
+          "outputs": [
+            "Standard measurement data (NIST SRM 612)",
+            "Tuned ICP-MS system"
+          ],
+          "keywords": [
+            "LA-ICP-MS",
+            "standard measurement",
+            "NIST SRM 612",
+            "instrument tuning",
+            "quality control",
+            "ThO/Th",
+            "Th/U",
+            "external reproducibility"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "NIST SRM 610 was measured every six laser ablation spots and used for sample calibration. Reference values for elemental concentrations in NIST SRM 610 and 612 are from Jochum et al. (2011).",
+          "searchable_summary": "Measure NIST SRM 610 standard for external calibration reference.",
+          "inputs": [
+            "NIST SRM 610 standard",
+            "Configured LA-ICP-MS system",
+            "Measurement frequency (every 6 spots)",
+            "Reference values (Jochum et al., 2011)"
+          ],
+          "outputs": [
+            "Standard measurement data (NIST SRM 610)"
+          ],
+          "keywords": [
+            "LA-ICP-MS",
+            "standard measurement",
+            "NIST SRM 610",
+            "external calibration",
+            "reference material"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Prior to sample calibration the limit of detection was calculated (LOD = mean gas blank + 3.3 * s.d., s.d.= standard deviation on the gas blank) for each isotope and spot",
+          "searchable_summary": "Calculate the limit of detection for each isotope measurement based on gas blank statistics.",
+          "inputs": [
+            "Gas blank data (mean)",
+            "Gas blank data (standard deviation)"
+          ],
+          "outputs": [
+            "LOD values per isotope and spot"
+          ],
+          "keywords": [
+            "limit of detection",
+            "LOD",
+            "data quality",
+            "analytical chemistry",
+            "gas blank",
+            "standard deviation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "all values below the LOD were removed",
+          "searchable_summary": "Filter out raw data points below the calculated limit of detection.",
+          "inputs": [
+            "Raw time-resolved isotope intensity data",
+            "LOD values"
+          ],
+          "outputs": [
+            "Filtered time-resolved isotope intensity data"
+          ],
+          "keywords": [
+            "data filtering",
+            "LOD",
+            "data cleaning",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Additionally, signal sections classified as 'instrumental', as determined by the 48 Ca/ 43 Ca ratio, were removed.",
+          "searchable_summary": "Remove signal sections identified as instrumental artifacts based on 48 Ca/ 43 Ca ratio.",
+          "inputs": [
+            "Filtered time-resolved isotope intensity data",
+            "48 Ca/ 43 Ca ratio data",
+            "Classification criteria for 'instrumental' signal"
+          ],
+          "outputs": [
+            "Further filtered time-resolved isotope intensity data"
+          ],
+          "keywords": [
+            "signal processing",
+            "data cleaning",
+            "instrumental artifact",
+            "isotope ratio",
+            "48Ca/43Ca"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Samples were calibrated using R Studio (R Studio Team, 2015) following the method outlined in Longerich et al. (1996), with 43 Ca as the internal standard, assuming 40 wt% for CaCO 3 . Sample calibration includes a gas blank and drift correction of reference mate-rials, sample gas blank correction, and sample data reduction.",
+          "searchable_summary": "Calibrate filtered LA-ICP-MS data using internal and external standards and apply corrections.",
+          "inputs": [
+            "Further filtered time-resolved isotope intensity data",
+            "Standard measurement data (NIST SRM 610, 612)",
+            "Gas blank data",
+            "43 Ca data (as internal standard)",
+            "Assumed CaCO3 wt% (40%)",
+            "Calibration method (Longerich et al., 1996)",
+            "R Studio software"
+          ],
+          "outputs": [
+            "Calibrated time-resolved elemental concentration data (e.g., element/Ca ratios or concentrations)"
+          ],
+          "keywords": [
+            "data calibration",
+            "LA-ICP-MS",
+            "internal standard",
+            "external standard",
+            "data reduction",
+            "R Studio",
+            "Longerich method",
+            "43Ca",
+            "CaCO3",
+            "gas blank correction",
+            "drift correction"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_processing",
+          "description": "Subsequently an outlier correction was performed using the Hampel identifier (Davies and Gather, 1993).",
+          "searchable_summary": "Identify and remove outliers from calibrated data using the Hampel identifier algorithm.",
+          "inputs": [
+            "Calibrated time-resolved elemental concentration data"
+          ],
+          "outputs": [
+            "Calibrated data with outliers removed"
+          ],
+          "keywords": [
+            "outlier detection",
+            "outlier removal",
+            "Hampel identifier",
+            "data cleaning",
+            "statistical filtering"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "27Al was used to screen for silicate contamination and most profiles show an initial peak of Al/Ca, interpreted to represent contamination on the outside of the foraminiferal test.",
+          "searchable_summary": "Screen calibrated data profiles for silicate contamination using the Al/Ca ratio.",
+          "inputs": [
+            "Calibrated time-resolved elemental concentration data (including Al/Ca ratio)"
+          ],
+          "outputs": [
+            "Contamination assessment/flags per profile section"
+          ],
+          "keywords": [
+            "contamination screening",
+            "Al/Ca ratio",
+            "silicate contamination",
+            "data quality",
+            "27Al"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_processing",
+          "description": "Specimen means are integrated only for signal sections with Al/Ca below the LOD and for profiles with >10 data points of Al/Ca below the LOD, to minimize the risk of silica contribution to the sample signal.",
+          "searchable_summary": "Calculate specimen-averaged elemental composition by integrating filtered laser profiles, excluding sections/profiles with potential silicate contamination based on Al/Ca ratio.",
+          "inputs": [
+            "Calibrated time-resolved elemental concentration data",
+            "Contamination assessment/flags (Al/Ca vs LOD)",
+            "LOD for Al",
+            "Minimum data points criteria (>10 points with Al/Ca < LOD)"
+          ],
+          "outputs": [
+            "Specimen-averaged elemental concentration data"
+          ],
+          "keywords": [
+            "data integration",
+            "specimen mean",
+            "Al/Ca ratio",
+            "contamination filtering",
+            "data aggregation",
+            "signal integration"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_analysis",
+          "description": "Lastly, the average and standard deviation was calculated of all laser profiles per specimen. The standard deviation for single specimen means is based on the variance of the elemental ratio across the average of all laser profiles taken per specimen.",
+          "searchable_summary": "Calculate the standard deviation representing the variability of elemental composition across the laser profiles contributing to each specimen mean.",
+          "inputs": [
+            "Calibrated time-resolved elemental concentration data (contributing profiles)",
+            "Specimen-averaged elemental concentration data"
+          ],
+          "outputs": [
+            "Standard deviation values for each specimen mean"
+          ],
+          "keywords": [
+            "standard deviation",
+            "variability",
+            "specimen mean",
+            "data analysis",
+            "variance"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/204265834.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

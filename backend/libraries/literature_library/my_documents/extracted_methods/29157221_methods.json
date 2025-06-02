@@ -1,0 +1,122 @@
+{
+  "paper_title": "NGRIP Ice Core Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "NGRIP Ice Core Data Preprocessing",
+      "description": "Procedure for preprocessing raw δ18O and dust time series from the NGRIP ice core, including resampling, interpolation, gap filling, detrending, and filtering, to prepare them for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The dust record was resampled here to the lower 5 cm resolution for consistency with the δ 18 O record.",
+          "searchable_summary": "resample dust time series to 5 cm resolution",
+          "inputs": [
+            "Raw dust time series (1 mm resolution)"
+          ],
+          "outputs": [
+            "Resampled dust time series (5 cm resolution)"
+          ],
+          "keywords": [
+            "resampling",
+            "time series",
+            "dust",
+            "ice core",
+            "resolution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "first, both time series are interpolated to an equidistant time axis with 5 a intervals.",
+          "searchable_summary": "interpolate δ18O and dust time series to 5 year intervals",
+          "inputs": [
+            "Resampled dust time series (5 cm resolution)",
+            "δ18O time series (5 cm resolution)"
+          ],
+          "outputs": [
+            "Interpolated dust time series (5 a intervals)",
+            "Interpolated δ18O time series (5 a intervals)"
+          ],
+          "keywords": [
+            "interpolation",
+            "time series",
+            "equidistant",
+            "δ18O",
+            "dust",
+            "ice core"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Second, gaps of varying length present in the dust time series and totaling about 6 % of the data points are filled by next-neighbor interpolation.",
+          "searchable_summary": "fill gaps in interpolated dust time series using next-neighbor interpolation",
+          "inputs": [
+            "Interpolated dust time series (with gaps)"
+          ],
+          "outputs": [
+            "Gap-filled dust time series"
+          ],
+          "keywords": [
+            "gap filling",
+            "interpolation",
+            "next-neighbor",
+            "time series",
+            "dust",
+            "ice core"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Third, the multimillennial trend is removed from both time series using a 40 ka running mean.",
+          "searchable_summary": "remove trend from interpolated δ18O and gap-filled dust time series using 40 ka running mean",
+          "inputs": [
+            "Interpolated δ18O time series",
+            "Gap-filled dust time series",
+            "Running mean window size (40 ka)"
+          ],
+          "outputs": [
+            "Detrended δ18O time series",
+            "Detrended dust time series"
+          ],
+          "keywords": [
+            "detrending",
+            "running mean",
+            "time series",
+            "δ18O",
+            "dust",
+            "ice core",
+            "trend removal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Fourth, the noise level of the δ 18 O record is reduced by applying a Butterworth low-pass filter of order 4, with a cutoff frequency of 0.02, corresponding to a period of 50 a.",
+          "searchable_summary": "apply Butterworth low-pass filter to detrended δ18O time series",
+          "inputs": [
+            "Detrended δ18O time series",
+            "Filter type (Butterworth)",
+            "Filter order (4)",
+            "Cutoff frequency (0.02)"
+          ],
+          "outputs": [
+            "Filtered δ18O time series"
+          ],
+          "keywords": [
+            "filtering",
+            "low-pass filter",
+            "Butterworth filter",
+            "time series",
+            "δ18O",
+            "noise reduction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/29157221.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

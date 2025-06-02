@@ -1,0 +1,265 @@
+{
+  "paper_title": "Longevity and Temperature Effects on Chironomids in Geothermal Streams",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Collection and Lab Study of Chironomids",
+      "description": "This method describes the collection of adult chironomids from geothermal streams and their subsequent laboratory incubation to study the effects of temperature on their longevity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Uninjured and recently emerged adult chironomids were collected using 8 close-weave muslin emergence traps, 3 on IS7 and 5 on IS8.",
+          "searchable_summary": "collect adult chironomids using emergence traps",
+          "inputs": [
+            "emergence traps",
+            "streams IS7 and IS8"
+          ],
+          "outputs": [
+            "collected chironomids"
+          ],
+          "keywords": [
+            "chironomids",
+            "emergence traps",
+            "field collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Adult chironomids were collected individually into one-dram snap top vials using an aspirator and transported to the laboratory in a cooler.",
+          "searchable_summary": "transport chironomids to lab in vials",
+          "inputs": [
+            "chironomids",
+            "one-dram snap top vials",
+            "aspirator"
+          ],
+          "outputs": [
+            "chironomids in vials"
+          ],
+          "keywords": [
+            "transport",
+            "vials",
+            "aspirator"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "A small amount of stream water was added to each vial during collection to prevent desiccation.",
+          "searchable_summary": "add stream water to vials",
+          "inputs": [
+            "vials",
+            "stream water"
+          ],
+          "outputs": [
+            "hydrated chironomids in vials"
+          ],
+          "keywords": [
+            "hydration",
+            "vials",
+            "stream water"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Adults were sorted by sex to have equal numbers of each sex within each treatment, and then were randomly assigned to one of two treatment groups for incubation at either constant 6°C or constant 20°C.",
+          "searchable_summary": "sort chironomids by sex and assign to temperature treatments",
+          "inputs": [
+            "chironomids",
+            "sex data"
+          ],
+          "outputs": [
+            "sorted chironomids in treatment groups"
+          ],
+          "keywords": [
+            "sorting",
+            "temperature treatment",
+            "incubation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Adults were assessed daily for survival using the protocol outlined in Ferrington (2019).",
+          "searchable_summary": "assess chironomid survival daily",
+          "inputs": [
+            "chironomids",
+            "survival protocol"
+          ],
+          "outputs": [
+            "survival data"
+          ],
+          "keywords": [
+            "survival assessment",
+            "daily monitoring"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Individuals not exhibiting physical movement when the vials were tapped were judged as dead and preserved in 90% EtOH.",
+          "searchable_summary": "preserve dead chironomids in ethanol",
+          "inputs": [
+            "chironomids",
+            "90% EtOH"
+          ],
+          "outputs": [
+            "preserved chironomids"
+          ],
+          "keywords": [
+            "preservation",
+            "ethanol",
+            "mortality"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The experiment was terminated at 32 days. All individuals still alive on day 32 were sacrificed by preserving them in 90% ETOH.",
+          "searchable_summary": "terminate experiment and preserve remaining chironomids",
+          "inputs": [
+            "chironomids",
+            "90% EtOH"
+          ],
+          "outputs": [
+            "final preserved chironomids"
+          ],
+          "keywords": [
+            "experiment termination",
+            "preservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Identification and Analysis of Chironomids",
+      "description": "This method involves the identification of chironomid specimens to genus level and the analysis of their longevity data using statistical models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Adults were identified to genus following preservation using Weiderholm (1989).",
+          "searchable_summary": "identify chironomids to genus level",
+          "inputs": [
+            "preserved chironomids"
+          ],
+          "outputs": [
+            "genus-level identification"
+          ],
+          "keywords": [
+            "identification",
+            "genus",
+            "Weiderholm"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Longevities of Diamesa were analyzed at the genus-level because females could not be unambiguously differentiated to species.",
+          "searchable_summary": "analyze Diamesa longevity at genus level",
+          "inputs": [
+            "Diamesa longevity data"
+          ],
+          "outputs": [
+            "genus-level longevity analysis"
+          ],
+          "keywords": [
+            "longevity analysis",
+            "Diamesa",
+            "genus-level"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Temperature effects on longevity of Diamesa adults were analyzed using a generalized linear mixed-effects model (GLME) with a Poisson distribution from the lme4 package in RStudio.",
+          "searchable_summary": "perform GLME analysis on Diamesa longevity",
+          "inputs": [
+            "Diamesa longevity data",
+            "temperature data"
+          ],
+          "outputs": [
+            "GLME model results"
+          ],
+          "keywords": [
+            "GLME",
+            "Poisson distribution",
+            "lme4",
+            "RStudio"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Residuals for the GLME were more evenly distributed after removing outliers.",
+          "searchable_summary": "remove outliers from GLME residuals",
+          "inputs": [
+            "GLME residuals"
+          ],
+          "outputs": [
+            "cleaned residuals"
+          ],
+          "keywords": [
+            "outliers",
+            "residuals",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Visualization of treatment effects was performed using ggplot2.",
+          "searchable_summary": "visualize treatment effects with ggplot2",
+          "inputs": [
+            "treatment effects data"
+          ],
+          "outputs": [
+            "visualization plots"
+          ],
+          "keywords": [
+            "visualization",
+            "ggplot2",
+            "treatment effects"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Mean longevity was calculated based on time from retrieval in the emergence traps to death in the laboratory for all individuals that died during incubation.",
+          "searchable_summary": "calculate mean longevity of chironomids",
+          "inputs": [
+            "longevity data"
+          ],
+          "outputs": [
+            "mean longevity"
+          ],
+          "keywords": [
+            "mean longevity",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Survival estimates for Diamesa were calculated using the Kaplan-Meier nonparametric estimation approach.",
+          "searchable_summary": "perform Kaplan-Meier survival analysis",
+          "inputs": [
+            "Diamesa survival data"
+          ],
+          "outputs": [
+            "Kaplan-Meier survival estimates"
+          ],
+          "keywords": [
+            "Kaplan-Meier",
+            "survival analysis",
+            "nonparametric"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237384551.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

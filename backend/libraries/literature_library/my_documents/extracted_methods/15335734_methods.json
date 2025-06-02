@@ -1,0 +1,153 @@
+{
+  "paper_title": "A WORKFLOW FOR LARGE-SCALE PERMANENT SLIDE IMAGING AND IMAGE ANALYSIS FOR DIATOM MORPHOMETRICS",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Diatom Valve Imaging and Analysis",
+      "description": "A semi-automated workflow for light-microscopic imaging, measurement, and analysis of diatom valves using a two-cycle slide scanning and image analysis process.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Preparation of permanent slides by embedding oxidized frustule samples into a mounting medium.",
+          "searchable_summary": "prepare permanent slides with oxidized frustule samples",
+          "inputs": [
+            "oxidized frustule samples",
+            "mounting medium"
+          ],
+          "outputs": [
+            "permanent slides"
+          ],
+          "keywords": [
+            "slide preparation",
+            "mounting medium",
+            "frustule samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Perform a low-resolution area scan to locate valves of interest using a 20× magnification objective.",
+          "searchable_summary": "conduct low-resolution area scan to locate diatom valves",
+          "inputs": [
+            "permanent slides",
+            "20× magnification objective"
+          ],
+          "outputs": [
+            "low-resolution images"
+          ],
+          "keywords": [
+            "area scan",
+            "low-resolution imaging",
+            "diatom valves"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Create a focus map by determining optimal focus positions over a 2 mm grid.",
+          "searchable_summary": "create focus map for optimal imaging",
+          "inputs": [
+            "low-resolution images"
+          ],
+          "outputs": [
+            "focus map"
+          ],
+          "keywords": [
+            "focus map",
+            "optimal focus",
+            "imaging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Perform fine focusing and capture images at multiple focus positions, stacking them to create extended focus depth images.",
+          "searchable_summary": "capture and stack images for extended focus depth",
+          "inputs": [
+            "focus map"
+          ],
+          "outputs": [
+            "stacked images"
+          ],
+          "keywords": [
+            "fine focusing",
+            "image stacking",
+            "extended focus depth"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Use SHERPA software to locate diatom valves in the stacked images.",
+          "searchable_summary": "locate diatom valves using SHERPA software",
+          "inputs": [
+            "stacked images"
+          ],
+          "outputs": [
+            "diatom valve locations"
+          ],
+          "keywords": [
+            "SHERPA",
+            "diatom valve detection",
+            "image analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Stitch images to create a virtual slide.",
+          "searchable_summary": "stitch images to form a virtual slide",
+          "inputs": [
+            "stacked images"
+          ],
+          "outputs": [
+            "virtual slide"
+          ],
+          "keywords": [
+            "image stitching",
+            "virtual slide",
+            "panoramic imaging"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Export coordinates and morphometric feature descriptors of selected objects using SHERPA.",
+          "searchable_summary": "export morphometric data from SHERPA",
+          "inputs": [
+            "diatom valve locations"
+          ],
+          "outputs": [
+            "morphometric feature descriptors",
+            "coordinates"
+          ],
+          "keywords": [
+            "morphometric analysis",
+            "feature descriptors",
+            "data export"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Process CSV output from SHERPA using R scripts for morphometric analysis.",
+          "searchable_summary": "analyze morphometric data using R scripts",
+          "inputs": [
+            "CSV output from SHERPA"
+          ],
+          "outputs": [
+            "analyzed morphometric data"
+          ],
+          "keywords": [
+            "R scripts",
+            "morphometric analysis",
+            "data processing"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15335734.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

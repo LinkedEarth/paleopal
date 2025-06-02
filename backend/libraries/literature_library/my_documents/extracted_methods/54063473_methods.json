@@ -1,0 +1,273 @@
+{
+  "paper_title": "A new coupled ice sheet/climate model: description and sensitivity to model physics under Eemian, Last Glacial Maximum, late Holocene and modern climate conditions",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Energy-Moisture Balance Model (EMBM) for Surface Mass Balance Calculation",
+      "description": "This method calculates the ice sheet surface mass balance (SMB) using a modified version of the UVic ESCM vertically integrated energy-moisture balance atmosphere model (EMBM) and a simple snow model. It is used to determine melt, runoff, sublimation, and accumulation on ice sheets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Inputs to the energy balance calculation are incoming shortwave radiation, specific humidity, wind speed, surface skin temperature, albedo and roughness, and surface air temperature (elevated from sea level using a constant lapse rate, nominally 5.0 • C km −1 ).",
+          "searchable_summary": "Prepare inputs for energy balance calculation",
+          "inputs": [
+            "incoming shortwave radiation",
+            "specific humidity",
+            "wind speed",
+            "surface skin temperature",
+            "albedo",
+            "roughness",
+            "surface air temperature"
+          ],
+          "outputs": [
+            "prepared inputs for energy balance"
+          ],
+          "keywords": [
+            "energy balance",
+            "surface mass balance",
+            "climate model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The snow temperature is found by solving the energy balance equation for temperature, using Newton's method.",
+          "searchable_summary": "Solve energy balance equation for snow temperature using Newton's method",
+          "inputs": [
+            "energy balance equation parameters"
+          ],
+          "outputs": [
+            "snow temperature"
+          ],
+          "keywords": [
+            "energy balance",
+            "Newton's method",
+            "temperature calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "During the iteration, the surface equilibrium vapor pressure is determined and compared to the ambient specific humidity.",
+          "searchable_summary": "Determine surface equilibrium vapor pressure and compare to ambient specific humidity",
+          "inputs": [
+            "surface equilibrium vapor pressure",
+            "ambient specific humidity"
+          ],
+          "outputs": [
+            "comparison result"
+          ],
+          "keywords": [
+            "vapor pressure",
+            "specific humidity",
+            "iteration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "If the equilibrium specific humidity is greater, solid-to-vapor wind-enhanced sublimation occurs to equalize vapor pressures and the outgoing latent heat and moisture fluxes are determined.",
+          "searchable_summary": "Calculate sublimation and outgoing latent heat and moisture fluxes",
+          "inputs": [
+            "equilibrium specific humidity",
+            "ambient specific humidity"
+          ],
+          "outputs": [
+            "sublimation rate",
+            "latent heat flux",
+            "moisture flux"
+          ],
+          "keywords": [
+            "sublimation",
+            "latent heat",
+            "moisture flux"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "If the surface temperature is at the melting point after the iteration and a net flux of energy into the surface exists, it is entirely used to melt snow/ice.",
+          "searchable_summary": "Use net energy flux to melt snow/ice if surface temperature is at melting point",
+          "inputs": [
+            "surface temperature",
+            "net energy flux"
+          ],
+          "outputs": [
+            "melted snow/ice"
+          ],
+          "keywords": [
+            "melting point",
+            "energy flux",
+            "snow melt"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "An arbitrary maximum snow thickness of 10 m is prescribed, above which any additional accumulation is added to the ice sheet as a positive SMB.",
+          "searchable_summary": "Prescribe maximum snow thickness and calculate positive SMB",
+          "inputs": [
+            "snow thickness"
+          ],
+          "outputs": [
+            "positive SMB"
+          ],
+          "keywords": [
+            "snow thickness",
+            "surface mass balance",
+            "accumulation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The snow model is greatly simplified by assuming that snow/ice heat capacity c p = 0 for the sake of energy balance calculations.",
+          "searchable_summary": "Simplify snow model by assuming zero heat capacity",
+          "inputs": [
+            "snow/ice heat capacity"
+          ],
+          "outputs": [
+            "simplified snow model"
+          ],
+          "keywords": [
+            "heat capacity",
+            "energy balance",
+            "snow model"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "To capture the effect of refreezing within the relatively simple snow model, the parameterization described in Pfeffer et al. (1991) for representing refreezing of meltwater is adopted.",
+          "searchable_summary": "Adopt refreezing parameterization for meltwater",
+          "inputs": [
+            "meltwater",
+            "snow model"
+          ],
+          "outputs": [
+            "refreezing effect"
+          ],
+          "keywords": [
+            "refreezing",
+            "meltwater",
+            "parameterization"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Over ice sheets, surface albedo varies as a function of snow/ice thickness and snow/ice temperature.",
+          "searchable_summary": "Calculate surface albedo based on snow/ice thickness and temperature",
+          "inputs": [
+            "snow/ice thickness",
+            "snow/ice temperature"
+          ],
+          "outputs": [
+            "surface albedo"
+          ],
+          "keywords": [
+            "albedo",
+            "snow thickness",
+            "temperature"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Moisture is delivered to the ice sheets via advective/diffusive transport within the atmospheric model.",
+          "searchable_summary": "Deliver moisture to ice sheets using atmospheric model",
+          "inputs": [
+            "atmospheric model"
+          ],
+          "outputs": [
+            "moisture delivery"
+          ],
+          "keywords": [
+            "moisture transport",
+            "atmospheric model",
+            "ice sheets"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Precipitation occurs when the relative humidity at the surface surpasses 0.85.",
+          "searchable_summary": "Trigger precipitation when surface relative humidity exceeds threshold",
+          "inputs": [
+            "relative humidity"
+          ],
+          "outputs": [
+            "precipitation"
+          ],
+          "keywords": [
+            "precipitation",
+            "relative humidity",
+            "threshold"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ice Sheet Evolution Sensitivity to Climate Model Surface Air Temperature Bias",
+      "description": "This method evaluates the impact of seasonally-resolved modelled temperature biases on surface mass balance (SMB) and long-term ice sheet evolution by comparing model simulations with and without bias correction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Compare the 1970-2001 UVic ESCM SAT with the equivalent ERA40 SAT field to determine the extent of the model SAT bias.",
+          "searchable_summary": "Compare UVic ESCM SAT with ERA40 SAT to assess model bias",
+          "inputs": [
+            "UVic ESCM SAT",
+            "ERA40 SAT"
+          ],
+          "outputs": [
+            "model SAT bias"
+          ],
+          "keywords": [
+            "SAT bias",
+            "UVic ESCM",
+            "ERA40"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Compare the Eemian, LGM and late Holocene control (bias-corrected) simulations to similar simulations forced with raw UVic ESCM SAT.",
+          "searchable_summary": "Compare bias-corrected and non-bias-corrected simulations for different periods",
+          "inputs": [
+            "control simulations",
+            "NBC simulations"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "bias correction",
+            "control simulations",
+            "NBC simulations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Use of a constant bias corrector field assumes that the modelled SAT bias is independent of the climate or ice sheet state.",
+          "searchable_summary": "Apply constant bias corrector field assuming independence from climate state",
+          "inputs": [
+            "bias corrector field"
+          ],
+          "outputs": [
+            "corrected SAT"
+          ],
+          "keywords": [
+            "bias corrector",
+            "SAT",
+            "independence assumption"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54063473.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

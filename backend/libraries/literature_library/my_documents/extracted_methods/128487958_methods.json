@@ -1,0 +1,221 @@
+{
+  "paper_title": "Pollen and Phenology Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Analysis",
+      "description": "Analysis of daily Corylus avellana pollen concentrations to identify key dates and define the pollen season.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Daily Corylus avellana pollen concentrations in the years 2009 and 2010 in Warsaw were analyzed.Pollen data came from the Allergen Research Center and the Military Medical Institute.",
+          "searchable_summary": "Obtain daily pollen concentration data for Corylus avellana for specified years and location.",
+          "inputs": [],
+          "outputs": [
+            "daily_corylus_avellana_pollen_concentrations_2009_2010"
+          ],
+          "keywords": [
+            "pollen data",
+            "data acquisition",
+            "allergen data",
+            "time series data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The start and end dates of the pollen season and days with maximum pollen concentration values were investigated.",
+          "searchable_summary": "Identify the start date, end date, and dates of maximum values within the daily pollen concentration data.",
+          "inputs": [
+            "daily_corylus_avellana_pollen_concentrations_2009_2010"
+          ],
+          "outputs": [
+            "pollen_season_start_date",
+            "pollen_season_end_date",
+            "dates_of_maximum_pollen_concentration"
+          ],
+          "keywords": [
+            "pollen season",
+            "peak pollen",
+            "time series analysis",
+            "date identification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The pollen season was defined as the period when 95% of annual total pollen grains appeared in the air.",
+          "searchable_summary": "Define the pollen season period based on the cumulative sum reaching 95% of the annual total pollen count.",
+          "inputs": [
+            "daily_corylus_avellana_pollen_concentrations_2009_2010"
+          ],
+          "outputs": [
+            "defined_pollen_season_period"
+          ],
+          "keywords": [
+            "pollen season definition",
+            "cumulative sum",
+            "thresholding",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phenology Data Analysis",
+      "description": "Analysis of Corylus avellana phenology data, focusing on the F2 (first bloom) and F3 (beginning of full bloom) phases, to identify key dates and phase lengths.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Phenology data were taken from the Institute of Meteorology and Water Management database that contains information on the generative development of plants, observed using Łukasiewicz's method in 7 stages... The data relating to F2 and F3 phenophases of Corylus avellana in Warsaw in the years 2009 and 2010 were used in the analysis.",
+          "searchable_summary": "Obtain Corylus avellana phenology data for F2 and F3 phases for specified years and location.",
+          "inputs": [],
+          "outputs": [
+            "corylus_avellana_phenology_data_F2_F3_2009_2010"
+          ],
+          "keywords": [
+            "phenology data",
+            "data acquisition",
+            "plant development stages",
+            "Łukasiewicz's method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We defined the start and end dates of the phenophases as well as their length.",
+          "searchable_summary": "Identify the start date, end date, and calculate the duration for the F2 and F3 phenophases.",
+          "inputs": [
+            "corylus_avellana_phenology_data_F2_F3_2009_2010"
+          ],
+          "outputs": [
+            "F2_start_date",
+            "F2_end_date",
+            "F2_length",
+            "F3_start_date",
+            "F3_end_date",
+            "F3_length"
+          ],
+          "keywords": [
+            "phenophase dates",
+            "phenophase length",
+            "date calculation",
+            "time series analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Analysis and Calculation",
+      "description": "Use of temperature data to estimate influence on phenology and pollen release, including calculation of temperature anomalies and Positive Degree Days (PDD).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Meteorological data -mean monthly temperature, average daily temperature from January to April in 2009 and 2010 in Warsaw -were used...",
+          "searchable_summary": "Obtain mean monthly temperature and average daily temperature data for specified months, years, and location.",
+          "inputs": [],
+          "outputs": [
+            "mean_monthly_temperature_2009_2010",
+            "average_daily_temperature_jan_apr_2009_2010"
+          ],
+          "keywords": [
+            "meteorological data",
+            "temperature data",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Mean monthly temperatures were used to estimate monthly anomalies compared to 1971-2000 normal.",
+          "searchable_summary": "Calculate mean monthly temperature anomalies relative to a historical normal period (1971-2000).",
+          "inputs": [
+            "mean_monthly_temperature_2009_2010",
+            "historical_mean_monthly_temperature_1971_2000_normal"
+          ],
+          "outputs": [
+            "mean_monthly_temperature_anomalies"
+          ],
+          "keywords": [
+            "temperature anomaly",
+            "climate normal",
+            "statistical comparison",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "By taking the sum of average daily temperatures above 0 o C (from the 1th of January to the day before the F2 phenophase date), we came up with a number called Positive Degree Days (PDD).",
+          "searchable_summary": "Calculate Positive Degree Days (PDD) by summing average daily temperatures above 0°C from January 1st up to the day before the F2 start date.",
+          "inputs": [
+            "average_daily_temperature_jan_apr_2009_2010",
+            "F2_start_date"
+          ],
+          "outputs": [
+            "positive_degree_days_PDD"
+          ],
+          "keywords": [
+            "positive degree days",
+            "PDD calculation",
+            "growing degree days",
+            "temperature sum",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Comparison and Relationship Analysis",
+      "description": "Comparing dates of maximum pollen concentration with F2 and F3 phenophases and investigating the relationship between PDD and the start of F2.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Dates of maximum pollen concentration during the phenophases F2 and F3 were compared in time.",
+          "searchable_summary": "Compare the dates of maximum pollen concentration with the time periods of the F2 and F3 phenophases.",
+          "inputs": [
+            "dates_of_maximum_pollen_concentration",
+            "F2_start_date",
+            "F2_end_date",
+            "F3_start_date",
+            "F3_end_date"
+          ],
+          "outputs": [
+            "comparison_results_pollen_phenophase_dates"
+          ],
+          "keywords": [
+            "date comparison",
+            "temporal analysis",
+            "synchronicity",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We tried to check the specific PDD of which could cause the blossoming of the first flowers (F2) in the study years.",
+          "searchable_summary": "Determine the specific Positive Degree Day (PDD) value that corresponds to the start date of the F2 phenophase.",
+          "inputs": [
+            "positive_degree_days_PDD",
+            "F2_start_date"
+          ],
+          "outputs": [
+            "PDD_at_F2_start"
+          ],
+          "keywords": [
+            "PDD threshold",
+            "phenology modeling",
+            "temperature relationship",
+            "data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/128487958.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

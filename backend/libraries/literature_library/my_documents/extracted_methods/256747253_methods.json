@@ -1,0 +1,257 @@
+{
+  "paper_title": "Lake Werri Berri Sediment and Charcoal Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Monolith Core Sampling",
+      "description": "Process for collecting monolith cores from Lake Werri Berri to analyze sediment characteristics and avoid contamination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In June 2019, a series of monolith cores (n = 3) were taken using a spade from exposed surface peats at Lake Werri Berri.",
+          "searchable_summary": "collect monolith cores from Lake Werri Berri",
+          "inputs": [
+            "spade",
+            "location data"
+          ],
+          "outputs": [
+            "monolith cores"
+          ],
+          "keywords": [
+            "monolith cores",
+            "sampling",
+            "peat"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The monoliths were sampled to avoid any cracks to limit the possibility of contamination.",
+          "searchable_summary": "sample monoliths avoiding cracks",
+          "inputs": [
+            "monolith cores"
+          ],
+          "outputs": [
+            "contamination-free monolith cores"
+          ],
+          "keywords": [
+            "contamination",
+            "sampling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Analysis",
+      "description": "Analysis of the longest monolith section (WB3) using the Troels-Smith method to determine bulk density and organic content.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The longest monolith section (WB3), which was 22 cm long, was chosen for analysis and was described using a modified version of the Troels-Smith method.",
+          "searchable_summary": "describe monolith section using Troels-Smith method",
+          "inputs": [
+            "monolith section WB3"
+          ],
+          "outputs": [
+            "described monolith section"
+          ],
+          "keywords": [
+            "Troels-Smith method",
+            "sediment description"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Bulk density was estimated by weighing a known volume of samples prior to and after oven drying (24 h at 105°C in a fanforced oven).",
+          "searchable_summary": "estimate bulk density by weighing samples before and after drying",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "bulk density"
+          ],
+          "keywords": [
+            "bulk density",
+            "oven drying"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The samples were then placed in a muffle furnace for an additional 4 h at 550°C to determine loss on ignition (LOI) and the organic content was expressed as the percentage loss in mass per gramme of oven-dried sediment.",
+          "searchable_summary": "determine LOI and organic content using muffle furnace",
+          "inputs": [
+            "dried sediment samples"
+          ],
+          "outputs": [
+            "LOI",
+            "organic content"
+          ],
+          "keywords": [
+            "loss on ignition",
+            "muffle furnace"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Chronology Construction",
+      "description": "Construction of a Bayesian chronology for WB3 using radiocarbon and lead-210 dates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A Bayesian chronology for WB3 was constructed from radiocarbon and lead-210 dates using the R package rplum.",
+          "searchable_summary": "construct Bayesian chronology using rplum",
+          "inputs": [
+            "radiocarbon dates",
+            "lead-210 dates"
+          ],
+          "outputs": [
+            "Bayesian chronology"
+          ],
+          "keywords": [
+            "Bayesian chronology",
+            "rplum",
+            "radiocarbon dating"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Charcoal Analysis",
+      "description": "Analysis of charcoal to characterize fire occurrence and intensity using various methods including FTIR spectroscopy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Charcoal analysis using 'macrocharcoal' (>250 µm) was performed contiguously at 1 cm intervals.",
+          "searchable_summary": "perform macrocharcoal analysis at 1 cm intervals",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "charcoal data"
+          ],
+          "keywords": [
+            "macrocharcoal",
+            "fire occurrence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Charcoal was separated from sediment using immersion in reverse osmosis H2O for 24 h and immersion in 4% NaOCl for 6 h.",
+          "searchable_summary": "separate charcoal using immersion methods",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "separated charcoal"
+          ],
+          "keywords": [
+            "charcoal separation",
+            "immersion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Charcoal samples were photographed, and the charcoal particles analysed for area and count using ImageJ.",
+          "searchable_summary": "analyze charcoal particles using ImageJ",
+          "inputs": [
+            "charcoal samples"
+          ],
+          "outputs": [
+            "charcoal area and count"
+          ],
+          "keywords": [
+            "ImageJ",
+            "charcoal analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "A novel method using FTIR was conducted on separated charcoal fragments to examine fire intensity.",
+          "searchable_summary": "examine fire intensity using FTIR",
+          "inputs": [
+            "charcoal fragments"
+          ],
+          "outputs": [
+            "fire intensity data"
+          ],
+          "keywords": [
+            "FTIR",
+            "fire intensity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Composite Record Construction",
+      "description": "Construction of an 850-year composite record of select sites in eastern and south-eastern Australia using the R package Paleofire.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A 850-year composite record was produced using the R package Paleofire following methods described in Power et al. (2008).",
+          "searchable_summary": "produce composite record using Paleofire",
+          "inputs": [
+            "site data"
+          ],
+          "outputs": [
+            "composite record"
+          ],
+          "keywords": [
+            "composite record",
+            "Paleofire"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Temperature and SST Reconstruction",
+      "description": "Reconstruction of temperature and sea surface temperature (SST) trends using historical data and smoothing techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A temperature reconstruction of warm season land and ocean records was used to examine changes in southeast Australian temperature.",
+          "searchable_summary": "reconstruct temperature using historical records",
+          "inputs": [
+            "temperature records"
+          ],
+          "outputs": [
+            "temperature trends"
+          ],
+          "keywords": [
+            "temperature reconstruction",
+            "historical data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A reconstruction of the trends in recent SST for southern Australia was derived from the NOAA ERSST v5 gridded dataset.",
+          "searchable_summary": "reconstruct SST trends using NOAA ERSST v5",
+          "inputs": [
+            "NOAA ERSST v5 dataset"
+          ],
+          "outputs": [
+            "SST trends"
+          ],
+          "keywords": [
+            "SST reconstruction",
+            "NOAA ERSST"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256747253.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

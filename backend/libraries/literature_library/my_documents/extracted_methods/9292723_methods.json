@@ -1,0 +1,326 @@
+{
+  "paper_title": "Influence of Climate and Cyclones on δ18O in Tree Rings",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Precipitation Data Retrieval and Correlation",
+      "description": "This method involves retrieving δ18O data in precipitation from the Global Network of Isotopes in Precipitation (GNIP) and correlating it with tree ring δ18O to study the influence of source water δ18O on the signal in tree rings.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Retrieved data for δ18O in precipitation from the Global Network of Isotopes in Precipitation (GNIP).",
+          "searchable_summary": "download δ18O precipitation data from GNIP",
+          "inputs": [
+            "GNIP database URL"
+          ],
+          "outputs": [
+            "δ18O precipitation data"
+          ],
+          "keywords": [
+            "δ18O",
+            "GNIP",
+            "precipitation data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Correlated tree ring δ18O with wet season δ18O precipitation data from Veracruz and San Salvador stations.",
+          "searchable_summary": "perform correlation analysis between tree ring δ18O and precipitation δ18O",
+          "inputs": [
+            "tree ring δ18O data",
+            "wet season δ18O precipitation data"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation",
+            "tree ring",
+            "δ18O"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Filled in missing monthly δ18O values using the multi-year monthly means, only if data were recorded at least for 4 out of 6 months during the wet season.",
+          "searchable_summary": "impute missing δ18O values using multi-year monthly means",
+          "inputs": [
+            "monthly δ18O data"
+          ],
+          "outputs": [
+            "complete δ18O dataset"
+          ],
+          "keywords": [
+            "data imputation",
+            "δ18O",
+            "monthly means"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tree Ring and Climate Data Correlation",
+      "description": "This method studies the climate signal in the δ18O tree ring record by correlating it with local and regional climate data, and global tropical sea surface temperature (SST) anomalies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtained historical local climate data from several sources including rainfall and cloud cover data from the nearest weather station of Ixtepec.",
+          "searchable_summary": "download historical climate data from local weather stations",
+          "inputs": [
+            "Ixtepec weather station data"
+          ],
+          "outputs": [
+            "local climate data"
+          ],
+          "keywords": [
+            "climate data",
+            "rainfall",
+            "cloud cover"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Used monthly gridded temperature anomaly data from GISSTEMP.",
+          "searchable_summary": "download temperature anomaly data from GISSTEMP",
+          "inputs": [
+            "GISSTEMP database"
+          ],
+          "outputs": [
+            "temperature anomaly data"
+          ],
+          "keywords": [
+            "temperature anomaly",
+            "GISSTEMP"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Obtained average daily solar radiation data from a gridded data set (NASA).",
+          "searchable_summary": "download solar radiation data from NASA",
+          "inputs": [
+            "NASA solar radiation dataset"
+          ],
+          "outputs": [
+            "solar radiation data"
+          ],
+          "keywords": [
+            "solar radiation",
+            "NASA"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Correlated δ18O tree ring data with local and regional climate data, and global tropical SST anomalies.",
+          "searchable_summary": "perform correlation analysis between δ18O tree ring data and climate/SST data",
+          "inputs": [
+            "δ18O tree ring data",
+            "climate data",
+            "SST data"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "correlation",
+            "δ18O",
+            "SST"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "El Niño Influence Testing",
+      "description": "This method tests for the influence of El Niño events on the δ18O tree ring record using a t-test.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Used a t-test to test for the influence of El Niño events on the δ18O tree ring record using NOAA's definition of El Niño years.",
+          "searchable_summary": "perform t-test to assess El Niño influence on δ18O tree ring data",
+          "inputs": [
+            "δ18O tree ring data",
+            "El Niño years data"
+          ],
+          "outputs": [
+            "t-test results"
+          ],
+          "keywords": [
+            "t-test",
+            "El Niño",
+            "δ18O"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Vapor Pressure Deficit Calculation",
+      "description": "This method calculates the leaf-to-air vapor pressure deficit (VPD) using long-term air temperature and vapor pressure data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculated air VPD using long-term air temperature and vapor pressure data from the CRUTS3.0 dataset.",
+          "searchable_summary": "calculate air VPD from temperature and vapor pressure data",
+          "inputs": [
+            "CRUTS3.0 temperature data",
+            "vapor pressure data"
+          ],
+          "outputs": [
+            "air VPD"
+          ],
+          "keywords": [
+            "VPD",
+            "temperature",
+            "vapor pressure"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculated vapor pressure inside the stomata assuming saturated vapor pressure inside stomata.",
+          "searchable_summary": "calculate stomatal vapor pressure assuming saturation",
+          "inputs": [
+            "leaf temperature"
+          ],
+          "outputs": [
+            "stomatal vapor pressure"
+          ],
+          "keywords": [
+            "vapor pressure",
+            "stomata",
+            "saturation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Precipitation Intensity and Cyclone Influence Analysis",
+      "description": "This method calculates the weighted mean intensity of daily precipitation and analyzes the influence of cyclones on the regional δ18O tree ring record.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculated the weighted mean intensity of daily precipitation using daily Ixtepec data.",
+          "searchable_summary": "calculate weighted mean precipitation intensity",
+          "inputs": [
+            "daily precipitation data"
+          ],
+          "outputs": [
+            "weighted mean precipitation intensity"
+          ],
+          "keywords": [
+            "precipitation intensity",
+            "weighted mean"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Inquired how episodic heavy rainfall events related to cyclones influenced the regional δ18O tree ring record.",
+          "searchable_summary": "analyze influence of cyclones on δ18O tree ring data",
+          "inputs": [
+            "δ18O tree ring data",
+            "cyclone event data"
+          ],
+          "outputs": [
+            "cyclone influence analysis"
+          ],
+          "keywords": [
+            "cyclones",
+            "δ18O",
+            "rainfall events"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cyclone Signal Testing",
+      "description": "This method tests for a signal of cyclones in the δ18O tree ring record by comparing years with and without cyclones.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Tested for a difference in δ18O tree ring data between years with and without cyclones passing within 160 km of the study site.",
+          "searchable_summary": "compare δ18O tree ring data for cyclone and non-cyclone years",
+          "inputs": [
+            "δ18O tree ring data",
+            "cyclone presence data"
+          ],
+          "outputs": [
+            "cyclone signal test results"
+          ],
+          "keywords": [
+            "cyclone signal",
+            "δ18O",
+            "comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Tree Ring Sampling and Isotope Analysis",
+      "description": "This method involves sampling tree rings and analyzing the oxygen isotope ratio using isotope ratio mass spectrometry.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Selected five stem disks of trees between 28 and 40 years old for analysis.",
+          "searchable_summary": "select tree stem disks for isotope analysis",
+          "inputs": [
+            "tree age data"
+          ],
+          "outputs": [
+            "selected tree stem disks"
+          ],
+          "keywords": [
+            "tree rings",
+            "sampling",
+            "stem disks"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Isolated wood samples from exactly dated annual rings and treated them with chemical solutions to obtain cellulose.",
+          "searchable_summary": "isolate and treat wood samples to obtain cellulose",
+          "inputs": [
+            "wood samples"
+          ],
+          "outputs": [
+            "cellulose samples"
+          ],
+          "keywords": [
+            "wood samples",
+            "cellulose",
+            "chemical treatment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Measured the oxygen isotope ratio (18O:16O) using isotope ratio mass spectrometry.",
+          "searchable_summary": "measure oxygen isotope ratio using IRMS",
+          "inputs": [
+            "cellulose samples"
+          ],
+          "outputs": [
+            "oxygen isotope ratio data"
+          ],
+          "keywords": [
+            "isotope ratio",
+            "IRMS",
+            "oxygen isotopes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/9292723.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

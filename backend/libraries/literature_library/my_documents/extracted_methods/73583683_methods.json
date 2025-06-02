@@ -1,0 +1,374 @@
+{
+  "paper_title": "Climate and Ocean Biogeochemistry Modeling Experiments",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Fully Coupled Climate Simulation",
+      "description": "Setting up and running the CSIRO Mk3L full climate system model version 1.2 to simulate past climate states, specifically the Pre-Industrial (Cpl-PI) and Last Glacial Maximum (Cpl-LGM). These simulations provide the physical climate states used for subsequent ocean-only experiments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The model simulations were performed using the CSIRO Mk3L climate system model version 1.2 (Phipps et al., 20111.2 (Phipps et al., , 2012, which includes components that describe the atmosphere, land, sea ice and ocean.",
+          "searchable_summary": "Select and configure CSIRO Mk3L v1.2 climate model",
+          "inputs": [
+            "CSIRO Mk3L v1.2 model code/system"
+          ],
+          "outputs": [
+            "Configured CSIRO Mk3L v1.2 model instance"
+          ],
+          "keywords": [
+            "climate model",
+            "CSIRO Mk3L",
+            "model setup",
+            "coupled model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The Cpl-PI climate was obtained by forcing the model with an atmospheric CO 2 concentration of 280 ppm and by prescribing 1950 CE values for the orbital parameters.",
+          "searchable_summary": "Set boundary conditions for Pre-Industrial (Cpl-PI) simulation",
+          "inputs": [
+            "Configured CSIRO Mk3L v1.2 model instance",
+            "Atmospheric CO2 concentration (280 ppm)",
+            "Orbital parameters (1950 CE values)"
+          ],
+          "outputs": [
+            "Cpl-PI simulation configuration"
+          ],
+          "keywords": [
+            "Pre-Industrial",
+            "PI",
+            "CO2",
+            "orbital parameters",
+            "climate forcing",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "This experiment was integrated for a total of 10,000 years (Phipps et al., 2013).",
+          "searchable_summary": "Run Cpl-PI simulation for 10,000 years",
+          "inputs": [
+            "Cpl-PI simulation configuration"
+          ],
+          "outputs": [
+            "Cpl-PI simulation output data (climate state)"
+          ],
+          "keywords": [
+            "model integration",
+            "simulation run",
+            "climate simulation",
+            "long-term simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The Cpl-LGM simulation followed the protocol developed by Phase III of the Palaeoclimate Modelling Intercomparison Project (PMIP3), with the exception that no changes were made to terrestrial topography, oceanic bathymetry or the positions of the coastlines. The atmospheric CO 2 equivalent concentration was set to 167 ppm, providing a radiative forcing equivalent to the specified reductions in the atmospheric concentrations of CO 2 , CH 4 and N 2 O from 280 ppm/760 ppb/270 ppb for pre-industrial simulations to 185 ppm/350 ppb/200 ppb for LGM simulations. The orbital parameters were set to values for 21 ka BP.",
+          "searchable_summary": "Set boundary conditions for Last Glacial Maximum (Cpl-LGM) simulation following modified PMIP3 protocol",
+          "inputs": [
+            "Configured CSIRO Mk3L v1.2 model instance",
+            "PMIP3 protocol (modified)",
+            "Atmospheric CO2 equivalent concentration (167 ppm)",
+            "Atmospheric CO2 (185 ppm)",
+            "Atmospheric CH4 (350 ppb)",
+            "Atmospheric N2O (200 ppb)",
+            "Orbital parameters (21 ka BP values)"
+          ],
+          "outputs": [
+            "Cpl-LGM simulation configuration"
+          ],
+          "keywords": [
+            "Last Glacial Maximum",
+            "LGM",
+            "PMIP3",
+            "CO2 equivalent",
+            "orbital parameters",
+            "climate forcing",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The Cpl-LGM simulation was initialised from the state of the Cpl-PI simulation at the end of model year 100.",
+          "searchable_summary": "Initialize Cpl-LGM simulation from Cpl-PI state",
+          "inputs": [
+            "Cpl-LGM simulation configuration",
+            "Cpl-PI simulation state (end of year 100)"
+          ],
+          "outputs": [
+            "Initialized Cpl-LGM simulation state"
+          ],
+          "keywords": [
+            "model initialization",
+            "simulation state",
+            "spin-up"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The model was then integrated for a total of 3,900 model years, until it had reached quasi-equilibrium. Over this integration the ocean experienced a slow drift in whole-ocean salinity so that 0.5 psu was added, reflecting the coupling between a cooler atmosphere and the ocean.",
+          "searchable_summary": "Run Cpl-LGM simulation for 3,900 years to quasi-equilibrium, applying salinity adjustment",
+          "inputs": [
+            "Initialized Cpl-LGM simulation state",
+            "Salinity adjustment (0.5 psu added)"
+          ],
+          "outputs": [
+            "Cpl-LGM simulation output data (quasi-equilibrium climate state)"
+          ],
+          "keywords": [
+            "model integration",
+            "simulation run",
+            "climate simulation",
+            "quasi-equilibrium",
+            "salinity adjustment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ocean-Only Biogeochemical Simulation Suite",
+      "description": "Conducting a suite of 8 ocean-only simulations using the Mk3L-COAL model with online biogeochemistry, forced by boundary conditions from the coupled LGM simulation, to explore the effect of different biogeochemical parameterisations on the carbon cycle.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "These experiments utilised Mk3L-COAL (Carbon-Ocean-Atmosphere-Land), an enhanced version of the Mk3L climate system model which includes biogeochemical modules embedded within the ocean, atmosphere and terrestrial models. For a description of the ocean biogeochemistry the reader is directed towards Appendix A of Matear and Lenton (2014) and the experiments of Duteil et al. (2012).",
+          "searchable_summary": "Select and configure Mk3L-COAL ocean-only model with biogeochemistry",
+          "inputs": [
+            "Mk3L-COAL model code/system"
+          ],
+          "outputs": [
+            "Configured Mk3L-COAL ocean-only model instance"
+          ],
+          "keywords": [
+            "ocean model",
+            "biogeochemical model",
+            "Mk3L-COAL",
+            "model setup",
+            "ocean-only"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "All experiments were forced by key boundary conditions (wind stresses, temperature, salinity, incident radiation, sea ice and atmospheric pressure at sea level), which O-LGM3.",
+          "searchable_summary": "Obtain forcing data from coupled LGM simulation output",
+          "inputs": [
+            "Cpl-LGM simulation output data"
+          ],
+          "outputs": [
+            "Ocean boundary condition forcing data (wind stresses, temperature, salinity, radiation, sea ice, pressure)"
+          ],
+          "keywords": [
+            "forcing data",
+            "boundary conditions",
+            "climate model output",
+            "LGM"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The scaling factor (S O npp ) was increased by a factor of 10 (Eq. (1)) to increase the export of Particulate Organic Carbon (POC) from the surface ocean, and therefore strengthen the biological carbon pump.",
+          "searchable_summary": "Configure O-LGM3 simulation by modifying S_Onpp parameter",
+          "inputs": [
+            "Configured Mk3L-COAL ocean-only model instance",
+            "Ocean boundary condition forcing data",
+            "S_Onpp parameter",
+            "Scaling factor (10)"
+          ],
+          "outputs": [
+            "O-LGM3 simulation configuration"
+          ],
+          "keywords": [
+            "parameter modification",
+            "POC export",
+            "biological carbon pump",
+            "S_Onpp",
+            "ocean biogeochemistry"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The POC remineralisation depth was increased by changing the power law exponent (Rem pwl ) in Equation (2) from -0.9 to -0.7, which replicated a bulk shift of POC from the upper to the deep ocean.",
+          "searchable_summary": "Configure O-LGM4 simulation by modifying Rem_pwl parameter",
+          "inputs": [
+            "Configured Mk3L-COAL ocean-only model instance",
+            "Ocean boundary condition forcing data",
+            "Rem_pwl parameter",
+            "New exponent value (-0.7)"
+          ],
+          "outputs": [
+            "O-LGM4 simulation configuration"
+          ],
+          "keywords": [
+            "parameter modification",
+            "POC remineralisation",
+            "remineralisation depth",
+            "Rem_pwl",
+            "ocean biogeochemistry"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Export production of Particulate Inorganic Carbon (PIC) was turned off by setting the rain ratio (R P IC ) of PIC:POC to zero in Equation (3).",
+          "searchable_summary": "Configure O-LGM5 simulation by modifying R_PIC parameter",
+          "inputs": [
+            "Configured Mk3L-COAL ocean-only model instance",
+            "Ocean boundary condition forcing data",
+            "R_PIC parameter",
+            "New ratio value (0)"
+          ],
+          "outputs": [
+            "O-LGM5 simulation configuration"
+          ],
+          "keywords": [
+            "parameter modification",
+            "PIC export",
+            "rain ratio",
+            "R_PIC",
+            "ocean biogeochemistry"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "All three modifications to ocean biogeochemistry were employed.",
+          "searchable_summary": "Configure O-LGM6 simulation by applying multiple parameter modifications (S_Onpp, Rem_pwl, R_PIC)",
+          "inputs": [
+            "Configured Mk3L-COAL ocean-only model instance",
+            "Ocean boundary condition forcing data",
+            "S_Onpp parameter and modified value",
+            "Rem_pwl parameter and modified value",
+            "R_PIC parameter and modified value"
+          ],
+          "outputs": [
+            "O-LGM6 simulation configuration"
+          ],
+          "keywords": [
+            "parameter modification",
+            "combined modifications",
+            "ocean biogeochemistry",
+            "S_Onpp",
+            "Rem_pwl",
+            "R_PIC"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "All ocean-only simulations were integrated for 10,000 years to ensure that the ocean carbon cycle reached a steady state.",
+          "searchable_summary": "Run all 8 ocean-only simulations for 10,000 years to steady state",
+          "inputs": [
+            "Configurations for all 8 ocean-only simulations (including O-LGM1, O-LGM3, O-LGM4, O-LGM5, O-LGM6, and others)"
+          ],
+          "outputs": [
+            "Ocean-only simulation output data (steady-state carbon cycle fields for all 8 experiments)"
+          ],
+          "keywords": [
+            "model integration",
+            "simulation run",
+            "ocean simulation",
+            "steady state",
+            "carbon cycle",
+            "parameter sensitivity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Coupled vs. Ocean-Only Model Assessment",
+      "description": "Assessing whether the behavior of biogeochemical tracers within the coupled model differs significantly from those in the ocean-only model by running the coupled model with online biogeochemistry initialized with steady-state fields from ocean-only experiments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To assess whether the behaviour of the biogeochemical tracers within the coupled model differed from those in the ocean-only model, we ran the coupled model with online ocean biogeochemistry for a further 1,000 years using the steady-state biogeochemical fields from the ocean-only experiments. This assessment was made using both the PI and LGM climates.",
+          "searchable_summary": "Retrieve steady-state biogeochemical fields from ocean-only simulation outputs (O-PI1 and O-LGM1)",
+          "inputs": [
+            "Ocean-only simulation output data (O-PI1, O-LGM1 steady-state fields)"
+          ],
+          "outputs": [
+            "Steady-state biogeochemical fields for PI and LGM ocean-only simulations"
+          ],
+          "keywords": [
+            "simulation output",
+            "steady state",
+            "biogeochemistry",
+            "data retrieval"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "we ran the coupled model with online ocean biogeochemistry for a further 1,000 years using the steady-state biogeochemical fields from the ocean-only experiments. This assessment was made using both the PI and LGM climates.",
+          "searchable_summary": "Initialize coupled model with online biogeochemistry using steady-state fields from ocean-only runs (PI and LGM)",
+          "inputs": [
+            "Coupled model code/system (Mk3L-COAL)",
+            "Steady-state biogeochemical fields (PI and LGM) from ocean-only runs"
+          ],
+          "outputs": [
+            "Initialized coupled model state (for PI and LGM assessment runs)"
+          ],
+          "keywords": [
+            "model initialization",
+            "coupled model",
+            "biogeochemistry",
+            "model assessment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "we ran the coupled model with online ocean biogeochemistry for a further 1,000 years using the steady-state biogeochemical fields from the ocean-only experiments.",
+          "searchable_summary": "Run initialized coupled model for 1,000 years (for PI and LGM assessment)",
+          "inputs": [
+            "Initialized coupled model state (for PI and LGM assessment runs)"
+          ],
+          "outputs": [
+            "Coupled model simulation output data (for 1,000 years, PI and LGM assessment runs)"
+          ],
+          "keywords": [
+            "model integration",
+            "simulation run",
+            "coupled simulation",
+            "short simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "For key diagnostics, such as the meridional overturning circulation, ocean carbon content and global export production, the behaviour of the ocean-only simulation differed by less than 1 % from the coupled simulations.",
+          "searchable_summary": "Compare key diagnostics between coupled and ocean-only simulation outputs to assess differences",
+          "inputs": [
+            "Coupled model simulation output data (assessment runs)",
+            "Ocean-only simulation output data (O-PI1, O-LGM1 steady-state fields)"
+          ],
+          "outputs": [
+            "Comparison results (e.g., difference percentages for diagnostics)",
+            "Assessment of model consistency"
+          ],
+          "keywords": [
+            "model comparison",
+            "validation",
+            "diagnostics",
+            "meridional overturning circulation",
+            "ocean carbon content",
+            "export production",
+            "model behavior"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/73583683.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,142 @@
+{
+  "paper_title": "A Tree Ring Measurement Method Based on Error Correction in Digital Image of Stem Analysis Disk",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Tree Ring Radius Measurement",
+      "description": "This method involves measuring the tree ring radius using digital images and correcting for geometric distortion to improve accuracy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Preprocessed the original digital image. The preprocessing process includes image graying and binary.",
+          "searchable_summary": "convert image to grayscale and binary format",
+          "inputs": [
+            "original digital image"
+          ],
+          "outputs": [
+            "preprocessed image"
+          ],
+          "keywords": [
+            "image preprocessing",
+            "grayscale",
+            "binary"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Extract the pixel coordinates of annual rings, use pixel distance and actual distance to get the scale, measure the annual ring radius data of image.",
+          "searchable_summary": "extract pixel coordinates and calculate scale for ring radius measurement",
+          "inputs": [
+            "preprocessed image"
+          ],
+          "outputs": [
+            "annual ring radius data"
+          ],
+          "keywords": [
+            "pixel coordinates",
+            "scale calculation",
+            "ring radius"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Establish the geometric distortion correction model by error value and the ring radius pixel distance.",
+          "searchable_summary": "create geometric distortion correction model",
+          "inputs": [
+            "error value",
+            "ring radius pixel distance"
+          ],
+          "outputs": [
+            "geometric distortion correction model"
+          ],
+          "keywords": [
+            "geometric distortion",
+            "correction model"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Establish the regression model of annual ring radius based on error correction and test its accuracy.",
+          "searchable_summary": "develop and validate regression model for ring radius",
+          "inputs": [
+            "geometric distortion correction model"
+          ],
+          "outputs": [
+            "regression model",
+            "accuracy metrics"
+          ],
+          "keywords": [
+            "regression model",
+            "error correction",
+            "accuracy testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Measurement Error Correction",
+      "description": "This method corrects measurement errors in tree ring radius by constructing a prediction model based on error correction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Determine the basic equation. The computer image pixel distance formula (Equation (1)) and scale formula (Equation (2)) are selected as the basic model.",
+          "searchable_summary": "select basic equations for model",
+          "inputs": [
+            "pixel distance formula",
+            "scale formula"
+          ],
+          "outputs": [
+            "basic model"
+          ],
+          "keywords": [
+            "basic equation",
+            "pixel distance",
+            "scale formula"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Establish the error correction function. The pixel distance to the pith will affect the error value, therefore, the error correction function u(x) is constructed with the pixel distance from the ring to the pith as the variable.",
+          "searchable_summary": "create error correction function based on pixel distance",
+          "inputs": [
+            "pixel distance from ring to pith"
+          ],
+          "outputs": [
+            "error correction function"
+          ],
+          "keywords": [
+            "error correction",
+            "pixel distance",
+            "function construction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Determine the combination form of basic function and error correction function. In this paper, the basic function and correction function are combined in an unstructured way to establish the ring radius's regression equation based on error correction.",
+          "searchable_summary": "combine basic and error correction functions for regression equation",
+          "inputs": [
+            "basic function",
+            "error correction function"
+          ],
+          "outputs": [
+            "regression equation"
+          ],
+          "keywords": [
+            "function combination",
+            "regression equation",
+            "error correction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234833080.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

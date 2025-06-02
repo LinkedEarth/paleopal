@@ -1,0 +1,248 @@
+{
+  "paper_title": "In silico and in vivo analyses of pollen aperture pattern formation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Gierer-Meinhardt Model Implementation",
+      "description": "Implementation of the Gierer-Meinhardt model in FlexPDE to simulate aperture patterning in Arabidopsis pollen grains in both 1D and 3D domains.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We implemented the coupled GM equations in FlexPDE, a finite-element partial differential equation (PDE) solving environment.",
+          "searchable_summary": "Implement GM equations in FlexPDE for PDE solving",
+          "inputs": [
+            "GM equations",
+            "FlexPDE environment"
+          ],
+          "outputs": [
+            "PDE model implementation"
+          ],
+          "keywords": [
+            "Gierer-Meinhardt model",
+            "FlexPDE",
+            "PDE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "A domain was modeled with a size that corresponded to the size of wild-type haploid (1n) pollen grains with an observed front-view surface area averaging 550 μm².",
+          "searchable_summary": "Model domain size for 1n pollen grains",
+          "inputs": [
+            "wild-type haploid pollen size"
+          ],
+          "outputs": [
+            "1D and 3D domain models"
+          ],
+          "keywords": [
+            "domain modeling",
+            "pollen grain size"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "We explored parameter values that determine the model's kinetics on the 1D WT domain to find values that would produce three equally spaced spikes.",
+          "searchable_summary": "Explore parameter values for 1D WT domain kinetics",
+          "inputs": [
+            "1D WT domain",
+            "parameter values"
+          ],
+          "outputs": [
+            "parameter values for three spikes"
+          ],
+          "keywords": [
+            "parameter exploration",
+            "kinetics",
+            "spike pattern"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "We verified that these parameter values satisfy the conditions for Turing-type patterning.",
+          "searchable_summary": "Verify Turing patterning conditions",
+          "inputs": [
+            "parameter values"
+          ],
+          "outputs": [
+            "Turing patterning verification"
+          ],
+          "keywords": [
+            "Turing patterning",
+            "parameter verification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "We tested a range of parameter values to determine how much change our model could tolerate while still producing Turing patterns.",
+          "searchable_summary": "Test parameter range for Turing pattern tolerance",
+          "inputs": [
+            "parameter values",
+            "Turing pattern criteria"
+          ],
+          "outputs": [
+            "tolerance range for parameters"
+          ],
+          "keywords": [
+            "parameter testing",
+            "Turing patterns"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "We increased the domain to match the larger size of the diploid (2n) Arabidopsis pollen grains.",
+          "searchable_summary": "Increase domain size for 2n pollen grains",
+          "inputs": [
+            "2n pollen grain size"
+          ],
+          "outputs": [
+            "larger-size domain model"
+          ],
+          "keywords": [
+            "domain scaling",
+            "diploid pollen"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "We tested if a change of the same magnitude in the opposite direction would also change the number of spikes produced by our model.",
+          "searchable_summary": "Test domain size reduction effect on spike number",
+          "inputs": [
+            "domain size reduction"
+          ],
+          "outputs": [
+            "spike number change"
+          ],
+          "keywords": [
+            "domain size",
+            "spike number"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "We started out with the same parameter values as in 1D to test the model in 3D.",
+          "searchable_summary": "Test 3D model with 1D parameters",
+          "inputs": [
+            "3D domain",
+            "1D parameters"
+          ],
+          "outputs": [
+            "3D model results"
+          ],
+          "keywords": [
+            "3D modeling",
+            "parameter testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Parameter Sensitivity Analysis",
+      "description": "Analysis of how changes in model parameters affect the number of spikes in the aperture patterning of Arabidopsis pollen grains.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We performed a one-parameter-at-a-time analysis, varying the model parameters in both the WT and the larger-size domains.",
+          "searchable_summary": "Perform one-parameter-at-a-time analysis",
+          "inputs": [
+            "model parameters",
+            "WT domain",
+            "larger-size domain"
+          ],
+          "outputs": [
+            "spike number data"
+          ],
+          "keywords": [
+            "parameter analysis",
+            "sensitivity analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We observed that varying the diffusion rates of the two morphogens changed the number of spikes our model was able to produce.",
+          "searchable_summary": "Analyze effect of diffusion rate on spike number",
+          "inputs": [
+            "diffusion rates",
+            "morphogens"
+          ],
+          "outputs": [
+            "spike number changes"
+          ],
+          "keywords": [
+            "diffusion rate",
+            "morphogen",
+            "spike pattern"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We found that varying the decay rates of the two morphogens changed the number of spikes produced.",
+          "searchable_summary": "Analyze effect of decay rate on spike number",
+          "inputs": [
+            "decay rates",
+            "morphogens"
+          ],
+          "outputs": [
+            "spike number changes"
+          ],
+          "keywords": [
+            "decay rate",
+            "morphogen",
+            "spike pattern"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Forward Genetic Screen",
+      "description": "A forward genetic screen on an EMS-mutagenized population of Arabidopsis plants to identify mutants with novel pollen aperture phenotypes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We performed a forward genetic screen on an EMS-mutagenized population of Arabidopsis plants.",
+          "searchable_summary": "Conduct forward genetic screen on EMS-mutagenized Arabidopsis",
+          "inputs": [
+            "EMS-mutagenized Arabidopsis population"
+          ],
+          "outputs": [
+            "mutant Arabidopsis plants"
+          ],
+          "keywords": [
+            "genetic screen",
+            "EMS mutagenesis",
+            "Arabidopsis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We found mutants belonging to two complementation groups, macaron (mcr) and doughnut (dnt), with novel pollen aperture phenotypes.",
+          "searchable_summary": "Identify mutants with novel pollen aperture phenotypes",
+          "inputs": [
+            "mutant Arabidopsis plants"
+          ],
+          "outputs": [
+            "mcr and dnt mutants"
+          ],
+          "keywords": [
+            "mutant identification",
+            "pollen aperture",
+            "phenotype"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/71716040.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

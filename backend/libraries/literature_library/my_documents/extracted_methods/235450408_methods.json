@@ -1,0 +1,292 @@
+{
+  "paper_title": "The Relationship Between Workload and Non-Contact Musculoskeletal Injury in College Swimmers: A Prospective Cohort Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Workload Calculation",
+      "description": "Process for calculating various types of workloads for participants based on practice attendance and training logs to assess their impact on injury risk.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate weekly workloads (Monday through Sunday) for each participant based on practice attendance and team training/competition logs.",
+          "searchable_summary": "calculate weekly workloads from practice logs",
+          "inputs": [
+            "practice attendance",
+            "training logs"
+          ],
+          "outputs": [
+            "weekly workloads"
+          ],
+          "keywords": [
+            "workload calculation",
+            "training logs",
+            "practice attendance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Categorize workload in four ways: overall workload, acute workload, chronic workload, and ACWR.",
+          "searchable_summary": "categorize workloads into overall, acute, chronic, and ACWR",
+          "inputs": [
+            "weekly workloads"
+          ],
+          "outputs": [
+            "categorized workloads"
+          ],
+          "keywords": [
+            "workload categorization",
+            "ACWR",
+            "acute workload",
+            "chronic workload"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate overall workload as the number of kilometers swum over the entire season.",
+          "searchable_summary": "calculate overall workload as total kilometers swum",
+          "inputs": [
+            "season training logs"
+          ],
+          "outputs": [
+            "overall workload"
+          ],
+          "keywords": [
+            "overall workload",
+            "kilometers swum"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate acute workload for each week as the number of kilometers swum that week.",
+          "searchable_summary": "calculate acute workload as weekly kilometers swum",
+          "inputs": [
+            "weekly training logs"
+          ],
+          "outputs": [
+            "acute workload"
+          ],
+          "keywords": [
+            "acute workload",
+            "weekly kilometers"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Calculate chronic workload for each week as the average kilometers swum per week over that week and the preceding three weeks.",
+          "searchable_summary": "calculate chronic workload as average over four weeks",
+          "inputs": [
+            "weekly training logs"
+          ],
+          "outputs": [
+            "chronic workload"
+          ],
+          "keywords": [
+            "chronic workload",
+            "average kilometers"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Calculate ACWR for each week as the quotient of the acute workload and chronic workload.",
+          "searchable_summary": "calculate ACWR as acute workload divided by chronic workload",
+          "inputs": [
+            "acute workload",
+            "chronic workload"
+          ],
+          "outputs": [
+            "ACWR"
+          ],
+          "keywords": [
+            "ACWR",
+            "workload ratio"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "During the first three weeks of the season, factor self-reported preseason workloads into chronic workload and ACWR calculations.",
+          "searchable_summary": "include preseason workloads in early season calculations",
+          "inputs": [
+            "self-reported preseason workloads"
+          ],
+          "outputs": [
+            "adjusted chronic workload",
+            "adjusted ACWR"
+          ],
+          "keywords": [
+            "preseason workload",
+            "adjustment"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Calculate all workloads in Microsoft Excel (Version 16, Microsoft Corp., Redmond, WA, USA).",
+          "searchable_summary": "use Excel for workload calculations",
+          "inputs": [
+            "workload data"
+          ],
+          "outputs": [
+            "Excel calculations"
+          ],
+          "keywords": [
+            "Excel",
+            "workload calculations"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the collected data to determine the relationship between workload and injury risk.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Use the Shapiro-Wilk Test and visual inspection of histograms to determine normality of all data.",
+          "searchable_summary": "test data normality using Shapiro-Wilk and histograms",
+          "inputs": [
+            "workload data"
+          ],
+          "outputs": [
+            "normality assessment"
+          ],
+          "keywords": [
+            "Shapiro-Wilk Test",
+            "normality",
+            "histograms"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Describe normally distributed data with mean ± standard deviation; describe non-normally distributed data with median (interquartile range) (IQR).",
+          "searchable_summary": "summarize data with mean/SD or median/IQR",
+          "inputs": [
+            "normality assessment"
+          ],
+          "outputs": [
+            "data summary"
+          ],
+          "keywords": [
+            "mean",
+            "standard deviation",
+            "median",
+            "IQR"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Use independent samples t-tests to assess differences in demographic data between injured and uninjured student-athletes, except for age and months per year swum (Mann-Whitney U tests) and sex and training groups (Fisher's exact test).",
+          "searchable_summary": "perform t-tests, Mann-Whitney U tests, and Fisher's exact test on demographic data",
+          "inputs": [
+            "demographic data"
+          ],
+          "outputs": [
+            "demographic differences"
+          ],
+          "keywords": [
+            "t-test",
+            "Mann-Whitney U",
+            "Fisher's exact test"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Use logistic regression to assess the association between the overall workload throughout the season and injury.",
+          "searchable_summary": "perform logistic regression on workload and injury",
+          "inputs": [
+            "overall workload",
+            "injury data"
+          ],
+          "outputs": [
+            "logistic regression results"
+          ],
+          "keywords": [
+            "logistic regression",
+            "workload",
+            "injury"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Pool data for acute workload, chronic workload, and ACWR for all athlete-weeks of training and dichotomize each into 'high' and 'typical'.",
+          "searchable_summary": "dichotomize workload data into high and typical",
+          "inputs": [
+            "workload data"
+          ],
+          "outputs": [
+            "dichotomized workload data"
+          ],
+          "keywords": [
+            "dichotomization",
+            "workload categories"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate three logistic regression models using generalized estimating equations (GEE) to assess the association between workload and injury.",
+          "searchable_summary": "use GEE for logistic regression on workload and injury",
+          "inputs": [
+            "dichotomized workload data",
+            "injury data"
+          ],
+          "outputs": [
+            "GEE logistic regression results"
+          ],
+          "keywords": [
+            "GEE",
+            "logistic regression",
+            "workload",
+            "injury"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Calculate injury rate for a given range of acute workloads and ACWRs.",
+          "searchable_summary": "calculate injury rate for workload ranges",
+          "inputs": [
+            "workload data",
+            "injury data"
+          ],
+          "outputs": [
+            "injury rates"
+          ],
+          "keywords": [
+            "injury rate",
+            "workload range"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Complete all statistical analyses in SPSS (Version 24, IBM Corp., Armonk, NY).",
+          "searchable_summary": "use SPSS for statistical analyses",
+          "inputs": [
+            "statistical data"
+          ],
+          "outputs": [
+            "SPSS analysis results"
+          ],
+          "keywords": [
+            "SPSS",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235450408.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

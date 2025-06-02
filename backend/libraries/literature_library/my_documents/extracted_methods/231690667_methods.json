@@ -1,0 +1,179 @@
+{
+  "paper_title": "Earth System Model COSMOS Simulations for Miocene Climate Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Earth System Model Setup",
+      "description": "Setup of the Earth System Model COSMOS to simulate climate conditions during the Miocene period, focusing on the sensitivity of Arctic Ocean stratification and circulation controlled by FS gateway configurations and CO2 changes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We use the Earth System Model COSMOS, which incorporates the atmosphere model ECHAM5, the ocean model MPI-OM, and the land-vegetation model JSBACH.",
+          "searchable_summary": "initialize Earth System Model COSMOS with ECHAM5, MPI-OM, and JSBACH components",
+          "inputs": [
+            "ECHAM5",
+            "MPI-OM",
+            "JSBACH"
+          ],
+          "outputs": [
+            "initialized Earth System Model"
+          ],
+          "keywords": [
+            "Earth System Model",
+            "COSMOS",
+            "ECHAM5",
+            "MPI-OM",
+            "JSBACH"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The atmosphere model is used at T31 (~ 3.75° × 3.75°) horizontal resolution with 19 vertical layers.",
+          "searchable_summary": "configure atmosphere model ECHAM5 with T31 resolution and 19 vertical layers",
+          "inputs": [
+            "T31 resolution",
+            "19 vertical layers"
+          ],
+          "outputs": [
+            "configured atmosphere model"
+          ],
+          "keywords": [
+            "atmosphere model",
+            "ECHAM5",
+            "resolution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The ocean model has a resolution of GR30 (3° × 1.8°) and has 40 vertical layers.",
+          "searchable_summary": "configure ocean model MPI-OM with GR30 resolution and 40 vertical layers",
+          "inputs": [
+            "GR30 resolution",
+            "40 vertical layers"
+          ],
+          "outputs": [
+            "configured ocean model"
+          ],
+          "keywords": [
+            "ocean model",
+            "MPI-OM",
+            "resolution"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The interactive exchange of fluxes and energy between ocean and atmosphere is handled via the coupler OASIS3.",
+          "searchable_summary": "integrate OASIS3 coupler for flux and energy exchange between ocean and atmosphere",
+          "inputs": [
+            "OASIS3"
+          ],
+          "outputs": [
+            "integrated flux and energy exchange"
+          ],
+          "keywords": [
+            "OASIS3",
+            "flux exchange",
+            "energy exchange"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "In our reference simulation (MIO_FW500), we prescribe an atmospheric CO2 concentration of 450 ppm, with an FS width of ~ 500 km and fixed gateway depths of ~ 1500 mbsl.",
+          "searchable_summary": "set reference simulation parameters with CO2 concentration, FS width, and gateway depth",
+          "inputs": [
+            "450 ppm CO2",
+            "500 km FS width",
+            "1500 mbsl gateway depth"
+          ],
+          "outputs": [
+            "reference simulation parameters"
+          ],
+          "keywords": [
+            "CO2 concentration",
+            "FS width",
+            "gateway depth"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "We integrate our model for 4 kyrs to minimize salinity/temperature trends in the deep ocean after initialization with the present-day conditions.",
+          "searchable_summary": "run model integration for 4 kyrs to stabilize salinity and temperature",
+          "inputs": [
+            "4 kyrs integration",
+            "present-day conditions"
+          ],
+          "outputs": [
+            "stabilized salinity and temperature"
+          ],
+          "keywords": [
+            "model integration",
+            "salinity",
+            "temperature"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sensitivity Experiments",
+      "description": "Conduct sensitivity experiments to analyze the impact of varying FS widths and atmospheric CO2 levels on global ocean circulation and climate during the Miocene period.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Sensitivity experiments are performed for the FS by varying its width (Table 1).",
+          "searchable_summary": "perform sensitivity experiments by varying FS width",
+          "inputs": [
+            "FS width variations"
+          ],
+          "outputs": [
+            "sensitivity experiment results"
+          ],
+          "keywords": [
+            "sensitivity experiments",
+            "FS width"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Starting from a narrow FS width of ~ 50 km, in a set of six model simulations, we gradually widened the ocean gateway to 105, 222, 286, 352, and 500 km, respectively.",
+          "searchable_summary": "conduct model simulations with FS widths from 50 km to 500 km",
+          "inputs": [
+            "FS widths: 50 km, 105 km, 222 km, 286 km, 352 km, 500 km"
+          ],
+          "outputs": [
+            "simulation results for each FS width"
+          ],
+          "keywords": [
+            "FS width",
+            "model simulations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Apart from the FS gateway sensitivity experiments, we performed additional simulations at different levels of atmospheric CO2 (280, 450, 600, and 840 ppm; Table 1).",
+          "searchable_summary": "perform additional simulations with varying CO2 levels",
+          "inputs": [
+            "CO2 levels: 280 ppm, 450 ppm, 600 ppm, 840 ppm"
+          ],
+          "outputs": [
+            "simulation results for each CO2 level"
+          ],
+          "keywords": [
+            "CO2 levels",
+            "additional simulations"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/231690667.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,122 @@
+{
+  "paper_title": "Intraspecific Structure and Phylogeography of E. carniolica Based on RADseq Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "RADseq Data Analysis",
+      "description": "Analysis of RADseq data to determine intraspecific structure and phylogeography of E. carniolica, including Bayesian clustering and RAxML analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "RADseq reads are available in the NCBI Short Read Archive BioProject PRJNA983383 (accession nos SAMN35724938-SAMN35725141, Data S1).",
+          "searchable_summary": "download RADseq reads from NCBI Short Read Archive",
+          "inputs": [
+            "NCBI Short Read Archive BioProject PRJNA983383"
+          ],
+          "outputs": [
+            "RADseq reads"
+          ],
+          "keywords": [
+            "RADseq",
+            "NCBI",
+            "data retrieval"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Two individuals from populations Ec17 and Ec18 were excluded from subsequent analyses as they were identical with another sequence from the respective populations and possibly of clonal origin.",
+          "searchable_summary": "exclude identical sequences from analysis",
+          "inputs": [
+            "RADseq reads",
+            "population data"
+          ],
+          "outputs": [
+            "filtered RADseq reads"
+          ],
+          "keywords": [
+            "data filtering",
+            "clonal exclusion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Bayesian clustering analyses were based on 12,824 unlinked SNPs.",
+          "searchable_summary": "perform Bayesian clustering analysis on SNPs",
+          "inputs": [
+            "unlinked SNPs"
+          ],
+          "outputs": [
+            "clustering results"
+          ],
+          "keywords": [
+            "Bayesian clustering",
+            "SNP analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "A RAxML analysis based on 19,842 variant sites.",
+          "searchable_summary": "conduct RAxML analysis on variant sites",
+          "inputs": [
+            "variant sites"
+          ],
+          "outputs": [
+            "RAxML analysis results"
+          ],
+          "keywords": [
+            "RAxML",
+            "phylogenetic analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Demographic History Modeling",
+      "description": "Modeling demographic history of E. carniolica populations using vicariance and founder event scenarios to understand population splits and gene flow.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Vicariance models incorporating an initial split without gene flow followed by a period with asymmetric gene flow showed the best fit when testing directionality between the groups nBalk and cBalk.",
+          "searchable_summary": "model vicariance with asymmetric gene flow",
+          "inputs": [
+            "population data",
+            "gene flow parameters"
+          ],
+          "outputs": [
+            "vicariance model results"
+          ],
+          "keywords": [
+            "vicariance",
+            "gene flow",
+            "model fitting"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Founder event scenarios with migration were clearly the best-fitting models within the two main groups.",
+          "searchable_summary": "model founder events with migration",
+          "inputs": [
+            "population data",
+            "migration parameters"
+          ],
+          "outputs": [
+            "founder event model results"
+          ],
+          "keywords": [
+            "founder event",
+            "migration",
+            "model fitting"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/261214211.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

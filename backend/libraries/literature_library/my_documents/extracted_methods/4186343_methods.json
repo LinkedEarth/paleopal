@@ -1,0 +1,165 @@
+{
+  "paper_title": "Pollen Dynamics in Claytonia virginica",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Data Collection",
+      "description": "Process for collecting pollen data from Claytonia virginica flowers across various sites to study pollen removal and deposition dynamics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We collected data in a number of sites in suburban Philadelphia, Maryland, and North Carolina in Spring 2009 and Spring 2010.",
+          "searchable_summary": "collect pollen data from Claytonia virginica flowers at specified sites",
+          "inputs": [
+            "site locations",
+            "time period (Spring 2009 and 2010)"
+          ],
+          "outputs": [
+            "pollen data from various sites"
+          ],
+          "keywords": [
+            "data collection",
+            "field study",
+            "pollen data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Data collection began with the start of anthesis in the C. virginica population and when female-phase flowers in the population were open and ended when female-phase flowers in the population were closing.",
+          "searchable_summary": "collect data during anthesis and female-phase flower opening",
+          "inputs": [
+            "flower anthesis timing",
+            "flower phase status"
+          ],
+          "outputs": [
+            "timed pollen data"
+          ],
+          "keywords": [
+            "anthesis",
+            "flower phase",
+            "timing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The daily activity window began as early as 8:45 AM on warm and sunny days, but on cool days or after rain this often did not occur until late morning or early afternoon.",
+          "searchable_summary": "adjust data collection timing based on weather conditions",
+          "inputs": [
+            "weather conditions",
+            "time of day"
+          ],
+          "outputs": [
+            "weather-adjusted data collection schedule"
+          ],
+          "keywords": [
+            "weather conditions",
+            "data collection timing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Data Analysis",
+      "description": "Statistical analysis of pollen removal and deposition by different pollinator groups using generalized linear models and mixed models.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We compared the number of pollen grains removed and deposited by pollinator groups using generalized linear models (GLMs).",
+          "searchable_summary": "perform GLM analysis on pollen data by pollinator groups",
+          "inputs": [
+            "pollen data",
+            "pollinator groups"
+          ],
+          "outputs": [
+            "GLM analysis results"
+          ],
+          "keywords": [
+            "GLM",
+            "pollen analysis",
+            "pollinator groups"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used a negative binomial error distribution for both the removal and deposition models because the response variable in both data sets was overdispersed.",
+          "searchable_summary": "apply negative binomial distribution to GLM models",
+          "inputs": [
+            "GLM models",
+            "pollen data"
+          ],
+          "outputs": [
+            "adjusted GLM models"
+          ],
+          "keywords": [
+            "negative binomial distribution",
+            "overdispersion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "For removal and deposition models, we used the R function glm.nb in the library MASS and conducted multiple comparisons using the glht function in the library MULTCOMP.",
+          "searchable_summary": "use R functions glm.nb and glht for model analysis",
+          "inputs": [
+            "R software",
+            "MASS library",
+            "MULTCOMP library"
+          ],
+          "outputs": [
+            "model comparison results"
+          ],
+          "keywords": [
+            "R programming",
+            "glm.nb",
+            "glht",
+            "MASS",
+            "MULTCOMP"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To evaluate how the hour of collection affected the number of grains remaining in male-phase flowers, we used generalized linear mixed models (GLMMs) with time since anthesis as the predictor.",
+          "searchable_summary": "perform GLMM analysis on pollen data with time since anthesis as predictor",
+          "inputs": [
+            "pollen data",
+            "time since anthesis"
+          ],
+          "outputs": [
+            "GLMM analysis results"
+          ],
+          "keywords": [
+            "GLMM",
+            "time predictor",
+            "anthesis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "We used the function glmmADMB in the glmmADMB library because it allowed us to include random effects and account for overdispersion using a negative binomial distribution.",
+          "searchable_summary": "use glmmADMB for mixed model analysis with random effects",
+          "inputs": [
+            "glmmADMB library",
+            "pollen data"
+          ],
+          "outputs": [
+            "adjusted GLMM models"
+          ],
+          "keywords": [
+            "glmmADMB",
+            "random effects",
+            "negative binomial"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4186343.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

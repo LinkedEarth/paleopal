@@ -1,0 +1,288 @@
+{
+  "paper_title": "Archaeological Lithic Landscape Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Lithic Assemblage Data Preparation",
+      "description": "Process for collecting, filtering, and preparing lithic assemblage data from literature for subsequent spatial analysis. This involves surveying existing reports, calculating relative frequencies of toolstone classes, excluding samples below a minimum size, and aggregating data from spatially close sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "carried out an extensive survey of the relevant literature, searching for suitable quantitative data about the composition of lithic assemblages recovered from site components of Late Holocene age (ca. 3000-200 14 C years BP).",
+          "searchable_summary": "Search academic literature for quantitative archaeological data on lithic assemblages from a specific time period.",
+          "inputs": [
+            "Relevant literature sources"
+          ],
+          "outputs": [
+            "List of potential reports/datasets"
+          ],
+          "keywords": [
+            "literature search",
+            "archaeological reports",
+            "data collection",
+            "Late Holocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "we collected a preliminary sample of around 150 georeferenced lithic assemblages.",
+          "searchable_summary": "Compile a preliminary dataset of georeferenced lithic assemblages from identified reports.",
+          "inputs": [
+            "Identified reports/datasets from literature survey"
+          ],
+          "outputs": [
+            "Preliminary dataset of ~150 georeferenced assemblages"
+          ],
+          "keywords": [
+            "data compilation",
+            "georeferencing",
+            "archaeological data",
+            "lithic assemblages"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "On the basis of the information provided by the corresponding reports, we calculated the relative frequency (i.e., percentages) of the toolstone classes represented in each assemblage.",
+          "searchable_summary": "Calculate the relative frequency (percentage) of each toolstone class within each lithic assemblage.",
+          "inputs": [
+            "Preliminary dataset of assemblages with toolstone composition data"
+          ],
+          "outputs": [
+            "Dataset with relative frequencies of toolstone classes per assemblage"
+          ],
+          "keywords": [
+            "relative frequency",
+            "percentage calculation",
+            "lithic analysis",
+            "toolstone classes",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Any collection with less than 25 artifacts was excluded from the database since sample sizes below that minimum complicate the estimation of the relative frequencies.",
+          "searchable_summary": "Filter out assemblages from the dataset that contain fewer than 25 artifacts.",
+          "inputs": [
+            "Dataset with assemblage artifact counts"
+          ],
+          "outputs": [
+            "Filtered dataset excluding small samples"
+          ],
+          "keywords": [
+            "data filtering",
+            "sample size exclusion",
+            "quality control",
+            "archaeological data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "To avoid the overcrowding of data from intensively surveyed areas in the landscape, we aggregated into composites the information from sites separated each other by a linear distance less than 1 km (i.e., an archaeological locality).",
+          "searchable_summary": "Aggregate data from archaeological sites located within 1 km of each other into composite 'archaeological locality' assemblages.",
+          "inputs": [
+            "Filtered dataset with georeferenced assemblages"
+          ],
+          "outputs": [
+            "Aggregated dataset of archaeological localities/sites (n=119)"
+          ],
+          "keywords": [
+            "data aggregation",
+            "spatial grouping",
+            "archaeological locality",
+            "composite assemblage",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Data from the screened database (n=119; Table 1, Fig. 6) were, finally, entered into a spreadsheet for further analysis",
+          "searchable_summary": "Enter the final screened and aggregated data into a spreadsheet format.",
+          "inputs": [
+            "Aggregated dataset (n=119)"
+          ],
+          "outputs": [
+            "Spreadsheet file containing the dataset"
+          ],
+          "keywords": [
+            "data entry",
+            "spreadsheet",
+            "data formatting"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "For the sake of simplicity, we chose to analyze the spatial distribution of artifacts made with raw materials belonging to just three groups of rocks, namely quartzites, chalcedonies, and OSR.",
+          "searchable_summary": "Select data corresponding to the three specific toolstone groups (quartzites, chalcedonies, OSR) for analysis.",
+          "inputs": [
+            "Spreadsheet data with all toolstone classes"
+          ],
+          "outputs": [
+            "Subset of data focusing on quartzites, chalcedonies, and OSR"
+          ],
+          "keywords": [
+            "data selection",
+            "toolstone classification",
+            "raw material analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial Analysis of Lithic Toolstone Distribution",
+      "description": "Geostatistical procedures used to analyze the spatial distribution and dependence of selected lithic toolstone classes, including assessing point patterns, declustering data, analyzing spatial dependence via semivariograms, and generating prediction maps using kriging.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "assess the spatial distribution of sample locations-considered as marked point process data (Stoyan and Stoyan 1994)-by means of a nearest neighbor analysis.",
+          "searchable_summary": "Perform nearest neighbor analysis on sample locations to assess the spatial point pattern (e.g., clustered, random).",
+          "inputs": [
+            "Georeferenced sample locations (archaeological sites/localities)"
+          ],
+          "outputs": [
+            "Nearest neighbor statistics (R, z-score, p-value)"
+          ],
+          "keywords": [
+            "spatial analysis",
+            "point pattern analysis",
+            "nearest neighbor analysis",
+            "GIS",
+            "marked point process"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "making necessary the implementation of a declustering procedure to adjust for preferential sampling (cell method ;Journel 1983). Following a common practice to choose the cell size for declustering, we first proceeded-after performing a normal score transformation of original values-to compute the global mean percentage for a range of cell sizes and then to select the cell size that returned the lowest global mean (μ)",
+          "searchable_summary": "Apply cell method declustering to adjust for preferential sampling, including normal score transformation and selecting optimal cell size based on global mean.",
+          "inputs": [
+            "Relative frequency data for selected toolstone groups",
+            "Sample locations"
+          ],
+          "outputs": [
+            "Declustered data or weights",
+            "Optimal cell size"
+          ],
+          "keywords": [
+            "declustering",
+            "preferential sampling",
+            "cell method",
+            "geostatistics",
+            "normal score transformation",
+            "cell size selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The second step was to test for trends and anisotropies in data distributions.",
+          "searchable_summary": "Analyze the declustered data for spatial trends and directional anisotropies.",
+          "inputs": [
+            "Declustered data"
+          ],
+          "outputs": [
+            "Identification of spatial trends and anisotropies"
+          ],
+          "keywords": [
+            "spatial trends",
+            "anisotropy",
+            "geostatistics",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The third step was to examine the spatial dependence of data using different semivariogram models. At this step, data were analyzed with and without correction for trends or anisotropy.",
+          "searchable_summary": "Compute and model semivariograms to characterize spatial dependence, considering corrections for trends and anisotropy.",
+          "inputs": [
+            "Declustered data",
+            "Trend/anisotropy information"
+          ],
+          "outputs": [
+            "Fitted semivariogram models (e.g., K-Bessel, Matérn)"
+          ],
+          "keywords": [
+            "spatial dependence",
+            "semivariogram",
+            "variogram modeling",
+            "geostatistics",
+            "trend correction",
+            "anisotropy correction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The comparison between the performance of different geostatistical models, considering both the variography and the cross-validation statistics, indicates that the best overall results were obtained with the use of the K-Bessel or Matérn model (detrended data, corrected for anisotropy).",
+          "searchable_summary": "Evaluate and compare different semivariogram models using variography fit and cross-validation statistics to select the best model.",
+          "inputs": [
+            "Fitted semivariogram models",
+            "Cross-validation results"
+          ],
+          "outputs": [
+            "Selected best geostatistical model (K-Bessel/Matérn)"
+          ],
+          "keywords": [
+            "model selection",
+            "geostatistical modeling",
+            "variography",
+            "cross-validation",
+            "model validation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The fourth step was the generation of prediction maps and prediction standard error maps for each of the three toolstone classes by means of simple kriging (different semivariogram models), using for the interpolation between 7 and 10 neighbors within each quadrant of the map.",
+          "searchable_summary": "Generate spatial prediction maps and standard error maps for each toolstone class using simple kriging with the selected model and specified neighbor parameters.",
+          "inputs": [
+            "Declustered data",
+            "Selected semivariogram model",
+            "Sample locations",
+            "Kriging parameters (neighbors, quadrants)"
+          ],
+          "outputs": [
+            "Prediction maps (raster)",
+            "Prediction standard error maps (raster)"
+          ],
+          "keywords": [
+            "kriging",
+            "simple kriging",
+            "spatial interpolation",
+            "prediction mapping",
+            "geostatistics",
+            "GIS"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Both map classes were exported to a raster format for further examination and processing.",
+          "searchable_summary": "Export the generated prediction and standard error maps to a raster file format.",
+          "inputs": [
+            "Prediction maps",
+            "Prediction standard error maps"
+          ],
+          "outputs": [
+            "Raster files (e.g., GeoTIFF)"
+          ],
+          "keywords": [
+            "data export",
+            "raster format",
+            "GIS"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/144785838.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

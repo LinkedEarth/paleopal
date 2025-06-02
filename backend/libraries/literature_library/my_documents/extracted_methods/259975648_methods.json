@@ -1,0 +1,284 @@
+{
+  "paper_title": "Inferred from text: Statistical Treatment of Charcoal Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Correspondence Analysis (CA)",
+      "description": "This method was applied to the charcoal data to explore the relationships between different charcoal taxa and archaeological levels. It aims to identify patterns of association and dissociate distinct clusters of levels based on their charcoal composition. The analysis focuses on the first few principal axes (F1, F2, F3) which capture the most variance in the data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform Correspondence Analysis (CA) on the charcoal data.",
+          "searchable_summary": "Perform correspondence analysis on ecological count data.",
+          "inputs": [
+            "Charcoal data (matrix of taxa counts per archaeological level)"
+          ],
+          "outputs": [
+            "CA results object (includes eigenvalues, eigenvectors, coordinates for rows/columns)"
+          ],
+          "keywords": [
+            "Correspondence Analysis",
+            "CA",
+            "multivariate analysis",
+            "ecological data analysis",
+            "R",
+            "Python",
+            "vegan",
+            "ade4",
+            "scikit-learn"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Assess the statistical significance of the CA results, specifically the p-value, at a significance level of 0.05.",
+          "searchable_summary": "Calculate and check the significance level (p-value) of the correspondence analysis.",
+          "inputs": [
+            "CA results object",
+            "Significance level (0.05)"
+          ],
+          "outputs": [
+            "P-value of the CA",
+            "Significance assessment (e.g., significant/not significant)"
+          ],
+          "keywords": [
+            "statistical significance",
+            "p-value",
+            "permutation test",
+            "CA validation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Interpret the principal axes (F1, F2, F3) and the cumulative inertia they explain.",
+          "searchable_summary": "Interpret the principal axes and inertia from correspondence analysis.",
+          "inputs": [
+            "CA results object (eigenvalues, inertia)"
+          ],
+          "outputs": [
+            "Interpretation of axes and variance explained"
+          ],
+          "keywords": [
+            "CA interpretation",
+            "principal axes",
+            "inertia",
+            "variance explained"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify and interpret the clusters of archaeological levels and taxa based on their positions on the principal axes (F1, F2, F3).",
+          "searchable_summary": "Visualize and interpret clusters of points (levels and taxa) in the CA ordination space.",
+          "inputs": [
+            "CA results object (coordinates for rows/columns)"
+          ],
+          "outputs": [
+            "Identified clusters",
+            "Interpretation of associations between levels and taxa"
+          ],
+          "keywords": [
+            "CA plot",
+            "ordination",
+            "clustering",
+            "ecological association",
+            "taxa-level relationship"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Identify the heaviest contributors (taxa and levels) to each principal axis (F1, F2, F3).",
+          "searchable_summary": "Identify variables (taxa/levels) with high contributions to CA axes.",
+          "inputs": [
+            "CA results object (contributions of rows/columns to axes)"
+          ],
+          "outputs": [
+            "List of major contributors to each axis"
+          ],
+          "keywords": [
+            "CA contributions",
+            "axis interpretation",
+            "variable importance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Agglomerative Hierarchical Clustering (AHC) of Archaeological Levels",
+      "description": "This method was used to group the archaeological levels based on the similarity of their charcoal taxonomic composition. The goal was to identify natural groupings and potential outliers among the levels, which could inform decisions about regrouping levels for further analysis or interpretation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform Agglomerative Hierarchical Clustering (AHC) on the archaeological levels based on their charcoal taxonomic composition.",
+          "searchable_summary": "Perform agglomerative hierarchical clustering on archaeological levels using taxonomic data.",
+          "inputs": [
+            "Charcoal data (matrix of taxa counts per archaeological level)"
+          ],
+          "outputs": [
+            "AHC dendrogram object"
+          ],
+          "keywords": [
+            "Agglomerative Hierarchical Clustering",
+            "AHC",
+            "clustering",
+            "dendrogram",
+            "taxonomic data",
+            "ecological data",
+            "R",
+            "Python",
+            "hclust",
+            "scipy.cluster.hierarchy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Apply automatic truncation to the generated dendrogram to define clusters.",
+          "searchable_summary": "Apply automatic or manual truncation to a dendrogram to cut into clusters.",
+          "inputs": [
+            "AHC dendrogram object"
+          ],
+          "outputs": [
+            "Cluster assignments for each level"
+          ],
+          "keywords": [
+            "dendrogram cutting",
+            "cluster assignment",
+            "hierarchical clustering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Interpret the resulting clusters, noting which levels are grouped together and identifying potential outliers (e.g., YN).",
+          "searchable_summary": "Interpret hierarchical clustering results and identify clusters and outliers.",
+          "inputs": [
+            "AHC dendrogram",
+            "Cluster assignments"
+          ],
+          "outputs": [
+            "Interpretation of level groupings",
+            "Identification of outliers"
+          ],
+          "keywords": [
+            "cluster interpretation",
+            "outlier detection",
+            "dendrogram analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate and assess the homogeneity (intra-class variance) of the resulting clusters.",
+          "searchable_summary": "Calculate intra-cluster variance or other homogeneity metrics for hierarchical clustering results.",
+          "inputs": [
+            "Charcoal data",
+            "Cluster assignments"
+          ],
+          "outputs": [
+            "Intra-class variance values for each cluster"
+          ],
+          "keywords": [
+            "cluster homogeneity",
+            "intra-class variance",
+            "clustering validation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Use the clustering results and other evidence (e.g., 14C dates, stratigraphic evidence) to inform decisions about regrouping archaeological levels for subsequent analysis.",
+          "searchable_summary": "Regroup data points (archaeological levels) based on clustering results and external information.",
+          "inputs": [
+            "Cluster assignments",
+            "14C dates",
+            "Stratigraphic evidence",
+            "Interpretation from previous steps"
+          ],
+          "outputs": [
+            "Proposed regroupings of archaeological levels (e.g., YN/YL, H/YSE, YIT/YI/YG, G/G2/G3)"
+          ],
+          "keywords": [
+            "data regrouping",
+            "level merging",
+            "cluster-based grouping",
+            "archaeological data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pearson's Adjusted Residuals Calculation",
+      "description": "This method was used to confirm the statistical significance of the observed variations in the abundance of main charcoal taxa across the archaeological levels. The residuals are calculated based on the chi-square test results for each cell (taxa-level combination) in the contingency table.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate the expected values and chi-square contributions for each cell (taxa-level combination) in the contingency table of charcoal data.",
+          "searchable_summary": "Calculate expected values and chi-square contributions for a contingency table.",
+          "inputs": [
+            "Charcoal data (contingency table of taxa counts vs levels)"
+          ],
+          "outputs": [
+            "Expected values",
+            "Chi-square contributions per cell"
+          ],
+          "keywords": [
+            "contingency table",
+            "chi-square test",
+            "expected values",
+            "statistical test"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate Pearson's adjusted residuals for each cell based on the observed and expected values and chi-square results.",
+          "searchable_summary": "Calculate Pearson's adjusted residuals for a contingency table.",
+          "inputs": [
+            "Observed counts (from input data)",
+            "Expected counts (from step 1)",
+            "Chi-square results (or intermediate values) from the contingency table (from step 1)"
+          ],
+          "outputs": [
+            "Matrix of Pearson's adjusted residuals"
+          ],
+          "keywords": [
+            "Pearson's adjusted residuals",
+            "residual analysis",
+            "contingency table analysis",
+            "statistical analysis",
+            "R",
+            "Python",
+            "statsmodels",
+            "scipy.stats"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Interpret the Pearson's adjusted residuals to confirm the statistical significance of the variations in main taxa within the archaeological levels.",
+          "searchable_summary": "Interpret Pearson's adjusted residuals to identify significant deviations from expected values.",
+          "inputs": [
+            "Matrix of Pearson's adjusted residuals"
+          ],
+          "outputs": [
+            "Confirmation of statistically significant variations for specific taxa-level combinations"
+          ],
+          "keywords": [
+            "residual interpretation",
+            "statistical significance",
+            "taxa variation",
+            "archaeological levels"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259975648.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,288 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Diffraction Contribution Simulation",
+      "description": "Numerical simulations based on the Beam Propagation Method (BPM) to study how the valve interacts with an incoming plane wave at different wavelengths.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "SEM images of the inner and outer surface of the C. wailesii valve have been converted into binary refractive-index maps.",
+          "searchable_summary": "convert SEM images to binary refractive-index maps",
+          "inputs": [
+            "SEM images"
+          ],
+          "outputs": [
+            "binary refractive-index maps"
+          ],
+          "keywords": [
+            "SEM images",
+            "binary conversion",
+            "refractive index"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The maps have been properly extruded and positioned to obtain the bilayer geometry characteristic of the valve.",
+          "searchable_summary": "extrude and position refractive-index maps for bilayer geometry",
+          "inputs": [
+            "binary refractive-index maps"
+          ],
+          "outputs": [
+            "3D model of valve"
+          ],
+          "keywords": [
+            "extrusion",
+            "3D modeling",
+            "bilayer geometry"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The incoming fields were launched along the Z axis and the valve extends from z = 0 μm to z = 1 μm.",
+          "searchable_summary": "simulate incoming fields along Z axis",
+          "inputs": [
+            "3D model of valve"
+          ],
+          "outputs": [
+            "simulation setup"
+          ],
+          "keywords": [
+            "simulation",
+            "Z axis",
+            "incoming fields"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The output of the simulation is the spatial distribution of the transmitted intensity in XZ and YZ planes.",
+          "searchable_summary": "analyze spatial distribution of transmitted intensity",
+          "inputs": [
+            "simulation results"
+          ],
+          "outputs": [
+            "intensity distribution in XZ and YZ planes"
+          ],
+          "keywords": [
+            "intensity distribution",
+            "XZ plane",
+            "YZ plane"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Raman Spectra Acquisition",
+      "description": "Acquisition of Raman spectra using a homebuilt Raman microscope to analyze diatom valves.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A laser beam at 532 nm was spatially filtered, expanded, and introduced in an inverted microscope to illuminate a single diatom valve.",
+          "searchable_summary": "setup laser beam for Raman spectroscopy",
+          "inputs": [
+            "laser beam",
+            "microscope"
+          ],
+          "outputs": [
+            "illuminated diatom valve"
+          ],
+          "keywords": [
+            "Raman spectroscopy",
+            "laser beam",
+            "microscope"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The back-scattered light from the sample was collected and filtered to eliminate residual Rayleigh scattering.",
+          "searchable_summary": "collect and filter back-scattered light",
+          "inputs": [
+            "back-scattered light"
+          ],
+          "outputs": [
+            "filtered Raman light"
+          ],
+          "keywords": [
+            "back-scattered light",
+            "Rayleigh scattering",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The Raman light was focused onto the entrance slit of a monochromator and detected by a CCD.",
+          "searchable_summary": "focus Raman light onto monochromator and detect with CCD",
+          "inputs": [
+            "filtered Raman light"
+          ],
+          "outputs": [
+            "Raman spectra"
+          ],
+          "keywords": [
+            "monochromator",
+            "CCD",
+            "Raman spectra"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "25 spectra were randomly collected from a single diatom with a step size of 10 μm and an exposure time of 10 s per spectrum.",
+          "searchable_summary": "collect multiple Raman spectra from diatom",
+          "inputs": [
+            "diatom sample"
+          ],
+          "outputs": [
+            "Raman spectra data"
+          ],
+          "keywords": [
+            "Raman spectra",
+            "data collection",
+            "diatom"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Numerical Simulations Using BPM",
+      "description": "Numerical simulations using the Beam Propagation Method (BPM) corrected for wide angles to model light propagation through diatom valves.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Starting from the Helmoltz equation, the electric field is separated into a slowly varying envelope factor and a rapid varying phase factor.",
+          "searchable_summary": "separate electric field into envelope and phase factors",
+          "inputs": [
+            "Helmoltz equation"
+          ],
+          "outputs": [
+            "separated electric field"
+          ],
+          "keywords": [
+            "Helmoltz equation",
+            "electric field",
+            "phase factor"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Using the slowly varying envelope approximation, derive the basic BPM equation.",
+          "searchable_summary": "derive BPM equation using envelope approximation",
+          "inputs": [
+            "separated electric field"
+          ],
+          "outputs": [
+            "BPM equation"
+          ],
+          "keywords": [
+            "BPM",
+            "envelope approximation",
+            "derivation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Iterate U along the z-axis using finite differences for the x and y derivatives.",
+          "searchable_summary": "iterate U along z-axis using finite differences",
+          "inputs": [
+            "BPM equation"
+          ],
+          "outputs": [
+            "iterated U"
+          ],
+          "keywords": [
+            "finite differences",
+            "iteration",
+            "BPM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Use Padé approximations to derive a wide-angle BPM equation.",
+          "searchable_summary": "derive wide-angle BPM equation using Padé approximations",
+          "inputs": [
+            "BPM equation"
+          ],
+          "outputs": [
+            "wide-angle BPM equation"
+          ],
+          "keywords": [
+            "Padé approximation",
+            "wide-angle BPM",
+            "derivation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Photoluminescence Spectra Acquisition",
+      "description": "Acquisition of steady-state photoluminescence (PL) spectra from diatom valves using a He-Cd laser.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "PL spectra were excited by a continuous wave He-Cd laser at 325 and 442 nm.",
+          "searchable_summary": "excite PL spectra using He-Cd laser",
+          "inputs": [
+            "He-Cd laser"
+          ],
+          "outputs": [
+            "excited PL spectra"
+          ],
+          "keywords": [
+            "photoluminescence",
+            "He-Cd laser",
+            "excitation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "PL was collected at normal incidence to the surface of samples through a fiber, then dispersed by a spectrometer.",
+          "searchable_summary": "collect and disperse PL using spectrometer",
+          "inputs": [
+            "PL spectra"
+          ],
+          "outputs": [
+            "dispersed PL spectra"
+          ],
+          "keywords": [
+            "spectrometer",
+            "PL collection",
+            "fiber"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Detected using a Peltier cooled CCD camera.",
+          "searchable_summary": "detect PL spectra using CCD camera",
+          "inputs": [
+            "dispersed PL spectra"
+          ],
+          "outputs": [
+            "PL spectra data"
+          ],
+          "keywords": [
+            "CCD camera",
+            "PL detection",
+            "Peltier cooling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/53229224.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

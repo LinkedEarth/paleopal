@@ -1,0 +1,143 @@
+{
+  "paper_title": "Inferred from content: Thermal Analysis and Age Estimation of Amber",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Thermogravimetric Analysis (TGA) of Amber",
+      "description": "Thermogravimetric analysis was performed on Thai amber samples to obtain thermal curves (TG and DTG) and identify thermal events, particularly the main thermal peak (MaTHEP), which is correlated to the age of the sample. This method follows a previously described protocol.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Thermogravimetric analysis of Thai amber was performed according to a previously described method (Ragazzi et al., 2003).",
+          "searchable_summary": "Perform thermogravimetric analysis (TGA) on amber samples following a specified protocol.",
+          "inputs": [
+            "Thai amber samples",
+            "TGA instrument",
+            "Reference TGA protocol (Ragazzi et al., 2003)"
+          ],
+          "outputs": [
+            "Thermogravimetric (TG) curves",
+            "Differential Thermo-Gravimetric (DTG) curves"
+          ],
+          "keywords": [
+            "Thermogravimetric analysis",
+            "TGA",
+            "DTG",
+            "thermal analysis",
+            "amber",
+            "material characterization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The thermogravimetric (Differential Thermo-Gravimetric, DTG) curves were obtained from three samples from Thai amber. The main exothermal event (indicating the highest rate of weight loss under controlled heating) evidenced by a main thermal peak (MaTHEP), ranged between 425 and 435°C (Fig. 4). Additional peaks, indicating further exothermal events, occurred at 470°C and at 568-590°C.",
+          "searchable_summary": "Identify and extract thermal peak data (main and additional peaks) from TGA/DTG curves.",
+          "inputs": [
+            "TG curves",
+            "DTG curves"
+          ],
+          "outputs": [
+            "Main thermal peak temperature (MaTHEP)",
+            "Temperatures of additional thermal peaks"
+          ],
+          "keywords": [
+            "Thermal peak",
+            "MaTHEP",
+            "DTG curve analysis",
+            "peak identification",
+            "thermal event"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age Estimation using Amber Thermal Data and Linear Regression",
+      "description": "This method uses the main thermal peak temperature (MaTHEP) obtained from TGA of Thai amber samples and compares it to a dataset of MaTHEP and known geological ages from various resins using linear regression models to estimate the age of the Thai amber.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Linear regressions through main thermal peak data available in our laboratory (for more information, contact two of us: GR and ER) and obtained from resins of different geological ages and origin (Ragazzi et al., 2003(Ragazzi et al., , 2009 permitted to compare the thermal behavior data of the Thai amber samples.",
+          "searchable_summary": "Obtain reference dataset of thermal peak data (MaTHEP) and corresponding geological ages for resins of different origins and ages.",
+          "inputs": [
+            "Published data (Ragazzi et al., 2003, 2009)",
+            "Laboratory data (contact GR and ER)"
+          ],
+          "outputs": [
+            "Reference dataset (MaTHEP, Age)"
+          ],
+          "keywords": [
+            "Reference data",
+            "geological age",
+            "thermal peak data",
+            "dataset collection",
+            "literature data",
+            "laboratory data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Different linear regression models were used to estimate the age of our samples. Linear regressions through main thermal peak data provided the possibility to calculate a theoretical age for this amber (Tab. 1). Considering a first linear model (where x axis is MaTHEP in°C, and y axis is age in Ma) it was possible to obtain, through a linear regression, an age estimate of the samples in the range 104-118 Ma (corresponding to the Lower Cretaceous-Albian) (Fig. 5A). Using another linear regression model (where x axis is age, and y axis is MaTHEP), a higher estimate was obtained, ranging 124-165 Ma (Fig. 5B).",
+          "searchable_summary": "Train different linear regression models using the reference dataset (e.g., Age as function of MaTHEP, MaTHEP as function of Age).",
+          "inputs": [
+            "Reference dataset (MaTHEP, Age)"
+          ],
+          "outputs": [
+            "Trained linear regression models (e.g., Age = f(MaTHEP), MaTHEP = g(Age))"
+          ],
+          "keywords": [
+            "Linear regression",
+            "model training",
+            "statistical modeling",
+            "regression analysis",
+            "age estimation model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Permitted to compare the thermal behavior data of the Thai amber samples. Considering a first linear model (where x axis is MaTHEP in°C, and y axis is age in Ma) it was possible to obtain, through a linear regression, an age estimate of the samples in the range 104-118 Ma... Using another linear regression model (where x axis is age, and y axis is MaTHEP), a higher estimate was obtained...",
+          "searchable_summary": "Apply the trained linear regression models to the Thai amber MaTHEP data to estimate their age.",
+          "inputs": [
+            "Trained linear regression models",
+            "MaTHEP data from Thai amber samples"
+          ],
+          "outputs": [
+            "Estimated age range for Thai amber samples"
+          ],
+          "keywords": [
+            "Age estimation",
+            "linear regression prediction",
+            "data comparison",
+            "thermal behavior",
+            "prediction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The use of a robust linear regression however did not modify the values obtained with a regular linear model estimate.",
+          "searchable_summary": "Optionally, train and apply a robust linear regression model for age estimation.",
+          "inputs": [
+            "Reference dataset (MaTHEP, Age)",
+            "MaTHEP data from Thai amber samples"
+          ],
+          "outputs": [
+            "Estimated age range using robust linear regression"
+          ],
+          "keywords": [
+            "Robust linear regression",
+            "outlier handling",
+            "statistical modeling",
+            "regression analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221741015.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

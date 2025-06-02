@@ -1,0 +1,214 @@
+{
+  "paper_title": "Sequence Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Protein Disorder and Structure Prediction",
+      "description": "This method involves predicting protein intrinsically disordered regions, secondary structure, signal sequences, and O-glycosylation patterns using various bioinformatics tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The VSL2B predictor (part of DisProt database of protein disorder) was used to detect protein intrinsically disordered regions.",
+          "searchable_summary": "use VSL2B predictor to detect protein disordered regions",
+          "inputs": [
+            "protein sequence data"
+          ],
+          "outputs": [
+            "disordered regions data"
+          ],
+          "keywords": [
+            "VSL2B",
+            "protein disorder",
+            "DisProt"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Secondary protein structure was predicted using Phyre2 with default settings using the intensive modeling mode.",
+          "searchable_summary": "predict secondary protein structure using Phyre2",
+          "inputs": [
+            "protein sequence data"
+          ],
+          "outputs": [
+            "secondary structure data"
+          ],
+          "keywords": [
+            "Phyre2",
+            "secondary structure",
+            "protein modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Signal sequence prediction was performed using the SignalP 4.1 Server with the default settings.",
+          "searchable_summary": "predict signal sequences using SignalP 4.1",
+          "inputs": [
+            "protein sequence data"
+          ],
+          "outputs": [
+            "signal sequence data"
+          ],
+          "keywords": [
+            "SignalP",
+            "signal sequence",
+            "protein prediction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "O-glycosylation patterns were detected using ScanProsite with the amino acid motif [ASTV]-P(1,4)-X(0,10)-[ASTV]-P(1,4) with greedy and no overlap options.",
+          "searchable_summary": "detect O-glycosylation patterns using ScanProsite",
+          "inputs": [
+            "protein sequence data"
+          ],
+          "outputs": [
+            "O-glycosylation pattern data"
+          ],
+          "keywords": [
+            "ScanProsite",
+            "O-glycosylation",
+            "protein motifs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Alignment and Editing",
+      "description": "This method involves sequence alignment, editing, annotation, and manipulation using various software tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sequence alignment, editing, annotation and manipulation were done using Geneious 8.1.3 software, BioEdit v7.2.5 and MEGA7.0 software.",
+          "searchable_summary": "align and edit sequences using Geneious, BioEdit, and MEGA",
+          "inputs": [
+            "raw sequence data"
+          ],
+          "outputs": [
+            "aligned and edited sequence data"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "Geneious",
+            "BioEdit",
+            "MEGA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequencing files were edited and quality checked using 4Peaks software.",
+          "searchable_summary": "edit and quality check sequences using 4Peaks",
+          "inputs": [
+            "sequencing files"
+          ],
+          "outputs": [
+            "quality-checked sequence data"
+          ],
+          "keywords": [
+            "4Peaks",
+            "sequence editing",
+            "quality check"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "INDEL Diversity and Evolutionary Analysis",
+      "description": "This method calculates INDEL diversity and performs evolutionary analysis using various bioinformatics tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "INDEL diversity and average INDEL length was calculated by DnaSP 5.10 software.",
+          "searchable_summary": "calculate INDEL diversity using DnaSP",
+          "inputs": [
+            "sequence data"
+          ],
+          "outputs": [
+            "INDEL diversity data"
+          ],
+          "keywords": [
+            "INDEL diversity",
+            "DnaSP",
+            "sequence analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Evolutionary analysis was performed using MEGA 7.0 software and MUSCLE algorithm with default settings and minor manual adjustments.",
+          "searchable_summary": "perform evolutionary analysis using MEGA and MUSCLE",
+          "inputs": [
+            "aligned sequence data"
+          ],
+          "outputs": [
+            "evolutionary analysis results"
+          ],
+          "keywords": [
+            "evolutionary analysis",
+            "MEGA",
+            "MUSCLE"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The evolutionary history was inferred using the Neighbor-Joining method and the bootstrap test was performed for each tree (500 replicates).",
+          "searchable_summary": "infer evolutionary history using Neighbor-Joining and bootstrap test",
+          "inputs": [
+            "evolutionary analysis results"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "Neighbor-Joining",
+            "bootstrap test",
+            "phylogenetic tree"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The evolutionary distances were computed using the Tamura-Nei method and are in the units of the number of base substitutions per site.",
+          "searchable_summary": "compute evolutionary distances using Tamura-Nei method",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "evolutionary distances"
+          ],
+          "keywords": [
+            "Tamura-Nei",
+            "evolutionary distances",
+            "base substitutions"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To calculate the dN/dS ratio for PELPIII, TTS and 120 K genes Nei-Gojobori method was used.",
+          "searchable_summary": "calculate dN/dS ratio using Nei-Gojobori method",
+          "inputs": [
+            "gene sequence data"
+          ],
+          "outputs": [
+            "dN/dS ratio"
+          ],
+          "keywords": [
+            "dN/dS ratio",
+            "Nei-Gojobori",
+            "gene analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/2303579.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

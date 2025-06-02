@@ -1,0 +1,142 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Candidate Epitope Determination",
+      "description": "Process for determining candidate epitopes by analyzing signal intensity values and identifying peptides with significant signal deviations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Signal intensity values were log-transformed.",
+          "searchable_summary": "log-transform signal intensity values",
+          "inputs": [
+            "signal intensity values"
+          ],
+          "outputs": [
+            "log-transformed signal intensity values"
+          ],
+          "keywords": [
+            "log transformation",
+            "signal processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Candidate epitopes were defined by being represented by at least three adjacent peptides with a signal at least two standard deviations above the background signal for that sample.",
+          "searchable_summary": "identify candidate epitopes based on signal deviation",
+          "inputs": [
+            "log-transformed signal intensity values",
+            "background signal"
+          ],
+          "outputs": [
+            "candidate epitopes"
+          ],
+          "keywords": [
+            "epitope identification",
+            "signal deviation",
+            "standard deviation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Amino Acid Sequence Alignment",
+      "description": "Alignment of amino acid sequences of homologous grass pollen allergens to allow for comparison across different species and variants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The amino acid sequences of all allergens belonging to the same group were aligned using MacVector Inc. (version 18.0.0).",
+          "searchable_summary": "align amino acid sequences using MacVector",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MacVector",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "ClustalW was applied, using the Gonnet substitution matrix, open and extended gap penalty set to 10.00 and 0.20, respectively, and the slow pairwise alignment mode.",
+          "searchable_summary": "apply ClustalW with specific parameters for sequence alignment",
+          "inputs": [
+            "unaligned sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "ClustalW",
+            "Gonnet matrix",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Each peptide was assigned a number representing the position of its first amino acid, according to the alignment, and visualizations were made based on these numbers.",
+          "searchable_summary": "assign position numbers to peptides and create visualizations",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "visualizations with position numbers"
+          ],
+          "keywords": [
+            "sequence visualization",
+            "position numbering"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Control Allergen Sequence Alignment",
+      "description": "Alignment and renumbering of control allergens not included in the AIT, using sequences from UniProt.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sequences of the human 60S acidic ribosomal protein 1 (P05386) and the human 60S acidic ribosomal protein 2 (P05387) were obtained from UniProt.",
+          "searchable_summary": "fetch human ribosomal protein sequences from UniProt",
+          "inputs": [
+            "UniProt identifiers P05386, P05387"
+          ],
+          "outputs": [
+            "ribosomal protein sequences"
+          ],
+          "keywords": [
+            "UniProt",
+            "sequence retrieval"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Acidic ribosomal protein 1 allergens and acidic ribosomal protein 2 allergens were aligned and renumbered accordingly.",
+          "searchable_summary": "align and renumber control allergens",
+          "inputs": [
+            "ribosomal protein sequences"
+          ],
+          "outputs": [
+            "aligned and renumbered sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "control allergens"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247845396.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

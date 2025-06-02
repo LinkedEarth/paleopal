@@ -1,0 +1,166 @@
+{
+  "paper_title": "Pollinator Augmentation Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Temperature Data Collection",
+      "description": "Process for collecting temperature data in fields using HOBO pendant temperature data loggers to determine climatic influences on pollinator activity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Nine fields distributed across regions were equipped with HOBO pendant temperature data loggers set at 30-minute intervals.",
+          "searchable_summary": "deploy temperature data loggers in fields",
+          "inputs": [
+            "fields",
+            "HOBO pendant temperature data loggers"
+          ],
+          "outputs": [
+            "temperature data"
+          ],
+          "keywords": [
+            "temperature data collection",
+            "data loggers",
+            "field deployment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Data loggers were deposited in the field prior to bloom and collected once bloom finished.",
+          "searchable_summary": "collect temperature data loggers after bloom",
+          "inputs": [
+            "fields",
+            "bloom period"
+          ],
+          "outputs": [
+            "collected temperature data"
+          ],
+          "keywords": [
+            "data collection",
+            "bloom period",
+            "temperature data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Pollination Data",
+      "description": "Statistical procedures used to analyze the effects of pollen limitation and pollinator addition on fruit and seed set.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Estimate the mean difference in fruit or seed production after supplemental pollination compared to the control using general linear models with a Gaussian distribution.",
+          "searchable_summary": "perform GLM analysis on fruit and seed production",
+          "inputs": [
+            "fruit production data",
+            "seed production data",
+            "supplemental pollination data"
+          ],
+          "outputs": [
+            "mean difference in production"
+          ],
+          "keywords": [
+            "GLM",
+            "Gaussian distribution",
+            "fruit production",
+            "seed production"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use path analysis to examine the influence of direct and indirect effects of pollinator number and type on fruit set and seed set.",
+          "searchable_summary": "conduct path analysis on pollinator effects",
+          "inputs": [
+            "pollinator data",
+            "fruit set data",
+            "seed set data"
+          ],
+          "outputs": [
+            "path analysis results"
+          ],
+          "keywords": [
+            "path analysis",
+            "pollinator effects",
+            "fruit set",
+            "seed set"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Run linear models of each path to assess the fit of residuals versus fitted values and check for homoscedasticity of variances.",
+          "searchable_summary": "validate path model fit",
+          "inputs": [
+            "path model"
+          ],
+          "outputs": [
+            "model fit assessment"
+          ],
+          "keywords": [
+            "linear models",
+            "residuals",
+            "homoscedasticity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Use the sem function in the R package Lavaan to fit the structural equation model using maximum likelihood estimation.",
+          "searchable_summary": "fit SEM using Lavaan in R",
+          "inputs": [
+            "path model",
+            "Lavaan package"
+          ],
+          "outputs": [
+            "fitted SEM"
+          ],
+          "keywords": [
+            "SEM",
+            "Lavaan",
+            "maximum likelihood estimation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Assess model fit by checking if the P-value of the maximum likelihood chi-square test statistic is greater than 0.05.",
+          "searchable_summary": "check SEM model fit",
+          "inputs": [
+            "fitted SEM"
+          ],
+          "outputs": [
+            "model fit validation"
+          ],
+          "keywords": [
+            "chi-square test",
+            "model fit",
+            "P-value"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Test whether foraging behavior differed among the managed bee species using linear or generalized linear mixed models with ML estimation.",
+          "searchable_summary": "analyze foraging behavior differences",
+          "inputs": [
+            "foraging behavior data",
+            "bee species data"
+          ],
+          "outputs": [
+            "foraging behavior analysis"
+          ],
+          "keywords": [
+            "foraging behavior",
+            "GLMM",
+            "ML estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16625795.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

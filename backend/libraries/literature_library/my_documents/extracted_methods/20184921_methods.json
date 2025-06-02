@@ -1,0 +1,243 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Collection and Sampling",
+      "description": "Field collections were conducted to gather biological samples for analysis, structured around seasonal rainfall peaks to assess trends associated with season/rainfall.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Field collections were conducted between April 2014 and January 2015 at Cedar Creek and North Pine River in southeast Queensland, Australia.",
+          "searchable_summary": "conduct field collections at specified locations and times",
+          "inputs": [
+            "Cedar Creek",
+            "North Pine River",
+            "April 2014",
+            "January 2015"
+          ],
+          "outputs": [
+            "biological samples"
+          ],
+          "keywords": [
+            "field collection",
+            "sampling",
+            "biological replicates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Sampling occurred at multiple time points over a ten month period, structured especially around the beginning and end of the austral summer rainfall peak.",
+          "searchable_summary": "schedule sampling around seasonal rainfall peaks",
+          "inputs": [
+            "sampling schedule",
+            "rainfall data"
+          ],
+          "outputs": [
+            "time-structured samples"
+          ],
+          "keywords": [
+            "seasonal sampling",
+            "rainfall peak"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RNAseq Data Utilization and Assembly",
+      "description": "Utilization of RNAseq data to explore patterns of differential expression within-species, including data assembly and quality assessment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Utilize RNAseq data for C. draysoni obtained in a previous comparative transcriptomic study.",
+          "searchable_summary": "retrieve RNAseq data from previous study",
+          "inputs": [
+            "BioProject PRJNA350713",
+            "Transcriptome Shotgun Assembly Accession GFNI00000000"
+          ],
+          "outputs": [
+            "RNAseq data"
+          ],
+          "keywords": [
+            "RNAseq",
+            "transcriptomic study"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cleaned reads were assembled with Trinity Version 2014-04-13pl package.",
+          "searchable_summary": "assemble cleaned reads using Trinity",
+          "inputs": [
+            "cleaned reads"
+          ],
+          "outputs": [
+            "assembled transcripts"
+          ],
+          "keywords": [
+            "Trinity",
+            "assembly"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Assembly quality was assessed using distributed scripts in Trinity to calculate number of contigs, N50 and median contig length.",
+          "searchable_summary": "assess assembly quality using Trinity scripts",
+          "inputs": [
+            "assembled transcripts"
+          ],
+          "outputs": [
+            "assembly quality metrics"
+          ],
+          "keywords": [
+            "assembly quality",
+            "N50",
+            "contigs"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Transcriptome completeness was assessed via BUSCO analysis against the distributed set of arthropod single-copy orthologous genes.",
+          "searchable_summary": "perform BUSCO analysis for transcriptome completeness",
+          "inputs": [
+            "assembled transcripts"
+          ],
+          "outputs": [
+            "completeness metrics"
+          ],
+          "keywords": [
+            "BUSCO",
+            "transcriptome completeness"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Open Reading Frames (ORFs) were inferred with TransDecoder Version 2.0.1.",
+          "searchable_summary": "infer ORFs using TransDecoder",
+          "inputs": [
+            "assembled transcripts"
+          ],
+          "outputs": [
+            "ORFs"
+          ],
+          "keywords": [
+            "TransDecoder",
+            "ORFs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcript and Protein Annotation",
+      "description": "Annotation of transcripts and proteins using various databases and tools, compiled into a comprehensive report.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Transcripts and protein annotation was conducted via searches against the Pfam database using HMMER, the SignalP Version 4.1 database, and the SwissProt and Uniref90 databases using Blastx and Blastp searches.",
+          "searchable_summary": "annotate transcripts and proteins using multiple databases",
+          "inputs": [
+            "transcripts",
+            "Pfam database",
+            "SignalP database",
+            "SwissProt",
+            "Uniref90"
+          ],
+          "outputs": [
+            "annotated transcripts and proteins"
+          ],
+          "keywords": [
+            "annotation",
+            "Pfam",
+            "HMMER",
+            "SignalP",
+            "Blastx",
+            "Blastp"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Compiled into a report as per the Trinotate Version 2.0.2 pipeline.",
+          "searchable_summary": "compile annotation results into Trinotate report",
+          "inputs": [
+            "annotated transcripts and proteins"
+          ],
+          "outputs": [
+            "Trinotate report"
+          ],
+          "keywords": [
+            "Trinotate",
+            "report compilation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Differential Expression Analysis",
+      "description": "Analysis of differential gene expression using the edgeR pipeline, including extraction and reporting of significant results.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Conducted differential expression analysis using the edgeR pipeline within Trinity, based on log2-transformation of expression counts.",
+          "searchable_summary": "perform differential expression analysis using edgeR",
+          "inputs": [
+            "expression counts"
+          ],
+          "outputs": [
+            "differential expression results"
+          ],
+          "keywords": [
+            "differential expression",
+            "edgeR",
+            "log2-transformation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Expression results for putative detoxification gene groups were extracted based on Blast annotations.",
+          "searchable_summary": "extract expression results for detoxification genes",
+          "inputs": [
+            "differential expression results",
+            "Blast annotations"
+          ],
+          "outputs": [
+            "detoxification gene expression results"
+          ],
+          "keywords": [
+            "detoxification genes",
+            "expression extraction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Sample correlation matrices and heatmaps of differentially expressed genes versus samples were produced using PtR.",
+          "searchable_summary": "generate correlation matrices and heatmaps using PtR",
+          "inputs": [
+            "differential expression results"
+          ],
+          "outputs": [
+            "correlation matrices",
+            "heatmaps"
+          ],
+          "keywords": [
+            "PtR",
+            "heatmaps",
+            "correlation matrices"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/20184921.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

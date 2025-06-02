@@ -1,0 +1,297 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "This method involves the calculation of multiple sequence alignments (MSAs) and the reconstruction of phylogenetic trees using various computational tools to understand evolutionary relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Multiple sequence alignments (MSAs) were calculated for the full-length P. tricornutum proteins listed in supplementary table S1, Supplementary Material online (MSA1.fa), for the full-length protein set of TPT coorthologs from 41 annotated genomes (MSA2.fa) and for a subset of them (MSA3.fa) with MAFFT E-INS-i version 7.037b (Katoh and Standley 2013) with default settings.",
+          "searchable_summary": "calculate MSAs using MAFFT for protein sequences",
+          "inputs": [
+            "P. tricornutum protein sequences",
+            "TPT coorthologs from 41 genomes"
+          ],
+          "outputs": [
+            "MSA1.fa",
+            "MSA2.fa",
+            "MSA3.fa"
+          ],
+          "keywords": [
+            "MAFFT",
+            "multiple sequence alignment",
+            "protein sequences"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "The individual MSA was visualized and manually curated using Jalview version 2.8.",
+          "searchable_summary": "visualize and curate MSA using Jalview",
+          "inputs": [
+            "MSA files"
+          ],
+          "outputs": [
+            "curated MSA"
+          ],
+          "keywords": [
+            "Jalview",
+            "visualization",
+            "curation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "For all curated MSAs the LG + G4 + I + F model was selected as the best fitting amino acid substitution model according to Bayesian Information Criterion in ProtTest version 3.3.",
+          "searchable_summary": "select best amino acid substitution model using ProtTest",
+          "inputs": [
+            "curated MSA"
+          ],
+          "outputs": [
+            "selected substitution model"
+          ],
+          "keywords": [
+            "ProtTest",
+            "amino acid substitution model",
+            "Bayesian Information Criterion"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "To reconstruct the phylogeny we used the Neighbor-Joining (NJ) method implemented in MEGA6, Bayesian phylogenetic inference implemented in MrBayes version 3.2.4 and the maximum-likelihood (ML) method implemented in RAxML version 8.1.15 and IQ-TREE version 1.34.",
+          "searchable_summary": "reconstruct phylogeny using NJ, Bayesian, and ML methods",
+          "inputs": [
+            "curated MSA",
+            "selected substitution model"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogeny",
+            "Neighbor-Joining",
+            "Bayesian inference",
+            "maximum-likelihood"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "For the NJ method, an optimal tree was initially computed using the JTT matrix-based method by modeling rate variation among sites with a gamma distribution and a shape parameter of one removing all ambiguous positions in a pairwise fashion. A bootstrap consensus tree was inferred by 1,000 replicates.",
+          "searchable_summary": "compute NJ tree and bootstrap consensus",
+          "inputs": [
+            "curated MSA"
+          ],
+          "outputs": [
+            "NJ tree",
+            "bootstrap consensus tree"
+          ],
+          "keywords": [
+            "Neighbor-Joining",
+            "JTT matrix",
+            "bootstrap"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "For MrBayes, two runs of four Markov-chain Monte Carlo (MCMC) chains of 2 × 10^7 generations each from a random starting tree, sampling every 1,000 generations were initiated. A 25% burn-in was chosen and convergence was assessed by standard deviation of split frequencies falling below 0.01.",
+          "searchable_summary": "run MCMC chains in MrBayes and assess convergence",
+          "inputs": [
+            "curated MSA"
+          ],
+          "outputs": [
+            "Bayesian phylogenetic tree"
+          ],
+          "keywords": [
+            "MrBayes",
+            "MCMC",
+            "convergence"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "For RAxML, initially the best ML tree among 20 generated trees with the best likelihoods was determined using the PROTGAMMAILGF model. Next, we conducted 1,000 non-parametric bootstrap inferences with the rapid hill-climbing mode.",
+          "searchable_summary": "determine best ML tree and perform bootstrap in RAxML",
+          "inputs": [
+            "curated MSA"
+          ],
+          "outputs": [
+            "ML tree",
+            "bootstrap consensus tree"
+          ],
+          "keywords": [
+            "RAxML",
+            "maximum-likelihood",
+            "bootstrap"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "For IQ-TREE, a ML tree was generated and the branch support values were assessed with the ultrafast bootstrap approximation and with single branch tests using 1,000 replicates each.",
+          "searchable_summary": "generate ML tree and assess branch support in IQ-TREE",
+          "inputs": [
+            "curated MSA"
+          ],
+          "outputs": [
+            "ML tree with branch support"
+          ],
+          "keywords": [
+            "IQ-TREE",
+            "maximum-likelihood",
+            "ultrafast bootstrap"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "visualization",
+          "description": "Phylogenetic trees were rooted either by midpoint or by specific sequences and visualized using Figtree version 1.4.2 and Adobe Illustrator CS5.",
+          "searchable_summary": "root and visualize phylogenetic trees",
+          "inputs": [
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "visualized phylogenetic trees"
+          ],
+          "keywords": [
+            "Figtree",
+            "Adobe Illustrator",
+            "tree rooting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bioinformatic Analysis",
+      "description": "This method involves the identification and analysis of putative TPT genes in the genome of P. tricornutum using bioinformatic tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Nine putative TPT genes were identified in the genome of the diatom P. tricornutum by BLAST searches using the T. gondii TgAPT as an initial query.",
+          "searchable_summary": "identify TPT genes using BLAST search",
+          "inputs": [
+            "P. tricornutum genome",
+            "T. gondii TgAPT"
+          ],
+          "outputs": [
+            "putative TPT genes"
+          ],
+          "keywords": [
+            "BLAST",
+            "gene identification",
+            "TPT genes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Additional genes encoding TPT-family domains were detected via hmmer searches and were grouped by subsequent phylogenetic analysis.",
+          "searchable_summary": "detect TPT-family domains using hmmer and group by phylogenetic analysis",
+          "inputs": [
+            "P. tricornutum genome"
+          ],
+          "outputs": [
+            "grouped TPT genes"
+          ],
+          "keywords": [
+            "hmmer",
+            "phylogenetic analysis",
+            "TPT-family domains"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Bioinformatic analyses revealed the presence of six to ten potential TMDs for all TPTs and clear prediction of putative N-terminal targeting signals for specific TPTs.",
+          "searchable_summary": "analyze TMDs and predict N-terminal targeting signals",
+          "inputs": [
+            "TPT genes"
+          ],
+          "outputs": [
+            "TMDs",
+            "N-terminal targeting signals"
+          ],
+          "keywords": [
+            "TMDs",
+            "N-terminal targeting signals",
+            "bioinformatics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Analysis of Target Membranes and Orientations of the TPTs",
+      "description": "This method uses a self-assembling GFP system to determine the localization and orientation of TPT proteins in P. tricornutum.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "To determine whether TPT4a and TPT4b are IEM-or OEMproteins, we took advantage of the self-assembling GFP system.",
+          "searchable_summary": "use self-assembling GFP system to determine protein localization",
+          "inputs": [
+            "TPT4a",
+            "TPT4b"
+          ],
+          "outputs": [
+            "localization information"
+          ],
+          "keywords": [
+            "self-assembling GFP",
+            "protein localization",
+            "IEM",
+            "OEM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "A fusion protein consisting of the full-length sequence of TPT1 and the small self-assembling GFP fragment GFP_S11 was simultaneously expressed with a cytosolically localized large GFP_S1-10 fragment.",
+          "searchable_summary": "express fusion protein with GFP fragments to test localization",
+          "inputs": [
+            "TPT1",
+            "GFP_S11",
+            "GFP_S1-10"
+          ],
+          "outputs": [
+            "fluorescence signal"
+          ],
+          "keywords": [
+            "fusion protein",
+            "GFP fragments",
+            "localization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "To prove the localization and orientation of the two plastidal TPTs, either TPT4a or TPT4b was expressed with a C-terminal GFP_S1-10 fusion together with a plastid stroma targeted GFP_S11.",
+          "searchable_summary": "express TPTs with GFP fusions to determine localization and orientation",
+          "inputs": [
+            "TPT4a",
+            "TPT4b",
+            "GFP_S1-10",
+            "GFP_S11"
+          ],
+          "outputs": [
+            "localization and orientation information"
+          ],
+          "keywords": [
+            "GFP fusion",
+            "localization",
+            "orientation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/28181857.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

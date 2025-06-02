@@ -1,0 +1,70 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Life Table Parameter Calculation",
+      "description": "Calculation of life table parameters using the age-stage, two-sex life table procedure to analyze survival and fecundity rates across different generations and diets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The values of all life table parameters, including the net reproductive rate (R 0 ), gross reproductive rate (GRR), finite rate of increase (λ), intrinsic rate of increase (r), and mean generation time (T), as well as age-stage-specific survival rate (s xj ), age-specific survival rate (l x ) (the probability that a newborn will survive to age x, calculated by pooling all of the surviving individuals of different stages), age-stagespecific fecundity (f xj ), and age-specific fecundity (m x ) were calculated according to the age-stage, two-sex life table procedure (Chi andLiu 1985, Chi 1988) using the TWOSEX-MSChart software (Chi 2021) at different generations on different diets.",
+          "searchable_summary": "calculate life table parameters using TWOSEX-MSChart software",
+          "inputs": [
+            "age-stage data",
+            "diet information",
+            "generation data"
+          ],
+          "outputs": [
+            "life table parameters"
+          ],
+          "keywords": [
+            "life table",
+            "TWOSEX-MSChart",
+            "survival rate",
+            "fecundity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The variances and standard errors of all life table parameters were estimated using the bootstrap procedure with 100,000 samples.",
+          "searchable_summary": "estimate variances and standard errors using bootstrap with 100,000 samples",
+          "inputs": [
+            "life table parameters"
+          ],
+          "outputs": [
+            "variances",
+            "standard errors"
+          ],
+          "keywords": [
+            "bootstrap",
+            "variance estimation",
+            "standard error"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Multiple comparisons among different generations of each diet and the corresponding generation among different diets were carried out using the paired bootstrap test (Reddy andChi 2015, Bahari et al. 2018).",
+          "searchable_summary": "perform paired bootstrap test for multiple comparisons",
+          "inputs": [
+            "life table parameters",
+            "diet data",
+            "generation data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "paired bootstrap test",
+            "multiple comparisons"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/250529723.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

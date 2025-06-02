@@ -1,0 +1,187 @@
+{
+  "paper_title": "Molecular Methods for Genetic Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Genomic DNA Extraction",
+      "description": "Procedure for extracting whole genomic DNA from tissue samples using a commercial kit and preparing it for downstream applications like PCR.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We extracted whole genomic DNA from ethanolpreserved liver, muscle, or toe clips using DNeasy Tissue kits (Qiagen, Valencia, CA, USA), following manufacturer's protocols.",
+          "searchable_summary": "Extract genomic DNA from tissue samples using DNeasy Tissue kit.",
+          "inputs": [
+            "Ethanol-preserved liver, muscle, or toe clips",
+            "DNeasy Tissue kits (Qiagen)"
+          ],
+          "outputs": [
+            "Whole genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "genomic DNA",
+            "DNeasy Tissue kit",
+            "Qiagen",
+            "tissue sample"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Genomic DNA was eluted in 200 lL buffer for use as template in polymerase chain reaction (PCR) amplifications.",
+          "searchable_summary": "Elute extracted genomic DNA in buffer for use as PCR template.",
+          "inputs": [
+            "Extracted genomic DNA",
+            "Elution buffer"
+          ],
+          "outputs": [
+            "Eluted genomic DNA (PCR template)"
+          ],
+          "keywords": [
+            "DNA elution",
+            "buffer",
+            "PCR template"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mitochondrial Gene Amplification and Sequencing",
+      "description": "Procedure for amplifying specific mitochondrial gene fragments using PCR and sequencing them using Sanger sequencing on a genetic analyzer.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We amplified and sequenced three mitochondrial gene fragments: (i) the control region and a short segment of the adjacent cytochrome b gene (hereafter referred to as control region fragment, 1024 bp), (ii) the complete NADH dehydrogenase subunit 1 and the adjacent tRNA Leu and tRNA Ile , and partial sequences of the flanking tRNA Gln",
+          "searchable_summary": "Amplify specific mitochondrial gene fragments (control region, cytochrome b, ND1, tRNAs) using PCR.",
+          "inputs": [
+            "Eluted genomic DNA (template)",
+            "PCR primers (for target genes)",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "Amplified DNA fragments (PCR products)"
+          ],
+          "keywords": [
+            "PCR",
+            "polymerase chain reaction",
+            "mitochondrial DNA",
+            "gene amplification",
+            "control region",
+            "cytochrome b",
+            "ND1",
+            "tRNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We used the same sequencing primers used in the original amplifications, with the exception of internal sequencing primers designed for the ND1 and ND2 fragments (Table 2).",
+          "searchable_summary": "Prepare amplified DNA fragments for sequencing using specific sequencing primers.",
+          "inputs": [
+            "Amplified DNA fragments",
+            "Sequencing primers (original amplification primers, internal ND1/ND2 primers)"
+          ],
+          "outputs": [
+            "Prepared samples for sequencing reaction"
+          ],
+          "keywords": [
+            "Sequencing primers",
+            "PCR primers",
+            "ND1",
+            "ND2"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We sequenced each gene in both directions to avoid base-calling ambiguities.",
+          "searchable_summary": "Perform bidirectional Sanger sequencing of amplified DNA fragments.",
+          "inputs": [
+            "Prepared samples for sequencing",
+            "Sequencing reagents",
+            "Sequencing machine"
+          ],
+          "outputs": [
+            "Raw sequencing data (electropherograms)"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "Sanger sequencing",
+            "bidirectional sequencing",
+            "forward sequencing",
+            "reverse sequencing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Products were column purified to remove non-incorporated terminator dye using SephadexÔ G-50 and electrophoresed on an ABI 3100 Genetic Analyzer (Applied Biosystems).",
+          "searchable_summary": "Purify sequencing products and perform electrophoresis on ABI 3100 Genetic Analyzer.",
+          "inputs": [
+            "Raw sequencing reaction products",
+            "Sephadex G-50 column",
+            "ABI 3100 Genetic Analyzer"
+          ],
+          "outputs": [
+            "Electropherograms (raw sequence traces)"
+          ],
+          "keywords": [
+            "Sequencing product purification",
+            "column purification",
+            "Sephadex G-50",
+            "electrophoresis",
+            "ABI 3100 Genetic Analyzer",
+            "Applied Biosystems"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Assembly and Quality Check",
+      "description": "Procedure for checking the quality of raw sequencing data and assembling forward and reverse reads into contiguous sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Electropherograms were checked by eye.",
+          "searchable_summary": "Manually inspect raw sequencing electropherograms for quality.",
+          "inputs": [
+            "Raw sequencing electropherograms"
+          ],
+          "outputs": [
+            "Quality-checked electropherograms (mental assessment)"
+          ],
+          "keywords": [
+            "Electropherogram",
+            "sequence quality check",
+            "manual inspection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Contiguous sequences for each fragment were assembled using SEQUENCHER version 4.1 (GeneCodes, Ann Arbor, MI, USA).",
+          "searchable_summary": "Assemble forward and reverse sequence reads into contiguous sequences using SEQUENCHER software.",
+          "inputs": [
+            "Quality-checked electropherograms (forward and reverse reads)",
+            "SEQUENCHER version 4.1 software"
+          ],
+          "outputs": [
+            "Assembled contiguous DNA sequences for each fragment"
+          ],
+          "keywords": [
+            "Sequence assembly",
+            "contig assembly",
+            "DNA sequence",
+            "SEQUENCHER",
+            "GeneCodes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/44210033.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,189 @@
+{
+  "paper_title": "Climate Simulations using RACMO2",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "RACMO2 Climate Simulation Setup and Execution",
+      "description": "This method describes the configuration, forcing, and execution of the regional atmospheric climate model RACMO version 2.1 (RACMO2) to simulate present-day, preindustrial, and Eemian climates. It details the boundary conditions used, grid resolutions, initialization procedures, and simulation periods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We use present-day, preindustrial and Eemian simulations with the regional atmospheric climate model RACMO, version 2.1 (henceforth RACMO2) of the Royal Netherlands Meteorological Institute (KNMI).RACMO2 is a combination of two numerical weather prediction models: the atmospheric dynamics originate from the High Resolution Limited Area Model (HiRLAM, version 5.0.6;Undén et al., 2002), while the description of the physical processes is adopted from the global model of the European Centre for Medium-Range Weather Forecasts (ECMWF, updated cycle 23r4; White, 2001).Adjustments to the dynamical and physical schemes in RACMO2 are described in detail by van Meijgaard et al. (2008).In addition, for the model version RACMO2, several adjustments have been made to better represent the conditions in the Arctic region, as described in Reijmer et al. (2004) and Ettema et al. (2010b).The model uses a dynamic multilayer snow model that includes all relevant sub-surface processes on an ice sheet, i.e. snow/ice melt, meltwater percolation, (sub-)surface meltwater refreezing, meltwater runoff and snow densification due to compaction and refreezing.",
+          "searchable_summary": "Configure RACMO2 climate model with specific dynamics, physics, Arctic adjustments, and dynamic snow model",
+          "inputs": [
+            "RACMO2 model code",
+            "HiRLAM dynamics scheme (v5.0.6)",
+            "ECMWF physics scheme (cycle 23r4)",
+            "Arctic region adjustments (Reijmer et al., 2004; Ettema et al., 2010b)",
+            "Dynamic multilayer snow model parameters"
+          ],
+          "outputs": [
+            "Configured RACMO2 model instance"
+          ],
+          "keywords": [
+            "RACMO2",
+            "regional climate model",
+            "atmospheric model",
+            "HiRLAM",
+            "ECMWF",
+            "snow model",
+            "model configuration"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "For the present-day simulation, RACMO2 was forced with ECMWF Re-Analysis (ERA-40) boundaries: for the preindustrial and Eemian simulations, weather boundaries from the general circulation model ECHO-G were used.ERA-40 covers the period from September 1957 to mid-2003 (Uppala et al., 2005) at a horizontal resolution of about 1.125 • .Data from the period 1960-1989 are used here, since this period ends before the observed recent warming of Greenland, which started around 1990 (van den Broeke et al., 2009).The ECHO-G model (Legutke and Voss, 1999;Legutke and Maier-Reimer, 1999) Kaspar et al. (2005Kaspar et al. ( , 2007) ) and Kaspar and Cubasch (2007) describe these ECHO-G simulations in detail.",
+          "searchable_summary": "Obtain boundary forcing data: ERA-40 for present-day (1960-1989), ECHO-G for preindustrial and Eemian",
+          "inputs": [
+            "ECMWF ERA-40 archive",
+            "ECHO-G model output archive"
+          ],
+          "outputs": [
+            "ERA-40 reanalysis data (1960-1989)",
+            "ECHO-G GCM data (preindustrial, Eemian)"
+          ],
+          "keywords": [
+            "ERA-40",
+            "ECHO-G",
+            "reanalysis data",
+            "GCM data",
+            "boundary conditions",
+            "climate forcing",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The coupling of RACMO2 to ERA-40 and ECHO-G is achieved by one-way nesting (van de Berg et al., 2011).At the lateral boundaries, prognostic atmospheric fields force the model every 6 h, while the interior of the domain is allowed to evolve freely.",
+          "searchable_summary": "Implement one-way nesting for RACMO2 using boundary data, forcing lateral boundaries every 6 hours",
+          "inputs": [
+            "Configured RACMO2 model",
+            "Boundary forcing data (ERA-40 or ECHO-G)",
+            "Prognostic atmospheric fields"
+          ],
+          "outputs": [
+            "RACMO2 model coupled to boundary forcing"
+          ],
+          "keywords": [
+            "one-way nesting",
+            "boundary coupling",
+            "regional climate model",
+            "GCM forcing",
+            "model setup"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The simulation of the presentday climate was run on a stereographic grid with a resolution of 0.1 • (11 km); the preindustrial and Eemian simulations were run with a resolution of 0.165 • (18 km).The 11 km grid (∼ 2700 × 3400 km) extends from the coast of Newfoundland to well beyond Svalbard.The 18 km grid (∼ 3700 × 4700 km) is larger to allow a proper transition from the low-resolution GCM fields.",
+          "searchable_summary": "Define stereographic grid resolution: 11 km for present-day, 18 km for preindustrial/Eemian",
+          "inputs": [
+            "Desired resolution (11 km, 18 km)",
+            "Grid type (stereographic)",
+            "Domain extent requirements"
+          ],
+          "outputs": [
+            "Simulation grid definition"
+          ],
+          "keywords": [
+            "grid resolution",
+            "stereographic projection",
+            "climate model grid",
+            "domain setup",
+            "model configuration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Sea-ice fractions and sea surface temperature were interpolated from the corresponding ERA-40 and ECHO-G grids.",
+          "searchable_summary": "Interpolate sea-ice fractions and sea surface temperature (SST) from boundary data grids onto the simulation grid",
+          "inputs": [
+            "Boundary data (sea-ice fraction, SST) on source grids (ERA-40, ECHO-G)",
+            "Simulation grid definition"
+          ],
+          "outputs": [
+            "Interpolated sea-ice fraction field on simulation grid",
+            "Interpolated SST field on simulation grid"
+          ],
+          "keywords": [
+            "interpolation",
+            "sea ice fraction",
+            "sea surface temperature",
+            "grid mapping",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The snow/ice pack temperature was initialized using the parameterization of Reeh (1991), including the correction for refreezing.",
+          "searchable_summary": "Initialize snow/ice pack temperature using Reeh (1991) parameterization with refreezing correction",
+          "inputs": [
+            "Reeh (1991) parameterization method",
+            "Refreezing correction method"
+          ],
+          "outputs": [
+            "Initial snow/ice pack temperature field"
+          ],
+          "keywords": [
+            "initialization",
+            "snow temperature",
+            "ice temperature",
+            "Reeh parameterization",
+            "refreezing",
+            "model setup"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "In these two simulations [ECHO-G-driven], the greenhouse gas concentrations were adapted to the historical rates.For the Eemian simulation, orbital settings at 125 kyr BP were applied (Table 1).",
+          "searchable_summary": "Set simulation-specific parameters: historical greenhouse gas concentrations for ECHO-G simulations, orbital settings for Eemian (125 kyr BP)",
+          "inputs": [
+            "Historical greenhouse gas concentration data",
+            "Orbital parameters for 125 kyr BP"
+          ],
+          "outputs": [
+            "Simulation configuration with specific parameters"
+          ],
+          "keywords": [
+            "greenhouse gas concentration",
+            "orbital forcing",
+            "Eemian",
+            "preindustrial",
+            "model configuration"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "The present-day model integration covers the whole ERA-40 period.Spin-up time is provided by rerunning the first year of ERA-40 three times.For the ECHO-G-driven simulations, the first year is omitted to remove the atmospheric spin-up that occurs in the first days after initialization.",
+          "searchable_summary": "Execute RACMO2 simulations with specified spin-up procedures: rerun first ERA-40 year three times for present-day, omit first year for ECHO-G simulations",
+          "inputs": [
+            "Configured RACMO2 model",
+            "Initialized state",
+            "Simulation period (ERA-40 or ECHO-G)",
+            "Spin-up procedure definition"
+          ],
+          "outputs": [
+            "RACMO2 simulation output data (e.g., temperature, precipitation, snow/ice properties)"
+          ],
+          "keywords": [
+            "climate simulation",
+            "model run",
+            "spin-up",
+            "ERA-40 period",
+            "ECHO-G period",
+            "model execution"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55047812.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

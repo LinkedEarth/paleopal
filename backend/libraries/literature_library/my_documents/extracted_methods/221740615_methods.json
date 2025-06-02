@@ -1,0 +1,398 @@
+{
+  "paper_title": "Analysis of P. serotina S-RNase sequences and Pollination Assays",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Analysis of P. serotina S-RNase Sequences",
+      "description": "Computational analysis of P. serotina S-RNase nucleotide and deduced amino acid sequences, including sequence assembly, homology search, alignment, translation, evolutionary rate calculation, and variability assessment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Consensus nucleotide sequences from forward and reverse reads of all amplified fragments were obtained using PREGAP and GAP4 (Staden, 1996).",
+          "searchable_summary": "assemble consensus nucleotide sequences from sequencing reads",
+          "inputs": [
+            "forward sequencing reads",
+            "reverse sequencing reads",
+            "amplified fragments"
+          ],
+          "outputs": [
+            "consensus nucleotide sequences"
+          ],
+          "keywords": [
+            "sequence assembly",
+            "consensus sequence",
+            "PREGAP",
+            "GAP4",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The search for homologous sequences in the GenBank database was performed using the NCBI BLAST tool (Altschul et al., 1990).",
+          "searchable_summary": "search for homologous sequences in GenBank using BLAST",
+          "inputs": [
+            "consensus nucleotide sequences"
+          ],
+          "outputs": [
+            "BLAST search results",
+            "homologous sequences"
+          ],
+          "keywords": [
+            "BLAST",
+            "homology search",
+            "GenBank",
+            "NCBI",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Intraspecific and interspecific alignments were performed using the ClustalW algorithm of MEGA7 (Kumar, Stecher & Tamura, 2016).",
+          "searchable_summary": "perform nucleotide sequence alignment using ClustalW",
+          "inputs": [
+            "nucleotide sequences (intraspecific, interspecific)"
+          ],
+          "outputs": [
+            "nucleotide sequence alignments"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "ClustalW",
+            "MEGA7",
+            "multiple sequence alignment",
+            "nucleotide alignment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Deduced amino acid sequences were obtained by translating the coding sequence corresponding to each of the alleles using the online ExPASy Tool (Gasteiger et al., 2003).",
+          "searchable_summary": "translate nucleotide coding sequences to amino acid sequences using ExPASy Tool",
+          "inputs": [
+            "nucleotide coding sequences (alleles)"
+          ],
+          "outputs": [
+            "deduced amino acid sequences"
+          ],
+          "keywords": [
+            "sequence translation",
+            "coding sequence",
+            "amino acid sequence",
+            "ExPASy Tool",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Alignments of the deduced amino acid sequences were performed using the Clustal Omega algorithm of the European Bioinformatics Institute (Madeira et al., 2019).",
+          "searchable_summary": "perform amino acid sequence alignment using Clustal Omega",
+          "inputs": [
+            "deduced amino acid sequences"
+          ],
+          "outputs": [
+            "amino acid sequence alignments"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "Clustal Omega",
+            "multiple sequence alignment",
+            "amino acid alignment",
+            "EBI"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Ka/Ks ratios calculation and the sliding window analysis with a window length of 20 codons were performed using the DnaSP 6 Software (Rozas & Rozas, 1999).",
+          "searchable_summary": "calculate Ka/Ks ratios and perform sliding window analysis on sequences",
+          "inputs": [
+            "aligned nucleotide sequences",
+            "aligned amino acid sequences"
+          ],
+          "outputs": [
+            "Ka/Ks ratios",
+            "sliding window analysis results"
+          ],
+          "keywords": [
+            "Ka/Ks ratio",
+            "dN/dS ratio",
+            "positive selection",
+            "sliding window analysis",
+            "DnaSP",
+            "molecular evolution"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Shannon Entropy indexes were calculated for each of the conserved regions (C1, C2, C3, RC4) and the RHV, using the online Protein Variability Server (García-Boronat et al., 2008).",
+          "searchable_summary": "calculate Shannon Entropy indexes for protein regions using Protein Variability Server",
+          "inputs": [
+            "aligned amino acid sequences",
+            "definitions of conserved regions (C1, C2, C3, RC4, RHV)"
+          ],
+          "outputs": [
+            "Shannon Entropy indexes per region",
+            "protein variability scores"
+          ],
+          "keywords": [
+            "Shannon Entropy",
+            "protein variability",
+            "sequence variability",
+            "conserved regions",
+            "RHV",
+            "Protein Variability Server"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollination Assays and Pistil Analysis",
+      "description": "Experimental procedure involving hand pollination of P. serotina flowers, collection of pollinated pistils, staining with aniline blue, and subsequent analysis of pollen tube growth patterns using fluorescence microscopy to evaluate self-incompatibility responses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Seven P. serotina trees at flowering stage were S-haplotyped using the CAPS marker system developed in this study.",
+          "searchable_summary": "perform S-haplotyping of trees using CAPS markers",
+          "inputs": [
+            "P. serotina trees",
+            "CAPS marker system"
+          ],
+          "outputs": [
+            "S-haplotypes of trees"
+          ],
+          "keywords": [
+            "S-haplotyping",
+            "CAPS marker",
+            "genotyping",
+            "molecular markers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Based on S-haplotype results, we conducted incompatible crosses (i.e., self-pollinations or crosses between 2 heterozygote individuals carrying the exact same S-alleles) and compatible crosses (i.e., between heterozygotes presenting completely different S-alleles) by hand pollination in the laboratory.",
+          "searchable_summary": "select trees and plan crosses based on S-haplotypes",
+          "inputs": [
+            "S-haplotype results"
+          ],
+          "outputs": [
+            "cross plan (compatible/incompatible pairs)"
+          ],
+          "keywords": [
+            "experimental design",
+            "cross pollination",
+            "self-incompatibility",
+            "S-alleles"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "To this end, branches with flowers at stage 59 of the BBCH scale (Ramírez & Davenport, 2016) were cut and transported to the Plant Biotechnology Laboratory of Universidad San Francisco de Quito and placed in water with plant food.",
+          "searchable_summary": "prepare branches with flowers for pollination experiments",
+          "inputs": [
+            "P. serotina trees",
+            "flowers at BBCH stage 59"
+          ],
+          "outputs": [
+            "cut branches with flowers"
+          ],
+          "keywords": [
+            "plant preparation",
+            "BBCH scale",
+            "flowering stage"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "To extract pollen from donor flowers, anthers were manually removed and dried for 24 h at room temperature to facilitate adequate pollen release.",
+          "searchable_summary": "extract pollen from donor flowers",
+          "inputs": [
+            "donor flowers"
+          ],
+          "outputs": [
+            "dried anthers"
+          ],
+          "keywords": [
+            "pollen extraction",
+            "anther removal",
+            "plant biology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "Collected pollen was kept at 4 • C until further use.",
+          "searchable_summary": "store collected pollen",
+          "inputs": [
+            "extracted pollen"
+          ],
+          "outputs": [
+            "stored pollen"
+          ],
+          "keywords": [
+            "pollen storage",
+            "sample storage"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "For pollination experiments, receptor flowers were emasculated and pollinated using a paint brush 24 h after emasculation.",
+          "searchable_summary": "emasculate and hand pollinate receptor flowers",
+          "inputs": [
+            "receptor flowers",
+            "collected pollen"
+          ],
+          "outputs": [
+            "pollinated flowers"
+          ],
+          "keywords": [
+            "emasculation",
+            "hand pollination",
+            "cross pollination",
+            "plant reproduction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Per experimental cross, 25 pistils were collected 48 h following hand pollination.",
+          "searchable_summary": "collect pollinated pistils",
+          "inputs": [
+            "pollinated flowers"
+          ],
+          "outputs": [
+            "collected pistils"
+          ],
+          "keywords": [
+            "sample collection",
+            "pistil",
+            "plant tissue"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Subsequently, pollinated pistils were stained using the aniline blue protocol described by Jefferies & Belcher (1974), and pollen tube formation and extension patterns were analyzed via fluorescence microscopy. For the aniline blue staining protocol, pollinated pistils were fixed in 70% ethanol for 7 days.",
+          "searchable_summary": "fix collected pistils in ethanol",
+          "inputs": [
+            "collected pistils"
+          ],
+          "outputs": [
+            "fixed pistils"
+          ],
+          "keywords": [
+            "sample fixation",
+            "ethanol fixation",
+            "plant tissue processing"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "As preparation for microscopy, pistils were incubated at 62 • C in 10 M NaOH for 40 min to soften the tissue and to enhance staining.",
+          "searchable_summary": "soften fixed pistils using NaOH incubation",
+          "inputs": [
+            "fixed pistils"
+          ],
+          "outputs": [
+            "softened pistils"
+          ],
+          "keywords": [
+            "tissue softening",
+            "NaOH treatment",
+            "sample preparation",
+            "plant tissue processing"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Softened pistils were washed in distilled water and stained with aniline blue for 1 h.",
+          "searchable_summary": "wash softened pistils and stain with aniline blue",
+          "inputs": [
+            "softened pistils",
+            "aniline blue stain"
+          ],
+          "outputs": [
+            "stained pistils"
+          ],
+          "keywords": [
+            "sample washing",
+            "staining",
+            "aniline blue",
+            "plant tissue staining"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "visualization",
+          "description": "Pollen tube extension patterns were observed using a BX50 Fluorescent Microscope (Olympus).",
+          "searchable_summary": "observe stained pistils using fluorescence microscopy",
+          "inputs": [
+            "stained pistils",
+            "fluorescence microscope"
+          ],
+          "outputs": [
+            "microscopic observations of pollen tubes"
+          ],
+          "keywords": [
+            "fluorescence microscopy",
+            "microscopy",
+            "pollen tubes",
+            "observation"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "visualization",
+          "description": "The Multiple Image Analysis software package (Amscope) was used to obtain images of the style and for counting pollen tubes.",
+          "searchable_summary": "capture images of the style using microscopy software",
+          "inputs": [
+            "microscope",
+            "stained pistils",
+            "Multiple Image Analysis software"
+          ],
+          "outputs": [
+            "microscope images of style and pollen tubes"
+          ],
+          "keywords": [
+            "image acquisition",
+            "microscopy software",
+            "Multiple Image Analysis",
+            "digital imaging"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "The Multiple Image Analysis software package (Amscope) was used to obtain images of the style and for counting pollen tubes.",
+          "searchable_summary": "count pollen tubes from microscopy images using software",
+          "inputs": [
+            "microscope images",
+            "Multiple Image Analysis software"
+          ],
+          "outputs": [
+            "pollen tube counts"
+          ],
+          "keywords": [
+            "image analysis",
+            "pollen tube counting",
+            "quantitative microscopy",
+            "Multiple Image Analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221740615.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

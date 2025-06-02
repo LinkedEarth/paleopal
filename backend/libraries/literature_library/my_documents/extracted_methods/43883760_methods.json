@@ -1,0 +1,83 @@
+{
+  "paper_title": "Stochastic Hamiltonian Model for Molecular Vibrational Motion",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Stochastic Force Construction",
+      "description": "This method involves constructing a stochastic sequence to model the stochastic force F(t) as a series of random impulses, which is crucial for simulating the vibrational motion of molecules under the influence of white shot noise.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Assume that the random times t_i form a Poisson sequence of points.",
+          "searchable_summary": "generate Poisson sequence for random times t_i",
+          "inputs": [
+            "mean interval λ"
+          ],
+          "outputs": [
+            "Poisson sequence of times t_i"
+          ],
+          "keywords": [
+            "Poisson process",
+            "random sequence",
+            "stochastic modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Generate random variables γ_i and t_i as mutually uncorrelated using distribution functions.",
+          "searchable_summary": "generate uncorrelated random variables γ_i and t_i",
+          "inputs": [
+            "distribution functions for γ_i and t_i"
+          ],
+          "outputs": [
+            "uncorrelated random variables γ_i and t_i"
+          ],
+          "keywords": [
+            "random variables",
+            "uncorrelated",
+            "distribution functions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Construct the stochastic force F(t) as a sequence (γ_i, t_i).",
+          "searchable_summary": "construct stochastic force F(t) from sequence (γ_i, t_i)",
+          "inputs": [
+            "sequence of γ_i",
+            "sequence of t_i"
+          ],
+          "outputs": [
+            "stochastic force F(t)"
+          ],
+          "keywords": [
+            "stochastic force",
+            "sequence construction",
+            "white shot noise"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate the power spectrum of the stochastic force F(t)F(s) using Fourier transform.",
+          "searchable_summary": "compute power spectrum of F(t)F(s) via Fourier transform",
+          "inputs": [
+            "stochastic force F(t)"
+          ],
+          "outputs": [
+            "power spectrum"
+          ],
+          "keywords": [
+            "power spectrum",
+            "Fourier transform",
+            "stochastic analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/43883760.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

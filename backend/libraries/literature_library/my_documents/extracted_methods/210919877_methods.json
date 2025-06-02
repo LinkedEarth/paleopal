@@ -1,0 +1,444 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Diatom Assemblage Structure Analysis",
+      "description": "Analysis of diatom assemblage structure using species richness, Shannon-Wiener diversity index, and Pielou's evenness index to evaluate differences between islands and the mainland.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The structure of diatom assemblages was examined by species richness (R), Shannon-Wiener diversity index (H') and Pielou's evenness index (J') calculated using OMNIDIA 6.0 software.",
+          "searchable_summary": "calculate species richness, Shannon-Wiener diversity index, and Pielou's evenness index using OMNIDIA 6.0",
+          "inputs": [
+            "diatom assemblage data"
+          ],
+          "outputs": [
+            "species richness",
+            "Shannon-Wiener index",
+            "Pielou's evenness index"
+          ],
+          "keywords": [
+            "species richness",
+            "Shannon-Wiener index",
+            "Pielou's evenness index",
+            "OMNIDIA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Differences in structural indices between islands and the mainland were evaluated by a paired t-test and after verification of normal distribution with the Shapiro-Wilk test using R 3.6.1.",
+          "searchable_summary": "perform paired t-test and Shapiro-Wilk test using R",
+          "inputs": [
+            "structural indices data"
+          ],
+          "outputs": [
+            "p-value for differences"
+          ],
+          "keywords": [
+            "paired t-test",
+            "Shapiro-Wilk test",
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Relative Abundance Conversion",
+      "description": "Conversion of diatom data to relative abundances for statistical analyses, focusing on species with significant presence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All diatom data were converted in relative abundances (RA) for the statistical analyses.",
+          "searchable_summary": "convert diatom data to relative abundances",
+          "inputs": [
+            "diatom data"
+          ],
+          "outputs": [
+            "relative abundances"
+          ],
+          "keywords": [
+            "relative abundance",
+            "data conversion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To minimize the influence of rare species, only the species with RA ≥5% in at least two sites are included in the analyses.",
+          "searchable_summary": "filter species with RA ≥5% in at least two sites",
+          "inputs": [
+            "relative abundances"
+          ],
+          "outputs": [
+            "filtered species data"
+          ],
+          "keywords": [
+            "filtering",
+            "rare species"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ecological Preference Attribution",
+      "description": "Attribution of ecological preferences to the most abundant diatom species based on pH, trophic state, salinity, and moisture.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Ecological preferences of the most abundant diatom species (RA ≥5%) for pH, trophic state, salinity and moisture were attributed according to Van Dam et al.",
+          "searchable_summary": "assign ecological preferences to diatom species",
+          "inputs": [
+            "abundant diatom species data"
+          ],
+          "outputs": [
+            "ecological preferences"
+          ],
+          "keywords": [
+            "ecological preferences",
+            "Van Dam"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The taxa with a wider ecological range were equally placed among the respective autecological levels to obtain a simplified framework.",
+          "searchable_summary": "categorize taxa with wide ecological range",
+          "inputs": [
+            "ecological preferences"
+          ],
+          "outputs": [
+            "simplified ecological framework"
+          ],
+          "keywords": [
+            "autecological levels",
+            "categorization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Assemblage Similarity Analysis",
+      "description": "Analysis of similarity among diatom assemblages using non-metric multidimensional scaling ordination and ANOSIM.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The similarity among diatom assemblages of the four geographic regions was analysed using a non-metric multidimensional scaling ordination (nMDS).",
+          "searchable_summary": "perform nMDS on diatom assemblage data",
+          "inputs": [
+            "diatom assemblage data"
+          ],
+          "outputs": [
+            "nMDS ordination"
+          ],
+          "keywords": [
+            "nMDS",
+            "ordination",
+            "similarity analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The ordination was performed on a Bray-Curtis similarity matrix of species data log (x+1) transformed.",
+          "searchable_summary": "create Bray-Curtis similarity matrix with log transformation",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "Bray-Curtis similarity matrix"
+          ],
+          "keywords": [
+            "Bray-Curtis",
+            "similarity matrix",
+            "log transformation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The significance of the differences was tested by a one-way analysis of similarities (ANOSIM).",
+          "searchable_summary": "perform ANOSIM to test significance of differences",
+          "inputs": [
+            "nMDS ordination"
+          ],
+          "outputs": [
+            "ANOSIM results"
+          ],
+          "keywords": [
+            "ANOSIM",
+            "significance testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Canonical Correspondence Analysis",
+      "description": "Exploration of relationships between diatom species and environmental variables using Canonical Correspondence Analysis (CCA).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Relationships between diatom species and environmental variables were explored by a Canonical Correspondence Analysis (CCA) after the previous assessment of the length of the gradient (>4) by means of a Detrended Correspondence Analysis (DCA) of diatom data using Canoco 4.5.",
+          "searchable_summary": "perform CCA after DCA gradient assessment",
+          "inputs": [
+            "diatom data",
+            "environmental variables"
+          ],
+          "outputs": [
+            "CCA results"
+          ],
+          "keywords": [
+            "CCA",
+            "DCA",
+            "gradient assessment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The two matrices, for physical and chemical data (except for pH), and for diatom data, were log (x+1) transformed.",
+          "searchable_summary": "apply log transformation to data matrices",
+          "inputs": [
+            "physical and chemical data",
+            "diatom data"
+          ],
+          "outputs": [
+            "transformed data matrices"
+          ],
+          "keywords": [
+            "log transformation",
+            "data matrices"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "All canonical axes were used to assess the significant variables through analyses by means of a Monte Carlo test (499 permutations).",
+          "searchable_summary": "use Monte Carlo test to assess significant variables",
+          "inputs": [
+            "CCA results"
+          ],
+          "outputs": [
+            "significant variables"
+          ],
+          "keywords": [
+            "Monte Carlo test",
+            "significance assessment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Indicator Value Method",
+      "description": "Identification of the most characteristic species of groups defined by CCA using the Indicator Value method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The indicator value method (IndVal) was used to identify the most characteristic species of three groups defined by the CCA.",
+          "searchable_summary": "apply IndVal to identify characteristic species",
+          "inputs": [
+            "species groups from CCA"
+          ],
+          "outputs": [
+            "indicator species"
+          ],
+          "keywords": [
+            "IndVal",
+            "characteristic species"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Indicator values were calculated using abundance and frequency of occurrence of each species in each group as the input data.",
+          "searchable_summary": "calculate indicator values using abundance and frequency",
+          "inputs": [
+            "abundance data",
+            "frequency data"
+          ],
+          "outputs": [
+            "indicator values"
+          ],
+          "keywords": [
+            "indicator values",
+            "abundance",
+            "frequency"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The species with p <0.05 based on 499 permutations from the Monte Carlo test were considered to be indicator species.",
+          "searchable_summary": "identify indicator species with p <0.05",
+          "inputs": [
+            "indicator values"
+          ],
+          "outputs": [
+            "indicator species"
+          ],
+          "keywords": [
+            "indicator species",
+            "p-value",
+            "Monte Carlo test"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling Procedure",
+      "description": "Collection of diatom and water samples, measurement of environmental parameters, and assessment of anthropogenic disturbances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sampling was carried out once in the winter season between 2007 and 2017 (N = 23). The geographic position and altitude of the springs were recorded by a GPS.",
+          "searchable_summary": "record geographic position and altitude using GPS",
+          "inputs": [
+            "sampling sites"
+          ],
+          "outputs": [
+            "geographic position",
+            "altitude"
+          ],
+          "keywords": [
+            "GPS",
+            "geographic position",
+            "altitude"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Water temperature, pH and conductivity were measured in situ using digital multi-parametric probes.",
+          "searchable_summary": "measure water temperature, pH, and conductivity",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "temperature",
+            "pH",
+            "conductivity"
+          ],
+          "keywords": [
+            "temperature",
+            "pH",
+            "conductivity",
+            "multi-parametric probes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Anthropogenic disturbances were evaluated in an ordinal scale with disturbance scores: 1 = low; 2 = medium; 3 = high.",
+          "searchable_summary": "evaluate anthropogenic disturbances using ordinal scale",
+          "inputs": [
+            "site observations"
+          ],
+          "outputs": [
+            "disturbance scores"
+          ],
+          "keywords": [
+            "anthropogenic disturbances",
+            "ordinal scale"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Shading conditions and current velocity were assessed using a five-score scale.",
+          "searchable_summary": "assess shading conditions and current velocity",
+          "inputs": [
+            "site observations"
+          ],
+          "outputs": [
+            "shading conditions",
+            "current velocity"
+          ],
+          "keywords": [
+            "shading conditions",
+            "current velocity",
+            "five-score scale"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "In most springs, discharge was measured by the volumetric method using a graduated bucket and a chronometer.",
+          "searchable_summary": "measure discharge using volumetric method",
+          "inputs": [
+            "water flow"
+          ],
+          "outputs": [
+            "discharge measurement"
+          ],
+          "keywords": [
+            "discharge",
+            "volumetric method",
+            "graduated bucket"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Diatom and water samples for physical and chemical analyses were collected simultaneously.",
+          "searchable_summary": "collect diatom and water samples",
+          "inputs": [
+            "sampling sites"
+          ],
+          "outputs": [
+            "diatom samples",
+            "water samples"
+          ],
+          "keywords": [
+            "diatom samples",
+            "water samples",
+            "collection"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Diatoms were collected with a toothbrush from hard natural substrata (five stones) along a longitudinal transect from the emergence point up to a max distance of 5 m following the European Standard.",
+          "searchable_summary": "collect diatoms using toothbrush from substrata",
+          "inputs": [
+            "hard natural substrata"
+          ],
+          "outputs": [
+            "diatom samples"
+          ],
+          "keywords": [
+            "diatom collection",
+            "toothbrush",
+            "European Standard"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "Water samples were collected at the emergence point using 1-L polypropylene and polyethylene bottles and were transported in cold and dark conditions for the laboratory analyses.",
+          "searchable_summary": "collect and transport water samples for analysis",
+          "inputs": [
+            "emergence point"
+          ],
+          "outputs": [
+            "water samples"
+          ],
+          "keywords": [
+            "water collection",
+            "transport",
+            "laboratory analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/210919877.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

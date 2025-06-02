@@ -1,0 +1,271 @@
+{
+  "paper_title": "Characterization of Wheat Straw-Degrading Anaerobic Alkali-Tolerant Mixed Cultures from Soda Lake Sediments",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Sampling",
+      "description": "Collection of sediment samples from two Hungarian soda lakes for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sediment samples were collected from two Hungarian soda lakes, Lake Velencei and Lake Szarvas, in October 2011.",
+          "searchable_summary": "collect sediment samples from specified locations",
+          "inputs": [
+            "Lake Velencei",
+            "Lake Szarvas",
+            "October 2011"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "soda lakes",
+            "Hungary"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Three sediment samples were taken from 1.5 m depth in Lake Velencei and 0.5 m depth in Lake Szarvas.",
+          "searchable_summary": "collect sediment samples at specified depths",
+          "inputs": [
+            "Lake Velencei",
+            "Lake Szarvas",
+            "depths"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "depth sampling",
+            "sediment collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sediment samples were taken with 100 ml glass bottles, filled with sediment and water, closed with airtight lids, and put into anoxic atmosphere generation bags.",
+          "searchable_summary": "store sediment samples in anoxic conditions",
+          "inputs": [
+            "sediment samples",
+            "100 ml glass bottles",
+            "Anaerocult A mini bags"
+          ],
+          "outputs": [
+            "anoxically stored sediment samples"
+          ],
+          "keywords": [
+            "anoxic storage",
+            "sample preservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "T-RFLP Analysis",
+      "description": "Terminal Restriction Fragment Length Polymorphism (T-RFLP) analysis for characterizing microbial communities in sediment samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Purified PCR products were digested overnight at 37°C with restriction endonucleases HaeIII or MspI.",
+          "searchable_summary": "digest PCR products with restriction enzymes",
+          "inputs": [
+            "PCR products",
+            "HaeIII",
+            "MspI"
+          ],
+          "outputs": [
+            "digested PCR products"
+          ],
+          "keywords": [
+            "PCR digestion",
+            "restriction enzymes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were ethanol precipitated, and dried DNA pellets were re-suspended in HiDi formamide.",
+          "searchable_summary": "precipitate and resuspend DNA in formamide",
+          "inputs": [
+            "digested PCR products",
+            "ethanol",
+            "HiDi formamide"
+          ],
+          "outputs": [
+            "resuspended DNA"
+          ],
+          "keywords": [
+            "DNA precipitation",
+            "formamide resuspension"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Fluorescently labeled T-RFs were separated on an ABI PRISM 3130xl Genetic Analyser and analyzed using GENEMAPPER software.",
+          "searchable_summary": "analyze T-RFs using genetic analyzer and software",
+          "inputs": [
+            "resuspended DNA",
+            "ABI PRISM 3130xl",
+            "GENEMAPPER software"
+          ],
+          "outputs": [
+            "T-RF lengths"
+          ],
+          "keywords": [
+            "T-RFLP",
+            "genetic analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Peak areas were normalized and noise filtering was applied, followed by multivariate cluster analysis using Bray-Curtis dissimilarity index.",
+          "searchable_summary": "normalize and analyze T-RFLP data with cluster analysis",
+          "inputs": [
+            "T-RF lengths",
+            "R script",
+            "PAST software"
+          ],
+          "outputs": [
+            "cluster analysis results"
+          ],
+          "keywords": [
+            "data normalization",
+            "cluster analysis",
+            "Bray-Curtis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cloning and Sequence Analysis",
+      "description": "Cloning and sequencing of PCR products to identify microbial community composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Cloning of purified non-labelled PCR products was carried out with QIAGEN PCR Cloning Kit.",
+          "searchable_summary": "clone PCR products using QIAGEN kit",
+          "inputs": [
+            "non-labelled PCR products",
+            "QIAGEN PCR Cloning Kit"
+          ],
+          "outputs": [
+            "cloned PCR products"
+          ],
+          "keywords": [
+            "PCR cloning",
+            "QIAGEN"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Vector-specific M13 primers were used to re-amplify the inserted 16S rRNA amplicons.",
+          "searchable_summary": "re-amplify 16S rRNA amplicons with M13 primers",
+          "inputs": [
+            "cloned PCR products",
+            "M13 primers"
+          ],
+          "outputs": [
+            "re-amplified 16S rRNA amplicons"
+          ],
+          "keywords": [
+            "PCR re-amplification",
+            "M13 primers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "PCR products were screened by T-RFLP to select clones with inserts matching predominant peaks.",
+          "searchable_summary": "screen PCR products with T-RFLP",
+          "inputs": [
+            "re-amplified 16S rRNA amplicons"
+          ],
+          "outputs": [
+            "selected clones"
+          ],
+          "keywords": [
+            "T-RFLP screening",
+            "clone selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Partial sequencing of SAP-ExoI enzyme-treated PCR products was performed using Big Dye Terminator Ready Reaction Cycle Sequencing Kit.",
+          "searchable_summary": "sequence PCR products using Big Dye kit",
+          "inputs": [
+            "selected clones",
+            "Big Dye Terminator Kit"
+          ],
+          "outputs": [
+            "partial sequences"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "Big Dye"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Almost full sequencing of 16S rRNA genes was achieved by assembling sequence information using SEQUENCHER software.",
+          "searchable_summary": "assemble full sequences with SEQUENCHER",
+          "inputs": [
+            "partial sequences",
+            "SEQUENCHER software"
+          ],
+          "outputs": [
+            "full 16S rRNA sequences"
+          ],
+          "keywords": [
+            "sequence assembly",
+            "SEQUENCHER"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "BLASTN and BLASTX algorithms were used to search for similar sequences in public databases.",
+          "searchable_summary": "search for similar sequences using BLAST",
+          "inputs": [
+            "full 16S rRNA sequences"
+          ],
+          "outputs": [
+            "similar sequences"
+          ],
+          "keywords": [
+            "BLASTN",
+            "BLASTX",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Phylogenetic analyses including tree generation were conducted using MEGA4 software.",
+          "searchable_summary": "conduct phylogenetic analysis with MEGA4",
+          "inputs": [
+            "similar sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "MEGA4"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7069020.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

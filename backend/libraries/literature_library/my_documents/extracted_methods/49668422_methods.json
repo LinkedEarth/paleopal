@@ -1,0 +1,186 @@
+{
+  "paper_title": "Predicting marsh vulnerability to sea-level rise using Holocene relative sea-level data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Great British Holocene Relative Sea-Level Database Compilation",
+      "description": "Compilation of a database of index points from Holocene RSL data for Great Britain, derived from stratigraphic sequences that record tidal marsh retreat and advance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The Great British Holocene RSL database is derived from 54 regions based on availability of data and distance from the center of the British-Irish ice sheet.",
+          "searchable_summary": "compile RSL database from 54 regions in Great Britain",
+          "inputs": [
+            "regional data availability",
+            "distance from ice sheet center"
+          ],
+          "outputs": [
+            "RSL database"
+          ],
+          "keywords": [
+            "RSL database",
+            "Holocene",
+            "Great Britain"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The database includes over 80 fields of information for each index point, with a subset relevant to determine tidal marsh vulnerability.",
+          "searchable_summary": "process database fields to determine tidal marsh vulnerability",
+          "inputs": [
+            "RSL database"
+          ],
+          "outputs": [
+            "processed data fields"
+          ],
+          "keywords": [
+            "data processing",
+            "tidal marsh vulnerability"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Glacial Isostatic Adjustment Model",
+      "description": "Use of a glacial isostatic adjustment (GIA) model to determine the rates of RSLR for each index point of the database.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Employ a GIA model to determine the rates of RSLR for each index point of the database.",
+          "searchable_summary": "apply GIA model to calculate RSLR rates",
+          "inputs": [
+            "RSL database",
+            "GIA model parameters"
+          ],
+          "outputs": [
+            "RSLR rates"
+          ],
+          "keywords": [
+            "GIA model",
+            "RSLR rates",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use linear interpolation to calculate the RSL at the median age of each sea-level index point.",
+          "searchable_summary": "perform linear interpolation for RSL calculation",
+          "inputs": [
+            "RSLR rates",
+            "median age"
+          ],
+          "outputs": [
+            "interpolated RSL values"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "RSL calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Model of Sea-Level Tendency",
+      "description": "Estimation of the probability of a positive tendency conditional upon rates of RSLR using a statistical model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Convert the tendency data into a binary response variable and treat them as having a Bernoulli distribution.",
+          "searchable_summary": "convert tendency data to binary response variable",
+          "inputs": [
+            "tendency data"
+          ],
+          "outputs": [
+            "binary response variable"
+          ],
+          "keywords": [
+            "binary conversion",
+            "Bernoulli distribution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Model the probabilities parameterizing the distribution using a flexible cubic penalized B-spline function.",
+          "searchable_summary": "model probabilities with cubic penalized B-spline",
+          "inputs": [
+            "binary response variable",
+            "RSLR rates"
+          ],
+          "outputs": [
+            "modeled probabilities"
+          ],
+          "keywords": [
+            "B-spline",
+            "probability modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Fit the model in a Bayesian framework and obtain posterior samples using a Markov chain Monte Carlo (MCMC) algorithm.",
+          "searchable_summary": "fit Bayesian model and obtain MCMC samples",
+          "inputs": [
+            "modeled probabilities"
+          ],
+          "outputs": [
+            "posterior samples"
+          ],
+          "keywords": [
+            "Bayesian framework",
+            "MCMC",
+            "model fitting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sea-Level Projections",
+      "description": "Generation of sea-level rise projections using Monte Carlo samples from the joint probability distribution of different contributing factors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Generate sea-level projections for tide-gauge locations using 10,000 Monte Carlo samples from the joint probability distribution of different contributing factors.",
+          "searchable_summary": "generate sea-level projections with Monte Carlo samples",
+          "inputs": [
+            "joint probability distribution",
+            "tide-gauge locations"
+          ],
+          "outputs": [
+            "sea-level projections"
+          ],
+          "keywords": [
+            "Monte Carlo",
+            "sea-level projections",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Determine the probability of a positive tendency for each Monte Carlo sample at each point in time.",
+          "searchable_summary": "analyze probability of positive tendency from Monte Carlo samples",
+          "inputs": [
+            "sea-level projections",
+            "Monte Carlo samples"
+          ],
+          "outputs": [
+            "probability of positive tendency"
+          ],
+          "keywords": [
+            "probability analysis",
+            "Monte Carlo"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/49668422.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

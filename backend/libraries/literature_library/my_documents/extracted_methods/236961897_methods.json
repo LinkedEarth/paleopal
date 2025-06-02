@@ -1,0 +1,168 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Relative Paleointensity Normalization",
+      "description": "This method involves selecting and applying appropriate normalization techniques for relative paleointensity (RPI) measurements in sediment cores, considering the variability in magnetic mineral assemblages and sediment matrix.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Traditionally RPI has been estimated by normalizing NRM intensity with a single concentration-dependent rock magnetic parameter such as ARM, IRM or κ, generally after light AF demagnetization (20-30 mT) eliminating viscous or technically acquired soft magnetization components.",
+          "searchable_summary": "Normalize NRM intensity using ARM, IRM, or κ after AF demagnetization",
+          "inputs": [
+            "NRM intensity",
+            "ARM",
+            "IRM",
+            "κ"
+          ],
+          "outputs": [
+            "Normalized RPI values"
+          ],
+          "keywords": [
+            "NRM",
+            "ARM",
+            "IRM",
+            "κ",
+            "AF demagnetization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Tauxe et al. (1995) proposed a pseudo-Thellier approach, where NRM is plotted against ARM as both are sequentially demagnetized at the same AF field steps.",
+          "searchable_summary": "Apply pseudo-Thellier approach by plotting NRM against ARM",
+          "inputs": [
+            "NRM",
+            "ARM",
+            "AF field steps"
+          ],
+          "outputs": [
+            "Pseudo-Thellier plot"
+          ],
+          "keywords": [
+            "pseudo-Thellier",
+            "NRM",
+            "ARM",
+            "AF demagnetization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The RPI value is determined as the best-fit slope to a quasi-linear curve section.",
+          "searchable_summary": "Determine RPI value from best-fit slope of NRM vs ARM plot",
+          "inputs": [
+            "Pseudo-Thellier plot"
+          ],
+          "outputs": [
+            "RPI value"
+          ],
+          "keywords": [
+            "best-fit slope",
+            "RPI",
+            "pseudo-Thellier"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Following the method of Chen et al. (2017), their 'detrital' 10-20 mT coercivity range would create a RPI curve with low amplitude dynamics.",
+          "searchable_summary": "Apply detrital coercivity range for RPI curve",
+          "inputs": [
+            "NRM",
+            "ARM",
+            "10-20 mT coercivity range"
+          ],
+          "outputs": [
+            "RPI curve"
+          ],
+          "keywords": [
+            "detrital coercivity",
+            "RPI curve"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We opted for a broad and constant NRM 20-80mT /ARM 20-80mT slope range to normalize the three SO264 cores.",
+          "searchable_summary": "Normalize using broad NRM 20-80mT /ARM 20-80mT slope range",
+          "inputs": [
+            "NRM",
+            "ARM",
+            "20-80mT slope range"
+          ],
+          "outputs": [
+            "Normalized RPI values"
+          ],
+          "keywords": [
+            "broad slope range",
+            "NRM",
+            "ARM",
+            "RPI normalization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "SEM and TEM Analysis of Magnetic Extracts",
+      "description": "This method involves using Scanning Electron Microscopy (SEM) and Transmission Electron Microscopy (TEM) to analyze magnetic extracts from sediment samples, identifying and characterizing magnetic mineral particles.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "About 2 g sediments of each of the above listed SO264-19-2 samples was suspended in water and cycled through the magnetic extraction apparatus.",
+          "searchable_summary": "Extract magnetic particles from sediment samples using magnetic extraction apparatus",
+          "inputs": [
+            "Sediment samples"
+          ],
+          "outputs": [
+            "Magnetic extracts"
+          ],
+          "keywords": [
+            "magnetic extraction",
+            "sediment samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The larger (>1 µm) lithogenic magnetic mineral particles were resolved by SEM and geochemically analyzed with EDX.",
+          "searchable_summary": "Analyze lithogenic magnetic particles using SEM and EDX",
+          "inputs": [
+            "Magnetic extracts"
+          ],
+          "outputs": [
+            "SEM images",
+            "EDX data"
+          ],
+          "keywords": [
+            "SEM",
+            "EDX",
+            "lithogenic particles"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Submicron (1-300 nm) sized magnetite particles were visualized and identified by TEM.",
+          "searchable_summary": "Visualize and identify submicron magnetite particles using TEM",
+          "inputs": [
+            "Magnetic extracts"
+          ],
+          "outputs": [
+            "TEM images"
+          ],
+          "keywords": [
+            "TEM",
+            "submicron particles",
+            "magnetite"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236961897.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

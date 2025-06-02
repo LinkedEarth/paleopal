@@ -1,0 +1,108 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Probabilistic Model for Climate Variable",
+      "description": "This method describes the probabilistic model used to represent a climate variable of interest at specific coordinates and times. It involves using a Gaussian Process (GP) with specific spatial and temporal kernels to model the climate variable and its posterior distribution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Adopt a zero-mean, factorized GP prior for C(x, t) := C(x, t) − m(x) using a Matérn-3/2 spatial kernel and a Matérn-1/2 temporal kernel.",
+          "searchable_summary": "Define GP prior with Matérn kernels for climate variable",
+          "inputs": [
+            "C(x, t)",
+            "m(x)",
+            "Matérn-3/2 spatial kernel",
+            "Matérn-1/2 temporal kernel"
+          ],
+          "outputs": [
+            "GP prior for C(x, t)"
+          ],
+          "keywords": [
+            "Gaussian Process",
+            "Matérn kernel",
+            "climate modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Define the likelihood for site-specific reconstruction or simulated value Y s,p, assuming i.i.d. normal distribution.",
+          "searchable_summary": "Define likelihood for site-specific data assuming i.i.d. normal distribution",
+          "inputs": [
+            "Y s,p",
+            "site coordinates x s",
+            "time t p"
+          ],
+          "outputs": [
+            "Likelihood function for Y s,p"
+          ],
+          "keywords": [
+            "likelihood",
+            "i.i.d. normal distribution",
+            "site-specific data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use the same σ for all simulations and pollen-based reconstructions.",
+          "searchable_summary": "Apply uniform σ across simulations and reconstructions",
+          "inputs": [
+            "σ",
+            "simulations",
+            "pollen-based reconstructions"
+          ],
+          "outputs": [
+            "Consistent σ application"
+          ],
+          "keywords": [
+            "standard deviation",
+            "uniform application",
+            "reconstruction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Query the resulting GP posterior distribution of C at any spatiotemporal point (x, t).",
+          "searchable_summary": "Query GP posterior distribution at spatiotemporal points",
+          "inputs": [
+            "GP posterior",
+            "spatiotemporal point (x, t)"
+          ],
+          "outputs": [
+            "Queried GP posterior values"
+          ],
+          "keywords": [
+            "GP posterior",
+            "query",
+            "spatiotemporal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Use a sparse GP approximation for inference due to the intractability of O(N^3) inversion of the kernel Gram matrix.",
+          "searchable_summary": "Implement sparse GP approximation for inference",
+          "inputs": [
+            "kernel Gram matrix",
+            "N data points"
+          ],
+          "outputs": [
+            "Sparse GP approximation"
+          ],
+          "keywords": [
+            "sparse GP",
+            "inference",
+            "kernel matrix inversion"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/253522914.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

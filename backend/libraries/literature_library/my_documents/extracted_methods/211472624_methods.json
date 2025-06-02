@@ -1,0 +1,893 @@
+{
+  "paper_title": "CabZIP Gene Analysis Paper",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Transcriptomic Data Analysis",
+      "description": "Analysis of publicly available transcriptomic data for CabZIP genes to gain insight into their spatial and temporal expression profiles during development and stress responses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The transcriptome data of 59 CabZIPs genes (not including CabZIP25) from the Zunla-1 genome, were obtained using the Pepper Hub (http://pepperhub.hzau.edu.cn/) (Kim et al., 2014).",
+          "searchable_summary": "obtain transcriptomic data for CabZIP genes from Pepper Hub database",
+          "inputs": [
+            "Pepper Hub URL",
+            "List of 59 CabZIP genes"
+          ],
+          "outputs": [
+            "Transcriptomic data files for 59 CabZIP genes"
+          ],
+          "keywords": [
+            "transcriptomics",
+            "gene expression",
+            "data download",
+            "database query",
+            "Pepper Hub"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Identify data sets corresponding to different pepper tissues/organs at various developmental stages within the obtained transcriptome data, including leaves (L1-9), flowers (F1-9), fruits (FST0), pericarps (G1-11), placenta (T3-11), and seeds (S3-11).",
+          "searchable_summary": "identify and subset transcriptomic data for developmental stages and tissues",
+          "inputs": [
+            "Transcriptomic data files"
+          ],
+          "outputs": [
+            "Subset of transcriptomic data for developmental stages/tissues"
+          ],
+          "keywords": [
+            "data filtering",
+            "subsetting",
+            "developmental stages",
+            "plant tissues"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Identify data sets corresponding to leaves/roots under different stress or hormone treatments within the obtained transcriptome data, such as cold (FL1-6/FR1-6), heat (HL1-6/HR1-6), salt (NaCl; NL1-6/NR1-6), osmotic (mannitol; ML1-6/MR1-6), ABA (AL1-6/AR1-6), gibberellic acid (GA3; G1-6L/GR1-6), indole acetic acid (IAA; IL1-6/IR1-6), JA (JL1-6/JR1-6), and SA (SL1-6/SR1-6).",
+          "searchable_summary": "identify and subset transcriptomic data for stress and hormone treatments",
+          "inputs": [
+            "Transcriptomic data files"
+          ],
+          "outputs": [
+            "Subset of transcriptomic data for stress/hormone treatments"
+          ],
+          "keywords": [
+            "data filtering",
+            "subsetting",
+            "stress response",
+            "hormone treatment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Two separate projects were created, one for the developmental tissues that included data from six organs (leaf, flower, fruit, pericarp, placenta, and seed) and the other for four stress treatments including NaCl, mannitol, heat, and cold stress, and five phytohormone treatments including IAA, GA3, ABA, SA, and JA.",
+          "searchable_summary": "organize transcriptomic data into separate projects for developmental and stress/hormone conditions",
+          "inputs": [
+            "Subset of transcriptomic data for developmental stages/tissues",
+            "Subset of transcriptomic data for stress/hormone treatments"
+          ],
+          "outputs": [
+            "Organized data projects/files"
+          ],
+          "keywords": [
+            "data organization",
+            "project setup"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "The heat maps and hierarchical clustering of the gene expression patterns were performed using the HemI software (http://hemi. biocuckoo.org/down.php) (Deng et al., 2014).",
+          "searchable_summary": "generate heat maps and perform hierarchical clustering of gene expression data using HemI software",
+          "inputs": [
+            "Gene expression data (from projects)"
+          ],
+          "outputs": [
+            "Heat maps of gene expression",
+            "Hierarchical clustering results"
+          ],
+          "keywords": [
+            "heatmap",
+            "hierarchical clustering",
+            "gene expression visualization",
+            "HemI software"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "we performed a hierarchy cluster containing 11 different transcripts, selected from data sets obtained from 57 transcripts, out of 59 CabZIP genes (except CabZIP25) at different developmental stages in the specific tissues (Supplementary Table S5).",
+          "searchable_summary": "perform hierarchical clustering on a subset of 57 CabZIP genes from the developmental dataset",
+          "inputs": [
+            "Subset of developmental gene expression data (57 genes)"
+          ],
+          "outputs": [
+            "Hierarchical clustering results for subset",
+            "Heatmap for subset"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "gene expression",
+            "developmental stages",
+            "data subsetting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Experimental Sample Collection for Gene Expression Analysis",
+      "description": "Preparation of pepper seedlings and collection of tissue samples under specific developmental stages, stress, and hormone treatments for subsequent gene expression analysis (e.g., RNA extraction and qPCR).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "seedlings were prepared in a natural glasshouse with the daily temperature of 25 to 29°C and night temperature 16 to 20°C.",
+          "searchable_summary": "prepare pepper seedlings under controlled glasshouse conditions",
+          "inputs": [
+            "Pepper seeds",
+            "Growth medium",
+            "Glasshouse environment (25-29°C day, 16-20°C night)"
+          ],
+          "outputs": [
+            "Pepper seedlings"
+          ],
+          "keywords": [
+            "plant growth",
+            "seedling preparation",
+            "glasshouse"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The samples of roots, stems, leaves, flower buds, fruits, and seeds were collected for expression analysis of different tissues.",
+          "searchable_summary": "collect tissue samples from different plant organs for expression analysis",
+          "inputs": [
+            "Pepper seedlings (various developmental stages)",
+            "Tools for sample collection"
+          ],
+          "outputs": [
+            "Tissue samples (roots, stems, leaves, flower buds, fruits, seeds)"
+          ],
+          "keywords": [
+            "sample collection",
+            "plant tissues",
+            "gene expression"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "For heat stress treatment, the seedlings were transferred into a growth chamber at 45°C...",
+          "searchable_summary": "apply heat stress treatment to pepper seedlings",
+          "inputs": [
+            "Pepper seedlings (6-8 true leaves stage)",
+            "Growth chamber set to 45°C"
+          ],
+          "outputs": [
+            "Heat-stressed pepper seedlings"
+          ],
+          "keywords": [
+            "stress treatment",
+            "heat stress",
+            "plant experiment",
+            "growth chamber"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "...and leaf tissues were collected at 0, 0.5, 1, 2, 4, 12, and 24 h post treatment, respectively.",
+          "searchable_summary": "collect leaf samples at specified time points after heat stress treatment",
+          "inputs": [
+            "Heat-stressed pepper seedlings",
+            "Time points (0, 0.5, 1, 2, 4, 12, 24 h)",
+            "Tools for sample collection"
+          ],
+          "outputs": [
+            "Leaf samples (heat stress time course)"
+          ],
+          "keywords": [
+            "sample collection",
+            "time course",
+            "heat stress"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "Salt stress was applied by adding NaCl to a final concentration of 0, 50, 100, 200, 400, and 600 mM in the nutrient solution, respectively...",
+          "searchable_summary": "apply salt stress treatment to pepper seedlings using NaCl in nutrient solution",
+          "inputs": [
+            "Pepper seedlings",
+            "Nutrient solution",
+            "NaCl (0, 50, 100, 200, 400, 600 mM)"
+          ],
+          "outputs": [
+            "Salt-stressed pepper seedlings"
+          ],
+          "keywords": [
+            "stress treatment",
+            "salt stress",
+            "plant experiment",
+            "NaCl"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "...and leaves sample were collected at 6 h post-treatments.",
+          "searchable_summary": "collect leaf samples at 6 hours after salt stress treatment",
+          "inputs": [
+            "Salt-stressed pepper seedlings",
+            "6 h time point",
+            "Tools for sample collection"
+          ],
+          "outputs": [
+            "Leaf samples (salt stress concentrations)"
+          ],
+          "keywords": [
+            "sample collection",
+            "salt stress"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "Similarly, pepper seedlings were sprayed evenly with 0, 1, 10, 50, 100, and 500µM ABA or JA solution for phytohormone treatments...",
+          "searchable_summary": "apply phytohormone treatments (ABA or JA) to pepper seedlings by spraying",
+          "inputs": [
+            "Pepper seedlings",
+            "ABA or JA solutions (0, 1, 10, 50, 100, 500 µM)",
+            "Sprayer"
+          ],
+          "outputs": [
+            "Hormone-treated pepper seedlings"
+          ],
+          "keywords": [
+            "hormone treatment",
+            "plant experiment",
+            "ABA",
+            "JA",
+            "phytohormone"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "other",
+          "description": "...and leaves were sampled at 6 h after treatments.",
+          "searchable_summary": "collect leaf samples at 6 hours after phytohormone treatments",
+          "inputs": [
+            "Hormone-treated pepper seedlings",
+            "6 h time point",
+            "Tools for sample collection"
+          ],
+          "outputs": [
+            "Leaf samples (hormone concentrations)"
+          ],
+          "keywords": [
+            "sample collection",
+            "hormone treatment"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "other",
+          "description": "All the samples were collected in quadruplicates...",
+          "searchable_summary": "collect all samples in quadruplicates",
+          "inputs": [
+            "Collected tissue samples"
+          ],
+          "outputs": [
+            "Quadruplicate tissue samples"
+          ],
+          "keywords": [
+            "replication",
+            "experimental design",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "other",
+          "description": "...frozen in liquid nitrogen...",
+          "searchable_summary": "freeze collected samples in liquid nitrogen",
+          "inputs": [
+            "Collected tissue samples"
+          ],
+          "outputs": [
+            "Frozen tissue samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "liquid nitrogen",
+            "freezing"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "other",
+          "description": "...and stored at −80°C prior to the extraction of RNA.",
+          "searchable_summary": "store frozen samples at -80°C",
+          "inputs": [
+            "Frozen tissue samples"
+          ],
+          "outputs": [
+            "Stored tissue samples (-80°C)"
+          ],
+          "keywords": [
+            "sample storage",
+            "-80C freezer"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Generation of Transgenic Arabidopsis and Salt Stress Phenotyping",
+      "description": "Generation of transgenic Arabidopsis plants overexpressing CabZIP25 and evaluation of their salt resistance phenotype through germination, growth, and root development assays under varying salt concentrations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "The full-length CDS of CabZIP25 was amplified from the line R9 using the CabZIP25 CDS primers (Supplementary Table S6)...",
+          "searchable_summary": "amplify full-length CDS of CabZIP25 using PCR",
+          "inputs": [
+            "DNA from line R9",
+            "CabZIP25 CDS primers",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "Amplified CabZIP25 CDS product"
+          ],
+          "keywords": [
+            "PCR",
+            "gene amplification",
+            "CDS",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "...and the amplification product was cloned into the Xba I and Kpn I site of pVBG2307 vector to create pVBG2307-CabZIP25 under the control of the CaMV35S promoter.",
+          "searchable_summary": "clone amplified CDS into plant transformation vector pVBG2307",
+          "inputs": [
+            "Amplified CabZIP25 CDS product",
+            "pVBG2307 vector",
+            "Restriction enzymes (Xba I, Kpn I)",
+            "DNA ligase"
+          ],
+          "outputs": [
+            "pVBG2307-CabZIP25 overexpression vector"
+          ],
+          "keywords": [
+            "molecular cloning",
+            "vector construction",
+            "ligation",
+            "restriction digest",
+            "CaMV35S promoter"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "The obtained overexpression vector was transformed into Agrobacterium tumefaciens strain GV3101...",
+          "searchable_summary": "transform Agrobacterium tumefaciens with the overexpression vector",
+          "inputs": [
+            "pVBG2307-CabZIP25 vector",
+            "Agrobacterium tumefaciens strain GV3101"
+          ],
+          "outputs": [
+            "Transformed Agrobacterium culture"
+          ],
+          "keywords": [
+            "bacterial transformation",
+            "Agrobacterium tumefaciens",
+            "genetic transformation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "...and was subsequently infiltrated into WT Arabidopsis plants (Clough and Bent, 1998).",
+          "searchable_summary": "infiltrate wild-type Arabidopsis plants with transformed Agrobacterium",
+          "inputs": [
+            "Transformed Agrobacterium culture",
+            "WT Arabidopsis plants"
+          ],
+          "outputs": [
+            "Infiltrated Arabidopsis plants"
+          ],
+          "keywords": [
+            "Agrobacterium infiltration",
+            "floral dip",
+            "plant transformation",
+            "Arabidopsis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "The seeds were screened on Murashige and Skoog (MS) selection medium with kanamycin (50 mg/L)...",
+          "searchable_summary": "screen seeds from infiltrated plants on selective MS medium containing kanamycin",
+          "inputs": [
+            "Seeds from infiltrated Arabidopsis plants",
+            "MS medium",
+            "Kanamycin (50 mg/L)"
+          ],
+          "outputs": [
+            "Putative transgenic Arabidopsis seedlings"
+          ],
+          "keywords": [
+            "selection medium",
+            "plant screening",
+            "kanamycin resistance",
+            "MS medium"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "...and T3 generation lines OE1, OE2, and OE5 were used for experimental analysis.",
+          "searchable_summary": "select homozygous T3 generation transgenic lines for experiments",
+          "inputs": [
+            "Putative transgenic seedlings (T1, T2 generations)"
+          ],
+          "outputs": [
+            "Homozygous T3 transgenic lines (OE1, OE2, OE5)"
+          ],
+          "keywords": [
+            "plant genetics",
+            "generation advancement",
+            "line selection",
+            "transgenic plants"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "For salt tolerance evaluation of over-expressing CabZIP25, seeds of transgenic and WT Arabidopsis were germinated on MS medium supplemented with 0, 100, and 150 mM NaCl.",
+          "searchable_summary": "germinate transgenic and WT Arabidopsis seeds on MS medium with varying NaCl concentrations",
+          "inputs": [
+            "T3 transgenic seeds (OE1, OE2, OE5)",
+            "WT Arabidopsis seeds",
+            "MS medium",
+            "NaCl (0, 100, 150 mM)"
+          ],
+          "outputs": [
+            "Germinating seedlings on salt-supplemented media"
+          ],
+          "keywords": [
+            "seed germination",
+            "salt stress",
+            "plant phenotyping",
+            "MS medium"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "The germination rate was observed every day...",
+          "searchable_summary": "observe and record germination rate daily",
+          "inputs": [
+            "Germinating seedlings on salt media"
+          ],
+          "outputs": [
+            "Germination rate data"
+          ],
+          "keywords": [
+            "germination assay",
+            "salt tolerance",
+            "plant phenotyping"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "...and the fresh weight... were measured at 10-day-old Arabidopsis seedlings.",
+          "searchable_summary": "measure fresh weight of 10-day-old seedlings",
+          "inputs": [
+            "10-day-old Arabidopsis seedlings"
+          ],
+          "outputs": [
+            "Fresh weight data"
+          ],
+          "keywords": [
+            "biomass measurement",
+            "plant growth",
+            "phenotyping"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "...and chlorophyll content were measured at 10-day-old Arabidopsis seedlings. The chlorophyll content was measured with the method described previously (Cai et al., 2017).",
+          "searchable_summary": "measure chlorophyll content of 10-day-old seedlings",
+          "inputs": [
+            "10-day-old Arabidopsis seedlings",
+            "Reagents/equipment for chlorophyll measurement"
+          ],
+          "outputs": [
+            "Chlorophyll content data"
+          ],
+          "keywords": [
+            "chlorophyll assay",
+            "plant physiology",
+            "phenotyping"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "other",
+          "description": "To assess the effect of CabZIP25 overexpression on Arabidopsis roots development, seeds of CabZIP25-OE and WT lines were germinated on MS petri dishes containing 0, 100, and 150 mM NaCl. The dishes were placed vertically...",
+          "searchable_summary": "germinate transgenic and WT seeds on vertical MS plates with NaCl to assess root development",
+          "inputs": [
+            "T3 transgenic seeds",
+            "WT seeds",
+            "Vertical MS petri dishes",
+            "NaCl (0, 100, 150 mM)"
+          ],
+          "outputs": [
+            "Germinating seedlings on vertical plates"
+          ],
+          "keywords": [
+            "root development assay",
+            "salt stress",
+            "plant phenotyping",
+            "vertical plate assay"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "validation",
+          "description": "...and the root lengths of transgenic and WT plants were measured after 10 days.",
+          "searchable_summary": "measure root lengths of 10-day-old seedlings on vertical plates",
+          "inputs": [
+            "10-day-old seedlings on vertical plates"
+          ],
+          "outputs": [
+            "Root length data"
+          ],
+          "keywords": [
+            "root measurement",
+            "plant phenotyping",
+            "salt tolerance"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "other",
+          "description": "Three replicates were performed in this experiment.",
+          "searchable_summary": "perform the experiment with three biological replicates",
+          "inputs": [
+            "Experimental setup"
+          ],
+          "outputs": [
+            "Replicated experimental data"
+          ],
+          "keywords": [
+            "experimental design",
+            "replication",
+            "biological replicates"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_analysis",
+          "description": "Data were reported as means ± SD.",
+          "searchable_summary": "calculate and report means and standard deviations for experimental data",
+          "inputs": [
+            "Measured data (germination rate, fresh weight, chlorophyll content, root length)"
+          ],
+          "outputs": [
+            "Summary statistics (means ± SD)"
+          ],
+          "keywords": [
+            "data reporting",
+            "descriptive statistics",
+            "mean",
+            "standard deviation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis and Classification",
+      "description": "Investigation of the evolutionary relationship of the CabZIP family within pepper and among pepper, Arabidopsis, and tomato using phylogenetic tree construction and analysis, including classification based on phylogeny and DNA-binding specificity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain bZIP protein sequences for the CabZIP family in pepper (60 sequences).",
+          "searchable_summary": "obtain protein sequences for the CabZIP gene family",
+          "inputs": [
+            "Source of CabZIP sequences (e.g., genome database)"
+          ],
+          "outputs": [
+            "CabZIP protein sequences (60)"
+          ],
+          "keywords": [
+            "sequence retrieval",
+            "protein sequences",
+            "gene family"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Obtain 20 bZIP protein sequences from the Arabidopsis AtbZIP family to use as subgroup markers.",
+          "searchable_summary": "obtain protein sequences for Arabidopsis AtbZIP family",
+          "inputs": [
+            "Source of AtbZIP sequences (e.g., database)"
+          ],
+          "outputs": [
+            "AtbZIP protein sequences (20)"
+          ],
+          "keywords": [
+            "sequence retrieval",
+            "protein sequences",
+            "Arabidopsis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform phylogenetic analysis using the pepper and Arabidopsis sequences.",
+          "searchable_summary": "construct phylogenetic tree using CabZIP and AtbZIP protein sequences",
+          "inputs": [
+            "CabZIP protein sequences",
+            "AtbZIP protein sequences",
+            "Phylogenetic software/tool"
+          ],
+          "outputs": [
+            "Phylogenetic tree (CabZIP + AtbZIP)"
+          ],
+          "keywords": [
+            "phylogenetic tree construction",
+            "sequence alignment",
+            "evolutionary analysis",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Classify CabZIP proteins into groups (A-I, S) based on the phylogenetic tree, using Arabidopsis groups as markers.",
+          "searchable_summary": "classify CabZIP proteins into groups based on phylogenetic tree topology and known markers",
+          "inputs": [
+            "Phylogenetic tree (CabZIP + AtbZIP)",
+            "AtbZIP group information"
+          ],
+          "outputs": [
+            "CabZIP group assignments (A-I, S)"
+          ],
+          "keywords": [
+            "protein classification",
+            "phylogenetic grouping",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The 60 CabZIPs were also categorized into 10 groups (I-X) according to the DNAbinding specificity of basic and hinge regions defined from the first Leu ( Figure 1B).",
+          "searchable_summary": "categorize CabZIP proteins into groups based on DNA-binding specificity of basic and hinge regions",
+          "inputs": [
+            "CabZIP protein sequences",
+            "Definition of DNA-binding specificity groups (I-X)"
+          ],
+          "outputs": [
+            "CabZIP group assignments (I-X)"
+          ],
+          "keywords": [
+            "protein classification",
+            "domain analysis",
+            "sequence motif",
+            "DNA-binding domain"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Construct and compare phylogenetic trees using full CabZIP proteins, bZIP domains, and basic/hinge regions, assessing reliability based on bootstrap values (>50%).",
+          "searchable_summary": "construct and compare phylogenetic trees based on different protein regions (full, domain, basic/hinge)",
+          "inputs": [
+            "CabZIP protein sequences",
+            "CabZIP bZIP domain sequences",
+            "CabZIP basic/hinge region sequences",
+            "Phylogenetic software/tool"
+          ],
+          "outputs": [
+            "Phylogenetic trees (full, domain, basic/hinge)",
+            "Bootstrap values",
+            "Comparison results"
+          ],
+          "keywords": [
+            "phylogenetic tree construction",
+            "phylogenetic tree comparison",
+            "bootstrap analysis",
+            "protein domain",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Obtain bZIP protein sequences for tomato (SlbZIPs).",
+          "searchable_summary": "obtain protein sequences for tomato SlbZIP family",
+          "inputs": [
+            "Source of SlbZIP sequences"
+          ],
+          "outputs": [
+            "SlbZIP protein sequences"
+          ],
+          "keywords": [
+            "sequence retrieval",
+            "protein sequences",
+            "tomato"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Construct an inter-species phylogenetic tree including CabZIPs, AtbZIPs, and SlbZIPs (total 201 bZIPs).",
+          "searchable_summary": "construct inter-species phylogenetic tree including pepper, Arabidopsis, and tomato bZIPs",
+          "inputs": [
+            "CabZIP protein sequences",
+            "AtbZIP protein sequences",
+            "SlbZIP protein sequences",
+            "Phylogenetic software/tool"
+          ],
+          "outputs": [
+            "Inter-species phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree construction",
+            "inter-species analysis",
+            "comparative genomics",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Analyze the inter-species phylogenetic tree to identify homologous bZIP TFs and assess evolutionary relationships among the three plant species.",
+          "searchable_summary": "analyze inter-species phylogenetic tree to identify homologs and evolutionary relationships",
+          "inputs": [
+            "Inter-species phylogenetic tree"
+          ],
+          "outputs": [
+            "Identification of homologous TFs",
+            "Assessment of evolutionary relationships"
+          ],
+          "keywords": [
+            "evolutionary analysis",
+            "homology identification",
+            "comparative genomics",
+            "bioinformatics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Gene Structure Analysis",
+      "description": "Analysis of the intron/exon organization of CabZIP genes to understand structural evolution within the gene family.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To get insights into the structural evolution of the 60 CabZIP genes, their intron/ exon organization was analyzed (Supplementary Table S1 and Supplementary Figure S3).",
+          "searchable_summary": "analyze intron/exon organization of CabZIP genes",
+          "inputs": [
+            "CabZIP gene sequences (genomic and CDS)",
+            "Gene structure analysis tool/software"
+          ],
+          "outputs": [
+            "Intron/exon structure data for each gene"
+          ],
+          "keywords": [
+            "gene structure analysis",
+            "intron-exon structure",
+            "genomic sequence",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze the exon/intron patterns specifically for the basic and hinge regions.",
+          "searchable_summary": "analyze intron/exon patterns within basic and hinge regions of CabZIP genes",
+          "inputs": [
+            "CabZIP gene structure data",
+            "Definition of basic and hinge regions"
+          ],
+          "outputs": [
+            "Intron/exon patterns specific to basic/hinge regions"
+          ],
+          "keywords": [
+            "gene structure analysis",
+            "protein domain",
+            "intron-exon pattern",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Observe and record the distribution, number, and splicing phase of introns/exons.",
+          "searchable_summary": "record distribution, number, and splicing phase of introns/exons",
+          "inputs": [
+            "Intron/exon structure data"
+          ],
+          "outputs": [
+            "Summary data on intron/exon features"
+          ],
+          "keywords": [
+            "data recording",
+            "gene structure features",
+            "intron number",
+            "splicing phase"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify and note the CabZIP genes that contain no introns and their distribution among groups.",
+          "searchable_summary": "identify intron-less CabZIP genes and their group distribution",
+          "inputs": [
+            "Gene structure data"
+          ],
+          "outputs": [
+            "List of intron-less genes and their groups"
+          ],
+          "keywords": [
+            "gene structure",
+            "intron presence/absence",
+            "gene family"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze and note the variation in the number of introns within the ORF for intron-containing genes, particularly noting variation within different groups.",
+          "searchable_summary": "analyze and record variation in intron numbers per gene and per group",
+          "inputs": [
+            "Gene structure data"
+          ],
+          "outputs": [
+            "Summary of intron number variation per gene and group"
+          ],
+          "keywords": [
+            "gene structure",
+            "intron number variation",
+            "gene family"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Compare structural patterns within and between different groups.",
+          "searchable_summary": "compare gene structural patterns within and between different CabZIP groups",
+          "inputs": [
+            "Gene structure data per group"
+          ],
+          "outputs": [
+            "Description of structural similarities/differences"
+          ],
+          "keywords": [
+            "gene structure comparison",
+            "gene family evolution",
+            "bioinformatics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/211472624.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

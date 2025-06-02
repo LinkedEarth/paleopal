@@ -1,0 +1,118 @@
+{
+  "paper_title": "CNN Training and Evaluation Setup",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "CNN Model Training and Evaluation",
+      "description": "This method describes the experimental setup and procedure for training and evaluating nine different Convolutional Neural Network (CNN) architectures. It details the configuration of training parameters, the application of data augmentation, the use of 5-Fold Cross-Validation for robust evaluation, and the computational environment used.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The nine CNN architectures adopted were set up to use the fine-tuning strategy as well as the stochastic gradient descent with momentum optimizer at their default values; also, dropout rate was set at 0.5, early-stopping was used to prevent over-fitting, and the learning rate was established at 0.0001. Additionally, the CNNs batch size was configured to be 12 and they were trained with 30 epochs.",
+          "searchable_summary": "Configure CNN models with fine-tuning strategy and set training parameters including optimizer, learning rate, batch size, epochs, dropout, and early-stopping.",
+          "inputs": [
+            "Nine CNN architectures",
+            "Stochastic Gradient Descent (SGD) with momentum optimizer (default values)",
+            "Dropout rate (0.5)",
+            "Early-stopping flag (enabled)",
+            "Learning rate (0.0001)",
+            "Batch size (12)",
+            "Number of epochs (30)"
+          ],
+          "outputs": [
+            "Configured CNN models",
+            "Defined training process parameters"
+          ],
+          "keywords": [
+            "CNN",
+            "fine-tuning",
+            "SGD",
+            "momentum",
+            "optimizer",
+            "dropout",
+            "early-stopping",
+            "learning rate",
+            "batch size",
+            "epochs",
+            "deep learning"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "During training, all images go through a heavy data augmentation which includes horizontal and vertical flipping, 360 o random rotation, rescaling factor between 70% and 130%, and horizontal and vertical translations between −20 and +20 pixels.",
+          "searchable_summary": "Apply image data augmentation to training images.",
+          "inputs": [
+            "Training images",
+            "Augmentation parameters (horizontal/vertical flip, 360 rotation, 70-130% rescale, -20/+20 pixel translation)"
+          ],
+          "outputs": [
+            "Augmented training images"
+          ],
+          "keywords": [
+            "data augmentation",
+            "image processing",
+            "flipping",
+            "rotation",
+            "rescaling",
+            "translation",
+            "image transformation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We adopted 5-Fold Cross-Validation on the dataset, such that in each fold the dataset was split on 70% (499 images) for training and 30% (215 images) for test, allowing the CNN models to be iteratively trained and tested on different sets.",
+          "searchable_summary": "Split the dataset into 5 folds for cross-validation with a 70% training and 30% test split ratio for each fold.",
+          "inputs": [
+            "Dataset (714 images)",
+            "Number of folds (5)",
+            "Train/test split ratio (70/30)"
+          ],
+          "outputs": [
+            "5 pairs of training and test dataset indices or subsets"
+          ],
+          "keywords": [
+            "cross-validation",
+            "k-fold split",
+            "dataset splitting",
+            "train-test split",
+            "data partitioning"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "All CNNs were trained using the MatConvNet MATLAB toolbox in a virtual machine with a pair of NVIDIA RTX 2080 Ti GPUs attached, hosted at the CeDRI cluster. Since the testing set is composed of images not seen by the model during the training step, this allows to anticipate the CNN behaviour against new images.",
+          "searchable_summary": "Train and evaluate CNN models iteratively using the 5-fold cross-validation splits, applying data augmentation during training, and utilizing specified hardware and software.",
+          "inputs": [
+            "Configured CNN models",
+            "5 training/test data splits (from Step 3)",
+            "Augmented training images (from Step 2, applied within loop)",
+            "MatConvNet MATLAB toolbox",
+            "NVIDIA RTX 2080 Ti GPUs",
+            "Virtual machine/CeDRI cluster environment"
+          ],
+          "outputs": [
+            "Trained CNN models (one per fold per architecture)",
+            "Model performance metrics (evaluated on test sets for each fold)"
+          ],
+          "keywords": [
+            "CNN training",
+            "model evaluation",
+            "cross-validation loop",
+            "deep learning",
+            "MatConvNet",
+            "MATLAB",
+            "GPU",
+            "performance metrics",
+            "experimental setup"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/245944559.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,283 @@
+{
+  "paper_title": "Regression model for reconstruction of PET, ET and TR of forest ecosystems",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Development and Parameterization of Regression Models for ET, PET, and TR Reconstruction",
+      "description": "This method describes the process used to create and calibrate regression models that estimate annual Evapotranspiration (ET), Potential Evapotranspiration (PET), and Transpiration (TR) for forest ecosystems based on mean annual air temperature, annual precipitation, and forest species composition. It involves generating a synthetic dataset using a process-based model (Mixfor-SVAT) under various environmental and compositional scenarios, analyzing the sensitivity of the outputs to inputs, and fitting nonlinear multiplicative regression functions to the generated data using an optimization algorithm.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "For the parameterization of annual ET, PET and TR, three key parameters obtained during paleoclimatic and paleobotanical reconstructions (mean annual air temperature, annual precipitation and proportion of spruce and deciduous trees in a forest stand) were selected.",
+          "searchable_summary": "Identify key input parameters for the model.",
+          "inputs": [
+            "Information on relevant paleoclimatic and paleobotanical reconstruction parameters"
+          ],
+          "outputs": [
+            "List of selected input parameters (mean annual air temperature, annual precipitation, proportion of spruce and deciduous trees)"
+          ],
+          "keywords": [
+            "input parameters",
+            "paleoclimatic reconstruction",
+            "paleobotanical reconstruction",
+            "mean annual air temperature",
+            "annual precipitation",
+            "forest species composition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The possible ranges of temperature and precipitation variability in the past epoch in the southern part of the Valday hills area were determined from analysis of longterm meteorological data sets (Desherevskaya et al 2010) and proxy-based paleoclimate reconstructions (Novenko et al 2009a, Velichko 2010. It was found that during the Holocene the mean annual temperature ranged from 0 to 8 • C, and the annual precipitation from 300 to 800 mm yr −1 .",
+          "searchable_summary": "Determine historical climate ranges from existing data.",
+          "inputs": [
+            "Long-term meteorological data sets (Desherevskaya et al 2010)",
+            "Proxy-based paleoclimate reconstructions (Novenko et al 2009a, Velichko 2010)"
+          ],
+          "outputs": [
+            "Ranges for mean annual temperature (0-8 °C) and annual precipitation (300-800 mm yr−1) during the Holocene in the study area"
+          ],
+          "keywords": [
+            "paleoclimate reconstruction",
+            "climate variability",
+            "Holocene",
+            "mean annual temperature",
+            "annual precipitation",
+            "meteorological data",
+            "proxy data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To generate annual trends of air temperature and precipitation the results of continuous meteorological measurements (temperature and humidity of air, precipitation, wind speed, global solar radiation) carried out in the forests of the Central Forest State Natural Biosphere Reserve (CFSNBR, 56 • 30 N, 32 • 50 E) since 1998 (Schulze et al 2002) were used. Using the basic measured trend of meteorological parameters 54 possible annual trends of air temperature and precipitation were generated. They include all possible combinations of mean annual air temperatures and precipitation rates for the study area. The time step of meteorological parameters in each data set is 1 h. It was assumed that the annual patterns of solar radiation, wind speed and water vapor deficit were the same for all data sets. Thus, possible changes of air humidity under changes of air temperature were taken into account.",
+          "searchable_summary": "Generate synthetic hourly meteorological time series based on observed patterns and historical ranges.",
+          "inputs": [
+            "Continuous meteorological measurements from CFSNBR (Schulze et al 2002)",
+            "Determined climate ranges (step 2)"
+          ],
+          "outputs": [
+            "54 generated annual trends of air temperature and precipitation (hourly time step)"
+          ],
+          "keywords": [
+            "meteorological data generation",
+            "annual trends",
+            "air temperature",
+            "precipitation",
+            "hourly data",
+            "climate scenarios",
+            "CFSNBR"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "TR and ET of six types of model forest stands with a various proportion of spruce and deciduous (birch, aspen, linden, maple) tree species were modeled...",
+          "searchable_summary": "Define forest stand compositions for modeling.",
+          "inputs": [
+            "Information on relevant tree species (spruce, birch, aspen, linden, maple)",
+            "Parameter definition for proportion of spruce trees (0 to 1)"
+          ],
+          "outputs": [
+            "Definition of six types of model forest stands based on spruce/deciduous proportion"
+          ],
+          "keywords": [
+            "forest species composition",
+            "forest stand types",
+            "spruce",
+            "deciduous",
+            "proportion of spruce"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "In the next step, TR and ET of six types of model forest stands with a various proportion of spruce and deciduous (birch, aspen, linden, maple) tree species were modeled by Mixfor-SVAT for each generated annual trend of meteorological parameters. Annual PET was calculated by the Priestley-Taylor equations using the mean daily vegetation temperatures and net radiation values derived by Mixfor-SVAT. All necessary model input parameters describing biophysical properties of different tree species and soil were determined during intensive field campaigns at several experimental sites in the southern part of Valday hills as well as taken from literature (Oltchev et al 2002a, 2002b, Korzukhin et al 2008.",
+          "searchable_summary": "Run a process-based ecosystem model (Mixfor-SVAT) for various climate and forest composition scenarios.",
+          "inputs": [
+            "54 generated annual meteorological trends (step 3)",
+            "Six defined forest stand types (step 4)",
+            "Biophysical properties of tree species and soil (from field campaigns and literature: Oltchev et al 2002a, 2002b, Korzukhin et al 2008)"
+          ],
+          "outputs": [
+            "Hourly TR and ET outputs for each scenario",
+            "Mean daily vegetation temperatures and net radiation values derived by Mixfor-SVAT"
+          ],
+          "keywords": [
+            "process-based model",
+            "Mixfor-SVAT",
+            "ET modeling",
+            "TR modeling",
+            "biophysical parameters",
+            "tree species properties",
+            "soil properties"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Annual PET was calculated by the Priestley-Taylor equations using the mean daily vegetation temperatures and net radiation values derived by Mixfor-SVAT.",
+          "searchable_summary": "Calculate annual PET using the Priestley-Taylor equation.",
+          "inputs": [
+            "Mean daily vegetation temperatures and net radiation values derived by Mixfor-SVAT (step 5)"
+          ],
+          "outputs": [
+            "Annual PET values for each scenario"
+          ],
+          "keywords": [
+            "PET calculation",
+            "Priestley-Taylor equation",
+            "vegetation temperature",
+            "net radiation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "In the last step the mean annual values of TR, ET and PET for various combinations of annual temperatures and precipitation rates, and for forest stands with various species composition were calculated.",
+          "searchable_summary": "Calculate mean annual values from model outputs.",
+          "inputs": [
+            "Hourly/daily TR, ET, and PET outputs from Mixfor-SVAT and PET calculation (steps 5, 6)"
+          ],
+          "outputs": [
+            "Mean annual TR, ET, and PET values for 324 cases"
+          ],
+          "keywords": [
+            "mean annual values",
+            "data aggregation",
+            "TR",
+            "ET",
+            "PET"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The resulting data set (324 cases) was used for the analysis of the sensitivity of TR, ET and PET to changes of input parameters (figures 2 and 3) as well as for estimation of the unknown parameters of the regression models (equations (1)- (3)).",
+          "searchable_summary": "Compile a dataset for regression analysis with inputs and corresponding annual ET, TR, PET values.",
+          "inputs": [
+            "Mean annual TR, ET, PET values (step 7)",
+            "Corresponding mean annual temperature, annual precipitation, and proportion of spruce trees for each scenario"
+          ],
+          "outputs": [
+            "Dataset containing 324 cases with inputs (Tmean, P, N) and outputs (ET, TR, PET)"
+          ],
+          "keywords": [
+            "dataset creation",
+            "regression dataset",
+            "data compilation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Analysis of the response of modeled ET, TR and PET to changes in the air temperature, precipitation and species composition of forest stands show a very high sensitivity of ET, TR and PET to changes of air temperature and species composition of forest stands (figure 2), as well as a moderate sensitivity of ET to changes of annual precipitation (figure 3). The effect of precipitation changes on TR is relatively low and it is visibly manifested only with very small values of annual precipitation (lower than 400 mm yr −1 ) and only for stands with a large proportion of spruce trees when the deficit of available soil water in the rooting zone significantly reduced the root water uptake and the transpiration rate of the trees.",
+          "searchable_summary": "Perform sensitivity analysis on the generated dataset.",
+          "inputs": [
+            "The compiled dataset (step 8)"
+          ],
+          "outputs": [
+            "Understanding of the sensitivity of ET, TR, PET to temperature, precipitation, and species composition"
+          ],
+          "keywords": [
+            "sensitivity analysis",
+            "parameter sensitivity",
+            "data analysis",
+            "ET",
+            "TR",
+            "PET"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "modeling",
+          "description": "To parameterize ET, PET and TR, a nonlinear multiplicative function assuming dependence of ET, PET and TR on air temperature, precipitation rate and proportion of spruce trees in a forest stand is used. The type of function (linear or quadratic) for adjustment factors describing the influence of air temperature, precipitation and tree species composition is chosen taking into account the results of sensitivity analysis of ET, PET and TR (figures 2 and 3). To describe the dependence of ET and TR on air temperature a quadratic type of function is used whereas the dependence of ET and TR on precipitation is parameterized by a linear function. The dependence of ET and TR on the proportion of spruce trees in a mixed forest stand is also parameterized by a quadratic function that allows the description of e.g., the higher ET and TR for the mixed (spruce-deciduous) forest in comparison with monospecific spruce or deciduous ones of the same tree age, biomass, height, etc (Olchev et al 2009).",
+          "searchable_summary": "Define the functional form of the regression models based on sensitivity analysis.",
+          "inputs": [
+            "Results of sensitivity analysis (step 9)"
+          ],
+          "outputs": [
+            "Specification of nonlinear multiplicative functions with linear or quadratic adjustment factors for each input parameter"
+          ],
+          "keywords": [
+            "regression model structure",
+            "nonlinear regression",
+            "multiplicative function",
+            "functional form",
+            "sensitivity analysis"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "modeling",
+          "description": "The coefficients a1-a8 in the equations were obtained using the Levenberg-Marquardt method from statistical analysis of a data set including information about the ET, PET and TR of forests with different tree species composition for different combinations of annual air temperatures and annual precipitation rates (table 1).",
+          "searchable_summary": "Estimate regression model coefficients using an optimization method (Levenberg-Marquardt).",
+          "inputs": [
+            "The compiled dataset (step 8)",
+            "Defined regression model structure (step 10)",
+            "Minimal values (ET0, TR0, PET0)",
+            "Current mean values (T0, P0)"
+          ],
+          "outputs": [
+            "Estimated coefficients (a1-a8) for the ET, TR, and PET regression equations"
+          ],
+          "keywords": [
+            "regression model parameterization",
+            "coefficient estimation",
+            "Levenberg-Marquardt method",
+            "nonlinear regression fitting",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "validation",
+          "description": "The proportion of variability in the data set that was accounted for by the regression models (coefficient of determination, r 2 ) is relatively large for PET and ET (r 2 = 0.994 for PET and r 2 = 0.987 for ET). The coefficient of determination for TR was some lower (r 2 = 0.912). This can be explained by the simplicity of the regression models we used. The confidence interval for parameter estimates was 95%.",
+          "searchable_summary": "Evaluate the performance of the parameterized regression models using r-squared.",
+          "inputs": [
+            "The compiled dataset (step 8)",
+            "Parameterized regression models (step 11)"
+          ],
+          "outputs": [
+            "Coefficient of determination (r^2) for ET, TR, and PET models",
+            "Confidence intervals for parameter estimates (95%)"
+          ],
+          "keywords": [
+            "model evaluation",
+            "regression model performance",
+            "coefficient of determination",
+            "r-squared",
+            "confidence interval"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "other",
+          "description": "For reconstruction of PET, ET and TR of forest ecosystems of the European part of Russia in the Holocene it is assumed that the tree age of the modeled monospecific and mixed forests is more than 60 yr (mature and over mature stands), their leaf area index (LAI) is not less than 4, and that they grow on well-drained soils. It is also assumed that the biophysical responses to the climate (e.g. maximal stomatal conductance and response functions of stomatal conductance to changes of environmental parameters) of the different tree species comprising the forest stand in past periods of the Holocene are the same as at present. Applicability of the suggested regression equations for calculations of ET, PET and TR is generally limited by the area for which the biophysical parameters (...) were determined. It is obvious that the properties of each individual tree species are strongly dependent on many different factors (...) and they can differ from the properties of other tree species as well as from the properties of the same species growing under different conditions. Thus, it is necessary to take into account that application of these equations to determine ET, PET and TR for forests growing in regions outside the study area and/or represented by other tree species can result in some uncertainties in flux estimations.",
+          "searchable_summary": "Document assumptions and limitations of the developed regression models.",
+          "inputs": [
+            "Context of the study",
+            "Characteristics of the data used for parameterization"
+          ],
+          "outputs": [
+            "List of assumptions and limitations of the regression models"
+          ],
+          "keywords": [
+            "model assumptions",
+            "model limitations",
+            "applicability",
+            "uncertainty",
+            "biophysical parameters",
+            "tree age",
+            "LAI",
+            "soil type",
+            "study area"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/154701154.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

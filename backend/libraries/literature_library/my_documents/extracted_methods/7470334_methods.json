@@ -1,0 +1,836 @@
+{
+  "paper_title": "Genetic analysis of pollen dispersal and mating system in Acacia woodmaniorum",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Microsatellite Data Processing and Diversity Analysis",
+      "description": "This method describes the steps taken to process raw microsatellite genotype data, including quality control, allele assignment, and the calculation of standard population genetic diversity statistics for progeny cohorts and maternal plants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples that did not amplify clearly were re-amplified at least once.",
+          "searchable_summary": "re-amplify low quality microsatellite samples",
+          "inputs": [
+            "raw microsatellite amplification data"
+          ],
+          "outputs": [
+            "improved microsatellite amplification data"
+          ],
+          "keywords": [
+            "microsatellite",
+            "amplification",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Allele bins were manually assigned.",
+          "searchable_summary": "manually assign allele bins from microsatellite data",
+          "inputs": [
+            "microsatellite amplification data"
+          ],
+          "outputs": [
+            "allele bins"
+          ],
+          "keywords": [
+            "microsatellite",
+            "allele assignment",
+            "genotyping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "All bins and automatically assigned alleles were manually checked and adjusted when necessary.",
+          "searchable_summary": "manually check and adjust automatically assigned alleles and bins",
+          "inputs": [
+            "allele bins",
+            "automatically assigned alleles"
+          ],
+          "outputs": [
+            "validated allele assignments"
+          ],
+          "keywords": [
+            "microsatellite",
+            "allele assignment",
+            "validation",
+            "genotyping"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The number of alleles per locus was estimated for progeny cohorts using the GenAlEx v 6.41 program.",
+          "searchable_summary": "estimate number of alleles per locus using GenAlEx",
+          "inputs": [
+            "validated genotype data (progeny cohorts)"
+          ],
+          "outputs": [
+            "number of alleles per locus"
+          ],
+          "keywords": [
+            "GenAlEx",
+            "genetic diversity",
+            "alleles per locus",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Null allele frequencies were estimated for maternal plants and progeny arrays combined using the CERVUS v 3.0.3 program.",
+          "searchable_summary": "estimate null allele frequencies using CERVUS",
+          "inputs": [
+            "validated genotype data (maternal plants, progeny arrays)"
+          ],
+          "outputs": [
+            "null allele frequencies"
+          ],
+          "keywords": [
+            "CERVUS",
+            "null alleles",
+            "allele frequency",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Means and standard errors of allelic diversity statistics including the percentage of polymorphic loci, the number of alleles per locus, the number of effective alleles per locus and expected and observed heterozygosities were obtained for progeny cohorts using GenALEx.",
+          "searchable_summary": "calculate genetic diversity statistics (polymorphic loci, effective alleles, heterozygosity) using GenAlEx",
+          "inputs": [
+            "validated genotype data (progeny cohorts)"
+          ],
+          "outputs": [
+            "means and standard errors of: percentage polymorphic loci, number of alleles per locus, number of effective alleles per locus, expected heterozygosity, observed heterozygosity"
+          ],
+          "keywords": [
+            "GenAlEx",
+            "genetic diversity",
+            "polymorphic loci",
+            "effective alleles",
+            "heterozygosity",
+            "population genetics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Correlated Paternity Analysis",
+      "description": "This method estimates the proportion of full sib progeny among siblings within pods (multilocus correlated paternity) and the effective number of pollen donors per pod using the sibling pair method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Use genotype data for maternal plants and progeny arrays (19 arrays comprising 120 progeny) to estimate multilocus correlated paternity (rpp m), using the sibling pair method in the MLTR v 3.4 program.",
+          "searchable_summary": "estimate multilocus correlated paternity using MLTR sibling pair method",
+          "inputs": [
+            "validated genotype data (maternal plants, 120 progeny from 19 arrays)",
+            "progeny structure (pod/array membership)"
+          ],
+          "outputs": [
+            "multilocus correlated paternity (rpp m) estimate"
+          ],
+          "keywords": [
+            "MLTR",
+            "correlated paternity",
+            "sibling pair method",
+            "mating system",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Use the expectation-maximization algorithm for estimation.",
+          "searchable_summary": "apply expectation-maximization algorithm for MLTR estimation",
+          "inputs": [
+            "MLTR estimation parameters"
+          ],
+          "outputs": [
+            "optimized parameter estimates"
+          ],
+          "keywords": [
+            "MLTR",
+            "expectation-maximization",
+            "algorithm"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Obtain the standard error with 1000 bootstraps.",
+          "searchable_summary": "calculate standard error using bootstrapping (1000 replicates)",
+          "inputs": [
+            "MLTR estimation results"
+          ],
+          "outputs": [
+            "standard error of rpp m"
+          ],
+          "keywords": [
+            "bootstrapping",
+            "standard error",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The effective number of pollen donors per pod was determined as N e ¼ 1/rpp m.",
+          "searchable_summary": "calculate effective number of pollen donors per pod",
+          "inputs": [
+            "multilocus correlated paternity (rpp m) estimate"
+          ],
+          "outputs": [
+            "effective number of pollen donors per pod (N e)"
+          ],
+          "keywords": [
+            "effective pollen donors",
+            "correlated paternity",
+            "population genetics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Immigration Analysis",
+      "description": "This method estimates pollen immigration rates into small disjunct populations using direct paternity analysis based on genetic data, comparing results from two different software programs (NEWPATXL and CERVUS) and applying various criteria.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 405 progeny collected from the eight small disjunct populations were genotyped for estimation of pollen immigration via direct paternity analysis. Only a single seed from a given pod was genotyped.",
+          "searchable_summary": "select and prepare genotyped progeny data for paternity analysis (single seed per pod)",
+          "inputs": [
+            "validated genotype data (405 progeny from 8 populations)",
+            "progeny structure (pod membership)"
+          ],
+          "outputs": [
+            "selected progeny genotype data for paternity analysis"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "progeny selection",
+            "genotyping"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Genotypic data for progeny arrays from known mother plants were combined with known genotypes of all plants in each population for direct paternity analysis.",
+          "searchable_summary": "combine progeny and potential father genotype data for paternity analysis",
+          "inputs": [
+            "selected progeny genotype data",
+            "validated genotype data (all plants in study populations)",
+            "maternal assignments for progeny"
+          ],
+          "outputs": [
+            "combined genotype dataset for paternity analysis"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "genotype data",
+            "data preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The probability that the set of loci will exclude an unrelated candidate male parent from paternity for an arbitrary progeny when the genotype of the mother is known (average PE 2) was determined for each population using CERVUS.",
+          "searchable_summary": "calculate probability of exclusion (PE) using CERVUS",
+          "inputs": [
+            "combined genotype dataset",
+            "maternal genotype data",
+            "population structure"
+          ],
+          "outputs": [
+            "average probability of exclusion (PE 2) per population"
+          ],
+          "keywords": [
+            "CERVUS",
+            "probability of exclusion",
+            "paternity analysis",
+            "forensic genetics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Paternity analysis was conducted separately for each population using two programs, NEWPATXL v 5.0 and CERVUS, and the results compared.",
+          "searchable_summary": "perform paternity analysis using NEWPATXL and CERVUS",
+          "inputs": [
+            "combined genotype dataset",
+            "population structure"
+          ],
+          "outputs": [
+            "paternity analysis results (NEWPATXL)",
+            "paternity analysis results (CERVUS)"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "NEWPATXL",
+            "CERVUS",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To account for the presence of null alleles and scoring error, we conducted paternity analysis for progeny with five or more loci genotyped.",
+          "searchable_summary": "filter progeny for paternity analysis based on minimum number of genotyped loci",
+          "inputs": [
+            "combined genotype dataset",
+            "genotyping completeness per progeny"
+          ],
+          "outputs": [
+            "filtered progeny dataset for paternity analysis"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "data filtering",
+            "null alleles",
+            "scoring error"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The NEWPATXL program uses exclusion methods to detect matches between progeny and potential paternal parents.",
+          "searchable_summary": "apply exclusion methods for paternity assignment in NEWPATXL",
+          "inputs": [
+            "filtered progeny dataset",
+            "potential father genotype data (within population)"
+          ],
+          "outputs": [
+            "potential paternity matches (NEWPATXL)"
+          ],
+          "keywords": [
+            "NEWPATXL",
+            "exclusion methods",
+            "paternity assignment"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "The significance of matches between progeny and potential paternal parents is assessed by drawing alleles at random to create pseudo-genotype files and examining levels of background paternity expected by chance.",
+          "searchable_summary": "assess significance of paternity matches using pseudo-genotype simulations",
+          "inputs": [
+            "potential paternity matches (NEWPATXL)",
+            "allele frequencies"
+          ],
+          "outputs": [
+            "significance levels for paternity matches"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "simulation",
+            "statistical significance",
+            "NEWPATXL"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Given the degree of population isolation, the lack of data on allele frequencies in large populations, such as that occurring across Mungada/Windaning Ridge, and the likelihood of pollen immigration, we used sex-specific allele frequencies from each of the study populations for analyses.",
+          "searchable_summary": "use sex-specific allele frequencies from study populations for paternity analysis",
+          "inputs": [
+            "validated genotype data",
+            "population structure"
+          ],
+          "outputs": [
+            "sex-specific allele frequencies per population"
+          ],
+          "keywords": [
+            "allele frequency",
+            "population genetics",
+            "paternity analysis"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "We conducted paternity analysis allowing a single mismatch between a progeny and a maternal parent, or between a progeny and a potential paternal parent, a repeat unit difference of one and a combined probability of 0 . 05 of a null match occurring.",
+          "searchable_summary": "configure paternity analysis software (NEWPATXL) with specific mismatch and null allele parameters",
+          "inputs": [
+            "filtered progeny dataset",
+            "potential father genotype data",
+            "maternal genotype data",
+            "analysis parameters (mismatch allowance, null match probability)"
+          ],
+          "outputs": [
+            "paternity analysis results (NEWPATXL) with specified error tolerance"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "mismatch analysis",
+            "null alleles",
+            "scoring error",
+            "NEWPATXL"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "For each progeny matching the analysis criteria, we obtained a most likely father.",
+          "searchable_summary": "identify most likely father for each progeny based on paternity analysis results (NEWPATXL)",
+          "inputs": [
+            "paternity analysis results (NEWPATXL)"
+          ],
+          "outputs": [
+            "most likely father assignments (NEWPATXL)"
+          ],
+          "keywords": [
+            "paternity assignment",
+            "most likely father",
+            "NEWPATXL"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "Calculated a conservative pollen immigration rate as the percentage of progeny that could not be assigned a father from within the population.",
+          "searchable_summary": "calculate conservative pollen immigration rate from unassigned progeny (NEWPATXL)",
+          "inputs": [
+            "most likely father assignments (NEWPATXL)"
+          ],
+          "outputs": [
+            "conservative pollen immigration rate (NEWPATXL)"
+          ],
+          "keywords": [
+            "pollen immigration",
+            "paternity analysis",
+            "immigration rate"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "Conduct paternity analysis with CERVUS.",
+          "searchable_summary": "perform paternity analysis using CERVUS",
+          "inputs": [
+            "combined genotype dataset",
+            "population structure"
+          ],
+          "outputs": [
+            "paternity analysis results (CERVUS)"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "CERVUS",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "Run the program for each population with simulation of 10 000 progeny, a known number of potential male parents (i.e. the total number of plants within the population), 100 % of potential male parents genotyped and an error rate of 1 %.",
+          "searchable_summary": "configure and run CERVUS paternity analysis simulation",
+          "inputs": [
+            "combined genotype dataset",
+            "population structure",
+            "simulation parameters (number of progeny, potential fathers, genotyping rate, error rate)"
+          ],
+          "outputs": [
+            "CERVUS simulation results"
+          ],
+          "keywords": [
+            "CERVUS",
+            "paternity analysis",
+            "simulation",
+            "error rate"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_analysis",
+          "description": "Critical Delta criteria [defined as the difference in LOD (the natural log of the overall likelihood ratio) scores between the most likely paternal parent and the second most likely paternal parent] were obtained from simulations.",
+          "searchable_summary": "obtain critical delta criteria from CERVUS simulations",
+          "inputs": [
+            "CERVUS simulation results"
+          ],
+          "outputs": [
+            "critical delta criteria"
+          ],
+          "keywords": [
+            "CERVUS",
+            "critical delta",
+            "LOD score",
+            "paternity analysis",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_analysis",
+          "description": "Used Critical Delta criteria to assign parentage at strict (95 %) confidence level, a relaxed (80 %) confidence level and at <80 % confidence.",
+          "searchable_summary": "assign paternity using critical delta criteria at different confidence levels (CERVUS)",
+          "inputs": [
+            "paternity analysis results (CERVUS)",
+            "critical delta criteria"
+          ],
+          "outputs": [
+            "paternity assignments (CERVUS) at 95%, 80%, <80% confidence"
+          ],
+          "keywords": [
+            "CERVUS",
+            "paternity assignment",
+            "critical delta",
+            "confidence level"
+          ]
+        },
+        {
+          "step_number": 16,
+          "category": "data_analysis",
+          "description": "Used trio LOD scores to assess whether there was more than one equally likely potential father within the population (equal positive LOD scores for more than one most likely paternal parent) or whether there was no potential paternal parent within the population (i.e. a result of pollen immigration, negative LOD score).",
+          "searchable_summary": "assess paternity assignment certainty and immigration using trio LOD scores (CERVUS)",
+          "inputs": [
+            "paternity analysis results (CERVUS)"
+          ],
+          "outputs": [
+            "assessment of multiple fathers or immigration based on LOD scores"
+          ],
+          "keywords": [
+            "CERVUS",
+            "LOD score",
+            "paternity assignment",
+            "pollen immigration"
+          ]
+        },
+        {
+          "step_number": 17,
+          "category": "data_processing",
+          "description": "We did not allow known mothers to be potential male parents due to the high outcrossing rate.",
+          "searchable_summary": "exclude known mothers as potential fathers in paternity analysis (CERVUS)",
+          "inputs": [
+            "potential father list",
+            "maternal assignments"
+          ],
+          "outputs": [
+            "filtered potential father list"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "data filtering",
+            "CERVUS"
+          ]
+        },
+        {
+          "step_number": 18,
+          "category": "data_analysis",
+          "description": "Considered all most likely fathers assigned within a population as the true most likely father.",
+          "searchable_summary": "confirm most likely father assignments within each population (CERVUS)",
+          "inputs": [
+            "paternity assignments (CERVUS)"
+          ],
+          "outputs": [
+            "final most likely father assignments (CERVUS)"
+          ],
+          "keywords": [
+            "paternity assignment",
+            "most likely father",
+            "CERVUS"
+          ]
+        },
+        {
+          "step_number": 19,
+          "category": "data_analysis",
+          "description": "Calculated a conservative minimum pollen immigration rate as the percentage of progeny that could not be assigned any father from within the population, at any confidence level.",
+          "searchable_summary": "calculate conservative minimum pollen immigration rate from unassigned progeny (CERVUS, any confidence)",
+          "inputs": [
+            "final most likely father assignments (CERVUS)"
+          ],
+          "outputs": [
+            "conservative minimum pollen immigration rate (CERVUS)"
+          ],
+          "keywords": [
+            "pollen immigration",
+            "paternity analysis",
+            "immigration rate",
+            "CERVUS"
+          ]
+        },
+        {
+          "step_number": 20,
+          "category": "data_analysis",
+          "description": "Calculated a maximum pollen immigration rate as the percentage of progeny that could not be assigned any father from within the population at a confidence level of <80 %.",
+          "searchable_summary": "calculate maximum pollen immigration rate from unassigned progeny (CERVUS, <80% confidence)",
+          "inputs": [
+            "paternity assignments (CERVUS) at <80% confidence"
+          ],
+          "outputs": [
+            "maximum pollen immigration rate (CERVUS)"
+          ],
+          "keywords": [
+            "pollen immigration",
+            "paternity analysis",
+            "immigration rate",
+            "CERVUS"
+          ]
+        },
+        {
+          "step_number": 21,
+          "category": "data_processing",
+          "description": "Continued further analysis using results from CERVUS, as it provided more interpretable degrees of confidence for paternity assignments.",
+          "searchable_summary": "select CERVUS results for downstream analysis",
+          "inputs": [
+            "paternity analysis results (NEWPATXL, CERVUS)"
+          ],
+          "outputs": [
+            "selected paternity analysis results (CERVUS)"
+          ],
+          "keywords": [
+            "data selection",
+            "paternity analysis",
+            "CERVUS"
+          ]
+        },
+        {
+          "step_number": 22,
+          "category": "data_analysis",
+          "description": "Conducted regression analysis to test for correlation between minimum or maximum pollen immigration rates and population parameters.",
+          "searchable_summary": "perform regression analysis of pollen immigration rates vs population parameters",
+          "inputs": [
+            "minimum pollen immigration rate",
+            "maximum pollen immigration rate",
+            "population parameters"
+          ],
+          "outputs": [
+            "regression analysis results"
+          ],
+          "keywords": [
+            "regression analysis",
+            "correlation",
+            "pollen immigration",
+            "population parameters",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 23,
+          "category": "modeling",
+          "description": "To estimate pollen dispersal distances, we took a conservative approach and assumed pollen immigrated into each study population originated from the next closest population.",
+          "searchable_summary": "estimate pollen dispersal distance based on nearest population assumption",
+          "inputs": [
+            "estimated pollen immigration rates",
+            "geographic coordinates of populations"
+          ],
+          "outputs": [
+            "estimated pollen dispersal distances"
+          ],
+          "keywords": [
+            "pollen dispersal",
+            "distance estimation",
+            "modeling",
+            "spatial analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mating System Analysis",
+      "description": "This method estimates various mating system parameters, including outcrossing rates, biparental inbreeding, and correlated mating, using maximum likelihood methods and calculates Wright's fixation index.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 405 progeny were genotyped for further assessment of the mating system. These were the same progeny used for paternity analysis. Only a single seed from a given pod was genotyped.",
+          "searchable_summary": "select and prepare genotyped progeny data for mating system analysis (single seed per pod)",
+          "inputs": [
+            "validated genotype data (405 progeny from 8 populations)",
+            "progeny structure (pod membership)"
+          ],
+          "outputs": [
+            "selected progeny genotype data for mating system analysis"
+          ],
+          "keywords": [
+            "mating system",
+            "progeny selection",
+            "genotyping"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used maximum likelihood methods based on the mixed mating model of Brown and Allard (1970) in MLTR to estimate the following mating system parameters for each population simultaneously: the multilocus outcrossing rate (t m), the single locus outcrossing rate (t s), the apparent level of selfing due to biparental inbreeding (t mt s), the correlation of selfing among maternal plants (r s) and the multilocus correlated paternity (rp m).",
+          "searchable_summary": "estimate mating system parameters (tm, ts, tm-ts, rs, rpm) using MLTR mixed mating model",
+          "inputs": [
+            "selected progeny genotype data",
+            "maternal genotype data",
+            "population structure"
+          ],
+          "outputs": [
+            "mating system parameter estimates (t m, t s, t mt s, r s, rp m) per population"
+          ],
+          "keywords": [
+            "MLTR",
+            "mating system",
+            "mixed mating model",
+            "maximum likelihood",
+            "outcrossing rate",
+            "selfing",
+            "biparental inbreeding",
+            "correlated selfing",
+            "correlated paternity",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Parameters were estimated using the expectation-maximization algorithm.",
+          "searchable_summary": "apply expectation-maximization algorithm for MLTR estimation",
+          "inputs": [
+            "MLTR estimation parameters"
+          ],
+          "outputs": [
+            "optimized parameter estimates"
+          ],
+          "keywords": [
+            "MLTR",
+            "expectation-maximization",
+            "algorithm"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Pollen and ovule gene frequencies estimated separately.",
+          "searchable_summary": "estimate pollen and ovule gene frequencies separately",
+          "inputs": [
+            "selected progeny genotype data",
+            "maternal genotype data"
+          ],
+          "outputs": [
+            "pollen gene frequencies",
+            "ovule gene frequencies"
+          ],
+          "keywords": [
+            "gene frequency",
+            "allele frequency",
+            "mating system"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Standard errors obtained with 1000 bootstrap replicates, with families as the re-sampling units.",
+          "searchable_summary": "calculate standard errors using bootstrapping (1000 replicates) with families as resampling units",
+          "inputs": [
+            "MLTR estimation results",
+            "family structure"
+          ],
+          "outputs": [
+            "standard errors of mating system parameters"
+          ],
+          "keywords": [
+            "bootstrapping",
+            "standard error",
+            "statistical analysis",
+            "MLTR"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Used standard errors to assess whether values were significantly different from one or from zero.",
+          "searchable_summary": "test if mating system parameter estimates are significantly different from 0 or 1",
+          "inputs": [
+            "mating system parameter estimates",
+            "standard errors"
+          ],
+          "outputs": [
+            "statistical significance test results"
+          ],
+          "keywords": [
+            "statistical test",
+            "significance",
+            "hypothesis testing",
+            "mating system"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Wright's fixation index was estimated for the parental (F par) and progeny (F prog) generations using GenAlEx.",
+          "searchable_summary": "estimate Wright's fixation index (Fis) for parental and progeny generations using GenAlEx",
+          "inputs": [
+            "validated genotype data (parental, progeny)"
+          ],
+          "outputs": [
+            "Wright's fixation index (F par, F prog)"
+          ],
+          "keywords": [
+            "GenAlEx",
+            "Wright's fixation index",
+            "Fis",
+            "inbreeding",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The effective number of pollen donors per maternal tree was estimated as N e ¼ 1/rp m.",
+          "searchable_summary": "calculate effective number of pollen donors per maternal tree",
+          "inputs": [
+            "multilocus correlated paternity (rp m) estimate"
+          ],
+          "outputs": [
+            "effective number of pollen donors per maternal tree (N e)"
+          ],
+          "keywords": [
+            "effective pollen donors",
+            "correlated paternity",
+            "mating system",
+            "population genetics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Regression analysis was conducted for the outcrossing rate and the degree of biparental inbreeding.",
+          "searchable_summary": "perform regression analysis of outcrossing rate vs biparental inbreeding",
+          "inputs": [
+            "multilocus outcrossing rate (t m)",
+            "apparent level of selfing due to biparental inbreeding (t mt s)"
+          ],
+          "outputs": [
+            "regression analysis results"
+          ],
+          "keywords": [
+            "regression analysis",
+            "correlation",
+            "outcrossing rate",
+            "biparental inbreeding",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Regression analysis was conducted for the outcrossing rate and population parameters.",
+          "searchable_summary": "perform regression analysis of outcrossing rate vs population parameters",
+          "inputs": [
+            "multilocus outcrossing rate (t m)",
+            "population parameters"
+          ],
+          "outputs": [
+            "regression analysis results"
+          ],
+          "keywords": [
+            "regression analysis",
+            "correlation",
+            "outcrossing rate",
+            "population parameters",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7470334.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

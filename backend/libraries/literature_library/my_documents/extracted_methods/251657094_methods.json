@@ -1,0 +1,232 @@
+{
+  "paper_title": "Fossil Reef Analysis on the Egyptian Coast of the Red Sea",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Sampling and Data Collection",
+      "description": "Process for collecting data from fossil reefs using Line Intercept Transects (LIT) to study the composition and structure of reef habitats.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The localities were sampled during two field trips in February/March and November 2019.",
+          "searchable_summary": "conduct field trips to collect reef data",
+          "inputs": [
+            "field trip schedule",
+            "sampling equipment"
+          ],
+          "outputs": [
+            "raw field data"
+          ],
+          "keywords": [
+            "field sampling",
+            "reef data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The data were collected using Line Intercept Transects (LIT): a tape measure was laid out at a random starting point following the depth contour.",
+          "searchable_summary": "use LIT method to collect reef data",
+          "inputs": [
+            "tape measure",
+            "reef site"
+          ],
+          "outputs": [
+            "transect data"
+          ],
+          "keywords": [
+            "Line Intercept Transects",
+            "LIT",
+            "reef sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The substrate underlying the tape was identified to an accuracy of one cm.",
+          "searchable_summary": "identify substrate type along transect",
+          "inputs": [
+            "transect data"
+          ],
+          "outputs": [
+            "substrate identification"
+          ],
+          "keywords": [
+            "substrate identification",
+            "transect analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Corals were identified to genus level in the field or photographed and sampled for detailed identification in the laboratory.",
+          "searchable_summary": "identify coral genus in field or lab",
+          "inputs": [
+            "coral samples",
+            "photographs"
+          ],
+          "outputs": [
+            "coral genus identification"
+          ],
+          "keywords": [
+            "coral identification",
+            "genus level"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Differentiate between rudstone, packstone, bafflestone, and framestone using the extended Dunham carbonate classification.",
+          "searchable_summary": "classify carbonate types using Dunham classification",
+          "inputs": [
+            "carbonate samples"
+          ],
+          "outputs": [
+            "carbonate classification"
+          ],
+          "keywords": [
+            "Dunham classification",
+            "carbonate types"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Analysis and Statistical Testing",
+      "description": "Statistical procedures used to analyze the collected reef data, including abundance calculations, transformations, and multivariate analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "For corals that could not be identified to genus level, datapoints were removed prior to analysis.",
+          "searchable_summary": "remove unidentified coral data points",
+          "inputs": [
+            "raw data"
+          ],
+          "outputs": [
+            "cleaned data"
+          ],
+          "keywords": [
+            "data cleaning",
+            "coral identification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The percent abundance of the categories sediment, Millepora, and other corals were calculated for each transect.",
+          "searchable_summary": "calculate percent abundance for categories",
+          "inputs": [
+            "cleaned data"
+          ],
+          "outputs": [
+            "percent abundance data"
+          ],
+          "keywords": [
+            "percent abundance",
+            "reef categories"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Mean percentages of Millepora, sediment, and the eight most abundant scleractinian genera were calculated for each transect.",
+          "searchable_summary": "calculate mean percentages for reef categories",
+          "inputs": [
+            "percent abundance data"
+          ],
+          "outputs": [
+            "mean percentage data"
+          ],
+          "keywords": [
+            "mean percentage",
+            "scleractinian genera"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "After grouping the transects by Millepora presence/absence, the mean percent abundances and their 95% binomial confidence intervals were calculated.",
+          "searchable_summary": "calculate mean percent abundances and confidence intervals",
+          "inputs": [
+            "grouped transect data"
+          ],
+          "outputs": [
+            "confidence interval data"
+          ],
+          "keywords": [
+            "confidence intervals",
+            "Millepora presence"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Statistical analyses were performed with proportional relative abundances for each transect, which were square root transformed.",
+          "searchable_summary": "perform square root transformation on abundance data",
+          "inputs": [
+            "abundance data"
+          ],
+          "outputs": [
+            "transformed data"
+          ],
+          "keywords": [
+            "square root transformation",
+            "abundance data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Nonmetric multidimensional scaling (NMDS) based on the Bray-Curtis dissimilarity was used to visualize differences between the predefined groups.",
+          "searchable_summary": "perform NMDS for group visualization",
+          "inputs": [
+            "transformed data"
+          ],
+          "outputs": [
+            "NMDS plot"
+          ],
+          "keywords": [
+            "NMDS",
+            "Bray-Curtis dissimilarity"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "To test for differences between groups we used permutational multivariate analysis of variance (PERMANOVA).",
+          "searchable_summary": "perform PERMANOVA for group differences",
+          "inputs": [
+            "NMDS data"
+          ],
+          "outputs": [
+            "PERMANOVA results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "group differences"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Similarity percentages (Simper) were calculated to find the species contributing most to the dissimilarity between reefs with and without Millepora.",
+          "searchable_summary": "calculate Simper for species contribution",
+          "inputs": [
+            "PERMANOVA results"
+          ],
+          "outputs": [
+            "Simper results"
+          ],
+          "keywords": [
+            "Simper",
+            "species contribution"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251657094.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

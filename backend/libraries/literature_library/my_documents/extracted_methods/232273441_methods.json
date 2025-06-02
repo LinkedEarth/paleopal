@@ -1,0 +1,188 @@
+{
+  "paper_title": "Inferred from content: Seafloor DEM Collection and Processing",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Collecting and processing seafloor DEM",
+      "description": "This method describes the process of collecting multi-beam survey (MBS) data and digital bathymetric charts from various organizations (Japan Coast Guard - JCG, National Institute of AIST, JAMSTEC, Japan Hydrographic Association - JHA) and processing them to generate, reprocess, combine, and overlap Digital Elevation Models (DEMs) of varying resolutions to create a composite seafloor DEM.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The author collected data for the seafloor DEM from several organizations and researchers. The Japan Coast Guard (JCG) conducted a multi-beam survey (MBS) along the shallow seafloor off the northwestern coast of Okinawa Island from 2008 to 2012 (Yasuhara 2013) (Fig. 1C).",
+          "searchable_summary": "Download multi-beam survey data from Japan Coast Guard (JCG) archive (2008-2012).",
+          "inputs": [
+            "JCG data source/archive"
+          ],
+          "outputs": [
+            "JCG MBS raw data"
+          ],
+          "keywords": [
+            "multi-beam survey",
+            "MBS",
+            "JCG",
+            "data collection",
+            "bathymetry"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Using these data from JCG... the author generated 1.44-s-mesh (approximately 44 m) data of seafloor DEMs from the JCG dataset...",
+          "searchable_summary": "Generate Digital Elevation Model (DEM) at 1.44-second mesh resolution from JCG MBS data.",
+          "inputs": [
+            "JCG MBS raw data"
+          ],
+          "outputs": [
+            "JCG 1.44-s-mesh DEM"
+          ],
+          "keywords": [
+            "DEM generation",
+            "mesh resolution",
+            "bathymetry processing",
+            "JCG"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The National Institute of AIST also obtained the DEM of the deep seafloor by MBS around the middle part of the Nanseishoto Islands in 2012 (Sato et al. 2013).",
+          "searchable_summary": "Download multi-beam survey data from National Institute of AIST (2012).",
+          "inputs": [
+            "AIST data source/archive"
+          ],
+          "outputs": [
+            "AIST MBS raw data"
+          ],
+          "keywords": [
+            "multi-beam survey",
+            "MBS",
+            "AIST",
+            "data collection",
+            "bathymetry"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Using these data from... AIST, the author generated... 0.65-s-mesh (approximately 20 m) from the AIST dataset.",
+          "searchable_summary": "Generate Digital Elevation Model (DEM) at 0.65-second mesh resolution from AIST MBS data.",
+          "inputs": [
+            "AIST MBS raw data"
+          ],
+          "outputs": [
+            "AIST 0.65-s-mesh DEM"
+          ],
+          "keywords": [
+            "DEM generation",
+            "mesh resolution",
+            "bathymetry processing",
+            "AIST"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "JAMSTEC (2020) stored and disseminated information regarding rock and sediment core samples, as well as the results of the MBS on their website, \"Data and Sample Research System for Whole Cruise Information in JAMSTEC (Darwin)\". The author retrieved these data from the JAMSTEC website...",
+          "searchable_summary": "Download multi-beam survey data from JAMSTEC Darwin website.",
+          "inputs": [
+            "JAMSTEC Darwin website URL/API"
+          ],
+          "outputs": [
+            "JAMSTEC MBS raw data"
+          ],
+          "keywords": [
+            "multi-beam survey",
+            "MBS",
+            "JAMSTEC",
+            "Darwin",
+            "data collection",
+            "bathymetry"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The author retrieved these data from the JAMSTEC website and generated 2.03-s-mesh (approximately 63 m) data of seafloor DEM.",
+          "searchable_summary": "Generate Digital Elevation Model (DEM) at 2.03-second mesh resolution from JAMSTEC MBS data.",
+          "inputs": [
+            "JAMSTEC MBS raw data"
+          ],
+          "outputs": [
+            "JAMSTEC 2.03-s-mesh DEM"
+          ],
+          "keywords": [
+            "DEM generation",
+            "mesh resolution",
+            "bathymetry processing",
+            "JAMSTEC"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The author reprocessed the 2.08-s-mesh (approximately 64 m) DEM using digital bathymetric charts (M7020) with 1-2 m interval counters proposed by the Japan Hydrographic Association (JHA) following the methods of Goto (2013)...",
+          "searchable_summary": "Reprocess Digital Elevation Model (DEM) at 2.08-second mesh resolution using JHA digital bathymetric charts (M7020) and specified method (Goto 2013).",
+          "inputs": [
+            "JHA digital bathymetric charts (M7020)",
+            "Goto (2013) method details"
+          ],
+          "outputs": [
+            "Reprocessed JHA 2.08-s-mesh DEM"
+          ],
+          "keywords": [
+            "DEM reprocessing",
+            "bathymetric charts",
+            "JHA",
+            "M7020",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "...and combined these DEMs with the 9.69-s-mesh (approximately 300 m) DEM (J-EGG500) published by the JCG.",
+          "searchable_summary": "Combine the reprocessed JHA 2.08-s-mesh DEM with the JCG 9.69-s-mesh (J-EGG500) DEM.",
+          "inputs": [
+            "Reprocessed JHA 2.08-s-mesh DEM",
+            "JCG J-EGG500 9.69-s-mesh DEM"
+          ],
+          "outputs": [
+            "Combined JHA/JCG lower-resolution DEM"
+          ],
+          "keywords": [
+            "DEM combination",
+            "data merging",
+            "JHA",
+            "JCG",
+            "J-EGG500"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "DEMs were overlapped according to their decreasing resolutions (Fig. 1C).",
+          "searchable_summary": "Overlap all generated/processed DEMs (AIST 0.65s, JCG 1.44s, JAMSTEC 2.03s, Combined JHA/JCG lower-resolution) based on decreasing resolution to create a composite DEM.",
+          "inputs": [
+            "AIST 0.65-s-mesh DEM",
+            "JCG 1.44-s-mesh DEM",
+            "JAMSTEC 2.03-s-mesh DEM",
+            "Combined JHA/JCG lower-resolution DEM"
+          ],
+          "outputs": [
+            "Final composite seafloor DEM"
+          ],
+          "keywords": [
+            "DEM mosaicking",
+            "data layering",
+            "resolution merging",
+            "GIS processing",
+            "composite DEM"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232273441.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

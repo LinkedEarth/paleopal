@@ -1,0 +1,290 @@
+{
+  "paper_title": "Peatland Model Simulation and Carbon Metrics Calculation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DigiBog Model Setup and Simulation",
+      "description": "Process for setting up and running the DigiBog peatland model simulation, including defining the physical environment, boundary conditions, parameters, and applying driving climate data (baseline and perturbed).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "In 10 we simulated a 2-D transect of raised bog with a radius of 150 m (75 × 2 m × 2 m columns). Here we used the same length transect over a sloping impermeable mineral soil base (3°).",
+          "searchable_summary": "Define model spatial domain and base topography for a 2D peatland transect.",
+          "inputs": [
+            "Model type (DigiBog)",
+            "Spatial dimensions (2D transect)",
+            "Transect length (150 m)",
+            "Column dimensions (2m x 2m)",
+            "Number of columns (75)",
+            "Base type (sloping impermeable mineral soil)",
+            "Slope angle (3°)"
+          ],
+          "outputs": [
+            "Initialized model spatial grid and base conditions"
+          ],
+          "keywords": [
+            "DigiBog",
+            "peatland model",
+            "spatial domain",
+            "topography",
+            "slope",
+            "simulation setup"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "A no-flow condition at the top of the slope represented a drainage divide, and a fixed water level condition at the downslope margin represented a stream.",
+          "searchable_summary": "Set hydrological boundary conditions for the model simulation.",
+          "inputs": [
+            "Model spatial grid",
+            "Slope definition",
+            "Boundary locations (top/bottom of slope)"
+          ],
+          "outputs": [
+            "Defined boundary conditions (no-flow, fixed water level)"
+          ],
+          "keywords": [
+            "boundary conditions",
+            "hydrology",
+            "no-flow",
+            "fixed water level",
+            "drainage divide",
+            "stream"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The model was set up as described by 40 with the parameter values shown in Table 1. The parameters fall within the range of values used for previous DigiBog simulations 33,40 . We used the version of DigiBog described by 10 .",
+          "searchable_summary": "Configure model parameters and select model version based on previous studies.",
+          "inputs": [
+            "Parameter values (from Table 1)",
+            "Model setup description reference (40)",
+            "Model version reference (10)",
+            "Previous simulation references (33, 40)"
+          ],
+          "outputs": [
+            "Configured model instance with specified parameters and version"
+          ],
+          "keywords": [
+            "model parameters",
+            "configuration",
+            "DigiBog version",
+            "simulation setup"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Our baseline simulation used the driving data from 10 .",
+          "searchable_summary": "Obtain baseline climate driving data for the simulation.",
+          "inputs": [
+            "Reference to baseline driving data source (10)"
+          ],
+          "outputs": [
+            "Baseline climate driving data (time series of precipitation minus evapotranspiration, temperature)"
+          ],
+          "keywords": [
+            "driving data",
+            "climate data",
+            "baseline",
+            "simulation input",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "We modified these data with perturbations to temperature and net rainfall of 400 years duration starting 1600 years and 600 years ago respectively (as described in the main text and shown in Fig. 7).",
+          "searchable_summary": "Apply specified perturbations to the baseline climate driving data.",
+          "inputs": [
+            "Baseline climate driving data",
+            "Perturbation parameters (temperature change, net rainfall change, duration: 400 years, start times: 1600 and 600 years ago)",
+            "Description reference (main text, Fig. 7)"
+          ],
+          "outputs": [
+            "Perturbed climate driving data (time series)"
+          ],
+          "keywords": [
+            "data perturbation",
+            "climate change",
+            "temperature",
+            "rainfall",
+            "time series modification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "DigiBog simulates the accumulation of peat over millennial timescales by adding layers of plant litter to each column... Decomposition of whole or part peat layers is also dependent on air temperature and on water-table position... Water-table position is determined in a hydrological sub-model... Detailed descriptions of DigiBog's routines can be found in 40 .",
+          "searchable_summary": "Run the DigiBog peatland simulation with configured setup and driving data.",
+          "inputs": [
+            "Configured model instance",
+            "Baseline driving data",
+            "Perturbed driving data"
+          ],
+          "outputs": [
+            "Simulation results (time series of peat layer properties (age, mass) per column, column height per year, water table position, etc.) over simulation timescale"
+          ],
+          "keywords": [
+            "run simulation",
+            "peatland model",
+            "DigiBog",
+            "millennial timescale",
+            "peat accumulation",
+            "hydrology",
+            "decomposition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Peat Carbon Metrics Calculation",
+      "description": "Procedures for calculating apparent carbon accumulation rate (aCAR) and net carbon balance (NCB) from the annual outputs generated by the DigiBog model simulation, using peat layer mass/age and column height data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We selected one of the columns from the middle our simulated peatland (column 37-i.e. its centre was 77 m from the drainage divide) and, starting at the base of this virtual core, we calculated the average mass of each pair of layers (i.e. layers 1 and 2, layers 2 and 3, etc.)",
+          "searchable_summary": "Select a specific model column and calculate the average mass for consecutive peat layers.",
+          "inputs": [
+            "Model output data (peat layer mass per column)",
+            "Selected column index (37)"
+          ],
+          "outputs": [
+            "Average mass for each pair of consecutive layers in the selected column"
+          ],
+          "keywords": [
+            "data selection",
+            "model output processing",
+            "peat layers",
+            "average mass"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "...and divided the result by the age difference in years between the two layers.",
+          "searchable_summary": "Calculate peat mass accumulation rate per unit area by dividing average layer pair mass by age difference.",
+          "inputs": [
+            "Average mass of layer pairs",
+            "Age of each layer (from model output)"
+          ],
+          "outputs": [
+            "Peat mass accumulation rate per unit area (g m^-2 yr^-1) for each layer pair"
+          ],
+          "keywords": [
+            "mass accumulation rate",
+            "peat",
+            "age difference",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "To estimate the rate of C accumulation, the resulting peat mass was multiplied by 0.5 17 .",
+          "searchable_summary": "Convert peat mass accumulation rate to apparent carbon accumulation rate (aCAR) using a carbon fraction.",
+          "inputs": [
+            "Peat mass accumulation rate per unit area",
+            "Carbon fraction (0.5)",
+            "Reference (17)"
+          ],
+          "outputs": [
+            "Apparent carbon accumulation rate (aCAR) (g C m^-2 yr^-1)"
+          ],
+          "keywords": [
+            "carbon accumulation rate",
+            "aCAR",
+            "carbon fraction",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The model also records the height of each peat column at the end of each year.",
+          "searchable_summary": "Extract annual peat column height data from model output.",
+          "inputs": [
+            "Model output data (column height per year)"
+          ],
+          "outputs": [
+            "Time series of peat column height for each column"
+          ],
+          "keywords": [
+            "model output",
+            "column height",
+            "time series data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "To calculate the change in C stock (NCB) between two consecutive years, we subtracted the height of a peat column at year t i-1 from that at year t i and converted the change in height into a change in peat mass (our peat has a bulk density of 100 kg m −3 )-that is to say, we followed Eq. (3), �S p /�t = S p,i − S p,i−1 /(t i − t i−1 ).",
+          "searchable_summary": "Calculate annual change in peat mass per unit area using column height change and bulk density.",
+          "inputs": [
+            "Time series of peat column height (for a column)",
+            "Peat bulk density (100 kg m^-3)"
+          ],
+          "outputs": [
+            "Annual change in peat mass per unit area (g m^-2 yr^-1) time series (for a column)"
+          ],
+          "keywords": [
+            "net carbon balance",
+            "NCB",
+            "carbon stock change",
+            "column height change",
+            "bulk density",
+            "mass calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "...and again multiplied the result by 0.5 to give the change in the C store.",
+          "searchable_summary": "Convert annual change in peat mass to annual change in carbon stock (NCB) using a carbon fraction.",
+          "inputs": [
+            "Annual change in peat mass per unit area time series",
+            "Carbon fraction (0.5)"
+          ],
+          "outputs": [
+            "Annual change in carbon stock (NCB) (g C m^-2 yr^-1) time series (for a column)"
+          ],
+          "keywords": [
+            "net carbon balance",
+            "NCB",
+            "carbon stock change",
+            "carbon fraction",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "We compared the mean annual NCB with the Long-Term Rate of C Accumulation (LORCA) 11 (Table 2). LORCA (M L −2 T −1 ) is calculated for the whole of a peatland's developmental history (a dated layer of 6000 years in our case) and therefore accounts for all the additions and losses of C during this time... As a result, mean annual NCB and LORCA should be the same 11 and they were ( Table 2).",
+          "searchable_summary": "Compare the mean annual NCB with the Long-Term Rate of C Accumulation (LORCA) for validation.",
+          "inputs": [
+            "Annual NCB time series (for a column)",
+            "LORCA value (from Table 2 or calculated separately)",
+            "Reference (11)",
+            "Table reference (Table 2)"
+          ],
+          "outputs": [
+            "Comparison result (e.g., mean NCB value, confirmation of agreement with LORCA)"
+          ],
+          "keywords": [
+            "validation",
+            "comparison",
+            "NCB",
+            "LORCA",
+            "carbon accumulation rate"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233868350.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

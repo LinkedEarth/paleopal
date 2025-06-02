@@ -1,0 +1,162 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "This method involves constructing phylogenetic trees using maximum likelihood and Bayesian inference to analyze evolutionary relationships among species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Maximum likelihood (ML) trees were constructed in raxml-GUI v1.5b2, with 1000 bootstrap replicates in a rapid bootstrap analysis, using GTR+G+I substitution model with partitions.",
+          "searchable_summary": "construct ML trees using raxml-GUI with 1000 bootstrap replicates",
+          "inputs": [
+            "sequence data",
+            "GTR+G+I substitution model"
+          ],
+          "outputs": [
+            "ML trees"
+          ],
+          "keywords": [
+            "maximum likelihood",
+            "raxml-GUI",
+            "bootstrap analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Bayesian inference analysis (BI) was performed in two parallel runs in MrBayes, consisting each of four chains of six million generations with a sampling frequency 1000 generation for one tree and burn-in of 25%.",
+          "searchable_summary": "perform Bayesian inference analysis using MrBayes with parallel runs",
+          "inputs": [
+            "sequence data",
+            "MrBayes settings"
+          ],
+          "outputs": [
+            "Bayesian trees"
+          ],
+          "keywords": [
+            "Bayesian inference",
+            "MrBayes",
+            "parallel runs"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Partitions were in PartionFinder using greedy search and selected according to aicc.",
+          "searchable_summary": "select partitions using PartionFinder with greedy search",
+          "inputs": [
+            "sequence data",
+            "PartionFinder"
+          ],
+          "outputs": [
+            "selected partitions"
+          ],
+          "keywords": [
+            "partitioning",
+            "PartionFinder",
+            "aicc"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The convergence was checked in Tracer v1.7 and terminated when ESS were superior to 200 with the initial 25% trees as burn-in.",
+          "searchable_summary": "check convergence using Tracer and terminate when ESS > 200",
+          "inputs": [
+            "Bayesian trees",
+            "Tracer v1.7"
+          ],
+          "outputs": [
+            "convergence status"
+          ],
+          "keywords": [
+            "convergence",
+            "Tracer",
+            "ESS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Taxon Sampling and Morphological Analysis",
+      "description": "This method involves the collection and morphological analysis of specimens, including mounting, measurement, and digital photography.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The examined specimens were mounted on slides following the procedure by Saether (1969).",
+          "searchable_summary": "mount specimens on slides using Saether's procedure",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "mounted specimens"
+          ],
+          "keywords": [
+            "specimen mounting",
+            "Saether procedure"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Measurements are given as ranges followed by the mean when there are four or more specimens examined.",
+          "searchable_summary": "measure specimens and calculate ranges and means",
+          "inputs": [
+            "mounted specimens"
+          ],
+          "outputs": [
+            "measurement ranges",
+            "mean values"
+          ],
+          "keywords": [
+            "measurement",
+            "range",
+            "mean"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Digital photographs were captured with a Leica DFC420 camera using a Leica DM6000 B compound microscope and under the application of the software Leica Suite.",
+          "searchable_summary": "capture digital photographs using Leica DFC420 and DM6000 B",
+          "inputs": [
+            "mounted specimens",
+            "Leica DFC420",
+            "Leica DM6000 B"
+          ],
+          "outputs": [
+            "digital photographs"
+          ],
+          "keywords": [
+            "digital photography",
+            "Leica",
+            "microscope"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Photograph postprocessing were done in Adobe Photoshop and Illustrator.",
+          "searchable_summary": "postprocess photographs using Adobe Photoshop and Illustrator",
+          "inputs": [
+            "digital photographs"
+          ],
+          "outputs": [
+            "processed photographs"
+          ],
+          "keywords": [
+            "postprocessing",
+            "Adobe Photoshop",
+            "Adobe Illustrator"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/211260852.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

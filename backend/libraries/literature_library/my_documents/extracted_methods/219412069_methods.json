@@ -1,0 +1,216 @@
+{
+  "paper_title": "Earth System Model COSMOS Application for Miocene Climate Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Earth System Model Setup",
+      "description": "Setup of the fully coupled Earth System Model COSMOS for simulating climate conditions during the early to middle Miocene period, including adjustments for orography, paleobathymetry, and ice sheets.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Apply the fully coupled Earth System Model COSMOS, which includes the atmosphere model ECHAM5, the land-vegetation model JSBACH, and the ocean model MPI-OM.",
+          "searchable_summary": "initialize Earth System Model COSMOS with ECHAM5, JSBACH, and MPI-OM",
+          "inputs": [
+            "COSMOS model components"
+          ],
+          "outputs": [
+            "initialized Earth System Model"
+          ],
+          "keywords": [
+            "Earth System Model",
+            "COSMOS",
+            "ECHAM5",
+            "JSBACH",
+            "MPI-OM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Set the atmosphere model at T31 spherical horizontal resolution (~3.75°× 3.75°) with 19 vertical layers.",
+          "searchable_summary": "configure atmosphere model resolution and layers",
+          "inputs": [
+            "atmosphere model",
+            "resolution settings"
+          ],
+          "outputs": [
+            "configured atmosphere model"
+          ],
+          "keywords": [
+            "atmosphere model",
+            "resolution",
+            "vertical layers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Run the land-vegetation model at the same horizontal resolution as the atmosphere model.",
+          "searchable_summary": "set land-vegetation model resolution",
+          "inputs": [
+            "land-vegetation model",
+            "resolution settings"
+          ],
+          "outputs": [
+            "configured land-vegetation model"
+          ],
+          "keywords": [
+            "land-vegetation model",
+            "resolution"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Resolve the ocean model at 40 uneven vertical layers with a resolution of GR30 (3°× 1.8°).",
+          "searchable_summary": "configure ocean model resolution and layers",
+          "inputs": [
+            "ocean model",
+            "resolution settings"
+          ],
+          "outputs": [
+            "configured ocean model"
+          ],
+          "keywords": [
+            "ocean model",
+            "resolution",
+            "vertical layers"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Implement a regional high-resolution bathymetric reconstruction comprising the North Atlantic/Arctic Ocean.",
+          "searchable_summary": "apply high-resolution bathymetric reconstruction",
+          "inputs": [
+            "bathymetric data",
+            "North Atlantic/Arctic Ocean"
+          ],
+          "outputs": [
+            "updated model with bathymetric reconstruction"
+          ],
+          "keywords": [
+            "bathymetry",
+            "reconstruction",
+            "North Atlantic",
+            "Arctic Ocean"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Refine the model setup by including a more realistic regional Weddell Sea bathymetry reconstruction.",
+          "searchable_summary": "integrate Weddell Sea bathymetry reconstruction",
+          "inputs": [
+            "Weddell Sea bathymetric data"
+          ],
+          "outputs": [
+            "refined model setup"
+          ],
+          "keywords": [
+            "Weddell Sea",
+            "bathymetry",
+            "reconstruction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Transfer ocean grid cells representing the Barents Sea region to land cells.",
+          "searchable_summary": "convert Barents Sea ocean cells to land cells",
+          "inputs": [
+            "ocean grid data",
+            "Barents Sea region"
+          ],
+          "outputs": [
+            "updated grid with land cells"
+          ],
+          "keywords": [
+            "Barents Sea",
+            "grid cells",
+            "land conversion"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Simulation and Analysis",
+      "description": "Simulation of climate conditions during the Miocene using the configured Earth System Model and analysis of the results.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Prescribe an atmospheric CO2 level of 450 ppm for the reference simulation (MIO_450).",
+          "searchable_summary": "set atmospheric CO2 level for simulation",
+          "inputs": [
+            "CO2 level"
+          ],
+          "outputs": [
+            "configured simulation parameters"
+          ],
+          "keywords": [
+            "CO2 level",
+            "simulation",
+            "MIO_450"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Integrate the model for 4 kyr to minimize temperature/salinity trends in the deep ocean.",
+          "searchable_summary": "run model integration for 4 kyr",
+          "inputs": [
+            "model configuration"
+          ],
+          "outputs": [
+            "integrated model state"
+          ],
+          "keywords": [
+            "model integration",
+            "temperature trends",
+            "salinity trends"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform ocean gateway sensitivity experiments at various height dimensions of the GSR and FS.",
+          "searchable_summary": "conduct sensitivity experiments on ocean gateways",
+          "inputs": [
+            "GSR dimensions",
+            "FS dimensions"
+          ],
+          "outputs": [
+            "sensitivity experiment results"
+          ],
+          "keywords": [
+            "sensitivity experiments",
+            "ocean gateways",
+            "GSR",
+            "FS"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Use a climatological period of the final 100 yr of model simulation for analysis.",
+          "searchable_summary": "analyze final 100 years of simulation data",
+          "inputs": [
+            "simulation data"
+          ],
+          "outputs": [
+            "climatological analysis"
+          ],
+          "keywords": [
+            "climatological period",
+            "data analysis",
+            "simulation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219412069.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,592 @@
+{
+  "paper_title": "Soil Properties and DOM Characteristics in Alaskan Permafrost Soils (Inferred)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Soil Collection",
+      "description": "Collection of soil cores from three distinct sites in interior Alaska representing different permafrost zones and soil types.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Soils were collected from three sites in interior Alaska (table 1, figure 1). The most northern site, Coldfoot (67.20 • N, 150.27 • W), is an upland forested site in the continuous permafrost zone. Soils are organic and mineral in the active layer (organic layer thickness = ∼30-35 cm), transitioning to permafrost mineral soils. The Hess Creek site (65.67 • N, 149.08 • W) is located just south of the Yukon River in discontinuous permafrost and is a deep peatland (>3 m peat) having organic active-layer and permafrost soils. The Smith Lake site (64.87 • N, 147.86 • W) is a forested area in Fairbanks, AK, and contains organic and mineral soils in active-layer and permafrost horizons (organic layer thickness = ∼34-45 cm, with spatially variable deeper organic layers). Following USDA Soil Taxonomy (Soil Survey Staff 1999), all soils are Gelisols (permafrost within 1 m of the surface); soils from Coldfoot are Orthels (non-cryoturbated mineral soil suborder), soils from Hess Creek are Histels (organic soils suborder), and soils from Smith Lake are Turbels (cryoturbated soils suborder). We refer to the sites as CF (Coldfoot), HC (Hess Creek), and SL (Smith Lake).",
+          "searchable_summary": "Identify and document soil collection sites and characteristics",
+          "inputs": [],
+          "outputs": [
+            "site locations (coordinates)",
+            "site descriptions (permafrost zone, vegetation, soil type)",
+            "soil taxonomy classification"
+          ],
+          "keywords": [
+            "soil collection",
+            "site selection",
+            "permafrost",
+            "soil taxonomy",
+            "Gelisols"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Soil cores were collected in March when activelayer soils were still frozen (maximum active-layer thicknesses at each sampling site were measured the previous September; Waldrop et al 2010). Three cores were collected from 0-1 m depth at each site within a 100 m 2 area using a SIPRE (Snow, Ice, and Permafrost Research Establishment) corer, and were kept frozen during transport to a −10 • C cold room at Fort Wainwright Army Base in Fairbanks, AK for processing.",
+          "searchable_summary": "Collect soil cores using a SIPRE corer",
+          "inputs": [
+            "site locations",
+            "SIPRE corer",
+            "sampling date (March)",
+            "target depth (0-1 m)"
+          ],
+          "outputs": [
+            "soil cores (frozen)",
+            "metadata (site, date, depth)"
+          ],
+          "keywords": [
+            "soil coring",
+            "SIPRE corer",
+            "frozen soil",
+            "permafrost sampling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Soil Core Processing",
+      "description": "Processing of collected soil cores, including segmentation and preparation of subsamples for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Soil cores were cut into segments using a band saw, and two 15 cm-thick segments were extracted from each core: a deep active-layer horizon (∼15-30 cm above the permafrost boundary) and a shallow permafrost horizon (∼15-30 cm below the permafrost boundary).",
+          "searchable_summary": "Segment soil cores and extract specific horizons",
+          "inputs": [
+            "frozen soil cores",
+            "band saw",
+            "permafrost boundary depth"
+          ],
+          "outputs": [
+            "soil segments (active-layer, permafrost)",
+            "metadata (core ID, segment depth, horizon type)"
+          ],
+          "keywords": [
+            "soil processing",
+            "core segmentation",
+            "active layer",
+            "permafrost horizon"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were cut lengthwise and splits were shipped on dry ice to USGS labs in Boulder, CO and Menlo Park, CA and kept frozen until analysis.",
+          "searchable_summary": "Split soil segments and ship frozen subsamples",
+          "inputs": [
+            "soil segments"
+          ],
+          "outputs": [
+            "soil sample splits (frozen)",
+            "shipping manifest",
+            "storage location metadata"
+          ],
+          "keywords": [
+            "sample splitting",
+            "sample shipping",
+            "sample storage",
+            "dry ice"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Soil Bulk Property Analysis",
+      "description": "Analysis of soil sample splits for basic physical and chemical properties: moisture content, bulk density, C and N content, and radiocarbon content.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Moisture content and bulk density were determined by drying a known volume of soil at 65 • C (organic) or 105 • C (mineral) for 48 hours and measuring the weight before and after drying.",
+          "searchable_summary": "Calculate moisture content and bulk density by drying",
+          "inputs": [
+            "soil sample splits",
+            "initial soil volume",
+            "initial soil weight",
+            "dried soil weight",
+            "soil type (organic/mineral)"
+          ],
+          "outputs": [
+            "moisture content (%)",
+            "bulk density (g/cm³)"
+          ],
+          "keywords": [
+            "moisture content",
+            "bulk density",
+            "soil drying",
+            "gravimetric analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "C and N content were measured on a C/N analyzer (CE Elantech, Lakewood, NJ, USA).",
+          "searchable_summary": "Measure total carbon and nitrogen content",
+          "inputs": [
+            "soil sample splits",
+            "C/N analyzer"
+          ],
+          "outputs": [
+            "total carbon content (%)",
+            "total nitrogen content (%)"
+          ],
+          "keywords": [
+            "carbon content",
+            "nitrogen content",
+            "C/N analyzer",
+            "elemental analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Subsamples were sent to the W.M. Keck Accelerator Mass Spectrometry Laboratory at University of California-Irvine for oxidation to CO 2 and CO 2 purification, graphitization, and radiocarbon measurement.",
+          "searchable_summary": "Measure radiocarbon content using AMS",
+          "inputs": [
+            "soil sample subsamples",
+            "AMS lab services"
+          ],
+          "outputs": [
+            "radiocarbon measurement data"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "AMS",
+            "accelerator mass spectrometry",
+            "14C"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Radiocarbon Δ 14 C (‰), and radiocarbon age as years before present (ybp) were reported.",
+          "searchable_summary": "Calculate and report radiocarbon delta and age",
+          "inputs": [
+            "radiocarbon measurement data"
+          ],
+          "outputs": [
+            "Δ14C (‰)",
+            "radiocarbon age (ybp)"
+          ],
+          "keywords": [
+            "radiocarbon calculation",
+            "delta 14C",
+            "years before present"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Soil Leaching for DOM Extraction",
+      "description": "Extraction of dissolved organic matter (DOM) from soil samples by leaching with deionized water.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A second set of soil sample splits were leached by placing pre-weighed frozen soils in glass beakers with 500 ml of deionized water and allowing them to thaw at 5 • C in the dark for 24 hours on shaker tables.",
+          "searchable_summary": "Leach frozen soil samples with deionized water",
+          "inputs": [
+            "pre-weighed frozen soil sample splits",
+            "deionized water (500 ml)",
+            "glass beakers",
+            "shaker tables",
+            "incubation conditions (5°C, dark, 24h)"
+          ],
+          "outputs": [
+            "soil-water slurries"
+          ],
+          "keywords": [
+            "soil leaching",
+            "DOM extraction",
+            "deionized water",
+            "incubation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The mass ratio of field-moist soil to water (g g −1 ) ranged from 0.22-0.56 and averaged 0.32 (n = 18), similar to the suggested mass ratio for soil: extractant of ≥0.25 for directly comparable DOC and DON recovery from soils (Jones and Willett 2006, table S1 available at stacks.iop.org/ERL/13/065011/mmedia).",
+          "searchable_summary": "Document soil to water mass ratio",
+          "inputs": [
+            "field-moist soil mass",
+            "water mass"
+          ],
+          "outputs": [
+            "soil:water mass ratio"
+          ],
+          "keywords": [
+            "soil:water ratio",
+            "leaching efficiency"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Soil-water slurries were decanted and filtered using pre-combusted GF/F filters.",
+          "searchable_summary": "Filter soil-water slurries",
+          "inputs": [
+            "soil-water slurries",
+            "pre-combusted GF/F filters"
+          ],
+          "outputs": [
+            "leachate samples (filtered)"
+          ],
+          "keywords": [
+            "filtration",
+            "GF/F filter",
+            "leachate preparation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "DOC, TDN, DIN (nitrate plus ammonium), and DON (TDN minus DIN) yields normalized to total dry soil weight were calculated using solute concentrations (analytical methods described below) and accounting for soil water volume and added leachate water volume (table S1).",
+          "searchable_summary": "Calculate normalized yields of DOC, TDN, DIN, and DON",
+          "inputs": [
+            "solute concentrations (DOC, TDN, nitrate, ammonium)",
+            "total dry soil weight",
+            "soil water volume",
+            "added leachate water volume"
+          ],
+          "outputs": [
+            "DOC yield (normalized)",
+            "TDN yield (normalized)",
+            "DIN yield (normalized)",
+            "DON yield (normalized)"
+          ],
+          "keywords": [
+            "yield calculation",
+            "normalization",
+            "DOC",
+            "TDN",
+            "DIN",
+            "DON"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "A small volume of unfiltered water was saved as inoculum for biodegradable DOC (BDOC) incubations, described below.",
+          "searchable_summary": "Save unfiltered leachate as inoculum",
+          "inputs": [
+            "unfiltered leachate"
+          ],
+          "outputs": [
+            "BDOC inoculum"
+          ],
+          "keywords": [
+            "inoculum preparation",
+            "BDOC incubation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Leachate Chemical and Optical Analysis",
+      "description": "Analysis of filtered leachate samples for concentrations of dissolved organic and inorganic nitrogen species and dissolved organic matter (DOM) optical properties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Leachate samples were analyzed within 48 h for concentrations of DOC (OI700 analyzer, O.I. Analytical), TDN (Shimadzu Total Nitrogen analyzer), and nitrate (NO 3 − ) and ammonium (NH 4 + ) (Dionex Model DX-120 Ion Chromatograph), and for DOM optical properties.",
+          "searchable_summary": "Measure concentrations of DOC, TDN, nitrate, and ammonium in leachate",
+          "inputs": [
+            "filtered leachate samples",
+            "OI700 analyzer",
+            "Shimadzu Total Nitrogen analyzer",
+            "Dionex Ion Chromatograph"
+          ],
+          "outputs": [
+            "DOC concentration",
+            "TDN concentration",
+            "nitrate concentration",
+            "ammonium concentration"
+          ],
+          "keywords": [
+            "DOC analysis",
+            "TDN analysis",
+            "nitrate analysis",
+            "ammonium analysis",
+            "ion chromatography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "UV-visible absorbance was measured using a Hewlett-Packard Model 8453 photo-diode array spectrophotometer.",
+          "searchable_summary": "Measure UV-Vis absorbance spectrum of leachate",
+          "inputs": [
+            "filtered leachate samples",
+            "UV-Vis spectrophotometer"
+          ],
+          "outputs": [
+            "UV-Vis absorbance spectrum"
+          ],
+          "keywords": [
+            "UV-Vis spectroscopy",
+            "absorbance measurement",
+            "DOM optics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Specific UV absorbance (SUVA 254 ), an index of DOC aromatic-ity (Weishaar et al 2003), was determined by dividing absorbance at = 254 nm (UV 254 ) by DOC concentration.",
+          "searchable_summary": "Calculate SUVA254 from UV absorbance and DOC concentration",
+          "inputs": [
+            "absorbance at 254 nm",
+            "DOC concentration"
+          ],
+          "outputs": [
+            "SUVA254"
+          ],
+          "keywords": [
+            "SUVA",
+            "DOC aromaticity",
+            "UV absorbance calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Spectral slope ratio (S R ), an indicator of DOM molecular weight, was calculated as the ratio of the slopes of adsorption between = 275-295 nm (S 275−295 ) and = 350-400 nm (S 350−400 ) (Helms et al 2008).",
+          "searchable_summary": "Calculate spectral slope ratio (SR) from UV absorbance spectrum",
+          "inputs": [
+            "UV-Vis absorbance spectrum (275-295 nm, 350-400 nm)"
+          ],
+          "outputs": [
+            "spectral slope ratio (SR)"
+          ],
+          "keywords": [
+            "spectral slope",
+            "DOM molecular weight",
+            "UV-Vis analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Fluorescence excitation-emission matrices (EEMs) were measured using a Horiba-JY Fluoromax-3 spectrofluorometer as described in Wickland et al (2007).",
+          "searchable_summary": "Measure fluorescence excitation-emission matrices (EEMs)",
+          "inputs": [
+            "filtered leachate samples",
+            "fluorescence spectrofluorometer"
+          ],
+          "outputs": [
+            "fluorescence EEMs data"
+          ],
+          "keywords": [
+            "fluorescence spectroscopy",
+            "EEMs",
+            "DOM fluorescence"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Fluorescence Index (FI;McKnight et al 2001), which is used to distinguish between microbially-derived (FI = 1.7-2.0) and higher plant-derived (FI < 1.4) DOM fulvic acids, was calculated as the ratio of the intensities at excitation (ex) and emission (em) wavelengths ex370/em470 and ex370/em520 (Cory et al 2010).",
+          "searchable_summary": "Calculate Fluorescence Index (FI) from EEMs",
+          "inputs": [
+            "fluorescence intensity at ex370/em470",
+            "fluorescence intensity at ex370/em520"
+          ],
+          "outputs": [
+            "Fluorescence Index (FI)"
+          ],
+          "keywords": [
+            "Fluorescence Index",
+            "FI calculation",
+            "DOM source",
+            "EEMs analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Humification Index (HIX; Ohno 2002) was calculated as the ratio of the sum of the intensities at ex255/em434-480 divided by the sum of intensities at ex255/em300-344 and ex255/em434-480. HIX values can range from 0-1, with higher values indicating an increasing degree of humification of DOM (Ohno 2002).",
+          "searchable_summary": "Calculate Humification Index (HIX) from EEMs",
+          "inputs": [
+            "fluorescence intensities at ex255/em434-480",
+            "fluorescence intensities at ex255/em300-344"
+          ],
+          "outputs": [
+            "Humification Index (HIX)"
+          ],
+          "keywords": [
+            "Humification Index",
+            "HIX calculation",
+            "DOM humification",
+            "EEMs analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "DOC-normalized fluorescence intensities of six fluorescence ex/em peaks associated with various DOM pools (Kraus et al 2008) were determined. These peaks include B (ex270/em310; tyrosine-like, proteinlike fluorophore), T (ex260/em340; tryptophan-like, protein-like fluorophore), A (ex260/em450; humiclike), C (ex330/em446; humic-like), D (ex370/em500; soil fulvic acid), and E (ex450/em520; soil fulvic acid) peaks.",
+          "searchable_summary": "Determine DOC-normalized intensities of specific fluorescence peaks from EEMs",
+          "inputs": [
+            "fluorescence EEMs data",
+            "DOC concentration",
+            "defined peak ex/em pairs"
+          ],
+          "outputs": [
+            "DOC-normalized peak intensities (B, T, A, C, D, E)"
+          ],
+          "keywords": [
+            "fluorescence peaks",
+            "EEMs analysis",
+            "peak picking",
+            "normalization",
+            "protein-like fluorescence",
+            "humic-like fluorescence"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "We grouped peaks into 'protein-like' (B, T) and 'humic-like + fulvic-like' (A, C, D, E) and summed their intensities.",
+          "searchable_summary": "Group and sum specific fluorescence peak intensities",
+          "inputs": [
+            "DOC-normalized peak intensities (B, T, A, C, D, E)"
+          ],
+          "outputs": [
+            "summed protein-like intensity",
+            "summed humic/fulvic-like intensity"
+          ],
+          "keywords": [
+            "fluorescence peak grouping",
+            "summation",
+            "protein-like DOM",
+            "humic-like DOM",
+            "fulvic-like DOM"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biodegradable DOC (BDOC) Determination",
+      "description": "Determination of the biodegradable fraction of dissolved organic carbon (BDOC) through microbial incubation and measurement of dissolved inorganic carbon (DIC) production.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Biodegradable DOC (BDOC) content was determined using methods described in Wickland et al (2007Wickland et al ( , 2012, where inoculated samples (1% 1.6 mfiltered inoculant derived from the soil leachates) were incubated in serum bottles with 50% headspace by volume and dissolved inorganic carbon (DIC) production was measured over time.",
+          "searchable_summary": "Incubate leachate samples with inoculum and measure DIC production over time",
+          "inputs": [
+            "diluted leachate samples (<10 mg DOC L-1)",
+            "1% 1.6 μm-filtered leachate inoculum",
+            "serum bottles",
+            "incubation conditions (dark, 90 days, 5°C)",
+            "DIC measurement equipment"
+          ],
+          "outputs": [
+            "time-series DIC concentration data"
+          ],
+          "keywords": [
+            "BDOC incubation",
+            "biodegradability",
+            "DIC production",
+            "microbial mineralization",
+            "incubation experiment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The difference between initial and final total DIC concentrations was assumed to result entirely from DOC mineralization (McDowell et al 2006).",
+          "searchable_summary": "Calculate BDOC as the difference between initial and final DIC concentrations",
+          "inputs": [
+            "initial total DIC concentration",
+            "final total DIC concentration"
+          ],
+          "outputs": [
+            "BDOC content"
+          ],
+          "keywords": [
+            "BDOC calculation",
+            "DIC difference",
+            "DOC mineralization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures applied to analyze differences in soil properties and leachate yields, and relationships between variables.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Analysis of variance (General Linear Model Nested Design ANOVA) was used to determine significant differences in soil properties and leachate yields among sites and thermal horizon (active layer vs. permafrost), followed by Tukey's HSD post hoc test.",
+          "searchable_summary": "Perform nested ANOVA and Tukey's HSD post hoc test",
+          "inputs": [
+            "soil properties data",
+            "leachate yields data",
+            "grouping variables (site, thermal horizon)"
+          ],
+          "outputs": [
+            "ANOVA results (F-statistics, p-values)",
+            "Tukey's HSD pairwise comparisons"
+          ],
+          "keywords": [
+            "ANOVA",
+            "General Linear Model",
+            "nested design",
+            "Tukey's HSD",
+            "statistical significance",
+            "post hoc test"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Regression analysis and General Linear Model (GLM) Separate Slopes Model were used to test for significant differences in the relationships between DOC, TDN, DON or DIN yields and soil properties (%C, %N, Δ 14 C) for active-layer and permafrost soils.",
+          "searchable_summary": "Perform regression analysis and GLM Separate Slopes Model",
+          "inputs": [
+            "DOC, TDN, DON, DIN yields",
+            "soil properties (%C, %N, Δ14C)",
+            "grouping variable (thermal horizon)"
+          ],
+          "outputs": [
+            "Regression coefficients",
+            "GLM results (p-values for slope differences)"
+          ],
+          "keywords": [
+            "regression analysis",
+            "General Linear Model",
+            "Separate Slopes Model",
+            "relationship testing",
+            "statistical modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Regression analysis was used to test for significance between % BDOC and various parameters.",
+          "searchable_summary": "Perform regression analysis between % BDOC and other parameters",
+          "inputs": [
+            "% BDOC data",
+            "various parameters (e.g., soil properties, leachate characteristics)"
+          ],
+          "outputs": [
+            "Regression coefficients",
+            "p-values"
+          ],
+          "keywords": [
+            "regression analysis",
+            "BDOC",
+            "correlation testing"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/158594511.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

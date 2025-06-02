@@ -1,0 +1,251 @@
+{
+  "paper_title": "Analytical Methods and Applications in Mineral Processing",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Environmental Scanning Electron Microscopy (ESEM) Analysis",
+      "description": "Investigation of the association between carbonates and diatom frustules, as well as variations in diatom morphology and preservation using ESEM.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The observations were conducted on rock chips to avoid any alteration of the diatom frustules induced by sample preparation.",
+          "searchable_summary": "conduct ESEM observations on rock chips",
+          "inputs": [
+            "rock chips"
+          ],
+          "outputs": [
+            "ESEM images"
+          ],
+          "keywords": [
+            "ESEM",
+            "diatom frustules",
+            "rock chips"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The instrument used was a Philips XL30 ESEM and supported with element analysis.",
+          "searchable_summary": "perform element analysis using Philips XL30 ESEM",
+          "inputs": [
+            "ESEM images"
+          ],
+          "outputs": [
+            "elemental composition data"
+          ],
+          "keywords": [
+            "element analysis",
+            "Philips XL30 ESEM"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "X-ray Fluorescence (XRF) Analysis",
+      "description": "Determination of the amount of CaCO3 and the concentration of major elements in the samples to support mineralogical analyses using XRF.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The amount of CaCO3 and the concentration of major elements in the samples were determined using XRF.",
+          "searchable_summary": "determine CaCO3 and major elements using XRF",
+          "inputs": [
+            "samples"
+          ],
+          "outputs": [
+            "CaCO3 concentration",
+            "major elements concentration"
+          ],
+          "keywords": [
+            "XRF",
+            "CaCO3",
+            "element concentration"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Infrared (IR) Spectroscopy",
+      "description": "Identification of mineralogical content of samples using IR spectroscopy, particularly for detecting amorphous phases in minerals.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The samples used for all the spectral analyses were gently powdered using pestle and mortar, trying to preserve the delicate diatom structure, and later homogenised.",
+          "searchable_summary": "powder and homogenize samples for IR spectroscopy",
+          "inputs": [
+            "samples"
+          ],
+          "outputs": [
+            "powdered and homogenized samples"
+          ],
+          "keywords": [
+            "IR spectroscopy",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Laboratory data were collected using attenuated total reflection (ATR), with an ATR-Diamond accessory in a Perkin Elmer Spectrum 100 FTIR spectrometer.",
+          "searchable_summary": "collect IR spectra using ATR-FTIR",
+          "inputs": [
+            "powdered samples"
+          ],
+          "outputs": [
+            "IR spectra"
+          ],
+          "keywords": [
+            "ATR",
+            "FTIR",
+            "spectra collection"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spectral Analysis and Processing",
+      "description": "Processing of spectral data collected from various spectrometers to assess measuring and analyzing conditions for on-site applications.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Bidirectional reflectance spectra were collected using a PANalytical ASD FieldSpec spectrometer.",
+          "searchable_summary": "collect bidirectional reflectance spectra",
+          "inputs": [
+            "samples"
+          ],
+          "outputs": [
+            "bidirectional reflectance spectra"
+          ],
+          "keywords": [
+            "bidirectional reflectance",
+            "FieldSpec"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Diffuse reflectance spectra were measured with an Agilent 4300 hand-held FTIR spectrometer.",
+          "searchable_summary": "measure diffuse reflectance spectra",
+          "inputs": [
+            "samples"
+          ],
+          "outputs": [
+            "diffuse reflectance spectra"
+          ],
+          "keywords": [
+            "diffuse reflectance",
+            "Agilent 4300"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The spectral files were processed in the R environment. First, noise reduction was conducted by averaging the spectra recorded for every sample.",
+          "searchable_summary": "reduce noise in spectra using averaging in R",
+          "inputs": [
+            "spectral files"
+          ],
+          "outputs": [
+            "noise-reduced spectra"
+          ],
+          "keywords": [
+            "noise reduction",
+            "R environment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The bidirectional reflectance spectra were processed using continuum removal and derivatives.",
+          "searchable_summary": "process bidirectional spectra with continuum removal",
+          "inputs": [
+            "bidirectional reflectance spectra"
+          ],
+          "outputs": [
+            "processed bidirectional spectra"
+          ],
+          "keywords": [
+            "continuum removal",
+            "spectral derivatives"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The diffuse reflectance spectra were smoothed using the Savitzky-Golay filter with polynomial order of 3 and window size of 55 data points.",
+          "searchable_summary": "smooth diffuse spectra using Savitzky-Golay filter",
+          "inputs": [
+            "diffuse reflectance spectra"
+          ],
+          "outputs": [
+            "smoothed diffuse spectra"
+          ],
+          "keywords": [
+            "Savitzky-Golay filter",
+            "smoothing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Further principal component analysis (PCA) was also performed in the R environment using the Chemometrics With R package.",
+          "searchable_summary": "perform PCA on spectral data in R",
+          "inputs": [
+            "processed spectra"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "Chemometrics",
+            "R package"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Infrared Spectroscopy for Ore Characterization",
+      "description": "Characterization of diatomite using infrared spectroscopy to identify calcite and aragonite as main ore impurities and establish correspondence with ore quality.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The identification of the type of carbonate was possible by using a portable instrument that uses diffuse reflectance spectroscopy.",
+          "searchable_summary": "identify carbonate type using portable diffuse reflectance spectroscopy",
+          "inputs": [
+            "ore samples"
+          ],
+          "outputs": [
+            "carbonate type identification"
+          ],
+          "keywords": [
+            "diffuse reflectance",
+            "carbonate identification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "It was feasible to perform a qualitative analysis using principal component analysis (PCA).",
+          "searchable_summary": "perform qualitative PCA on carbonate spectra",
+          "inputs": [
+            "carbonate spectra"
+          ],
+          "outputs": [
+            "qualitative PCA results"
+          ],
+          "keywords": [
+            "qualitative analysis",
+            "PCA"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/135244739.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

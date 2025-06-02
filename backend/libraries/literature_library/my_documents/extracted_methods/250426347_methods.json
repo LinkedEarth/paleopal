@@ -1,0 +1,235 @@
+{
+  "paper_title": "Review of parametric Nikiforov-Uvarov method",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Parametric Nikiforov-Uvarov Method for Solving Second-Order Differential Equations",
+      "description": "The parametric Nikiforov-Uvarov (NU) method is an analytical technique used to solve second-order linear differential equations, particularly those arising from bound state problems in quantum mechanics. The method transforms the differential equation into a generalized equation of hypergeometric type, allowing for the derivation of energy eigenvalues and wave functions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Start with the specific second-order linear differential equation representing the bound state problem for a given potential.",
+          "searchable_summary": "Define the initial second-order linear differential equation for the physical system.",
+          "inputs": [
+            "Description of the physical system or potential"
+          ],
+          "outputs": [
+            "The specific second-order linear differential equation (e.g., Schrödinger equation)"
+          ],
+          "keywords": [
+            "differential equation",
+            "second-order",
+            "bound state",
+            "Schrödinger equation",
+            "potential"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Apply an appropriate coordinate transformation z = f(x) to convert the differential equation into the generalized hypergeometric type form (Eq 2 or Eq 13).",
+          "searchable_summary": "Apply coordinate transformation to the differential equation.",
+          "inputs": [
+            "The differential equation from Step 1",
+            "The chosen coordinate transformation z=f(x)"
+          ],
+          "outputs": [
+            "Differential equation in the variable z, in the form of Eq 2 or Eq 13"
+          ],
+          "keywords": [
+            "coordinate transformation",
+            "variable change",
+            "differential equation transformation",
+            "hypergeometric type equation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Identify the polynomials σ(z), ̅σ(z), and ̅τ(z) by comparing the transformed differential equation (from Step 2) with the standard form (Eq 2 or Eq 13).",
+          "searchable_summary": "Extract polynomial coefficients from the transformed equation.",
+          "inputs": [
+            "Transformed differential equation in the form of Eq 2 or Eq 13"
+          ],
+          "outputs": [
+            "Polynomials σ(z)",
+            "Polynomial ̅σ(z)",
+            "Polynomial ̅τ(z)"
+          ],
+          "keywords": [
+            "polynomial identification",
+            "coefficient extraction",
+            "differential equation form"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Calculate the first derivatives σ'(z), ̅σ'(z), and ̅τ'(z), and the second derivative σ''(z).",
+          "searchable_summary": "Compute derivatives of identified polynomials.",
+          "inputs": [
+            "Polynomials σ(z)",
+            "Polynomial ̅σ(z)",
+            "Polynomial ̅τ(z)"
+          ],
+          "outputs": [
+            "σ'(z)",
+            "̅σ'(z)",
+            "̅τ'(z)",
+            "σ''(z)"
+          ],
+          "keywords": [
+            "polynomial derivative",
+            "differentiation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Determine the function π(z) by solving the quadratic equation (Eq 9 or Eq 15). This requires first determining the parameter k by setting the discriminant of the term under the square root in the π(z) equation to zero and solving for k. Select the appropriate value of k (typically the negative value for bound states).",
+          "searchable_summary": "Solve for the function pi(z) and parameter k.",
+          "inputs": [
+            "σ(z)",
+            "σ'(z)",
+            "σ''(z)",
+            "̅σ(z)",
+            "̅σ'(z)",
+            "̅τ(z)",
+            "̅τ'(z)"
+          ],
+          "outputs": [
+            "Function π(z)",
+            "Parameter k"
+          ],
+          "keywords": [
+            "pi function",
+            "k parameter",
+            "quadratic equation",
+            "discriminant",
+            "solving equation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Calculate the parameter λ using the derived expressions (Eq 7 or Eq 25), which involve the calculated π(z), σ(z), and their derivatives.",
+          "searchable_summary": "Compute the lambda parameter.",
+          "inputs": [
+            "π(z)",
+            "π'(z)",
+            "σ(z)",
+            "σ'(z)",
+            "̅τ(z)",
+            "̅τ'(z)"
+          ],
+          "outputs": [
+            "Parameter λ"
+          ],
+          "keywords": [
+            "lambda parameter",
+            "eigenvalue equation parameter"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Equate the expression for λ (from Step 6) with the condition for bound states involving the quantum number n (Eq 7 or Eq 26) to obtain the equation for the energy eigenvalues.",
+          "searchable_summary": "Derive the energy eigenvalue equation.",
+          "inputs": [
+            "Expression for λ",
+            "Quantum number n"
+          ],
+          "outputs": [
+            "Equation relating energy E, potential parameters, and quantum number n"
+          ],
+          "keywords": [
+            "energy eigenvalue",
+            "bound state energy",
+            "quantum number",
+            "energy equation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Solve the energy eigenvalue equation (from Step 7) to find the allowed energy levels E_n in terms of the potential parameters and the quantum number n.",
+          "searchable_summary": "Solve the energy equation for eigenvalues.",
+          "inputs": [
+            "Energy eigenvalue equation"
+          ],
+          "outputs": [
+            "Energy eigenvalues E_n"
+          ],
+          "keywords": [
+            "solve equation",
+            "energy levels",
+            "eigenvalues",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "Determine the weight function ρ(z) using Eq 12, which involves σ(z) and π(z).",
+          "searchable_summary": "Compute the weight function rho(z).",
+          "inputs": [
+            "σ(z)",
+            "π(z)"
+          ],
+          "outputs": [
+            "Weight function ρ(z)"
+          ],
+          "keywords": [
+            "weight function",
+            "rho function",
+            "orthogonal polynomials"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "modeling",
+          "description": "Determine the polynomial solutions y_n(z) using the Rodrigues' relation (Eq 11), which involves ρ(z) and σ(z). These polynomials are typically related to known orthogonal polynomials like Jacobi or Laguerre polynomials.",
+          "searchable_summary": "Compute the polynomial solutions using Rodrigues' relation.",
+          "inputs": [
+            "ρ(z)",
+            "σ(z)",
+            "Quantum number n"
+          ],
+          "outputs": [
+            "Polynomial solutions y_n(z)"
+          ],
+          "keywords": [
+            "polynomial solution",
+            "Rodrigues' relation",
+            "orthogonal polynomials",
+            "Jacobi polynomials",
+            "Laguerre polynomials"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "modeling",
+          "description": "Construct the full wave function ψ(x) for each energy level n using the coordinate transformation z=f(x), the split parts (Eq 3), and the determined polynomial solutions y_n(z). This may involve a normalization constant.",
+          "searchable_summary": "Construct the full wave function.",
+          "inputs": [
+            "Coordinate transformation z=f(x)",
+            "Polynomial solutions y_n(z)",
+            "Functions from wave function split (Eq 3)"
+          ],
+          "outputs": [
+            "Full wave function ψ_n(x)"
+          ],
+          "keywords": [
+            "wave function",
+            "quantum mechanics",
+            "solution",
+            "normalization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/250426347.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

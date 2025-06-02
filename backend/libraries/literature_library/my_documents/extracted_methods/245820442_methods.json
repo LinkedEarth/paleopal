@@ -1,0 +1,115 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Radiocarbon Date Selection and Calibration",
+      "description": "This method involves selecting and calibrating the 10 oldest radiocarbon dates associated with copper use to run OLE models. The process ensures that the dates are accurately represented in calendar years, which is crucial for the model's assumptions and predictions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A detailed review of the literature was undertaken to identify the 10 oldest radiocarbon dates associated with copper use.",
+          "searchable_summary": "review literature to identify 10 oldest radiocarbon dates for copper use",
+          "inputs": [
+            "literature sources"
+          ],
+          "outputs": [
+            "list of 10 oldest radiocarbon dates"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "literature review",
+            "copper use"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "From each site, we collected the main estimated date and date range, along with the calibrated median date and the 95.4% confidence intervals.",
+          "searchable_summary": "collect and organize date information from each site",
+          "inputs": [
+            "site data"
+          ],
+          "outputs": [
+            "organized date information"
+          ],
+          "keywords": [
+            "date collection",
+            "confidence intervals",
+            "calibrated median"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "In cases where the calibrated dates were not reported, they were calibrated to calendar ages using the IntCal20 calibration curve at 2σ via Calib version 8.2.",
+          "searchable_summary": "calibrate unreported dates using IntCal20 and Calib 8.2",
+          "inputs": [
+            "uncalibrated dates"
+          ],
+          "outputs": [
+            "calibrated dates"
+          ],
+          "keywords": [
+            "calibration",
+            "IntCal20",
+            "Calib 8.2"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Two OLE models were initially run using the 10 main estimated dates (RCYBP) and the calibrated median dates (cal BP).",
+          "searchable_summary": "run OLE models with estimated and calibrated dates",
+          "inputs": [
+            "estimated dates",
+            "calibrated dates"
+          ],
+          "outputs": [
+            "OLE model results"
+          ],
+          "keywords": [
+            "OLE modeling",
+            "radiocarbon dates"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "A resampling approach was applied where a date from within each of the 10 associated date ranges was randomly drawn from a normal distribution and used instead of the main or calibrated median dates. This was repeated 10,000 times.",
+          "searchable_summary": "apply resampling approach with random date selection",
+          "inputs": [
+            "date ranges"
+          ],
+          "outputs": [
+            "resampled date datasets"
+          ],
+          "keywords": [
+            "resampling",
+            "random selection",
+            "normal distribution"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Each randomly drawn dataset of 10 dates was assessed using the OLE method.",
+          "searchable_summary": "assess resampled datasets using OLE method",
+          "inputs": [
+            "resampled date datasets"
+          ],
+          "outputs": [
+            "assessed OLE results"
+          ],
+          "keywords": [
+            "OLE assessment",
+            "resampled datasets"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/245820442.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

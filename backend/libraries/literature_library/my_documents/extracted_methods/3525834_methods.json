@@ -1,0 +1,237 @@
+{
+  "paper_title": "Single Cell Analysis of Variable Chlorophyll Fluorescence Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Single Cell Variable Chlorophyll Fluorescence Analysis",
+      "description": "This method uses a pulse-amplitude-modulated (PAM) chlorophyll fluorescence imaging system to estimate the photosynthetic capacity of individual cells, specifically comparing cells with even versus altered chloroplast distributions. It involves measuring effective PSII quantum yield (YII), determining the wavelength dependent functional absorption cross-section of PSII (Sigma(II)λ), deriving ETR(II) curve fit parameters, and performing statistical analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Singlecell variable chlorophyll fluorescence was investigated with a red-green-blue (RGB) pulse-amplitude-modulated (PAM) chlorophyll fluorescence imaging system (RGB Microscopy-IPAM, Heinz Walz GmbH, Germany) mounted on an epifluorescence microscope (model Axiostar plus FL, Carl Zeiss, Jena, Germany). The setup is described in detail by Trampe et al. (2011). Measurements were performed with a 20x objective (Plan-Apochromate, Carl Zeiss GmbH, Germany).",
+          "searchable_summary": "setup PAM fluorescence microscopy system for single cell analysis",
+          "inputs": [
+            "RGB PAM chlorophyll fluorescence imaging system",
+            "Epifluorescence microscope",
+            "20x objective"
+          ],
+          "outputs": [
+            "Configured microscopy and fluorescence imaging system"
+          ],
+          "keywords": [
+            "PAM fluorescence",
+            "microscopy",
+            "system setup",
+            "single cell analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Non-actinic blue measuring light was used",
+          "searchable_summary": "apply non-actinic blue measuring light for PAM fluorescence",
+          "inputs": [
+            "Configured system",
+            "Sample"
+          ],
+          "outputs": [
+            "Cells illuminated with measuring light"
+          ],
+          "keywords": [
+            "measuring light",
+            "blue light",
+            "PAM fluorescence"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "the effective PSII quantum yield (YII) was determined with a high intensity saturating BL pulse.",
+          "searchable_summary": "apply high intensity saturating pulse for PAM fluorescence",
+          "inputs": [
+            "Configured system",
+            "Sample"
+          ],
+          "outputs": [
+            "Cells illuminated with saturating pulse"
+          ],
+          "keywords": [
+            "saturating pulse",
+            "fluorescence measurement",
+            "PSII quantum yield"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The maximum fluorescence yield (F m ) correction factor was set to 1.03, to account for signal losses due to LED heating.",
+          "searchable_summary": "apply correction factor to maximum fluorescence yield (Fm)",
+          "inputs": [
+            "Raw maximum fluorescence yield (Fm)",
+            "Correction factor (1.03)"
+          ],
+          "outputs": [
+            "Corrected maximum fluorescence yield (Fm)"
+          ],
+          "keywords": [
+            "fluorescence correction",
+            "Fm",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The Y(II) values were calculated using the system software (ImagingWin, Heinz Walz GmbH, Germany).",
+          "searchable_summary": "calculate effective PSII quantum yield (YII) from fluorescence data",
+          "inputs": [
+            "Raw/corrected fluorescence data (e.g., Fm, Fs, Fv)",
+            "System software (ImagingWin)"
+          ],
+          "outputs": [
+            "Calculated effective PSII quantum yield (YII) values"
+          ],
+          "keywords": [
+            "YII calculation",
+            "fluorescence analysis",
+            "ImagingWin",
+            "PSII quantum yield"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "For each sample, quantitative analysis of variable chlorophyll fluorescence was performed on 10 cells with evenly distributed chloroplasts and 10 cells with an altered chloroplast distribution. Only up to 5 cells with an altered chloroplast distribution were analyzed in the control group because of lower occurrence.",
+          "searchable_summary": "select single cells based on chloroplast distribution for quantitative analysis",
+          "inputs": [
+            "Microscopic images of samples",
+            "Criteria for even/altered chloroplast distribution"
+          ],
+          "outputs": [
+            "Identified and categorized single cells for analysis"
+          ],
+          "keywords": [
+            "cell selection",
+            "image analysis",
+            "chloroplast distribution",
+            "single cell analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "For each sample, quantitative analysis of variable chlorophyll fluorescence was performed on 10 cells with evenly distributed chloroplasts and 10 cells with an altered chloroplast distribution. Only up to 5 cells with an altered chloroplast distribution were analyzed in the control group because of lower occurrence.",
+          "searchable_summary": "perform quantitative analysis of fluorescence data on selected single cells",
+          "inputs": [
+            "Calculated YII values for selected cells",
+            "Cell categorization (even/altered chloroplasts)"
+          ],
+          "outputs": [
+            "Quantitative YII dataset per cell type per sample"
+          ],
+          "keywords": [
+            "quantitative analysis",
+            "single cell analysis",
+            "fluorescence data",
+            "YII"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "The wavelength dependent functional absorption cross-section of photosystem (PS) II [Sigma(II)λ ] was determined with a multicolor chlorophyll fluorescence analyzer.",
+          "searchable_summary": "determine wavelength dependent functional absorption cross-section of PSII (Sigma(II)λ)",
+          "inputs": [
+            "Samples",
+            "Multicolor chlorophyll fluorescence analyzer"
+          ],
+          "outputs": [
+            "Wavelength dependent Sigma(II)λ values"
+          ],
+          "keywords": [
+            "Sigma(II)λ",
+            "PSII absorption",
+            "multicolor fluorescence analyzer",
+            "photosynthesis"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "ETR(II) curve fit parameter were derived from ETR light curves using the equation of Eilers and Peeters (1988).",
+          "searchable_summary": "derive ETR(II) curve fit parameters from ETR light curves using Eilers and Peeters equation",
+          "inputs": [
+            "ETR light curves",
+            "Equation of Eilers and Peeters (1988)"
+          ],
+          "outputs": [
+            "ETR(II) curve fit parameters"
+          ],
+          "keywords": [
+            "ETR curve fitting",
+            "Eilers and Peeters",
+            "photosynthesis modeling",
+            "ETR"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Sigma(II)λ data were used to account for differences in the light absorbed by PS(II).",
+          "searchable_summary": "adjust fluorescence data based on PSII light absorption differences using Sigma(II)λ",
+          "inputs": [
+            "Fluorescence data (e.g., YII)",
+            "Sigma(II)λ data"
+          ],
+          "outputs": [
+            "Fluorescence data adjusted for light absorption"
+          ],
+          "keywords": [
+            "data normalization",
+            "light absorption correction",
+            "Sigma(II)λ",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "other",
+          "description": "Using the fold change to a WL source [Sigma(II)λ fold WL] similar light intensities were adjusted during the experiments.",
+          "searchable_summary": "adjust experimental light intensities based on Sigma(II)λ fold change",
+          "inputs": [
+            "Sigma(II)λ fold change relative to WL source"
+          ],
+          "outputs": [
+            "Adjusted light intensity settings for experiments"
+          ],
+          "keywords": [
+            "light intensity",
+            "experimental control",
+            "Sigma(II)λ"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "Statistically significant differences between the treatments are indicated as different small letters (p < 0.05).",
+          "searchable_summary": "perform statistical analysis to compare quantitative data between groups",
+          "inputs": [
+            "Quantitative data (e.g., YII, ETR parameters) for different treatments/cell types"
+          ],
+          "outputs": [
+            "Statistical significance results (e.g., p-values, group letters)"
+          ],
+          "keywords": [
+            "statistical analysis",
+            "significance testing",
+            "p-value",
+            "group comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/3525834.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

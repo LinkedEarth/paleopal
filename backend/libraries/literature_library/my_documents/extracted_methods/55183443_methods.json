@@ -1,0 +1,183 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Processing of the Data",
+      "description": "This method involves processing the core data to remove reworked material and outliers, followed by performing a principal component analysis (PCA) to detect different lithological facies using inorganic geochemical data. The PCA helps in reducing the number of variables and objectively describing differences and similarities between elements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Core sequences with reworked material were removed from the original data set.",
+          "searchable_summary": "remove reworked material from core data",
+          "inputs": [
+            "original core data"
+          ],
+          "outputs": [
+            "cleaned core data"
+          ],
+          "keywords": [
+            "data cleaning",
+            "core data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "High amounts of resin were detected by a locally low sum of measured intensities and are subsequently removed.",
+          "searchable_summary": "remove high resin content from data",
+          "inputs": [
+            "core data with resin"
+          ],
+          "outputs": [
+            "core data without resin"
+          ],
+          "keywords": [
+            "resin removal",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "A principal component analysis (PCA) was performed to detect different lithological facies using inorganic geochemical data.",
+          "searchable_summary": "perform PCA on geochemical data",
+          "inputs": [
+            "inorganic geochemical data"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "lithological facies",
+            "geochemical data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Data are resampled after smoothing using a Gaussian kernel filter with a 20 point window size.",
+          "searchable_summary": "resample and smooth data with Gaussian filter",
+          "inputs": [
+            "raw data"
+          ],
+          "outputs": [
+            "smoothed and resampled data"
+          ],
+          "keywords": [
+            "Gaussian filter",
+            "data smoothing",
+            "resampling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Data were log transformed and z-normalized to zero mean and unit standard deviation for each parameter.",
+          "searchable_summary": "log transform and z-normalize data",
+          "inputs": [
+            "raw data"
+          ],
+          "outputs": [
+            "normalized data"
+          ],
+          "keywords": [
+            "log transformation",
+            "z-normalization"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Outliers were removed by deleting values greater/less than mean plus/minus three times standard deviation.",
+          "searchable_summary": "remove outliers from data",
+          "inputs": [
+            "normalized data"
+          ],
+          "outputs": [
+            "data without outliers"
+          ],
+          "keywords": [
+            "outlier removal",
+            "data cleaning"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Evaluation of Chemical Data",
+      "description": "This method involves scanning core sections for selected elements using an energy dispersive X-ray fluorescence scanner. The method measures major and trace elements and evaluates the suitability of quantification using the standard free fundamental parameter method.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The three core sections were scanned for selected elements at 1 mm resolution using the energy dispersive X-ray fluorescence scanner Eagle III.",
+          "searchable_summary": "scan core sections for elements using XRF",
+          "inputs": [
+            "core sections"
+          ],
+          "outputs": [
+            "elemental data"
+          ],
+          "keywords": [
+            "XRF scanning",
+            "elemental analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The µXRF was used to measure major and trace elements on 10 cm long resin impregnated samples.",
+          "searchable_summary": "measure major and trace elements using µXRF",
+          "inputs": [
+            "resin impregnated samples"
+          ],
+          "outputs": [
+            "elemental intensities"
+          ],
+          "keywords": [
+            "µXRF",
+            "elemental measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Discrete reference samples are taken from core DE3 and measured by a Philips MagiXPRO via WD-XRF method.",
+          "searchable_summary": "validate measurements using WD-XRF",
+          "inputs": [
+            "reference samples"
+          ],
+          "outputs": [
+            "validated elemental data"
+          ],
+          "keywords": [
+            "WD-XRF",
+            "validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Examine whether a quantification of the Eagle III µXRF using the standard free fundamental parameter method is suitable.",
+          "searchable_summary": "evaluate quantification method for µXRF",
+          "inputs": [
+            "µXRF data"
+          ],
+          "outputs": [
+            "quantification suitability"
+          ],
+          "keywords": [
+            "quantification",
+            "µXRF",
+            "fundamental parameter method"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55183443.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

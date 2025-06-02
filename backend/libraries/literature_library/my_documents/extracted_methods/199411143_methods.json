@@ -1,0 +1,235 @@
+{
+  "paper_title": "Isotopic Analysis of T. occidentalis Leaf Samples",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Leaf Sample Collection and Preparation",
+      "description": "Process for collecting and preparing T. occidentalis leaf samples for isotopic analysis, including cleaning, drying, and homogenizing the samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect leaf material of T. occidentalis specimens from herbaria and natural present-day occurrences across a range of climate conditions.",
+          "searchable_summary": "collect T. occidentalis leaf samples from herbaria and natural sites",
+          "inputs": [
+            "herbaria records",
+            "field collection sites"
+          ],
+          "outputs": [
+            "leaf samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "herbaria",
+            "field sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Clean branches in an ultrasonic bath of deionized water to remove surface debris, oven dry at 50 C for 48 h, and homogenize.",
+          "searchable_summary": "clean, dry, and homogenize leaf samples",
+          "inputs": [
+            "leaf samples"
+          ],
+          "outputs": [
+            "cleaned and homogenized leaf samples"
+          ],
+          "keywords": [
+            "ultrasonic cleaning",
+            "oven drying",
+            "homogenization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Isotopic Measurement",
+      "description": "Measurement of %C, %N, and d 13 C values in T. occidentalis specimens using elemental analyzer and CRDS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Place aliquots of each T. occidentalis specimen into tin capsules and measure %C and %N using a Costech elemental analyzer.",
+          "searchable_summary": "measure %C and %N using elemental analyzer",
+          "inputs": [
+            "aliquots of leaf samples"
+          ],
+          "outputs": [
+            "%C and %N data"
+          ],
+          "keywords": [
+            "elemental analysis",
+            "carbon measurement",
+            "nitrogen measurement"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Measure d 13 C values using a Picarro G2201-i cavity ring-down spectrometer (CRDS).",
+          "searchable_summary": "measure d 13 C values using CRDS",
+          "inputs": [
+            "aliquots of leaf samples"
+          ],
+          "outputs": [
+            "d 13 C values"
+          ],
+          "keywords": [
+            "isotope analysis",
+            "CRDS",
+            "carbon isotopes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Run duplicates on both machines to ensure homogeneity.",
+          "searchable_summary": "validate measurement homogeneity with duplicates",
+          "inputs": [
+            "measurement data"
+          ],
+          "outputs": [
+            "validated data"
+          ],
+          "keywords": [
+            "data validation",
+            "duplicate analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Carbon Isotope Fractionation Calculation",
+      "description": "Calculation of carbon isotope fractionation values (D leaf) to decouple human-driven effects on d 13 C leaf values.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate D leaf values using known yearly d 13 C atm values.",
+          "searchable_summary": "calculate D leaf using d 13 C atm values",
+          "inputs": [
+            "d 13 C leaf values",
+            "d 13 C atm values"
+          ],
+          "outputs": [
+            "D leaf values"
+          ],
+          "keywords": [
+            "isotope fractionation",
+            "carbon isotopes",
+            "D leaf"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Environmental Data Derivation",
+      "description": "Derivation of environmental data affecting d 13 C leaf values using global databases.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Derive environmental data (MAP, MAT, and maximum summer temperature) from global databases using exact latitude and longitude coordinates.",
+          "searchable_summary": "fetch environmental data using coordinates",
+          "inputs": [
+            "latitude and longitude coordinates"
+          ],
+          "outputs": [
+            "environmental data"
+          ],
+          "keywords": [
+            "environmental data",
+            "climate data",
+            "geolocation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical analysis of isotope values against climate variables to identify potential drivers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate five-point moving averages of d 13 C leaf values to eliminate random noise.",
+          "searchable_summary": "compute moving averages of d 13 C leaf values",
+          "inputs": [
+            "d 13 C leaf values"
+          ],
+          "outputs": [
+            "smoothed d 13 C leaf values"
+          ],
+          "keywords": [
+            "moving average",
+            "noise reduction",
+            "data smoothing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Regress isotope values against climate variables using linear least squares regression.",
+          "searchable_summary": "perform linear regression on isotope and climate data",
+          "inputs": [
+            "isotope values",
+            "climate variables"
+          ],
+          "outputs": [
+            "regression coefficients",
+            "R2 values"
+          ],
+          "keywords": [
+            "linear regression",
+            "statistical analysis",
+            "climate impact"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Calculate p-values using the F-test to determine the chance of null hypothesis.",
+          "searchable_summary": "compute p-values using F-test",
+          "inputs": [
+            "regression results"
+          ],
+          "outputs": [
+            "p-values"
+          ],
+          "keywords": [
+            "p-value",
+            "F-test",
+            "hypothesis testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mapping Sampling Locations",
+      "description": "Creation of a map showing the sampling locations using R and associated packages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Create a map of sampling locations using R version 3.5.0 and the ggplot2 and maps packages.",
+          "searchable_summary": "generate map of sampling locations using R",
+          "inputs": [
+            "sampling location data"
+          ],
+          "outputs": [
+            "sampling location map"
+          ],
+          "keywords": [
+            "mapping",
+            "R programming",
+            "ggplot2",
+            "geospatial visualization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/199411143.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

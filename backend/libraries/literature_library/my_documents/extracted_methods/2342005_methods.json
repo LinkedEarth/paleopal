@@ -1,0 +1,289 @@
+{
+  "paper_title": "Bayesian Divergence-Time Estimation with Genome-Wide Single-Nucleotide Polymorphism Data of Sea Catfishes (Ariidae) Supports Miocene Closure of the Panamanian Isthmus",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bayesian Divergence-Time Estimation with Simulated SNP Data",
+      "description": "This method involves designing experiments based on simulated SNP data to test the performance of the MSC model implemented in SNAPP for divergence-time estimation. It assesses various factors such as data set size, node-age constraints, population sizes, and sampling strategies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Test the accuracy and precision of divergence times estimated with SNAPP and the degree to which these are influenced by the size of the SNP data set and the placement of node-age constraints.",
+          "searchable_summary": "Evaluate SNAPP's divergence-time estimation accuracy with varying SNP data set sizes and node-age constraints",
+          "inputs": [
+            "SNP data set",
+            "node-age constraints"
+          ],
+          "outputs": [
+            "accuracy and precision metrics"
+          ],
+          "keywords": [
+            "SNAPP",
+            "divergence-time estimation",
+            "node-age constraints"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Assess the effect of larger population sizes on divergence-time estimates.",
+          "searchable_summary": "Analyze impact of population size on divergence-time estimates using SNAPP",
+          "inputs": [
+            "population size data"
+          ],
+          "outputs": [
+            "divergence-time estimates"
+          ],
+          "keywords": [
+            "population size",
+            "divergence-time estimation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Test how the precision of estimates depends on the number of individuals sampled per species.",
+          "searchable_summary": "Determine effect of sample size on precision of divergence-time estimates",
+          "inputs": [
+            "number of individuals sampled"
+          ],
+          "outputs": [
+            "precision metrics"
+          ],
+          "keywords": [
+            "sample size",
+            "precision",
+            "divergence-time estimation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Evaluate SNAPP's estimates of divergence times, the molecular clock rate, and the population size, based on data sets that include or exclude invariant sites, with or without ascertainment-bias correction.",
+          "searchable_summary": "Assess SNAPP's divergence-time estimates with varying data set conditions",
+          "inputs": [
+            "data sets with/without invariant sites",
+            "ascertainment-bias correction"
+          ],
+          "outputs": [
+            "divergence-time estimates",
+            "molecular clock rate",
+            "population size"
+          ],
+          "keywords": [
+            "invariant sites",
+            "ascertainment bias",
+            "molecular clock"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Compare divergence-time estimates based on the MSC model implemented in SNAPP with those inferred with concatenated data using BEAST.",
+          "searchable_summary": "Compare SNAPP and BEAST divergence-time estimates",
+          "inputs": [
+            "MSC model data",
+            "concatenated data"
+          ],
+          "outputs": [
+            "comparison metrics"
+          ],
+          "keywords": [
+            "SNAPP",
+            "BEAST",
+            "concatenated data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Simulating Genome-Wide SNP Data",
+      "description": "This method involves simulating genome-wide SNP data using parameters similar to empirical analyses with SNAPP, including species tree generation, gene tree simulation, and sequence evolution modeling.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Generate 100 species trees with the pure-birth Yule process, conditioned to have 20 extant species.",
+          "searchable_summary": "Generate species trees using Yule process",
+          "inputs": [
+            "speciation rate",
+            "generation time"
+          ],
+          "outputs": [
+            "species trees"
+          ],
+          "keywords": [
+            "Yule process",
+            "species tree",
+            "speciation rate"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Simulate 10,000 gene trees for each species tree using DendroPy, with constant and equal population sizes for all branches.",
+          "searchable_summary": "Simulate gene trees using DendroPy",
+          "inputs": [
+            "species trees",
+            "population sizes"
+          ],
+          "outputs": [
+            "gene trees"
+          ],
+          "keywords": [
+            "DendroPy",
+            "gene tree",
+            "population size"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Simulate sequences along each gene tree with Seq-Gen according to the Jukes-Cantor model of sequence evolution.",
+          "searchable_summary": "Simulate sequences using Seq-Gen and Jukes-Cantor model",
+          "inputs": [
+            "gene trees",
+            "mutation rate"
+          ],
+          "outputs": [
+            "simulated sequences"
+          ],
+          "keywords": [
+            "Seq-Gen",
+            "Jukes-Cantor model",
+            "sequence simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Select a single SNP at random from all except completely invariable alignments to generate data sets of close to 10,000 unlinked SNPs.",
+          "searchable_summary": "Select SNPs from alignments to create SNP data sets",
+          "inputs": [
+            "alignments"
+          ],
+          "outputs": [
+            "SNP data sets"
+          ],
+          "keywords": [
+            "SNP selection",
+            "alignments",
+            "unlinked SNPs"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Subsample SNP data sets to generate sets of 300, 1000, and 3000 bi-allelic SNPs for each species tree.",
+          "searchable_summary": "Subsample SNP data sets to specific sizes",
+          "inputs": [
+            "SNP data sets"
+          ],
+          "outputs": [
+            "subsampled SNP data sets"
+          ],
+          "keywords": [
+            "subsampling",
+            "bi-allelic SNPs",
+            "data set size"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Inferring Divergence Times from Simulated SNP Data",
+      "description": "This method involves using SNAPP to infer divergence times from simulated SNP data, with specific modifications to standard analysis settings to accommodate the data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Fix forward and reverse mutation-rate parameters to 1.0 to assume a symmetric substitution model.",
+          "searchable_summary": "Set mutation-rate parameters for symmetric substitution model",
+          "inputs": [
+            "mutation-rate parameters"
+          ],
+          "outputs": [
+            "symmetric substitution model"
+          ],
+          "keywords": [
+            "mutation rate",
+            "symmetric model",
+            "substitution model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Add a parameter for the rate of a strict molecular clock and use the one-on-x prior for the clock rate.",
+          "searchable_summary": "Add strict molecular clock parameter with one-on-x prior",
+          "inputs": [
+            "molecular clock rate"
+          ],
+          "outputs": [
+            "clock rate parameter"
+          ],
+          "keywords": [
+            "molecular clock",
+            "one-on-x prior",
+            "clock rate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calibrate the molecular clock rate through age constraints on a single node of the species tree.",
+          "searchable_summary": "Calibrate clock rate with node age constraints",
+          "inputs": [
+            "species tree",
+            "node age"
+          ],
+          "outputs": [
+            "calibrated clock rate"
+          ],
+          "keywords": [
+            "calibration",
+            "node age",
+            "clock rate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Estimate a single value of population size for all branches, assuming equal population sizes.",
+          "searchable_summary": "Estimate uniform population size for all branches",
+          "inputs": [
+            "population size data"
+          ],
+          "outputs": [
+            "uniform population size"
+          ],
+          "keywords": [
+            "population size",
+            "uniform estimation",
+            "SNAPP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Fix the species-tree topology to the true topology for divergence-time estimation.",
+          "searchable_summary": "Fix species-tree topology for analysis",
+          "inputs": [
+            "species-tree topology"
+          ],
+          "outputs": [
+            "fixed topology"
+          ],
+          "keywords": [
+            "species-tree topology",
+            "fixed topology",
+            "divergence-time estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/2342005.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

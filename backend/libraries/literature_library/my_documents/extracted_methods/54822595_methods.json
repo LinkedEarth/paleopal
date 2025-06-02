@@ -1,0 +1,240 @@
+{
+  "paper_title": "Foraminiferal and environmental data analysis methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Processing and Foraminiferal Analysis",
+      "description": "Procedure for preparing surface and core sediment samples and identifying benthic foraminifera for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Both the surface and core samples were wet-sieved with a 63 µm sieve.",
+          "searchable_summary": "Wet sieve sediment samples using a 63 µm sieve.",
+          "inputs": [
+            "surface sediment samples",
+            "core sediment samples"
+          ],
+          "outputs": [
+            "fraction > 63 µm",
+            "fraction < 63 µm"
+          ],
+          "keywords": [
+            "wet sieving",
+            "sediment processing",
+            "sample preparation",
+            "63 µm sieve"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The fraction > 63 µm was dried at 40 • C for later foraminiferal analysis.",
+          "searchable_summary": "Dry the sediment fraction greater than 63 µm at 40°C.",
+          "inputs": [
+            "fraction > 63 µm"
+          ],
+          "outputs": [
+            "dried fraction > 63 µm"
+          ],
+          "keywords": [
+            "drying",
+            "sediment processing",
+            "sample preparation",
+            "40°C"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The modern and fossil faunas were investigated from the > 125 µm fraction using representative splits containing approximately 300 benthic foraminiferal specimens.",
+          "searchable_summary": "Prepare representative splits of the > 125 µm fraction containing approximately 300 benthic foraminiferal specimens for investigation.",
+          "inputs": [
+            "dried fraction > 63 µm"
+          ],
+          "outputs": [
+            "representative splits (> 125 µm)"
+          ],
+          "keywords": [
+            "sample splitting",
+            "foraminiferal analysis preparation",
+            "microfossil analysis",
+            "representative split"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The identification of the foraminifera on the species level was mainly based on the studies of Hottinger et al. (1993), Jones (1994) and Hohenegger et al. (1999).",
+          "searchable_summary": "Identify foraminifera specimens to species level using taxonomic guides.",
+          "inputs": [
+            "foraminiferal specimens from splits"
+          ],
+          "outputs": [
+            "identified foraminifera species list",
+            "species counts"
+          ],
+          "keywords": [
+            "foraminifera identification",
+            "taxonomy",
+            "microfossil analysis",
+            "species identification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Rare species or specimens that could not be identified on the species level were grouped into their genus or family.",
+          "searchable_summary": "Group unidentified or rare foraminifera specimens at genus or family level.",
+          "inputs": [
+            "unidentified/rare foraminifera specimens"
+          ],
+          "outputs": [
+            "foraminifera grouped by genus/family"
+          ],
+          "keywords": [
+            "foraminifera identification",
+            "taxonomy",
+            "microfossil analysis",
+            "genus grouping",
+            "family grouping"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Potentially relocated benthic foraminifera (broken tests, tests fragments, and tests with yellowish-brown coloration) were counted separately.",
+          "searchable_summary": "Count potentially relocated foraminifera specimens separately based on specified criteria.",
+          "inputs": [
+            "foraminiferal specimens"
+          ],
+          "outputs": [
+            "count of potentially relocated foraminifera"
+          ],
+          "keywords": [
+            "foraminifera analysis",
+            "reworked specimens",
+            "taphonomy",
+            "specimen counting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multivariate Statistical Analysis",
+      "description": "Application of Principal Component Analysis (PCA) and Redundancy Analysis (RDA) to analyze foraminiferal assemblages and their relationship with environmental parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A total of 53 modern foraminiferal taxa having relative minimum abundances of 0.5 % on the total fauna and being present in at least 3 samples were included into analysis. All potentially relocated specimens were excluded.",
+          "searchable_summary": "Filter foraminiferal taxa data based on minimum relative abundance (0.5%), minimum sample presence (3), and exclude relocated specimens.",
+          "inputs": [
+            "identified foraminifera species list",
+            "species counts",
+            "count of potentially relocated foraminifera"
+          ],
+          "outputs": [
+            "filtered foraminiferal taxa data for analysis"
+          ],
+          "keywords": [
+            "data filtering",
+            "data cleaning",
+            "foraminifera data",
+            "abundance threshold",
+            "presence threshold"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "In order to extract the dominant modern and fossil benthic foraminiferal assemblages, a principal component analysis (PCA) in Q-mode and with varimax rotation was carried out on the surface samples. The number of principal components (PCs) was selected based on eigenvalues > 1. PC loadings ≥ 0.4 for each axis were defined as significant.",
+          "searchable_summary": "Perform Q-mode Principal Component Analysis (PCA) with varimax rotation on filtered foraminiferal data. Select components with eigenvalues > 1 and identify significant loadings (>= 0.4).",
+          "inputs": [
+            "filtered foraminiferal taxa data for analysis"
+          ],
+          "outputs": [
+            "PCA results",
+            "principal components (PCs)",
+            "PC loadings"
+          ],
+          "keywords": [
+            "PCA",
+            "Principal Component Analysis",
+            "Q-mode PCA",
+            "varimax rotation",
+            "multivariate analysis",
+            "eigenvalue",
+            "PC loading"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We used a reduced surface data set with 23 species having percentages exceeding 5 % in the total assemblage. Species counts were square-root-transformed and environmental parameters were standardized before analysis.",
+          "searchable_summary": "Create a reduced dataset with species exceeding 5% abundance. Square-root transform species counts and standardize environmental parameters.",
+          "inputs": [
+            "identified foraminifera species list",
+            "species counts",
+            "environmental parameters (water depth, sediment percentages)"
+          ],
+          "outputs": [
+            "reduced and transformed/standardized data for RDA"
+          ],
+          "keywords": [
+            "data reduction",
+            "data transformation",
+            "data standardization",
+            "species abundance",
+            "square-root transform",
+            "environmental data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "In order to examine the relationship between the modern species in the data set of the surface samples and environmental parameters, a redundancy analysis (RDA) was carried out using Canoco (version 4.5).",
+          "searchable_summary": "Perform Redundancy Analysis (RDA) to examine the relationship between foraminiferal species and environmental parameters.",
+          "inputs": [
+            "reduced and transformed/standardized data for RDA"
+          ],
+          "outputs": [
+            "RDA results",
+            "species-environment relationships"
+          ],
+          "keywords": [
+            "RDA",
+            "Redundancy Analysis",
+            "multivariate analysis",
+            "species-environment relationship",
+            "ecological analysis",
+            "Canoco"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Partial RDAs (with each environmental variable as the only variable) were calculated to evaluate the individual influence of the environmental parameters on the foraminiferal assemblages.",
+          "searchable_summary": "Calculate Partial Redundancy Analysis (RDA) for each environmental variable individually to assess its influence.",
+          "inputs": [
+            "reduced and transformed/standardized data for RDA",
+            "individual environmental parameters"
+          ],
+          "outputs": [
+            "Partial RDA results",
+            "individual environmental influence scores"
+          ],
+          "keywords": [
+            "Partial RDA",
+            "Redundancy Analysis",
+            "environmental influence",
+            "variable importance",
+            "ecological analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54822595.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

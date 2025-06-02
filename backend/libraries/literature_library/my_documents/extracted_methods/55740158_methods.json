@@ -1,0 +1,167 @@
+{
+  "paper_title": "A new look at the multi-G model for organic carbon degradation in surface marine sediments for coupled benthic–pelagic simulations of the global ocean",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "POC Degradation Kinetics Calculation",
+      "description": "This method describes the calculation of the kinetics of Particulate Organic Carbon (POC) degradation in bioturbated surface sediments using a 1-D reaction transport model. It links benthic POC degradation to POC reactivity in the water column.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Calculate the rate of POC degradation at the sediment surface, RPOC(0, t), using the total POC content at the sediment-water interface and its apparent reactivity.",
+          "searchable_summary": "Calculate POC degradation rate at sediment surface using POC content and reactivity",
+          "inputs": [
+            "POC tot (0,t)",
+            "k app (wd)"
+          ],
+          "outputs": [
+            "RPOC(0, t)"
+          ],
+          "keywords": [
+            "POC degradation",
+            "sediment surface",
+            "reactivity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Estimate the rate constants of discrete POC reactivity fractions (highly reactive, reactive, and refractory) using the sediment model.",
+          "searchable_summary": "Estimate rate constants for POC reactivity fractions",
+          "inputs": [
+            "k app (wd)",
+            "POC fractions"
+          ],
+          "outputs": [
+            "k 0",
+            "k 1",
+            "k 2"
+          ],
+          "keywords": [
+            "rate constants",
+            "POC fractions",
+            "sediment model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calculate the ratio f 1 /f 0 as a function of k app (wd) and CBE to estimate k 0 and k 1.",
+          "searchable_summary": "Calculate f 1 /f 0 ratio to estimate k 0 and k 1",
+          "inputs": [
+            "k app (wd)",
+            "CBE"
+          ],
+          "outputs": [
+            "f 1 /f 0",
+            "k 0",
+            "k 1"
+          ],
+          "keywords": [
+            "f 1 /f 0 ratio",
+            "CBE",
+            "rate estimation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Scale k 2 to the sedimentation rate to account for deep sea conditions.",
+          "searchable_summary": "Scale k 2 to sedimentation rate",
+          "inputs": [
+            "k 2",
+            "sedimentation rate"
+          ],
+          "outputs": [
+            "scaled k 2"
+          ],
+          "keywords": [
+            "k 2 scaling",
+            "sedimentation rate",
+            "deep sea"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "1-D Reaction Transport Model Simulation",
+      "description": "This method involves simulating the degradation and content of POC in bioturbated surface sediments using a 1-D reaction transport model. It includes solute transport and reaction network modeling.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Simulate the degradation and content of POC using the 1-D reaction transport model with solutes like O2, NO3-, NO2-, and NH4+.",
+          "searchable_summary": "Simulate POC degradation using 1-D reaction transport model",
+          "inputs": [
+            "POC fractions",
+            "solutes"
+          ],
+          "outputs": [
+            "POC degradation simulation"
+          ],
+          "keywords": [
+            "1-D model",
+            "POC degradation",
+            "solute transport"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Transport POC by burial with compaction and mixing by bioturbation.",
+          "searchable_summary": "Transport POC by burial and bioturbation",
+          "inputs": [
+            "POC",
+            "bioturbation coefficients"
+          ],
+          "outputs": [
+            "transported POC"
+          ],
+          "keywords": [
+            "POC transport",
+            "burial",
+            "bioturbation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Transport solutes by burial, molecular diffusion, bioturbation, and bioirrigation.",
+          "searchable_summary": "Transport solutes by various mechanisms",
+          "inputs": [
+            "solutes",
+            "transport coefficients"
+          ],
+          "outputs": [
+            "transported solutes"
+          ],
+          "keywords": [
+            "solute transport",
+            "diffusion",
+            "bioirrigation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Solve mass balance equations for concentration changes with time until a steady state is reached.",
+          "searchable_summary": "Solve mass balance equations for steady state",
+          "inputs": [
+            "mass balance equations"
+          ],
+          "outputs": [
+            "steady state concentrations"
+          ],
+          "keywords": [
+            "mass balance",
+            "steady state",
+            "concentration"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55740158.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

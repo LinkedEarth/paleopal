@@ -1,0 +1,154 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Local Vegetation Survey",
+      "description": "Survey of vegetation surrounding moss-polster sites up to 1,500 m, following a standard protocol to assess plant cover and community composition in different zones.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Zone A (0−10 m): plant cover was estimated within 21 × 1 m² quadrats, one quadrat was located at the center of the sampling site, and 20 other quadrats were placed at specific distances of N, E, S, W, NE, SE, SW, and NW directions.",
+          "searchable_summary": "estimate plant cover in quadrats around sampling site",
+          "inputs": [
+            "sampling site location"
+          ],
+          "outputs": [
+            "plant cover estimates"
+          ],
+          "keywords": [
+            "vegetation survey",
+            "quadrat",
+            "plant cover"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Zone B (10−100 m): vegetation communities, defined based on dominant taxa, were mapped using a compass and a handheld GPS out to 100 m, and vegetation was surveyed in each community within several randomly distributed 1-m² quadrats for the open community, 6-m radius point surveys and 1-m² quadrats for semiopen and forest community.",
+          "searchable_summary": "map and survey vegetation communities using GPS",
+          "inputs": [
+            "sampling site location",
+            "GPS device"
+          ],
+          "outputs": [
+            "vegetation community maps",
+            "plant composition data"
+          ],
+          "keywords": [
+            "vegetation mapping",
+            "GPS",
+            "community survey"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Zone C (100 m-1,500 m): Google Earth image within 1,500 m from the center of each moss sample was used to identify land-cover categories, where both winter and summer images were adopted to separate deciduous from evergreen trees; plant composition for each land-cover category was obtained from the field surveys.",
+          "searchable_summary": "use Google Earth to identify land-cover categories",
+          "inputs": [
+            "Google Earth images",
+            "field survey data"
+          ],
+          "outputs": [
+            "land-cover categories",
+            "plant composition data"
+          ],
+          "keywords": [
+            "remote sensing",
+            "land-cover classification",
+            "Google Earth"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RPP Estimate Validation using REVEALS Model",
+      "description": "Validation of relative pollen productivity (RPP) estimates using the REVEALS model with pollen counts and vegetation data from moss polsters and regional vegetation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Run the ERV model with pollen counts and vegetation data within 1.5 km of the 19 sites located in the southwest and the 17 sites located in the northeast of the study region to generate a new set of RPP estimates.",
+          "searchable_summary": "run ERV model to generate RPP estimates",
+          "inputs": [
+            "pollen counts",
+            "vegetation data"
+          ],
+          "outputs": [
+            "RPP estimates"
+          ],
+          "keywords": [
+            "ERV model",
+            "RPP",
+            "pollen data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Compare the standard deviations (SDs) for all RPP estimates with previous data.",
+          "searchable_summary": "compare RPP estimates' SDs with previous data",
+          "inputs": [
+            "RPP estimates",
+            "previous RPP data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "standard deviation",
+            "RPP validation",
+            "comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial Representation of REVEALS Model",
+      "description": "Assessment of the spatial representation of REVEALS-based vegetation abundance, comparing RVs with observed vegetation at various distances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Compare RVs based on pollen records from small-to middle-sized lakes with vegetation collected around 200 km.",
+          "searchable_summary": "compare RVs with vegetation data at 200 km",
+          "inputs": [
+            "RVs",
+            "vegetation data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "RVs",
+            "pollen records",
+            "spatial analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Evaluate the similarity between RVs and OBVs collected from different distances for various taxa.",
+          "searchable_summary": "evaluate RVs and OBVs similarity for taxa",
+          "inputs": [
+            "RVs",
+            "OBVs",
+            "taxa data"
+          ],
+          "outputs": [
+            "similarity analysis"
+          ],
+          "keywords": [
+            "RVs",
+            "OBVs",
+            "taxa similarity"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/265080677.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

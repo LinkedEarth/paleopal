@@ -1,0 +1,351 @@
+{
+  "paper_title": "Tree-Ring Stable Oxygen Isotopes and Statistical Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Tree-Ring Stable Oxygen Isotopes Experimental Method",
+      "description": "This method describes the process of measuring tree-ring widths, extracting α-cellulose, and determining δ18O in α-cellulose to study stable oxygen isotopes in tree rings.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The width of each annual ring was measured by the LINTAB measuring table (Rinntech, Germany) with an accuracy of 0.01 mm.",
+          "searchable_summary": "measure tree-ring widths using LINTAB measuring table",
+          "inputs": [
+            "tree-ring samples"
+          ],
+          "outputs": [
+            "tree-ring width measurements"
+          ],
+          "keywords": [
+            "tree-ring",
+            "measurement",
+            "LINTAB"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The COFECHA program was used for quality control and to ensure accurate calendar years of each ring.",
+          "searchable_summary": "perform quality control on tree-ring data using COFECHA",
+          "inputs": [
+            "tree-ring width measurements"
+          ],
+          "outputs": [
+            "quality-controlled tree-ring data"
+          ],
+          "keywords": [
+            "COFECHA",
+            "quality control",
+            "tree-ring"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Developed a ring-width chronology using the ARSTAN program.",
+          "searchable_summary": "create ring-width chronology using ARSTAN",
+          "inputs": [
+            "quality-controlled tree-ring data"
+          ],
+          "outputs": [
+            "ring-width chronology"
+          ],
+          "keywords": [
+            "ARSTAN",
+            "chronology",
+            "tree-ring"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Removed age-related signals using negative exponential curve, straight line of negative slope, or horizontal line.",
+          "searchable_summary": "remove age-related signals from tree-ring data",
+          "inputs": [
+            "ring-width chronology"
+          ],
+          "outputs": [
+            "detrended tree-ring data"
+          ],
+          "keywords": [
+            "detrending",
+            "age-related signals",
+            "tree-ring"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Selected four samples from different trees for stable oxygen isotopes studies.",
+          "searchable_summary": "select tree-ring samples for isotope analysis",
+          "inputs": [
+            "detrended tree-ring data"
+          ],
+          "outputs": [
+            "selected tree-ring samples"
+          ],
+          "keywords": [
+            "sample selection",
+            "isotope analysis",
+            "tree-ring"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Peeled the rings off year by year using a sharp knife and cut the ring samples annually.",
+          "searchable_summary": "prepare tree-ring samples by peeling and cutting",
+          "inputs": [
+            "selected tree-ring samples"
+          ],
+          "outputs": [
+            "prepared tree-ring samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "tree-ring"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Used the Jayme-Wise method to extract α-cellulose.",
+          "searchable_summary": "extract α-cellulose using Jayme-Wise method",
+          "inputs": [
+            "prepared tree-ring samples"
+          ],
+          "outputs": [
+            "α-cellulose"
+          ],
+          "keywords": [
+            "Jayme-Wise method",
+            "α-cellulose",
+            "extraction"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Used a Delta V Advantage isotope ratio mass spectrometer to determine the δ18O in α-cellulose.",
+          "searchable_summary": "determine δ18O using isotope ratio mass spectrometer",
+          "inputs": [
+            "α-cellulose"
+          ],
+          "outputs": [
+            "δ18O measurements"
+          ],
+          "keywords": [
+            "isotope analysis",
+            "δ18O",
+            "mass spectrometer"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "Inserted a MERCK cellulose every eight samples to calibrate the experimental results.",
+          "searchable_summary": "calibrate δ18O measurements using MERCK cellulose",
+          "inputs": [
+            "δ18O measurements"
+          ],
+          "outputs": [
+            "calibrated δ18O measurements"
+          ],
+          "keywords": [
+            "calibration",
+            "MERCK cellulose",
+            "δ18O"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Methods",
+      "description": "This method involves statistical analysis to explore the response of tree-ring δ18O to climate factors and to reconstruct climate data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Used Pearson's correlation coefficient (r) and partial correlation to explore the response of tree-ring δ18O to climate factors.",
+          "searchable_summary": "calculate Pearson's and partial correlation coefficients",
+          "inputs": [
+            "tree-ring δ18O data",
+            "climate factors"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Pearson's correlation",
+            "partial correlation",
+            "climate factors"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculated mean interseries correlations (Rbar) and expressed population signal (EPS) based on 30-year windows with a lag of 15 years.",
+          "searchable_summary": "calculate Rbar and EPS for tree-ring data",
+          "inputs": [
+            "tree-ring data"
+          ],
+          "outputs": [
+            "Rbar",
+            "EPS"
+          ],
+          "keywords": [
+            "Rbar",
+            "EPS",
+            "tree-ring"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Used statistical parameters to reconstruct the equation, including explained variance (R2), F value, p value, and Durbin-Watson value.",
+          "searchable_summary": "reconstruct climate data using statistical parameters",
+          "inputs": [
+            "tree-ring data",
+            "climate data"
+          ],
+          "outputs": [
+            "reconstructed climate equation"
+          ],
+          "keywords": [
+            "reconstruction",
+            "explained variance",
+            "Durbin-Watson"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Used split calibration-verification model to test the stability of the regression equation.",
+          "searchable_summary": "validate regression model using split calibration-verification",
+          "inputs": [
+            "reconstructed climate equation"
+          ],
+          "outputs": [
+            "validated model"
+          ],
+          "keywords": [
+            "calibration",
+            "verification",
+            "regression model"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Performed multi-taper method (MTM) spectral analysis to detect periodicities in the reconstructed series.",
+          "searchable_summary": "perform MTM spectral analysis on reconstructed series",
+          "inputs": [
+            "reconstructed series"
+          ],
+          "outputs": [
+            "periodicities"
+          ],
+          "keywords": [
+            "MTM",
+            "spectral analysis",
+            "periodicities"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Employed ensemble empirical mode decomposition (EEMD) to decompose the reconstruction series.",
+          "searchable_summary": "decompose series using EEMD",
+          "inputs": [
+            "reconstructed series"
+          ],
+          "outputs": [
+            "intrinsic mode functions"
+          ],
+          "keywords": [
+            "EEMD",
+            "decomposition",
+            "intrinsic mode functions"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Collection",
+      "description": "This method describes the collection and processing of meteorological data to support the analysis of tree-ring δ18O data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Downloaded meteorological data from the China Meteorological Service Center.",
+          "searchable_summary": "download meteorological data from China Meteorological Service Center",
+          "inputs": [
+            "China Meteorological Service Center API"
+          ],
+          "outputs": [
+            "meteorological data"
+          ],
+          "keywords": [
+            "meteorological data",
+            "China Meteorological Service Center"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Obtained δ18Op data from the Global Network of Isotopes in Precipitation project.",
+          "searchable_summary": "download δ18Op data from GNIP",
+          "inputs": [
+            "GNIP API"
+          ],
+          "outputs": [
+            "δ18Op data"
+          ],
+          "keywords": [
+            "δ18Op",
+            "GNIP",
+            "isotope data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Used global grid precipitation data (CRUTS 4.03) to explore spatial representativeness.",
+          "searchable_summary": "download global grid precipitation data from CRUTS 4.03",
+          "inputs": [
+            "CRUTS 4.03 API"
+          ],
+          "outputs": [
+            "global precipitation data"
+          ],
+          "keywords": [
+            "CRUTS 4.03",
+            "precipitation data",
+            "global grid"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculated correlations between reconstructed series and ENSO-related indices.",
+          "searchable_summary": "calculate correlations with ENSO indices",
+          "inputs": [
+            "reconstructed series",
+            "ENSO indices"
+          ],
+          "outputs": [
+            "correlation results"
+          ],
+          "keywords": [
+            "ENSO",
+            "correlation",
+            "indices"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/224908763.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

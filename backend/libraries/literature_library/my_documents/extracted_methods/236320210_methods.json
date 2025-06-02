@@ -1,0 +1,378 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the effect of incubation time, germination media, and germination technique on pollen tube length.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Analysis of variance was performed to analyze the effect of incubation time, germination media, and germination technique on pollen tube length.",
+          "searchable_summary": "perform ANOVA to assess effects on pollen tube length",
+          "inputs": [
+            "incubation time data",
+            "germination media data",
+            "germination technique data"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "pollen tube length",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Diagnostic plots were used to check linearity (residual vs. fitted plot), normality (normal Q-Q plot), homoscedasticity (scale location plot), and influential observations (residual vs. leverage plot).",
+          "searchable_summary": "generate diagnostic plots for ANOVA assumptions",
+          "inputs": [
+            "ANOVA model"
+          ],
+          "outputs": [
+            "diagnostic plots"
+          ],
+          "keywords": [
+            "diagnostic plots",
+            "linearity",
+            "normality",
+            "homoscedasticity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Multiple comparisons were either performed using Fisher's least significant difference test using agricolae:LSD.test, if the sample size and variance were equal, or the Games-Howell test using userfriendlyscience:oneway combined with multcompView:multcompLetters, if the sample size and variances were unequal.",
+          "searchable_summary": "perform multiple comparisons using LSD or Games-Howell test",
+          "inputs": [
+            "ANOVA results"
+          ],
+          "outputs": [
+            "multiple comparison results"
+          ],
+          "keywords": [
+            "multiple comparisons",
+            "LSD test",
+            "Games-Howell test"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "A six-number summary statistic was calculated for the second and third datasets using plyr:ddply.",
+          "searchable_summary": "calculate six-number summary statistics",
+          "inputs": [
+            "dataset"
+          ],
+          "outputs": [
+            "six-number summary"
+          ],
+          "keywords": [
+            "summary statistics",
+            "plyr",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "PCA was performed on 12 variables using FactoMineR:PCA.",
+          "searchable_summary": "perform PCA on dataset",
+          "inputs": [
+            "dataset"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "FactoMineR",
+            "R"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Bartlett's test of sphericity and the Kaiser-Meyer-Olkin test of sampling adequacy were run before PCA analysis.",
+          "searchable_summary": "run Bartlett's and KMO tests before PCA",
+          "inputs": [
+            "dataset"
+          ],
+          "outputs": [
+            "Bartlett's test result",
+            "KMO test result"
+          ],
+          "keywords": [
+            "Bartlett's test",
+            "KMO test",
+            "PCA"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Hierarchical clustering of principal components was performed using FactoMineR:HCPC.",
+          "searchable_summary": "perform hierarchical clustering on PCA results",
+          "inputs": [
+            "PCA results"
+          ],
+          "outputs": [
+            "clustering results"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "PCA",
+            "FactoMineR"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "A decision tree was created using party:ctree.",
+          "searchable_summary": "create decision tree model",
+          "inputs": [
+            "dataset"
+          ],
+          "outputs": [
+            "decision tree model"
+          ],
+          "keywords": [
+            "decision tree",
+            "ctree",
+            "R"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "visualization",
+          "description": "All plots were created using factoextra:fviz_dend, factoextra:fviz_cluster, ggplot2:ggplot, and ggpubr:ggarrange.",
+          "searchable_summary": "create visualizations using ggplot2 and factoextra",
+          "inputs": [
+            "data",
+            "analysis results"
+          ],
+          "outputs": [
+            "visualizations"
+          ],
+          "keywords": [
+            "visualization",
+            "ggplot2",
+            "factoextra"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Effect of Germination Technique",
+      "description": "Comparison of four germination techniques to determine their effect on pollen tube growth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Agar plates were made by autoclaving 100 g L−1 sucrose, 25 mg L−1 boric acid, and 10 g L−1 agar in distilled water for 60 min at 105°C.",
+          "searchable_summary": "prepare agar plates with sucrose, boric acid, and agar",
+          "inputs": [
+            "sucrose",
+            "boric acid",
+            "agar",
+            "distilled water"
+          ],
+          "outputs": [
+            "agar plates"
+          ],
+          "keywords": [
+            "agar plates",
+            "autoclaving",
+            "germination"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Plates were poured after the medium cooled down to approximately 65°C, dried for 6 h under a sterile laminar flow hood, and stored at 4°C until further use.",
+          "searchable_summary": "pour and store agar plates",
+          "inputs": [
+            "cooled agar medium"
+          ],
+          "outputs": [
+            "stored agar plates"
+          ],
+          "keywords": [
+            "agar plates",
+            "sterile storage"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Acclimated pollen was transferred to a 100 µL cell strainer and sprinkled over the agar plates using a fine brush.",
+          "searchable_summary": "apply pollen to agar plates",
+          "inputs": [
+            "acclimated pollen",
+            "agar plates"
+          ],
+          "outputs": [
+            "pollen-applied agar plates"
+          ],
+          "keywords": [
+            "pollen application",
+            "agar plates"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "A liquid germination medium containing 100 g L−1 sucrose and 25 mg L−1 boric acid was used for the germination techniques that utilized a pollen suspension.",
+          "searchable_summary": "prepare liquid germination medium",
+          "inputs": [
+            "sucrose",
+            "boric acid"
+          ],
+          "outputs": [
+            "liquid germination medium"
+          ],
+          "keywords": [
+            "germination medium",
+            "pollen suspension"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "For hanging and sitting drops, three O-rings were evenly spaced onto a microscopy slide. One drop (20 µL) of the pollen suspension was pipetted into each O-ring center.",
+          "searchable_summary": "set up hanging and sitting drop slides",
+          "inputs": [
+            "O-rings",
+            "microscopy slide",
+            "pollen suspension"
+          ],
+          "outputs": [
+            "prepared slides"
+          ],
+          "keywords": [
+            "hanging drop",
+            "sitting drop",
+            "microscopy"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "A second microscopy slide was placed on top of the O-rings, and two binder clips were used to seal the two slides.",
+          "searchable_summary": "seal slides with binder clips",
+          "inputs": [
+            "prepared slides",
+            "binder clips"
+          ],
+          "outputs": [
+            "sealed slides"
+          ],
+          "keywords": [
+            "slide sealing",
+            "binder clips"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Slides for the sitting drop techniques were left in the original position, while slides for the hanging drop were flipped so that the drops faced downward.",
+          "searchable_summary": "orient slides for hanging and sitting drop techniques",
+          "inputs": [
+            "sealed slides"
+          ],
+          "outputs": [
+            "oriented slides"
+          ],
+          "keywords": [
+            "slide orientation",
+            "hanging drop",
+            "sitting drop"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "All samples were dark-incubated at 25°C for 2 h.",
+          "searchable_summary": "incubate samples in the dark",
+          "inputs": [
+            "oriented slides"
+          ],
+          "outputs": [
+            "incubated samples"
+          ],
+          "keywords": [
+            "dark incubation",
+            "temperature control"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Effects of Incubation Time, Germination Media, and Germination Technique on Pollen Tube Growth",
+      "description": "Investigation of the effects of incubation temperatures, germination media, and germination techniques on pollen tube growth of apple cultivars.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Investigate the effects of eight incubation temperatures, seven germination media, and four germination techniques on pollen tube growth.",
+          "searchable_summary": "test various conditions on pollen tube growth",
+          "inputs": [
+            "incubation temperatures",
+            "germination media",
+            "germination techniques"
+          ],
+          "outputs": [
+            "pollen tube growth data"
+          ],
+          "keywords": [
+            "incubation",
+            "germination media",
+            "pollen tube growth"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Select an appropriate incubation time to ensure the compatibility of the results.",
+          "searchable_summary": "determine optimal incubation time",
+          "inputs": [
+            "pollen tube growth data"
+          ],
+          "outputs": [
+            "optimal incubation time"
+          ],
+          "keywords": [
+            "incubation time",
+            "pollen tube growth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use Brewbaker and Kwack media as a standard germination medium for in vitro pollen germination experiments.",
+          "searchable_summary": "prepare Brewbaker and Kwack media",
+          "inputs": [
+            "sucrose",
+            "boric acid",
+            "calcium nitrate",
+            "magnesium sulfate",
+            "potassium nitrate"
+          ],
+          "outputs": [
+            "germination medium"
+          ],
+          "keywords": [
+            "Brewbaker and Kwack",
+            "germination medium"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236320210.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

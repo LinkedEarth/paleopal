@@ -1,0 +1,300 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Potential Energy Surface Construction",
+      "description": "Construction of analytical potential energy surfaces (PESs) for triatomic systems using ab initio energies obtained from CCSD(T) electronic structure calculations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Analytical PESs were constructed using ab initio energies obtained using CCSD(T) electronic structure calculations.",
+          "searchable_summary": "perform CCSD(T) electronic structure calculations to obtain ab initio energies",
+          "inputs": [
+            "triatomic systems",
+            "CCSD(T) method",
+            "aug-cc-pVnZ basis sets"
+          ],
+          "outputs": [
+            "ab initio energies"
+          ],
+          "keywords": [
+            "CCSD(T)",
+            "ab initio",
+            "electronic structure calculations"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For the construction of PESs for the triatomic system ABC, ab initio energies were computed along the grids defined in internal coordinates (r_AB, r_BC, and θ).",
+          "searchable_summary": "compute ab initio energies along defined grids in internal coordinates",
+          "inputs": [
+            "internal coordinates (r_AB, r_BC, θ)",
+            "ab initio energies"
+          ],
+          "outputs": [
+            "PESs for triatomic systems"
+          ],
+          "keywords": [
+            "PES",
+            "internal coordinates",
+            "grid computation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To represent the 2B interaction energies, analytical PESs for all the possible diatomic fragments were obtained using either cubic spline interpolation or nonlinear curve fitting methods.",
+          "searchable_summary": "use cubic spline interpolation or nonlinear curve fitting to obtain diatomic fragment PESs",
+          "inputs": [
+            "diatomic fragments",
+            "ab initio energies"
+          ],
+          "outputs": [
+            "2B interaction energies"
+          ],
+          "keywords": [
+            "cubic spline interpolation",
+            "nonlinear curve fitting",
+            "diatomic fragments"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The Levenberg-Marquardt nonlinear optimization algorithm was used to determine the linear and nonlinear parameters in Equation (3).",
+          "searchable_summary": "apply Levenberg-Marquardt algorithm for parameter optimization",
+          "inputs": [
+            "Equation (3)",
+            "initial parameters"
+          ],
+          "outputs": [
+            "optimized parameters"
+          ],
+          "keywords": [
+            "Levenberg-Marquardt",
+            "nonlinear optimization",
+            "parameter fitting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Time-Dependent Quantum Mechanical Method",
+      "description": "Solving the time-dependent Schrödinger equation using wave packets to study quantum mechanical systems.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "An initial WP (either complex or real) prepared in the reactant asymptotic region is propagated using either the split operator or Chebyshev real WP propagation methods.",
+          "searchable_summary": "propagate initial wave packet using split operator or Chebyshev methods",
+          "inputs": [
+            "initial wave packet",
+            "reactant asymptotic region"
+          ],
+          "outputs": [
+            "propagated wave packet"
+          ],
+          "keywords": [
+            "wave packet propagation",
+            "split operator",
+            "Chebyshev method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The action of radial kinetic energy operators are evaluated using the fast Fourier transformation technique.",
+          "searchable_summary": "evaluate radial kinetic energy using FFT",
+          "inputs": [
+            "radial kinetic energy operators"
+          ],
+          "outputs": [
+            "evaluated kinetic energy"
+          ],
+          "keywords": [
+            "FFT",
+            "kinetic energy",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The action of the angular momentum operator is evaluated in associated Legendre polynomial basis.",
+          "searchable_summary": "evaluate angular momentum operator in Legendre polynomial basis",
+          "inputs": [
+            "angular momentum operator"
+          ],
+          "outputs": [
+            "evaluated angular momentum"
+          ],
+          "keywords": [
+            "angular momentum",
+            "Legendre polynomial",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "After sufficient propagation, the energy dependent total reaction probabilities are calculated by summing the total flux passing through a fixed surface located at a large distance in the product channel.",
+          "searchable_summary": "calculate total reaction probabilities from wave packet flux",
+          "inputs": [
+            "propagated wave packet",
+            "fixed surface"
+          ],
+          "outputs": [
+            "total reaction probabilities"
+          ],
+          "keywords": [
+            "reaction probabilities",
+            "wave packet",
+            "quantum mechanics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Time-Independent Quantum Mechanical Method",
+      "description": "Using the ABC program to solve the time-independent Schrödinger equation for reactive scattering studies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The time-independent Schrödinger equation is solved using the CC approach in hyperspherical coordinates.",
+          "searchable_summary": "solve time-independent Schrödinger equation using CC approach",
+          "inputs": [
+            "hyperspherical coordinates",
+            "CC approach"
+          ],
+          "outputs": [
+            "solution to Schrödinger equation"
+          ],
+          "keywords": [
+            "time-independent Schrödinger equation",
+            "CC approach",
+            "hyperspherical coordinates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The CC hyper-radial equations are solved by using a constant reference potential log derivative method between ρ_max to ρ_min.",
+          "searchable_summary": "solve CC hyper-radial equations using log derivative method",
+          "inputs": [
+            "CC hyper-radial equations",
+            "reference potential"
+          ],
+          "outputs": [
+            "solved hyper-radial equations"
+          ],
+          "keywords": [
+            "log derivative method",
+            "hyper-radial equations",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The S-matrix elements for a particular J with diatomic parity (p) and triatomic parity (P) for all the channels are calculated from the final log derivative matrix by applying scattering boundary conditions.",
+          "searchable_summary": "calculate S-matrix elements using scattering boundary conditions",
+          "inputs": [
+            "log derivative matrix",
+            "scattering boundary conditions"
+          ],
+          "outputs": [
+            "S-matrix elements"
+          ],
+          "keywords": [
+            "S-matrix",
+            "scattering boundary conditions",
+            "quantum mechanics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Quantum Mechanical Method",
+      "description": "Application of statistical techniques to study reactions proceeding via a complex-forming mechanism using the SQM approach.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Capture probabilities are obtained by solving a set of CC equations for each arrangement.",
+          "searchable_summary": "solve CC equations to obtain capture probabilities",
+          "inputs": [
+            "CC equations",
+            "reaction arrangements"
+          ],
+          "outputs": [
+            "capture probabilities"
+          ],
+          "keywords": [
+            "capture probabilities",
+            "CC equations",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The interaction potential matrix is expressed in terms of diatomic vibrational wavefunctions, vector-coupling coefficients, and spherical harmonics.",
+          "searchable_summary": "express interaction potential matrix using wavefunctions and harmonics",
+          "inputs": [
+            "diatomic vibrational wavefunctions",
+            "vector-coupling coefficients",
+            "spherical harmonics"
+          ],
+          "outputs": [
+            "interaction potential matrix"
+          ],
+          "keywords": [
+            "interaction potential",
+            "wavefunctions",
+            "spherical harmonics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The state-to-state probabilities are employed for the calculation of the corresponding integral cross sections (ICS).",
+          "searchable_summary": "calculate integral cross sections from state-to-state probabilities",
+          "inputs": [
+            "state-to-state probabilities"
+          ],
+          "outputs": [
+            "integral cross sections"
+          ],
+          "keywords": [
+            "integral cross sections",
+            "state-to-state probabilities",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The ICS is employed for the calculation of the rate constants.",
+          "searchable_summary": "calculate rate constants from integral cross sections",
+          "inputs": [
+            "integral cross sections"
+          ],
+          "outputs": [
+            "rate constants"
+          ],
+          "keywords": [
+            "rate constants",
+            "integral cross sections",
+            "quantum mechanics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236212797.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,469 @@
+{
+  "paper_title": "Statistical Methods for Temperature Reconstruction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Classical (Forward) Regression",
+      "description": "This method reconstructs temperatures from proxies by assuming a linear relation (T = R P + ε) between known proxy (P) and unknown temperature (T) quantities. The matrix R is determined by least squares (LS) regression, assuming T is noisy. This is viewed in the context of infilling missing values using a transfer function.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Assume a linear relation R between the known P and unknown T quantities: T = R P + ε where ε represents unresolved noise.",
+          "searchable_summary": "Define linear regression model for temperature reconstruction",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "linear model structure"
+          ],
+          "keywords": [
+            "linear regression",
+            "model definition",
+            "temperature reconstruction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Determine the matrix R by least squares (LS) regression, with T assumed to be noisy. R = −1 P PT , with xy denoting the cross covariance matrix between x and y (taking x = xx ).",
+          "searchable_summary": "Estimate regression coefficients using least squares assuming noise in target variable",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "regression matrix (R)"
+          ],
+          "keywords": [
+            "least squares",
+            "regression coefficient estimation",
+            "covariance matrix",
+            "matrix inversion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply the determined matrix R to the full proxy data P to reconstruct temperature T.",
+          "searchable_summary": "Apply regression model for temperature reconstruction",
+          "inputs": [
+            "full proxy data (P_full)",
+            "regression matrix (R)"
+          ],
+          "outputs": [
+            "reconstructed temperature data (T_reconstructed)"
+          ],
+          "keywords": [
+            "data reconstruction",
+            "model application",
+            "matrix multiplication"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Inverse (Backward) Regression",
+      "description": "This method is applied by MBH98. It uses a linear model similar to classical regression, but assumes the proxy (P) is noisy. The LS estimate R_I is calculated using the pseudo inverse. This is viewed in the context of infilling missing values using a transfer function.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Assume a linear relation between T and P, with P assumed noisy.",
+          "searchable_summary": "Define inverse linear regression model for temperature reconstruction",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "linear model structure"
+          ],
+          "keywords": [
+            "inverse regression",
+            "model definition",
+            "temperature reconstruction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Determine the matrix R_I by least squares (LS) regression, with P assumed to be noisy. R I = + TP T , (\"+\" denoting pseudo inverse).",
+          "searchable_summary": "Estimate inverse regression coefficients using least squares with pseudo-inverse assuming noise in predictor variable",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "inverse regression matrix (R_I)"
+          ],
+          "keywords": [
+            "least squares",
+            "regression coefficient estimation",
+            "covariance matrix",
+            "pseudo inverse"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply the determined matrix R_I to the full proxy data P to reconstruct temperature T.",
+          "searchable_summary": "Apply inverse regression model for temperature reconstruction",
+          "inputs": [
+            "full proxy data (P_full)",
+            "inverse regression matrix (R_I)"
+          ],
+          "outputs": [
+            "reconstructed temperature data (T_reconstructed)"
+          ],
+          "keywords": [
+            "data reconstruction",
+            "model application",
+            "matrix multiplication"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Truncated Total Least Squares (TTLS)",
+      "description": "This form of regression combines aspects of forward and backward regression, assuming errors in both proxy (P) and temperature (T) quantities. It uses truncated singular value decomposition (SVD). In this study, the 10 major singular values were retained. This is viewed in the context of infilling missing values using a transfer function.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Apply a form of regression that assumes errors in both proxy (P) and temperature (T) quantities.",
+          "searchable_summary": "Define total least squares model for temperature reconstruction",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "total least squares model structure"
+          ],
+          "keywords": [
+            "total least squares",
+            "errors in variables model",
+            "temperature reconstruction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Perform the regression using a method involving singular value decomposition (SVD).",
+          "searchable_summary": "Perform regression using SVD",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "SVD components (U, S, V)"
+          ],
+          "keywords": [
+            "singular value decomposition",
+            "SVD"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Retain a specified number of major singular values (10 in this study) for the reconstruction.",
+          "searchable_summary": "Truncate singular values from SVD",
+          "inputs": [
+            "SVD components (U, S, V)",
+            "number of singular values to retain (k=10)"
+          ],
+          "outputs": [
+            "truncated SVD components"
+          ],
+          "keywords": [
+            "singular value truncation",
+            "dimensionality reduction",
+            "SVD"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Use the truncated SVD components to reconstruct temperature T from the full proxy data P.",
+          "searchable_summary": "Reconstruct data using truncated SVD components",
+          "inputs": [
+            "full proxy data (P_full)",
+            "truncated SVD components"
+          ],
+          "outputs": [
+            "reconstructed temperature data (T_reconstructed)"
+          ],
+          "keywords": [
+            "data reconstruction",
+            "SVD application"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Ridge Regression",
+      "description": "Similar to classical regression, but adds an extra offset (regularization parameter) to the diagonal elements of the matrix derived from P (e.g., P^T P) used in the calculation. This is used as regularization, especially with possibly ill-conditioned matrices. This is viewed in the context of infilling missing values using a transfer function.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Assume a linear relation R between the known P and unknown T quantities: T = R P + ε",
+          "searchable_summary": "Define linear regression model for temperature reconstruction",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)"
+          ],
+          "outputs": [
+            "linear model structure"
+          ],
+          "keywords": [
+            "linear regression",
+            "model definition",
+            "temperature reconstruction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Determine the matrix R by a modified least squares approach. Add a regularization parameter (offset) to the diagonal elements of the matrix derived from P (e.g., P^T P) used in the calculation.",
+          "searchable_summary": "Estimate regression coefficients using ridge regression",
+          "inputs": [
+            "proxy calibration data (P_cal)",
+            "temperature calibration data (T_cal)",
+            "regularization parameter (lambda)"
+          ],
+          "outputs": [
+            "regression matrix (R)"
+          ],
+          "keywords": [
+            "ridge regression",
+            "regularization",
+            "least squares",
+            "Tikhonov regularization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply the determined matrix R to the full proxy data P to reconstruct temperature T.",
+          "searchable_summary": "Apply regression model for temperature reconstruction",
+          "inputs": [
+            "full proxy data (P_full)",
+            "regression matrix (R)"
+          ],
+          "outputs": [
+            "reconstructed temperature data (T_reconstructed)"
+          ],
+          "keywords": [
+            "data reconstruction",
+            "model application",
+            "matrix multiplication"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Expectation-Maximization (EM) for Infilling",
+      "description": "An iterative method that exploits all available information (including validation predictor sets) when infilling data, unlike methods using a fixed transfer function. It provides maximum-likelihood estimates of statistical parameters (mean and covariance) in the presence of missing data. It is applied using the regularized EM algorithm (RegEM) with a vanishing regularization parameter.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Initialize statistical parameters (e.g., mean and covariance) for the combined proxy and temperature data with missing values.",
+          "searchable_summary": "Initialize parameters for EM algorithm for missing data imputation",
+          "inputs": [
+            "combined proxy and temperature data with missing values",
+            "initial parameter estimates (mean, covariance)"
+          ],
+          "outputs": [
+            "initial parameters"
+          ],
+          "keywords": [
+            "EM algorithm",
+            "parameter initialization",
+            "missing data imputation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Perform the Expectation (E) step: Estimate the expected values of the missing data, given the current parameter estimates and the observed data.",
+          "searchable_summary": "Perform EM E-step for missing data imputation",
+          "inputs": [
+            "combined data (observed part)",
+            "current parameter estimates"
+          ],
+          "outputs": [
+            "expected values of missing data"
+          ],
+          "keywords": [
+            "EM algorithm",
+            "E-step",
+            "missing data imputation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Perform the Maximization (M) step: Update the parameter estimates to maximize the likelihood function, using the observed data and the estimated missing data from the E-step.",
+          "searchable_summary": "Perform EM M-step for parameter estimation",
+          "inputs": [
+            "combined data (observed part)",
+            "expected values of missing data"
+          ],
+          "outputs": [
+            "updated parameter estimates"
+          ],
+          "keywords": [
+            "EM algorithm",
+            "M-step",
+            "parameter estimation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Repeat the E and M steps until the parameter estimates converge.",
+          "searchable_summary": "Check EM algorithm convergence",
+          "inputs": [
+            "current parameter estimates",
+            "previous parameter estimates",
+            "convergence criteria"
+          ],
+          "outputs": [
+            "convergence status"
+          ],
+          "keywords": [
+            "EM algorithm",
+            "convergence",
+            "iteration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Use the final parameter estimates to infill the missing data or reconstruct temperature T.",
+          "searchable_summary": "Infill missing data using final EM parameters",
+          "inputs": [
+            "combined data (observed part)",
+            "final parameter estimates"
+          ],
+          "outputs": [
+            "infilled data",
+            "reconstructed temperature data (T_reconstructed)"
+          ],
+          "keywords": [
+            "missing data imputation",
+            "data infilling",
+            "data reconstruction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Regularized Expectation-Maximization (RegEM)",
+      "description": "An extension of the EM algorithm designed for the estimation of mean and covariance in ill-posed problems with fewer cases than unknowns. It was developed for and applied to the interpolation/completion of large climatic data sets with a limited number of missing values. It utilizes the EM algorithm for parameter estimation and incorporates regularization.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Initialize statistical parameters (e.g., mean and covariance) for the combined proxy and temperature data with missing values.",
+          "searchable_summary": "Initialize parameters for RegEM algorithm for missing data imputation",
+          "inputs": [
+            "combined proxy and temperature data with missing values",
+            "initial parameter estimates (mean, covariance)"
+          ],
+          "outputs": [
+            "initial parameters"
+          ],
+          "keywords": [
+            "RegEM algorithm",
+            "parameter initialization",
+            "missing data imputation",
+            "ill-posed problems"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Perform a regularized Expectation (E) step: Estimate the expected values of the missing data, given the current parameter estimates and the observed data, incorporating regularization.",
+          "searchable_summary": "Perform RegEM regularized E-step for missing data imputation",
+          "inputs": [
+            "combined data (observed part)",
+            "current parameter estimates",
+            "regularization parameters"
+          ],
+          "outputs": [
+            "expected values of missing data"
+          ],
+          "keywords": [
+            "RegEM algorithm",
+            "E-step",
+            "missing data imputation",
+            "regularization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Perform a regularized Maximization (M) step: Update the parameter estimates to maximize the regularized likelihood function, using the observed data and the estimated missing data from the E-step.",
+          "searchable_summary": "Perform RegEM regularized M-step for parameter estimation",
+          "inputs": [
+            "combined data (observed part)",
+            "expected values of missing data",
+            "regularization parameters"
+          ],
+          "outputs": [
+            "updated parameter estimates"
+          ],
+          "keywords": [
+            "RegEM algorithm",
+            "M-step",
+            "parameter estimation",
+            "regularization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Repeat the regularized E and M steps until the parameter estimates converge.",
+          "searchable_summary": "Check RegEM algorithm convergence",
+          "inputs": [
+            "current parameter estimates",
+            "previous parameter estimates",
+            "convergence criteria"
+          ],
+          "outputs": [
+            "convergence status"
+          ],
+          "keywords": [
+            "RegEM algorithm",
+            "convergence",
+            "iteration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Use the final parameter estimates to infill the missing data or reconstruct temperature T.",
+          "searchable_summary": "Infill missing data using final RegEM parameters",
+          "inputs": [
+            "combined data (observed part)",
+            "final parameter estimates"
+          ],
+          "outputs": [
+            "infilled data",
+            "reconstructed temperature data (T_reconstructed)"
+          ],
+          "keywords": [
+            "missing data imputation",
+            "data infilling",
+            "data reconstruction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/129916796.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

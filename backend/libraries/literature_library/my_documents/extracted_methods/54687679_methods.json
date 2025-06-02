@@ -1,0 +1,127 @@
+{
+  "paper_title": "Pollen Season Analysis and Study Site Description",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Season Calculation",
+      "description": "This method calculates the start and end of the pollen season using the 95% and 90% methods, respectively. It also calculates various season parameters such as season duration, annual total, SPI value, maximum pollen concentration, and the day of maximum concentration. Descriptive statistics are used to characterize the season.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Pollen seasons were calculated using the 95% and 90% methods for the start and end of the season, respectively.",
+          "searchable_summary": "calculate pollen season start and end using 95% and 90% methods",
+          "inputs": [
+            "seasonal cumulative pollen count"
+          ],
+          "outputs": [
+            "start of season date",
+            "end of season date"
+          ],
+          "keywords": [
+            "pollen season",
+            "95% method",
+            "90% method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The start of the season was defined as the date when 2.5% of the seasonal cumulative pollen count was trapped and the end of the season as the date when 95% of the seasonal cumulative pollen count was reached.",
+          "searchable_summary": "define start and end of pollen season based on cumulative pollen count",
+          "inputs": [
+            "seasonal cumulative pollen count"
+          ],
+          "outputs": [
+            "start of season date",
+            "end of season date"
+          ],
+          "keywords": [
+            "pollen season",
+            "cumulative pollen count"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Apart from the season start and end date, the following season parameters were calculated: season duration, annual total, SPI value, the maximum pollen concentration in the season and the day of maximum concentration.",
+          "searchable_summary": "calculate season parameters including duration, total, SPI, max concentration",
+          "inputs": [
+            "pollen count data"
+          ],
+          "outputs": [
+            "season duration",
+            "annual total",
+            "SPI value",
+            "max concentration",
+            "day of max concentration"
+          ],
+          "keywords": [
+            "season parameters",
+            "SPI",
+            "pollen concentration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Descriptive statistics was used to calculate the season characteristics (minimum, maximum, quartile 1 and 3; arithmetic mean, confidence interval for arithmetic mean, standard deviation, median and coefficient of variation).",
+          "searchable_summary": "perform descriptive statistics on season characteristics",
+          "inputs": [
+            "season parameters"
+          ],
+          "outputs": [
+            "descriptive statistics"
+          ],
+          "keywords": [
+            "descriptive statistics",
+            "season characteristics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Analysis",
+      "description": "This method analyzes the relationship between pollen season parameters and meteorological data using Spearman's rank correlation test. Meteorological parameters include air temperature, rainfall, relative humidity, cloudiness, and relative sunshine.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To find the relationship between season and meteorological parameters, the following meteorological parameters were used: Air temperature, Rainfall, Relative humidity, Cloudiness, Relative sunshine.",
+          "searchable_summary": "fetch meteorological parameters for analysis",
+          "inputs": [
+            "meteorological data"
+          ],
+          "outputs": [
+            "meteorological parameters"
+          ],
+          "keywords": [
+            "meteorological data",
+            "air temperature",
+            "rainfall",
+            "humidity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Spearman's rank correlation test was used to find the relationship between season and meteorological parameters.",
+          "searchable_summary": "perform Spearman's rank correlation test",
+          "inputs": [
+            "season parameters",
+            "meteorological parameters"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Spearman's rank correlation",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54687679.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

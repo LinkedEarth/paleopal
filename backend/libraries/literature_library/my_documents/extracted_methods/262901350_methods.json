@@ -1,0 +1,220 @@
+{
+  "paper_title": "Pliocene Model Intercomparison Project (PlioMIP): experimental design and boundary conditions (Experiment 1)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Boundary Condition Data Package Implementation",
+      "description": "This method involves the adoption and availability of 'preferred' and 'alternate' boundary condition data packages for climate modeling in the PlioMIP project. The preferred package requires changing the model's land/sea mask to a mid-Pliocene configuration, while the alternate package uses a modern configuration to accommodate models that cannot alter the land/sea mask.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Both data packages are provided on the PlioMIP website and as supplementary information to this paper.",
+          "searchable_summary": "download boundary condition data packages from PlioMIP website",
+          "inputs": [
+            "PlioMIP website URL"
+          ],
+          "outputs": [
+            "preferred data package",
+            "alternate data package"
+          ],
+          "keywords": [
+            "data package",
+            "PlioMIP",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The preferred data package requires the ability to change the model's land/sea mask to a mid-Pliocene configuration.",
+          "searchable_summary": "configure model land/sea mask to mid-Pliocene configuration",
+          "inputs": [
+            "preferred data package"
+          ],
+          "outputs": [
+            "configured model with mid-Pliocene land/sea mask"
+          ],
+          "keywords": [
+            "land/sea mask",
+            "mid-Pliocene",
+            "model configuration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The alternate data package, with a modern land/sea configuration, is provided to maximize the potential number of participating groups in PlioMIP.",
+          "searchable_summary": "use modern land/sea configuration for alternate data package",
+          "inputs": [
+            "alternate data package"
+          ],
+          "outputs": [
+            "configured model with modern land/sea mask"
+          ],
+          "keywords": [
+            "land/sea mask",
+            "modern configuration",
+            "model configuration"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Implementation of Sea-Surface Temperatures and Topography as Anomalies",
+      "description": "This method ensures that climate anomalies from all PlioMIP climate models are directly comparable by implementing Pliocene topography and SSTs as anomalies to the standard modern datasets used by each modeling group.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate the difference between the PRISM Pliocene and PRISM Modern topography/SST and add it to the modern SST and topographic datasets used by each modeling group.",
+          "searchable_summary": "calculate and apply SST/topography anomalies",
+          "inputs": [
+            "PRISM Pliocene data",
+            "PRISM Modern data",
+            "modern SST/topography datasets"
+          ],
+          "outputs": [
+            "anomaly-adjusted SST/topography datasets"
+          ],
+          "keywords": [
+            "SST",
+            "topography",
+            "anomaly",
+            "PRISM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use absolute Pliocene topography/SST in regions where no modern data is given to overcome potential mismatches.",
+          "searchable_summary": "apply absolute Pliocene data where modern data is missing",
+          "inputs": [
+            "Pliocene topography/SST data",
+            "modern data availability"
+          ],
+          "outputs": [
+            "complete anomaly-adjusted datasets"
+          ],
+          "keywords": [
+            "absolute data",
+            "Pliocene",
+            "data mismatch"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Project modern SST on the same Pliocene grids to make anomalies easier to generate.",
+          "searchable_summary": "project modern SST onto Pliocene grids",
+          "inputs": [
+            "modern SST data",
+            "Pliocene grids"
+          ],
+          "outputs": [
+            "projected SST data"
+          ],
+          "keywords": [
+            "SST projection",
+            "Pliocene grids",
+            "data alignment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Processing and Storage for PlioMIP",
+      "description": "This method outlines the data processing, storage, and analysis requirements for PlioMIP Phase 1, including the adoption of PMIP2 variables, netCDF format, and the use of the CMOR library.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Prepare data files in netCDF format conforming to the CF metadata convention.",
+          "searchable_summary": "convert data files to netCDF format with CF metadata",
+          "inputs": [
+            "raw model output data"
+          ],
+          "outputs": [
+            "netCDF formatted data files"
+          ],
+          "keywords": [
+            "netCDF",
+            "CF metadata",
+            "data conversion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Ensure there is only one output variable per file.",
+          "searchable_summary": "separate data into single-variable files",
+          "inputs": [
+            "netCDF formatted data files"
+          ],
+          "outputs": [
+            "single-variable data files"
+          ],
+          "keywords": [
+            "data separation",
+            "single-variable",
+            "file management"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use regular grids for data that are a function of longitude and latitude.",
+          "searchable_summary": "apply regular grids to geospatial data",
+          "inputs": [
+            "geospatial data"
+          ],
+          "outputs": [
+            "regular grid data"
+          ],
+          "keywords": [
+            "regular grids",
+            "geospatial data",
+            "longitude",
+            "latitude"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Follow the PMIP2 file name convention to ensure unique file names.",
+          "searchable_summary": "rename files according to PMIP2 convention",
+          "inputs": [
+            "data files"
+          ],
+          "outputs": [
+            "uniquely named data files"
+          ],
+          "keywords": [
+            "file naming",
+            "PMIP2 convention",
+            "unique identifiers"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Use the CMOR library to create files for submission to the database.",
+          "searchable_summary": "use CMOR library for data file creation",
+          "inputs": [
+            "data files"
+          ],
+          "outputs": [
+            "CMOR-compliant data files"
+          ],
+          "keywords": [
+            "CMOR library",
+            "data submission",
+            "file creation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/262901350.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

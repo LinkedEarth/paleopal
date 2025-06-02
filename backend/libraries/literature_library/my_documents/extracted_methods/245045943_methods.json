@@ -1,0 +1,237 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Biogeographical Analysis",
+      "description": "Ancestral range estimation analyses using models with dispersal matrices to determine the likelihood of different speciation events in shearwaters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Under all tested models, ancestral range estimation analyses, including a dispersal matrix restricting dispersal between areas connected by main historical and present surface ocean currents, had lower AICc than models with an unrestricted dispersal matrix.",
+          "searchable_summary": "perform ancestral range estimation with restricted dispersal matrix",
+          "inputs": [
+            "dispersal matrix",
+            "historical and present ocean currents data"
+          ],
+          "outputs": [
+            "AICc values for models"
+          ],
+          "keywords": [
+            "ancestral range estimation",
+            "dispersal matrix",
+            "AICc"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "DIVALIKE and DEC models had lower AICc than BAYAREALIKE models, especially when the founder-event parameter (j) was not included.",
+          "searchable_summary": "compare AICc of DIVALIKE, DEC, and BAYAREALIKE models",
+          "inputs": [
+            "model outputs",
+            "founder-event parameter"
+          ],
+          "outputs": [
+            "AICc comparison results"
+          ],
+          "keywords": [
+            "DIVALIKE",
+            "DEC",
+            "BAYAREALIKE",
+            "AICc"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The likelihood ratio test (LRT) between the best DIVALIKE and DIVALIKE + j models showed that DIVALIKE + j was strongly favoured.",
+          "searchable_summary": "conduct likelihood ratio test between DIVALIKE and DIVALIKE + j models",
+          "inputs": [
+            "DIVALIKE model",
+            "DIVALIKE + j model"
+          ],
+          "outputs": [
+            "LRT results"
+          ],
+          "keywords": [
+            "likelihood ratio test",
+            "DIVALIKE",
+            "model comparison"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Under the best DIVALIKE + j model, the South Australia-New Zealand area showed the highest support as the ancestral region of shearwaters.",
+          "searchable_summary": "analyze ancestral region support under DIVALIKE + j model",
+          "inputs": [
+            "DIVALIKE + j model results"
+          ],
+          "outputs": [
+            "ancestral region support probabilities"
+          ],
+          "keywords": [
+            "ancestral region",
+            "DIVALIKE + j",
+            "marginal ML probability"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "PE-ddRAD-Seq Data Filtering and Assembly",
+      "description": "Process of demultiplexing, cleaning, assembling, and filtering PE-ddRAD-Seq data to generate datasets for downstream analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw reads were demultiplexed and cleaned using process_radtags in StackS v2.41.",
+          "searchable_summary": "demultiplex and clean raw reads using process_radtags",
+          "inputs": [
+            "raw reads"
+          ],
+          "outputs": [
+            "cleaned reads"
+          ],
+          "keywords": [
+            "demultiplexing",
+            "cleaning",
+            "process_radtags",
+            "StackS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Built loci using the forward reads with parameters optimised for this shearwater dataset using the UStackS-cStackS-SStackS core clustering algorithm.",
+          "searchable_summary": "build loci using forward reads with UStackS-cStackS-SStackS",
+          "inputs": [
+            "forward reads",
+            "optimized parameters"
+          ],
+          "outputs": [
+            "loci"
+          ],
+          "keywords": [
+            "loci building",
+            "UStackS",
+            "cStackS",
+            "SStackS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Incorporate reverse reads by matching the set of forward read IDs in each locus using tSV2BaM program.",
+          "searchable_summary": "incorporate reverse reads using tSV2BaM",
+          "inputs": [
+            "forward read IDs",
+            "reverse reads"
+          ],
+          "outputs": [
+            "matched loci with reverse reads"
+          ],
+          "keywords": [
+            "reverse reads",
+            "tSV2BaM",
+            "loci matching"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Assembled a contig for each locus, called SNPs using the Bayesian genotype caller and phased haplotypes using GStackS.",
+          "searchable_summary": "assemble contigs and call SNPs using Bayesian genotype caller",
+          "inputs": [
+            "loci"
+          ],
+          "outputs": [
+            "contigs",
+            "SNPs",
+            "phased haplotypes"
+          ],
+          "keywords": [
+            "contig assembly",
+            "SNP calling",
+            "Bayesian genotype caller",
+            "GStackS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Mapped the GStackS catalogue to the Balearic shearwater genome assembly using BWa-MEM v. 0.7.17.",
+          "searchable_summary": "map GStackS catalogue to genome assembly using BWa-MEM",
+          "inputs": [
+            "GStackS catalogue",
+            "genome assembly"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "genome mapping",
+            "BWa-MEM",
+            "GStackS"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Sorted and indexed the mapped reads using SAMtools v.1.4.",
+          "searchable_summary": "sort and index mapped reads using SAMtools",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "sorted and indexed reads"
+          ],
+          "keywords": [
+            "SAMtools",
+            "read sorting",
+            "read indexing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Integrated alignment positions to the catalogue using StackS-INtEGRatE-aLIGNMENtS.",
+          "searchable_summary": "integrate alignment positions using StackS-INtEGRatE-aLIGNMENtS",
+          "inputs": [
+            "alignment positions",
+            "catalogue"
+          ],
+          "outputs": [
+            "integrated catalogue"
+          ],
+          "keywords": [
+            "alignment integration",
+            "StackS-INtEGRatE-aLIGNMENtS"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Filtered SNP data requiring a minimum minor allele count (MAC) of two and an observed heterozygosity below 50% using the POPULatIONS program.",
+          "searchable_summary": "filter SNP data using POPULatIONS with MAC and heterozygosity criteria",
+          "inputs": [
+            "SNP data"
+          ],
+          "outputs": [
+            "filtered SNP datasets"
+          ],
+          "keywords": [
+            "SNP filtering",
+            "POPULatIONS",
+            "minor allele count",
+            "heterozygosity"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/245045943.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

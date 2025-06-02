@@ -1,0 +1,294 @@
+{
+  "paper_title": "Integrative Analysis of Pollen-Specific HRGP Motifs",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Integrative Analysis: Ensemble Motif Discovery",
+      "description": "This method describes the initial process of retrieving gene promoters and performing ensemble de novo motif discovery using Emotif-Alpha on pollen-specific HRGP genes against a background of non-pollen HRGP genes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Gene promoters (within 1kb upstream of the translation start site) were retrieved from Ensembl Biomart [21].",
+          "searchable_summary": "Retrieve gene promoter sequences from Ensembl Biomart.",
+          "inputs": [
+            "List of pollen-specific HRGP genes (13)",
+            "List of non-pollen HRGP genes (132)",
+            "Upstream distance (1kb)",
+            "Ensembl Biomart database"
+          ],
+          "outputs": [
+            "Promoter sequences for pollen-specific HRGP genes",
+            "Promoter sequences for non-pollen HRGP genes"
+          ],
+          "keywords": [
+            "gene promoter",
+            "sequence retrieval",
+            "Ensembl Biomart",
+            "bioinformatics",
+            "genomics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Next, we performed ensemble motif discovery using Emotif-Alpha [7] on the 13 pollen-specific HRGP genes against the background of 132 non-pollen HRGP genes. Emotif-Alpha integrated 11 motif discovery tools and led to the identification of 3519 motifs in total.",
+          "searchable_summary": "Perform ensemble de novo motif discovery using Emotif-Alpha.",
+          "inputs": [
+            "Promoter sequences for pollen-specific HRGP genes (foreground)",
+            "Promoter sequences for non-pollen HRGP genes (background)",
+            "Emotif-Alpha tool"
+          ],
+          "outputs": [
+            "Set of discovered de novo motifs (3519 total)",
+            "Motif occurrence data (locations, frequencies) in input sequences"
+          ],
+          "keywords": [
+            "motif discovery",
+            "de novo motif",
+            "ensemble method",
+            "Emotif-Alpha",
+            "bioinformatics",
+            "sequence analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Integrative Analysis: Filter A",
+      "description": "This method applies Filter A criteria to the set of discovered motifs, selecting those highly specific to pollen-specific HRGP genes based on frequency thresholds and conservation, followed by comparison to known motifs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Filter A selected motifs present in 11 (85%) or more of the pollen-specific HRGP genes.",
+          "searchable_summary": "Filter discovered motifs by foreground frequency threshold.",
+          "inputs": [
+            "Set of discovered de novo motifs (from Ensemble Motif Discovery)",
+            "Motif occurrence data in pollen-specific HRGP promoters",
+            "Foreground frequency threshold (>= 85% or >= 11 genes)"
+          ],
+          "outputs": [
+            "Subset of motifs meeting foreground frequency criteria"
+          ],
+          "keywords": [
+            "motif filtering",
+            "frequency threshold",
+            "bioinformatics",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filter A selected motifs present in at most 30 (23%) non-pollen HRGP genes.",
+          "searchable_summary": "Filter motifs by background frequency threshold.",
+          "inputs": [
+            "Subset of motifs from step 1",
+            "Motif occurrence data in non-pollen HRGP promoters",
+            "Background frequency threshold (<= 23% or <= 30 genes)"
+          ],
+          "outputs": [
+            "Subset of motifs meeting both foreground and background frequency criteria"
+          ],
+          "keywords": [
+            "motif filtering",
+            "frequency threshold",
+            "bioinformatics",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "This yielded 13 motifs, which were also conserved in Arabidopsis lyrata.",
+          "searchable_summary": "Filter motifs based on conservation in Arabidopsis lyrata.",
+          "inputs": [
+            "Subset of motifs from step 2",
+            "Arabidopsis lyrata genomic data or motif conservation data"
+          ],
+          "outputs": [
+            "Final set of 13 motifs after Filter A criteria"
+          ],
+          "keywords": [
+            "motif conservation",
+            "comparative genomics",
+            "bioinformatics",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Interestingly, we found that 4 out of the 13 motifs matched to known motifs based on analysis using TOMTOM [9] (p-value < 0.001).",
+          "searchable_summary": "Compare identified motifs to known motif databases using TOMTOM.",
+          "inputs": [
+            "Final set of 13 motifs from step 3",
+            "Known motif database (e.g., JASPAR, PlantPAN)",
+            "TOMTOM tool",
+            "p-value threshold (< 0.001)"
+          ],
+          "outputs": [
+            "Motif similarity matches to known motifs",
+            "Similarity p-values"
+          ],
+          "keywords": [
+            "motif similarity",
+            "known motifs",
+            "TOMTOM",
+            "motif database",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The foreground coverage indicates the percentage (and number) of pollen-specific HRGP genes having an identified motif in its promoter region. The background coverage is the percentage (and number) of the non-pollen HRGP genes having that motif in its promoter region. The relative frequency is the foreground coverage divided by the background coverage.",
+          "searchable_summary": "Calculate motif coverage statistics (foreground, background, relative frequency).",
+          "inputs": [
+            "Final set of 13 motifs from step 3",
+            "Motif occurrence data in pollen-specific and non-pollen HRGP promoters"
+          ],
+          "outputs": [
+            "Table or data structure containing foreground coverage, background coverage, and relative frequency for each motif"
+          ],
+          "keywords": [
+            "motif statistics",
+            "coverage",
+            "frequency",
+            "bioinformatics",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Integrative Analysis: Filter B",
+      "description": "This method applies Filter B criteria, which uses known pollen-expressed transcription factor binding motifs to filter the discovered de novo motifs, followed by filtering for conservation, occurrences, and redundancy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "First, 99 motifs were identified, based on the cognate transcription factors expressed (based on Araport11 [5]) in pollen (i.e., log2 gene expression ≥1).",
+          "searchable_summary": "Identify and retrieve list of pollen-expressed transcription factors.",
+          "inputs": [
+            "Gene expression data (Araport11)",
+            "Pollen tissue identifier",
+            "Expression threshold (log2 gene expression >= 1)"
+          ],
+          "outputs": [
+            "List of pollen-expressed transcription factor genes"
+          ],
+          "keywords": [
+            "gene expression",
+            "RNA-seq",
+            "Araport11",
+            "transcription factors",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "First, 99 motifs were identified, based on the cognate transcription factors expressed... and obtained from the plantTFDB [8].",
+          "searchable_summary": "Retrieve known binding motifs for pollen-expressed transcription factors from plantTFDB.",
+          "inputs": [
+            "List of pollen-expressed transcription factor genes (from step 1)",
+            "plantTFDB database"
+          ],
+          "outputs": [
+            "Set of 99 known binding motifs for pollen-expressed TFs"
+          ],
+          "keywords": [
+            "TF binding motif",
+            "plantTFDB",
+            "motif database",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Known motif similarity found that 1341 de novo motifs out of the total 3519 motifs were highly similar to these 99 motifs (p < 0.001).",
+          "searchable_summary": "Compare de novo motifs to known pollen TF motifs using similarity analysis.",
+          "inputs": [
+            "Set of discovered de novo motifs (3519 total, from Ensemble Motif Discovery)",
+            "Set of 99 known binding motifs for pollen-expressed TFs (from step 2)",
+            "Motif similarity tool (e.g., TOMTOM or similar)",
+            "p-value threshold (< 0.001)"
+          ],
+          "outputs": [
+            "Subset of 1341 de novo motifs highly similar to known pollen TF motifs",
+            "Similarity scores/p-values"
+          ],
+          "keywords": [
+            "motif similarity",
+            "de novo motif",
+            "known motif",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The set of motifs was then filtered by conservation and number of occurrences...",
+          "searchable_summary": "Filter the subset of similar motifs by conservation and occurrence criteria.",
+          "inputs": [
+            "Subset of 1341 similar de novo motifs (from step 3)",
+            "Motif conservation data",
+            "Motif occurrence data"
+          ],
+          "outputs": [
+            "Subset of motifs meeting conservation and occurrence criteria"
+          ],
+          "keywords": [
+            "motif filtering",
+            "conservation",
+            "occurrence",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "...with redundant motifs removed.",
+          "searchable_summary": "Identify and remove redundant motifs from the filtered set.",
+          "inputs": [
+            "Subset of motifs from step 4"
+          ],
+          "outputs": [
+            "Final set of non-redundant motifs after Filter B criteria"
+          ],
+          "keywords": [
+            "motif redundancy",
+            "motif clustering",
+            "bioinformatics",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The foreground coverage indicates the percentage (and number) of pollen-specific HRGP genes having the identified motif in their promoter regions. The background coverage is the percentage (and number) of the non-pollen HRGP genes having that motif in their promoter regions. The relative frequency is the foreground coverage divided by the background coverage.",
+          "searchable_summary": "Calculate motif coverage statistics (foreground, background, relative frequency).",
+          "inputs": [
+            "Final set of non-redundant motifs from step 5",
+            "Motif occurrence data in pollen-specific and non-pollen HRGP promoters"
+          ],
+          "outputs": [
+            "Table or data structure containing foreground coverage, background coverage, and relative frequency for each motif"
+          ],
+          "keywords": [
+            "motif statistics",
+            "coverage",
+            "frequency",
+            "bioinformatics",
+            "data analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221276548.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

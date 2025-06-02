@@ -1,0 +1,298 @@
+{
+  "paper_title": "Microsatellite and Model-based Analysis of Betula Species",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Microsatellite Data Analysis",
+      "description": "Analysis of microsatellite data using PCO and Bayesian clustering to identify genetic clusters and admixture proportions among Betula species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Principal coordinates (PCO) analysis of microsatellite data was performed using POLYSAT implemented in R 2.15.3, based on pairwise genetic distance calculated by Bruvo's methods.",
+          "searchable_summary": "perform PCO analysis using POLYSAT in R with Bruvo's genetic distance",
+          "inputs": [
+            "microsatellite data"
+          ],
+          "outputs": [
+            "PCO results"
+          ],
+          "keywords": [
+            "PCO analysis",
+            "POLYSAT",
+            "Bruvo's genetic distance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "POLYSAT was used to transform the multilocus allele phenotype for each individual into binary arrays of the presence or absence of each allele.",
+          "searchable_summary": "transform multilocus allele phenotype into binary arrays using POLYSAT",
+          "inputs": [
+            "multilocus allele phenotype"
+          ],
+          "outputs": [
+            "binary arrays"
+          ],
+          "keywords": [
+            "allele transformation",
+            "binary arrays",
+            "POLYSAT"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Further PCO analysis was performed using PAST 1.7.5 using pairwise Euclidean distances.",
+          "searchable_summary": "perform PCO analysis using PAST with Euclidean distances",
+          "inputs": [
+            "binary arrays"
+          ],
+          "outputs": [
+            "PCO results"
+          ],
+          "keywords": [
+            "PCO analysis",
+            "PAST",
+            "Euclidean distances"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Microsatellite data was analyzed with a Bayesian clustering approach in STRUCTURE 2.3.4 to identify the most likely number of genetic clusters (K).",
+          "searchable_summary": "perform Bayesian clustering using STRUCTURE to identify genetic clusters",
+          "inputs": [
+            "microsatellite data"
+          ],
+          "outputs": [
+            "genetic clusters"
+          ],
+          "keywords": [
+            "Bayesian clustering",
+            "STRUCTURE",
+            "genetic clusters"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Performed ten replicates at each value of K from one to five under the admixture model with the assumption of correlated allele frequencies among populations.",
+          "searchable_summary": "run STRUCTURE replicates for different K values under admixture model",
+          "inputs": [
+            "K values",
+            "microsatellite data"
+          ],
+          "outputs": [
+            "replicate results"
+          ],
+          "keywords": [
+            "STRUCTURE",
+            "admixture model",
+            "replicates"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The DK was calculated based on the rate of change in the log probability of the data between successive K values.",
+          "searchable_summary": "calculate DK for STRUCTURE outputs",
+          "inputs": [
+            "STRUCTURE outputs"
+          ],
+          "outputs": [
+            "DK values"
+          ],
+          "keywords": [
+            "DK calculation",
+            "STRUCTURE",
+            "log probability"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Replicate runs were grouped based on a symmetric similarity coefficient of >0.9 using the Greedy algorithm in CLUMPP.",
+          "searchable_summary": "group STRUCTURE replicates using CLUMPP with Greedy algorithm",
+          "inputs": [
+            "replicate results"
+          ],
+          "outputs": [
+            "grouped replicates"
+          ],
+          "keywords": [
+            "CLUMPP",
+            "Greedy algorithm",
+            "replicate grouping"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "Visualized in DISTRUCT 1.1.",
+          "searchable_summary": "visualize genetic clusters using DISTRUCT",
+          "inputs": [
+            "grouped replicates"
+          ],
+          "outputs": [
+            "visualization"
+          ],
+          "keywords": [
+            "DISTRUCT",
+            "visualization",
+            "genetic clusters"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "The slopes of the latitudinal clines in the admixture proportions were estimated using a mixed effects model, with slope as a fixed effect and population modeled as a random effect.",
+          "searchable_summary": "estimate slopes of latitudinal clines using mixed effects model",
+          "inputs": [
+            "admixture proportions",
+            "latitude data"
+          ],
+          "outputs": [
+            "slope estimates"
+          ],
+          "keywords": [
+            "mixed effects model",
+            "latitudinal clines",
+            "slope estimation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "The null distribution of slopes was estimated by permuting the latitudes among populations and repeating the analysis.",
+          "searchable_summary": "estimate null distribution of slopes by permutation",
+          "inputs": [
+            "latitude data",
+            "population data"
+          ],
+          "outputs": [
+            "null distribution of slopes"
+          ],
+          "keywords": [
+            "permutation test",
+            "null distribution",
+            "slope validation"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "Pairwise F ST tests based on allele frequency were conducted for these populations in POLYSAT.",
+          "searchable_summary": "conduct pairwise F ST tests using POLYSAT",
+          "inputs": [
+            "allele frequency data"
+          ],
+          "outputs": [
+            "F ST test results"
+          ],
+          "keywords": [
+            "F ST test",
+            "POLYSAT",
+            "allele frequency"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_processing",
+          "description": "A matrix of geographical distance was generated based on latitude and longitude in R package 'fields'.",
+          "searchable_summary": "generate geographical distance matrix using 'fields' package",
+          "inputs": [
+            "latitude",
+            "longitude"
+          ],
+          "outputs": [
+            "geographical distance matrix"
+          ],
+          "keywords": [
+            "geographical distance",
+            "R package 'fields'",
+            "matrix generation"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "A Mantel test with 9999 permutations was conducted in R package 'ade4' to test for a significant signal of isolation by distance.",
+          "searchable_summary": "conduct Mantel test for isolation by distance using 'ade4'",
+          "inputs": [
+            "geographical distance matrix",
+            "genetic distance matrix"
+          ],
+          "outputs": [
+            "Mantel test results"
+          ],
+          "keywords": [
+            "Mantel test",
+            "isolation by distance",
+            "R package 'ade4'"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model-based Prediction of Past Distribution Ranges",
+      "description": "Ecological niche models constructed with MAXENT to predict past distribution ranges of Betula species based on species occurrence records and environmental predictors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Ecological niche models constructed with MAXENT from species occurrence records.",
+          "searchable_summary": "construct ecological niche models using MAXENT",
+          "inputs": [
+            "species occurrence records"
+          ],
+          "outputs": [
+            "niche models"
+          ],
+          "keywords": [
+            "MAXENT",
+            "ecological niche models",
+            "species occurrence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analysis of pairwise niche overlap revealed considerable similarity between B. pubescens and B. pendula niches.",
+          "searchable_summary": "analyze pairwise niche overlap",
+          "inputs": [
+            "niche models"
+          ],
+          "outputs": [
+            "niche overlap results"
+          ],
+          "keywords": [
+            "niche overlap",
+            "Schoener's D",
+            "niche similarity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Range overlap analysis at a conservative occurrence probability threshold identified extensive overlap between B. pubescens and B. pendula.",
+          "searchable_summary": "perform range overlap analysis with occurrence probability threshold",
+          "inputs": [
+            "niche models",
+            "occurrence probability threshold"
+          ],
+          "outputs": [
+            "range overlap results"
+          ],
+          "keywords": [
+            "range overlap",
+            "occurrence probability",
+            "niche analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/2948915.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

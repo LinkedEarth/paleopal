@@ -1,0 +1,177 @@
+{
+  "paper_title": "Coupled Mass Balance and Ice Flow Model for Glacier Dynamics",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Coupled Mass Balance and Ice Flow Model Simulation",
+      "description": "This method simulates glacier dynamics and thermodynamic processes using a digital elevation model (DEM) of the bedrock. It aims to reconstruct paleoclimate conditions by adjusting temperature and precipitation parameters to match historical glacial extents.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A DEM for the study area with 30 × 30 m spatial resolution was downloaded from the Geospatial Data Cloud and trimmed to the watersheds of the model domain.",
+          "searchable_summary": "download and trim DEM data from Geospatial Data Cloud",
+          "inputs": [
+            "Geospatial Data Cloud URL",
+            "study area coordinates"
+          ],
+          "outputs": [
+            "trimmed DEM data"
+          ],
+          "keywords": [
+            "DEM",
+            "Geospatial Data Cloud",
+            "data trimming"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Altitudinal gradients of monthly averaged temperature and precipitation were obtained from the global climate dataset created by Fick and Hijmans (2017).",
+          "searchable_summary": "fetch altitudinal climate data from global dataset",
+          "inputs": [
+            "global climate dataset"
+          ],
+          "outputs": [
+            "altitudinal temperature and precipitation data"
+          ],
+          "keywords": [
+            "climate data",
+            "altitudinal gradients",
+            "temperature",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The mass balance model simulates the glacier mass balance in the model domain with these altitudinal gradients of monthly averaged temperature and precipitation.",
+          "searchable_summary": "simulate glacier mass balance using climate data",
+          "inputs": [
+            "altitudinal temperature data",
+            "altitudinal precipitation data"
+          ],
+          "outputs": [
+            "glacier mass balance simulation"
+          ],
+          "keywords": [
+            "mass balance model",
+            "glacier simulation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "To reconstruct the paleoclimate conditions, the difference in the mean monthly air temperature from the present-day conditions (ΔT) and fractional value of the present-day precipitation (F p ) were adjusted to match the positions of t1.",
+          "searchable_summary": "adjust temperature and precipitation to match historical glacial extents",
+          "inputs": [
+            "present-day temperature",
+            "present-day precipitation"
+          ],
+          "outputs": [
+            "adjusted climate parameters"
+          ],
+          "keywords": [
+            "paleoclimate reconstruction",
+            "temperature adjustment",
+            "precipitation adjustment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Different DDF values (6-9 mm d −1°C−1 ) were used to test the model sensitivity to changes in DDF.",
+          "searchable_summary": "test model sensitivity with varying DDF values",
+          "inputs": [
+            "DDF values"
+          ],
+          "outputs": [
+            "sensitivity analysis results"
+          ],
+          "keywords": [
+            "DDF",
+            "sensitivity analysis",
+            "glacier model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Sensitivity and Uncertainties Analysis",
+      "description": "This method evaluates the sensitivity of the coupled mass balance and ice flow model to changes in key parameters and assesses the uncertainties in paleoclimate reconstructions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "An experiment was conducted to test the model sensitivity to changes in DDF based on simulations of t1 in V2.",
+          "searchable_summary": "conduct sensitivity test for DDF changes",
+          "inputs": [
+            "DDF values",
+            "simulation data"
+          ],
+          "outputs": [
+            "sensitivity test results"
+          ],
+          "keywords": [
+            "sensitivity test",
+            "DDF",
+            "model validation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Variations of ± 1°C in T s should yield changes of <.1°C on the model results.",
+          "searchable_summary": "validate model sensitivity to T s variations",
+          "inputs": [
+            "T s values"
+          ],
+          "outputs": [
+            "model sensitivity results"
+          ],
+          "keywords": [
+            "T s",
+            "temperature sensitivity",
+            "model validation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Errors in the details of the ice motion physics have only a minor effect on our modeled paleoclimate estimates due to the assumption of a steady-state paleoglacier.",
+          "searchable_summary": "assess impact of ice motion physics errors",
+          "inputs": [
+            "ice motion physics data"
+          ],
+          "outputs": [
+            "error impact assessment"
+          ],
+          "keywords": [
+            "ice motion physics",
+            "error assessment",
+            "steady-state glacier"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Uncertainties in the model input data sets produce errors for ΔT and F p of ± .5°C and ± .3, respectively.",
+          "searchable_summary": "evaluate uncertainties in model input data",
+          "inputs": [
+            "model input data"
+          ],
+          "outputs": [
+            "uncertainty evaluation"
+          ],
+          "keywords": [
+            "input data uncertainty",
+            "error evaluation",
+            "paleoclimate model"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256938007.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

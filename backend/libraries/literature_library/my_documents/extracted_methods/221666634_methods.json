@@ -1,0 +1,185 @@
+{
+  "paper_title": "Verifiability of genus-level classification under quantification and parsimony theories: a case study of follicucullid radiolarians",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Meta-dataset Preparation",
+      "description": "Preparation of a meta-dataset derived from specimens and publications, including coding of morphological features for taxonomically stable species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The dataset is derived from our own specimens, in particular Longtanella, and publications.",
+          "searchable_summary": "compile dataset from specimens and publications",
+          "inputs": [
+            "specimens",
+            "publications"
+          ],
+          "outputs": [
+            "meta-dataset"
+          ],
+          "keywords": [
+            "dataset",
+            "specimens",
+            "publications"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Morphological features were coded as binary (0, 1) for characters that are present or absent and as a stepped code (0, 1, 2, …) for metric continuous characters.",
+          "searchable_summary": "code morphological features as binary or stepped codes",
+          "inputs": [
+            "morphological features"
+          ],
+          "outputs": [
+            "coded morphological features"
+          ],
+          "keywords": [
+            "coding",
+            "morphological features",
+            "binary",
+            "stepped code"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hayashi's Quantification Theory II (HQT-II) Analysis",
+      "description": "Application of HQT-II for discrimination and classification of samples using qualitative data, resolving multicollinearity, and performing correlation and cluster analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Before HQT-II analysis, multicollinearity has to be resolved through correlation analysis.",
+          "searchable_summary": "perform correlation analysis to resolve multicollinearity",
+          "inputs": [
+            "categorical dataset"
+          ],
+          "outputs": [
+            "resolved multicollinearity"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "multicollinearity",
+            "HQT-II"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We performed HQT-II and associated analyses with the statistical add-on, BellCurve for Excel v. 3.20.",
+          "searchable_summary": "perform HQT-II analysis using BellCurve for Excel",
+          "inputs": [
+            "resolved dataset"
+          ],
+          "outputs": [
+            "HQT-II analysis results"
+          ],
+          "keywords": [
+            "HQT-II",
+            "BellCurve",
+            "Excel"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The categorical dataset for HQT-II comprises 'categorical external variables' and 'classification into more than 2 or 3 groups'.",
+          "searchable_summary": "classify dataset into groups for HQT-II",
+          "inputs": [
+            "categorical dataset"
+          ],
+          "outputs": [
+            "classified dataset"
+          ],
+          "keywords": [
+            "categorical variables",
+            "classification",
+            "HQT-II"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "We performed a correlation analysis, then the HQT-II analysis itself, and then a cluster analysis.",
+          "searchable_summary": "perform correlation, HQT-II, and cluster analyses",
+          "inputs": [
+            "classified dataset"
+          ],
+          "outputs": [
+            "correlation results",
+            "HQT-II results",
+            "cluster analysis results"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "HQT-II",
+            "cluster analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "Conducting phylogenetic analysis using TNT for parsimony analysis, constructing a time tree, and performing ancestral state reconstruction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Phylogenetic analysis was conducted using the New Technology search in TNT v. 1.5.",
+          "searchable_summary": "perform phylogenetic analysis using TNT",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "TNT",
+            "parsimony"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "A time tree was constructed with the paleotree package in R, with stratigraphic ranges of species.",
+          "searchable_summary": "construct time tree using paleotree in R",
+          "inputs": [
+            "phylogenetic tree",
+            "stratigraphic ranges"
+          ],
+          "outputs": [
+            "time tree"
+          ],
+          "keywords": [
+            "time tree",
+            "paleotree",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "An ancestral state reconstruction (ASR) of phylogenetically informative characters was conducted at the genus level in R with the ape package.",
+          "searchable_summary": "perform ASR using ape package in R",
+          "inputs": [
+            "time tree",
+            "phylogenetic characters"
+          ],
+          "outputs": [
+            "ancestral state reconstruction"
+          ],
+          "keywords": [
+            "ASR",
+            "ape package",
+            "R"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221666634.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

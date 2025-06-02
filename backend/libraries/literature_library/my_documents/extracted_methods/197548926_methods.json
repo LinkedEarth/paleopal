@@ -1,0 +1,443 @@
+{
+  "paper_title": "Spatial Correlation and Signal-to-Noise Ratio Estimation",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Signal-to-Noise Ratio (SNR) Estimation",
+      "description": "Method for estimating Signal-to-Noise Ratios (SNRs) of proxy records by comparing their spatial correlation structure with climate model simulations, accounting for spatial separation, time uncertainty, and additive noise. The method relies on the assumption that differences in spatial correlation between proxies and models are due to site-independent additive noise and time uncertainty.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Identify pairs of proxy records for comparison. These can be different proxies from the same site or the same proxy from different sites.",
+          "searchable_summary": "Identify pairs of proxy records for comparison",
+          "inputs": [
+            "list of proxy records with locations and time series"
+          ],
+          "outputs": [
+            "list of proxy record pairs"
+          ],
+          "keywords": [
+            "proxy records",
+            "pairing",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Select climate model simulation data corresponding to proxy locations and timescales. Data is extracted at the nearest grid box to each proxy location.",
+          "searchable_summary": "Fetch climate model data for proxy locations",
+          "inputs": [
+            "climate model simulation data (e.g., MPI6k, T21k)",
+            "list of proxy record locations"
+          ],
+          "outputs": [
+            "climate model time series at proxy locations"
+          ],
+          "keywords": [
+            "climate model",
+            "data extraction",
+            "nearest grid box",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Define timescales for analysis: centennial (T cent) and centennial to millennial (T mill).",
+          "searchable_summary": "Define analysis timescales",
+          "inputs": [],
+          "outputs": [
+            "timescale definitions (T cent, T mill)"
+          ],
+          "keywords": [
+            "timescale",
+            "analysis period"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For T cent: Filter proxy and model time series using a cut-off frequency of 1/400 year. Remove the linear trend from the time series. Select records with a mean sampling interval less than 200 years.",
+          "searchable_summary": "Process time series for centennial timescale (filtering, detrending, selection)",
+          "inputs": [
+            "proxy time series",
+            "model time series",
+            "sampling intervals of proxy records"
+          ],
+          "outputs": [
+            "processed time series for T cent"
+          ],
+          "keywords": [
+            "filtering",
+            "detrending",
+            "time series analysis",
+            "centennial timescale",
+            "sampling interval"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "For T mill: Filter proxy and model time series using a cut-off frequency of 1/1000 year. Include the linear trend in the time series. Use all records.",
+          "searchable_summary": "Process time series for centennial to millennial timescale (filtering, no detrending)",
+          "inputs": [
+            "proxy time series",
+            "model time series"
+          ],
+          "outputs": [
+            "processed time series for T mill"
+          ],
+          "keywords": [
+            "filtering",
+            "time series analysis",
+            "millennial timescale"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate spatial correlation between pairs of processed proxy records for the defined timescales.",
+          "searchable_summary": "Calculate spatial correlation between proxy pairs",
+          "inputs": [
+            "processed proxy time series pairs",
+            "spatial locations of proxy records"
+          ],
+          "outputs": [
+            "spatial correlation values for proxy pairs"
+          ],
+          "keywords": [
+            "spatial correlation",
+            "correlation coefficient",
+            "proxy data analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Calculate spatial correlation between corresponding pairs of processed climate model time series for the defined timescales.",
+          "searchable_summary": "Calculate spatial correlation between model time series pairs",
+          "inputs": [
+            "processed model time series pairs",
+            "spatial locations of model grid points"
+          ],
+          "outputs": [
+            "spatial correlation values for model pairs"
+          ],
+          "keywords": [
+            "spatial correlation",
+            "correlation coefficient",
+            "climate model analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Prepare pairs of spatial correlation values from proxy records and corresponding climate model time series based on spatial separation.",
+          "searchable_summary": "Pair proxy and model spatial correlations by distance",
+          "inputs": [
+            "spatial correlation values for proxy pairs",
+            "spatial correlation values for model pairs",
+            "spatial separations of pairs"
+          ],
+          "outputs": [
+            "paired (proxy correlation, model correlation, spatial separation) values"
+          ],
+          "keywords": [
+            "spatial correlation",
+            "pairing",
+            "data preparation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "Estimate SNR by matching the paired spatial correlations while accounting for time uncertainty and additive noise, quantifying SNR as a function of time uncertainty.",
+          "searchable_summary": "Estimate SNR from paired correlations, accounting for time uncertainty and noise",
+          "inputs": [
+            "paired (proxy correlation, model correlation, spatial separation) values",
+            "time uncertainty model/parameters",
+            "noise model/parameters"
+          ],
+          "outputs": [
+            "estimated SNR values as a function of time uncertainty"
+          ],
+          "keywords": [
+            "SNR estimation",
+            "signal-to-noise ratio",
+            "modeling",
+            "time uncertainty",
+            "noise",
+            "correlation matching"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Filter proxy pairs based on spatial separation (up to 5000 km) for the final SNR estimate.",
+          "searchable_summary": "Filter proxy pairs by spatial separation",
+          "inputs": [
+            "list of proxy record pairs",
+            "spatial locations",
+            "estimated SNR values"
+          ],
+          "outputs": [
+            "filtered list of proxy pairs",
+            "filtered SNR estimates"
+          ],
+          "keywords": [
+            "spatial separation",
+            "filtering",
+            "data selection"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Model Data Preparation",
+      "description": "Process for extracting and preparing climate model simulation data for use in spatial correlation analysis and SNR estimation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select climate model simulations (MPI6k, T21k) for analysis.",
+          "searchable_summary": "Select climate model simulations",
+          "inputs": [
+            "available climate model datasets"
+          ],
+          "outputs": [
+            "selected climate model datasets (MPI6k, T21k)"
+          ],
+          "keywords": [
+            "climate model",
+            "data selection",
+            "MPI6k",
+            "T21k"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Extract annual means of surface air temperature data from the selected simulations.",
+          "searchable_summary": "Extract annual mean surface air temperature from climate models",
+          "inputs": [
+            "selected climate model datasets"
+          ],
+          "outputs": [
+            "annual mean temperature data from models"
+          ],
+          "keywords": [
+            "data extraction",
+            "annual mean",
+            "surface air temperature",
+            "climate model output"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Identify grid boxes in the model simulations nearest to the proxy record locations (M13, LH14, R18).",
+          "searchable_summary": "Find nearest model grid boxes to proxy locations",
+          "inputs": [
+            "climate model grid information",
+            "proxy record locations"
+          ],
+          "outputs": [
+            "list of nearest model grid box coordinates"
+          ],
+          "keywords": [
+            "nearest neighbor",
+            "grid box",
+            "location matching",
+            "geospatial"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Extract the annual mean temperature time series from these nearest grid boxes.",
+          "searchable_summary": "Extract time series from nearest model grid boxes",
+          "inputs": [
+            "annual mean temperature data from models",
+            "list of nearest model grid box coordinates"
+          ],
+          "outputs": [
+            "climate model time series at proxy locations"
+          ],
+          "keywords": [
+            "data extraction",
+            "time series",
+            "climate model output"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spatial Correlation Structure Analysis (Model vs. Reanalysis)",
+      "description": "Analysis of the spatial correlation structure of climate model simulations and reanalysis data to validate the model's representation of spatial coherence, including fitting an exponential decay model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain annual mean surface temperature field from reanalysis data (e.g., 20C3M).",
+          "searchable_summary": "Fetch reanalysis temperature data",
+          "inputs": [
+            "reanalysis dataset source (e.g., 20C3M)"
+          ],
+          "outputs": [
+            "reanalysis temperature field data"
+          ],
+          "keywords": [
+            "reanalysis data",
+            "data fetch",
+            "temperature field"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Obtain annual mean surface temperature data from climate model simulations (MPI6k, T21k).",
+          "searchable_summary": "Fetch climate model temperature data",
+          "inputs": [
+            "climate model datasets (MPI6k, T21k)"
+          ],
+          "outputs": [
+            "climate model temperature data"
+          ],
+          "keywords": [
+            "climate model",
+            "data fetch",
+            "temperature data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Select data from both reanalysis and model simulations for specific timescales (e.g., > 400 years with trend, unfiltered annual).",
+          "searchable_summary": "Select data based on timescale and filtering criteria",
+          "inputs": [
+            "temperature data (model, reanalysis)"
+          ],
+          "outputs": [
+            "timescale-specific temperature data"
+          ],
+          "keywords": [
+            "timescale",
+            "filtering",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate spatial correlation (R) between time series for pairs of grid cells or locations as a function of their spatial separation (x) for the selected timescale.",
+          "searchable_summary": "Calculate spatial correlation vs distance",
+          "inputs": [
+            "temperature data (model, reanalysis) for selected timescale",
+            "spatial coordinates of grid cells/locations"
+          ],
+          "outputs": [
+            "pairs of (spatial separation, correlation) values for model and reanalysis"
+          ],
+          "keywords": [
+            "spatial correlation",
+            "correlation coefficient",
+            "distance",
+            "geospatial analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Fit an exponential model (R = e −x/l d) to the calculated correlation-distance pairs for both model and reanalysis data.",
+          "searchable_summary": "Fit exponential decay model to correlation-distance data",
+          "inputs": [
+            "pairs of (spatial separation, correlation) values"
+          ],
+          "outputs": [
+            "fitted model parameters (e.g., decay length l d) for model and reanalysis"
+          ],
+          "keywords": [
+            "model fitting",
+            "exponential decay",
+            "regression",
+            "spatial correlation model"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Estimate the correlation decay length (l d) from the fitted model for each dataset (model, reanalysis) and timescale.",
+          "searchable_summary": "Estimate correlation decay length",
+          "inputs": [
+            "fitted model parameters"
+          ],
+          "outputs": [
+            "estimated correlation decay length (l d) for model and reanalysis"
+          ],
+          "keywords": [
+            "correlation decay length",
+            "parameter estimation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Compare the estimated correlation decay lengths between model simulations and reanalysis data to assess model performance.",
+          "searchable_summary": "Compare correlation decay lengths between model and reanalysis",
+          "inputs": [
+            "estimated decay lengths (model, reanalysis)"
+          ],
+          "outputs": [
+            "comparison results (e.g., difference in decay lengths)"
+          ],
+          "keywords": [
+            "comparison",
+            "validation",
+            "model evaluation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "(Optional): Repeat steps 3-7 for different time periods of the reanalysis data (e.g., 1871-2011 vs 1871-1950) to assess sensitivity to anthropogenic forcing.",
+          "searchable_summary": "Repeat analysis for different reanalysis time periods",
+          "inputs": [
+            "reanalysis temperature field data",
+            "different time period ranges"
+          ],
+          "outputs": [
+            "decay lengths for different reanalysis periods"
+          ],
+          "keywords": [
+            "reanalysis data",
+            "time period selection",
+            "sensitivity analysis"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "(Optional): Calculate and compare spatial correlation specifically between the proxy site locations using both model and reanalysis data.",
+          "searchable_summary": "Calculate and compare spatial correlation at proxy sites",
+          "inputs": [
+            "temperature data (model, reanalysis) at proxy locations",
+            "proxy locations"
+          ],
+          "outputs": [
+            "spatial correlation values at proxy sites (model, reanalysis)",
+            "comparison results"
+          ],
+          "keywords": [
+            "spatial correlation",
+            "proxy locations",
+            "comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/197548926.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

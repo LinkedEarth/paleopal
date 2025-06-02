@@ -1,0 +1,302 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spacing Analysis",
+      "description": "The spacing analysis was conducted to measure the spacing of macroscopic faults and deformation bands in the mapping area, using scan-lines and image analysis to understand the distribution and spacing of these geological features.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The location, dip and dip direction, heave and throw, where possible, and shear-sense were recorded, and faults plotted onto a map.",
+          "searchable_summary": "Record and plot fault characteristics onto a map",
+          "inputs": [
+            "fault characteristics"
+          ],
+          "outputs": [
+            "mapped faults"
+          ],
+          "keywords": [
+            "fault mapping",
+            "geological survey"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The spacing of macrofaults was measured along scan-lines oriented perpendicular to the average fault strike using the ruler tool in ImageJ.",
+          "searchable_summary": "Measure macrofault spacing using ImageJ",
+          "inputs": [
+            "fault map",
+            "ImageJ"
+          ],
+          "outputs": [
+            "fault spacing measurements"
+          ],
+          "keywords": [
+            "ImageJ",
+            "fault spacing",
+            "geological analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Spacing greater than 20 m was removed from the data as these points represent artefacts of exposure conditions.",
+          "searchable_summary": "Filter out spacing measurements greater than 20 m",
+          "inputs": [
+            "spacing measurements"
+          ],
+          "outputs": [
+            "filtered spacing measurements"
+          ],
+          "keywords": [
+            "data filtering",
+            "geological data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Horizontally measured spacing was corrected for the average dip of the faults using the sine transformation.",
+          "searchable_summary": "Correct spacing measurements using sine transformation",
+          "inputs": [
+            "filtered spacing measurements",
+            "average dip angle"
+          ],
+          "outputs": [
+            "corrected spacing measurements"
+          ],
+          "keywords": [
+            "sine transformation",
+            "geological correction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Pearson correlation coefficient values were calculated for the correlation between the corrected spacing and the associated cumulative field overprinting criteria.",
+          "searchable_summary": "Calculate Pearson correlation coefficient for spacing data",
+          "inputs": [
+            "corrected spacing measurements",
+            "field overprinting criteria"
+          ],
+          "outputs": [
+            "correlation coefficient"
+          ],
+          "keywords": [
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "For spacing measurements of deformation bands in damage zones, the fault was put into the origin of the digitised image.",
+          "searchable_summary": "Set fault as origin in digitized image for spacing measurements",
+          "inputs": [
+            "digitized image"
+          ],
+          "outputs": [
+            "origin-set image"
+          ],
+          "keywords": [
+            "image processing",
+            "geological imaging"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Deformation band clusters were treated as single bands. The resulting maps were exported as a binary image.",
+          "searchable_summary": "Export deformation band maps as binary images",
+          "inputs": [
+            "deformation band maps"
+          ],
+          "outputs": [
+            "binary images"
+          ],
+          "keywords": [
+            "image export",
+            "binary image"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Matlab was used to obtain spacing statistics along scan-lines at a spacing of 1% of the image height.",
+          "searchable_summary": "Use Matlab to calculate spacing statistics",
+          "inputs": [
+            "binary images"
+          ],
+          "outputs": [
+            "spacing statistics"
+          ],
+          "keywords": [
+            "Matlab",
+            "spacing statistics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "When the horizontal image dimension was not perpendicular to the traces of the deformation bands in the map, spacing was again corrected with the sine transformation.",
+          "searchable_summary": "Correct spacing with sine transformation for non-perpendicular images",
+          "inputs": [
+            "spacing statistics",
+            "image dimensions"
+          ],
+          "outputs": [
+            "corrected spacing statistics"
+          ],
+          "keywords": [
+            "sine transformation",
+            "image correction"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "When normalised spacing is reported for damage zones, normalisation was done by division through damage-zone width.",
+          "searchable_summary": "Normalize spacing by dividing by damage-zone width",
+          "inputs": [
+            "corrected spacing statistics",
+            "damage-zone width"
+          ],
+          "outputs": [
+            "normalized spacing"
+          ],
+          "keywords": [
+            "normalization",
+            "geological data"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Synthetic images were created to show ideal spacing distributions and to highlight how natural variation in heterogeneous rocks and data collection error can impact the measured spacing of natural samples.",
+          "searchable_summary": "Create synthetic images for ideal spacing distributions",
+          "inputs": [
+            "spacing data"
+          ],
+          "outputs": [
+            "synthetic images"
+          ],
+          "keywords": [
+            "synthetic images",
+            "spacing distribution"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microstructural Analysis",
+      "description": "Microstructural analysis was performed on thin-sections of host rock and deformation bands using BSE imaging to examine porosity, mineralogy, and microfracture density.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Twenty polished thin-sections from samples of host rock and deformation band were examined by back-scattered electron (BSE) imaging using a VP Zeiss Sigma scanning-electron microscope (SEM).",
+          "searchable_summary": "Examine thin-sections using BSE imaging with SEM",
+          "inputs": [
+            "thin-sections"
+          ],
+          "outputs": [
+            "BSE images"
+          ],
+          "keywords": [
+            "BSE imaging",
+            "SEM",
+            "thin-sections"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Images of host rock were taken at 400x magnification and those of deformation bands at 800x. Multiple images were taken with a 5-10% overlap and stitched together to produce ca. 1 mm2 image.",
+          "searchable_summary": "Capture and stitch BSE images at specified magnifications",
+          "inputs": [
+            "BSE images"
+          ],
+          "outputs": [
+            "stitched images"
+          ],
+          "keywords": [
+            "image stitching",
+            "magnification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "BSE maps were analysed for porosity and mineralogy of the samples. Grey-level slicing was used to extract four different phases from the images.",
+          "searchable_summary": "Analyze BSE maps for porosity and mineralogy using grey-level slicing",
+          "inputs": [
+            "stitched images"
+          ],
+          "outputs": [
+            "phase data"
+          ],
+          "keywords": [
+            "porosity analysis",
+            "mineralogy",
+            "grey-level slicing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For porosity phase analysis, the images were eroded and dilated to generate upper and lower bounds for the estimate.",
+          "searchable_summary": "Erode and dilate images for porosity phase analysis",
+          "inputs": [
+            "phase data"
+          ],
+          "outputs": [
+            "porosity bounds"
+          ],
+          "keywords": [
+            "image erosion",
+            "image dilation",
+            "porosity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Grain size estimates were obtained through manual tracing of grains from SEM images in ImageJ.",
+          "searchable_summary": "Trace grains in SEM images to estimate grain size",
+          "inputs": [
+            "SEM images"
+          ],
+          "outputs": [
+            "grain size estimates"
+          ],
+          "keywords": [
+            "grain size",
+            "ImageJ",
+            "manual tracing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Microfracture density was measured on BSE maps along 1-mm long scan-lines oriented normal to the deformation bands.",
+          "searchable_summary": "Measure microfracture density along scan-lines on BSE maps",
+          "inputs": [
+            "BSE maps"
+          ],
+          "outputs": [
+            "microfracture density"
+          ],
+          "keywords": [
+            "microfracture density",
+            "scan-lines"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219448690.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

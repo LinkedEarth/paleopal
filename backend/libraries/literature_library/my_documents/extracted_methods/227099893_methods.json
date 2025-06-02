@@ -1,0 +1,258 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Quantitative Proteomics Analysis",
+      "description": "Analysis of proteomics data from LC-MS/MS libraries to identify and quantify proteins across different developmental stages and conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The PCA of the LC-MS/MS libraries obtained from the three developmental stages of both CT and AI male gametophytes, showed that the biological replicates were well correlated with observed variance across all developmental stages, and between individual control and corresponding AI stages.",
+          "searchable_summary": "perform PCA on LC-MS/MS libraries to assess correlation and variance",
+          "inputs": [
+            "LC-MS/MS libraries"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "proteomics",
+            "variance analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Approximately, 84.2−86.8% of the proteins were quantified in all three biological replicates, while 8.3−11.21% of identified proteins were present in at least two biological replicates, demonstrating the high reproducibility of proteome coverage across the biological replicates.",
+          "searchable_summary": "quantify proteins across biological replicates to assess reproducibility",
+          "inputs": [
+            "protein identification data"
+          ],
+          "outputs": [
+            "quantified protein percentages"
+          ],
+          "keywords": [
+            "protein quantification",
+            "reproducibility"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The statistical analysis identified 2234 and 2107 proteins as differentially expressed proteins (DEPs) in one to one comparison between CT_S5 vs. CT_S3 and CT_PT6 vs. CT_S5, respectively.",
+          "searchable_summary": "identify DEPs using statistical analysis for stage comparisons",
+          "inputs": [
+            "protein expression data"
+          ],
+          "outputs": [
+            "list of DEPs"
+          ],
+          "keywords": [
+            "differential expression",
+            "statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Clustering and Functional Annotation",
+      "description": "Clustering and functional annotation of differentially expressed genes and proteins to understand biological processes and responses to infection.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Gene Ontology (GO) terms were extracted for correlated DEGs and DEPs and subjected to GO enrichment analysis.",
+          "searchable_summary": "perform GO enrichment analysis on DEGs and DEPs",
+          "inputs": [
+            "correlated DEGs and DEPs"
+          ],
+          "outputs": [
+            "GO enrichment results"
+          ],
+          "keywords": [
+            "GO terms",
+            "enrichment analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Pathway-based analysis was performed based on Kyoto Encyclopedia of Genes and Genomes (KEGG) database.",
+          "searchable_summary": "conduct KEGG pathway analysis for DEGs and DEPs",
+          "inputs": [
+            "DEGs and DEPs"
+          ],
+          "outputs": [
+            "KEGG pathway assignments"
+          ],
+          "keywords": [
+            "KEGG",
+            "pathway analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "MapMan pathway-based analysis was performed to gain an unbiased and systematic overview of cor-DEGs/DEPs.",
+          "searchable_summary": "use MapMan for pathway-based analysis of DEGs and DEPs",
+          "inputs": [
+            "cor-DEGs/DEPs"
+          ],
+          "outputs": [
+            "MapMan analysis results"
+          ],
+          "keywords": [
+            "MapMan",
+            "pathway analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RNA Extraction and Sequencing",
+      "description": "Extraction of RNA, preparation of cDNA libraries, and sequencing to analyze gene expression across developmental stages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The DNase treated total RNA isolated from three developmental stages (S3, S5, and PT6) of CT and AI was quantified by the NanoDrop 2000 spectrophotometer.",
+          "searchable_summary": "quantify RNA using NanoDrop spectrophotometer",
+          "inputs": [
+            "DNase treated total RNA"
+          ],
+          "outputs": [
+            "RNA quantity"
+          ],
+          "keywords": [
+            "RNA quantification",
+            "NanoDrop"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The isolation of mRNA was performed using the PolyATtract mRNA isolation system IV and used for cDNA preparation.",
+          "searchable_summary": "isolate mRNA and prepare cDNA",
+          "inputs": [
+            "total RNA"
+          ],
+          "outputs": [
+            "mRNA",
+            "cDNA"
+          ],
+          "keywords": [
+            "mRNA isolation",
+            "cDNA synthesis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The high-quality constructed libraries were subject to paired-end sequencing on the Illumina HiSeq 2500 platform.",
+          "searchable_summary": "perform paired-end sequencing on Illumina HiSeq 2500",
+          "inputs": [
+            "cDNA libraries"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "Illumina sequencing",
+            "paired-end"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The raw sequencing data were subjected to quality trimming, removal of adapter, low quality reads, k-mers contamination using the fastp software.",
+          "searchable_summary": "trim and clean raw sequencing data using fastp",
+          "inputs": [
+            "raw sequencing data"
+          ],
+          "outputs": [
+            "cleaned sequencing data"
+          ],
+          "keywords": [
+            "fastp",
+            "data cleaning"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The differential gene expression analysis was performed using the Bioconductor software package DESeq2.",
+          "searchable_summary": "analyze differential gene expression using DESeq2",
+          "inputs": [
+            "cleaned sequencing data"
+          ],
+          "outputs": [
+            "differentially expressed genes"
+          ],
+          "keywords": [
+            "DESeq2",
+            "gene expression analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein Isolation and LC-MS/MS Analysis",
+      "description": "Isolation of proteins from pollen samples and analysis using LC-MS/MS to identify and quantify proteins.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Total protein was isolated from pollen samples of three developmental stages (S3, S5, and PT6) of CT and AI using the TRI Reagent solution.",
+          "searchable_summary": "isolate total protein using TRI Reagent",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "total protein"
+          ],
+          "keywords": [
+            "protein isolation",
+            "TRI Reagent"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All isolated protein samples were processed using filter-aided sample preparation (FASP) protocol.",
+          "searchable_summary": "process protein samples using FASP protocol",
+          "inputs": [
+            "isolated protein samples"
+          ],
+          "outputs": [
+            "processed protein samples"
+          ],
+          "keywords": [
+            "FASP",
+            "protein processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Trypsin was used for protein digestion.",
+          "searchable_summary": "digest proteins using trypsin",
+          "inputs": [
+            "processed protein samples"
+          ],
+          "outputs": [
+            "digested protein samples"
+          ],
+          "keywords": [
+            "trypsin digestion",
+            "protein analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/227099893.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,230 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Pooling and Alignment",
+      "description": "This method involves pooling sequences from different sources, aligning them, and collapsing them into haplotypes for further genetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We pooled our sequences with additional fifty-nine sequences of the same DNA region reported in Shi et al. (2015) that correspond to three different locations in the coast of China.",
+          "searchable_summary": "combine sequences from multiple sources",
+          "inputs": [
+            "own sequences",
+            "sequences from Shi et al. (2015)"
+          ],
+          "outputs": [
+            "pooled sequences"
+          ],
+          "keywords": [
+            "sequence pooling",
+            "DNA sequences",
+            "GenBank"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequences were aligned in Clustal X and collapsed into haplotypes after trimmed.",
+          "searchable_summary": "align and collapse sequences into haplotypes using Clustal X",
+          "inputs": [
+            "pooled sequences"
+          ],
+          "outputs": [
+            "aligned haplotypes"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "Clustal X",
+            "haplotypes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genetic Divergence and Population Structure Analysis",
+      "description": "This method calculates genetic divergence and evaluates population structure using various statistical models and software tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pairwise genetic divergence was calculated with the fixation index ST implemented in Arlequin v3.5 using the Kimura 2P substitution model.",
+          "searchable_summary": "calculate pairwise genetic divergence using Arlequin",
+          "inputs": [
+            "aligned haplotypes"
+          ],
+          "outputs": [
+            "genetic divergence values"
+          ],
+          "keywords": [
+            "genetic divergence",
+            "fixation index",
+            "Arlequin"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Hierarchical population structure was evaluated using the analyses of molecular variance (AMOVA) implemented in Arlequin.",
+          "searchable_summary": "perform AMOVA to evaluate population structure",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "population structure analysis"
+          ],
+          "keywords": [
+            "AMOVA",
+            "population structure",
+            "Arlequin"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic and Bayesian Analysis",
+      "description": "This method constructs phylogenetic trees and assesses population clusters using Bayesian approaches.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Constructed a TCS parsimony network using the program PopART.",
+          "searchable_summary": "create TCS parsimony network with PopART",
+          "inputs": [
+            "haplotypes"
+          ],
+          "outputs": [
+            "TCS parsimony network"
+          ],
+          "keywords": [
+            "TCS network",
+            "PopART",
+            "phylogenetic analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Construct a maximum likelihood phylogenetic tree using the IQ-TREE software.",
+          "searchable_summary": "build maximum likelihood phylogenetic tree with IQ-TREE",
+          "inputs": [
+            "haplotypes"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "IQ-TREE",
+            "maximum likelihood"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Assessed the number of clusters using a Bayesian approach implemented in BAPS v5.2.",
+          "searchable_summary": "determine number of clusters using BAPS",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "cluster analysis"
+          ],
+          "keywords": [
+            "Bayesian analysis",
+            "BAPS",
+            "cluster analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Neutrality Tests and Demographic Analysis",
+      "description": "This method involves performing neutrality tests and calculating demographic parameters to understand population dynamics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Neutrality tests and demographic parameters like Tajima's D, Fu' Fs, and others were calculated in DnaSP v6.",
+          "searchable_summary": "perform neutrality tests and calculate demographic parameters in DnaSP",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "neutrality test results",
+            "demographic parameters"
+          ],
+          "keywords": [
+            "neutrality tests",
+            "DnaSP",
+            "demographic analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The time of demographic expansion (T) was calculated from the relationship T = τ /2u.",
+          "searchable_summary": "calculate time of demographic expansion",
+          "inputs": [
+            "τ",
+            "mutation rate",
+            "alignment length"
+          ],
+          "outputs": [
+            "time of demographic expansion"
+          ],
+          "keywords": [
+            "demographic expansion",
+            "mutation rate",
+            "calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bayesian Skyline Plot Analysis",
+      "description": "This method uses Bayesian Skyline Plots to observe past dynamics of the female effective population size.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Past dynamics of the female effective population size were observed through Bayesian Skyline Plots calculated in BEAST 2.4.8.",
+          "searchable_summary": "generate Bayesian Skyline Plots in BEAST",
+          "inputs": [
+            "genetic data",
+            "molecular clock model"
+          ],
+          "outputs": [
+            "Bayesian Skyline Plots"
+          ],
+          "keywords": [
+            "Bayesian Skyline Plot",
+            "BEAST",
+            "population dynamics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "The skyline plots were generated in Tracer v.1.7.1.",
+          "searchable_summary": "visualize Bayesian Skyline Plots in Tracer",
+          "inputs": [
+            "Bayesian Skyline Plot data"
+          ],
+          "outputs": [
+            "visualized plots"
+          ],
+          "keywords": [
+            "Tracer",
+            "visualization",
+            "skyline plots"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233232504.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

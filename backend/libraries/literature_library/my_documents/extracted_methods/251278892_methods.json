@@ -1,0 +1,229 @@
+{
+  "paper_title": "Amino Acid Analysis in Pollen Species",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Amino Acid Composition",
+      "description": "Statistical procedures used to analyze the amino acid composition of pollen from 32 species across seven plant families, using various statistical models and tests to assess the influence of analytical methods and plant family on amino acid content.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We fitted a linear model on the total amino acid content of the 32 species according to the 'method' and the 'plant family', with interaction effects between the two predictors.",
+          "searchable_summary": "fit linear model on total amino acid content with method and plant family as predictors",
+          "inputs": [
+            "total amino acid content",
+            "method",
+            "plant family"
+          ],
+          "outputs": [
+            "linear model"
+          ],
+          "keywords": [
+            "linear model",
+            "interaction effects",
+            "amino acid content"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Residual normality and heteroscedasticity were visually checked using residual plots versus fitted values and QQ-plot, respectively, followed by a two-way ANOVA to determine the effects of variables.",
+          "searchable_summary": "check residual normality and heteroscedasticity, perform two-way ANOVA",
+          "inputs": [
+            "linear model residuals"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "residual normality",
+            "heteroscedasticity",
+            "ANOVA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "The differences in amino acid composition for the 32 floral species according to the analytical method were visually assessed on a non-metric multidimensional scaling (nMDS) ordination using a Bray-Curtis similarity matrix.",
+          "searchable_summary": "perform nMDS ordination using Bray-Curtis similarity matrix",
+          "inputs": [
+            "amino acid composition data"
+          ],
+          "outputs": [
+            "nMDS ordination plot"
+          ],
+          "keywords": [
+            "nMDS",
+            "Bray-Curtis",
+            "ordination"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "A perMANOVA was performed using the Bray-Curtis dissimilarity matrix and 999 permutations.",
+          "searchable_summary": "perform perMANOVA with Bray-Curtis dissimilarity matrix",
+          "inputs": [
+            "Bray-Curtis dissimilarity matrix"
+          ],
+          "outputs": [
+            "perMANOVA results"
+          ],
+          "keywords": [
+            "perMANOVA",
+            "Bray-Curtis",
+            "permutations"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The contents of each amino acid were compared in a MANOVA using 'method' and 'family' as main effects.",
+          "searchable_summary": "perform MANOVA on amino acid contents with method and family as effects",
+          "inputs": [
+            "amino acid contents",
+            "method",
+            "family"
+          ],
+          "outputs": [
+            "MANOVA results"
+          ],
+          "keywords": [
+            "MANOVA",
+            "amino acid contents",
+            "main effects"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "A global AAS was calculated for each species, with the proportion of the limiting essential amino acid in the protein of the pollen divided by the standard accepted proportions of essential amino acids.",
+          "searchable_summary": "calculate global AAS for each species",
+          "inputs": [
+            "essential amino acid content",
+            "standard proportions"
+          ],
+          "outputs": [
+            "global AAS"
+          ],
+          "keywords": [
+            "AAS",
+            "essential amino acids",
+            "proportions"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Residual normality and heteroscedasticity were visually checked using the plot of residuals versus fitted values and QQ-plot respectively, prior to two-way ANOVA.",
+          "searchable_summary": "check residual normality and heteroscedasticity, perform two-way ANOVA",
+          "inputs": [
+            "AAS residuals"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "residual normality",
+            "heteroscedasticity",
+            "ANOVA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Influence of Chromatography Method on Amino Acid Detection",
+      "description": "Comparison of two chromatography methods (IEX and HPLC) for quantifying amino acid profiles, highlighting differences in hydrolysis conditions, detection processes, and the impact on amino acid content.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Amino acid profiles were quantified with two different analytical methods which significantly influenced both the composition and the total amino acid content.",
+          "searchable_summary": "quantify amino acid profiles using IEX and HPLC methods",
+          "inputs": [
+            "amino acid samples"
+          ],
+          "outputs": [
+            "amino acid profiles"
+          ],
+          "keywords": [
+            "IEX chromatography",
+            "HPLC",
+            "amino acid quantification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The two chromatography methods included a two-step analysis involving hydrolysis under different conditions (acidic versus oxidative basic).",
+          "searchable_summary": "perform two-step hydrolysis under acidic and oxidative basic conditions",
+          "inputs": [
+            "amino acid samples"
+          ],
+          "outputs": [
+            "hydrolyzed amino acids"
+          ],
+          "keywords": [
+            "hydrolysis",
+            "acidic conditions",
+            "oxidative basic conditions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For the IEX chromatography method, the complete analysis was replicated several times for better homogenization.",
+          "searchable_summary": "replicate IEX chromatography analysis for homogenization",
+          "inputs": [
+            "hydrolyzed amino acids"
+          ],
+          "outputs": [
+            "homogenized amino acid profiles"
+          ],
+          "keywords": [
+            "IEX chromatography",
+            "replication",
+            "homogenization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For the HPLC method, two replicas were devoted to the procedure with acid hydrolysis only and one to the procedure under oxidative conditions.",
+          "searchable_summary": "perform HPLC with acid and oxidative hydrolysis",
+          "inputs": [
+            "hydrolyzed amino acids"
+          ],
+          "outputs": [
+            "HPLC amino acid profiles"
+          ],
+          "keywords": [
+            "HPLC",
+            "acid hydrolysis",
+            "oxidative conditions"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Amino acids are detected and quantified according to the intensity of the light emitted by the chromophores.",
+          "searchable_summary": "detect and quantify amino acids by chromophore light intensity",
+          "inputs": [
+            "derivatized amino acids"
+          ],
+          "outputs": [
+            "quantified amino acids"
+          ],
+          "keywords": [
+            "chromophores",
+            "light intensity",
+            "amino acid detection"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251278892.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

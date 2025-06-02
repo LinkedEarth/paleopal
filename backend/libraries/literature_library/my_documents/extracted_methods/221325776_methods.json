@@ -1,0 +1,380 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Culture-Independent Genomic Analysis",
+      "description": "Method to characterize the full bacterial diversity of benthic peatland thaw lake sediment microbiomes using 16S rRNA gene sequencing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Nucleic acids were extracted from 1g of sediments using the AllPrep DNA/RNA Mini Kit (Qiagen Sciences, Germantown, MD, USA).",
+          "searchable_summary": "Extract environmental DNA from sediment samples",
+          "inputs": [
+            "Sediment samples (1g)"
+          ],
+          "outputs": [
+            "Environmental DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "sediment",
+            "Qiagen AllPrep DNA/RNA Mini Kit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The V4 region of the 16S rRNA gene was amplified by PCR using the S-D-Bact-0516-a-S-18/S-D-Bact-0907-a-A-20 primer set fused with MiSeq adaptors. PCR reactions were carried out in duplicate in a final volume of 25 µL using Brilliant III Ultra-Fast Q-PCR Master Mix (Agilent, Santa Clara, CA, USA), 0.5 nM of primers and 1 ng of DNA template. The PCR program included 30 cycles of denaturation at 95 • C for 30 s then annealing at 58 • C for 30 s and extension at 72 • C for 1 min.",
+          "searchable_summary": "Amplify 16S rRNA V4 region by PCR (PCR1)",
+          "inputs": [
+            "Environmental DNA (1 ng)",
+            "S-D-Bact-0516-a-S-18 primer",
+            "S-D-Bact-0907-a-A-20 primer",
+            "Brilliant III Ultra-Fast Q-PCR Master Mix"
+          ],
+          "outputs": [
+            "PCR amplicons (16S rRNA V4 region)"
+          ],
+          "keywords": [
+            "PCR",
+            "16S rRNA",
+            "V4 region",
+            "amplification",
+            "primer set"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Illumina MiSeq adaptors and barecodes were added during a second PCR step. Each reaction contained 5 µL of GreenGoTaq Reaction Buffer (Promega Corporation, Madison, WI, USA), 0.5 µL of dNTP mix (40 mmol L -1 total), 1 µL of each primer (10 µM), 0.125 µL of GoTaq DNA polymerase (Promega), and 1 µL of corresponding PCR1 product. The final volume was adjusted to 25 µL with sterile water. PCR conditions were 95 • C for 2 min; 10 cycles of 95 • C for 40 s, 55 • C for 45 s, and 72 • C for 60 s; and a final extension at 72 • C for 10 min.",
+          "searchable_summary": "Add Illumina adaptors and barcodes by PCR (PCR2)",
+          "inputs": [
+            "PCR1 product",
+            "Illumina MiSeq adaptors",
+            "barcodes",
+            "GreenGoTaq Reaction Buffer",
+            "dNTP mix",
+            "GoTaq DNA polymerase"
+          ],
+          "outputs": [
+            "Barcoded PCR amplicons (sequencing library)"
+          ],
+          "keywords": [
+            "PCR",
+            "Illumina adaptors",
+            "barcoding",
+            "library preparation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "PCR amplifications were then pooled and purified on agarose gel using the QIAquick Gel Extraction Kit (Qiagen).",
+          "searchable_summary": "Pool and purify PCR products using gel extraction",
+          "inputs": [
+            "Barcoded PCR amplicons"
+          ],
+          "outputs": [
+            "Purified pooled sequencing library"
+          ],
+          "keywords": [
+            "PCR purification",
+            "agarose gel extraction",
+            "QIAquick Gel Extraction Kit",
+            "DNA purification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Libraries were quantified using a QuBit DNA HS Assay Kit (Life Technologies, Carlsbad, CA, USA) and a QuBit 3.0 Fluorometer (Life Tech-nologies) following the manufacturer's instructions",
+          "searchable_summary": "Quantify DNA library concentration using QuBit",
+          "inputs": [
+            "Purified pooled sequencing library"
+          ],
+          "outputs": [
+            "Sequencing library concentration"
+          ],
+          "keywords": [
+            "DNA quantification",
+            "QuBit",
+            "library quantification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "then paired-end sequenced on an Illumina MiSeq sequencer using a V3 MiSeq sequencing kit (2 × 300 bp) at the Institut de Biologie Intégrative et des Systèmes (IBIS) sequencing platform (Université Laval, Quebec, Canada).",
+          "searchable_summary": "Perform paired-end sequencing on Illumina MiSeq",
+          "inputs": [
+            "Quantified sequencing library"
+          ],
+          "outputs": [
+            "Raw sequencing reads (fastq files)"
+          ],
+          "keywords": [
+            "Illumina sequencing",
+            "MiSeq",
+            "paired-end sequencing",
+            "16S rRNA sequencing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Sequences were quality filtered as previously detailed [22]",
+          "searchable_summary": "Quality filter raw sequencing reads",
+          "inputs": [
+            "Raw sequencing reads"
+          ],
+          "outputs": [
+            "Quality-filtered sequencing reads"
+          ],
+          "keywords": [
+            "sequence quality filtering",
+            "bioinformatics",
+            "read processing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "then clustered into operational taxonomic units (OTUs) at 97% of sequence similarity using VSEARCH [23].",
+          "searchable_summary": "Cluster sequences into Operational Taxonomic Units (OTUs) at 97% similarity",
+          "inputs": [
+            "Quality-filtered sequencing reads"
+          ],
+          "outputs": [
+            "OTU sequences",
+            "OTU table"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "VSEARCH",
+            "sequence similarity",
+            "microbiome analysis"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The taxonomic affiliations of the OTUs were performed using the Mothur version of the Bayesian classifier with the SILVA 128 database.",
+          "searchable_summary": "Assign taxonomy to OTUs using Bayesian classifier and SILVA database",
+          "inputs": [
+            "OTU sequences",
+            "SILVA 128 database"
+          ],
+          "outputs": [
+            "Taxonomic assignments for OTUs"
+          ],
+          "keywords": [
+            "taxonomic classification",
+            "16S rRNA",
+            "Mothur",
+            "Bayesian classifier",
+            "SILVA database",
+            "bioinformatics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Culture-Dependent Isolation and Identification of Psychrophilic Strains",
+      "description": "Method for isolating psychrophilic bacteria from sediment samples using various culture media and identifying them based on 16S rRNA gene sequencing and phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Surface sediment samples (about 1.0 g) were used to inoculate, separately, 30 mL of Tryptone Soya Broth (TSB), 30 mL of medium R2A and 30 mL of medium YN.",
+          "searchable_summary": "Inoculate sediment samples into different liquid culture media",
+          "inputs": [
+            "Surface sediment samples (1.0 g)",
+            "Tryptone Soya Broth (TSB)",
+            "R2A medium",
+            "YN medium"
+          ],
+          "outputs": [
+            "Liquid cultures"
+          ],
+          "keywords": [
+            "microbial culture",
+            "inoculation",
+            "sediment",
+            "culture media"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The temperature of incubation was 10 • C for one week, under slow agitation (40 rpm).",
+          "searchable_summary": "Incubate liquid cultures at 10°C with agitation",
+          "inputs": [
+            "Liquid cultures"
+          ],
+          "outputs": [
+            "Enriched liquid cultures"
+          ],
+          "keywords": [
+            "incubation",
+            "psychrophilic",
+            "microbial growth",
+            "agitation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "After one week of incubation, microbial growth occurred in all tested liquid media, and subsamples were then spread on the corresponding solid media in plates. Solid media were obtained by adding 1.8% agar to the compositions described above.",
+          "searchable_summary": "Spread liquid cultures onto corresponding solid media plates",
+          "inputs": [
+            "Enriched liquid cultures",
+            "Solid TSB (with agar)",
+            "Solid R2A (with agar)",
+            "Solid YN (with agar)"
+          ],
+          "outputs": [
+            "Agar plates with bacterial colonies"
+          ],
+          "keywords": [
+            "plating",
+            "solid culture media",
+            "agar plates",
+            "microbial isolation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The colonies were purified by using the serial dilution-plating method at 10 • C, followed by repeated re-streaking on the same solid medium until uniform colonies were obtained.",
+          "searchable_summary": "Purify bacterial colonies using serial dilution and re-streaking",
+          "inputs": [
+            "Agar plates with bacterial colonies"
+          ],
+          "outputs": [
+            "Pure bacterial isolates"
+          ],
+          "keywords": [
+            "colony purification",
+            "serial dilution",
+            "re-streaking",
+            "bacterial isolation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Genomic DNA was isolated from the cultures using DNAzol (Molecular Research Centre, Inc. Cincinnati, OH, USA) according to the manufacturer's instruction.",
+          "searchable_summary": "Isolate genomic DNA from pure bacterial cultures",
+          "inputs": [
+            "Pure bacterial isolates",
+            "DNAzol reagent"
+          ],
+          "outputs": [
+            "Genomic DNA from isolates"
+          ],
+          "keywords": [
+            "DNA isolation",
+            "bacterial DNA",
+            "DNAzol"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "PCR amplification and sequencing of the almost full-length 16S rRNA genes of twenty-one strains were obtained from the genomic-DNAs amplification by using universal primers 8F and 1517R of broad specificity in a polymerase chain reaction (PCR).",
+          "searchable_summary": "Amplify almost full-length 16S rRNA genes from isolates by PCR",
+          "inputs": [
+            "Genomic DNA from isolates",
+            "8F primer",
+            "1517R primer"
+          ],
+          "outputs": [
+            "16S rRNA gene amplicons"
+          ],
+          "keywords": [
+            "PCR",
+            "16S rRNA",
+            "bacterial identification",
+            "universal primers"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The nucleotide sequence of 16S rRNA genes was analyzed by EzTaxon-e server (https://www.ezbiocloud.net), and the values for pairwise 16S rRNA gene sequence similarity among the closest species were determined using the EzTaxon-e server.",
+          "searchable_summary": "Analyze 16S rRNA gene sequence similarity and identify closest species using EzTaxon-e server",
+          "inputs": [
+            "16S rRNA gene sequences (from isolates)"
+          ],
+          "outputs": [
+            "Sequence similarity values",
+            "Closest related species identification"
+          ],
+          "keywords": [
+            "16S rRNA sequence analysis",
+            "EzTaxon-e",
+            "bacterial identification",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "A phylogenetic tree was constructed using the software package MEGA X [24] after multiple alignments of the data by CLUSTAL_X [25].",
+          "searchable_summary": "Perform multiple sequence alignment of 16S rRNA genes using CLUSTAL_X",
+          "inputs": [
+            "16S rRNA gene sequences (from isolates and reference sequences)"
+          ],
+          "outputs": [
+            "Aligned 16S rRNA sequences"
+          ],
+          "keywords": [
+            "multiple sequence alignment",
+            "CLUSTAL_X",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "A phylogenetic tree was constructed using the software package MEGA X [24] after multiple alignments of the data by CLUSTAL_X [25]. Distances (distance options according to [26] and clustering were based on neighbor-joining [27].",
+          "searchable_summary": "Construct phylogenetic tree using neighbor-joining method in MEGA X",
+          "inputs": [
+            "Aligned 16S rRNA sequences"
+          ],
+          "outputs": [
+            "Phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree construction",
+            "neighbor-joining",
+            "MEGA X",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "Tree topologies were tested by the bootstrap method of resampling [28] using 1000 replications.",
+          "searchable_summary": "Test phylogenetic tree topology using bootstrap method",
+          "inputs": [
+            "Phylogenetic tree",
+            "Aligned 16S rRNA sequences"
+          ],
+          "outputs": [
+            "Bootstrapped phylogenetic tree (with support values)"
+          ],
+          "keywords": [
+            "bootstrap analysis",
+            "phylogenetic tree validation",
+            "resampling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/221325776.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

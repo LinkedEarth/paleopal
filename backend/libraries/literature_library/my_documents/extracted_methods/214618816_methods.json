@@ -1,0 +1,420 @@
+{
+  "paper_title": "Phytoplankton and Bacterial Community Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phytoplankton Collection and Culture Maintenance",
+      "description": "This method describes the process of collecting phytoplankton, characterizing species, and maintaining cultures for experimental analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Monoclonal phytoplankton batch cultures were established by isolating single cells or chains of microalgae from seawater collected at the island of Helgoland.",
+          "searchable_summary": "isolate microalgae from seawater samples",
+          "inputs": [
+            "seawater samples"
+          ],
+          "outputs": [
+            "isolated microalgae"
+          ],
+          "keywords": [
+            "phytoplankton",
+            "isolation",
+            "seawater"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The isolates were grown in 12-well plates with filter-sterilized artificial seawater medium (ESAW) containing essential trace metals and vitamins.",
+          "searchable_summary": "grow isolates in ESAW medium",
+          "inputs": [
+            "isolated microalgae",
+            "ESAW medium"
+          ],
+          "outputs": [
+            "grown cultures"
+          ],
+          "keywords": [
+            "culture growth",
+            "ESAW medium"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Pure and established cultures were transferred to 25 mL culture flasks and maintained at 15°C and a 12 h light/12 h dark diurnal cycle.",
+          "searchable_summary": "transfer cultures to flasks and maintain under specific conditions",
+          "inputs": [
+            "grown cultures"
+          ],
+          "outputs": [
+            "maintained cultures"
+          ],
+          "keywords": [
+            "culture maintenance",
+            "temperature control"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Every week, aliquots of batch cultures were transferred into new medium at a concentration of 2000 cells mL−1 to maintain healthy and exponentially growing cultures.",
+          "searchable_summary": "transfer aliquots to new medium weekly",
+          "inputs": [
+            "batch cultures"
+          ],
+          "outputs": [
+            "healthy cultures"
+          ],
+          "keywords": [
+            "culture transfer",
+            "cell concentration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Taxonomic identities were assigned by sequence similarity analysis of a fragment of the small and large subunit of the 18S and 28S ribosomal RNA gene.",
+          "searchable_summary": "perform sequence similarity analysis for taxonomic identification",
+          "inputs": [
+            "RNA gene fragments"
+          ],
+          "outputs": [
+            "taxonomic identities"
+          ],
+          "keywords": [
+            "sequence analysis",
+            "taxonomic identification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Growth Monitoring",
+      "description": "This method involves monitoring diatom growth using fluorescence measurements and analyzing photosystem II efficiency.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Diatom growth was monitored daily in black 96-well polystyrene microplates by measurements of relative fluorescence units (RFU) of chlorophyll using a plate reader.",
+          "searchable_summary": "measure chlorophyll fluorescence to monitor diatom growth",
+          "inputs": [
+            "diatom cultures"
+          ],
+          "outputs": [
+            "RFU measurements"
+          ],
+          "keywords": [
+            "fluorescence measurement",
+            "chlorophyll"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Diatom growth and performance were further monitored by pulsed-amplitude-modulation fluorometry by measurement of the minimal (F0) and maximal (Fm) dark fluorescence.",
+          "searchable_summary": "use PAM fluorometry to measure F0 and Fm",
+          "inputs": [
+            "diatom samples"
+          ],
+          "outputs": [
+            "F0 and Fm values"
+          ],
+          "keywords": [
+            "PAM fluorometry",
+            "photosystem II"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The photosystem II (PSII) potential quantum yield (Fv/Fm) is the normalized ratio of F0 and Fm and represents the maximum potential quantum efficiency.",
+          "searchable_summary": "calculate PSII potential quantum yield",
+          "inputs": [
+            "F0",
+            "Fm"
+          ],
+          "outputs": [
+            "Fv/Fm ratio"
+          ],
+          "keywords": [
+            "quantum yield",
+            "photosystem II"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Data Processing",
+      "description": "This method outlines the steps for processing sequencing data, including trimming, merging, filtering, and clustering sequences for bacterial community analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sequencing was performed in 2 × 300-bps paired-end-mode using the MiSeq Reagent Kit v3.",
+          "searchable_summary": "perform paired-end sequencing",
+          "inputs": [
+            "DNA samples"
+          ],
+          "outputs": [
+            "raw sequence data"
+          ],
+          "keywords": [
+            "sequencing",
+            "MiSeq"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The trimmomatic package was used to crop the 300-275 bps and a sliding window length 3 allowed an average Phred quality score of 8 to filter from 5′ to 3′.",
+          "searchable_summary": "trim sequences using Trimmomatic",
+          "inputs": [
+            "raw sequence data"
+          ],
+          "outputs": [
+            "trimmed sequences"
+          ],
+          "keywords": [
+            "Trimmomatic",
+            "sequence trimming"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The paired-ends were merged with Vsearch with a minimum overlap of 40 bps and a maximum number of four mismatches.",
+          "searchable_summary": "merge paired-end sequences with Vsearch",
+          "inputs": [
+            "trimmed sequences"
+          ],
+          "outputs": [
+            "merged sequences"
+          ],
+          "keywords": [
+            "Vsearch",
+            "sequence merging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Sequences were reverse complemented and both directions merged into one file.",
+          "searchable_summary": "reverse complement and merge sequences",
+          "inputs": [
+            "merged sequences"
+          ],
+          "outputs": [
+            "combined sequence file"
+          ],
+          "keywords": [
+            "reverse complement",
+            "sequence merging"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The combined files were filtered for primer sequences, allowing 10% mismatch and a minimum overlap of 17 bps for the forward and 13 bps for the reverse primer.",
+          "searchable_summary": "filter sequences for primer matches",
+          "inputs": [
+            "combined sequence file"
+          ],
+          "outputs": [
+            "filtered sequences"
+          ],
+          "keywords": [
+            "primer filtering",
+            "sequence filtering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Feature filtering to allow a maximum expected error per sequence of 1, a minimum length of 275 bps, a maximum length of 475 bps and a maximum number of ambiguities of 0.",
+          "searchable_summary": "apply feature filtering to sequences",
+          "inputs": [
+            "filtered sequences"
+          ],
+          "outputs": [
+            "quality-filtered sequences"
+          ],
+          "keywords": [
+            "feature filtering",
+            "sequence quality"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Each sample was de-replicated independently and chimera-checked de novo.",
+          "searchable_summary": "de-replicate and chimera-check sequences",
+          "inputs": [
+            "quality-filtered sequences"
+          ],
+          "outputs": [
+            "chimera-free sequences"
+          ],
+          "keywords": [
+            "de-replication",
+            "chimera checking"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "All samples were pooled and dereplicated to produce a combined dataset as input for the swarm operational taxonomic unit (OTU) clustering method.",
+          "searchable_summary": "pool and dereplicate samples for OTU clustering",
+          "inputs": [
+            "chimera-free sequences"
+          ],
+          "outputs": [
+            "combined dataset"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "swarm method"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Sequences were annotated with the default of the ribosomal database project classifier implemented in Mothur.",
+          "searchable_summary": "annotate sequences using Mothur",
+          "inputs": [
+            "combined dataset"
+          ],
+          "outputs": [
+            "annotated sequences"
+          ],
+          "keywords": [
+            "Mothur",
+            "sequence annotation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "The taxonomy was assigned with the Silva v128 reference file prepared in Mothur at a confidence level of 80%.",
+          "searchable_summary": "assign taxonomy using Silva reference",
+          "inputs": [
+            "annotated sequences"
+          ],
+          "outputs": [
+            "taxonomic assignments"
+          ],
+          "keywords": [
+            "taxonomy assignment",
+            "Silva reference"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Community Structure Analysis",
+      "description": "This method involves analyzing and comparing the community structures of bacterial inocula and established T. rotula_S16 bacterial consortia.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Comparative sequence analyses of the 16S rRNA gene libraries revealed a total number of 5 million raw reads across all replicates after quality filtering.",
+          "searchable_summary": "perform comparative sequence analysis on 16S rRNA gene libraries",
+          "inputs": [
+            "16S rRNA gene libraries"
+          ],
+          "outputs": [
+            "quality-filtered reads"
+          ],
+          "keywords": [
+            "16S rRNA",
+            "sequence analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The replicates of Experiment I were pooled prior to sequencing whereas the independent replicates of Experiment II were individually sequenced.",
+          "searchable_summary": "pool or individually sequence replicates",
+          "inputs": [
+            "experiment replicates"
+          ],
+          "outputs": [
+            "sequenced replicates"
+          ],
+          "keywords": [
+            "replicate sequencing",
+            "experiment design"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The individual bacterial inoculum communities differed significantly among each other, whereas all established T. rotula bacterial consortia were statistically the same.",
+          "searchable_summary": "analyze differences in bacterial community structures",
+          "inputs": [
+            "bacterial inoculum communities",
+            "T. rotula consortia"
+          ],
+          "outputs": [
+            "community structure differences"
+          ],
+          "keywords": [
+            "community analysis",
+            "ANOSIM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "This was also reflected in the clustering pattern obtained by PCoA.",
+          "searchable_summary": "visualize community structures using PCoA",
+          "inputs": [
+            "community structure data"
+          ],
+          "outputs": [
+            "PCoA plot"
+          ],
+          "keywords": [
+            "PCoA",
+            "clustering"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The established bacterial consortia were characterized by 27 OTUs responsible for a cumulative abundance of 94%.",
+          "searchable_summary": "characterize bacterial consortia by OTU abundance",
+          "inputs": [
+            "bacterial consortia"
+          ],
+          "outputs": [
+            "OTU abundance data"
+          ],
+          "keywords": [
+            "OTU characterization",
+            "abundance analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "When individually comparing the abundances of 27 OTUs in the inocula and established T. rotula bacterial consortia, three cases could be distinguished.",
+          "searchable_summary": "compare OTU abundances between inocula and consortia",
+          "inputs": [
+            "OTU abundance data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "OTU comparison",
+            "abundance analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/214618816.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

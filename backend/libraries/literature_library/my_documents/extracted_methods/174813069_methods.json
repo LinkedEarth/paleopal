@@ -1,0 +1,303 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Rhythmic Transcripts Selection and Clustering Analysis",
+      "description": "This method involves selecting genes with rhythmic expression in light-dark cycles using microarray data, normalizing expression data, and performing clustering analysis to identify expression patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Identify all genes belonging to TFs, photoreceptors, cell cycle, and metabolism-related categories.",
+          "searchable_summary": "filter genes by specific categories from microarray data",
+          "inputs": [
+            "microarray data"
+          ],
+          "outputs": [
+            "filtered gene list"
+          ],
+          "keywords": [
+            "gene selection",
+            "microarray",
+            "TFs",
+            "photoreceptors"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Rank transcripts based on a defined t-value for each time point and retain those with t-value >+0.7 or <-0.7.",
+          "searchable_summary": "rank and filter transcripts by t-value",
+          "inputs": [
+            "gene expression data",
+            "t-value threshold"
+          ],
+          "outputs": [
+            "ranked transcripts"
+          ],
+          "keywords": [
+            "t-value",
+            "transcript ranking"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Normalize nCounter expression data against the maximum expression value of each gene.",
+          "searchable_summary": "normalize expression data by maximum value",
+          "inputs": [
+            "nCounter expression data"
+          ],
+          "outputs": [
+            "normalized expression data"
+          ],
+          "keywords": [
+            "normalization",
+            "nCounter"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform hierarchical clustering analysis using Pearson correlation with MeV 4.9.",
+          "searchable_summary": "conduct hierarchical clustering analysis",
+          "inputs": [
+            "normalized expression data"
+          ],
+          "outputs": [
+            "clusters"
+          ],
+          "keywords": [
+            "clustering",
+            "Pearson correlation",
+            "MeV"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Perform peak analysis using the MFourfit curve-fitting method to define average expression phases for each cluster.",
+          "searchable_summary": "perform peak analysis with MFourfit",
+          "inputs": [
+            "clustered data"
+          ],
+          "outputs": [
+            "expression phases"
+          ],
+          "keywords": [
+            "peak analysis",
+            "MFourfit"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Normalize expression values in D:D using RPS, TBP, and ACTIN12 as reference genes.",
+          "searchable_summary": "normalize expression data using reference genes",
+          "inputs": [
+            "expression data",
+            "reference genes"
+          ],
+          "outputs": [
+            "normalized expression data"
+          ],
+          "keywords": [
+            "normalization",
+            "reference genes"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Select genes with the highest standard deviation from the average expression over the two time courses.",
+          "searchable_summary": "select genes by standard deviation",
+          "inputs": [
+            "expression data"
+          ],
+          "outputs": [
+            "selected genes"
+          ],
+          "keywords": [
+            "standard deviation",
+            "gene selection"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Set a threshold equal to 1 using the published P. tricornutum diurnal microarray dataset as background.",
+          "searchable_summary": "apply threshold using microarray dataset",
+          "inputs": [
+            "microarray dataset"
+          ],
+          "outputs": [
+            "thresholded data"
+          ],
+          "keywords": [
+            "threshold",
+            "microarray"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Empirically examine gene expression profiles and eliminate false positives.",
+          "searchable_summary": "examine and filter gene expression profiles",
+          "inputs": [
+            "gene expression profiles"
+          ],
+          "outputs": [
+            "filtered gene profiles"
+          ],
+          "keywords": [
+            "false positives",
+            "gene expression"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein Sequence and Phylogenetic Analysis",
+      "description": "This method involves data mining for protein sequences, performing phylogenetic analysis, and refining sequence alignments to study evolutionary relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use P. tricornutum bHLH1a protein sequence as the query for BlastP analyses on JGI, NCBI, and MMETSP databases.",
+          "searchable_summary": "perform BlastP search with bHLH1a sequence",
+          "inputs": [
+            "bHLH1a protein sequence"
+          ],
+          "outputs": [
+            "retrieved protein sequences"
+          ],
+          "keywords": [
+            "BlastP",
+            "protein sequence",
+            "JGI",
+            "NCBI",
+            "MMETSP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Search Pfam database for proteins with HLH and PAS domains.",
+          "searchable_summary": "search Pfam for HLH and PAS domain proteins",
+          "inputs": [
+            "Pfam database"
+          ],
+          "outputs": [
+            "HLH-PAS domain proteins"
+          ],
+          "keywords": [
+            "Pfam",
+            "HLH domain",
+            "PAS domain"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze retrieved sequences using CDD NCBI server to find proteins with at least one HLH and one PAS domain.",
+          "searchable_summary": "analyze sequences for HLH and PAS domains",
+          "inputs": [
+            "retrieved sequences"
+          ],
+          "outputs": [
+            "filtered HLH-PAS proteins"
+          ],
+          "keywords": [
+            "CDD",
+            "domain analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Align 100 HLH-PAS proteins from marine algal species and 22 from metazoan and unicellular Opisthokonta using MAFFT.",
+          "searchable_summary": "align protein sequences with MAFFT",
+          "inputs": [
+            "HLH-PAS protein sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "MAFFT",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Produce preliminary phylogenies with MEGA 7 to eliminate ambiguously aligned sequences.",
+          "searchable_summary": "generate preliminary phylogenies with MEGA 7",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "refined alignment"
+          ],
+          "keywords": [
+            "phylogeny",
+            "MEGA 7"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Estimate the best amino acid model with ProtTest 3.4.2.",
+          "searchable_summary": "determine best amino acid model with ProtTest",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "best-fit model"
+          ],
+          "keywords": [
+            "ProtTest",
+            "amino acid model"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Perform phylogenetic analyses with RAxML and MrBayes on the CIPRESS gateway.",
+          "searchable_summary": "conduct phylogenetic analysis with RAxML and MrBayes",
+          "inputs": [
+            "aligned sequences",
+            "best-fit model"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "RAxML",
+            "MrBayes",
+            "phylogenetic analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "visualization",
+          "description": "Edit the final phylogenetic tree in Figure Table S4.",
+          "searchable_summary": "edit and visualize phylogenetic tree",
+          "inputs": [
+            "phylogenetic tree"
+          ],
+          "outputs": [
+            "edited phylogenetic tree"
+          ],
+          "keywords": [
+            "tree editing",
+            "visualization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/174813069.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

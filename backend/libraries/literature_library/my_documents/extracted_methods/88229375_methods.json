@@ -1,0 +1,139 @@
+{
+  "paper_title": "Discrete Free-Boundary Reaction-Diffusion Model of Diatom Pore Occlusions",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Discrete Free-Boundary Reaction-Diffusion Model",
+      "description": "This method models the formation of diatom pore occlusions using a discrete computer model. It simulates the interactions between silica precursors and other molecules in an aqueous mixture within the pore, considering the random jostling of particles and their diffusion and precipitation reactions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "In the computer model, jostling biogenic silica precursors are represented by random walkers on a square lattice of l × l sites.",
+          "searchable_summary": "represent silica precursors as random walkers on a square lattice",
+          "inputs": [
+            "l (dimensionless parameter)",
+            "L (length of major axis)",
+            "h (resolution scale)"
+          ],
+          "outputs": [
+            "random walker representation"
+          ],
+          "keywords": [
+            "random walkers",
+            "square lattice",
+            "silica precursors"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Initially the pore boundary is a closed curve of lattice sites that matches the shape of the incipient delimited pores of the base-layer.",
+          "searchable_summary": "initialize pore boundary as a closed curve on lattice",
+          "inputs": [
+            "shape of incipient delimited pores"
+          ],
+          "outputs": [
+            "initial pore boundary"
+          ],
+          "keywords": [
+            "pore boundary",
+            "lattice sites",
+            "initialization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Random walkers, interior to the boundary, step to neighbouring non-boundary sites at rate D0/h2 without any particular bias.",
+          "searchable_summary": "simulate unbiased diffusion of random walkers",
+          "inputs": [
+            "D0 (diffusivity)",
+            "h (resolution scale)"
+          ],
+          "outputs": [
+            "diffusion simulation"
+          ],
+          "keywords": [
+            "diffusion",
+            "random walkers",
+            "unbiased"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Random walkers at sites adjacent to the boundary undergo precipitation reactions at rate dBk/h, after which they can no longer diffuse.",
+          "searchable_summary": "simulate precipitation reactions at boundary",
+          "inputs": [
+            "dB (binding distance)",
+            "k (reaction rate)",
+            "h (resolution scale)"
+          ],
+          "outputs": [
+            "precipitation reaction simulation"
+          ],
+          "keywords": [
+            "precipitation",
+            "reaction rate",
+            "boundary"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Once the volume of precipitated random walkers is sufficient to fill the volume of a particular lattice site, the boundary grows inward by this 1 lattice site.",
+          "searchable_summary": "simulate boundary growth by precipitated volume",
+          "inputs": [
+            "precipitated volume",
+            "lattice site"
+          ],
+          "outputs": [
+            "boundary growth"
+          ],
+          "keywords": [
+            "boundary growth",
+            "precipitated volume",
+            "lattice site"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "The shape of the pore boundary prescribes the location of the silica sources where random walkers enter the lattice and start their walk.",
+          "searchable_summary": "determine silica source locations based on boundary shape",
+          "inputs": [
+            "pore boundary shape"
+          ],
+          "outputs": [
+            "silica source locations"
+          ],
+          "keywords": [
+            "silica sources",
+            "boundary shape",
+            "random walkers"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Silica influx S0, the number of new silica precursors that enter the pore per unit time, is a physical quantity that will depend on the mode of arrival of silica at the silicalemma.",
+          "searchable_summary": "calculate silica influx based on arrival mode",
+          "inputs": [
+            "mode of silica arrival"
+          ],
+          "outputs": [
+            "silica influx S0"
+          ],
+          "keywords": [
+            "silica influx",
+            "silicalemma",
+            "arrival mode"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/88229375.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

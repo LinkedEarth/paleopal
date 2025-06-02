@@ -1,0 +1,354 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Selection and Phylogenetic Analysis",
+      "description": "This method involves selecting the best fit models of sequence evolution for each genetic marker and inferring phylogenetic relationships among haplotypes using Bayesian MCMC simulations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Best fit models of sequence evolution were determined for each marker using the model selection procedures implemented in Kakusan 4 with output files configured for analysis in MrBayes 3.2.",
+          "searchable_summary": "Determine best fit models of sequence evolution using Kakusan 4 and configure for MrBayes 3.2",
+          "inputs": [
+            "sequence data",
+            "Kakusan 4 software"
+          ],
+          "outputs": [
+            "model selection output files"
+          ],
+          "keywords": [
+            "model selection",
+            "sequence evolution",
+            "Kakusan 4",
+            "MrBayes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Generated outputs for TreeFinder to evaluate a broader range of models.",
+          "searchable_summary": "Generate outputs for TreeFinder to evaluate more models",
+          "inputs": [
+            "sequence data",
+            "TreeFinder software"
+          ],
+          "outputs": [
+            "model evaluation outputs"
+          ],
+          "keywords": [
+            "TreeFinder",
+            "model evaluation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "For the ND3 gene, determined best fit models for partitioned (by codon position) and unpartitioned data using AICc4 weightings.",
+          "searchable_summary": "Determine best fit models for ND3 gene using AICc4 weightings",
+          "inputs": [
+            "ND3 gene data",
+            "AICc4 weightings"
+          ],
+          "outputs": [
+            "best fit models"
+          ],
+          "keywords": [
+            "ND3 gene",
+            "AICc4",
+            "model selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Phylogenetic relationships amongst haplotypes were inferred using MrBayes 3.2 with P. temporalis included as an outgroup.",
+          "searchable_summary": "Infer phylogenetic relationships using MrBayes 3.2 with outgroup",
+          "inputs": [
+            "haplotype data",
+            "MrBayes 3.2"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic analysis",
+            "MrBayes",
+            "outgroup"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Bayesian MCMC simulations were run with four chains (1 cold, 3 hot) with 2 independent runs in each analysis and a coalescent tree prior.",
+          "searchable_summary": "Run Bayesian MCMC simulations with specified parameters",
+          "inputs": [
+            "sequence data",
+            "MCMC parameters"
+          ],
+          "outputs": [
+            "MCMC simulation results"
+          ],
+          "keywords": [
+            "Bayesian MCMC",
+            "coalescent tree",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The first twenty-five percent of samples were discarded as burn-in and to ensure convergence of both runs.",
+          "searchable_summary": "Discard initial samples as burn-in to ensure convergence",
+          "inputs": [
+            "MCMC simulation results"
+          ],
+          "outputs": [
+            "converged MCMC results"
+          ],
+          "keywords": [
+            "burn-in",
+            "convergence",
+            "MCMC"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Final MCMC runs comprised 750,000-5,000,000 generations with trees drawn at intervals to provide a sample of 1,000 for the posterior distribution in each run.",
+          "searchable_summary": "Run final MCMC simulations and sample trees for posterior distribution",
+          "inputs": [
+            "MCMC simulation parameters"
+          ],
+          "outputs": [
+            "posterior distribution samples"
+          ],
+          "keywords": [
+            "MCMC",
+            "posterior distribution",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Potential scale reduction factors (PSRF) were evaluated at the completion of the run to ensure they were within the range 0.997,PSRF,1.003 indicating stationarity.",
+          "searchable_summary": "Evaluate PSRF to ensure stationarity",
+          "inputs": [
+            "MCMC simulation results"
+          ],
+          "outputs": [
+            "PSRF values"
+          ],
+          "keywords": [
+            "PSRF",
+            "stationarity",
+            "MCMC"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Molecular Analysis",
+      "description": "This method describes the extraction, amplification, and sequencing of DNA from tissue samples to analyze mitochondrial genome fragments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Total cellular DNA was extracted from frozen or ethanol preserved liver, heart and muscle tissue using a salt:chloroform extraction method.",
+          "searchable_summary": "Extract DNA from tissue samples using salt:chloroform method",
+          "inputs": [
+            "frozen or ethanol preserved tissue"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "salt:chloroform",
+            "tissue samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A 386 bp fragment of the mitochondrial genome containing the entire ND3 gene was amplified from all samples using the universal avian primers ND3-L10755 and ND3-H11151.",
+          "searchable_summary": "Amplify ND3 gene fragment using specific primers",
+          "inputs": [
+            "extracted DNA",
+            "ND3-L10755",
+            "ND3-H11151"
+          ],
+          "outputs": [
+            "amplified ND3 fragment"
+          ],
+          "keywords": [
+            "PCR amplification",
+            "ND3 gene",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "A 413 base pair (bp) fragment from domain I of the mtDNA control region was amplified separately using the babbler-specific primers LD11 and HD14.",
+          "searchable_summary": "Amplify domain I fragment using specific primers",
+          "inputs": [
+            "extracted DNA",
+            "LD11",
+            "HD14"
+          ],
+          "outputs": [
+            "amplified domain I fragment"
+          ],
+          "keywords": [
+            "PCR amplification",
+            "mtDNA control region",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "PCR reactions were performed in 25 ml reaction volumes containing specified reagents and cycling conditions on a Hybaid Omn-E thermocycler.",
+          "searchable_summary": "Perform PCR reactions with specified conditions",
+          "inputs": [
+            "reaction reagents",
+            "thermocycler"
+          ],
+          "outputs": [
+            "PCR products"
+          ],
+          "keywords": [
+            "PCR",
+            "thermocycler",
+            "reaction conditions"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "PCR products were visualised on an agarose gel to confirm amplification then purified using the UltraClean PCR Clean-up kit prior to sequencing.",
+          "searchable_summary": "Visualize and purify PCR products for sequencing",
+          "inputs": [
+            "PCR products",
+            "agarose gel",
+            "UltraClean PCR Clean-up kit"
+          ],
+          "outputs": [
+            "purified PCR products"
+          ],
+          "keywords": [
+            "gel electrophoresis",
+            "PCR purification",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "DNA sequencing was performed with gamma 33 P-ATP end-labelled primers and the fmol DNA Sequencing System according to manufacturer's instructions.",
+          "searchable_summary": "Perform DNA sequencing with specified system",
+          "inputs": [
+            "purified PCR products",
+            "fmol DNA Sequencing System"
+          ],
+          "outputs": [
+            "DNA sequence data"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "fmol system",
+            "end-labelled primers"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Sequence ladders were read manually and the data aligned by eye.",
+          "searchable_summary": "Manually read and align DNA sequence ladders",
+          "inputs": [
+            "DNA sequence data"
+          ],
+          "outputs": [
+            "aligned DNA sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "manual reading"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "MEGA 4 was used to check base composition, translate ND3 into amino acids and check for stop codons and indels.",
+          "searchable_summary": "Analyze DNA sequences using MEGA 4",
+          "inputs": [
+            "aligned DNA sequences"
+          ],
+          "outputs": [
+            "amino acid sequences",
+            "base composition analysis"
+          ],
+          "keywords": [
+            "MEGA 4",
+            "amino acid translation",
+            "sequence analysis"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "A BLAST search was conducted to ensure P. superciliosus ND3 and domain I sequences aligned with orthologous sequences from the avian mitochondrial genome.",
+          "searchable_summary": "Conduct BLAST search for sequence alignment verification",
+          "inputs": [
+            "ND3 and domain I sequences"
+          ],
+          "outputs": [
+            "BLAST alignment results"
+          ],
+          "keywords": [
+            "BLAST search",
+            "sequence alignment",
+            "mitochondrial genome"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "ND3 sequences were truncated to 351 bp prior to subsequent analyses to remove short regions of flanking tRNAs.",
+          "searchable_summary": "Truncate ND3 sequences to remove flanking tRNAs",
+          "inputs": [
+            "ND3 sequences"
+          ],
+          "outputs": [
+            "truncated ND3 sequences"
+          ],
+          "keywords": [
+            "sequence truncation",
+            "tRNA removal"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Sequences were submitted to GenBank under specified accessions.",
+          "searchable_summary": "Submit sequences to GenBank",
+          "inputs": [
+            "final sequence data"
+          ],
+          "outputs": [
+            "GenBank accessions"
+          ],
+          "keywords": [
+            "GenBank submission",
+            "sequence data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4638663.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

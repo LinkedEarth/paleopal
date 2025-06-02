@@ -1,0 +1,266 @@
+{
+  "paper_title": "Pollen Analysis and Insect Pollen Use Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Data Analysis",
+      "description": "Statistical procedures used to analyze pollen data, focusing on pollen composition, diversity, and specialization among insect species across different sampling periods and regions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Data were always standardized to proportions (i.e. relative contributions with total 100), and analyses were performed using pollen types percentages.",
+          "searchable_summary": "standardize data to proportions and calculate pollen type percentages",
+          "inputs": [
+            "raw pollen data"
+          ],
+          "outputs": [
+            "standardized pollen data"
+          ],
+          "keywords": [
+            "data standardization",
+            "percentage calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Mean pollen type richness and mean Simpson diversity were compared for the four insect species with Kruskal-Wallis and Dunn tests.",
+          "searchable_summary": "perform Kruskal-Wallis and Dunn tests on pollen type richness and Simpson diversity",
+          "inputs": [
+            "standardized pollen data"
+          ],
+          "outputs": [
+            "test results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "Dunn test",
+            "diversity analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Complementary specialization d′ was calculated for each species for each sampling period using the R package 'bipartite'.",
+          "searchable_summary": "calculate complementary specialization d′ using bipartite package",
+          "inputs": [
+            "standardized pollen data"
+          ],
+          "outputs": [
+            "d′ values"
+          ],
+          "keywords": [
+            "complementary specialization",
+            "bipartite package"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Mean d′ along the season was compared for the four species with Student t test.",
+          "searchable_summary": "compare mean d′ using Student t test",
+          "inputs": [
+            "d′ values"
+          ],
+          "outputs": [
+            "t test results"
+          ],
+          "keywords": [
+            "Student t test",
+            "specialization comparison"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "H 2 ′ index was used for comparing the different networks across the season.",
+          "searchable_summary": "calculate and compare H 2 ′ index for network specialization",
+          "inputs": [
+            "d′ values"
+          ],
+          "outputs": [
+            "H 2 ′ index"
+          ],
+          "keywords": [
+            "network specialization",
+            "H 2 ′ index"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Used GLMMs with a binomial error distribution to test the impacts of fixed factors on the proportion of pollen from woody plants.",
+          "searchable_summary": "fit GLMMs to test fixed factors on woody pollen proportion",
+          "inputs": [
+            "standardized pollen data",
+            "fixed factors"
+          ],
+          "outputs": [
+            "GLMM results"
+          ],
+          "keywords": [
+            "GLMM",
+            "binomial distribution",
+            "woody pollen"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Predictors' significance was tested with Wald chi-square tests.",
+          "searchable_summary": "test predictors' significance using Wald chi-square tests",
+          "inputs": [
+            "GLMM results"
+          ],
+          "outputs": [
+            "chi-square test results"
+          ],
+          "keywords": [
+            "Wald chi-square test",
+            "predictor significance"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Used similar GLMMs to test the proportion of pollen from non-agricultural plants.",
+          "searchable_summary": "fit GLMMs for non-agricultural pollen proportion",
+          "inputs": [
+            "standardized pollen data",
+            "fixed factors"
+          ],
+          "outputs": [
+            "GLMM results"
+          ],
+          "keywords": [
+            "GLMM",
+            "non-agricultural pollen"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Calculated landscape metrics using ArcGIS based on 2016 land-cover maps.",
+          "searchable_summary": "calculate landscape metrics using ArcGIS",
+          "inputs": [
+            "land-cover maps"
+          ],
+          "outputs": [
+            "landscape metrics"
+          ],
+          "keywords": [
+            "ArcGIS",
+            "landscape metrics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "validation",
+          "description": "Confirmed no remaining spatial autocorrelation in the models by checking residuals against spatial coordinates with correlogram plots.",
+          "searchable_summary": "check for spatial autocorrelation using correlogram plots",
+          "inputs": [
+            "model residuals",
+            "spatial coordinates"
+          ],
+          "outputs": [
+            "autocorrelation validation"
+          ],
+          "keywords": [
+            "spatial autocorrelation",
+            "correlogram plots"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Sample Processing and Analysis",
+      "description": "Procedures for processing insect samples to extract and analyze pollen grains, including chemical treatments and microscopic identification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Elytra and/or wings of sampled C. carnea and H. axyridis individuals were removed, and insects were thoroughly rinsed with ETOH.",
+          "searchable_summary": "remove insect parts and rinse with ethanol",
+          "inputs": [
+            "insect samples"
+          ],
+          "outputs": [
+            "cleaned insect samples"
+          ],
+          "keywords": [
+            "insect processing",
+            "ethanol rinse"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Insects were crushed and acetolysis was performed following Jones (2012).",
+          "searchable_summary": "crush insects and perform acetolysis",
+          "inputs": [
+            "cleaned insect samples"
+          ],
+          "outputs": [
+            "processed samples"
+          ],
+          "keywords": [
+            "acetolysis",
+            "sample processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All pollen samples were treated chemically with acetolysis and KOH, and mounted in glycerine following standard palynological methods.",
+          "searchable_summary": "treat pollen samples with acetolysis and KOH, mount in glycerine",
+          "inputs": [
+            "processed samples"
+          ],
+          "outputs": [
+            "mounted pollen samples"
+          ],
+          "keywords": [
+            "acetolysis",
+            "KOH treatment",
+            "glycerine mounting"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Pollen grains were identified under a light microscope based on palynological keys and a photo atlas.",
+          "searchable_summary": "identify pollen grains using microscope and reference materials",
+          "inputs": [
+            "mounted pollen samples"
+          ],
+          "outputs": [
+            "identified pollen types"
+          ],
+          "keywords": [
+            "microscopy",
+            "pollen identification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "For each sample, identified and counted up to 100 pollen grains whenever possible.",
+          "searchable_summary": "count and record pollen grains per sample",
+          "inputs": [
+            "identified pollen types"
+          ],
+          "outputs": [
+            "pollen count data"
+          ],
+          "keywords": [
+            "pollen counting",
+            "sample analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/202856456.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

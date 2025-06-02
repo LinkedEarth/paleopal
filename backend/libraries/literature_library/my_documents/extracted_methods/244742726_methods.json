@@ -1,0 +1,208 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Optical Televiewer Analysis",
+      "description": "The optical televiewer method involves using a high-resolution camera to image borehole walls, which helps in determining the orientation of planar features such as fractures and layers. This method is crucial for understanding the azimuthal orientation of the core in its geographic and kinematic setting.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The borehole was logged by an optical televiewer, a 360° high-resolution camera which continuously images the borehole walls.",
+          "searchable_summary": "capture continuous images of borehole walls using a 360° camera",
+          "inputs": [
+            "borehole location",
+            "optical televiewer"
+          ],
+          "outputs": [
+            "borehole wall images"
+          ],
+          "keywords": [
+            "optical televiewer",
+            "borehole imaging",
+            "360° camera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Images are used to constrain the orientation of planar features such as fractures and layers.",
+          "searchable_summary": "analyze images to determine orientation of fractures and layers",
+          "inputs": [
+            "borehole wall images"
+          ],
+          "outputs": [
+            "orientation data of planar features"
+          ],
+          "keywords": [
+            "image analysis",
+            "orientation determination",
+            "fractures",
+            "layers"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Both logs were oriented to the fiducial line drawn in the top 1 m of the borehole wall.",
+          "searchable_summary": "validate image orientation using fiducial line",
+          "inputs": [
+            "borehole wall images",
+            "fiducial line"
+          ],
+          "outputs": [
+            "validated orientation data"
+          ],
+          "keywords": [
+            "fiducial line",
+            "orientation validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sample Preparation for Cryo-EBSD and SEM Analysis",
+      "description": "This method involves preparing samples for Cryo-EBSD and SEM analysis to quantify microstructural parameters and analyze bubble characteristics. The MTEX toolbox for MATLAB is used for misorientation analysis, and ImageJ-based Fiji is used for bubble analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The MTEX toolbox for MATLAB was used to quantify microstructural parameters and perform misorientation analysis.",
+          "searchable_summary": "use MTEX toolbox to perform misorientation analysis",
+          "inputs": [
+            "EBSD data"
+          ],
+          "outputs": [
+            "microstructural parameters",
+            "misorientation data"
+          ],
+          "keywords": [
+            "MTEX",
+            "misorientation analysis",
+            "microstructure"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Secondary electron images were collected during EBSD acquisition to analyze bubble characteristics.",
+          "searchable_summary": "collect secondary electron images for bubble analysis",
+          "inputs": [
+            "EBSD acquisition data"
+          ],
+          "outputs": [
+            "secondary electron images"
+          ],
+          "keywords": [
+            "secondary electron images",
+            "bubble analysis",
+            "EBSD"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The electron images were run through the ImageJ based processing package Fiji to analyze bubble size and shape statistics.",
+          "searchable_summary": "analyze bubble size and shape using Fiji",
+          "inputs": [
+            "secondary electron images"
+          ],
+          "outputs": [
+            "bubble size and shape statistics"
+          ],
+          "keywords": [
+            "Fiji",
+            "ImageJ",
+            "bubble analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Misorientation and Vorticity Analysis",
+      "description": "This method calculates the misorientation axis and angle to map crystal orientations within grains, contributing to crystal vorticity axis (CVA) calculations. It evaluates shear-induced vorticity at the specimen scale.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate the misorientation axis and angle that maps the crystal orientation in one part of a grain onto another.",
+          "searchable_summary": "calculate misorientation axis and angle for grains",
+          "inputs": [
+            "EBSD map data"
+          ],
+          "outputs": [
+            "misorientation axis",
+            "misorientation angle"
+          ],
+          "keywords": [
+            "misorientation",
+            "crystal orientation",
+            "EBSD"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate the aggregate dispersion axis, or vorticity axis, for a sample using CVA calculations.",
+          "searchable_summary": "perform CVA calculations to determine vorticity axis",
+          "inputs": [
+            "misorientation data",
+            "grain data"
+          ],
+          "outputs": [
+            "vorticity axis"
+          ],
+          "keywords": [
+            "CVA",
+            "vorticity axis",
+            "dispersion axis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bubble Analysis",
+      "description": "This method involves analyzing the size, shape, and orientation of bubbles within ice core samples to understand their distribution and alignment relative to flow direction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Count bubbles manually in samples to determine proportions on grain boundaries or within grains.",
+          "searchable_summary": "manually count bubbles and determine their location",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "bubble location data"
+          ],
+          "keywords": [
+            "bubble counting",
+            "grain boundaries",
+            "ice core"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze bubble diameter frequency and axial ratios to understand their distribution.",
+          "searchable_summary": "analyze bubble diameter and axial ratios",
+          "inputs": [
+            "bubble data"
+          ],
+          "outputs": [
+            "bubble diameter frequency",
+            "axial ratios"
+          ],
+          "keywords": [
+            "bubble analysis",
+            "diameter frequency",
+            "axial ratios"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/244742726.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

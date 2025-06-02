@@ -1,0 +1,447 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "WAIS Divide Core Isotope Measurement and Temperature Reconstruction",
+      "description": "Process for measuring water isotopes in the WAIS Divide ice core using continuous-flow analysis, correcting for diffusion, identifying seasonal signals, converting isotope amplitudes to temperature amplitudes, and combining with mean annual temperatures to reconstruct seasonal temperatures.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We measured WAIS Divide core (WDC) water isotopes using continuous-flow analysis... using a Picarro cavity ring-down spectroscopy instrument, model L2130-i.",
+          "searchable_summary": "Measure water isotopes in ice core samples using continuous-flow cavity ring-down spectroscopy.",
+          "inputs": [
+            "WAIS Divide ice core samples"
+          ],
+          "outputs": [
+            "Raw water isotope data (δ18O, δD)"
+          ],
+          "keywords": [
+            "ice core",
+            "water isotope",
+            "continuous-flow analysis",
+            "cavity ring-down spectroscopy",
+            "Picarro L2130-i"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Using permutation entropy 47 , we identified data anomalies arising from laboratory analysis, which were corrected, including by resampling ice through 1,035.4-1,368.2 m depths (4,517-6,451 yr) 48 .",
+          "searchable_summary": "Identify and correct data anomalies in isotope data using permutation entropy.",
+          "inputs": [
+            "Raw water isotope data"
+          ],
+          "outputs": [
+            "Cleaned water isotope data"
+          ],
+          "keywords": [
+            "data anomaly detection",
+            "data correction",
+            "permutation entropy",
+            "time series analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "All other Holocene data are previously published 18,31 and available online 19,20 . Data are reported in 5-mm increments in delta-notation (‰, or per mil) relative to Vienna standard mean ocean water (δ 18 O = δD = 0‰), normalized to standard light Antarctic precipitation (δ 18 O = −55.5‰, δD = −428.0‰).",
+          "searchable_summary": "Format isotope data in delta-notation relative to VSMOW, normalized to SLAP, at 5-mm increments.",
+          "inputs": [
+            "Cleaned water isotope data",
+            "VSMOW standard values",
+            "SLAP standard values"
+          ],
+          "outputs": [
+            "Formatted water isotope data (δ18O, δD in ‰)"
+          ],
+          "keywords": [
+            "data formatting",
+            "delta notation",
+            "VSMOW",
+            "SLAP",
+            "isotope standards"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...corrected for cumulative diffusion using spectral techniques to determine diffusion lengths and restore prediffused amplitudes within 140-yr sliding windows (section below on Diffusion corrections; Extended Data Fig. 1c).",
+          "searchable_summary": "Correct isotope data for cumulative diffusion using spectral techniques within sliding windows.",
+          "inputs": [
+            "Formatted water isotope data",
+            "Window size (140 yr)"
+          ],
+          "outputs": [
+            "Diffusion-corrected water isotope data"
+          ],
+          "keywords": [
+            "diffusion correction",
+            "spectral analysis",
+            "time series processing",
+            "sliding window"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Summer maxima and winter minima (Fig. 1a) identified in these corrected data were then used to calculate summer and winter amplitudes for each year.",
+          "searchable_summary": "Identify summer maxima and winter minima in corrected isotope data and calculate annual amplitudes.",
+          "inputs": [
+            "Diffusion-corrected water isotope data"
+          ],
+          "outputs": [
+            "Annual summer isotope maxima",
+            "Annual winter isotope minima",
+            "Annual isotope amplitudes"
+          ],
+          "keywords": [
+            "peak detection",
+            "time series analysis",
+            "seasonal cycle",
+            "amplitude calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "We converted the isotope amplitudes to temperature amplitudes using a model-determined scaling factor (section below on Seasonal temperatures)...",
+          "searchable_summary": "Convert isotope amplitudes to temperature amplitudes using a scaling factor.",
+          "inputs": [
+            "Annual isotope amplitudes",
+            "Isotope-temperature scaling factor"
+          ],
+          "outputs": [
+            "Annual temperature amplitudes"
+          ],
+          "keywords": [
+            "isotope-temperature relationship",
+            "scaling factor",
+            "paleoclimate reconstruction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "...and added them to previously reconstructed mean annual temperatures 30 to recover summer and winter values.",
+          "searchable_summary": "Combine temperature amplitudes with mean annual temperatures to reconstruct seasonal temperatures.",
+          "inputs": [
+            "Annual temperature amplitudes",
+            "Previously reconstructed mean annual temperatures"
+          ],
+          "outputs": [
+            "Reconstructed annual summer temperatures",
+            "Reconstructed annual winter temperatures"
+          ],
+          "keywords": [
+            "temperature reconstruction",
+            "paleoclimate",
+            "data combination"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Substantial seasonal noise processes required multicentennial to millennial averaging to reduce uncertainty (section below on Uncertainties in reconstructing temperatures...",
+          "searchable_summary": "Apply multicentennial to millennial averaging to reconstructed seasonal temperatures to reduce noise and uncertainty.",
+          "inputs": [
+            "Reconstructed annual summer/winter temperatures"
+          ],
+          "outputs": [
+            "Smoothed/averaged seasonal temperatures"
+          ],
+          "keywords": [
+            "data smoothing",
+            "averaging",
+            "time series analysis",
+            "noise reduction",
+            "paleoclimate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Monte Carlo Trend Significance Analysis",
+      "description": "Monte Carlo analysis to assess the statistical significance of dominant trends in reconstructed seasonal temperatures by generating alternative histories based on uncertainty estimates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The essential motivation for this approach is that we have determined the magnitudes of uncertainties as a function of age but that we have no information about whether the errors in our reconstruction persist at similar values for long periods of time (exhibit a bias) or whether they fluctuate at high-frequency.",
+          "searchable_summary": "Obtain uncertainty estimates for reconstructed seasonal temperatures as a function of age.",
+          "inputs": [
+            "Reconstructed seasonal temperatures",
+            "Uncertainty data (e.g., Extended Data Fig. 3a,b)"
+          ],
+          "outputs": [
+            "Uncertainty magnitudes as a function of age"
+          ],
+          "keywords": [
+            "uncertainty estimation",
+            "paleoclimate data",
+            "error analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "We randomly generated a large number of alternative seasonal temperature histories governed by the uncertainties on 1,000-yr averages (Extended Data Fig. 3a,b)...",
+          "searchable_summary": "Generate multiple alternative temperature histories based on uncertainty estimates.",
+          "inputs": [
+            "Reconstructed seasonal temperatures",
+            "Uncertainty magnitudes"
+          ],
+          "outputs": [
+            "Ensemble of alternative seasonal temperature histories"
+          ],
+          "keywords": [
+            "Monte Carlo simulation",
+            "time series generation",
+            "uncertainty propagation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Specifically, each alternative history deviates from the summer and winter temperature reconstruction by an amount that smoothly varies over time between random nodes whose values are a Gaussian random variable of zero mean and standard deviation for 1,000-yr averages at the age of the node.",
+          "searchable_summary": "Implement deviation in alternative histories using Gaussian random variables at random nodes, with smooth interpolation.",
+          "inputs": [
+            "Reconstructed seasonal temperatures",
+            "Uncertainty standard deviations (for 1000-yr averages)",
+            "Random number generator"
+          ],
+          "outputs": [
+            "Alternative temperature history time series"
+          ],
+          "keywords": [
+            "random process",
+            "Gaussian distribution",
+            "interpolation",
+            "time series modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The number of nodes and the age of each node are random variables, uniformly distributed between 1 and 11 nodes and 0-11 ka, respectively.",
+          "searchable_summary": "Randomly select the number and age of nodes for generating alternative histories.",
+          "inputs": [
+            "Uniform random number generator",
+            "Range for number of nodes (1-11)",
+            "Range for node age (0-11 ka)"
+          ],
+          "outputs": [
+            "Number of nodes",
+            "Ages of nodes"
+          ],
+          "keywords": [
+            "random sampling",
+            "uniform distribution",
+            "Monte Carlo parameters"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "...calculated the temperature trends for each alternative history over desired time intervals (such as 11-4 ka and 4-0 ka)...",
+          "searchable_summary": "Calculate temperature trends for each alternative history over specified time intervals.",
+          "inputs": [
+            "Ensemble of alternative seasonal temperature histories",
+            "Time intervals for trend calculation"
+          ],
+          "outputs": [
+            "Temperature trends for each history/interval"
+          ],
+          "keywords": [
+            "trend analysis",
+            "linear regression",
+            "time series analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "...and compiled the results into frequency distributions from which probabilities can be calculated (Fig. 2b,d).",
+          "searchable_summary": "Compile calculated trends into frequency distributions and calculate probabilities.",
+          "inputs": [
+            "Temperature trends from alternative histories"
+          ],
+          "outputs": [
+            "Frequency distributions of trends",
+            "Probabilities of trends"
+          ],
+          "keywords": [
+            "frequency distribution",
+            "histogram",
+            "probability calculation",
+            "statistical significance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Moist Energy Balance Model Simulation and Analysis",
+      "description": "Simulation of temperature history and climate variables at 80° S using a global, zonal mean moist energy balance model under different orbital, GHG, and ice-sheet forcing scenarios, followed by analysis and comparison with reconstructed data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "We used a simple global, zonal mean MEBM to calculate surface temperatures (Extended Data Fig. 4), accounting for TOA insolation, temperature-dependent longwave emission to space, temperaturedependent albedo to simulate brightening by snow and ice and horizontal atmospheric-heat transport treated as diffusion of near-surface moist static energy [61][62][63] . The model has a 2° spatial resolution, a single surface and single atmospheric layer and a surface-heat capacity based on the relative fraction of land and ocean surface in the zonal mean.",
+          "searchable_summary": "Set up a global, zonal mean moist energy balance model with specified resolution, layers, and physical processes (radiation, albedo, heat transport, heat capacity).",
+          "inputs": [
+            "Model parameters (resolution, layers, physical constants)",
+            "Land/ocean fraction data"
+          ],
+          "outputs": [
+            "Configured MEBM"
+          ],
+          "keywords": [
+            "climate modeling",
+            "energy balance model",
+            "zonal mean model",
+            "atmospheric physics",
+            "surface physics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Heat exchange between the surface and atmosphere layers arises from differences in blackbody radiation from each layer and sensible and latent heat exchanges proportional to temperature and specific humidity contrasts (assuming a constant relative humidity of 80%), following bulk aerodynamic formulae.",
+          "searchable_summary": "Implement heat exchange processes (radiation, sensible, latent heat) between model layers using bulk aerodynamic formulae and specified relative humidity.",
+          "inputs": [
+            "Model layer temperatures",
+            "Specific humidity",
+            "Relative humidity (80%)",
+            "Bulk aerodynamic coefficients"
+          ],
+          "outputs": [
+            "Heat fluxes between layers"
+          ],
+          "keywords": [
+            "heat transfer",
+            "radiation",
+            "sensible heat",
+            "latent heat",
+            "bulk aerodynamic formulae",
+            "climate modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We calculated the annual TOA insolation-cycle at every latitude in 500-yr time slices from 0 to 11 ka.",
+          "searchable_summary": "Calculate Top-of-Atmosphere (TOA) insolation cycles for specified latitudes and time slices (0-11 ka, 500-yr intervals).",
+          "inputs": [
+            "Orbital parameters (for 0-11 ka)",
+            "Latitude grid",
+            "Time slices (500-yr intervals)"
+          ],
+          "outputs": [
+            "TOA insolation data (as a function of latitude, time of year, and past time slice)"
+          ],
+          "keywords": [
+            "insolation calculation",
+            "orbital forcing",
+            "paleoclimate forcing",
+            "TOA radiation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "For each time slice the model is run at 2 hour time resolution for 30 model-years to reach equilibrium.",
+          "searchable_summary": "Run the MEBM for each time slice until equilibrium is reached (e.g., 30 model-years at 2-hour resolution).",
+          "inputs": [
+            "Configured MEBM",
+            "TOA insolation data (for a specific time slice)",
+            "Initial conditions",
+            "Simulation duration (30 years)",
+            "Time step (2 hours)"
+          ],
+          "outputs": [
+            "Equilibrated model state for a time slice"
+          ],
+          "keywords": [
+            "climate simulation",
+            "model run",
+            "equilibrium state",
+            "time integration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Snapshot simulations were run for at least 500 yr with analysis made on the final 100 yr. Further snapshot simulations for 10 ka allowed us to decompose the role of different forcings, described in the following sections.",
+          "searchable_summary": "Run snapshot simulations for specific time slices and forcing scenarios (ORBIT, GLAC1D, ICE-6G, combinations) for a sufficient duration (e.g., 500+ years) and analyze the final period (e.g., 100 years).",
+          "inputs": [
+            "Configured MEBM",
+            "TOA insolation data",
+            "GHG forcing data",
+            "Ice-sheet elevation histories (GLAC1D, ICE-6G)",
+            "Simulation scenarios",
+            "Simulation duration (>=500 years)",
+            "Analysis period (final 100 years)"
+          ],
+          "outputs": [
+            "Model output variables (temperature, heat fluxes, etc.) for specified scenarios/time slices"
+          ],
+          "keywords": [
+            "climate simulation",
+            "snapshot simulation",
+            "forcing scenarios",
+            "orbital forcing",
+            "GHG forcing",
+            "ice sheet forcing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Analyze model outputs (e.g., summer maximum temperatures, seasonal temperature amplitudes, heat divergence, SWd, LWd, SHd, -∇·F) and compare to reconstructed temperatures and insolation.",
+          "searchable_summary": "Extract and analyze relevant climate variables from model outputs (e.g., seasonal temperatures, heat fluxes) and compare with observational data (reconstructions) and forcings (insolation).",
+          "inputs": [
+            "Model output variables",
+            "Reconstructed seasonal temperatures",
+            "TOA insolation data"
+          ],
+          "outputs": [
+            "Analyzed model results",
+            "Comparison metrics (e.g., correlations, differences)"
+          ],
+          "keywords": [
+            "model analysis",
+            "climate variables",
+            "comparison",
+            "paleoclimate data",
+            "insolation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Coefficient of determinations for model results versus WDC temperatures (Extended Data Fig. 7) are high for summer (HadCM3 ORBIT R 2 = 0.93, P ≪ 0.001; MEBM R 2 = 0.80, P ≪ 0.001) but not for winter (HadCM3 ORBIT R 2 = 0.00, P = 0.85; MEBM R 2 = 0.05, P = 0.30). The winter agreement improves if only the period 0-6 ka is considered (HadCM3 ORBIT R 2 = 0.74, P = 0.01; MEBM R 2 = 0.39, P = 0.02).",
+          "searchable_summary": "Calculate coefficients of determination (R^2) and p-values to assess the correlation between model results and reconstructed temperatures.",
+          "inputs": [
+            "Model output variables (e.g., simulated temperatures)",
+            "Reconstructed seasonal temperatures"
+          ],
+          "outputs": [
+            "R^2 values",
+            "p-values"
+          ],
+          "keywords": [
+            "model validation",
+            "statistical comparison",
+            "coefficient of determination",
+            "R-squared",
+            "p-value",
+            "correlation analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/255748101.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

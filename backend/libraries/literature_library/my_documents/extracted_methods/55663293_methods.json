@@ -1,0 +1,168 @@
+{
+  "paper_title": "Model and data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Isotope-Enabled Model Simulation",
+      "description": "This method involves using the isotope-enabled isoCAM3 model to simulate stable water isotopes in the NCAR CAM3 (T31) for the last 22,000 years. The purpose is to study the water isotope response over time.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform time-slice experiments for the last 22,000 years with each consecutive snapshot 1,000 years apart.",
+          "searchable_summary": "run time-slice experiments using isoCAM3 for 22,000 years",
+          "inputs": [
+            "isoCAM3 model",
+            "time-slice parameters"
+          ],
+          "outputs": [
+            "model outputs for each time slice"
+          ],
+          "keywords": [
+            "isoCAM3",
+            "time-slice experiments",
+            "water isotopes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Force experiments with realistic greenhouse gas concentrations, orbital parameters, land ice sheet, land-ocean mask, and monthly sea surface temperature and sea ice fraction from CCSM3.",
+          "searchable_summary": "apply forcing parameters to isoCAM3 experiments",
+          "inputs": [
+            "greenhouse gas concentrations",
+            "orbital parameters",
+            "land ice sheet data",
+            "land-ocean mask",
+            "SST and sea ice data from CCSM3"
+          ],
+          "outputs": [
+            "forced model outputs"
+          ],
+          "keywords": [
+            "forcing parameters",
+            "CCSM3",
+            "SST",
+            "sea ice"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Linearly interpolate δ18O values at the sea surface from 1.6 ‰ for 22 ka to 0.5 ‰ for 0 ka.",
+          "searchable_summary": "interpolate δ18O values over time",
+          "inputs": [
+            "δ18O values at 22 ka",
+            "δ18O values at 0 ka"
+          ],
+          "outputs": [
+            "interpolated δ18O values"
+          ],
+          "keywords": [
+            "δ18O interpolation",
+            "sea surface"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Integrate each slice for 50 years and use the last 30-year model outputs for analysis.",
+          "searchable_summary": "integrate model slices and extract last 30 years for analysis",
+          "inputs": [
+            "model slice data"
+          ],
+          "outputs": [
+            "30-year model outputs"
+          ],
+          "keywords": [
+            "model integration",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "AMIP-Type Experiments",
+      "description": "This method involves performing AMIP-type experiments using isoCAM3 with observed SST and sea ice data to investigate isotope variability on an interannual timescale.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform a set of four-member AMIP-type experiments using isoCAM3 with forcing of observed SST and sea ice from HadISST1.1, covering the period 1975-2004.",
+          "searchable_summary": "conduct AMIP-type experiments with isoCAM3 using HadISST1.1 data",
+          "inputs": [
+            "isoCAM3 model",
+            "HadISST1.1 SST and sea ice data"
+          ],
+          "outputs": [
+            "ensemble mean of AMIP experiments"
+          ],
+          "keywords": [
+            "AMIP experiments",
+            "isoCAM3",
+            "HadISST1.1"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Use the ensemble mean of these experiments to investigate the variability of isotopes on an interannual timescale.",
+          "searchable_summary": "analyze ensemble mean for isotope variability",
+          "inputs": [
+            "ensemble mean data"
+          ],
+          "outputs": [
+            "isotope variability analysis"
+          ],
+          "keywords": [
+            "ensemble mean",
+            "isotope variability",
+            "interannual timescale"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model-Observation Comparison",
+      "description": "This method involves using GNIP data to compare model outputs with observed δ18O in precipitation over China.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect monthly mean δ18O in precipitation from 31 stations over China covering the period 1961-2005.",
+          "searchable_summary": "collect GNIP δ18O precipitation data from China",
+          "inputs": [
+            "GNIP data source"
+          ],
+          "outputs": [
+            "monthly mean δ18O data"
+          ],
+          "keywords": [
+            "GNIP",
+            "δ18O",
+            "precipitation data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Average all available records of each month for each station to derive the mean seasonal cycle of δ18O in precipitation.",
+          "searchable_summary": "calculate mean seasonal cycle of δ18O",
+          "inputs": [
+            "monthly mean δ18O data"
+          ],
+          "outputs": [
+            "mean seasonal cycle of δ18O"
+          ],
+          "keywords": [
+            "seasonal cycle",
+            "δ18O",
+            "data averaging"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55663293.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

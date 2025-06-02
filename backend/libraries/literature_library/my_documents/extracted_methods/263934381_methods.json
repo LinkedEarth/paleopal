@@ -1,0 +1,206 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pigment Analysis",
+      "description": "Process for collecting and analyzing culture samples for pigment content using HPLC.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Culture samples (10 ml) were collected and immediately filtered through GF/F Whatman filters (25 mm) and stored at -80°C until their analysis by HPLC.",
+          "searchable_summary": "collect and filter culture samples, store at -80°C",
+          "inputs": [
+            "culture samples"
+          ],
+          "outputs": [
+            "filtered samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "filtration",
+            "storage"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filters were extracted in 90% HPLC-grade acetone and ultrasonicated in an ice bath for 10 min, stored at -20°C for 24 h and prefiltered through a 0.45 μm Whatman nylon Puradisk filter before injection.",
+          "searchable_summary": "extract filters with acetone, ultrasonicate, store, and prefilter",
+          "inputs": [
+            "filtered samples",
+            "90% HPLC-grade acetone"
+          ],
+          "outputs": [
+            "prefiltered extract"
+          ],
+          "keywords": [
+            "extraction",
+            "ultrasonication",
+            "prefiltration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Pigments were separated using a reverse phase C-8 column following the method of Zapata et al. (2000).",
+          "searchable_summary": "separate pigments using reverse phase C-8 column",
+          "inputs": [
+            "prefiltered extract"
+          ],
+          "outputs": [
+            "separated pigments"
+          ],
+          "keywords": [
+            "HPLC",
+            "pigment separation",
+            "reverse phase C-8 column"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "External pigment standards were used for system calibration (DHI, Denmark).",
+          "searchable_summary": "calibrate system using external pigment standards",
+          "inputs": [
+            "external pigment standards"
+          ],
+          "outputs": [
+            "calibrated system"
+          ],
+          "keywords": [
+            "calibration",
+            "pigment standards"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Samples were analyzed on a Waters 600 HPLC system, equipped with a Thermo Separation Products AS3000 sampler, a TSP Spectra 100 variable wavelength (fixed at 440 nm), a Waters 996 diode array (scanning 330-800 nm) and a Waters 470 scanning fluorescence detector. Data were collected and analyzed using the Waters Millennium 32 software package. Each sample was analyzed in duplicate.",
+          "searchable_summary": "analyze samples using Waters 600 HPLC system and Millennium 32 software",
+          "inputs": [
+            "separated pigments"
+          ],
+          "outputs": [
+            "analyzed data"
+          ],
+          "keywords": [
+            "HPLC analysis",
+            "data collection",
+            "duplicate analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Microarray Hybridization and Processing",
+      "description": "Procedure for analyzing microarray data to identify differentially expressed genes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Initial data analysis was performed as described in Shrestha et al. (2012).",
+          "searchable_summary": "perform initial data analysis as per Shrestha et al. (2012)",
+          "inputs": [
+            "raw microarray data"
+          ],
+          "outputs": [
+            "initially analyzed data"
+          ],
+          "keywords": [
+            "initial data analysis",
+            "Shrestha et al."
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Normalized and mapped probe intensities were then subjected to a two-pronged test for differential expression which included a false discovery rate (FDR) corrected student t-test statistic along with a log fold change cutoff of +/-1.",
+          "searchable_summary": "perform differential expression test with FDR correction and log fold change cutoff",
+          "inputs": [
+            "normalized probe intensities"
+          ],
+          "outputs": [
+            "differential expression results"
+          ],
+          "keywords": [
+            "differential expression",
+            "FDR correction",
+            "log fold change"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Two tailed unpaired t-tests were performed between time-points using the standard function within Microsoft Excel.",
+          "searchable_summary": "perform two-tailed unpaired t-tests between time-points",
+          "inputs": [
+            "probe intensities at different time-points"
+          ],
+          "outputs": [
+            "t-test results"
+          ],
+          "keywords": [
+            "t-test",
+            "time-point comparison",
+            "Excel"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The FDR correction was performed via the method of Benjamini & Hochberg (1995) implemented by the R statistical software package.",
+          "searchable_summary": "apply FDR correction using Benjamini & Hochberg method in R",
+          "inputs": [
+            "t-test results"
+          ],
+          "outputs": [
+            "FDR corrected results"
+          ],
+          "keywords": [
+            "FDR correction",
+            "Benjamini & Hochberg",
+            "R software"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Fold changes were calculated as the difference of any time-point from the initial 0hr time-point.",
+          "searchable_summary": "calculate fold changes from initial 0hr time-point",
+          "inputs": [
+            "probe intensities at different time-points"
+          ],
+          "outputs": [
+            "fold change values"
+          ],
+          "keywords": [
+            "fold change calculation",
+            "time-point analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Genes were considered to be differentially expressed if they had an FDR corrected p-value < .05 and a fold change greater or less than ± 1.",
+          "searchable_summary": "identify differentially expressed genes based on FDR p-value and fold change",
+          "inputs": [
+            "FDR corrected results",
+            "fold change values"
+          ],
+          "outputs": [
+            "differentially expressed genes"
+          ],
+          "keywords": [
+            "differential expression",
+            "gene identification",
+            "FDR p-value"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/263934381.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

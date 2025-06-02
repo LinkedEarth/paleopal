@@ -1,0 +1,144 @@
+{
+  "paper_title": "Calculating CO2 from alkenone δ13C values: the CO2(εp−alk) proxy",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Recalculation of CO2(εp−alk) Records",
+      "description": "This method recalculates CO2(εp−alk) records using a consistent approach to facilitate fair comparison between sites and with ice core records. The approach is based on Bidigare et al. (1997) and removes additional corrections used in original publications.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Recalculate all CO2(εp−alk) records using a consistent approach based on Bidigare et al. (1997).",
+          "searchable_summary": "Recalculate CO2(εp−alk) records using Bidigare et al. (1997) method",
+          "inputs": [
+            "original CO2(εp−alk) records"
+          ],
+          "outputs": [
+            "recalculated CO2(εp−alk) records"
+          ],
+          "keywords": [
+            "CO2 proxy",
+            "Bidigare method",
+            "data recalculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Estimate the 'b' term using modern-day surface [PO3−4].",
+          "searchable_summary": "Estimate 'b' term using modern surface [PO3−4]",
+          "inputs": [
+            "modern-day surface [PO3−4]"
+          ],
+          "outputs": [
+            "estimated 'b' term"
+          ],
+          "keywords": [
+            "b term",
+            "phosphate concentration",
+            "modern ocean"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Calculation of Isotopic Composition and CO2 Concentration",
+      "description": "This method involves calculating the isotopic composition of dissolved inorganic carbon (DIC) and CO2, and subsequently calculating εp and [CO2](aq) using isotopic fractionation and physiological factors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Estimate the isotopic composition of DIC using δ13C value of planktic foraminifera and temperature-dependent fractionation.",
+          "searchable_summary": "Estimate isotopic composition of DIC using δ13C and temperature",
+          "inputs": [
+            "δ13C value of planktic foraminifera",
+            "sea surface temperature"
+          ],
+          "outputs": [
+            "isotopic composition of DIC"
+          ],
+          "keywords": [
+            "DIC",
+            "isotopic composition",
+            "temperature fractionation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate the value of the carbon isotopic composition of CO2(g).",
+          "searchable_summary": "Calculate carbon isotopic composition of CO2(g)",
+          "inputs": [
+            "isotopic composition of DIC"
+          ],
+          "outputs": [
+            "carbon isotopic composition of CO2(g)"
+          ],
+          "keywords": [
+            "CO2(g)",
+            "isotopic composition",
+            "carbon isotopes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate δ13C CO2(aq) using the relationship determined by Mook et al. (1974).",
+          "searchable_summary": "Calculate δ13C CO2(aq) using Mook et al. (1974) relationship",
+          "inputs": [
+            "carbon isotopic composition of CO2(g)"
+          ],
+          "outputs": [
+            "δ13C CO2(aq)"
+          ],
+          "keywords": [
+            "δ13C CO2(aq)",
+            "Mook relationship",
+            "aqueous CO2"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate εp and from that [CO2](aq) using isotopic fractionation during carbon fixation (εf) and b.",
+          "searchable_summary": "Calculate εp and [CO2](aq) using isotopic fractionation and b",
+          "inputs": [
+            "δ13C CO2(aq)",
+            "εf",
+            "b"
+          ],
+          "outputs": [
+            "εp",
+            "[CO2](aq)"
+          ],
+          "keywords": [
+            "εp",
+            "isotopic fractionation",
+            "carbon fixation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Calculate atmospheric CO2 concentration from [CO2](aq) using Henry's law.",
+          "searchable_summary": "Calculate atmospheric CO2 from [CO2](aq) using Henry's law",
+          "inputs": [
+            "[CO2](aq)",
+            "solubility coefficient (KH)"
+          ],
+          "outputs": [
+            "atmospheric CO2 concentration"
+          ],
+          "keywords": [
+            "Henry's law",
+            "atmospheric CO2",
+            "solubility"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/241212635.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

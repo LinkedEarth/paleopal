@@ -1,0 +1,310 @@
+{
+  "paper_title": "GDGT Analysis and Age-Model Construction in Lake Chala Sediments",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "GDGT Analysis",
+      "description": "Process for analyzing GDGTs in sediment samples to infer climate proxies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "396 sediment horizons of 2-cm thickness and sampled at regular 16-cm intervals were selected for GDGT analysis.",
+          "searchable_summary": "select sediment horizons for GDGT analysis",
+          "inputs": [
+            "sediment horizons"
+          ],
+          "outputs": [
+            "selected sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "GDGT analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Freeze-dried and powdered sediments (0.3-1 g dry weight) were extracted using a Dionex accelerated solvent extraction system with a 9:1 (v/v) mixture of dichloromethane (DCM) and methanol.",
+          "searchable_summary": "extract lipids from sediment using solvent extraction",
+          "inputs": [
+            "freeze-dried sediments",
+            "DCM",
+            "methanol"
+          ],
+          "outputs": [
+            "total lipid extract"
+          ],
+          "keywords": [
+            "solvent extraction",
+            "lipid extraction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "An internal standard (1 µg of synthetic C46 glycerol trialkyl glycerol tetraether) was added to the total lipid extract.",
+          "searchable_summary": "add internal standard to lipid extract",
+          "inputs": [
+            "total lipid extract",
+            "internal standard"
+          ],
+          "outputs": [
+            "standardized lipid extract"
+          ],
+          "keywords": [
+            "internal standard",
+            "lipid analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The total lipid extracts were dissolved in DCM, passed through a sodium sulfate column and dried under nitrogen gas.",
+          "searchable_summary": "purify lipid extract using sodium sulfate column",
+          "inputs": [
+            "standardized lipid extract",
+            "DCM"
+          ],
+          "outputs": [
+            "purified lipid extract"
+          ],
+          "keywords": [
+            "lipid purification",
+            "sodium sulfate column"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Subjected to chromatography using an Al2O3 column with eluents of hexane/DCM (9:1, v/v), hexane/DCM (1:1, v/v) and DCM/methanol (1:1, v/v) to obtain apolar, ketone and polar fractions, respectively, which were dried under nitrogen gas.",
+          "searchable_summary": "separate lipid fractions using chromatography",
+          "inputs": [
+            "purified lipid extract"
+          ],
+          "outputs": [
+            "apolar fraction",
+            "ketone fraction",
+            "polar fraction"
+          ],
+          "keywords": [
+            "chromatography",
+            "lipid fractionation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The GDGT-containing polar fractions were redissolved in hexane/isopropanol (99:1, v/v) and filtered using a polytetrafluoroethylene 0.45-µm filter before analysis.",
+          "searchable_summary": "prepare GDGT fractions for analysis",
+          "inputs": [
+            "polar fraction",
+            "hexane",
+            "isopropanol"
+          ],
+          "outputs": [
+            "filtered GDGT fraction"
+          ],
+          "keywords": [
+            "GDGT preparation",
+            "filtration"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Analysis using an Agilent 1260 Infinity UHPLC system coupled to an Agilent 6130 mass spectrometer.",
+          "searchable_summary": "analyze GDGTs using UHPLC-MS",
+          "inputs": [
+            "filtered GDGT fraction"
+          ],
+          "outputs": [
+            "GDGT analysis data"
+          ],
+          "keywords": [
+            "UHPLC-MS",
+            "GDGT analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "GDGTs were identified by detecting the [M + H]+ ions in selected ion monitoring mode for the relevant m/z values.",
+          "searchable_summary": "identify GDGTs using mass spectrometry",
+          "inputs": [
+            "GDGT analysis data"
+          ],
+          "outputs": [
+            "identified GDGTs"
+          ],
+          "keywords": [
+            "mass spectrometry",
+            "ion monitoring"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Peak area integration was done using Agilent Masshunter software and a peak area of 3 × 10^3 units was applied as the detection threshold.",
+          "searchable_summary": "integrate peak areas using Masshunter software",
+          "inputs": [
+            "identified GDGTs"
+          ],
+          "outputs": [
+            "integrated peak areas"
+          ],
+          "keywords": [
+            "peak integration",
+            "Masshunter"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "The fractional abundances of the individual brGDGTs were calculated relative to the sum of all 15 brGDGTs.",
+          "searchable_summary": "calculate fractional abundances of brGDGTs",
+          "inputs": [
+            "integrated peak areas"
+          ],
+          "outputs": [
+            "fractional abundances"
+          ],
+          "keywords": [
+            "fractional abundance",
+            "brGDGTs"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "The variability in the fractional abundance of brGDGTs in the sediment record was compared with that in suspended particulate matter (SPM) from the Lake Chala water column using principal component analysis in the R statistical package FactoMineR.",
+          "searchable_summary": "perform PCA on brGDGTs using FactoMineR",
+          "inputs": [
+            "fractional abundances",
+            "SPM data"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "FactoMineR",
+            "brGDGTs"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age-Model Construction and Validation",
+      "description": "Construction and validation of an age-depth model for the DeepCHALLA sediment sequence using radiometric dating and sediment accumulation rates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The age-depth model of the studied DeepCHALLA sediment sequence is based on partial varve counting and high-resolution radiometric (210Pb and 14C) dating.",
+          "searchable_summary": "construct age-depth model using varve counting and radiometric dating",
+          "inputs": [
+            "sediment sequence",
+            "210Pb data",
+            "14C data"
+          ],
+          "outputs": [
+            "initial age-depth model"
+          ],
+          "keywords": [
+            "age-depth model",
+            "varve counting",
+            "radiometric dating"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Morphological and geochemical identification of 73.7-kyr old YTT cryptotephra recovered at 62.36 mefd.",
+          "searchable_summary": "identify YTT cryptotephra for age model",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "YTT cryptotephra identification"
+          ],
+          "keywords": [
+            "cryptotephra",
+            "YTT",
+            "age model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Constraints on long-term variation in the rate of sediment accumulation associated with depositional continuity and uniform lithology.",
+          "searchable_summary": "apply constraints on sediment accumulation rates",
+          "inputs": [
+            "sediment accumulation data",
+            "lithology"
+          ],
+          "outputs": [
+            "constrained age-depth model"
+          ],
+          "keywords": [
+            "sediment accumulation",
+            "lithology",
+            "age model"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Extrapolation of sedimentation rates to estimate ages beyond the 14C-dated portion of the sequence.",
+          "searchable_summary": "extrapolate sedimentation rates for age estimation",
+          "inputs": [
+            "sedimentation rates",
+            "14C data"
+          ],
+          "outputs": [
+            "extrapolated age estimates"
+          ],
+          "keywords": [
+            "sedimentation rates",
+            "age estimation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Incorporate all absolute age markers into a Bayesian age model.",
+          "searchable_summary": "create Bayesian age model with absolute age markers",
+          "inputs": [
+            "absolute age markers"
+          ],
+          "outputs": [
+            "Bayesian age model"
+          ],
+          "keywords": [
+            "Bayesian model",
+            "age markers"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Produce an age-depth curve with 2σ uncertainty ranges.",
+          "searchable_summary": "generate age-depth curve with uncertainty",
+          "inputs": [
+            "Bayesian age model"
+          ],
+          "outputs": [
+            "age-depth curve",
+            "uncertainty ranges"
+          ],
+          "keywords": [
+            "age-depth curve",
+            "uncertainty"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260739746.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

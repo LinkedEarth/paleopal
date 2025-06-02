@@ -1,0 +1,61 @@
+{
+  "paper_title": "Milankovic Pseudo-cycles Recorded in Sediments and Ice Cores Extracted by Singular Spectrum Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Singular Spectrum Analysis (SSA)",
+      "description": "Singular Spectrum Analysis (SSA) is a method for analyzing time series, particularly non-linear ones. It is distinct from traditional spectral analysis. The method involves embedding the one-dimensional time series into a multidimensional space by constructing a Hankel matrix, followed by decomposing this matrix using Singular Value Decomposition (SVD). This process aims to identify components of the time series, such as trends, oscillations, and noise.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "is divided into K segments of length L in order to build a matrix X with dimension with 1 will condition our decomposition. This is the first \"tuning knob\". Integrating in X yields a Hankel matrix: whereas matrix (03) is a Vandermonde matrix. Comparing the two methods is meaningless. Embedding, the first step in a SSA, consists in projecting the one-dimensional time series in a multidimensional space of series (X1, … , Xk), such that vectors belong to , where . This definition was introduced by Mané (1981) and Takens (1981), with the aim to build a space in which strange attractors could be described correctly, often a Banach space. A strange attractor is an object whose dynamical properties may change and evolve into chaos (that is by nature non-linear). The parameter that controls the embedding is , the size of the analyzing window, an integer between 2 and . The Hankel matrix has a number of symmetry properties: its transpose , called the trajectory matrix, has dimension . Embedding is a compulsory step in the analysis of non linear series. It consists formally in the empirical evaluation of all pairs of distances between two offset vectors, delayed (lagged) in order to calculate the correlation dimension of the series. This dimension is rather close to the fractal dimension of strange attractors that could generate that type of series. In this case, it is advised to select for the size of window L very small values (resp. very large K). On the contrary, for SSA, L must be sufficiently large, so that each vector contain an important part of the information contained in the initial time series . From a mathematical point of view, one must work in the frame of Structural Total Least Squares for a Hankel matrix (e.g. Lemmerling and Van Huffel, 2001). This is quite different from the fractal dimension mentioned above. Another benefit from considering very large L is the possibility of considering sub-vectors Xi as independent sub-series with distinct dynamics, and thus to be able to identify common characteristics in collections of these sub-series.",
+          "searchable_summary": "Perform the embedding step of Singular Spectrum Analysis by constructing a Hankel matrix from a time series.",
+          "inputs": [
+            "One-dimensional time series (x(t))",
+            "Window length (L, integer between 2 and N)",
+            "Number of segments (K = N - L + 1)"
+          ],
+          "outputs": [
+            "Hankel matrix (X) of dimension L x K",
+            "Trajectory matrix (X^T) of dimension K x L"
+          ],
+          "keywords": [
+            "Singular Spectrum Analysis",
+            "SSA",
+            "embedding",
+            "Hankel matrix",
+            "trajectory matrix",
+            "time series analysis",
+            "window length"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "SVD (Golub et Reinsch, 1971) of non-zero trajectory matrix (dimensions ) takes the shape: where the eigenvalues of matrix are arranged in order of decreasing amplitudes. Eigenvectors Ui and Vi are given by : The Vi form an orthonormal basis and are arranged in the same order as the i. Let Xi be a part of matrix X such that :",
+          "searchable_summary": "Perform Singular Value Decomposition (SVD) on the trajectory matrix.",
+          "inputs": [
+            "Trajectory matrix (X^T)"
+          ],
+          "outputs": [
+            "Singular values (λi) arranged in decreasing order",
+            "Left singular vectors (Ui)",
+            "Right singular vectors (Vi)"
+          ],
+          "keywords": [
+            "Singular Value Decomposition",
+            "SVD",
+            "matrix decomposition",
+            "eigenvalues",
+            "eigenvectors",
+            "singular values",
+            "singular vectors"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/240441826.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

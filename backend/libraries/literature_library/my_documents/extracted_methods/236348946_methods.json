@@ -1,0 +1,140 @@
+{
+  "paper_title": "Luminescence Dating Approach for Sediment Age Determination",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Luminescence Sample Collection",
+      "description": "Collection of luminescence samples from soft sand sediments to determine depositional ages using luminescence dating techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We collected luminescence samples by driving opaque tubes into soft sand sediments within the outwash deposits of Cu-cao_T1 (sites _1, _2 and _3; four samples) and Cucao_T2 (sites _5 and _6; two samples).",
+          "searchable_summary": "collect luminescence samples using opaque tubes from specified sites",
+          "inputs": [
+            "site locations",
+            "opaque tubes"
+          ],
+          "outputs": [
+            "luminescence samples"
+          ],
+          "keywords": [
+            "luminescence samples",
+            "sediment collection",
+            "opaque tubes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Luminescence Dating and Measurement",
+      "description": "Determination of depositional ages of sediments by calculating the point in time when the sediments were last exposed to daylight and subsequently shielded from daylight.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All sample preparation and subsequent measurements were conducted at the Vienna Laboratory for Luminescence dating (VLL) on RISØ DA20 luminescence reader systems.",
+          "searchable_summary": "prepare and measure samples using RISØ DA20 luminescence reader",
+          "inputs": [
+            "luminescence samples"
+          ],
+          "outputs": [
+            "luminescence measurements"
+          ],
+          "keywords": [
+            "sample preparation",
+            "luminescence measurement",
+            "RISØ DA20"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All measurements were conducted using potassium-rich feldspar because quartz from Patagonia has frequently been shown to be unsuitable for dating purposes.",
+          "searchable_summary": "use potassium-rich feldspar for luminescence measurements",
+          "inputs": [
+            "luminescence samples"
+          ],
+          "outputs": [
+            "feldspar luminescence data"
+          ],
+          "keywords": [
+            "potassium-rich feldspar",
+            "luminescence",
+            "quartz"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Equivalent dose values were calculated using the bootstrapped three-parameter minimum age model (BS-MAM) with a threshold value of 40 ± 10 % for the expected overdispersion.",
+          "searchable_summary": "calculate equivalent dose using BS-MAM",
+          "inputs": [
+            "luminescence data"
+          ],
+          "outputs": [
+            "equivalent dose values"
+          ],
+          "keywords": [
+            "equivalent dose",
+            "BS-MAM",
+            "overdispersion"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "All statistical evaluation was done using the R luminescence package.",
+          "searchable_summary": "perform statistical evaluation using R luminescence package",
+          "inputs": [
+            "equivalent dose values"
+          ],
+          "outputs": [
+            "statistical analysis results"
+          ],
+          "keywords": [
+            "R luminescence package",
+            "statistical evaluation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The contents of naturally occurring radionuclides contributing to the external dose rate were determined using high-resolution, low-level gamma spectrometry.",
+          "searchable_summary": "determine radionuclide content using gamma spectrometry",
+          "inputs": [
+            "luminescence samples"
+          ],
+          "outputs": [
+            "radionuclide content data"
+          ],
+          "keywords": [
+            "gamma spectrometry",
+            "radionuclides",
+            "dose rate"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The dose-rate and age calculation was conducted using the software ADELE, and all ages were corrected for fading using the approach of Huntley and Lamothe.",
+          "searchable_summary": "calculate dose-rate and age using ADELE and correct for fading",
+          "inputs": [
+            "radionuclide content data",
+            "equivalent dose values"
+          ],
+          "outputs": [
+            "corrected luminescence ages"
+          ],
+          "keywords": [
+            "dose-rate calculation",
+            "ADELE software",
+            "fading correction"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236348946.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

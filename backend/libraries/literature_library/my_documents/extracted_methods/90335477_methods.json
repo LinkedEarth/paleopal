@@ -1,0 +1,293 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Metagenome CpG Methylation Quantification",
+      "description": "Process for calculating CpG methylation using a commercial bioinformatic pipeline to reconstruct probabilities of methylation at CpG sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples were co-assembled within IDBA with the same parameters described above.",
+          "searchable_summary": "assemble samples using IDBA with specified parameters",
+          "inputs": [
+            "samples",
+            "IDBA parameters"
+          ],
+          "outputs": [
+            "assembled IDBA contigs"
+          ],
+          "keywords": [
+            "IDBA",
+            "assembly",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The methylation score metrics recovered from assembled IDBA contigs are based on independent characteristics of DNA fragmentation via HpaII restriction digest and random shearing.",
+          "searchable_summary": "calculate methylation score metrics from IDBA contigs",
+          "inputs": [
+            "assembled IDBA contigs"
+          ],
+          "outputs": [
+            "methylation score metrics"
+          ],
+          "keywords": [
+            "methylation",
+            "DNA fragmentation",
+            "HpaII"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Computational reconstruction of CpG methylation is based on a null selection model.",
+          "searchable_summary": "reconstruct CpG methylation using null selection model",
+          "inputs": [
+            "methylation score metrics"
+          ],
+          "outputs": [
+            "CpG methylation probabilities"
+          ],
+          "keywords": [
+            "CpG methylation",
+            "null selection model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Methylation Scores",
+      "description": "Statistical procedures used to analyze community methylation scores using R statistical package.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Modalities were tested with Hartigans' dip test for unimodality.",
+          "searchable_summary": "test modalities with Hartigans' dip test",
+          "inputs": [
+            "methylation scores"
+          ],
+          "outputs": [
+            "unimodality test results"
+          ],
+          "keywords": [
+            "Hartigans' dip test",
+            "unimodality"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Methylation score bootstrap standard errors (SE) and coefficients of variation (CV) were estimated (n = 10,000).",
+          "searchable_summary": "estimate bootstrap SE and CV for methylation scores",
+          "inputs": [
+            "methylation scores"
+          ],
+          "outputs": [
+            "bootstrap SE",
+            "CV"
+          ],
+          "keywords": [
+            "bootstrap",
+            "standard error",
+            "coefficient of variation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Score variances were tested with a Brown-Forsythe Levene-type test.",
+          "searchable_summary": "test score variances with Brown-Forsythe Levene-type test",
+          "inputs": [
+            "methylation scores"
+          ],
+          "outputs": [
+            "variance test results"
+          ],
+          "keywords": [
+            "Brown-Forsythe test",
+            "variance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Normality was tested with the Shapiro-Wilk test.",
+          "searchable_summary": "test normality with Shapiro-Wilk test",
+          "inputs": [
+            "methylation scores"
+          ],
+          "outputs": [
+            "normality test results"
+          ],
+          "keywords": [
+            "Shapiro-Wilk test",
+            "normality"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Two-tailed Jonckheere-Terpstra trend tests were performed with 10,000-permutation reference distributions for downcore depth trends.",
+          "searchable_summary": "perform Jonckheere-Terpstra trend tests for depth trends",
+          "inputs": [
+            "methylation scores",
+            "depth data"
+          ],
+          "outputs": [
+            "trend test results"
+          ],
+          "keywords": [
+            "Jonckheere-Terpstra test",
+            "trend analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Kruskal-Wallis H tests were used to determine if CpG site methylation distributions were identical across depths for chitinase and transposase genes.",
+          "searchable_summary": "perform Kruskal-Wallis H tests for methylation distributions",
+          "inputs": [
+            "methylation scores",
+            "depth data"
+          ],
+          "outputs": [
+            "distribution test results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "distribution analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "16S rRNA Gene Amplicon Sequencing and Analysis",
+      "description": "Preparation and sequencing of 16S rRNA gene amplicons from sediment core sections, followed by sequence analysis using QIIME.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Universal 16S rRNA gene amplicons were prepared from HpaIIdigested sediment core section gDNA using primers 515F/806R.",
+          "searchable_summary": "prepare 16S rRNA gene amplicons using specific primers",
+          "inputs": [
+            "sediment core gDNA",
+            "primers 515F/806R"
+          ],
+          "outputs": [
+            "16S rRNA gene amplicons"
+          ],
+          "keywords": [
+            "16S rRNA",
+            "amplicon preparation",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Sequencing was performed on an IonTorrent PGM.",
+          "searchable_summary": "sequence 16S rRNA amplicons using IonTorrent PGM",
+          "inputs": [
+            "16S rRNA gene amplicons"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "IonTorrent PGM",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analysis of 16S rRNA gene sequences was performed with QIIME 1.8.0.",
+          "searchable_summary": "analyze 16S rRNA sequences using QIIME",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "analyzed sequence data"
+          ],
+          "keywords": [
+            "QIIME",
+            "sequence analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Dereplication, abundance sorting, and discarding reads less than 200 bp was performed with the USEARCH7 algorithm.",
+          "searchable_summary": "perform dereplication and abundance sorting with USEARCH7",
+          "inputs": [
+            "analyzed sequence data"
+          ],
+          "outputs": [
+            "processed sequence data"
+          ],
+          "keywords": [
+            "USEARCH7",
+            "dereplication",
+            "abundance sorting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Chimeras were filtered with UCHIME using the RDP Gold Classifier training database v9.",
+          "searchable_summary": "filter chimeras using UCHIME",
+          "inputs": [
+            "processed sequence data"
+          ],
+          "outputs": [
+            "non-chimeric sequences"
+          ],
+          "keywords": [
+            "UCHIME",
+            "chimera filtering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Operational taxonomic unit (OTU) picking was performed at 97% similarity with UCLUST.",
+          "searchable_summary": "perform OTU picking with UCLUST at 97% similarity",
+          "inputs": [
+            "non-chimeric sequences"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "UCLUST",
+            "OTU picking"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Taxonomic assignments were performed with UCLUST using the Greengenes V13.8 database for 97% OTUs.",
+          "searchable_summary": "assign taxonomy using UCLUST and Greengenes database",
+          "inputs": [
+            "OTUs"
+          ],
+          "outputs": [
+            "taxonomic assignments"
+          ],
+          "keywords": [
+            "UCLUST",
+            "Greengenes",
+            "taxonomy"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/90335477.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

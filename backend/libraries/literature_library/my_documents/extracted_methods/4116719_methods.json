@@ -1,0 +1,357 @@
+{
+  "paper_title": "Intramolecular 13C analysis of tree rings provides multiple plant ecophysiology signals covering decades",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Correlation Analysis",
+      "description": "Calculation of Pearson correlation coefficients to assess the linear relationship between different variables, including isotopic signals (Δ, Δ i ′) and environmental variables (VPD), as well as relationships between different intramolecular isotopic positions (Δ i ′).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate correlation coefficient for the Δ~VPD relationship.",
+          "searchable_summary": "calculate Pearson correlation coefficient between two variables",
+          "inputs": [
+            "Δ data series",
+            "VPD data series"
+          ],
+          "outputs": [
+            "Correlation coefficient (r) for Δ~VPD"
+          ],
+          "keywords": [
+            "correlation",
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate correlation coefficient for the Δ 1 ′~VPD relationship.",
+          "searchable_summary": "calculate Pearson correlation coefficient between two variables",
+          "inputs": [
+            "Δ 1 ′ data series",
+            "VPD data series"
+          ],
+          "outputs": [
+            "Correlation coefficient (r) for Δ 1 ′~VPD"
+          ],
+          "keywords": [
+            "correlation",
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculate correlation coefficient for the Δ 1 ′ and Δ 2 ′ relationship.",
+          "searchable_summary": "calculate Pearson correlation coefficient between two variables",
+          "inputs": [
+            "Δ 1 ′ data series",
+            "Δ 2 ′ data series"
+          ],
+          "outputs": [
+            "Correlation coefficient (r) for Δ 1 ′~Δ 2 ′"
+          ],
+          "keywords": [
+            "correlation",
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate correlation coefficient for the Δ 5 ′ and Δ 6 ′ relationship.",
+          "searchable_summary": "calculate Pearson correlation coefficient between two variables",
+          "inputs": [
+            "Δ 5 ′ data series",
+            "Δ 6 ′ data series"
+          ],
+          "outputs": [
+            "Correlation coefficient (r) for Δ 5 ′~Δ 6 ′"
+          ],
+          "keywords": [
+            "correlation",
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate correlation coefficient for the Δ 1 ′ and Δ 6 ′ relationship.",
+          "searchable_summary": "calculate Pearson correlation coefficient between two variables",
+          "inputs": [
+            "Δ 1 ′ data series",
+            "Δ 6 ′ data series"
+          ],
+          "outputs": [
+            "Correlation coefficient (r) for Δ 1 ′~Δ 6 ′"
+          ],
+          "keywords": [
+            "correlation",
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate correlation coefficient for the Δ 2 ′ and Δ 5 ′ relationship.",
+          "searchable_summary": "calculate Pearson correlation coefficient between two variables",
+          "inputs": [
+            "Δ 2 ′ data series",
+            "Δ 5 ′ data series"
+          ],
+          "outputs": [
+            "Correlation coefficient (r) for Δ 2 ′~Δ 5 ′"
+          ],
+          "keywords": [
+            "correlation",
+            "Pearson correlation",
+            "statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Simple Linear Regression Modeling",
+      "description": "Building simple linear regression models to investigate the relationship between a single predictor variable (Δ or Δ 1 ′) and the response variable (VPD).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Build a simple linear regression model with VPD as the response and Δ as the predictor (VPD~Δ).",
+          "searchable_summary": "build simple linear regression model",
+          "inputs": [
+            "VPD data series",
+            "Δ data series"
+          ],
+          "outputs": [
+            "Simple linear regression model (VPD~Δ)"
+          ],
+          "keywords": [
+            "linear regression",
+            "modeling",
+            "statistical modeling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Build a simple linear regression model with VPD as the response and Δ 1 ′ as the predictor (VPD~Δ 1 ′).",
+          "searchable_summary": "build simple linear regression model",
+          "inputs": [
+            "VPD data series",
+            "Δ 1 ′ data series"
+          ],
+          "outputs": [
+            "Simple linear regression model (VPD~Δ 1 ′)"
+          ],
+          "keywords": [
+            "linear regression",
+            "modeling",
+            "statistical modeling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multiple Linear Regression Modeling with Automatic Model Selection",
+      "description": "Building a multiple linear regression model to predict VPD using a combination of intramolecular isotopic signals (Δ i ′ components), employing automatic model selection to identify the best set of predictors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Combine multiple linear regression modeling with automatic model selection techniques.",
+          "searchable_summary": "perform multiple linear regression with automatic model selection",
+          "inputs": [
+            "VPD data series",
+            "Δ 1 ′ data series",
+            "Δ 2 ′ data series",
+            "Δ 3 ′ data series",
+            "Δ 4 ′ data series",
+            "Δ 5 ′ data series",
+            "Δ 6 ′ data series"
+          ],
+          "outputs": [
+            "Selected multiple linear regression model (e.g., VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′)"
+          ],
+          "keywords": [
+            "multiple linear regression",
+            "automatic model selection",
+            "statistical modeling",
+            "regression"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Regression Model Evaluation (R-squared and Adjusted R-squared)",
+      "description": "Evaluating the goodness-of-fit of regression models using R-squared and adjusted R-squared, which accounts for the number of predictors, enabling comparison between models with different complexities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Calculate adjusted R-squared (adjR²) for the simple linear regression model VPD~Δ.",
+          "searchable_summary": "calculate adjusted R-squared for a regression model",
+          "inputs": [
+            "Simple linear regression model (VPD~Δ)",
+            "VPD data series",
+            "Δ data series"
+          ],
+          "outputs": [
+            "Adjusted R-squared value for VPD~Δ"
+          ],
+          "keywords": [
+            "adjusted R-squared",
+            "model evaluation",
+            "regression metrics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Calculate adjusted R-squared (adjR²) for the multiple linear regression model VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′.",
+          "searchable_summary": "calculate adjusted R-squared for a regression model",
+          "inputs": [
+            "Multiple linear regression model (VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′)",
+            "VPD data series",
+            "Δ 1 ′ data series",
+            "Δ 3 ′ data series",
+            "Δ 5 ′ data series"
+          ],
+          "outputs": [
+            "Adjusted R-squared value for VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′"
+          ],
+          "keywords": [
+            "adjusted R-squared",
+            "model evaluation",
+            "regression metrics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Compare the models based on their adjusted R-squared values.",
+          "searchable_summary": "compare regression models based on adjusted R-squared",
+          "inputs": [
+            "Adjusted R-squared value for VPD~Δ",
+            "Adjusted R-squared value for VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′"
+          ],
+          "outputs": [
+            "Comparison result of model fit"
+          ],
+          "keywords": [
+            "model comparison",
+            "adjusted R-squared",
+            "statistical comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Regression Model Predictive Performance Testing (Cross-validation)",
+      "description": "Testing the predictive performance of regression models using 10-fold cross-validation to obtain a more robust estimate of model performance on unseen data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "validation",
+          "description": "Test the predictive abilities of the Δ i ′ model (VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′) by 10-fold cross-validation.",
+          "searchable_summary": "perform 10-fold cross-validation on a regression model",
+          "inputs": [
+            "Multiple linear regression model (VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′)",
+            "VPD data series",
+            "Δ 1 ′ data series",
+            "Δ 3 ′ data series",
+            "Δ 5 ′ data series"
+          ],
+          "outputs": [
+            "Cross-validated R-squared (Q²) for VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′"
+          ],
+          "keywords": [
+            "cross-validation",
+            "10-fold cross-validation",
+            "predictive performance",
+            "model validation",
+            "Q-squared"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Test the predictive abilities of the Δ model (VPD~Δ) by 10-fold cross-validation.",
+          "searchable_summary": "perform 10-fold cross-validation on a regression model",
+          "inputs": [
+            "Simple linear regression model (VPD~Δ)",
+            "VPD data series",
+            "Δ data series"
+          ],
+          "outputs": [
+            "Cross-validated R-squared (Q²) for VPD~Δ"
+          ],
+          "keywords": [
+            "cross-validation",
+            "10-fold cross-validation",
+            "predictive performance",
+            "model validation",
+            "Q-squared"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Compare the predictive abilities of both models based on their Q² values.",
+          "searchable_summary": "compare regression models based on cross-validated R-squared (Q-squared)",
+          "inputs": [
+            "Cross-validated R-squared (Q²) for VPD~Δ 1 ′ + Δ 3 ′ + Δ 5 ′",
+            "Cross-validated R-squared (Q²) for VPD~Δ"
+          ],
+          "outputs": [
+            "Comparison result of predictive performance"
+          ],
+          "keywords": [
+            "model comparison",
+            "cross-validation",
+            "Q-squared",
+            "statistical comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Hierarchical Cluster Analysis of Intramolecular Isotopic Signals",
+      "description": "Applying hierarchical cluster analysis to the intramolecular isotopic signals (Δ i ′) to identify groups of signals that exhibit similar variability patterns, suggesting position-specific fractionation effects.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Screen for position-specific signals by hierarchical cluster analysis of Δ i ′.",
+          "searchable_summary": "perform hierarchical cluster analysis on time series data",
+          "inputs": [
+            "Δ 1 ′ data series",
+            "Δ 2 ′ data series",
+            "Δ 3 ′ data series",
+            "Δ 4 ′ data series",
+            "Δ 5 ′ data series",
+            "Δ 6 ′ data series"
+          ],
+          "outputs": [
+            "Hierarchical clustering results (e.g., dendrogram)",
+            "Identified clusters of Δ i ′ positions"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "cluster analysis",
+            "data analysis",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4116719.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

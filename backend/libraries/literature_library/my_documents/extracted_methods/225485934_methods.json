@@ -1,0 +1,147 @@
+{
+  "paper_title": "Meteoric Isotopic and Meteorological Data Analysis in Northern Eurasia",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Isotopic Data Collection and Analysis",
+      "description": "This method involves collecting and analyzing stable isotopic observation data from various stations to perform statistical analysis and determine local meteoric water lines.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The δ 18 O p data were downloaded through the IAEA website.",
+          "searchable_summary": "download δ 18 O p data from IAEA website",
+          "inputs": [
+            "IAEA website URL"
+          ],
+          "outputs": [
+            "δ 18 O p data"
+          ],
+          "keywords": [
+            "δ 18 O p",
+            "IAEA",
+            "data download"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We used an ordinary least square regression (OLSR) to determine the local meteoric water line (LMWL), which is of the form δ 2 H = a δ 18 O + b.",
+          "searchable_summary": "perform OLSR to determine LMWL",
+          "inputs": [
+            "δ 18 O data",
+            "δ 2 H data"
+          ],
+          "outputs": [
+            "LMWL parameters a and b"
+          ],
+          "keywords": [
+            "OLSR",
+            "LMWL",
+            "regression analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Collection",
+      "description": "This method involves collecting meteorological data such as NAOI and EZCI from various sources for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The NAOI data were downloaded from the National Centers for Environmental Prediction (NCEP) of the National Oceanic and Atmospheric Administration (NOAA).",
+          "searchable_summary": "download NAOI data from NOAA NCEP",
+          "inputs": [
+            "NOAA NCEP URL"
+          ],
+          "outputs": [
+            "NAOI data"
+          ],
+          "keywords": [
+            "NAOI",
+            "NOAA",
+            "data download"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The Eurasian zonal circulation index (EZCI) data were downloaded from the National Climate Center of the China Meteorological Administration.",
+          "searchable_summary": "download EZCI data from China Meteorological Administration",
+          "inputs": [
+            "China Meteorological Administration URL"
+          ],
+          "outputs": [
+            "EZCI data"
+          ],
+          "keywords": [
+            "EZCI",
+            "China Meteorological Administration",
+            "data download"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Moisture Transportation Path Estimation",
+      "description": "This method estimates moisture transportation paths using NCEP reanalysis data and HYSPLIT back-trajectory analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "NCEP reanalysis data sets were used as the meteorological input for HYSPLIT back-trajectory analysis.",
+          "searchable_summary": "fetch NCEP reanalysis data for HYSPLIT",
+          "inputs": [
+            "NCEP reanalysis data URL"
+          ],
+          "outputs": [
+            "meteorological input data"
+          ],
+          "keywords": [
+            "NCEP",
+            "reanalysis data",
+            "HYSPLIT"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "240-h (10-day) back trajectories were calculated for target sites at variable heights 500, 1000, 1500, 2500 m above ground level (a.g.l.) using HYSPLIT.",
+          "searchable_summary": "calculate 240-h back trajectories using HYSPLIT",
+          "inputs": [
+            "meteorological input data",
+            "target site coordinates"
+          ],
+          "outputs": [
+            "back trajectory data"
+          ],
+          "keywords": [
+            "HYSPLIT",
+            "back trajectory",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Statistical clustering of similar trajectories was done through the internal HYSPLIT clustering program.",
+          "searchable_summary": "perform statistical clustering on trajectory data",
+          "inputs": [
+            "back trajectory data"
+          ],
+          "outputs": [
+            "clustered trajectory data"
+          ],
+          "keywords": [
+            "HYSPLIT",
+            "clustering",
+            "trajectory analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/225485934.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

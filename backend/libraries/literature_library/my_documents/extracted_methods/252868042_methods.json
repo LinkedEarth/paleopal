@@ -1,0 +1,332 @@
+{
+  "paper_title": "Airborne Material Collection and Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Airborne Material Collection",
+      "description": "Collection of airborne material using Burkard multi-vial cyclones at specific rural and urban sites in Worcestershire, UK, over multiple years.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Airborne material was collected with two Burkard multi-vial cyclones.",
+          "searchable_summary": "Collect airborne material using Burkard multi-vial cyclones.",
+          "inputs": [],
+          "outputs": [
+            "collected airborne material samples"
+          ],
+          "keywords": [
+            "airborne collection",
+            "Burkard cyclone",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Collection performed at two sites in Worcestershire, UK; one rural site (52.2544°, − 2.2537°) and one urban (52.1969°, − 2.2422°).",
+          "searchable_summary": "Define collection sites with geographic coordinates.",
+          "inputs": [],
+          "outputs": [
+            "rural site location",
+            "urban site location"
+          ],
+          "keywords": [
+            "site selection",
+            "geographic coordinates",
+            "rural",
+            "urban"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Material was collected for 10 weeks from the beginning of July during the years 2016-2018 (Hanson et al., 2022), hence providing 420 daily samples.",
+          "searchable_summary": "Collect samples daily for 10 weeks starting in July for years 2016, 2017, 2018.",
+          "inputs": [
+            "rural site location",
+            "urban site location",
+            "Burkard multi-vial cyclones"
+          ],
+          "outputs": [
+            "420 daily airborne material samples"
+          ],
+          "keywords": [
+            "sampling duration",
+            "sampling frequency",
+            "time series data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Extraction and Sequencing",
+      "description": "Processing collected airborne material samples to extract DNA, pool samples, and perform Illumina MiSEQ sequencing targeting the ITS2 region.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "DNA was extracted according to (Hanson et al., (2022).",
+          "searchable_summary": "Extract DNA from airborne material samples using a standard protocol.",
+          "inputs": [
+            "420 daily airborne material samples"
+          ],
+          "outputs": [
+            "extracted DNA samples"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "sample processing",
+            "molecular methods"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Extracted DNA was pooled into 6 annual aggregations for each of the years 2016-2018.",
+          "searchable_summary": "Pool DNA samples annually for each site.",
+          "inputs": [
+            "extracted DNA samples"
+          ],
+          "outputs": [
+            "6 pooled annual DNA samples (2 sites * 3 years)"
+          ],
+          "keywords": [
+            "sample pooling",
+            "data aggregation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Samples were profiled using the ITS2 region.",
+          "searchable_summary": "Prepare DNA samples for sequencing by targeting the ITS2 region.",
+          "inputs": [
+            "pooled annual DNA samples"
+          ],
+          "outputs": [
+            "ITS2-amplified DNA samples"
+          ],
+          "keywords": [
+            "ITS2 region",
+            "amplicon sequencing",
+            "molecular profiling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Illumina MiSEQ sequencing was performed externally by Eurofins Genomics.",
+          "searchable_summary": "Perform Illumina MiSEQ sequencing on prepared DNA samples.",
+          "inputs": [
+            "ITS2-amplified DNA samples"
+          ],
+          "outputs": [
+            "raw sequencing data (FASTQ files)"
+          ],
+          "keywords": [
+            "Illumina MiSEQ",
+            "sequencing",
+            "external service"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bioinformatic and Statistical Analysis of Sequencing Data",
+      "description": "Analysis of raw sequencing data to identify pollen taxa, calculate diversity metrics (alpha and beta), and perform statistical tests to compare sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Bioinformatic analysis was performed in R.",
+          "searchable_summary": "Set up R environment for bioinformatic analysis.",
+          "inputs": [
+            "raw sequencing data (FASTQ files)"
+          ],
+          "outputs": [
+            "R analysis environment"
+          ],
+          "keywords": [
+            "R programming",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Using Dada2, phyloseq and vegan packages as detailed in Hanson et al. (2022)",
+          "searchable_summary": "Process raw sequencing data into ASV table and taxonomic table using Dada2, phyloseq, and vegan R packages.",
+          "inputs": [
+            "raw sequencing data (FASTQ files)"
+          ],
+          "outputs": [
+            "ASV table",
+            "taxonomic table"
+          ],
+          "keywords": [
+            "Dada2",
+            "phyloseq",
+            "vegan",
+            "R packages",
+            "ASV processing",
+            "amplicon sequencing analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Taxonomic assignment against the UNITE eukaryotic database v8.3",
+          "searchable_summary": "Assign taxonomy to ASVs using the UNITE database.",
+          "inputs": [
+            "ASV table",
+            "UNITE eukaryotic database v8.3"
+          ],
+          "outputs": [
+            "taxonomically assigned ASV table"
+          ],
+          "keywords": [
+            "taxonomic assignment",
+            "UNITE database",
+            "eukaryotic",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Postprocessing of the Amplicon Sequence Variant (ASV) data for pollen producing plants (Anthophyta and Coniferophyta) was done by c-shell scripting.",
+          "searchable_summary": "Filter ASV data to include only pollen producing plants (Anthophyta, Coniferophyta) using c-shell scripts.",
+          "inputs": [
+            "taxonomically assigned ASV table"
+          ],
+          "outputs": [
+            "filtered ASV table (pollen only)"
+          ],
+          "keywords": [
+            "ASV filtering",
+            "pollen data",
+            "c-shell scripting",
+            "data subsetting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The most prevalent pollen producing plants at each site were determined at the genus level by examining the top ten taxa.",
+          "searchable_summary": "Identify top 10 most prevalent pollen genera at each site from filtered ASV data.",
+          "inputs": [
+            "filtered ASV table (pollen only)",
+            "site information"
+          ],
+          "outputs": [
+            "list of top 10 genera per site"
+          ],
+          "keywords": [
+            "prevalence",
+            "top taxa",
+            "genus level",
+            "data summary"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Total biodiversity was calculated by enumerating all possible taxa at the genus level.",
+          "searchable_summary": "Calculate total number of unique pollen genera found in the filtered ASV data.",
+          "inputs": [
+            "filtered ASV table (pollen only)"
+          ],
+          "outputs": [
+            "total number of unique genera"
+          ],
+          "keywords": [
+            "biodiversity",
+            "taxa enumeration",
+            "genus level"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "ASV data were used to calculate alpha and beta diversities in a similar way as for spores in the study by Hanson et al. (2022).",
+          "searchable_summary": "Calculate alpha and beta diversity metrics from filtered ASV data.",
+          "inputs": [
+            "filtered ASV table (pollen only)"
+          ],
+          "outputs": [
+            "alpha diversity metrics",
+            "beta diversity metrics"
+          ],
+          "keywords": [
+            "alpha diversity",
+            "beta diversity",
+            "diversity indices"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "For beta diversity we use nonmetric multidimensional scaling (NMDS) based on Bray-Curtis dissimilarity to study how different the rural and urban sites are in terms of pollen flora.",
+          "searchable_summary": "Perform NMDS analysis using Bray-Curtis dissimilarity on filtered ASV data.",
+          "inputs": [
+            "filtered ASV table (pollen only)"
+          ],
+          "outputs": [
+            "NMDS ordination results",
+            "Bray-Curtis dissimilarity matrix"
+          ],
+          "keywords": [
+            "NMDS",
+            "nonmetric multidimensional scaling",
+            "Bray-Curtis dissimilarity",
+            "beta diversity",
+            "ordination"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Shannon and Simpson (1-D) alphadiversity indices were used to examine overall pollen diversity and evenness",
+          "searchable_summary": "Calculate Shannon and Simpson (1-D) alpha diversity indices from filtered ASV data.",
+          "inputs": [
+            "filtered ASV table (pollen only)"
+          ],
+          "outputs": [
+            "Shannon index values",
+            "Simpson index values"
+          ],
+          "keywords": [
+            "Shannon index",
+            "Simpson index",
+            "alpha diversity",
+            "diversity metrics",
+            "evenness"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "A t test was applied to plant ASV data agglomerated at genus taxonomical level to examine whether there was a statistically significant difference in the number of plant genera at each site.",
+          "searchable_summary": "Perform independent t-test to compare the number of plant genera between sites using agglomerated ASV data.",
+          "inputs": [
+            "filtered ASV table (pollen only)",
+            "site information"
+          ],
+          "outputs": [
+            "t-test results (p-value, test statistic)"
+          ],
+          "keywords": [
+            "t-test",
+            "statistical test",
+            "site comparison",
+            "genus count",
+            "statistical significance"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252868042.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

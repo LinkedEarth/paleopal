@@ -1,0 +1,166 @@
+{
+  "paper_title": "Phylogenetic and Sequence Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Network Analysis",
+      "description": "This method involves using phylogenetic networks to analyze evolutionary processes that cannot be represented by a single phylogenetic tree. The Neighbor-Net method in SplitsTree is used to perform split decomposition analysis of haplotypes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Use the Neighbor-Net method implemented in SplitsTree version 4.13.1 to perform split decomposition analysis of haplotypes.",
+          "searchable_summary": "perform split decomposition analysis using Neighbor-Net in SplitsTree",
+          "inputs": [
+            "haplotype data",
+            "SplitsTree software"
+          ],
+          "outputs": [
+            "split network graph"
+          ],
+          "keywords": [
+            "split decomposition",
+            "phylogenetic network",
+            "Neighbor-Net",
+            "SplitsTree"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Infer the phylogeny of the 20 sickle haplotypes, rooted by the ancestral haplotype.",
+          "searchable_summary": "infer phylogeny of sickle haplotypes",
+          "inputs": [
+            "split network graph",
+            "ancestral haplotype"
+          ],
+          "outputs": [
+            "phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogeny",
+            "haplotypes",
+            "ancestral haplotype"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze clusters derived from the ancestral haplotype and their associated mutations.",
+          "searchable_summary": "analyze haplotype clusters and mutations",
+          "inputs": [
+            "phylogenetic tree",
+            "mutation data"
+          ],
+          "outputs": [
+            "cluster analysis report"
+          ],
+          "keywords": [
+            "haplotype clusters",
+            "mutations",
+            "phylogenetic analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Data Processing",
+      "description": "This method involves retrieving and processing whole-genome-sequence data from various genomic projects to establish phased haplotypes and assess linkage disequilibrium.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Retrieve whole-genome-sequence data from the 1000 Genomes Project, African Genome Variation Project, and Qatar.",
+          "searchable_summary": "retrieve genome sequence data from multiple projects",
+          "inputs": [
+            "1000 Genomes Project",
+            "African Genome Variation Project",
+            "Qatar genome data"
+          ],
+          "outputs": [
+            "genome sequence data"
+          ],
+          "keywords": [
+            "genome sequence",
+            "data retrieval",
+            "1000 Genomes Project"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use SHAPEIT2 to estimate a scaffold of long-range phased haplotypes given array-based genotype data and family information.",
+          "searchable_summary": "estimate phased haplotypes using SHAPEIT2",
+          "inputs": [
+            "genotype data",
+            "family information"
+          ],
+          "outputs": [
+            "scaffold of phased haplotypes"
+          ],
+          "keywords": [
+            "SHAPEIT2",
+            "phased haplotypes",
+            "genotype data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Use a combination of Beagle and SHAPEIT2 to jointly analyze the long-range phased haplotypes and di-allelic variants.",
+          "searchable_summary": "analyze phased haplotypes and variants using Beagle and SHAPEIT2",
+          "inputs": [
+            "phased haplotypes",
+            "di-allelic variants"
+          ],
+          "outputs": [
+            "analyzed haplotypes"
+          ],
+          "keywords": [
+            "Beagle",
+            "SHAPEIT2",
+            "di-allelic variants"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Use MVNcall to place multi-allelic and structural variants onto the haplotype scaffold.",
+          "searchable_summary": "place variants onto haplotype scaffold using MVNcall",
+          "inputs": [
+            "haplotype scaffold",
+            "multi-allelic variants",
+            "structural variants"
+          ],
+          "outputs": [
+            "haplotype scaffold with variants"
+          ],
+          "keywords": [
+            "MVNcall",
+            "multi-allelic variants",
+            "structural variants"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Assess linkage disequilibrium in the 1000 Genomes Project data using the --hap-r2 function for phased haplotypes.",
+          "searchable_summary": "assess linkage disequilibrium using --hap-r2 function",
+          "inputs": [
+            "phased haplotypes"
+          ],
+          "outputs": [
+            "linkage disequilibrium data"
+          ],
+          "keywords": [
+            "linkage disequilibrium",
+            "phased haplotypes",
+            "1000 Genomes Project"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4636822.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

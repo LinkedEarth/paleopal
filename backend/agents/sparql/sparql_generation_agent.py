@@ -24,7 +24,7 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
             state_class=SparqlAgentState
         )
         
-        # Store clarification configuration
+        # Store clarification configuration for passing to config
         self.enable_clarification = enable_clarification
         self.clarification_threshold = clarification_threshold
         

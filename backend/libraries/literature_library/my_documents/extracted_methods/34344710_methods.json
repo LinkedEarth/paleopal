@@ -1,0 +1,368 @@
+{
+  "paper_title": "Glacier Length Change and Climate Reconstruction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Glacier Length Change Data Compilation",
+      "description": "Describes the process of collecting and compiling historical and recent glacier length change data for Alpine glaciers, using various sources like historical records, photographs, dendrochronology, carbon-14 dating, and modern monitoring networks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect historical glacier length change data from sources like photographs, paintings, written records, and tree positions.",
+          "searchable_summary": "Collect historical glacier length change data from diverse sources",
+          "inputs": [
+            "Historical documents (photographs, paintings, written records)",
+            "Tree samples near historical glacier extents"
+          ],
+          "outputs": [
+            "Raw historical glacier extent/length data"
+          ],
+          "keywords": [
+            "historical glacier data",
+            "data collection",
+            "archives",
+            "records"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Date historical records using dendrochronology or carbon-14 methods where applicable.",
+          "searchable_summary": "Date historical glacier extent data using dendrochronology or carbon-14 dating",
+          "inputs": [
+            "Raw historical glacier extent/length data",
+            "Tree ring samples",
+            "Organic material samples"
+          ],
+          "outputs": [
+            "Dated historical glacier extent/length data points"
+          ],
+          "keywords": [
+            "dendrochronology",
+            "carbon-14 dating",
+            "radiocarbon dating",
+            "dating historical data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Compile historical data for specific glaciers (Grosser Aletsch, Gorner, Rhone, Rosen-laui, Unterer Grindelwald, Mer de Glace, Bossons).",
+          "searchable_summary": "Compile historical glacier length data for specific Alpine glaciers",
+          "inputs": [
+            "Dated historical glacier extent/length data points"
+          ],
+          "outputs": [
+            "Compiled historical glacier length time series for individual glaciers"
+          ],
+          "keywords": [
+            "data compilation",
+            "time series data",
+            "glacier length",
+            "historical data"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Obtain recent glacier length change data from monitoring networks (e.g., Swiss Glacier Monitoring Network) and other sources.",
+          "searchable_summary": "Obtain recent glacier length change data from monitoring networks",
+          "inputs": [
+            "Access to glacier monitoring network databases",
+            "Published reports (e.g., Glaciological Reports)",
+            "Personal communications"
+          ],
+          "outputs": [
+            "Recent glacier length time series data"
+          ],
+          "keywords": [
+            "glacier monitoring",
+            "data acquisition",
+            "time series data",
+            "recent data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Combine historical and recent data series for analysis.",
+          "searchable_summary": "Combine historical and recent glacier length time series data",
+          "inputs": [
+            "Compiled historical glacier length time series",
+            "Recent glacier length time series"
+          ],
+          "outputs": [
+            "Long-term, combined glacier length change time series for individual glaciers"
+          ],
+          "keywords": [
+            "data merging",
+            "time series combination",
+            "data integration",
+            "glacier length records"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Macroscopic Glacier Modeling (LV-Model)",
+      "description": "Implementation and application of a macroscopic dynamical system model (LV-model) to represent glacier dynamics, specifically the transfer function from volume change to length change, driven by changes in the equilibrium line elevation (ELA).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the LV-model dynamical system equations for glacier length (L) and volume (V) based on Eq. 40 in Lüthi (2009).",
+          "searchable_summary": "Define the LV-model dynamical system equations for glacier length and volume",
+          "inputs": [
+            "Mathematical formulation of LV-model (Eq. 40, Lüthi 2009)"
+          ],
+          "outputs": [
+            "Model equations defined in code/mathematical framework"
+          ],
+          "keywords": [
+            "glacier model",
+            "dynamical system",
+            "LV-model",
+            "mathematical modeling",
+            "differential equations"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Define model parameters including vertical gradient of local mass balance rate (ġ), bed slope (s), relaxation time constant (⌧ a), and volume-length scaling parameters (µ, a).",
+          "searchable_summary": "Define parameters for the LV-model",
+          "inputs": [
+            "Parameter values or methods to derive them (ġ, s, ⌧ a, µ=7/5, a)"
+          ],
+          "outputs": [
+            "Model parameters initialized"
+          ],
+          "keywords": [
+            "model parameters",
+            "glacier mass balance",
+            "bed slope",
+            "time constant",
+            "scaling parameters"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Implement the volume-length scaling relation V = a L µ with µ = 7/5, updating parameter 'a' based on ġ, s, and current length L (Lüthi, 2009, Eqs. 21, 37, 38).",
+          "searchable_summary": "Implement volume-length scaling relation and update parameter 'a'",
+          "inputs": [
+            "Current glacier length (L)",
+            "Parameters ġ, s, µ"
+          ],
+          "outputs": [
+            "Calculated volume (V)",
+            "Updated parameter 'a'"
+          ],
+          "keywords": [
+            "volume-length scaling",
+            "glacier geometry",
+            "model implementation",
+            "parameter update"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Define the model forcing term Z(t) = z 0 z ELA (t), where z 0 is the highest bed point and z ELA (t) is the time-dependent equilibrium line elevation.",
+          "searchable_summary": "Define the model forcing based on ELA history",
+          "inputs": [
+            "Highest bed point elevation (z 0)",
+            "Time series of Equilibrium Line Altitude (z ELA (t))"
+          ],
+          "outputs": [
+            "Model forcing time series Z(t)"
+          ],
+          "keywords": [
+            "model forcing",
+            "ELA",
+            "equilibrium line altitude",
+            "time series",
+            "climate forcing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Integrate the dynamical system equations over time, using the defined forcing Z(t), to simulate glacier length and volume changes.",
+          "searchable_summary": "Integrate the LV-model dynamical system equations over time",
+          "inputs": [
+            "Defined model equations",
+            "Initialized parameters",
+            "Forcing time series Z(t)",
+            "Initial conditions (L, V)",
+            "Time span for simulation"
+          ],
+          "outputs": [
+            "Simulated time series of glacier length (L(t))",
+            "Simulated time series of glacier volume (V(t))"
+          ],
+          "keywords": [
+            "numerical integration",
+            "dynamical system simulation",
+            "glacier simulation",
+            "time series modeling",
+            "ODE solver"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Comparison of Reconstructed ELA with Instrumental Data",
+      "description": "Process for comparing the reconstructed Equilibrium Line Altitude (ELA) history, derived from glacier length change modeling, with independent instrumental climate records (temperature and precipitation) to validate the reconstruction and evaluate climate forcing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain instrumental summer temperature data from meteorological stations (e.g., Grand Saint Bernard) and multi-station reconstructions (e.g., HISTALP CRSM Alpin, Casty et al.).",
+          "searchable_summary": "Obtain instrumental summer temperature data",
+          "inputs": [
+            "Data sources (Begert et al., 2005; Auer et al., 2007; Casty et al., 2005)"
+          ],
+          "outputs": [
+            "Instrumental summer temperature time series"
+          ],
+          "keywords": [
+            "temperature data",
+            "instrumental data",
+            "climate reconstruction",
+            "data acquisition",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Obtain instrumental winter and spring precipitation data from gridded reconstructions (e.g., Pauling et al.).",
+          "searchable_summary": "Obtain instrumental winter and spring precipitation data",
+          "inputs": [
+            "Data source (Pauling et al., 2006)",
+            "Grid cell information (12 grid cells over Alpine area)"
+          ],
+          "outputs": [
+            "Instrumental winter and spring precipitation time series"
+          ],
+          "keywords": [
+            "precipitation data",
+            "instrumental data",
+            "climate reconstruction",
+            "data acquisition",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Calculate running means (e.g., 5-year running means) for instrumental temperature and precipitation records for smoothing.",
+          "searchable_summary": "Calculate running means for climate time series",
+          "inputs": [
+            "Instrumental temperature time series",
+            "Instrumental precipitation time series",
+            "Window size for running mean (e.g., 5 years)"
+          ],
+          "outputs": [
+            "Smoothed temperature time series",
+            "Smoothed precipitation time series"
+          ],
+          "keywords": [
+            "running mean",
+            "smoothing",
+            "time series analysis",
+            "data processing",
+            "moving average"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compare the reconstructed ELA history with the smoothed instrumental summer temperature records.",
+          "searchable_summary": "Compare reconstructed ELA time series with smoothed temperature time series",
+          "inputs": [
+            "Reconstructed ELA time series (output from modeling)",
+            "Smoothed instrumental summer temperature time series"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, statistical metrics)"
+          ],
+          "keywords": [
+            "time series comparison",
+            "data analysis",
+            "climate comparison",
+            "ELA",
+            "temperature"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Determine a sensitivity factor (f s = 80-100 m K 1) between reconstructed ELA and temperature to match variability.",
+          "searchable_summary": "Calculate sensitivity factor between ELA and temperature",
+          "inputs": [
+            "Reconstructed ELA time series",
+            "Smoothed instrumental summer temperature time series"
+          ],
+          "outputs": [
+            "Sensitivity factor (f s)"
+          ],
+          "keywords": [
+            "sensitivity analysis",
+            "climate sensitivity",
+            "ELA",
+            "temperature",
+            "correlation",
+            "regression"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Compare the reconstructed ELA history with the smoothed instrumental winter and spring precipitation records.",
+          "searchable_summary": "Compare reconstructed ELA time series with smoothed precipitation time series",
+          "inputs": [
+            "Reconstructed ELA time series",
+            "Smoothed instrumental winter and spring precipitation time series"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, statistical metrics)"
+          ],
+          "keywords": [
+            "time series comparison",
+            "data analysis",
+            "climate comparison",
+            "ELA",
+            "precipitation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Analyze the timing and magnitude of variations in reconstructed ELA and instrumental records to identify agreements and discrepancies.",
+          "searchable_summary": "Analyze agreement and discrepancy between reconstructed ELA and instrumental climate records",
+          "inputs": [
+            "Comparison results from steps 4 and 6"
+          ],
+          "outputs": [
+            "Validation findings",
+            "Identified agreements/discrepancies",
+            "Potential explanations (e.g., warm bias)"
+          ],
+          "keywords": [
+            "validation",
+            "data comparison",
+            "time series analysis",
+            "climate variability",
+            "agreement",
+            "discrepancy"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/34344710.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

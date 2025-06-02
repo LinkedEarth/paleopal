@@ -1,0 +1,266 @@
+{
+  "paper_title": "Protein Expression Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Two-Dimensional Gel Electrophoresis (2-DE)",
+      "description": "Protocol for separating proteins based on isoelectric point and molecular weight using two-dimensional gel electrophoresis, followed by visualization and image analysis to study protein expression profiles.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "An equal amount of protein (200 lg) sample was mixed with fresh rehydration buffer (9 M Urea, 4 % CHAPS, 1 % DTT, 1 % IPG buffer, and trace amounts of bromophenol blue) to a total volume of 450 lL.",
+          "searchable_summary": "Prepare protein sample for 2D gel electrophoresis by mixing with rehydration buffer",
+          "inputs": [
+            "Protein sample (200 µg)",
+            "Rehydration buffer (9 M Urea, 4 % CHAPS, 1 % DTT, 1 % IPG buffer, bromophenol blue)"
+          ],
+          "outputs": [
+            "Protein sample mixed with rehydration buffer (450 µL)"
+          ],
+          "keywords": [
+            "protein extraction",
+            "sample preparation",
+            "rehydration buffer",
+            "2DE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The protein samples were then added to the strip holder.",
+          "searchable_summary": "Load protein sample onto IEF strip holder",
+          "inputs": [
+            "Protein sample in rehydration buffer",
+            "Strip holder"
+          ],
+          "outputs": [
+            "Loaded strip holder"
+          ],
+          "keywords": [
+            "IEF",
+            "strip holder",
+            "protein loading"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "The isoelectric focusing protocol was carried out at 20°C, with 50 lA per strip.",
+          "searchable_summary": "Perform isoelectric focusing (IEF)",
+          "inputs": [
+            "Loaded strip holder",
+            "IEF apparatus",
+            "Temperature (20°C)",
+            "Current (50 µA/strip)"
+          ],
+          "outputs": [
+            "IEF strips with focused proteins"
+          ],
+          "keywords": [
+            "isoelectric focusing",
+            "IEF",
+            "protein separation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "The strips were laid across the top of the gel, making sure that the gels were lying flush with one another.",
+          "searchable_summary": "Place IEF strip onto SDS-PAGE gel",
+          "inputs": [
+            "IEF strips",
+            "SDS-PAGE gel"
+          ],
+          "outputs": [
+            "Gel with IEF strip placed on top"
+          ],
+          "keywords": [
+            "SDS-PAGE",
+            "2DE",
+            "gel setup"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "After the sealing solution cooled and solidified, the strip was moved to the electrophoresis apparatus (Ettan-DALT-Six system; GE healthcare; USA).",
+          "searchable_summary": "Seal IEF strip onto SDS-PAGE gel and transfer to electrophoresis apparatus",
+          "inputs": [
+            "Gel with strip",
+            "Sealing solution",
+            "Electrophoresis apparatus (Ettan-DALT-Six system)"
+          ],
+          "outputs": [
+            "Electrophoresis apparatus loaded with gel/strip assembly"
+          ],
+          "keywords": [
+            "2DE",
+            "gel sealing",
+            "electrophoresis setup",
+            "Ettan-DALT-Six"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "Electrophoresis was carried out at 15°C, and the gel was run at 100 V for 45 min, followed by 200 V for 6-8 h (until the bromophenol blue band reached the bottom of gel).",
+          "searchable_summary": "Perform SDS-PAGE electrophoresis",
+          "inputs": [
+            "Loaded electrophoresis apparatus",
+            "Temperature (15°C)",
+            "Voltage/time settings (100V/45min, 200V/6-8h)"
+          ],
+          "outputs": [
+            "Separated proteins within the gel"
+          ],
+          "keywords": [
+            "SDS-PAGE",
+            "electrophoresis",
+            "protein separation",
+            "voltage gradient"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "The gel was visualized by silver staining as described previously (Shevchenko et al. 1996).",
+          "searchable_summary": "Stain 2D gel using silver staining",
+          "inputs": [
+            "Electrophoresis gel",
+            "Silver staining reagents"
+          ],
+          "outputs": [
+            "Stained gel with visible protein spots"
+          ],
+          "keywords": [
+            "silver staining",
+            "protein visualization",
+            "gel staining"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "All gel images were processed by a three step procedure: (1) protein spot detection; (2) quantify volume of the selected spot; and (3) match grayscale values using Bio-Rad PDQuest 8.0 software.",
+          "searchable_summary": "Process 2D gel images using Bio-Rad PDQuest software including spot detection, quantification, and matching",
+          "inputs": [
+            "Stained gel images",
+            "Bio-Rad PDQuest 8.0 software"
+          ],
+          "outputs": [
+            "Processed gel data (detected spots, quantitative data, matched spots)"
+          ],
+          "keywords": [
+            "gel image analysis",
+            "protein spot detection",
+            "spot quantification",
+            "gel matching",
+            "Bio-Rad PDQuest"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mass Spectrometry (MS) Analysis for Protein Identification",
+      "description": "Procedure for identifying the protein composition of selected spots from a 2-DE gel using mass spectrometry and subsequent bioinformatics analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Two protein spots (p1007 and p8000) in the 2-DE gel were selected to identify their protein constitution using of mass spectrometry (Fig. 5).",
+          "searchable_summary": "Select specific protein spots from 2D gel for mass spectrometry analysis",
+          "inputs": [
+            "Stained 2D gel",
+            "Criteria for spot selection (e.g., spot numbers p1007, p8000)"
+          ],
+          "outputs": [
+            "Selected protein spots (physical samples)"
+          ],
+          "keywords": [
+            "protein spot selection",
+            "2DE",
+            "gel analysis",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Identify their protein constitution using of mass spectrometry.",
+          "searchable_summary": "Perform mass spectrometry on selected protein spots",
+          "inputs": [
+            "Selected protein spots",
+            "Mass spectrometry instrument"
+          ],
+          "outputs": [
+            "Mass spectrometry data"
+          ],
+          "keywords": [
+            "mass spectrometry",
+            "MS analysis",
+            "protein identification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "According to Mascot Score Histogram, four proteins were found in spot p1007 (Table 2)... Only one protein was found in protein spot p8000...",
+          "searchable_summary": "Analyze mass spectrometry data using Mascot software/database to identify proteins",
+          "inputs": [
+            "Mass spectrometry data",
+            "Mascot software/database"
+          ],
+          "outputs": [
+            "Protein identification results (list of identified proteins per spot, Mascot scores)"
+          ],
+          "keywords": [
+            "Mascot score",
+            "protein identification",
+            "mass spectrometry data analysis",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "None of these proteins are a documented allergenic protein. Only one protein was found in protein spot p8000: gi|29839547 (RecName: Full=Putative invertase inhibitor; AltName: Full=Pollen allergen Pla a 1; AltName: Allergen=Pla a 1; Flags: Precursor).",
+          "searchable_summary": "Compare identified proteins against known allergen databases",
+          "inputs": [
+            "List of identified proteins",
+            "Allergen database"
+          ],
+          "outputs": [
+            "Classification of identified proteins as allergenic or non-allergenic"
+          ],
+          "keywords": [
+            "allergen database",
+            "protein classification",
+            "bioinformatics",
+            "data comparison"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The amino acid sequence of the Pla a 1 is: MKLSFSLCIF FFNLLLLLQA VISADIVQGT CKKVAQRSPN VNYDFCVKSL GADPKSHTAD LQ GLGVISAN LAIQHGSKIQ TFIGRILKSK VDPALK-KYLN 101DCVGLYADAK SSVQEAIADF KSKDYA SANV KMSAALDDSV TCEDGFKEKK GIVSPVT-KEN KDYVQLTAIS LAITKLLGA. This amino acid sequence further demonstrated the identity of the allergenic protein expressed by the Platanus pollen.",
+          "searchable_summary": "Analyze amino acid sequence of identified protein for confirmation/characterization",
+          "inputs": [
+            "Amino acid sequence of identified protein (Pla a 1 sequence provided)"
+          ],
+          "outputs": [
+            "Sequence analysis results (e.g., confirmation of protein identity)"
+          ],
+          "keywords": [
+            "amino acid sequence analysis",
+            "protein characterization",
+            "bioinformatics",
+            "sequence alignment"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14717663.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

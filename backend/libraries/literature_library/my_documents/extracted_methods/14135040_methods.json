@@ -1,0 +1,218 @@
+{
+  "paper_title": "Ice Core 10Be Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Sample Preparation",
+      "description": "Process for preparing ice core sawdust samples for 10Be analysis, including cleaning, carrier addition, and loading into ion exchange columns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The collection equipment was thoroughly cleaned between each sampling event using a brush to reduce cross contamination as much as possible.",
+          "searchable_summary": "clean sampling equipment to prevent cross contamination",
+          "inputs": [
+            "sampling equipment"
+          ],
+          "outputs": [
+            "clean sampling equipment"
+          ],
+          "keywords": [
+            "cleaning",
+            "contamination prevention"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Before melting the ice sample, 100 microgram of 9Be-carrier was added.",
+          "searchable_summary": "add 9Be-carrier to ice sample",
+          "inputs": [
+            "ice sample",
+            "9Be-carrier"
+          ],
+          "outputs": [
+            "ice sample with 9Be-carrier"
+          ],
+          "keywords": [
+            "carrier addition",
+            "isotope analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The water was, without filtration, loaded into disposable ion exchange columns.",
+          "searchable_summary": "load water into ion exchange columns",
+          "inputs": [
+            "melted ice sample"
+          ],
+          "outputs": [
+            "ion exchange column with sample"
+          ],
+          "keywords": [
+            "ion exchange",
+            "sample loading"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Beryllium Extraction and AMS Preparation",
+      "description": "Procedure for extracting 10Be and 9Be from samples, precipitating Be-hydroxide, and preparing samples for AMS measurements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The 10Be and 9Be were extracted from the column using 4 M HCl and Be-hydroxide was precipitated using NH3 and then left overnight.",
+          "searchable_summary": "extract Be isotopes and precipitate Be-hydroxide",
+          "inputs": [
+            "ion exchange column",
+            "4 M HCl",
+            "NH3"
+          ],
+          "outputs": [
+            "Be-hydroxide precipitate"
+          ],
+          "keywords": [
+            "extraction",
+            "precipitation",
+            "beryllium"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The beryllium-hydroxide reduced to BeO by heating to a temperature of 600°C at a final yield of .85%.",
+          "searchable_summary": "convert Be-hydroxide to BeO by heating",
+          "inputs": [
+            "Be-hydroxide"
+          ],
+          "outputs": [
+            "BeO"
+          ],
+          "keywords": [
+            "reduction",
+            "heating",
+            "beryllium oxide"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Nb-powder was mixed with the BeO and the mixture was pressed into target for AMS measurements.",
+          "searchable_summary": "mix Nb-powder with BeO and prepare AMS target",
+          "inputs": [
+            "BeO",
+            "Nb-powder"
+          ],
+          "outputs": [
+            "AMS target"
+          ],
+          "keywords": [
+            "AMS preparation",
+            "target pressing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Accelerator Mass Spectrometry (AMS) Measurement",
+      "description": "Measurement of 10Be concentrations using AMS, including sample cycling and interference reduction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The Uppsala University AMS system was used for the measurement at a terminal voltage of 4.7 MV using 40 sample MC-SNICS (NEC) ion source and ion-beam current at 0.5-1 mA.",
+          "searchable_summary": "perform AMS measurement at specified voltage and current",
+          "inputs": [
+            "AMS system",
+            "prepared AMS target"
+          ],
+          "outputs": [
+            "AMS measurement data"
+          ],
+          "keywords": [
+            "AMS",
+            "ion source",
+            "measurement"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Each sample was measured for three cycles for up to 20 minutes per sample.",
+          "searchable_summary": "measure each sample in three cycles",
+          "inputs": [
+            "AMS target"
+          ],
+          "outputs": [
+            "cycle measurement data"
+          ],
+          "keywords": [
+            "cycle measurement",
+            "AMS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Isobaric interference from 10B was additionally reduced one order of magnitude through use of a second stripper foil and a vertical 180° dipole magnet installed before the detector system.",
+          "searchable_summary": "reduce 10B interference using stripper foil and dipole magnet",
+          "inputs": [
+            "AMS system"
+          ],
+          "outputs": [
+            "reduced interference data"
+          ],
+          "keywords": [
+            "interference reduction",
+            "stripper foil",
+            "dipole magnet"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "10Be Concentration Calculation",
+      "description": "Calculation of 10Be concentrations using NIST SRM 4325 standard and error analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The concentration of 10Be were calculated using the NIST SRM 4325 standard at machine and statistical errors <15%.",
+          "searchable_summary": "calculate 10Be concentration using NIST standard",
+          "inputs": [
+            "AMS measurement data",
+            "NIST SRM 4325 standard"
+          ],
+          "outputs": [
+            "10Be concentration"
+          ],
+          "keywords": [
+            "concentration calculation",
+            "NIST standard"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Although the mean average error of the samples is around 5.6%, the variability from one sample to another is related to variability in counting rates that is affected by sample current and amount of Nb-BeO mixture remaining in the cathode.",
+          "searchable_summary": "analyze error variability in 10Be concentration",
+          "inputs": [
+            "10Be concentration data"
+          ],
+          "outputs": [
+            "error analysis report"
+          ],
+          "keywords": [
+            "error analysis",
+            "variability"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14135040.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

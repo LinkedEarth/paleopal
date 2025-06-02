@@ -1,0 +1,275 @@
+{
+  "paper_title": "Diversification and Genetic Analysis of P. tentorius Species Complex",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Diversification Rate Analysis",
+      "description": "This method involves analyzing diversification dynamics, evolutionary rate heterogeneity, and significant rate shifts across different clades of the P. tentorius species complex using Bayesian statistical frameworks and various R packages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Employ the Bayesian statistical framework approach of the BAMM software, together with the R packages 'BAMMtools' and Ape.",
+          "searchable_summary": "Use BAMM and R packages to model diversification dynamics",
+          "inputs": [
+            "calibrated BEAST chronogram",
+            "mtDNA + nDNA dataset"
+          ],
+          "outputs": [
+            "diversification dynamics model"
+          ],
+          "keywords": [
+            "BAMM",
+            "Bayesian",
+            "diversification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use the 'setBAMMpriors' function to determine a proper prior for the expected number of shifts, initial λ, λ shift, and initial μ.",
+          "searchable_summary": "Set BAMM priors for diversification analysis",
+          "inputs": [
+            "expected number of shifts",
+            "initial λ",
+            "λ shift",
+            "initial μ"
+          ],
+          "outputs": [
+            "BAMM priors"
+          ],
+          "keywords": [
+            "BAMM",
+            "priors",
+            "diversification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Conduct analyses with four simultaneous MCMC chains for 50 million generations using the 'speciation-extinction' model.",
+          "searchable_summary": "Run MCMC chains for diversification analysis",
+          "inputs": [
+            "MCMC chains",
+            "speciation-extinction model"
+          ],
+          "outputs": [
+            "diversification analysis results"
+          ],
+          "keywords": [
+            "MCMC",
+            "speciation-extinction",
+            "diversification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Reconstruct a matrix with macroevolutionary cohort analysis to look for differences in the macroevolutionary rate regime among lineages.",
+          "searchable_summary": "Perform macroevolutionary cohort analysis",
+          "inputs": [
+            "pairwise probability comparisons"
+          ],
+          "outputs": [
+            "macroevolutionary cohort matrix"
+          ],
+          "keywords": [
+            "macroevolutionary",
+            "cohort analysis",
+            "rate regime"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Generate a phylorate plot with optimal rate shift scheme through BAMMtools to visualize evolutionary rate variation.",
+          "searchable_summary": "Create phylorate plot for rate variation visualization",
+          "inputs": [
+            "Bayesian phylogenetic tree topology"
+          ],
+          "outputs": [
+            "phylorate plot"
+          ],
+          "keywords": [
+            "phylorate plot",
+            "rate variation",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Construct Rate through Time (RTT) plots using BAMM on all groups to visualize diversification rate shift against temporal scales.",
+          "searchable_summary": "Create RTT plots for diversification visualization",
+          "inputs": [
+            "diversification data"
+          ],
+          "outputs": [
+            "RTT plots"
+          ],
+          "keywords": [
+            "RTT plots",
+            "diversification",
+            "temporal scales"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Compute diversification rate (λ) and extinction rate (μ) independently for each clade using R packages 'dplyr', 'readr', and 'ggplot2'.",
+          "searchable_summary": "Calculate λ and μ for each clade",
+          "inputs": [
+            "clade data"
+          ],
+          "outputs": [
+            "diversification rate λ",
+            "extinction rate μ"
+          ],
+          "keywords": [
+            "diversification rate",
+            "extinction rate",
+            "R packages"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Perform TESS Bayesian inference analysis using the R package 'TESS' to validate diversification rate results from BAMM.",
+          "searchable_summary": "Validate diversification results with TESS",
+          "inputs": [
+            "BAMM results",
+            "phylogenetic trees"
+          ],
+          "outputs": [
+            "validated diversification results"
+          ],
+          "keywords": [
+            "TESS",
+            "Bayesian inference",
+            "validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Dependent Character Analysis",
+      "description": "This method uses MuSSE and BiSSE analyses to assess the influence of geographic barriers and biomes on the historical diversification of the P. tentorius species complex.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform MuSSE analysis to evaluate the influence of geographic barriers on diversification.",
+          "searchable_summary": "Conduct MuSSE analysis for geographic influence",
+          "inputs": [
+            "geographic data",
+            "species complex data"
+          ],
+          "outputs": [
+            "MuSSE analysis results"
+          ],
+          "keywords": [
+            "MuSSE",
+            "geographic barriers",
+            "diversification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform BiSSE analysis to evaluate the influence of biomes on diversification.",
+          "searchable_summary": "Conduct BiSSE analysis for biome influence",
+          "inputs": [
+            "biome data",
+            "species complex data"
+          ],
+          "outputs": [
+            "BiSSE analysis results"
+          ],
+          "keywords": [
+            "BiSSE",
+            "biomes",
+            "diversification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genetic Structure and Phylogenetic Analysis",
+      "description": "This method involves determining genetic structure and identifying putative clusters in the microsatellite dataset using DAPC and STRU CTU RE analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Perform DAPC using the R package 'adegenet' to determine genetic structure and identify clusters.",
+          "searchable_summary": "Conduct DAPC for genetic structure analysis",
+          "inputs": [
+            "microsatellite dataset"
+          ],
+          "outputs": [
+            "DAPC results"
+          ],
+          "keywords": [
+            "DAPC",
+            "genetic structure",
+            "clusters"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Use STRU CTU RE v 2.3 to map the best cluster scheme using Admixture as ancestry model.",
+          "searchable_summary": "Map cluster scheme with STRU CTU RE",
+          "inputs": [
+            "microsatellite dataset",
+            "ancestry model"
+          ],
+          "outputs": [
+            "cluster scheme"
+          ],
+          "keywords": [
+            "STRU CTU RE",
+            "Admixture",
+            "clusters"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Partition the microsatellite dataset into testing schemes and run STRU CTU RE analysis on each scheme independently.",
+          "searchable_summary": "Partition dataset and run STRU CTU RE analysis",
+          "inputs": [
+            "microsatellite dataset",
+            "testing schemes"
+          ],
+          "outputs": [
+            "STRU CTU RE analysis results"
+          ],
+          "keywords": [
+            "partition",
+            "STRU CTU RE",
+            "testing schemes"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Use STRU CTU RE HARVESTER to summarize outputs of STRU CTU RE.",
+          "searchable_summary": "Summarize STRU CTU RE outputs",
+          "inputs": [
+            "STRU CTU RE outputs"
+          ],
+          "outputs": [
+            "summarized outputs"
+          ],
+          "keywords": [
+            "STRU CTU RE HARVESTER",
+            "summary",
+            "outputs"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/255784261.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

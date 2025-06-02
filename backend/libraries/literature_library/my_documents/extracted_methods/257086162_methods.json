@@ -1,0 +1,459 @@
+{
+  "paper_title": "Environmental Sample Collection and Molecular Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Environmental Sample Collection",
+      "description": "Collection of seawater samples from different oceanographic regions (DCM and UIW layers) during specific research cruises, followed by filtration and storage for subsequent molecular analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sea water samples were collected in the sea ice minimum year 2012 on board RV Polarstern on two cruise legs (ARK-XXVII/2 and 3). The first cruise leg, ARK-XXVII/2 includes one station in the Norwegian Sea and a transect through Fram Strait from 11°58.362′ to 11°5.09′ E longitude at 78°50′ N latitude. The second cruise leg, ARK-XXVII/3 covered the Eastern Arctic Ocean, including sampling in the Barents Sea, and at the edge of the Kara Sea and Laptev Sea and at one high-Arctic sampling station (Fig. 1a).",
+          "searchable_summary": "Collect seawater samples from specified locations and dates during research cruises.",
+          "inputs": [
+            "RV Polarstern research vessel",
+            "Cruise legs ARK-XXVII/2 and ARK-XXVII/3",
+            "Year 2012",
+            "Sampling locations (Norwegian Sea, Fram Strait, Eastern Arctic Ocean, Barents Sea, Kara Sea, Laptev Sea, high-Arctic station)"
+          ],
+          "outputs": [
+            "Raw seawater samples"
+          ],
+          "keywords": [
+            "environmental sampling",
+            "seawater collection",
+            "oceanographic cruise",
+            "Arctic Ocean",
+            "Fram Strait"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The chlorophyll maximum layer was sampled with a CTD rosette (with conductivity, temperature and depth profiler parameters recorded) equipped with an array of 10 L Niskin bottles, while the UIW was sampled with a portable CTD.",
+          "searchable_summary": "Sample specific water layers (DCM and UIW) using CTD and Niskin bottles.",
+          "inputs": [
+            "Raw seawater samples",
+            "CTD rosette",
+            "10 L Niskin bottles",
+            "Portable CTD"
+          ],
+          "outputs": [
+            "DCM seawater samples",
+            "UIW seawater samples",
+            "CTD data (conductivity, temperature, depth)"
+          ],
+          "keywords": [
+            "DCM sampling",
+            "UIW sampling",
+            "CTD",
+            "Niskin bottle",
+            "water column profiling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "From each depth, subsamples of 2 L were sequential filtered under 200 mbar onto 0.4 µm polycarbonate filters (Whatman)",
+          "searchable_summary": "Filter 2 L subsamples of seawater onto 0.4 µm polycarbonate filters under pressure.",
+          "inputs": [
+            "Seawater samples from depth (DCM, UIW)",
+            "2 L subsampling equipment",
+            "Filtration apparatus",
+            "200 mbar pressure source",
+            "0.4 µm polycarbonate filters (Whatman)"
+          ],
+          "outputs": [
+            "Filtered samples (biomass collected on filters)"
+          ],
+          "keywords": [
+            "filtration",
+            "subsampling",
+            "environmental sample processing",
+            "polycarbonate filter"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "and stored at −80°C.",
+          "searchable_summary": "Store filtered samples at -80°C.",
+          "inputs": [
+            "Filtered samples (on filters)"
+          ],
+          "outputs": [
+            "Stored samples (-80°C)"
+          ],
+          "keywords": [
+            "sample storage",
+            "-80C freezer",
+            "cryopreservation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Extraction",
+      "description": "Isolation of DNA from filtered environmental samples using a commercial kit with specific modifications.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "DNA was isolated with the Power Soil DNA extraction kit (MOBIO) following the manufacturer's instructions",
+          "searchable_summary": "Isolate DNA from samples using the Power Soil DNA extraction kit.",
+          "inputs": [
+            "Filtered samples (on filters)",
+            "Power Soil DNA extraction kit (MOBIO)",
+            "Manufacturer's instructions"
+          ],
+          "outputs": [
+            "DNA extract"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "Power Soil kit",
+            "environmental DNA",
+            "molecular biology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "including a 2 × 20 s bead beating step to force the breakup of fungal cell walls",
+          "searchable_summary": "Perform bead beating step during DNA extraction.",
+          "inputs": [
+            "Sample material during lysis step",
+            "Bead beating equipment"
+          ],
+          "outputs": [
+            "Lysed cells/tissue"
+          ],
+          "keywords": [
+            "bead beating",
+            "cell lysis",
+            "fungal cell wall lysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "and a second elution step to increase total DNA yield.",
+          "searchable_summary": "Perform a second elution step during DNA extraction.",
+          "inputs": [
+            "DNA bound to extraction column",
+            "Elution buffer"
+          ],
+          "outputs": [
+            "Purified DNA extract (increased yield)"
+          ],
+          "keywords": [
+            "DNA elution",
+            "DNA purification",
+            "DNA yield"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "PCR Amplification",
+      "description": "Amplification of specific marker gene regions (ITS2 and SSU rDNA V4) from extracted DNA using Polymerase Chain Reaction (PCR) with specific primers and thermal cycling conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "To study fungal diversity the ITS2 marker region was amplified with the primer combination ITS3Kyo2 (5′-GATGAAGAACGYAGYRAA-3′) and ITS4 (5′-TCCTCCGCTTATTGATATGC-3′) 54,55 .",
+          "searchable_summary": "Amplify ITS2 marker region using specified primers.",
+          "inputs": [
+            "Purified DNA extract",
+            "ITS3Kyo2 primer",
+            "ITS4 primer",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "Amplified ITS2 DNA fragments"
+          ],
+          "keywords": [
+            "PCR",
+            "ITS2",
+            "fungal diversity",
+            "primer",
+            "DNA amplification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To investigate the branching position of phylogenetically disparate putative chytrid groups and to provide additional data on potential hosts organisms the wider eukaryotic community was sampled using PCR amplification of the SSU rDNA V4 region. The V4 region was amplified with the primer combination D512F (5′-ATTCCAGCTCCAATAGCG-3′) and D978R (5′-GACTACGATGGTATCTAATC-3′) 56 .",
+          "searchable_summary": "Amplify SSU rDNA V4 region using specified primers.",
+          "inputs": [
+            "Purified DNA extract",
+            "D512F primer",
+            "D978R primer",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "Amplified SSU rDNA V4 DNA fragments"
+          ],
+          "keywords": [
+            "PCR",
+            "SSU rDNA V4",
+            "eukaryotic community",
+            "primer",
+            "DNA amplification"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR reactions were carried out in a 25 µl reaction volume in triplicate, including 12.5 µl NEBNext PCR mix (New England BioLabs), 5 µl of 1 µM primer each (forward and reverse) and 4 ng DNA template.",
+          "searchable_summary": "Prepare PCR reactions with specified volumes and concentrations in triplicate.",
+          "inputs": [
+            "Amplified DNA fragments (from steps 1 & 2)",
+            "NEBNext PCR mix",
+            "Primers (ITS2 and V4 sets)",
+            "DNA template (4 ng)"
+          ],
+          "outputs": [
+            "PCR reaction tubes (triplicate)"
+          ],
+          "keywords": [
+            "PCR setup",
+            "reaction mix",
+            "triplicate PCR"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The PCR amplification protocol was the same for both gene targets and consisted of an initial denaturation step at 95°C for 3 min, followed by 32 cycles of denaturation at 95°C for 30 s, annealing at 53°C for 2 min and elongation at 72°C for 30 s and a final elongation at 72°C for 5 min.",
+          "searchable_summary": "Perform PCR thermal cycling using the specified protocol.",
+          "inputs": [
+            "PCR reaction tubes",
+            "Thermal cycler",
+            "Thermal cycling protocol (95°C 3min; 32x [95°C 30s, 53°C 2min, 72°C 30s]; 72°C 5min)"
+          ],
+          "outputs": [
+            "Amplified DNA libraries (ITS2 and V4)"
+          ],
+          "keywords": [
+            "thermal cycling",
+            "PCR protocol",
+            "DNA amplification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Illumina Sequencing",
+      "description": "High-throughput sequencing of amplified DNA libraries using the Illumina platform.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 22 samples were subjected to Illumina sequencing (2 × 300 bp) using the Nano Flow Cell approach.",
+          "searchable_summary": "Perform Illumina sequencing (2x300 bp) on 22 samples using Nano Flow Cell.",
+          "inputs": [
+            "Amplified DNA libraries (22 samples)",
+            "Illumina sequencing platform",
+            "Nano Flow Cell"
+          ],
+          "outputs": [
+            "Raw sequence data (2 x 300 bp reads)"
+          ],
+          "keywords": [
+            "Illumina sequencing",
+            "high-throughput sequencing",
+            "Nano Flow Cell",
+            "DNA sequencing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "All generated sequence data have been deposited in NCBI Sequence Read Archive (SRA) under the accession number PRJNA561496.",
+          "searchable_summary": "Deposit raw sequence data in NCBI SRA.",
+          "inputs": [
+            "Raw sequence data"
+          ],
+          "outputs": [
+            "Data deposited in NCBI SRA (Accession PRJNA561496)"
+          ],
+          "keywords": [
+            "data deposition",
+            "NCBI SRA",
+            "sequence data archive"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Data Processing and Taxonomic Assignment",
+      "description": "Processing of raw Illumina sequence data using the DADA2 pipeline in R for quality control, sequence variant identification, and taxonomic classification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw sequence data were processed using the DADA2 package in R for sequence variant identification removing the requirement for one universal standard threshold for all cluster groups, i.e., 'taxa' 57 .",
+          "searchable_summary": "Process raw sequence data using the DADA2 package in R.",
+          "inputs": [
+            "Raw sequence data",
+            "DADA2 package (R)"
+          ],
+          "outputs": [
+            "Processed sequence data (intermediate)"
+          ],
+          "keywords": [
+            "sequence data processing",
+            "DADA2",
+            "R package",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In brief, sequence processing was carried out as follows: firstly, demultiplexed raw reads were subjected to DADA2 and quality profiles analysed",
+          "searchable_summary": "Analyze quality profiles of demultiplexed raw reads using DADA2.",
+          "inputs": [
+            "Demultiplexed raw reads",
+            "DADA2"
+          ],
+          "outputs": [
+            "Quality profiles/reports"
+          ],
+          "keywords": [
+            "sequence quality control",
+            "DADA2 quality profile",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "and secondly, reads were pre-processed by trimming, filtering and de-replication in order to identify unique sequences. Settings for both data sets were the same (maxN = 0, truncQ = 2, maxEE = 2), except for the length parameter (minLen = 250 bp for the V4 and minLen = 50 bp for the ITS2 data set).",
+          "searchable_summary": "Trim, filter, and de-replicate reads using specified parameters.",
+          "inputs": [
+            "Raw reads",
+            "DADA2",
+            "Filtering parameters (maxN=0, truncQ=2, maxEE=2, minLen=250 for V4, minLen=50 for ITS2)"
+          ],
+          "outputs": [
+            "Filtered and de-replicated sequences (unique sequences)"
+          ],
+          "keywords": [
+            "sequence filtering",
+            "trimming",
+            "de-replication",
+            "DADA2",
+            "quality filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Next, after this de-noising process, sequence variants in each sample were inferred",
+          "searchable_summary": "Infer sequence variants (ASVs/ESVs) after de-noising.",
+          "inputs": [
+            "De-noised sequences",
+            "DADA2"
+          ],
+          "outputs": [
+            "Sequence variants (ASVs/ESVs)"
+          ],
+          "keywords": [
+            "sequence variant inference",
+            "ASV",
+            "ESV",
+            "DADA2 de-noising",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "and the paired-reads were merged.",
+          "searchable_summary": "Merge paired-end reads.",
+          "inputs": [
+            "Paired-end reads (forward and reverse)",
+            "DADA2"
+          ],
+          "outputs": [
+            "Merged reads"
+          ],
+          "keywords": [
+            "paired-end merging",
+            "DADA2",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Finally, chimeras were identified and removed from the read data before taxonomic assignment.",
+          "searchable_summary": "Identify and remove chimeric sequences.",
+          "inputs": [
+            "Sequence variants",
+            "DADA2"
+          ],
+          "outputs": [
+            "Chimera-free sequence variants"
+          ],
+          "keywords": [
+            "chimera removal",
+            "DADA2",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Taxonomic classification of the V4 sequences was based on the SILVA reference database version 128 58 .",
+          "searchable_summary": "Assign taxonomy to V4 sequence variants using the SILVA database.",
+          "inputs": [
+            "V4 sequence variants",
+            "SILVA reference database version 128",
+            "DADA2"
+          ],
+          "outputs": [
+            "Taxonomically classified V4 variants"
+          ],
+          "keywords": [
+            "taxonomic classification",
+            "V4",
+            "SILVA database",
+            "DADA2",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Since reference sequences of the ITS2 region are not as comprehensive as for the V4 region, taxonomic classification was carried out by combining multiple public databases such as: UNITE, NCBI GenBank nt and ITS2 DB V.",
+          "searchable_summary": "Assign taxonomy to ITS2 sequence variants using multiple databases.",
+          "inputs": [
+            "ITS2 sequence variants",
+            "UNITE database",
+            "NCBI GenBank nt database",
+            "ITS2 DB V database",
+            "DADA2"
+          ],
+          "outputs": [
+            "Taxonomically classified ITS2 variants"
+          ],
+          "keywords": [
+            "taxonomic classification",
+            "ITS2",
+            "UNITE database",
+            "NCBI GenBank",
+            "ITS2 DB",
+            "DADA2",
+            "bioinformatics"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/257086162.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,608 @@
+{
+  "paper_title": "Sediment Core Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Core Retrieval and Initial Processing",
+      "description": "Retrieval of sediment cores using a Rumohr corer, followed by initial X-ray photography and image merging for documentation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Two sediment cores, ACDC2014-009 (110 cm long) and ACDC2014-010 (89 cm long), were retrieved from a water depth of 280 m (69N 45.513/50W 44.996) from R/V Porsild, on 31 August 2014, using a Rumohr corer with 2-m core liners.",
+          "searchable_summary": "Retrieve sediment cores from specified location and depth using a Rumohr corer",
+          "inputs": [
+            "location (coordinates, depth)",
+            "equipment (Rumohr corer, core liners)"
+          ],
+          "outputs": [
+            "sediment cores (ACDC2014-009, ACDC2014-010)"
+          ],
+          "keywords": [
+            "sediment core",
+            "retrieval",
+            "coring",
+            "Rumohr corer",
+            "geospatial coordinates",
+            "water depth"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The cores were photographed using a YXLON smart 160 E/0.4 system (120 s, 3 mA, 90 KV) at the National Museum of Denmark, Copenhagen.",
+          "searchable_summary": "Acquire X-ray images of sediment cores using a specified system",
+          "inputs": [
+            "sediment cores",
+            "imaging system (YXLON smart 160 E/0.4)",
+            "imaging parameters (120 s, 3 mA, 90 KV)"
+          ],
+          "outputs": [
+            "core images (40 cm sections)"
+          ],
+          "keywords": [
+            "X-ray imaging",
+            "core photography",
+            "YXLON",
+            "image acquisition"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The 40 cm-long images were merged to create one combined image of the cores.",
+          "searchable_summary": "Merge core image sections to create a single image per core",
+          "inputs": [
+            "core image sections"
+          ],
+          "outputs": [
+            "combined core images"
+          ],
+          "keywords": [
+            "image merging",
+            "image processing",
+            "core images"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "CT Scanning and IRD Quantification",
+      "description": "High-resolution CT scanning of split core sections to obtain 3D imagery, followed by image processing (filtering, binning) and analysis (segmentation, counting) to quantify ice-rafted debris (IRD).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "a high-resolution CT scan of one-half of the ACDC2014-009 split core was undertaken using a ProCon Alpha Core CT scanner (Tube voltage 110 kV, current 800 mA, exposure time 250 ms) at EARTHLAB, University of Bergen. The scan was done in a continuous helix motion to produce 16-bit (65,536 grey values) 3D imagery with 53 µm voxel size (volume pixel).",
+          "searchable_summary": "Acquire high-resolution CT scan of sediment core half",
+          "inputs": [
+            "split sediment core half (ACDC2014-009)",
+            "CT scanner (ProCon Alpha Core CT scanner)",
+            "scanning parameters (110 kV, 800 mA, 250 ms, helix motion)",
+            "desired output format (16-bit, 53 µm voxel size)"
+          ],
+          "outputs": [
+            "raw CT scan data (16-bit 3D imagery)"
+          ],
+          "keywords": [
+            "CT scan",
+            "sediment core",
+            "non-destructive analysis",
+            "ProCon Alpha Core",
+            "3D imaging",
+            "voxel size"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We applied ring artefact and median filters",
+          "searchable_summary": "Apply ring artefact and median filters to CT scan data",
+          "inputs": [
+            "raw CT scan data"
+          ],
+          "outputs": [
+            "filtered CT scan data"
+          ],
+          "keywords": [
+            "image filtering",
+            "ring artefact filter",
+            "median filter",
+            "CT scan processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "and reconstructed IRD with bins of 2 by 2 voxels to reduce the computational demand.",
+          "searchable_summary": "Reconstruct IRD from CT scan data using voxel binning",
+          "inputs": [
+            "filtered CT scan data",
+            "bin size (2x2 voxels)"
+          ],
+          "outputs": [
+            "binned IRD reconstruction data"
+          ],
+          "keywords": [
+            "IRD reconstruction",
+            "voxel binning",
+            "CT scan processing",
+            "data reduction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "To visualise the CT X-ray imagery, we used Avizo Fire software.",
+          "searchable_summary": "Visualize processed CT scan data using Avizo Fire",
+          "inputs": [
+            "processed CT scan data",
+            "software (Avizo Fire)"
+          ],
+          "outputs": [
+            "visualized CT imagery"
+          ],
+          "keywords": [
+            "visualization",
+            "CT scan",
+            "Avizo Fire",
+            "3D visualization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The watershed segmentation tool in Avizo Fire was used to isolate high-density particles with a diameter larger than 150 µm,",
+          "searchable_summary": "Perform watershed segmentation to isolate particles in CT data based on density and size",
+          "inputs": [
+            "processed CT scan data",
+            "software (Avizo Fire)",
+            "segmentation tool (watershed)",
+            "parameters (high-density, minimum diameter > 150 µm)"
+          ],
+          "outputs": [
+            "segmented particle data (isolated particles)"
+          ],
+          "keywords": [
+            "image segmentation",
+            "watershed algorithm",
+            "particle isolation",
+            "Avizo Fire",
+            "high-density particles",
+            "IRD",
+            "particle size analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "and the number of these particles per 1 cm slice per depth in the core was used as a measure to quantify IRD.",
+          "searchable_summary": "Count segmented particles per depth slice",
+          "inputs": [
+            "segmented particle data",
+            "core depth information (1 cm slices)"
+          ],
+          "outputs": [
+            "particle counts per depth slice"
+          ],
+          "keywords": [
+            "particle counting",
+            "depth profile",
+            "IRD quantification",
+            "quantitative analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "and the number of these particles per 1 cm slice per depth in the core was used as a measure to quantify IRD.",
+          "searchable_summary": "Quantify IRD based on particle counts per depth slice",
+          "inputs": [
+            "particle counts per depth slice"
+          ],
+          "outputs": [
+            "IRD quantification data (e.g., IRD flux proxy)"
+          ],
+          "keywords": [
+            "IRD quantification",
+            "proxy data",
+            "sediment analysis",
+            "data interpretation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Core Scanning (MS and X-ray)",
+      "description": "Measurement of magnetic susceptibility and acquisition of low-resolution X-ray images along the split core surface.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Magnetic susceptibility (MS) at 1-mm intervals were measured on the split core surface with a Bartington MS2E point sensor",
+          "searchable_summary": "Measure magnetic susceptibility of sediment core at high resolution",
+          "inputs": [
+            "split sediment core",
+            "equipment (Bartington MS2E point sensor)",
+            "interval (1 mm)"
+          ],
+          "outputs": [
+            "magnetic susceptibility data (depth profile)"
+          ],
+          "keywords": [
+            "magnetic susceptibility",
+            "MS",
+            "sediment core",
+            "Bartington MS2E",
+            "high-resolution measurement"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "and low-resolution X-ray images taken using an Itrax Core Scanner at the Natural History Museum of Denmark.",
+          "searchable_summary": "Acquire low-resolution X-ray images of sediment core using an Itrax Core Scanner",
+          "inputs": [
+            "split sediment core",
+            "equipment (Itrax Core Scanner)"
+          ],
+          "outputs": [
+            "low-resolution X-ray images"
+          ],
+          "keywords": [
+            "X-ray imaging",
+            "sediment core",
+            "Itrax Core Scanner",
+            "core scanning"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Water Content and Grain-Size Analysis",
+      "description": "Analysis of sediment samples to determine water content and grain size distribution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples for water content and grain-size analysis were subsampled every 1 cm continuously in both ACDC2014-009 and ACDC2014-010.",
+          "searchable_summary": "Subsample sediment cores at regular intervals for water content and grain size analysis",
+          "inputs": [
+            "sediment cores (ACDC2014-009, ACDC2014-010)",
+            "interval (1 cm)"
+          ],
+          "outputs": [
+            "sediment aliquots"
+          ],
+          "keywords": [
+            "subsampling",
+            "sediment core",
+            "sampling interval",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Each aliquot was first weighed,",
+          "searchable_summary": "Weigh sediment samples (wet weight)",
+          "inputs": [
+            "sediment aliquots"
+          ],
+          "outputs": [
+            "wet weight measurements"
+          ],
+          "keywords": [
+            "weighing",
+            "wet weight",
+            "sediment sample",
+            "measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "then freezedried,",
+          "searchable_summary": "Freeze-dry sediment samples",
+          "inputs": [
+            "wet sediment samples"
+          ],
+          "outputs": [
+            "freeze-dried sediment samples"
+          ],
+          "keywords": [
+            "freeze-drying",
+            "sample preparation",
+            "drying"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "and then weighed again",
+          "searchable_summary": "Weigh sediment samples (dry weight)",
+          "inputs": [
+            "freeze-dried sediment samples"
+          ],
+          "outputs": [
+            "dry weight measurements"
+          ],
+          "keywords": [
+            "weighing",
+            "dry weight",
+            "sediment sample",
+            "measurement"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "in order to calculate the percentage of water content.",
+          "searchable_summary": "Calculate water content percentage from wet and dry weights",
+          "inputs": [
+            "wet weight",
+            "dry weight"
+          ],
+          "outputs": [
+            "water content percentage"
+          ],
+          "keywords": [
+            "water content",
+            "calculation",
+            "sediment properties",
+            "percentage"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The samples were rewetted in distilled water using a shaking table overnight",
+          "searchable_summary": "Rewet dried sediment samples for sieving",
+          "inputs": [
+            "dried sediment samples",
+            "distilled water",
+            "equipment (shaking table)"
+          ],
+          "outputs": [
+            "rewet sediment samples"
+          ],
+          "keywords": [
+            "rewetting",
+            "sample preparation",
+            "shaking table"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "before being manually wet-sieved through 63-and 150-µm meshes.",
+          "searchable_summary": "Wet-sieve sediment samples through specified mesh sizes",
+          "inputs": [
+            "rewet sediment samples",
+            "sieves (63 µm, 150 µm)"
+          ],
+          "outputs": [
+            "sediment fractions (>150 µm, 63-150 µm, <63 µm)"
+          ],
+          "keywords": [
+            "wet sieving",
+            "grain size separation",
+            "sediment analysis",
+            "sieving"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "All sample fractions were dried at 50°C.",
+          "searchable_summary": "Dry sieved sediment fractions",
+          "inputs": [
+            "sieved sediment fractions",
+            "drying temperature (50°C)"
+          ],
+          "outputs": [
+            "dried sediment fractions"
+          ],
+          "keywords": [
+            "drying",
+            "sample preparation",
+            "sediment fractions"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Grains larger than 2 mm were manually separated from the >150-µm fraction to avoid a disproportional impact of larger grains.",
+          "searchable_summary": "Manually separate coarse grains (>2mm) from a sediment fraction",
+          "inputs": [
+            ">150 µm sediment fraction",
+            "size threshold (2 mm)"
+          ],
+          "outputs": [
+            ">2 mm fraction",
+            "150 µm - 2 mm fraction"
+          ],
+          "keywords": [
+            "manual separation",
+            "coarse grains",
+            "grain size",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "The data are reported as weight percentages.",
+          "searchable_summary": "Calculate and report grain size distribution as weight percentages",
+          "inputs": [
+            "weights of dried sediment fractions"
+          ],
+          "outputs": [
+            "grain size distribution data (weight percentages)"
+          ],
+          "keywords": [
+            "grain size distribution",
+            "weight percentage",
+            "sediment analysis",
+            "data reporting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Flux Calculation",
+      "description": "Calculation of sediment mass accumulation rates (fluxes) using a formula incorporating sedimentation rate, water content, sample fraction percentage, and sediment density.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Sediment fluxes (F, kg m −2 yr −1 ) were calculated using equation (1) (modified from Wangner et al., 2018), where S is the sedimentation rate (m yr −1 ), W is the water content in percent, P is the percent of the sample fraction and d is the density of quartz (2700 kg m −3 ): (1)",
+          "searchable_summary": "Calculate sediment flux using a specified formula",
+          "inputs": [
+            "sedimentation rate (S)",
+            "water content (W, in percent)",
+            "percent of sample fraction (P, in percent)",
+            "density of quartz (d = 2700 kg m^-3)"
+          ],
+          "outputs": [
+            "sediment flux (F, kg m^-2 yr^-1)"
+          ],
+          "keywords": [
+            "sediment flux",
+            "calculation",
+            "formula",
+            "sedimentation rate",
+            "water content",
+            "density",
+            "mass accumulation rate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Foraminiferal Analysis",
+      "description": "Processing of selected sediment samples by wet-sieving and preservation, followed by identification and counting of calcareous foraminiferal tests for paleoenvironmental analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Foraminiferal analysis was conducted on 12 samples from core ACDC2014-009.",
+          "searchable_summary": "Select samples for foraminiferal analysis from a sediment core",
+          "inputs": [
+            "sediment core ACDC2014-009",
+            "sample selection criteria (12 samples)"
+          ],
+          "outputs": [
+            "selected sediment samples (1 cm slices)"
+          ],
+          "keywords": [
+            "sample selection",
+            "foraminifera",
+            "sediment core",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "One-cm slices were wet-sieved through a 63and 500-µm mesh",
+          "searchable_summary": "Wet-sieve sediment samples through specified mesh sizes for foraminifera",
+          "inputs": [
+            "selected sediment samples (1 cm slices)",
+            "sieves (63 µm, 500 µm)"
+          ],
+          "outputs": [
+            "sieved sediment fractions (containing foraminifera)"
+          ],
+          "keywords": [
+            "wet sieving",
+            "foraminifera",
+            "sediment processing",
+            "sieving"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "and then stored in a solution of distilled water, ethanol and sodium bicarbonate to avoid carbonate dissolution (targeted pH ca 8).",
+          "searchable_summary": "Preserve sieved samples in a solution to prevent carbonate dissolution",
+          "inputs": [
+            "sieved sediment fractions",
+            "preservation solution (distilled water, ethanol, sodium bicarbonate)",
+            "target pH (ca 8)"
+          ],
+          "outputs": [
+            "preserved samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "foraminifera",
+            "carbonate dissolution",
+            "solution preparation",
+            "pH control"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calcareous tests were identified and counted on a picking tray.",
+          "searchable_summary": "Identify calcareous foraminiferal tests",
+          "inputs": [
+            "preserved samples",
+            "equipment (picking tray, microscope - implied)"
+          ],
+          "outputs": [
+            "identified foraminiferal tests"
+          ],
+          "keywords": [
+            "foraminifera",
+            "identification",
+            "microscopy",
+            "calcareous tests",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calcareous tests were identified and counted on a picking tray.",
+          "searchable_summary": "Count identified foraminiferal tests",
+          "inputs": [
+            "identified foraminiferal tests"
+          ],
+          "outputs": [
+            "foraminiferal counts"
+          ],
+          "keywords": [
+            "foraminifera",
+            "counting",
+            "quantification",
+            "paleontology"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "The results were plotted using the C2 software (Juggins, 2007).",
+          "searchable_summary": "Plot foraminiferal analysis results using C2 software",
+          "inputs": [
+            "foraminiferal counts",
+            "software (C2)"
+          ],
+          "outputs": [
+            "plots/visualizations of foraminiferal data"
+          ],
+          "keywords": [
+            "plotting",
+            "visualization",
+            "C2 software",
+            "foraminifera data",
+            "data visualization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/223517070.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

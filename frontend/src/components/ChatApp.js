@@ -78,11 +78,31 @@ const ChatApp = () => {
   );
 
   const handleNewChat = () => {
+    // Warn if there's a current active conversation with a request
+    const currentConv = conversations.find(c => c.id === activeId);
+    if (currentConv && currentConv.isLoading) {
+      const shouldContinue = window.confirm(
+        'The current conversation is processing a request. ' +
+        'Creating a new chat may interrupt the process. Continue?'
+      );
+      if (!shouldContinue) return;
+    }
+
     const newConv = {
       id: generateId(),
       title: 'New Chat',
       messages: [],
       stateId: null,
+      // Explicitly reset all state properties to prevent carryover
+      waitingForClarification: false,
+      clarificationQuestions: [],
+      clarificationAnswers: {},
+      llmProvider: 'google',
+      selectedAgent: 'code',
+      isLoading: false,
+      error: null,
+      enableClarification: true,
+      clarificationThreshold: 'conservative',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -94,20 +114,77 @@ const ChatApp = () => {
   };
 
   // Delete conversation
-  const handleDeleteConversation = async (convId) => {
-    if (!window.confirm('Delete this conversation? This action cannot be undone.')) return;
+  const handleDeleteConversation = async (convId, force = false) => {
+    const conv = conversations.find(c => c.id === convId);
+    if (!conv) return;
+    
+    // If conversation is loading and not forced, show confirmation
+    if (conv.isLoading && !force) {
+      const shouldForceDelete = window.confirm(
+        'This conversation is currently processing a request. ' +
+        'Deleting it will cancel the request. Are you sure you want to continue?'
+      );
+      if (!shouldForceDelete) return;
+    } else if (!force) {
+      if (!window.confirm('Delete this conversation? This action cannot be undone.')) return;
+    }
+    
     try {
       await axios.delete(`/conversations/${convId}`);
     } catch (err) {
       console.error('Failed to delete conversation on backend', err);
     }
+    
     setConversations((prev) => prev.filter((c) => c.id !== convId));
+    
     // Reset activeId if needed
     if (activeId === convId) {
       const remaining = conversations.filter((c) => c.id !== convId);
       setActiveId(remaining[0]?.id || null);
     }
   };
+
+  // Add a function to clear stuck loading states
+  const handleClearStuckLoading = (convId) => {
+    setConversations((prev) => 
+      prev.map((c) => 
+        c.id === convId 
+          ? { ...c, isLoading: false, waitingForClarification: false }
+          : c
+      )
+    );
+  };
+
+  // Add a timeout mechanism to automatically clear stuck loading states
+  useEffect(() => {
+    const checkStuckRequests = () => {
+      setConversations((prev) => 
+        prev.map((conv) => {
+          // If a conversation has been loading for more than 5 minutes, clear it
+          if (conv.isLoading && conv.updatedAt) {
+            const timeSinceUpdate = Date.now() - new Date(conv.updatedAt).getTime();
+            const fiveMinutes = 5 * 60 * 1000;
+            
+            if (timeSinceUpdate > fiveMinutes) {
+              console.warn(`Clearing stuck loading state for conversation ${conv.id}`);
+              return { 
+                ...conv, 
+                isLoading: false, 
+                waitingForClarification: false,
+                updatedAt: new Date().toISOString()
+              };
+            }
+          }
+          return conv;
+        })
+      );
+    };
+
+    // Check for stuck requests every minute
+    const interval = setInterval(checkStuckRequests, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   // Rename conversation
   const handleRenameConversation = async (convId) => {
@@ -121,6 +198,9 @@ const ChatApp = () => {
   };
 
   const activeConversation = conversations.find((c) => c.id === activeId);
+  
+  // Check if there's an active request in progress
+  const hasActiveRequest = activeConversation && activeConversation.isLoading;
 
   // Helper to POST/PUT conversation
   const saveConversationToBackend = async (conv) => {
@@ -151,20 +231,53 @@ const ChatApp = () => {
       <aside className={`chat-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2 className="sidebar-title">Conversations</h2>
-          <button className="new-chat-btn" onClick={handleNewChat} title="New Chat">+</button>
+          <button 
+            className={`new-chat-btn`}
+            onClick={handleNewChat}
+            title="New Chat"
+          >
+            +
+          </button>
         </div>
         <ul className="conversation-list">
           {conversations.map((conv) => (
-            <li key={conv.id} className={`conversation-item ${conv.id === activeId ? 'active' : ''}`}>
+            <li key={conv.id} className={`conversation-item ${conv.id === activeId ? 'active' : ''} ${conv.isLoading ? 'loading' : ''}`}>
               <div
                 className="conversation-click"
                 onClick={() => {
+                  // Warn if switching away from a conversation with an active request
+                  if (hasActiveRequest && conv.id !== activeId) {
+                    const shouldSwitch = window.confirm(
+                      'The current conversation is processing a request. ' +
+                      'Switching away may interrupt the process. Continue?'
+                    );
+                    if (!shouldSwitch) return;
+                  }
                   setActiveId(conv.id);
                   setSidebarOpen(false);
                 }}
                 onDoubleClick={() => handleRenameConversation(conv.id)}
+                title={conv.isLoading && conv.id !== activeId ? "Click to switch (will warn about active request)" : ""}
               >
                 <span className="conversation-title">{conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}</span>
+                {conv.isLoading && (
+                  <div className="conversation-status">
+                    <span className="conversation-loading-indicator">⏳</span>
+                    {/* Show clear loading button if conversation has been loading for more than 2 minutes */}
+                    {conv.updatedAt && (Date.now() - new Date(conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
+                      <button
+                        className="clear-loading-btn"
+                        title="Clear stuck loading state"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleClearStuckLoading(conv.id);
+                        }}
+                      >
+                        ⚠️
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
               <button
                 className="conversation-rename-btn"
@@ -176,7 +289,7 @@ const ChatApp = () => {
               >✏️</button>
               <button
                 className="conversation-delete-btn"
-                title="Delete"
+                title={conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDeleteConversation(conv.id);
@@ -190,7 +303,7 @@ const ChatApp = () => {
       {/* Main Chat Window */}
       <main className="chat-main" onClick={() => sidebarOpen && setSidebarOpen(false)}>
         {activeConversation ? (
-          <ChatWindow key={activeConversation.id} conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
+          <ChatWindow conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
         ) : (
           <div className="no-chat-selected">Select or start a conversation.</div>
         )}

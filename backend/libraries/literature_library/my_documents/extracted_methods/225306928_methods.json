@@ -1,0 +1,186 @@
+{
+  "paper_title": "Anisotropy of Magnetic Susceptibility and Physical Grain-Size Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Anisotropy of Magnetic Susceptibility Measurements",
+      "description": "This method estimates the fabric of paramagnetic and ferrimagnetic grains in a sample by measuring the anisotropy of magnetic susceptibility (AMS). AMS is expressed as a second-rank tensor converted to a magnitude ellipsoid, which can reveal information about the nature of deposition and flow direction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "AMS of the U1391 paleomagnetic cubes was measured on a Kappabridge KLY-4S in the paleomagnetism laboratory at the University of Southampton.",
+          "searchable_summary": "measure AMS using Kappabridge KLY-4S",
+          "inputs": [
+            "U1391 paleomagnetic cubes"
+          ],
+          "outputs": [
+            "AMS measurements"
+          ],
+          "keywords": [
+            "AMS",
+            "Kappabridge KLY-4S",
+            "paleomagnetism"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Susceptibility was measured in 64 different directions while the sample was slowly spinning.",
+          "searchable_summary": "measure susceptibility in multiple directions",
+          "inputs": [
+            "AMS measurements"
+          ],
+          "outputs": [
+            "directional susceptibility data"
+          ],
+          "keywords": [
+            "susceptibility",
+            "directional measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Declinations of each AMS axis were corrected using the vector-mean paleomagnetic declination of each core.",
+          "searchable_summary": "correct AMS axis declinations",
+          "inputs": [
+            "directional susceptibility data",
+            "vector-mean paleomagnetic declination"
+          ],
+          "outputs": [
+            "corrected AMS axis declinations"
+          ],
+          "keywords": [
+            "declination correction",
+            "AMS axis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Estimate a linear trend line and calculate declination correction values for cube samples from the core based on their relative position within the core.",
+          "searchable_summary": "calculate declination correction values",
+          "inputs": [
+            "NRM declinations",
+            "core position data"
+          ],
+          "outputs": [
+            "declination correction values"
+          ],
+          "keywords": [
+            "linear trend",
+            "declination correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Physical Grain-Size Analysis",
+      "description": "This method analyzes physical grain size as an indicator of paleocurrent speed variations. The size fraction 10-63 μm is most representative of current strength, and the mean of this range is known as the sortable silt mean proxy (SS).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Thirty-seven bulk samples from Site U1391 were weighed, treated with 0.2% sodium hexametaphosphate solution, left on a shaker table overnight to disaggregate, and then sieved at 106 μm.",
+          "searchable_summary": "disaggregate and sieve samples",
+          "inputs": [
+            "bulk samples",
+            "sodium hexametaphosphate solution"
+          ],
+          "outputs": [
+            "sieved samples"
+          ],
+          "keywords": [
+            "disaggregation",
+            "sieving",
+            "sodium hexametaphosphate"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The samples were then washed with 10% HCl to remove carbonate minerals and calcareous microfossils.",
+          "searchable_summary": "wash samples with HCl",
+          "inputs": [
+            "sieved samples"
+          ],
+          "outputs": [
+            "cleaned samples"
+          ],
+          "keywords": [
+            "HCl wash",
+            "carbonate removal"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Physical grain-size distributions of the processed samples were measured using a Multisizer 3 Coulter Counter.",
+          "searchable_summary": "measure grain-size distribution",
+          "inputs": [
+            "cleaned samples"
+          ],
+          "outputs": [
+            "grain-size distribution data"
+          ],
+          "keywords": [
+            "grain-size distribution",
+            "Coulter Counter"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Samples were suspended in an electrolyte solution, treated with 2 minutes of ultrasound, and stirred.",
+          "searchable_summary": "suspend and treat samples with ultrasound",
+          "inputs": [
+            "cleaned samples",
+            "electrolyte solution"
+          ],
+          "outputs": [
+            "suspended samples"
+          ],
+          "keywords": [
+            "ultrasound treatment",
+            "suspension"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The suspended material was then passed through an aperture of 200 μm where volume-related impedance changes are caused by displacement of the electrolyte as the grains pass through.",
+          "searchable_summary": "analyze impedance changes",
+          "inputs": [
+            "suspended samples"
+          ],
+          "outputs": [
+            "impedance data"
+          ],
+          "keywords": [
+            "impedance analysis",
+            "electrolyte displacement"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Measurements for each sample were repeated at least three times and typically six times to increase statistical reliability.",
+          "searchable_summary": "repeat measurements for reliability",
+          "inputs": [
+            "impedance data"
+          ],
+          "outputs": [
+            "validated grain-size data"
+          ],
+          "keywords": [
+            "statistical reliability",
+            "repeat measurements"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/225306928.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,303 @@
+{
+  "paper_title": "Predicting Seasonally Varying Global Species-Specific Depth Habitat of Planktonic Foraminifera",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Modification and Implementation",
+      "description": "Modification of the PLAFOM model to include light dependency and integration with CESM1.2(BGC) to predict the vertical distribution of planktonic foraminifera.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Update PLAFOM by including light dependency for symbiont-bearing planktonic foraminifera.",
+          "searchable_summary": "modify PLAFOM model to include light dependency",
+          "inputs": [
+            "PLAFOM model",
+            "light dependency parameters"
+          ],
+          "outputs": [
+            "PLAFOM2.0 model"
+          ],
+          "keywords": [
+            "model modification",
+            "light dependency",
+            "planktonic foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Apply spatial parameterization of carbon biomass as a function of temperature, nutrition, competition, and light on depth-resolved parameter fields.",
+          "searchable_summary": "apply spatial parameterization to depth-resolved fields",
+          "inputs": [
+            "temperature data",
+            "nutrition data",
+            "competition data",
+            "light data"
+          ],
+          "outputs": [
+            "depth-resolved parameter fields"
+          ],
+          "keywords": [
+            "spatial parameterization",
+            "carbon biomass",
+            "depth-resolved fields"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Combine PLAFOM2.0 with CESM1.2(BGC) to resolve the vertical dimension throughout the ocean.",
+          "searchable_summary": "integrate PLAFOM2.0 with CESM1.2(BGC) for vertical resolution",
+          "inputs": [
+            "PLAFOM2.0",
+            "CESM1.2(BGC)"
+          ],
+          "outputs": [
+            "CESM1.2(BGC+PLA) configuration"
+          ],
+          "keywords": [
+            "model integration",
+            "vertical resolution",
+            "ocean modeling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Preindustrial Control Experiment",
+      "description": "Conducting a preindustrial control experiment to test the model by simulating ocean and sea ice states and initializing biogeochemical tracer fields.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Derive initial ocean and sea ice states from an ocean-ice-only simulation.",
+          "searchable_summary": "initialize ocean and sea ice states from simulation",
+          "inputs": [
+            "ocean-ice-only simulation data"
+          ],
+          "outputs": [
+            "initial ocean and sea ice states"
+          ],
+          "keywords": [
+            "initialization",
+            "ocean state",
+            "sea ice state"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Spin up the model from rest for 300 years using climatological forcing.",
+          "searchable_summary": "spin up model with climatological forcing for 300 years",
+          "inputs": [
+            "climatological forcing data"
+          ],
+          "outputs": [
+            "quasisteady state model"
+          ],
+          "keywords": [
+            "model spin-up",
+            "climatological forcing",
+            "quasisteady state"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Initialize biogeochemical tracer fields from climatologies.",
+          "searchable_summary": "initialize biogeochemical tracers from climatologies",
+          "inputs": [
+            "climatology data"
+          ],
+          "outputs": [
+            "initialized biogeochemical tracer fields"
+          ],
+          "keywords": [
+            "biogeochemical tracers",
+            "initialization",
+            "climatologies"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Integrate the CESM1.2(BGC+PLA) preindustrial control simulation for 300 years.",
+          "searchable_summary": "integrate CESM1.2(BGC+PLA) simulation for 300 years",
+          "inputs": [
+            "CESM1.2(BGC+PLA) configuration"
+          ],
+          "outputs": [
+            "stable model conditions"
+          ],
+          "keywords": [
+            "model integration",
+            "preindustrial control",
+            "stability"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Core-Top Data Comparison",
+      "description": "Comparison of model predictions with fossil data using core-top samples to examine spatial patterns of planktonic foraminiferal species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Combine core-top sample data from various databases.",
+          "searchable_summary": "aggregate core-top sample data from multiple sources",
+          "inputs": [
+            "Brown University Foraminiferal Database",
+            "MARGO project data",
+            "Pflaumann data"
+          ],
+          "outputs": [
+            "combined core-top sample data"
+          ],
+          "keywords": [
+            "core-top samples",
+            "data aggregation",
+            "fossil data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Recalculate relative abundances of faunal assemblages for the five species used in PLAFOM2.0.",
+          "searchable_summary": "recalculate relative abundances for selected species",
+          "inputs": [
+            "combined core-top sample data"
+          ],
+          "outputs": [
+            "recalculated relative abundances"
+          ],
+          "keywords": [
+            "relative abundance",
+            "faunal assemblages",
+            "data recalculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Quantify similarity between simulated and observed abundances using the Bray-Curtis index.",
+          "searchable_summary": "calculate Bray-Curtis index for abundance similarity",
+          "inputs": [
+            "modeled relative abundances",
+            "observed relative abundances"
+          ],
+          "outputs": [
+            "Bray-Curtis similarity index"
+          ],
+          "keywords": [
+            "Bray-Curtis index",
+            "similarity analysis",
+            "abundance comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Trap Data Analysis",
+      "description": "Analysis of sediment trap data to compare modeled and observed seasonal production patterns of foraminiferal shell fluxes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Examine sediment trap data for foraminiferal shell fluxes.",
+          "searchable_summary": "collect sediment trap data for shell flux analysis",
+          "inputs": [
+            "sediment trap data"
+          ],
+          "outputs": [
+            "foraminiferal shell flux data"
+          ],
+          "keywords": [
+            "sediment trap",
+            "shell flux",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Present observed fluxes on a log10 scale versus day of year.",
+          "searchable_summary": "plot observed fluxes on log10 scale by day of year",
+          "inputs": [
+            "foraminiferal shell flux data"
+          ],
+          "outputs": [
+            "flux visualization"
+          ],
+          "keywords": [
+            "flux visualization",
+            "log scale",
+            "seasonal patterns"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compare peak timings of measured fluxes with model predictions.",
+          "searchable_summary": "compare observed and modeled flux peak timings",
+          "inputs": [
+            "flux visualization",
+            "model predictions"
+          ],
+          "outputs": [
+            "flux timing comparison"
+          ],
+          "keywords": [
+            "flux comparison",
+            "peak timing",
+            "model validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Plankton Tow Data Analysis",
+      "description": "Analysis of plankton tow data to compare vertical distribution of planktonic foraminifera with model simulations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect plankton tow samples from different sites.",
+          "searchable_summary": "gather plankton tow samples from various locations",
+          "inputs": [
+            "plankton tow data"
+          ],
+          "outputs": [
+            "collected plankton tow samples"
+          ],
+          "keywords": [
+            "plankton tow",
+            "sample collection",
+            "vertical distribution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate average living depth (ALD) and vertical dispersion (VD) for comparison with model data.",
+          "searchable_summary": "compute ALD and VD for model-data comparison",
+          "inputs": [
+            "plankton tow samples"
+          ],
+          "outputs": [
+            "ALD",
+            "VD"
+          ],
+          "keywords": [
+            "average living depth",
+            "vertical dispersion",
+            "model comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54638475.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

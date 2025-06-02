@@ -1,0 +1,148 @@
+{
+  "paper_title": "Modelling Holocene carbon accumulation and methane emissions of boreal wetlands – an Earth system model approach",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Description and Modification",
+      "description": "This method describes the modification of the CBALANCE submodel within JSBACH to create the peatBALANCE model, which is tailored to simulate carbon cycle dynamics in boreal wetlands by integrating wetland-specific processes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Integrate wetland specific parameterizations into the CBALANCE submodel to create peatBALANCE.",
+          "searchable_summary": "modify CBALANCE model to include wetland-specific parameters",
+          "inputs": [
+            "CBALANCE model",
+            "wetland-specific parameters"
+          ],
+          "outputs": [
+            "peatBALANCE model"
+          ],
+          "keywords": [
+            "model modification",
+            "wetland parameters",
+            "peatBALANCE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Extend the CBALANCE model to include typical wetland processes affecting the carbon cycle.",
+          "searchable_summary": "extend model to include wetland processes like acrotelm and catotelm layers",
+          "inputs": [
+            "CBALANCE model",
+            "wetland processes"
+          ],
+          "outputs": [
+            "extended peatBALANCE model"
+          ],
+          "keywords": [
+            "wetland processes",
+            "carbon cycle",
+            "acrotelm",
+            "catotelm"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Integrate the Walter model to consider carbon emissions in the form of CH4.",
+          "searchable_summary": "integrate Walter model for CH4 emissions",
+          "inputs": [
+            "peatBALANCE model",
+            "Walter model"
+          ],
+          "outputs": [
+            "CH4 emissions simulation"
+          ],
+          "keywords": [
+            "Walter model",
+            "CH4 emissions",
+            "carbon emissions"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Methane Transport Model",
+      "description": "This method employs the Walter model to simulate methane emissions through diffusion, ebullition, and plant-mediated transport, coupled with the peatBALANCE model to estimate CH4 and CO2 emissions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Simulate methane emissions using the Walter model, focusing on diffusion, ebullition, and plant-mediated transport.",
+          "searchable_summary": "simulate CH4 emissions using Walter model pathways",
+          "inputs": [
+            "Walter model",
+            "peatBALANCE model"
+          ],
+          "outputs": [
+            "CH4 emissions data"
+          ],
+          "keywords": [
+            "methane emissions",
+            "Walter model",
+            "diffusion",
+            "ebullition",
+            "plant-mediated transport"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calculate CH4 production within the peatBALANCE model and distribute it to the methane model's root zone.",
+          "searchable_summary": "calculate and distribute CH4 production in peatBALANCE",
+          "inputs": [
+            "peatBALANCE model"
+          ],
+          "outputs": [
+            "distributed CH4 production"
+          ],
+          "keywords": [
+            "CH4 production",
+            "peatBALANCE",
+            "root zone"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Couple the methane emission model asynchronously to the peatBALANCE model and perform time slice model experiments.",
+          "searchable_summary": "couple methane model to peatBALANCE and run experiments",
+          "inputs": [
+            "methane emission model",
+            "peatBALANCE model"
+          ],
+          "outputs": [
+            "experiment results"
+          ],
+          "keywords": [
+            "model coupling",
+            "time slice experiments",
+            "peatBALANCE"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Estimate the relation between CO2 and CH4 emissions without feedback to the peatBALANCE model.",
+          "searchable_summary": "estimate CO2 to CH4 emissions ratio",
+          "inputs": [
+            "methane emission model"
+          ],
+          "outputs": [
+            "CO2 to CH4 emissions ratio"
+          ],
+          "keywords": [
+            "emissions ratio",
+            "CO2",
+            "CH4",
+            "peatBALANCE"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/73573396.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

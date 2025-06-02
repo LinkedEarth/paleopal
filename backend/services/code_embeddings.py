@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 
@@ -149,12 +149,7 @@ class CodeEmbeddingsService:
             
             # Check for notebook files
             notebook_files = list(self.notebooks_dir.glob("**/*.ipynb"))
-            
-            if not notebook_files:
-                # Create a sample notebook if none exist
-                self._create_sample_notebook()
-                notebook_files = list(self.notebooks_dir.glob("**/*.ipynb"))
-            
+
             for notebook_path in notebook_files:
                 try:
                     examples = self._parse_notebook(notebook_path)
@@ -178,184 +173,7 @@ class CodeEmbeddingsService:
             
         except Exception as e:
             logger.error(f"Error loading notebook examples: {e}")
-    
-    def _create_sample_notebook(self):
-        """Create a sample notebook with basic analysis patterns."""
-        sample_notebook = {
-            "cells": [
-                {
-                    "cell_type": "markdown",
-                    "metadata": {
-                        "tags": ["title"]
-                    },
-                    "source": [
-                        "# Basic Pyleoclim Analysis Examples\n",
-                        "\n",
-                        "This notebook contains basic examples for paleoclimate data analysis."
-                    ]
-                },
-                {
-                    "cell_type": "markdown", 
-                    "metadata": {
-                        "tags": ["example-metadata"]
-                    },
-                    "source": [
-                        "## Create Basic Series\n",
-                        "**Description**: Create a Pyleoclim Series from time and value arrays\n",
-                        "**Categories**: basic, series, creation\n",
-                        "**Libraries**: pyleoclim, numpy"
-                    ]
-                },
-                {
-                    "cell_type": "code",
-                    "execution_count": None,
-                    "metadata": {
-                        "tags": ["example-code"]
-                    },
-                    "outputs": [],
-                    "source": [
-                        "import pyleoclim as pyleo\n",
-                        "import numpy as np\n",
-                        "\n",
-                        "# Create sample data\n",
-                        "time = np.arange(0, 1000, 1)  # years\n",
-                        "value = np.random.randn(1000)  # random values\n",
-                        "\n",
-                        "# Create Pyleoclim Series\n",
-                        "ts = pyleo.Series(\n",
-                        "    time=time,\n",
-                        "    value=value,\n",
-                        "    time_name='Age',\n",
-                        "    time_unit='years',\n",
-                        "    value_name='Temperature',\n",
-                        "    value_unit='°C',\n",
-                        "    label='Sample Timeseries'\n",
-                        ")\n",
-                        "\n",
-                        "print(f\"Created series with {len(ts.time)} data points\")\n",
-                        "ts.plot()"
-                    ]
-                },
-                {
-                    "cell_type": "markdown",
-                    "metadata": {
-                        "tags": ["example-metadata"]
-                    },
-                    "source": [
-                        "## Power Spectral Density\n",
-                        "**Description**: Compute power spectral density using various methods\n",
-                        "**Categories**: spectral, analysis, periodogram, psd\n",
-                        "**Libraries**: pyleoclim"
-                    ]
-                },
-                {
-                    "cell_type": "code",
-                    "execution_count": None,
-                    "metadata": {
-                        "tags": ["example-code"]
-                    },
-                    "outputs": [],
-                    "source": [
-                        "import pyleoclim as pyleo\n",
-                        "\n",
-                        "# Assuming 'ts' is a Pyleoclim Series\n",
-                        "# Compute power spectral density\n",
-                        "psd = ts.spectral()\n",
-                        "\n",
-                        "# Plot the result\n",
-                        "psd.plot(\n",
-                        "    title=f'Power Spectral Density - {ts.label}',\n",
-                        "    xlabel='Frequency (1/year)',\n",
-                        "    ylabel='Power'\n",
-                        ")\n",
-                        "\n",
-                        "# Alternative methods\n",
-                        "psd_welch = ts.spectral(method='welch')\n",
-                        "psd_mtm = ts.spectral(method='mtm')\n",
-                        "\n",
-                        "# Compare methods\n",
-                        "fig, ax = pyleo.plotting.plot_spectra([psd, psd_welch, psd_mtm], \n",
-                        "                                     labels=['Periodogram', 'Welch', 'MTM'])"
-                    ]
-                },
-                {
-                    "cell_type": "markdown",
-                    "metadata": {
-                        "tags": ["example-metadata"]
-                    },
-                    "source": [
-                        "## Load from SPARQL Data\n",
-                        "**Description**: Convert SPARQL query results to Pyleoclim Series\n",
-                        "**Categories**: sparql, conversion, integration, lipd\n",
-                        "**Libraries**: pylipd, pyleoclim, pandas"
-                    ]
-                },
-                {
-                    "cell_type": "code",
-                    "execution_count": None,
-                    "metadata": {
-                        "tags": ["example-code"]
-                    },
-                    "outputs": [],
-                    "source": [
-                        "import pylipd\n",
-                        "import pyleoclim as pyleo\n",
-                        "import pandas as pd\n",
-                        "\n",
-                        "# Execute SPARQL query (assuming lipd instance is set up)\n",
-                        "lipd = pylipd.LiPD()\n",
-                        "lipd.set_endpoint('http://localhost:7200/repositories/LiPDVerse-dynamic')\n",
-                        "\n",
-                        "query = '''\n",
-                        "PREFIX le: <http://linked.earth/ontology#>\n",
-                        "SELECT ?age ?value ?dataset WHERE {\n",
-                        "    ?dataset a le:Dataset .\n",
-                        "    ?measurement le:hasValue ?value .\n",
-                        "    ?measurement le:hasAge ?age .\n",
-                        "}\n",
-                        "'''\n",
-                        "\n",
-                        "result, df = lipd.query(query, remote=True)\n",
-                        "\n",
-                        "# Group by dataset and create Pyleoclim Series\n",
-                        "series_list = []\n",
-                        "for dataset, group in df.groupby('dataset'):\n",
-                        "    if len(group) > 10:  # Minimum data points\n",
-                        "        ts = pyleo.Series(\n",
-                        "            time=group['age'].values,\n",
-                        "            value=group['value'].values,\n",
-                        "            time_name='Age',\n",
-                        "            time_unit='years',\n",
-                        "            value_name='Value',\n",
-                        "            label=dataset.split('/')[-1]  # Extract dataset name from URI\n",
-                        "        )\n",
-                        "        series_list.append(ts)\n",
-                        "\n",
-                        "print(f\"Created {len(series_list)} Pyleoclim Series from SPARQL data\")"
-                    ]
-                }
-            ],
-            "metadata": {
-                "kernelspec": {
-                    "display_name": "Python 3",
-                    "language": "python",
-                    "name": "python3"
-                },
-                "language_info": {
-                    "name": "python",
-                    "version": "3.9.0"
-                }
-            },
-            "nbformat": 4,
-            "nbformat_minor": 4
-        }
-        
-        sample_file = self.notebooks_dir / "sample-pyleoclim-examples.ipynb"
-        with open(sample_file, 'w', encoding='utf-8') as f:
-            json.dump(sample_notebook, f, indent=2)
-        
-        logger.info(f"Created sample notebook: {sample_file}")
-    
+
     def _parse_notebook(self, notebook_path: Path) -> List[Dict[str, Any]]:
         """Parse a Jupyter notebook and extract code examples."""
         examples = []

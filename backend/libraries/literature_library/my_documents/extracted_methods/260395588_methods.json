@@ -1,0 +1,225 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Viability and Germination Analysis",
+      "description": "This method calculates the percentage of pollen viability and germination using established formulas and measures pollen grain diameters and tube lengths using ImageJ software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pollen viability percentage was calculated using the formula of Ssebuliba et al. (2008).",
+          "searchable_summary": "calculate pollen viability percentage",
+          "inputs": [
+            "number of stained pollen grains",
+            "total number of pollen grains"
+          ],
+          "outputs": [
+            "pollen viability percentage"
+          ],
+          "keywords": [
+            "pollen viability",
+            "percentage calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Pollen germination percentage was calculated by the formula of Nyine and Pillay (2007).",
+          "searchable_summary": "calculate pollen germination percentage",
+          "inputs": [
+            "number of germinated pollen grains",
+            "total number of pollen grains"
+          ],
+          "outputs": [
+            "pollen germination percentage"
+          ],
+          "keywords": [
+            "pollen germination",
+            "percentage calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The diameters in micrometres of viable and non-viable pollen grains were measured using the ImageJ program (version 1.52, USA).",
+          "searchable_summary": "measure pollen grain diameters using ImageJ",
+          "inputs": [
+            "pollen grain images"
+          ],
+          "outputs": [
+            "pollen grain diameters"
+          ],
+          "keywords": [
+            "ImageJ",
+            "pollen grain diameter"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Pollen tube length in micrometres was measured using the ImageJ program (version 1.52, USA).",
+          "searchable_summary": "measure pollen tube length using ImageJ",
+          "inputs": [
+            "pollen tube images"
+          ],
+          "outputs": [
+            "pollen tube lengths"
+          ],
+          "keywords": [
+            "ImageJ",
+            "pollen tube length"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "All data (pollen viability, pollen germination and gene expression) were statistically assessed using ANOVA.",
+          "searchable_summary": "perform ANOVA on pollen data",
+          "inputs": [
+            "pollen viability data",
+            "pollen germination data",
+            "gene expression data"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Mean comparisons between multiple treatments (Musa genotypes) were assessed by Duncan's Multiple Range Test (DMRT) at P-value ≤ 0.1 statistical significance using the Statistical Product and Service Solution version 17.0 software (SPSS Inc.;2008, Chicago, USA).",
+          "searchable_summary": "perform DMRT for mean comparisons",
+          "inputs": [
+            "ANOVA results"
+          ],
+          "outputs": [
+            "DMRT results"
+          ],
+          "keywords": [
+            "Duncan's Multiple Range Test",
+            "SPSS",
+            "mean comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "RT-qPCR Analysis",
+      "description": "This method evaluates the expression profiles of candidate genes associated with pollen development using RT-qPCR, with normalization against an internal control gene.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Four primer pairs designed by the Oligo Analyzer program (version 1.2, USA) were used to evaluate the expression profiles of the three candidate genes associated with pollen development.",
+          "searchable_summary": "design primers for RT-qPCR",
+          "inputs": [
+            "gene sequences"
+          ],
+          "outputs": [
+            "primer pairs"
+          ],
+          "keywords": [
+            "primer design",
+            "RT-qPCR",
+            "Oligo Analyzer"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The RT-qPCR reaction (12.5 µL) was performed in Thermo Scientific Maxima SYBR Green qPCR Master Mix (2X) (no ROX, Thermo Fisher Scientific, Baltics, UAB, Lithuania) (6.5 µL), 10 µM of each forward (0.5 µL) and reverse (0.5 µL) primer, first strand cDNA (1 µL) and nuclease-free water (4 µL), using the Eco48 Real-Time PCR system (Eco 48, PCRmax Limited, UK).",
+          "searchable_summary": "prepare and run RT-qPCR reaction",
+          "inputs": [
+            "cDNA",
+            "primers",
+            "SYBR Green Master Mix"
+          ],
+          "outputs": [
+            "RT-qPCR reaction results"
+          ],
+          "keywords": [
+            "RT-qPCR",
+            "SYBR Green",
+            "Eco48"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The RT-qPCR amplification was carried out under the following conditions: 1 cycle of 50 °C for 2 min and 1 cycle of 95 °C for 10 min, followed by 40 cycles of 95 °C for 15 s, 60 °C for 30 s and 72 °C for 30 s.",
+          "searchable_summary": "perform RT-qPCR amplification",
+          "inputs": [
+            "RT-qPCR reaction mixture"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "RT-qPCR",
+            "amplification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "A melting curve was realized by progressively heating the reaction mixture from 55 to 95 °C using 0.3 °C increments every 0.75 s to check the purity of the RT-qPCR product.",
+          "searchable_summary": "perform melting curve analysis",
+          "inputs": [
+            "amplified DNA"
+          ],
+          "outputs": [
+            "melting curve data"
+          ],
+          "keywords": [
+            "melting curve",
+            "RT-qPCR",
+            "product purity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The baseline correction was automatically calculated to determine the cycle threshold (Ct) value in each reaction using Eco 48 Study Software installed in the instrument.",
+          "searchable_summary": "calculate Ct values with baseline correction",
+          "inputs": [
+            "RT-qPCR data"
+          ],
+          "outputs": [
+            "Ct values"
+          ],
+          "keywords": [
+            "Ct value",
+            "baseline correction",
+            "RT-qPCR"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Data were normalized with CAC as the endogenous control (set to 1). Relative expression of the three target genes was analysed using the comparative Ct method (ΔCt1, ΔCt2 and 2 −ΔΔCt ).",
+          "searchable_summary": "normalize and analyze gene expression using comparative Ct method",
+          "inputs": [
+            "Ct values",
+            "CAC control"
+          ],
+          "outputs": [
+            "normalized gene expression levels"
+          ],
+          "keywords": [
+            "comparative Ct method",
+            "gene expression",
+            "normalization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260395588.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

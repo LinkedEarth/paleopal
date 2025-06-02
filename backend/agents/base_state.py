@@ -168,6 +168,16 @@ class BaseAgentConfig(BaseModel):
         description="Embedding service for semantic search"
     )
     
+    # Clarification behavior configuration (common to all agents)
+    enable_clarification: bool = Field(
+        default=True,
+        description="Whether to enable clarification detection"
+    )
+    clarification_threshold: str = Field(
+        default="conservative",
+        description="Clarification detection threshold: 'strict', 'conservative', or 'permissive'"
+    )
+    
     # Agent-specific config extensions
     agent_specific_config: Dict[str, Any] = Field(
         default_factory=dict,

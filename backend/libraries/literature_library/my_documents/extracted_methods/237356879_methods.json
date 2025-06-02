@@ -1,0 +1,180 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "LC-MS/MS Data Analysis",
+      "description": "This method involves analyzing raw data acquired from Q-Exactive using MaxQuant for peptide-spectrum matching, generating an ion library with ProteinPilot, and quantifying proteins using PeakView. It is used to identify and quantify proteins in the samples.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The raw data acquired on Q-Exactive were searched against two reference proteome files including the available G. hirsutum protein sequences in UniProtKB and the protein sequences obtained from G. robinsonii using MaxQuant for peptide-spectrum matching.",
+          "searchable_summary": "search raw LC-MS/MS data against reference proteomes using MaxQuant",
+          "inputs": [
+            "raw LC-MS/MS data",
+            "G. hirsutum protein sequences",
+            "G. robinsonii protein sequences"
+          ],
+          "outputs": [
+            "peptide-spectrum matches"
+          ],
+          "keywords": [
+            "LC-MS/MS",
+            "MaxQuant",
+            "peptide-spectrum matching"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For ion library generation, data in the IDA mode were processed in ProteinPilot using the Paragon algorithm with default parameters against the reference proteome of G. robinsonii.",
+          "searchable_summary": "generate ion library using ProteinPilot with Paragon algorithm",
+          "inputs": [
+            "IDA mode data",
+            "reference proteome of G. robinsonii"
+          ],
+          "outputs": [
+            "ion library"
+          ],
+          "keywords": [
+            "ion library",
+            "ProteinPilot",
+            "Paragon algorithm"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The obtained library was then imported into PeakView as a reference ion library and matched against individual SWATH data files.",
+          "searchable_summary": "import ion library into PeakView and match against SWATH data",
+          "inputs": [
+            "ion library",
+            "SWATH data files"
+          ],
+          "outputs": [
+            "matched SWATH data"
+          ],
+          "keywords": [
+            "PeakView",
+            "SWATH data",
+            "ion library"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The peak areas for peptides were extracted by summing the area under curve values of the corresponding fragment ions using PeakView.",
+          "searchable_summary": "extract peak areas for peptides using PeakView",
+          "inputs": [
+            "matched SWATH data"
+          ],
+          "outputs": [
+            "peak areas for peptides"
+          ],
+          "keywords": [
+            "PeakView",
+            "peak area extraction",
+            "peptides"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The summed peak areas of the peptides were normalized against the total abundance values of respective samples and then used for protein quantification.",
+          "searchable_summary": "normalize peak areas and quantify proteins",
+          "inputs": [
+            "peak areas for peptides",
+            "total abundance values"
+          ],
+          "outputs": [
+            "quantified proteins"
+          ],
+          "keywords": [
+            "normalization",
+            "protein quantification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "To assess differentially expressed proteins (DEPs), a comparison of protein abundances across respective sample groups was performed using two-sample Student's t tests.",
+          "searchable_summary": "perform t-tests to assess differentially expressed proteins",
+          "inputs": [
+            "protein abundances",
+            "sample groups"
+          ],
+          "outputs": [
+            "differentially expressed proteins"
+          ],
+          "keywords": [
+            "differential expression",
+            "Student's t-test",
+            "protein abundance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Repetitive Elements Analysis",
+      "description": "This method involves identifying repetitive elements in the assembled genome using RepeatMasker and analyzing genome characteristics such as genome size estimation and GC content correlation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A total of 1 292 294 scaffolds with an overall length of 1 498 229 442 bp were input into RepeatMasker to identify repeats in the assembled genome using Repbase.",
+          "searchable_summary": "identify repeats in genome using RepeatMasker and Repbase",
+          "inputs": [
+            "scaffolds",
+            "Repbase"
+          ],
+          "outputs": [
+            "identified repeats"
+          ],
+          "keywords": [
+            "RepeatMasker",
+            "repeats",
+            "genome analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "K-mer analysis to estimate the genome size of Gossypium robinsonii by the formula: Genome size = K-mer number/peak depth.",
+          "searchable_summary": "estimate genome size using K-mer analysis",
+          "inputs": [
+            "K-mer number",
+            "peak depth"
+          ],
+          "outputs": [
+            "estimated genome size"
+          ],
+          "keywords": [
+            "K-mer analysis",
+            "genome size estimation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The correlation analysis of guanine plus cytosine (GC) content and sequencing depth.",
+          "searchable_summary": "analyze correlation between GC content and sequencing depth",
+          "inputs": [
+            "GC content",
+            "sequencing depth"
+          ],
+          "outputs": [
+            "GC content-depth correlation"
+          ],
+          "keywords": [
+            "GC content",
+            "sequencing depth",
+            "correlation analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237356879.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

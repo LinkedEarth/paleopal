@@ -1,0 +1,228 @@
+{
+  "paper_title": "Experimental Procedures for Pollen Activation and Protein Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Activation and Harvesting",
+      "description": "This method describes the process of activating mature pollen in vitro and harvesting it for further analysis. The purpose is to prepare pollen samples for protein extraction and phosphopeptide enrichment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Tobacco plants were grown in a greenhouse, and flower buds were collected. Anthers were removed and allowed to dehisce at room temperature overnight.",
+          "searchable_summary": "grow tobacco plants and collect flower buds for pollen extraction",
+          "inputs": [
+            "tobacco plants",
+            "flower buds"
+          ],
+          "outputs": [
+            "mature pollen"
+          ],
+          "keywords": [
+            "tobacco",
+            "pollen",
+            "greenhouse"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Mature pollen was sieved and stored at -20°C until further use.",
+          "searchable_summary": "sieve and store mature pollen",
+          "inputs": [
+            "mature pollen"
+          ],
+          "outputs": [
+            "stored pollen"
+          ],
+          "keywords": [
+            "pollen storage",
+            "sieving"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Mature pollen was activated in vitro as a shaken suspension for 5 min and 30 min, respectively, in three biological replicates.",
+          "searchable_summary": "activate pollen in vitro for specified durations",
+          "inputs": [
+            "stored pollen"
+          ],
+          "outputs": [
+            "activated pollen"
+          ],
+          "keywords": [
+            "pollen activation",
+            "in vitro"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Activated pollen was harvested by filtration and immediately frozen in liquid nitrogen.",
+          "searchable_summary": "harvest and freeze activated pollen",
+          "inputs": [
+            "activated pollen"
+          ],
+          "outputs": [
+            "frozen pollen"
+          ],
+          "keywords": [
+            "pollen harvesting",
+            "liquid nitrogen"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein Extraction and Phosphopeptide Enrichment",
+      "description": "This method outlines the extraction of total proteins from pollen samples and the enrichment of phosphopeptides for mass spectrometry analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Total proteins were extracted from pollen by TCA/acetone precipitation with modifications.",
+          "searchable_summary": "extract proteins using TCA/acetone precipitation",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "protein extracts"
+          ],
+          "keywords": [
+            "protein extraction",
+            "TCA",
+            "acetone"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Protein extracts were resuspended in guanidinium chloride and ammonium bicarbonate, carbamidomethylated, and trypsin-digested.",
+          "searchable_summary": "resuspend and digest protein extracts",
+          "inputs": [
+            "protein extracts"
+          ],
+          "outputs": [
+            "trypsin-digested proteins"
+          ],
+          "keywords": [
+            "protein digestion",
+            "trypsin"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Peptides were dissolved in loading buffer and subjected to phosphopeptide enrichment by TiO2.",
+          "searchable_summary": "enrich phosphopeptides using TiO2",
+          "inputs": [
+            "trypsin-digested proteins"
+          ],
+          "outputs": [
+            "enriched phosphopeptides"
+          ],
+          "keywords": [
+            "phosphopeptide enrichment",
+            "TiO2"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "nLC-MS/MS Measurement and Phosphopeptide Identification",
+      "description": "This method involves the analysis of phosphopeptide-enriched samples using nLC-MS/MS to identify and quantify phosphopeptides.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Phosphopeptide-enriched samples were analyzed by nLC-MS/MS on an LTQ Orbitrap Elite mass spectrometer.",
+          "searchable_summary": "analyze samples using nLC-MS/MS",
+          "inputs": [
+            "enriched phosphopeptides"
+          ],
+          "outputs": [
+            "mass spectrometry data"
+          ],
+          "keywords": [
+            "nLC-MS/MS",
+            "mass spectrometry"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Spectra were searched against the TIGR EST sequence database using Proteome Discoverer with Mascot.",
+          "searchable_summary": "search spectra against database",
+          "inputs": [
+            "mass spectrometry data"
+          ],
+          "outputs": [
+            "identified phosphopeptides"
+          ],
+          "keywords": [
+            "spectra search",
+            "Proteome Discoverer",
+            "Mascot"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Quantification and phosphorylation site localization were performed using specific nodes.",
+          "searchable_summary": "quantify and localize phosphorylation sites",
+          "inputs": [
+            "identified phosphopeptides"
+          ],
+          "outputs": [
+            "quantified phosphopeptides"
+          ],
+          "keywords": [
+            "quantification",
+            "phosphorylation site"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Protein Categories and Motif Search",
+      "description": "This method categorizes proteins based on gene ontology and searches for significant phosphorylation motifs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Gene ontology and enzyme codes were acquired and proteins were categorized.",
+          "searchable_summary": "categorize proteins using gene ontology",
+          "inputs": [
+            "protein data"
+          ],
+          "outputs": [
+            "categorized proteins"
+          ],
+          "keywords": [
+            "gene ontology",
+            "protein categorization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Phosphopeptides were analyzed for significant phosphorylation motifs using Motif-X software.",
+          "searchable_summary": "analyze phosphorylation motifs",
+          "inputs": [
+            "phosphopeptides"
+          ],
+          "outputs": [
+            "phosphorylation motifs"
+          ],
+          "keywords": [
+            "Motif-X",
+            "phosphorylation motifs"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/3961518.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

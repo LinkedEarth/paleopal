@@ -1,0 +1,132 @@
+{
+  "paper_title": "Pollen and Aerosol Analysis Using Lidar and In Situ Instruments",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen and Aerosol Mass Conversion",
+      "description": "This method converts pollen and aerosol number concentrations to particulate matter (PM) mass concentrations to facilitate comparison with lidar data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Convert pollen number concentration to mass using particle diameter and density.",
+          "searchable_summary": "convert pollen number concentration to mass using diameter and density",
+          "inputs": [
+            "pollen number concentration",
+            "particle diameter",
+            "particle density"
+          ],
+          "outputs": [
+            "pollen mass concentration"
+          ],
+          "keywords": [
+            "pollen conversion",
+            "mass concentration",
+            "particle density"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Estimate PM10 mass concentration using combined NS and OPS aerosol size distributions.",
+          "searchable_summary": "estimate PM10 mass concentration from NS and OPS size distributions",
+          "inputs": [
+            "NS aerosol size distribution",
+            "OPS aerosol size distribution"
+          ],
+          "outputs": [
+            "PM10 mass concentration"
+          ],
+          "keywords": [
+            "PM10",
+            "aerosol size distribution",
+            "mass concentration"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Lidar Optical Profile Retrieval",
+      "description": "This method retrieves optical profiles from lidar data using inversion techniques and calibration methods.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply backward Klett inversion to PollyXT lidar data.",
+          "searchable_summary": "perform backward Klett inversion on PollyXT lidar data",
+          "inputs": [
+            "PollyXT lidar data"
+          ],
+          "outputs": [
+            "optical profiles"
+          ],
+          "keywords": [
+            "Klett inversion",
+            "lidar",
+            "optical profiles"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Apply forward Klett inversion to CL61 ceilometer data.",
+          "searchable_summary": "perform forward Klett inversion on CL61 ceilometer data",
+          "inputs": [
+            "CL61 ceilometer data"
+          ],
+          "outputs": [
+            "optical profiles"
+          ],
+          "keywords": [
+            "Klett inversion",
+            "ceilometer",
+            "optical profiles"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Post-process Halo Doppler lidar data to correct for bleed-through and calculate attenuated backscatter.",
+          "searchable_summary": "post-process Halo Doppler lidar data for bleed-through correction and backscatter calculation",
+          "inputs": [
+            "Halo Doppler lidar data"
+          ],
+          "outputs": [
+            "corrected PDR",
+            "attenuated backscatter"
+          ],
+          "keywords": [
+            "Doppler lidar",
+            "bleed-through correction",
+            "backscatter"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Boundary Layer Detection",
+      "description": "This method detects the upper boundary of the Boundary Layer (BL) using lidar data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Detect BL top using the derivative of the range-corrected signal at 1064 nm.",
+          "searchable_summary": "detect BL top using range-corrected signal derivative at 1064 nm",
+          "inputs": [
+            "range-corrected signal at 1064 nm"
+          ],
+          "outputs": [
+            "BL top height"
+          ],
+          "keywords": [
+            "Boundary Layer",
+            "range-corrected signal",
+            "BL detection"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259953017.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

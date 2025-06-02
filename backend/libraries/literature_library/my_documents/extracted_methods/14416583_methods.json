@@ -1,0 +1,172 @@
+{
+  "paper_title": "Surface Model and Surface Fluxes in GCM",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Surface and Sub-surface Temperature Calculation",
+      "description": "This method involves calculating temperatures in the surface and sub-surface layers of a land model coupled with a GCM. It accounts for various heat fluxes and uses a multi-layer approach to model heat conduction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The atmospheric component of the GCM is coupled to a land model that calculates temperatures in the surface and sub-surface.",
+          "searchable_summary": "couple atmospheric GCM with land model to calculate surface and sub-surface temperatures",
+          "inputs": [
+            "atmospheric data",
+            "land model parameters"
+          ],
+          "outputs": [
+            "surface temperature",
+            "sub-surface temperature"
+          ],
+          "keywords": [
+            "GCM",
+            "land model",
+            "temperature calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Fluxes of sensible and latent heat, as well as radiative fluxes (including emitted thermal flux), affect the top-most surface layer.",
+          "searchable_summary": "apply heat fluxes to top-most surface layer",
+          "inputs": [
+            "sensible heat flux",
+            "latent heat flux",
+            "radiative flux"
+          ],
+          "outputs": [
+            "adjusted surface temperature"
+          ],
+          "keywords": [
+            "heat flux",
+            "radiative flux",
+            "surface layer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Conduction transports heat between soil layers. We use 15 layers of variable thickness, and assume a constant thermal conductivity and volumetric heat capacity.",
+          "searchable_summary": "model heat conduction between 15 soil layers",
+          "inputs": [
+            "soil layer data",
+            "thermal conductivity",
+            "volumetric heat capacity"
+          ],
+          "outputs": [
+            "temperature profile across soil layers"
+          ],
+          "keywords": [
+            "heat conduction",
+            "soil layers",
+            "thermal properties"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Surface Liquid and Methane Conservation",
+      "description": "This method tracks the presence of surface liquid using a 'bucket' model and ensures the conservation of methane in the system.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The surface model tracks the presence of surface liquid with a 'bucket' model: Liquid from precipitation is allowed to accumulate, and is then available to evaporate.",
+          "searchable_summary": "implement bucket model to track surface liquid accumulation and evaporation",
+          "inputs": [
+            "precipitation data"
+          ],
+          "outputs": [
+            "surface liquid level"
+          ],
+          "keywords": [
+            "bucket model",
+            "surface liquid",
+            "evaporation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Below a threshold amount of liquid, a linearly decreasing availability factor roughly parameterizes infiltration and sub-grid scale ponding, limiting evaporation.",
+          "searchable_summary": "apply availability factor to limit evaporation based on liquid threshold",
+          "inputs": [
+            "surface liquid level",
+            "threshold value"
+          ],
+          "outputs": [
+            "adjusted evaporation rate"
+          ],
+          "keywords": [
+            "availability factor",
+            "evaporation",
+            "infiltration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The total amount of methane in the system (surface liquid and atmospheric moisture) is conserved.",
+          "searchable_summary": "ensure conservation of methane in surface liquid and atmospheric moisture",
+          "inputs": [
+            "methane data"
+          ],
+          "outputs": [
+            "conserved methane level"
+          ],
+          "keywords": [
+            "methane conservation",
+            "surface liquid",
+            "atmospheric moisture"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Surface Flux Computation",
+      "description": "This method computes surface fluxes of momentum, heat, and vapor using bulk aerodynamic formulae, incorporating specific drag coefficients and roughness parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Surface fluxes of momentum, heat, and vapor are computed using bulk aerodynamic formulae, with drag coefficients from Monin-Obukhov similarity theory.",
+          "searchable_summary": "compute surface fluxes using bulk aerodynamic formulae and Monin-Obukhov theory",
+          "inputs": [
+            "momentum data",
+            "heat data",
+            "vapor data"
+          ],
+          "outputs": [
+            "surface fluxes"
+          ],
+          "keywords": [
+            "surface flux",
+            "bulk aerodynamic formulae",
+            "Monin-Obukhov"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The roughness length and gustiness parameters in this module are set to 0.5 cm and 0.1 m s −1, respectively.",
+          "searchable_summary": "set roughness length and gustiness parameters",
+          "inputs": [
+            "roughness length",
+            "gustiness parameter"
+          ],
+          "outputs": [
+            "adjusted surface fluxes"
+          ],
+          "keywords": [
+            "roughness length",
+            "gustiness",
+            "surface flux"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14416583.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,276 @@
+{
+  "paper_title": "Extinct Species of the Late Quaternary and Climate Change Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Extinct Species Identification",
+      "description": "Process for identifying and confirming taxonomically accepted extinct or continentally extirpated large mammals during the Late Pleistocene and early/middle Holocene.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Gather information on species names reported lost during the late Quaternary from review publications and original research articles.",
+          "searchable_summary": "collect species names from literature",
+          "inputs": [
+            "review publications",
+            "original research articles"
+          ],
+          "outputs": [
+            "list of species names"
+          ],
+          "keywords": [
+            "species identification",
+            "literature review"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Conduct detailed species by species research to confirm their taxonomic validity and presence within the study period.",
+          "searchable_summary": "validate species taxonomy and presence",
+          "inputs": [
+            "list of species names"
+          ],
+          "outputs": [
+            "validated species list"
+          ],
+          "keywords": [
+            "taxonomy validation",
+            "species presence"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Reject uncertain species closely related to accepted species occurring over similar ranges to ensure conservative extinction densities.",
+          "searchable_summary": "filter out uncertain species",
+          "inputs": [
+            "validated species list"
+          ],
+          "outputs": [
+            "filtered species list"
+          ],
+          "keywords": [
+            "species filtering",
+            "extinction density"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Include species in a list of potential, but uncertain late Quaternary megafauna extinctions if they are of uncertain taxonomy or lack a confirmed date.",
+          "searchable_summary": "list uncertain species",
+          "inputs": [
+            "filtered species list"
+          ],
+          "outputs": [
+            "list of uncertain species"
+          ],
+          "keywords": [
+            "uncertain species",
+            "megafauna extinctions"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Collect species mass from Smith et al. and supplement with additional sources or estimate based on masses of species in the same genus.",
+          "searchable_summary": "gather species mass data",
+          "inputs": [
+            "species list"
+          ],
+          "outputs": [
+            "species mass data"
+          ],
+          "keywords": [
+            "species mass",
+            "data collection"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Extinction Data Analysis",
+      "description": "Analysis of extinction data to calculate the total number of extinct large mammals and account for human impact and climate change.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate the total number of extinct large mammals for each TDWG country.",
+          "searchable_summary": "compute extinct mammals per country",
+          "inputs": [
+            "extinct species data"
+          ],
+          "outputs": [
+            "extinct mammals count per country"
+          ],
+          "keywords": [
+            "extinction count",
+            "TDWG country"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Express extinction as a proportion of the total number of extinct and extant species.",
+          "searchable_summary": "calculate extinction proportion",
+          "inputs": [
+            "extinct mammals count",
+            "extant species data"
+          ],
+          "outputs": [
+            "extinction proportion"
+          ],
+          "keywords": [
+            "extinction proportion",
+            "species richness"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Create a general linear model (GLM) with large mammal richness as a function of continent, small mammal richness, and human impact.",
+          "searchable_summary": "build GLM for mammal richness",
+          "inputs": [
+            "large mammal richness data",
+            "continent data",
+            "small mammal richness",
+            "human impact data"
+          ],
+          "outputs": [
+            "GLM model"
+          ],
+          "keywords": [
+            "GLM",
+            "mammal richness",
+            "human impact"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Estimate current extant large mammal richness for each TDWG country by accounting for human impact.",
+          "searchable_summary": "estimate extant mammal richness",
+          "inputs": [
+            "GLM model",
+            "human impact data"
+          ],
+          "outputs": [
+            "extant mammal richness estimates"
+          ],
+          "keywords": [
+            "extant richness",
+            "human impact"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Focus on temperature and precipitation contrasts between the LGM and present-day interglacial climate.",
+          "searchable_summary": "analyze climate contrasts",
+          "inputs": [
+            "climate data"
+          ],
+          "outputs": [
+            "climate contrast analysis"
+          ],
+          "keywords": [
+            "temperature contrast",
+            "precipitation contrast"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Calculate climate change velocity and magnitude using WorldClim data.",
+          "searchable_summary": "compute climate change metrics",
+          "inputs": [
+            "WorldClim data"
+          ],
+          "outputs": [
+            "climate change velocity",
+            "climate change magnitude"
+          ],
+          "keywords": [
+            "climate velocity",
+            "climate magnitude"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Selection and Validation",
+      "description": "Construction and comparison of climate change, hominin palaeobiogeography, and hominin-climate combination models to determine best predictors of regional extinction ratios.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Construct climate change, hominin palaeobiogeography, and hominin-climate combination models.",
+          "searchable_summary": "build and compare models",
+          "inputs": [
+            "climate data",
+            "hominin data"
+          ],
+          "outputs": [
+            "constructed models"
+          ],
+          "keywords": [
+            "model construction",
+            "palaeobiogeography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Use Akaike information criterion (AIC) to select the best models.",
+          "searchable_summary": "select best model using AIC",
+          "inputs": [
+            "constructed models"
+          ],
+          "outputs": [
+            "best model"
+          ],
+          "keywords": [
+            "AIC",
+            "model selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Compute correlograms of GLM model residuals to assess spatial autocorrelation.",
+          "searchable_summary": "assess spatial autocorrelation",
+          "inputs": [
+            "GLM model residuals"
+          ],
+          "outputs": [
+            "correlograms"
+          ],
+          "keywords": [
+            "spatial autocorrelation",
+            "correlograms"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Implement a spatial autoregressive (SAR) model to account for spatial autocorrelation.",
+          "searchable_summary": "implement SAR model",
+          "inputs": [
+            "GLM model",
+            "spatial weights matrix"
+          ],
+          "outputs": [
+            "SAR model"
+          ],
+          "keywords": [
+            "SAR model",
+            "spatial autocorrelation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/1959023.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,187 @@
+{
+  "paper_title": "Numerical Ice Flow Model and Glacier Dynamics",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Numerical Ice Flow Model Construction",
+      "description": "The construction of a width and depth integrated numerical ice flow model for marine-terminating glaciers to calculate ice thickness variations over time based on ice flux and mass balance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Construct the numerical ice flow model using a width-and depth integrated continuity equation.",
+          "searchable_summary": "construct numerical ice flow model using continuity equation",
+          "inputs": [
+            "ice flux",
+            "mass balance"
+          ],
+          "outputs": [
+            "ice thickness variations"
+          ],
+          "keywords": [
+            "numerical model",
+            "ice flow",
+            "continuity equation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Calculate the stress balance using lateral and basal resistance, longitudinal stress gradient, and driving stress.",
+          "searchable_summary": "calculate stress balance with resistance and stress gradient",
+          "inputs": [
+            "lateral resistance",
+            "basal resistance",
+            "longitudinal stress gradient",
+            "driving stress"
+          ],
+          "outputs": [
+            "stress balance"
+          ],
+          "keywords": [
+            "stress balance",
+            "resistance",
+            "stress gradient"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Calculate the grounding line position using a flotation criterion based on hydrostatic balance.",
+          "searchable_summary": "calculate grounding line position with flotation criterion",
+          "inputs": [
+            "hydrostatic balance"
+          ],
+          "outputs": [
+            "grounding line position"
+          ],
+          "keywords": [
+            "grounding line",
+            "flotation criterion",
+            "hydrostatic balance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Use a moving grid to adjust to new glacier length at each time step, maintaining a node at the calving front.",
+          "searchable_summary": "implement moving grid for glacier length adjustment",
+          "inputs": [
+            "glacier length",
+            "time step"
+          ],
+          "outputs": [
+            "adjusted grid"
+          ],
+          "keywords": [
+            "moving grid",
+            "glacier length",
+            "calving front"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Setup and Parameter Tuning",
+      "description": "Setup of the model using real glacier data to tune parameters and simulate glacier dynamics under changing climate conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect observations of velocities, calving front positions, ice thickness, and ice discharge.",
+          "searchable_summary": "collect glacier observations for model setup",
+          "inputs": [
+            "glacier data sources"
+          ],
+          "outputs": [
+            "observational data"
+          ],
+          "keywords": [
+            "glacier observations",
+            "velocities",
+            "calving front"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Distinguish between constant parameters and climate-related perturbation parameters for model experiments.",
+          "searchable_summary": "define constant and perturbation parameters for model",
+          "inputs": [
+            "model parameters"
+          ],
+          "outputs": [
+            "parameter categorization"
+          ],
+          "keywords": [
+            "model parameters",
+            "perturbation",
+            "constant parameters"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Simulate glacier dynamics by changing perturbation parameters linearly from LIA values.",
+          "searchable_summary": "simulate glacier dynamics with linear parameter changes",
+          "inputs": [
+            "perturbation parameters",
+            "LIA values"
+          ],
+          "outputs": [
+            "glacier dynamics simulation"
+          ],
+          "keywords": [
+            "glacier dynamics",
+            "linear change",
+            "LIA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Glacier Geometry Definition",
+      "description": "Definition of the model glacier geometry using topography and bathymetry data to simulate glacier dynamics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain fjord width from satellite images and channel width from topography data.",
+          "searchable_summary": "fetch fjord and channel width data",
+          "inputs": [
+            "satellite images",
+            "topography data"
+          ],
+          "outputs": [
+            "fjord width",
+            "channel width"
+          ],
+          "keywords": [
+            "fjord width",
+            "channel width",
+            "satellite images"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Use along-flow bed topography profile for glacier depth in the trough and fjord.",
+          "searchable_summary": "use bed topography profile for glacier depth",
+          "inputs": [
+            "bed topography profile"
+          ],
+          "outputs": [
+            "glacier depth"
+          ],
+          "keywords": [
+            "bed topography",
+            "glacier depth",
+            "trough"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54694024.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

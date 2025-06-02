@@ -1,0 +1,128 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bioinformatic Analysis of Toxin Effects",
+      "description": "This method assesses potential mechanistic effects of toxins using multisequence alignments of EukCat sequences from specific transcriptomes and compares them with mammalian and bacterial sequences to identify potential toxin binding sites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Single-domain EukCat sequences from E. huxleyi and O. sinensis transcriptomes were used.",
+          "searchable_summary": "fetch EukCat sequences from MMETSP database",
+          "inputs": [
+            "E. huxleyi transcriptome",
+            "O. sinensis transcriptome"
+          ],
+          "outputs": [
+            "EukCat sequences"
+          ],
+          "keywords": [
+            "EukCat",
+            "transcriptome",
+            "MMETSP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Multiple sequence alignments of EukCats were performed alongside mammalian and bacterial sequences.",
+          "searchable_summary": "perform multiple sequence alignment using MAFFT",
+          "inputs": [
+            "EukCat sequences",
+            "mammalian sequences",
+            "bacterial sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MAFFT",
+            "EukCat",
+            "NaV"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sequences were trimmed to visualize potential toxin binding sites and nearby regions.",
+          "searchable_summary": "trim sequences to focus on toxin binding sites",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "trimmed sequences"
+          ],
+          "keywords": [
+            "sequence trimming",
+            "toxin binding sites"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Alignments were visualized with JalView and annotated based on sequence similarity and key residues of interest.",
+          "searchable_summary": "visualize and annotate alignments using JalView",
+          "inputs": [
+            "trimmed sequences"
+          ],
+          "outputs": [
+            "visualized alignments"
+          ],
+          "keywords": [
+            "JalView",
+            "sequence visualization",
+            "annotation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model of Changes in Membrane Potential",
+      "description": "This method models the potential effects of negative shifts in activation and inactivation voltages due to toxin exposure using electrophysiological characteristics and parameters from a native diatom.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Electrophysiological characteristics from the native diatom O. sinensis were used to set model parameters.",
+          "searchable_summary": "set model parameters using electrophysiological data from O. sinensis",
+          "inputs": [
+            "O. sinensis electrophysiological data"
+          ],
+          "outputs": [
+            "model parameters"
+          ],
+          "keywords": [
+            "electrophysiology",
+            "model parameters",
+            "O. sinensis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "A simple model was used to assess effects of negative shifts of V act and V inact due to toxin exposure.",
+          "searchable_summary": "use model to assess effects of V act and V inact shifts",
+          "inputs": [
+            "model parameters",
+            "activation curves",
+            "inactivation curves"
+          ],
+          "outputs": [
+            "model results"
+          ],
+          "keywords": [
+            "membrane potential",
+            "V act",
+            "V inact",
+            "toxin exposure"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232380507.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

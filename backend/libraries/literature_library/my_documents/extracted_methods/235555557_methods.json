@@ -1,0 +1,238 @@
+{
+  "paper_title": "Sediment Core Analysis and Foraminifera-bound δ15N Measurement",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Core Retrieval and Age Model Update",
+      "description": "Process for retrieving sediment cores from the EEP and updating their age models using radiocarbon dating and stratigraphic correlation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sediment cores ME0005-24JC and ME0005-27JC were retrieved from the EEP.",
+          "searchable_summary": "retrieve sediment cores from specified locations",
+          "inputs": [
+            "location coordinates"
+          ],
+          "outputs": [
+            "sediment cores"
+          ],
+          "keywords": [
+            "sediment cores",
+            "retrieval",
+            "EEP"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The age models for both sediment cores have been updated by Dubois et al. (2014) using radiocarbon ages and stratigraphic correlation.",
+          "searchable_summary": "update age models using radiocarbon dating and stratigraphic correlation",
+          "inputs": [
+            "radiocarbon ages",
+            "stratigraphic data"
+          ],
+          "outputs": [
+            "updated age models"
+          ],
+          "keywords": [
+            "age model",
+            "radiocarbon dating",
+            "stratigraphic correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "In core ME-27, three additional 14C dates were included at specific depths.",
+          "searchable_summary": "include additional radiocarbon dates for core ME-27",
+          "inputs": [
+            "14C dates",
+            "depth information"
+          ],
+          "outputs": [
+            "enhanced age model for ME-27"
+          ],
+          "keywords": [
+            "14C dating",
+            "age model enhancement"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "All radiocarbon ages were calibrated with Calib 7.1 and the marine calibration curve MARINE13.",
+          "searchable_summary": "calibrate radiocarbon ages using Calib 7.1 and MARINE13",
+          "inputs": [
+            "radiocarbon ages"
+          ],
+          "outputs": [
+            "calibrated ages"
+          ],
+          "keywords": [
+            "calibration",
+            "Calib 7.1",
+            "MARINE13"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Ages were linearly interpolated between the stratigraphic tie points.",
+          "searchable_summary": "interpolate ages between stratigraphic tie points",
+          "inputs": [
+            "calibrated ages",
+            "stratigraphic tie points"
+          ],
+          "outputs": [
+            "interpolated ages"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "stratigraphy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Foraminifera-bound δ15N Measurement",
+      "description": "Procedure for measuring δ15N in foraminifera using the persulfate-denitrifier technique and correcting for procedural blanks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "∼3-5 mg of foraminifera were picked, cut open with a scalpel, and underwent chemical cleaning.",
+          "searchable_summary": "prepare foraminifera samples by cutting and cleaning",
+          "inputs": [
+            "foraminifera samples"
+          ],
+          "outputs": [
+            "cleaned foraminifera samples"
+          ],
+          "keywords": [
+            "foraminifera",
+            "sample preparation",
+            "chemical cleaning"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Organic N was released by dissolution with HCl and converted to nitrate in a basic potassium persulfate solution.",
+          "searchable_summary": "convert organic N to nitrate using HCl and potassium persulfate",
+          "inputs": [
+            "cleaned foraminifera samples"
+          ],
+          "outputs": [
+            "nitrate solution"
+          ],
+          "keywords": [
+            "dissolution",
+            "HCl",
+            "potassium persulfate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The nitrate concentration was determined by chemiluminescence.",
+          "searchable_summary": "measure nitrate concentration using chemiluminescence",
+          "inputs": [
+            "nitrate solution"
+          ],
+          "outputs": [
+            "nitrate concentration"
+          ],
+          "keywords": [
+            "nitrate concentration",
+            "chemiluminescence"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "An aliquot of the nitrate solution was converted to nitrous oxide by denitrifying bacteria.",
+          "searchable_summary": "convert nitrate to nitrous oxide using denitrifying bacteria",
+          "inputs": [
+            "nitrate solution"
+          ],
+          "outputs": [
+            "nitrous oxide"
+          ],
+          "keywords": [
+            "nitrate conversion",
+            "denitrifying bacteria"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The N isotopic composition of the N2O was measured with a mass spectrometer.",
+          "searchable_summary": "measure N isotopic composition using mass spectrometry",
+          "inputs": [
+            "nitrous oxide"
+          ],
+          "outputs": [
+            "N isotopic composition"
+          ],
+          "keywords": [
+            "isotopic composition",
+            "mass spectrometry"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "FB-δ15N data were corrected for the contribution of the oxidation procedural blank.",
+          "searchable_summary": "correct FB-δ15N data for procedural blank",
+          "inputs": [
+            "FB-δ15N data",
+            "procedural blank"
+          ],
+          "outputs": [
+            "corrected FB-δ15N data"
+          ],
+          "keywords": [
+            "data correction",
+            "procedural blank"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Linear offsets in FB-δ15N were corrected by applying offsets to whole batches.",
+          "searchable_summary": "apply batch offsets to correct linear offsets in FB-δ15N",
+          "inputs": [
+            "FB-δ15N data",
+            "batch offsets"
+          ],
+          "outputs": [
+            "offset-corrected FB-δ15N data"
+          ],
+          "keywords": [
+            "offset correction",
+            "batch processing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Replicate FB-δ15N analyses for each depth were averaged.",
+          "searchable_summary": "average replicate FB-δ15N analyses",
+          "inputs": [
+            "replicate FB-δ15N data"
+          ],
+          "outputs": [
+            "averaged FB-δ15N records"
+          ],
+          "keywords": [
+            "data averaging",
+            "replicate analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235555557.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

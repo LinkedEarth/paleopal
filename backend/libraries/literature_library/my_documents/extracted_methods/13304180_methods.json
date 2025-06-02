@@ -1,0 +1,243 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sediment Core Sampling",
+      "description": "Process for extracting sediment cores from Lake Stechlin to study spatial heterogeneity and perform various analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sediment cores were extracted from the southern bay of the lake.",
+          "searchable_summary": "extract sediment cores from Lake Stechlin",
+          "inputs": [
+            "Lake Stechlin location",
+            "sediment core extraction equipment"
+          ],
+          "outputs": [
+            "sediment cores"
+          ],
+          "keywords": [
+            "sediment core",
+            "extraction",
+            "Lake Stechlin"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Four adjacent sites were sampled to account for spatial heterogeneity in the sediment.",
+          "searchable_summary": "sample four adjacent sites for sediment cores",
+          "inputs": [
+            "sediment core sites A-D"
+          ],
+          "outputs": [
+            "sediment samples from sites A-D"
+          ],
+          "keywords": [
+            "spatial heterogeneity",
+            "sediment sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Pore water was collected by four in situ dialysis samplers, so-called peepers.",
+          "searchable_summary": "collect pore water using in situ dialysis samplers",
+          "inputs": [
+            "dialysis samplers",
+            "sediment sites"
+          ],
+          "outputs": [
+            "pore water samples"
+          ],
+          "keywords": [
+            "pore water",
+            "dialysis samplers",
+            "peepers"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Sediment cores were taken with Perspex tubes using gravity corers at 30-m water depth.",
+          "searchable_summary": "use gravity corers to extract sediment cores at 30-m depth",
+          "inputs": [
+            "gravity corers",
+            "Perspex tubes"
+          ],
+          "outputs": [
+            "sediment cores"
+          ],
+          "keywords": [
+            "gravity corers",
+            "sediment extraction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The sediments of the 9-cm cores were sliced directly into 1-cm layers for the uppermost 10 cm and then in 4-cm layers for sediment depths of 10-30 cm.",
+          "searchable_summary": "slice sediment cores into layers for analysis",
+          "inputs": [
+            "9-cm sediment cores"
+          ],
+          "outputs": [
+            "layered sediment samples"
+          ],
+          "keywords": [
+            "sediment slicing",
+            "layering"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pore Water Analysis",
+      "description": "Analysis of pore water samples to measure various chemical concentrations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The sampled sediment horizons were centrifuged to retrieve pore water.",
+          "searchable_summary": "centrifuge sediment samples to extract pore water",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "pore water"
+          ],
+          "keywords": [
+            "centrifugation",
+            "pore water extraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "DOC was measured as non-purgeable organic carbon with an organic carbon analyzer.",
+          "searchable_summary": "measure DOC using organic carbon analyzer",
+          "inputs": [
+            "pore water"
+          ],
+          "outputs": [
+            "DOC measurements"
+          ],
+          "keywords": [
+            "DOC",
+            "organic carbon analyzer"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "FI was measured following the protocol of [38].",
+          "searchable_summary": "measure FI following specific protocol",
+          "inputs": [
+            "pore water"
+          ],
+          "outputs": [
+            "FI measurements"
+          ],
+          "keywords": [
+            "FI",
+            "fluorescence index"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Peeper samples were analyzed for concentrations of SRP and ammonium, dissolved iron, manganese, chloride, nitrate, and sulfate.",
+          "searchable_summary": "analyze peeper samples for various chemical concentrations",
+          "inputs": [
+            "peeper samples"
+          ],
+          "outputs": [
+            "chemical concentration data"
+          ],
+          "keywords": [
+            "SRP",
+            "ammonium",
+            "dissolved metals",
+            "ion chromatography"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequencing Data Processing",
+      "description": "Processing of 454 sequencing data using Mothur with specific modifications for quality trimming and alignment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Four hundred fifty-four sequencing data were processed using Mothur with modifications for quality trimming.",
+          "searchable_summary": "process sequencing data using Mothur with quality trimming",
+          "inputs": [
+            "454 sequencing data"
+          ],
+          "outputs": [
+            "trimmed sequencing data"
+          ],
+          "keywords": [
+            "Mothur",
+            "quality trimming",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The alignment step used SINA against the SILVA v.111 non-redundant SSU reference database.",
+          "searchable_summary": "align sequences using SINA against SILVA database",
+          "inputs": [
+            "trimmed sequencing data"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "SINA",
+            "SILVA database",
+            "sequence alignment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The sequences were clustered into OTUs at 97% sequence similarity.",
+          "searchable_summary": "cluster sequences into OTUs at 97% similarity",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "A representative sequence from each OTU was used for taxonomic classification with the least common ancestor method in SINA.",
+          "searchable_summary": "classify OTUs using least common ancestor method",
+          "inputs": [
+            "OTUs"
+          ],
+          "outputs": [
+            "taxonomic classifications"
+          ],
+          "keywords": [
+            "taxonomic classification",
+            "least common ancestor"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/13304180.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

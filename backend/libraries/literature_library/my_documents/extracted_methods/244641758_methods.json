@@ -1,0 +1,381 @@
+{
+  "paper_title": "Genome Sequencing and Analysis of C. tenuissimus",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA Extraction and Library Construction",
+      "description": "This method describes the process of extracting DNA from C. tenuissimus and constructing DNA libraries for sequencing. It ensures the preparation of high-quality DNA samples for genome sequencing and analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The C. tenuissimus strain NIES-3715 was isolated from the Seto Inland Sea, Japan.",
+          "searchable_summary": "isolate C. tenuissimus strain from Seto Inland Sea",
+          "inputs": [
+            "Seto Inland Sea sample"
+          ],
+          "outputs": [
+            "C. tenuissimus strain NIES-3715"
+          ],
+          "keywords": [
+            "isolation",
+            "C. tenuissimus",
+            "Seto Inland Sea"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cultures were observed using epifluorescence microscopy after staining with SYBR-Gold.",
+          "searchable_summary": "stain cultures with SYBR-Gold and observe under epifluorescence microscopy",
+          "inputs": [
+            "cultures",
+            "SYBR-Gold"
+          ],
+          "outputs": [
+            "microscopy images"
+          ],
+          "keywords": [
+            "epifluorescence microscopy",
+            "SYBR-Gold",
+            "staining"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The axenic algal cultures were grown in a modified SWM3 medium under a 12/12-h light-dark cycle at 20 °C.",
+          "searchable_summary": "grow algal cultures in modified SWM3 medium",
+          "inputs": [
+            "axenic algal cultures",
+            "SWM3 medium"
+          ],
+          "outputs": [
+            "grown algal cultures"
+          ],
+          "keywords": [
+            "algal culture",
+            "SWM3 medium",
+            "light-dark cycle"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Cells were harvested by centrifugation at 860×g and 4 °C for 15 min.",
+          "searchable_summary": "harvest cells by centrifugation",
+          "inputs": [
+            "cultured cells"
+          ],
+          "outputs": [
+            "cell pellets"
+          ],
+          "keywords": [
+            "centrifugation",
+            "cell harvesting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "DNA was extracted using a DNeasy Plant Mini Kit.",
+          "searchable_summary": "extract DNA using DNeasy Plant Mini Kit",
+          "inputs": [
+            "cell pellets"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "DNeasy Plant Mini Kit"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "DNA libraries for paired-end and mate-paired sequencing were constructed.",
+          "searchable_summary": "construct DNA libraries for sequencing",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "DNA libraries"
+          ],
+          "keywords": [
+            "DNA library construction",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "Long-read sequencing of genomic DNA using MinION.",
+          "searchable_summary": "perform long-read sequencing with MinION",
+          "inputs": [
+            "genomic DNA"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "long-read sequencing",
+            "MinION"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "De Novo Genome Assembly",
+      "description": "This method involves assembling the genome from sequencing data, estimating genome size and heterozygosity, and evaluating assembly quality.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "K-mer counting was performed using the short paired-end reads and the Jellyfish programme.",
+          "searchable_summary": "perform k-mer counting with Jellyfish",
+          "inputs": [
+            "short paired-end reads"
+          ],
+          "outputs": [
+            "k-mer counts"
+          ],
+          "keywords": [
+            "k-mer counting",
+            "Jellyfish"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "The histogram of 21mer counts was visualised using GenomeScope.",
+          "searchable_summary": "visualize 21mer counts with GenomeScope",
+          "inputs": [
+            "21mer counts"
+          ],
+          "outputs": [
+            "histogram"
+          ],
+          "keywords": [
+            "visualization",
+            "GenomeScope"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Hybrid assembly of all Illumina short reads and MinION reads was performed using MaSuRCA.",
+          "searchable_summary": "perform hybrid assembly with MaSuRCA",
+          "inputs": [
+            "Illumina short reads",
+            "MinION reads"
+          ],
+          "outputs": [
+            "assembled genome"
+          ],
+          "keywords": [
+            "hybrid assembly",
+            "MaSuRCA"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The haploid genome sequence was constructed from the assembled genome using HaploMerger2.",
+          "searchable_summary": "construct haploid genome with HaploMerger2",
+          "inputs": [
+            "assembled genome"
+          ],
+          "outputs": [
+            "haploid genome sequence"
+          ],
+          "keywords": [
+            "haploid genome",
+            "HaploMerger2"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The assembly quality was evaluated by QUAST.",
+          "searchable_summary": "evaluate assembly quality with QUAST",
+          "inputs": [
+            "assembled genome"
+          ],
+          "outputs": [
+            "quality metrics"
+          ],
+          "keywords": [
+            "assembly quality",
+            "QUAST"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Single-copy ortholog genes were searched using BUSCO.",
+          "searchable_summary": "search for single-copy orthologs with BUSCO",
+          "inputs": [
+            "assembled genome"
+          ],
+          "outputs": [
+            "ortholog gene data"
+          ],
+          "keywords": [
+            "ortholog genes",
+            "BUSCO"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "Two haploid pairs were aligned using MUMmer and visualized with mummerplot.",
+          "searchable_summary": "align and visualize haploid pairs with MUMmer and mummerplot",
+          "inputs": [
+            "haploid genome pairs"
+          ],
+          "outputs": [
+            "alignment plot"
+          ],
+          "keywords": [
+            "alignment",
+            "MUMmer",
+            "mummerplot"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Gene Prediction and Annotation",
+      "description": "This method involves predicting gene regions in the genome sequence and annotating them based on homology to known sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Complete ORFs were extracted from RNAseq and translated using TransDecoder.",
+          "searchable_summary": "extract and translate ORFs with TransDecoder",
+          "inputs": [
+            "RNAseq data"
+          ],
+          "outputs": [
+            "translated ORFs"
+          ],
+          "keywords": [
+            "ORFs",
+            "TransDecoder"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "RNAseq reads were mapped to the assembled genome using TopHat2.",
+          "searchable_summary": "map RNAseq reads with TopHat2",
+          "inputs": [
+            "RNAseq reads",
+            "assembled genome"
+          ],
+          "outputs": [
+            "mapping data"
+          ],
+          "keywords": [
+            "RNAseq mapping",
+            "TopHat2"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Gene model was predicted using BRAKER2.",
+          "searchable_summary": "predict gene model with BRAKER2",
+          "inputs": [
+            "mapping data",
+            "protein sequences"
+          ],
+          "outputs": [
+            "gene model"
+          ],
+          "keywords": [
+            "gene prediction",
+            "BRAKER2"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Proteins were annotated based on homology using BLASTP and Interproscan.",
+          "searchable_summary": "annotate proteins with BLASTP and Interproscan",
+          "inputs": [
+            "predicted proteins"
+          ],
+          "outputs": [
+            "annotated proteins"
+          ],
+          "keywords": [
+            "protein annotation",
+            "BLASTP",
+            "Interproscan"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Chloroplast and mitochondrial genomes were annotated by GeSeq.",
+          "searchable_summary": "annotate organelle genomes with GeSeq",
+          "inputs": [
+            "chloroplast genome",
+            "mitochondrial genome"
+          ],
+          "outputs": [
+            "annotated organelle genomes"
+          ],
+          "keywords": [
+            "organelle annotation",
+            "GeSeq"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Quantification of Gene Copy",
+      "description": "This method quantifies gene copy numbers in nuclear genomes using array-based digital PCR.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "PCR amplification was conducted in a reaction mixture for two array chips.",
+          "searchable_summary": "conduct PCR amplification for array chips",
+          "inputs": [
+            "extracted DNA",
+            "primers",
+            "TaqMan probe"
+          ],
+          "outputs": [
+            "PCR amplified samples"
+          ],
+          "keywords": [
+            "PCR amplification",
+            "array chips"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Data analysis was performed using the QuantStudio 3D Analysis Suite Software.",
+          "searchable_summary": "analyze PCR data with QuantStudio 3D Analysis Suite",
+          "inputs": [
+            "PCR amplified samples"
+          ],
+          "outputs": [
+            "gene copy number data"
+          ],
+          "keywords": [
+            "data analysis",
+            "QuantStudio 3D"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/244641758.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

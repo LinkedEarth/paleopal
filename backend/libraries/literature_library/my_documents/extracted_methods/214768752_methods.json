@@ -1,0 +1,343 @@
+{
+  "paper_title": "Experimental Methods in Maize Male Reproductive Development",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "RNA-seq and Gene Expression Analysis",
+      "description": "RNA-seq was performed on four tissues representing integral stages in maize male gametophyte development to analyze gene expression patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "RNA was extracted from the inbred maize line B73, with four biological replicates for each tissue.",
+          "searchable_summary": "extract RNA from maize line B73 for four tissue types",
+          "inputs": [
+            "maize line B73",
+            "tissue samples"
+          ],
+          "outputs": [
+            "RNA samples"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "maize",
+            "B73"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Libraries were sequenced using Illumina sequencing (100 bp paired-end reads) and mapped to the B73 AGPv4 reference genome.",
+          "searchable_summary": "sequence RNA libraries using Illumina and map to B73 AGPv4 genome",
+          "inputs": [
+            "RNA libraries",
+            "B73 AGPv4 genome"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "Illumina sequencing",
+            "genome mapping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Principal Component Analysis (PCA) showed samples from each tissue clustering together along PC1 and PC2.",
+          "searchable_summary": "perform PCA on sequencing data to analyze sample clustering",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "clustering",
+            "gene expression"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Differential gene expression was defined by comparing gene expression in later developmental stages to the premeiotic, diploid tassel primordia and between all adjacent developmental stages.",
+          "searchable_summary": "calculate differential gene expression between developmental stages",
+          "inputs": [
+            "gene expression data"
+          ],
+          "outputs": [
+            "differential expression results"
+          ],
+          "keywords": [
+            "differential expression",
+            "developmental stages"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Enriched GO terms highlighted the differences in gene expression among developmental stages.",
+          "searchable_summary": "identify enriched GO terms from differential expression data",
+          "inputs": [
+            "differential expression results"
+          ],
+          "outputs": [
+            "enriched GO terms"
+          ],
+          "keywords": [
+            "GO terms",
+            "gene expression",
+            "enrichment analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mapping Reads and Differential Expression Assessment",
+      "description": "Process of mapping reads to genes, assessing differential expression, and performing GO enrichment analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Ribosomal reads (rRNA) were removed from all samples using STAR.",
+          "searchable_summary": "remove rRNA reads using STAR",
+          "inputs": [
+            "sequencing data"
+          ],
+          "outputs": [
+            "rRNA-filtered sequences"
+          ],
+          "keywords": [
+            "rRNA removal",
+            "STAR"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "rRNA-filtered sequences were mapped to the maize reference genome using STAR, keeping only unique alignments.",
+          "searchable_summary": "map filtered sequences to maize genome with STAR",
+          "inputs": [
+            "rRNA-filtered sequences",
+            "maize genome"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "genome mapping",
+            "unique alignments"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Transcript levels of annotated gene isoforms were measured using Cufflinks.",
+          "searchable_summary": "measure transcript levels with Cufflinks",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "transcript levels"
+          ],
+          "keywords": [
+            "Cufflinks",
+            "transcript measurement"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Differential expression was calculated between each tissue with Cuffdiff.",
+          "searchable_summary": "calculate differential expression with Cuffdiff",
+          "inputs": [
+            "transcript levels"
+          ],
+          "outputs": [
+            "differential expression results"
+          ],
+          "keywords": [
+            "Cuffdiff",
+            "differential expression"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "GO term enrichment was calculated using the singular enrichment analysis method with a Fisher test.",
+          "searchable_summary": "perform GO term enrichment analysis",
+          "inputs": [
+            "differential expression results"
+          ],
+          "outputs": [
+            "enriched GO terms"
+          ],
+          "keywords": [
+            "GO enrichment",
+            "Fisher test"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transposable Elements Analysis",
+      "description": "Analysis of transposable elements (TEs) using differential expression analysis and categorization based on expression patterns.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "FeatureCount file was used as input for differential expression analysis using DESeq2.",
+          "searchable_summary": "use featureCount file for DESeq2 analysis",
+          "inputs": [
+            "featureCount file"
+          ],
+          "outputs": [
+            "normalized read counts"
+          ],
+          "keywords": [
+            "DESeq2",
+            "differential expression"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Normalized read counts for all TEs were obtained and filtered based on distance from genes.",
+          "searchable_summary": "filter TEs based on distance from genes",
+          "inputs": [
+            "normalized read counts"
+          ],
+          "outputs": [
+            "filtered TEs"
+          ],
+          "keywords": [
+            "TE filtering",
+            "distance from genes"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Pairwise volcano plots were generated for all samples against the reference seedling tissue.",
+          "searchable_summary": "generate volcano plots for TE expression",
+          "inputs": [
+            "filtered TEs"
+          ],
+          "outputs": [
+            "volcano plots"
+          ],
+          "keywords": [
+            "volcano plots",
+            "TE expression"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "TEs were categorized as 'dynamic' or 'static' based on statistical significance of expression changes.",
+          "searchable_summary": "categorize TEs based on expression changes",
+          "inputs": [
+            "volcano plots"
+          ],
+          "outputs": [
+            "categorized TEs"
+          ],
+          "keywords": [
+            "TE categorization",
+            "expression changes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Zm gex2 Sequence Analysis and Phenotype Characterization",
+      "description": "Analysis of Zm gex2 sequence and characterization of phenotypes related to seed size and seedless area.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Protein sequence encoded by Zm gex2 was retrieved from the Maize Genetics and Genomics Database.",
+          "searchable_summary": "retrieve Zm gex2 protein sequence from MaizeGDB",
+          "inputs": [
+            "MaizeGDB"
+          ],
+          "outputs": [
+            "Zm gex2 protein sequence"
+          ],
+          "keywords": [
+            "Zm gex2",
+            "protein sequence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Maize and Arabidopsis GEX2 protein domains were predicted by InterPro.",
+          "searchable_summary": "predict protein domains with InterPro",
+          "inputs": [
+            "Zm gex2 protein sequence",
+            "Arabidopsis GEX2 sequence"
+          ],
+          "outputs": [
+            "protein domain predictions"
+          ],
+          "keywords": [
+            "InterPro",
+            "protein domains"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "To quantify small seed phenotype, mature, dried down maize ears were imaged prior to seed removal.",
+          "searchable_summary": "image maize ears to quantify small seed phenotype",
+          "inputs": [
+            "maize ears"
+          ],
+          "outputs": [
+            "seed images"
+          ],
+          "keywords": [
+            "seed phenotype",
+            "imaging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Seedless area was quantified as a percentage of total area using ImageJ.",
+          "searchable_summary": "quantify seedless area with ImageJ",
+          "inputs": [
+            "seed images"
+          ],
+          "outputs": [
+            "seedless area percentage"
+          ],
+          "keywords": [
+            "ImageJ",
+            "seedless area"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "For analysis of embryo sacs by confocal microscopy, tissues were stained and visualized on a Leica SP8 microscope.",
+          "searchable_summary": "visualize embryo sacs with confocal microscopy",
+          "inputs": [
+            "stained tissues"
+          ],
+          "outputs": [
+            "confocal images"
+          ],
+          "keywords": [
+            "confocal microscopy",
+            "embryo sacs"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/214768752.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

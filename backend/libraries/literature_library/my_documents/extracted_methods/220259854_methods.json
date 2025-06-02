@@ -1,0 +1,196 @@
+{
+  "paper_title": "Holocene global mean surface temperature, a multi-method reconstruction approach",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Holocene Proxy Temperature Data Selection",
+      "description": "Process for selecting and preparing Holocene proxy temperature data from the Temperature 12k database for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The temperature reconstructions are based on v.1.0.0 of the Temperature 12k database.",
+          "searchable_summary": "fetch temperature data from Temperature 12k database",
+          "inputs": [
+            "Temperature 12k database v.1.0.0"
+          ],
+          "outputs": [
+            "raw temperature data"
+          ],
+          "keywords": [
+            "temperature data",
+            "Temperature 12k database"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For proxy types with both annual and seasonal paleo-temperature time series, only the annual time series was used.",
+          "searchable_summary": "filter data to use only annual time series",
+          "inputs": [
+            "raw temperature data"
+          ],
+          "outputs": [
+            "filtered annual temperature data"
+          ],
+          "keywords": [
+            "data filtering",
+            "annual time series"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Two-Thousand-Year Proxy Temperature Scaling",
+      "description": "Scaling procedure for two reconstruction methods (CPS and PAI) to calibrate normalized composites to temperature.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The variance in PAI is scaled to 100-year mean composites from the past 1000 years.",
+          "searchable_summary": "scale PAI variance to 100-year mean composites",
+          "inputs": [
+            "PAI variance",
+            "100-year mean composites"
+          ],
+          "outputs": [
+            "scaled PAI variance"
+          ],
+          "keywords": [
+            "variance scaling",
+            "PAI"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "For CPS, emulate the same CPS methodology used for the past 12k for the six latitudinal bands in the PAGES 2k database.",
+          "searchable_summary": "apply CPS methodology to PAGES 2k database",
+          "inputs": [
+            "CPS methodology",
+            "PAGES 2k database"
+          ],
+          "outputs": [
+            "CPS-scaled composites"
+          ],
+          "keywords": [
+            "CPS methodology",
+            "PAGES 2k database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Standard Calibrated Composite (SCC)",
+      "description": "Procedure for creating a standard calibrated composite by aligning and compositing temperature time series.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Align the time series by adjusting them relative to the multi-millennial interval common to most records, namely between 5 and 3 ka.",
+          "searchable_summary": "align time series to 5-3 ka interval",
+          "inputs": [
+            "temperature time series"
+          ],
+          "outputs": [
+            "aligned time series"
+          ],
+          "keywords": [
+            "time series alignment",
+            "5-3 ka interval"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Bin the resulting time series in 100-year intervals and grid spatially using an equal-area grid.",
+          "searchable_summary": "bin and grid time series in 100-year intervals",
+          "inputs": [
+            "aligned time series"
+          ],
+          "outputs": [
+            "binned and gridded time series"
+          ],
+          "keywords": [
+            "binning",
+            "spatial gridding"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Generate an ensemble of time series by sampling uncertainties in proxy values and chronology.",
+          "searchable_summary": "generate ensemble by sampling uncertainties",
+          "inputs": [
+            "proxy values",
+            "chronology"
+          ],
+          "outputs": [
+            "ensemble time series"
+          ],
+          "keywords": [
+            "ensemble generation",
+            "uncertainty sampling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Dynamic Calibrated Composite (DCC)",
+      "description": "Procedure for creating a dynamic calibrated composite using a dynamic record-aligning procedure and different approaches to characterizing uncertainties.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Adjust mean temperatures iteratively to minimize the mean offset between each record and all other records within each latitudinal band.",
+          "searchable_summary": "iteratively adjust mean temperatures to minimize offset",
+          "inputs": [
+            "temperature records"
+          ],
+          "outputs": [
+            "adjusted temperature records"
+          ],
+          "keywords": [
+            "mean temperature adjustment",
+            "latitudinal band"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Errors in proxy temperatures are drawn from Bayesian temperature calibrations or simulated from uncertainties.",
+          "searchable_summary": "draw or simulate errors in proxy temperatures",
+          "inputs": [
+            "proxy temperatures",
+            "Bayesian calibrations"
+          ],
+          "outputs": [
+            "temperature errors"
+          ],
+          "keywords": [
+            "error simulation",
+            "Bayesian calibration"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Simulate age uncertainties using the Banded Age Model (BAM) with a Poisson model.",
+          "searchable_summary": "simulate age uncertainties using BAM",
+          "inputs": [
+            "original ages"
+          ],
+          "outputs": [
+            "age uncertainties"
+          ],
+          "keywords": [
+            "age simulation",
+            "BAM"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/220259854.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

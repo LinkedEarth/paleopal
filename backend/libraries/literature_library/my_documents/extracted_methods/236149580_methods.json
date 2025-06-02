@@ -1,0 +1,234 @@
+{
+  "paper_title": "Pollen, Health, and Environmental Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Data Collection and Processing",
+      "description": "This method involves collecting daily pollen data from monitors, geocoding their locations, and determining the start and end of pollen seasons using specific thresholds.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained daily pollen data for 2008-2015 from 28 monitors that are part of the NAB network of the American Academy of Allergy, Asthma, and Immunology (AAAAI).",
+          "searchable_summary": "fetch daily pollen data from NAB network",
+          "inputs": [
+            "NAB network",
+            "2008-2015"
+          ],
+          "outputs": [
+            "daily pollen data"
+          ],
+          "keywords": [
+            "pollen data",
+            "NAB",
+            "AAAAI"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We geocoded the physical address of these locations to identify the Metropolitan Statistical Area (MSA) in which these monitors reside.",
+          "searchable_summary": "geocode monitor locations to identify MSA",
+          "inputs": [
+            "monitor addresses"
+          ],
+          "outputs": [
+            "MSA identification"
+          ],
+          "keywords": [
+            "geocoding",
+            "MSA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Identification of pollen season start and end dates using a novel approach based on cumulative pollen counts.",
+          "searchable_summary": "calculate pollen season start and end dates",
+          "inputs": [
+            "daily pollen data",
+            "historical mean total count"
+          ],
+          "outputs": [
+            "pollen season start and end dates"
+          ],
+          "keywords": [
+            "pollen season",
+            "cumulative sum",
+            "threshold"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Exposure Characterization",
+      "description": "This method characterizes daily pollen concentrations into categories based on NAB thresholds and modifies them to examine health effects at lower levels.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We used the pollen thresholds published by the NAB as the benchmark to characterize pollen concentrations each day.",
+          "searchable_summary": "characterize daily pollen concentrations using NAB thresholds",
+          "inputs": [
+            "daily pollen data",
+            "NAB thresholds"
+          ],
+          "outputs": [
+            "pollen concentration categories"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "NAB thresholds"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We linearly interpolated pollen data by tree, grass, and weed within their specific seasons each year to account for missing data.",
+          "searchable_summary": "interpolate missing pollen data",
+          "inputs": [
+            "pollen data",
+            "seasonal information"
+          ],
+          "outputs": [
+            "imputed pollen data"
+          ],
+          "keywords": [
+            "interpolation",
+            "missing data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "We conducted a series of sensitivity analyses to compare the results with percentile-based definition of pollen concentration and consecutive days of exposure.",
+          "searchable_summary": "perform sensitivity analysis on pollen concentration",
+          "inputs": [
+            "pollen concentration data"
+          ],
+          "outputs": [
+            "sensitivity analysis results"
+          ],
+          "keywords": [
+            "sensitivity analysis",
+            "percentile-based"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Health Data Collection and Processing",
+      "description": "This method involves collecting health data from the Truven Health MarketScan database and calculating daily counts of medication fills and physician visits.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We obtained health data from the Truven Health MarketScan Research database for the years 2008-2015.",
+          "searchable_summary": "fetch health data from Truven Health MarketScan",
+          "inputs": [
+            "Truven Health MarketScan",
+            "2008-2015"
+          ],
+          "outputs": [
+            "health data"
+          ],
+          "keywords": [
+            "health data",
+            "MarketScan"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We calculated a daily count of medication fills by MSA based on the day of the fill.",
+          "searchable_summary": "calculate daily medication fills by MSA",
+          "inputs": [
+            "health data",
+            "MSA"
+          ],
+          "outputs": [
+            "daily medication fill counts"
+          ],
+          "keywords": [
+            "medication fills",
+            "MSA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We estimated daily counts of AR visits based on a patient's first visit in a calendar year.",
+          "searchable_summary": "estimate daily AR visit counts",
+          "inputs": [
+            "health data",
+            "AR visit information"
+          ],
+          "outputs": [
+            "daily AR visit counts"
+          ],
+          "keywords": [
+            "AR visits",
+            "health data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Environmental Data Collection and Processing",
+      "description": "This method involves creating daily MSA-level estimates of environmental variables such as temperature, humidity, and air pollutants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We created daily MSA-level estimates of environmental variables using predictions from the NLDAS model.",
+          "searchable_summary": "fetch environmental data using NLDAS model",
+          "inputs": [
+            "NLDAS model predictions"
+          ],
+          "outputs": [
+            "MSA-level environmental estimates"
+          ],
+          "keywords": [
+            "NLDAS",
+            "environmental data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The grid-level predictions were converted to county-level estimates and then to MSA-level estimates using a population weighted approach.",
+          "searchable_summary": "convert grid-level predictions to MSA-level estimates",
+          "inputs": [
+            "grid-level predictions",
+            "population data"
+          ],
+          "outputs": [
+            "MSA-level estimates"
+          ],
+          "keywords": [
+            "population weighted",
+            "MSA estimates"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We collected daily measures of air pollutants from the Bayesian space-time Downscaler fusion modelling framework.",
+          "searchable_summary": "fetch air pollutant data using Downscaler framework",
+          "inputs": [
+            "Downscaler framework"
+          ],
+          "outputs": [
+            "air pollutant data"
+          ],
+          "keywords": [
+            "air pollutants",
+            "Downscaler"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/236149580.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

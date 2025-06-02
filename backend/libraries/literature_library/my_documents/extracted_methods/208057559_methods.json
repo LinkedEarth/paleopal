@@ -1,0 +1,386 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Radiocarbon Dating and Calibration",
+      "description": "This method involves dating charcoal fragments using radiocarbon dating and calibrating the dates using the SHCal13 calibration curve to generate cumulative probabilities of fire events.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Charcoal fragments >1 mm were submitted to DirectAMS for radiocarbon dating.",
+          "searchable_summary": "submit charcoal fragments to DirectAMS for radiocarbon dating",
+          "inputs": [
+            "charcoal fragments >1 mm"
+          ],
+          "outputs": [
+            "radiocarbon dates"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "charcoal",
+            "DirectAMS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The 'Bchron' package for R was used to calibrate the radiocarbon dates using the SHCal13 calibration curve.",
+          "searchable_summary": "calibrate radiocarbon dates using Bchron package and SHCal13 curve",
+          "inputs": [
+            "radiocarbon dates",
+            "SHCal13 calibration curve"
+          ],
+          "outputs": [
+            "calibrated radiocarbon dates"
+          ],
+          "keywords": [
+            "Bchron",
+            "R",
+            "calibration",
+            "SHCal13"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Generate cumulative probabilities of fire events.",
+          "searchable_summary": "generate cumulative probabilities of fire events from calibrated dates",
+          "inputs": [
+            "calibrated radiocarbon dates"
+          ],
+          "outputs": [
+            "cumulative probabilities of fire events"
+          ],
+          "keywords": [
+            "cumulative probabilities",
+            "fire events"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Charcoal and Phytolith Metrics Calculation",
+      "description": "This method calculates various metrics for charcoal and phytoliths to analyze fire and vegetation history.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate the total charcoal abundance per core and per depth interval.",
+          "searchable_summary": "calculate total charcoal abundance per core and depth interval",
+          "inputs": [
+            "charcoal data per core",
+            "depth interval data"
+          ],
+          "outputs": [
+            "total charcoal abundance"
+          ],
+          "keywords": [
+            "charcoal abundance",
+            "depth interval"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate the proportion of depth intervals containing charcoal for each core.",
+          "searchable_summary": "calculate proportion of depth intervals with charcoal",
+          "inputs": [
+            "charcoal data per core"
+          ],
+          "outputs": [
+            "proportion of depth intervals with charcoal"
+          ],
+          "keywords": [
+            "charcoal proportion",
+            "depth intervals"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculate the relative percentage of all phytolith types found within each sample.",
+          "searchable_summary": "calculate relative percentage of phytolith types per sample",
+          "inputs": [
+            "phytolith data per sample"
+          ],
+          "outputs": [
+            "relative percentage of phytolith types"
+          ],
+          "keywords": [
+            "phytolith percentage",
+            "sample analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform detrended correspondence analysis to look for patterns of vegetation (dis)similarity.",
+          "searchable_summary": "perform detrended correspondence analysis for vegetation patterns",
+          "inputs": [
+            "phytolith data"
+          ],
+          "outputs": [
+            "vegetation similarity patterns"
+          ],
+          "keywords": [
+            "detrended correspondence analysis",
+            "vegetation patterns"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate trends and magnitude of change of palm and arboreal phytolith types within each core.",
+          "searchable_summary": "calculate trends and magnitude of change for phytolith types",
+          "inputs": [
+            "phytolith data per core"
+          ],
+          "outputs": [
+            "trends and magnitude of change"
+          ],
+          "keywords": [
+            "phytolith trends",
+            "magnitude of change"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Determine association between phytolith and charcoal metrics using Spearman rank correlation tests.",
+          "searchable_summary": "perform Spearman rank correlation between phytolith and charcoal metrics",
+          "inputs": [
+            "phytolith metrics",
+            "charcoal metrics"
+          ],
+          "outputs": [
+            "correlation results"
+          ],
+          "keywords": [
+            "Spearman rank correlation",
+            "phytolith",
+            "charcoal"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Charcoal Laboratory Analysis",
+      "description": "This method describes the laboratory process for analyzing charcoal in soil samples, including boiling, sieving, and calculating surface area and volume.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Boil 20-50 mg of soil samples in 3% H2O2 for 15 minutes.",
+          "searchable_summary": "boil soil samples in hydrogen peroxide",
+          "inputs": [
+            "soil samples",
+            "3% H2O2"
+          ],
+          "outputs": [
+            "processed soil samples"
+          ],
+          "keywords": [
+            "boiling",
+            "hydrogen peroxide",
+            "soil processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Rinse and sieve the remaining material at 500 μm.",
+          "searchable_summary": "rinse and sieve soil material at 500 μm",
+          "inputs": [
+            "processed soil samples"
+          ],
+          "outputs": [
+            "sieved material"
+          ],
+          "keywords": [
+            "rinsing",
+            "sieving",
+            "500 μm"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Identify charcoal fragments using a microscope and photograph them.",
+          "searchable_summary": "identify and photograph charcoal fragments using a microscope",
+          "inputs": [
+            "sieved material"
+          ],
+          "outputs": [
+            "charcoal fragment images"
+          ],
+          "keywords": [
+            "microscope",
+            "charcoal identification",
+            "photography"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate the surface area of each charcoal fragment using Image J software.",
+          "searchable_summary": "calculate charcoal fragment surface area with Image J",
+          "inputs": [
+            "charcoal fragment images"
+          ],
+          "outputs": [
+            "surface area measurements"
+          ],
+          "keywords": [
+            "Image J",
+            "surface area",
+            "charcoal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Convert surface area to volume using Weng's equation.",
+          "searchable_summary": "convert charcoal surface area to volume using Weng's equation",
+          "inputs": [
+            "surface area measurements"
+          ],
+          "outputs": [
+            "volume measurements"
+          ],
+          "keywords": [
+            "volume conversion",
+            "Weng's equation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Derive the volume of charcoal per cubic centimeter of soil.",
+          "searchable_summary": "derive charcoal volume per cubic centimeter of soil",
+          "inputs": [
+            "volume measurements",
+            "initial soil volume"
+          ],
+          "outputs": [
+            "charcoal volume per cm³"
+          ],
+          "keywords": [
+            "charcoal volume",
+            "soil analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phytolith Laboratory Analysis",
+      "description": "This method outlines the preparation and analysis of phytoliths from soil samples, including chemical treatments and identification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Add 56,000 microspheres to each 1 cm³ soil sample at the onset of processing.",
+          "searchable_summary": "add microspheres to soil samples for concentration calculation",
+          "inputs": [
+            "soil samples",
+            "microspheres"
+          ],
+          "outputs": [
+            "soil samples with microspheres"
+          ],
+          "keywords": [
+            "microspheres",
+            "concentration calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use H2O2, HCl, and KMnO4 to remove carbonates, organic material, and humic acids.",
+          "searchable_summary": "remove impurities from soil samples using chemical treatments",
+          "inputs": [
+            "soil samples with microspheres"
+          ],
+          "outputs": [
+            "cleaned soil samples"
+          ],
+          "keywords": [
+            "H2O2",
+            "HCl",
+            "KMnO4",
+            "soil cleaning"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Add Bromoform to separate phytoliths and microspheres from remaining soil material.",
+          "searchable_summary": "separate phytoliths using Bromoform",
+          "inputs": [
+            "cleaned soil samples"
+          ],
+          "outputs": [
+            "separated phytoliths and microspheres"
+          ],
+          "keywords": [
+            "Bromoform",
+            "phytolith separation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Mount phytoliths on microscope slides using Naphrax.",
+          "searchable_summary": "mount phytoliths on slides with Naphrax",
+          "inputs": [
+            "separated phytoliths"
+          ],
+          "outputs": [
+            "mounted phytolith slides"
+          ],
+          "keywords": [
+            "Naphrax",
+            "slide mounting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Identify phytoliths using a microscope with 1,000× magnification and differential interference contrast.",
+          "searchable_summary": "identify phytoliths using high magnification microscope",
+          "inputs": [
+            "mounted phytolith slides"
+          ],
+          "outputs": [
+            "identified phytoliths"
+          ],
+          "keywords": [
+            "phytolith identification",
+            "microscope",
+            "magnification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Count phytoliths until 200 arboreal and 300 total phytoliths are reached.",
+          "searchable_summary": "count phytoliths to specified totals",
+          "inputs": [
+            "identified phytoliths"
+          ],
+          "outputs": [
+            "phytolith counts"
+          ],
+          "keywords": [
+            "phytolith counting",
+            "arboreal",
+            "total count"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/208057559.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

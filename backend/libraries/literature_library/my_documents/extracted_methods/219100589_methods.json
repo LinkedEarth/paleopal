@@ -1,0 +1,238 @@
+{
+  "paper_title": "A shallow compaction model for Holocene Mississippi Delta sediments",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Decompaction Model",
+      "description": "Decompaction of the actual core allows computation of the average accretion rate over time spans during the Holocene. This is achieved by combining the relationship between void index and depth with an age-depth model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect oedometric test data from the Myrtle Grove core I to establish the void index vs. depth relationship.",
+          "searchable_summary": "collect oedometric test data for void index vs. depth relationship",
+          "inputs": [
+            "Myrtle Grove core I oedometric test data"
+          ],
+          "outputs": [
+            "void index vs. depth relationship"
+          ],
+          "keywords": [
+            "oedometric test",
+            "void index",
+            "depth relationship"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Collect 14C datings of organic remnants at different elevations within the sedimentary column to establish an age-depth model.",
+          "searchable_summary": "collect 14C datings for age-depth model",
+          "inputs": [
+            "14C datings of organic remnants"
+          ],
+          "outputs": [
+            "age-depth model"
+          ],
+          "keywords": [
+            "14C dating",
+            "age-depth model",
+            "sedimentary column"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Compute the decompacted thickness of the soil column between specified depths using the void index and age-depth model.",
+          "searchable_summary": "compute decompacted thickness using void index and age-depth model",
+          "inputs": [
+            "void index",
+            "age-depth model",
+            "depth z1",
+            "depth z2"
+          ],
+          "outputs": [
+            "decompacted thickness"
+          ],
+          "keywords": [
+            "decompaction",
+            "thickness computation",
+            "void index"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate the average accretion rate within a specified time interval using deposition times and decompacted thickness.",
+          "searchable_summary": "calculate average accretion rate using deposition times and decompacted thickness",
+          "inputs": [
+            "deposition time t1",
+            "deposition time t2",
+            "decompacted thickness"
+          ],
+          "outputs": [
+            "average accretion rate"
+          ],
+          "keywords": [
+            "accretion rate",
+            "deposition time",
+            "decompacted thickness"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geomechanical Model",
+      "description": "Simulates accretion and consolidation of the Myrtle Grove core I using the NATSUB-2D numerical model, which solves a coupled system of equations for 2-D groundwater flow and 1-D consolidation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Set up the NATSUB-2D model to simulate accretion and consolidation processes over a compaction-free Pleistocene basement.",
+          "searchable_summary": "set up NATSUB-2D model for accretion and consolidation simulation",
+          "inputs": [
+            "NATSUB-2D model",
+            "Pleistocene basement data"
+          ],
+          "outputs": [
+            "simulation setup"
+          ],
+          "keywords": [
+            "NATSUB-2D",
+            "accretion",
+            "consolidation",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Compute pore overpressure evolution using the groundwater flow model during deposition of unit 1.",
+          "searchable_summary": "compute pore overpressure using groundwater flow model",
+          "inputs": [
+            "groundwater flow model",
+            "unit 1 data"
+          ],
+          "outputs": [
+            "pore overpressure evolution"
+          ],
+          "keywords": [
+            "pore overpressure",
+            "groundwater flow",
+            "unit 1"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Simulate consolidation of unit 1 due to over-pressure dissipation and deposition of unit 2.",
+          "searchable_summary": "simulate consolidation of unit 1 and deposition of unit 2",
+          "inputs": [
+            "unit 1 data",
+            "unit 2 data"
+          ],
+          "outputs": [
+            "consolidation simulation"
+          ],
+          "keywords": [
+            "consolidation",
+            "unit 1",
+            "unit 2"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Include contributions of deep subsidence factors such as glacial isostatic adjustment and regional sediment loading.",
+          "searchable_summary": "include deep subsidence factors in model",
+          "inputs": [
+            "deep subsidence factors"
+          ],
+          "outputs": [
+            "enhanced model"
+          ],
+          "keywords": [
+            "deep subsidence",
+            "glacial isostatic adjustment",
+            "sediment loading"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Solve the flow equations using a 1-D framework for the Holocene sequence of the Myrtle Grove core I.",
+          "searchable_summary": "solve flow equations in 1-D framework",
+          "inputs": [
+            "flow equations",
+            "Holocene sequence data"
+          ],
+          "outputs": [
+            "flow equation solutions"
+          ],
+          "keywords": [
+            "flow equations",
+            "1-D framework",
+            "Holocene sequence"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Implement numerical solution using Finite Element discretization, back Euler method for time integration, and fixed-point iteration for material non-linearity.",
+          "searchable_summary": "implement numerical solution with FE discretization and back Euler method",
+          "inputs": [
+            "FE discretization",
+            "back Euler method",
+            "fixed-point iteration"
+          ],
+          "outputs": [
+            "numerical solution"
+          ],
+          "keywords": [
+            "Finite Element",
+            "back Euler",
+            "fixed-point iteration"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Use a Lagrangian approach with a dynamic mesh to account for large deformations without geometric non-linearity.",
+          "searchable_summary": "use Lagrangian approach with dynamic mesh for large deformations",
+          "inputs": [
+            "Lagrangian approach",
+            "dynamic mesh"
+          ],
+          "outputs": [
+            "deformation model"
+          ],
+          "keywords": [
+            "Lagrangian approach",
+            "dynamic mesh",
+            "large deformations"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Adopt a constant time step of 10 years and add a new finite element when soil accretion reaches 10 cm.",
+          "searchable_summary": "adopt constant time step and add finite element for soil accretion",
+          "inputs": [
+            "time step",
+            "soil accretion data"
+          ],
+          "outputs": [
+            "time-stepped model"
+          ],
+          "keywords": [
+            "time step",
+            "finite element",
+            "soil accretion"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219100589.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,804 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Geochemical Analysis",
+      "description": "Procedures for preparing sediment samples and analyzing their geochemical composition, including organic carbon (C org), total nitrogen (TN), stable carbon isotopes (δ 13 C), and trace elements (Ni, Cu, Al). This involves sample treatment, elemental and isotopic measurements using EA-IRMS and XRF, normalization, and validation of analytical precision and accuracy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Twenty-four dry sediment samples (~0.5 cm each) ground in a porcelain mortar, were used for geochemical analyses at the ALY-SES platform (IRD/SU, Bondy France).",
+          "searchable_summary": "grind dry sediment samples",
+          "inputs": [
+            "dry sediment samples"
+          ],
+          "outputs": [
+            "ground sediment samples"
+          ],
+          "keywords": [
+            "sediment preparation",
+            "grinding",
+            "mortar"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The samples for C org and δ 13 C analysis were treated with HCl 10% for removal of the carbonate fraction.",
+          "searchable_summary": "treat sediment samples with HCl to remove carbonates",
+          "inputs": [
+            "ground sediment samples",
+            "HCl 10%"
+          ],
+          "outputs": [
+            "decarbonated sediment samples (for Corg, δ13C)"
+          ],
+          "keywords": [
+            "carbonate removal",
+            "HCl treatment",
+            "sediment processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The content of C org and TN and the stable carbon isotopic ratio 13 C/ 12 C of the organic matter were determined on a Flash HT 2000 elemental analyzer, coupled to an isotopic ratio mass spectrometer Delta Vplus via a combustion-ConFlow IV interface from Thermo Fischer Scientific. Bulk sediment was used for TN analysis.",
+          "searchable_summary": "determine Corg, TN, and δ13C using elemental analyzer and IRMS",
+          "inputs": [
+            "decarbonated sediment samples (for Corg, δ13C)",
+            "bulk sediment samples (for TN)"
+          ],
+          "outputs": [
+            "Corg content",
+            "TN content",
+            "δ13C ratio"
+          ],
+          "keywords": [
+            "elemental analysis",
+            "EA-IRMS",
+            "stable isotope analysis",
+            "organic carbon",
+            "total nitrogen",
+            "delta 13C"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The stable carbon isotopic ratio 13 C/ 12 C of OM is reported in the conventional δ-notation with respect to the PDB (Pee Dee Belemnite) carbonate standard defined with the equation δ 13 13 12 13 12 13 12",
+          "searchable_summary": "calculate and report δ13C values in delta notation relative to PDB standard",
+          "inputs": [
+            "13C/12C ratio"
+          ],
+          "outputs": [
+            "δ13C value (‰ vs PDB)"
+          ],
+          "keywords": [
+            "delta notation",
+            "δ13C calculation",
+            "PDB standard",
+            "isotope ratio"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "The analytical precision was determined by replicates of the certified reference materials and was always below 0.12% for C org and TN, and lower than ±0.2‰ for δ 13 C.",
+          "searchable_summary": "validate analytical precision for Corg, TN, and δ13C using reference materials",
+          "inputs": [
+            "certified reference materials",
+            "replicate analysis results"
+          ],
+          "outputs": [
+            "analytical precision metrics (for Corg, TN, δ13C)"
+          ],
+          "keywords": [
+            "analytical precision",
+            "validation",
+            "reference material",
+            "replicates"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_fetch",
+          "description": "Ni, Cu, and Al concentrations were determined on 35 samples (~1 cm each) by X-ray fluorescence spectrometry (XRF, Spectrolab Xepos-3).",
+          "searchable_summary": "determine Ni, Cu, and Al concentrations using XRF",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "Ni concentration",
+            "Cu concentration",
+            "Al concentration"
+          ],
+          "keywords": [
+            "XRF",
+            "X-ray fluorescence spectrometry",
+            "trace elements",
+            "Ni",
+            "Cu",
+            "Al"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "Analytical precision was assessed through the replicate analysis (n = 3) of a single sediment sample, and the coefficients of variation were <0.6% for Ni and Cu, and <0.01% for Al).",
+          "searchable_summary": "assess analytical precision for Ni, Cu, and Al using replicate analysis",
+          "inputs": [
+            "single sediment sample",
+            "replicate analysis results (n=3)"
+          ],
+          "outputs": [
+            "coefficient of variation (for Ni, Cu, Al)"
+          ],
+          "keywords": [
+            "analytical precision",
+            "validation",
+            "replicates",
+            "coefficient of variation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "The accuracy of the measurements was evaluated through the analysis of the reference material IAEA-158 with results obtained within the reported certified values.",
+          "searchable_summary": "evaluate accuracy for Ni, Cu, and Al using reference material IAEA-158",
+          "inputs": [
+            "reference material IAEA-158",
+            "analysis results"
+          ],
+          "outputs": [
+            "accuracy evaluation"
+          ],
+          "keywords": [
+            "analytical accuracy",
+            "validation",
+            "reference material",
+            "IAEA-158"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "As the Ni and Cu concentration in the sediments can be affected by terrestrial input, we normalized them with Al concentrations (Calvert and Pedersen, 2007).",
+          "searchable_summary": "normalize Ni and Cu concentrations by Al concentration",
+          "inputs": [
+            "Ni concentration",
+            "Cu concentration",
+            "Al concentration"
+          ],
+          "outputs": [
+            "Normalized Ni concentration (Ni/Al)",
+            "Normalized Cu concentration (Cu/Al)"
+          ],
+          "keywords": [
+            "data normalization",
+            "trace element normalization",
+            "Ni/Al ratio",
+            "Cu/Al ratio"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Processing and Analysis",
+      "description": "Procedures for preparing sediment samples for diatom analysis, including physical and chemical treatments to remove unwanted components, preparing microscope slides, identifying and counting diatom valves, and calculating relative abundances. Includes validation of counting precision.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Ninety-two sediment samples (~0.4 cm average thickness and ~6 years temporal resolution average; Table S3) were obtained for diatom analysis.",
+          "searchable_summary": "obtain sediment samples for diatom analysis",
+          "inputs": [],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "sediment core",
+            "diatom analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Laminae were visually recognized and separated using an x-ray digitalized acetate template.",
+          "searchable_summary": "visually recognize and separate sediment laminae",
+          "inputs": [
+            "sediment samples",
+            "x-ray digitalized acetate template"
+          ],
+          "outputs": [
+            "separated sediment laminae"
+          ],
+          "keywords": [
+            "sediment preparation",
+            "laminae separation",
+            "visual inspection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "The dry weight of each sediment lamina was registered for abundance calculations.",
+          "searchable_summary": "measure and record dry weight of sediment laminae",
+          "inputs": [
+            "separated sediment laminae"
+          ],
+          "outputs": [
+            "dry weight measurements"
+          ],
+          "keywords": [
+            "dry weight",
+            "sample measurement",
+            "abundance calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Sediment samples (~0.2 to ~0.5 g dry weight) were added with HCl 10% to eliminate carbonates",
+          "searchable_summary": "treat sediment samples with HCl to remove carbonates",
+          "inputs": [
+            "sediment samples (by dry weight)",
+            "HCl 10%"
+          ],
+          "outputs": [
+            "decarbonated sediment samples"
+          ],
+          "keywords": [
+            "carbonate removal",
+            "HCl treatment",
+            "sediment processing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "...and digested at ~80°C with H 2 O 2 30% and HNO 3 70% to remove organic matter.",
+          "searchable_summary": "digest sediment samples with H2O2 and HNO3 to remove organic matter",
+          "inputs": [
+            "decarbonated sediment samples",
+            "H2O2 30%",
+            "HNO3 70%"
+          ],
+          "outputs": [
+            "digested sediment samples"
+          ],
+          "keywords": [
+            "organic matter removal",
+            "acid digestion",
+            "H2O2",
+            "HNO3",
+            "sediment processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Acids and salts were removed through several washes with distilled water, settled for at least 24 h, and the liquid was discarded.",
+          "searchable_summary": "wash digested samples with distilled water to remove acids and salts",
+          "inputs": [
+            "digested sediment samples",
+            "distilled water"
+          ],
+          "outputs": [
+            "washed sediment samples"
+          ],
+          "keywords": [
+            "washing",
+            "sediment processing",
+            "acid removal",
+            "salt removal"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The samples were diluted to a standard volume (30 mL).",
+          "searchable_summary": "dilute washed samples to a standard volume",
+          "inputs": [
+            "washed sediment samples"
+          ],
+          "outputs": [
+            "diluted sediment samples (standard volume)"
+          ],
+          "keywords": [
+            "dilution",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "For diatom slides, samples were homogenized and 200 µL aliquots were taken.",
+          "searchable_summary": "homogenize diluted samples and take aliquots for slides",
+          "inputs": [
+            "diluted sediment samples"
+          ],
+          "outputs": [
+            "sample aliquots (200 µL)"
+          ],
+          "keywords": [
+            "homogenization",
+            "aliquoting",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "In most samples, dilution was needed owing to the large number of particles, these volumes were considered for the calculation of total abundance.",
+          "searchable_summary": "perform additional dilutions on aliquots if necessary and record volumes",
+          "inputs": [
+            "sample aliquots"
+          ],
+          "outputs": [
+            "further diluted aliquots (if needed)",
+            "dilution factors"
+          ],
+          "keywords": [
+            "dilution",
+            "sample preparation",
+            "abundance calculation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "other",
+          "description": "Aliquot s were placed on coverslips (18 mm diameter) and dried at room temperature.",
+          "searchable_summary": "place aliquots on coverslips and dry",
+          "inputs": [
+            "sample aliquots"
+          ],
+          "outputs": [
+            "dried aliquots on coverslips"
+          ],
+          "keywords": [
+            "slide preparation",
+            "coverslip",
+            "drying"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "other",
+          "description": "Slides were mounted in Naphrax resin (refraction index = 1.74).",
+          "searchable_summary": "mount coverslips on slides using Naphrax resin",
+          "inputs": [
+            "dried aliquots on coverslips",
+            "microscope slides",
+            "Naphrax resin"
+          ],
+          "outputs": [
+            "mounted diatom slides"
+          ],
+          "keywords": [
+            "slide mounting",
+            "Naphrax resin",
+            "microscopy"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "All diatoms were identified at the genera or species taxonomic level using Cupp (1943), Round et al. (1990), Moreno et al. (1996), Hasle and Syvertsen (1997), Hernández-Becerril et al. (2021), and specialized literatures.",
+          "searchable_summary": "identify diatoms taxonomically using reference literature",
+          "inputs": [
+            "mounted diatom slides",
+            "reference literature"
+          ],
+          "outputs": [
+            "diatom identifications (genus/species)"
+          ],
+          "keywords": [
+            "diatom identification",
+            "taxonomy",
+            "microscopy",
+            "paleolimnology"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_fetch",
+          "description": "The samples were counted by transects (Schrader and Gersonde, 1978), at least 500 valves per sample were identified under a light microscope (Nikon eclipse Ni) at 1000x magnification with Nomarski interference contrast.",
+          "searchable_summary": "count diatom valves per sample using transect method under microscope",
+          "inputs": [
+            "mounted diatom slides"
+          ],
+          "outputs": [
+            "diatom counts per sample"
+          ],
+          "keywords": [
+            "diatom counting",
+            "microscopy",
+            "transect method",
+            "valve counts"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "validation",
+          "description": "The precision of the diatom analysis was evaluated through the replicate analysis (n = 8) of diatom slides; the relative standard deviation was <8%.",
+          "searchable_summary": "evaluate diatom counting precision using replicate analysis",
+          "inputs": [
+            "diatom slides",
+            "replicate counting results (n=8)"
+          ],
+          "outputs": [
+            "diatom counting precision (relative standard deviation)"
+          ],
+          "keywords": [
+            "counting precision",
+            "validation",
+            "replicates",
+            "relative standard deviation"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_processing",
+          "description": "The species composition is reported as relative abundance (%).",
+          "searchable_summary": "calculate and report diatom species composition as relative abundance",
+          "inputs": [
+            "diatom counts per sample",
+            "total valve counts per sample"
+          ],
+          "outputs": [
+            "diatom relative abundance (%)"
+          ],
+          "keywords": [
+            "relative abundance",
+            "diatom data processing",
+            "species composition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Assemblage Zonation (CONISS)",
+      "description": "Methodology for defining ecological assemblages based on diatom data and applying Constrained Incremental Sum of Squares (CONISS) analysis to identify statistically significant zones within the sediment core based on changes in diatom assemblages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "According to the abundance of the main diatom species and their ecological affinities based on the literature, three broad ecological assemblages were adopted: cold-water and high productivity taxa, temperate to warm-water taxa, and warm-water and low productivity taxa (Figure 4).",
+          "searchable_summary": "define ecological assemblages based on diatom species abundance and literature",
+          "inputs": [
+            "diatom species abundance data",
+            "diatom ecological affinity literature"
+          ],
+          "outputs": [
+            "defined ecological assemblages"
+          ],
+          "keywords": [
+            "ecological assemblages",
+            "diatom ecology",
+            "species classification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Visual observation of the CONISS and the broken stick model (Fig. S1) suggest four significant zones (at the 12.1 of total sum of squares) in the studied core (Figure 4).",
+          "searchable_summary": "perform CONISS analysis on diatom abundance data",
+          "inputs": [
+            "diatom abundance data"
+          ],
+          "outputs": [
+            "CONISS dendrogram",
+            "CONISS results"
+          ],
+          "keywords": [
+            "CONISS",
+            "constrained incremental sum of squares",
+            "cluster analysis",
+            "zonation",
+            "paleoecology"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Visual observation of the CONISS and the broken stick model (Fig. S1) suggest four significant zones (at the 12.1 of total sum of squares) in the studied core (Figure 4).",
+          "searchable_summary": "apply broken stick model to determine significant zones from CONISS results",
+          "inputs": [
+            "CONISS results"
+          ],
+          "outputs": [
+            "number of significant zones",
+            "zone boundaries"
+          ],
+          "keywords": [
+            "broken stick model",
+            "statistical zonation",
+            "cluster analysis validation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The classification on the first hierarchical level presents two significant diatom assemblage zones... The classification on the second level subdivides... Finally, a third level separates another zone... The lowest zone... was characterized by the predominance of... The zone from... showed a relative increase of... From... some... increased. The upper part... was characterized by high abundances of...",
+          "searchable_summary": "describe the characteristics of the identified zones based on diatom assemblage composition",
+          "inputs": [
+            "zone boundaries",
+            "diatom abundance data",
+            "ecological assemblage definitions"
+          ],
+          "outputs": [
+            "description of zones and their characteristic assemblages"
+          ],
+          "keywords": [
+            "zonation interpretation",
+            "assemblage description",
+            "paleoecological analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Age-Depth Model Construction",
+      "description": "Methodology for establishing the chronology of the sediment core by integrating 210Pb and 14C dating. This involves applying different dating models, validating results, calibrating radiocarbon ages, estimating the regional marine reservoir age (ΔR) with uncertainty, and constructing a final integrated Bayesian age-depth model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The 210 Pb chronology was established a) with the Constant Flux model (Sanchez-Cabeza and Ruiz-Fernández, 2012)...",
+          "searchable_summary": "establish 210Pb chronology using the Constant Flux model",
+          "inputs": [
+            "210Pb activity data",
+            "depth data"
+          ],
+          "outputs": [
+            "210Pb age estimates (Constant Flux)"
+          ],
+          "keywords": [
+            "210Pb dating",
+            "Constant Flux model",
+            "chronology",
+            "sediment dating"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "...with uncertainties estimated through a Monte Carlo method with 10 6 simulations...",
+          "searchable_summary": "estimate 210Pb age uncertainties using Monte Carlo simulations",
+          "inputs": [
+            "210Pb age estimates (Constant Flux)",
+            "uncertainty parameters"
+          ],
+          "outputs": [
+            "210Pb age uncertainties"
+          ],
+          "keywords": [
+            "Monte Carlo simulation",
+            "uncertainty estimation",
+            "210Pb dating"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "...and b) with a bayesian method (Aquino-López et al., 2018) by using the R package rplum (Blaauw et al., 2021)...",
+          "searchable_summary": "establish 210Pb chronology using a Bayesian method (rplum R package)",
+          "inputs": [
+            "210Pb activity data",
+            "depth data"
+          ],
+          "outputs": [
+            "210Pb age estimates (Bayesian/rplum)"
+          ],
+          "keywords": [
+            "210Pb dating",
+            "Bayesian modeling",
+            "rplum R package",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Both chronologies were almost identical and were successfully validated with the 239,240Pu onset, which is a robust age-dating marker in regions far from nuclear testing grounds (Sanchez-Cabeza et al., 2021) ( Figure 2).",
+          "searchable_summary": "validate 210Pb chronologies using 239,240Pu onset as a marker",
+          "inputs": [
+            "210Pb age estimates (Constant Flux)",
+            "210Pb age estimates (Bayesian)",
+            "239,240Pu onset depth/age"
+          ],
+          "outputs": [
+            "validation status of 210Pb chronologies"
+          ],
+          "keywords": [
+            "chronology validation",
+            "239,240Pu",
+            "age marker"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Following common practice, the radiocarbon ages were calibrated with the Marine20 curve (Heaton et al., 2020)...",
+          "searchable_summary": "calibrate radiocarbon ages using the Marine20 calibration curve",
+          "inputs": [
+            "radiocarbon ages (14C BP)",
+            "Marine20 calibration curve"
+          ],
+          "outputs": [
+            "calibrated radiocarbon ages"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "14C calibration",
+            "Marine20",
+            "calibration curve"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "...and corrected for a regional marine reservoir age (ΔR) of 456 ± 51 years (Berger et al., 1966)...",
+          "searchable_summary": "correct calibrated 14C ages for a regional marine reservoir age (Delta R)",
+          "inputs": [
+            "calibrated radiocarbon ages",
+            "regional marine reservoir age (ΔR)"
+          ],
+          "outputs": [
+            "ΔR corrected radiocarbon ages"
+          ],
+          "keywords": [
+            "marine reservoir age",
+            "Delta R correction",
+            "radiocarbon dating"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "To estimate the local ΔR, we followed the method described by Reimer and Reimer (2017)...",
+          "searchable_summary": "estimate local marine reservoir age (Delta R) using the Reimer and Reimer (2017) method",
+          "inputs": [
+            "210Pb-derived ages",
+            "sample radiocarbon ages (14C)"
+          ],
+          "outputs": [
+            "estimated local ΔR"
+          ],
+          "keywords": [
+            "marine reservoir age estimation",
+            "Delta R",
+            "Reimer and Reimer method"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "To calculate uncertainties, we used a Monte Carlo approach with the R language (R Core Team, 2021). The 210 Pb-derived ages were expressed as BP (before present; age BP = 1950 -calendar age) and produced 10 6 simulations of the 210 Pb age BP (pb210.bp) and the sample radiocarbon age (c14) following normal distributions. Simulated 210 Pb BP ages younger than 1950 were discarded as they could not be calibrated with the MARINE20 curve. Each pb210.bp simulation was reverse-calibrated with the MARINE20 curve (pb210.c14) by using the calBP.14C function of the IntCal package (Blaauw, 2022). Then, the ΔR simulations were determined as the difference between the sample radiocarbon age simulations (c14) and the 210 Pb reverse-calibrated age simulations (pb210.c14) as . Finally, ΔR and its uncertainty were determined as the mean and standard deviation of all simulations, respectively (ΔR = 247 ± 30 years, 1 sigma).",
+          "searchable_summary": "calculate local Delta R uncertainty using Monte Carlo simulation",
+          "inputs": [
+            "210Pb-derived ages",
+            "sample radiocarbon ages (14C)",
+            "Marine20 calibration curve",
+            "IntCal R package"
+          ],
+          "outputs": [
+            "ΔR uncertainty",
+            "mean ΔR from simulations"
+          ],
+          "keywords": [
+            "Monte Carlo simulation",
+            "uncertainty calculation",
+            "Delta R",
+            "radiocarbon calibration",
+            "reverse calibration",
+            "R language",
+            "IntCal package"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "The integrated 210 Pb-14 C age-model was produced by a bayesian approach (Blaauw and Christen, 2011) with the rbacon R package (Blaauw et al., 2022).",
+          "searchable_summary": "produce integrated 210Pb-14C age-depth model using a Bayesian approach (rbacon R package)",
+          "inputs": [
+            "210Pb-derived ages",
+            "radiocarbon ages (14C)",
+            "depth data",
+            "rbacon R package"
+          ],
+          "outputs": [
+            "integrated age-depth model"
+          ],
+          "keywords": [
+            "age-depth modeling",
+            "Bayesian modeling",
+            "210Pb dating",
+            "radiocarbon dating",
+            "rbacon R package"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "modeling",
+          "description": "We used all 210 Pb-derived ages and the three radiocarbon 14 C ages beyond the validated 210 Pb chronology (sections below 20.0 cm), with the MARINE20 curve and the calculated ΔR.",
+          "searchable_summary": "input 210Pb ages, selected 14C ages, Marine20 curve, and calculated Delta R into the integrated age model",
+          "inputs": [
+            "210Pb-derived ages",
+            "selected radiocarbon ages (14C)",
+            "depth data",
+            "Marine20 calibration curve",
+            "calculated ΔR"
+          ],
+          "outputs": [
+            "inputs configured for integrated age model"
+          ],
+          "keywords": [
+            "age-depth modeling inputs",
+            "data integration",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "validation",
+          "description": "The integrated age-model showed a satisfactory agreement between 210 Pb and 14 C ages, and a common and smooth trend (Figure 3).",
+          "searchable_summary": "evaluate the integrated age-depth model for agreement and trend",
+          "inputs": [
+            "integrated age-depth model"
+          ],
+          "outputs": [
+            "evaluation of model fit and trend"
+          ],
+          "keywords": [
+            "age-depth model validation",
+            "model evaluation",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "The integrated 210 Pb and 14 C age model indicated that the base of the core reached ~1500 CE (Table S4; Figure 3).",
+          "searchable_summary": "determine the age of the core base from the integrated age-depth model",
+          "inputs": [
+            "integrated age-depth model",
+            "core base depth"
+          ],
+          "outputs": [
+            "age of core base"
+          ],
+          "keywords": [
+            "core dating",
+            "age determination",
+            "age-depth model output"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_analysis",
+          "description": "The average sediment accumulation rate from ~1907 to ~2014 CE was 0.14 ± 0.07 cm/year; whereas for the older sediment, the sedimentation rate was of 0.08 ± 0.06 cm/year (Tables S1 to S2).",
+          "searchable_summary": "calculate average sediment accumulation rates for different periods from the age-depth model",
+          "inputs": [
+            "integrated age-depth model",
+            "depth intervals"
+          ],
+          "outputs": [
+            "average sediment accumulation rates (cm/year)"
+          ],
+          "keywords": [
+            "sediment accumulation rate",
+            "SAR",
+            "paleoclimate analysis",
+            "age-depth model output"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259759520.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

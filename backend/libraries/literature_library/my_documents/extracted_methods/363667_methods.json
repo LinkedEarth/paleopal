@@ -1,0 +1,167 @@
+{
+  "paper_title": "Genome-Wide Transcription and mRNA Half-Life Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Microarray Data Processing and Normalization",
+      "description": "This method involves processing and normalizing microarray data using the robust multiarray averaging method in R software with Bioconductor and the affy package. It is used to prepare the data for further analysis by ensuring consistency and accuracy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "All microarray analyses were based on publicly available data sets.",
+          "searchable_summary": "fetch microarray data from public repositories",
+          "inputs": [
+            "publicly available data sets"
+          ],
+          "outputs": [
+            "raw microarray data"
+          ],
+          "keywords": [
+            "microarray",
+            "data fetch",
+            "public data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The raw data were processed and normalized using the robust multiarray averaging method in R software using Bioconductor and the affy package.",
+          "searchable_summary": "process and normalize microarray data using R and Bioconductor",
+          "inputs": [
+            "raw microarray data"
+          ],
+          "outputs": [
+            "normalized microarray data"
+          ],
+          "keywords": [
+            "normalization",
+            "R software",
+            "Bioconductor",
+            "affy package"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transcription Value Retrieval",
+      "description": "This method retrieves normalized transcription values from specific GEO data sets for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The fie transcription values were retrieved from the GEO data set GSE19851 as the normalized transcription values.",
+          "searchable_summary": "retrieve normalized transcription values from GEO data set GSE19851",
+          "inputs": [
+            "GEO data set GSE19851"
+          ],
+          "outputs": [
+            "normalized transcription values"
+          ],
+          "keywords": [
+            "GEO",
+            "transcription values",
+            "data retrieval"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genome-Wide Analysis Preparation",
+      "description": "This method prepares the data for genome-wide analysis by excluding certain probes and setting transcription borderlines.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Retrogene and parent probes that corresponded to multiple gene models were excluded from genome-wide analysis.",
+          "searchable_summary": "exclude specific probes from genome-wide analysis",
+          "inputs": [
+            "normalized transcription values"
+          ],
+          "outputs": [
+            "filtered transcription values"
+          ],
+          "keywords": [
+            "genome-wide analysis",
+            "probe exclusion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The transcription borderline for transcribed genes (gcRMA $ 5) was based on the minimal density of genes between peaks indicating absent or background signals versus high transcription signals.",
+          "searchable_summary": "set transcription borderline for transcribed genes",
+          "inputs": [
+            "filtered transcription values"
+          ],
+          "outputs": [
+            "borderline set transcription values"
+          ],
+          "keywords": [
+            "transcription borderline",
+            "gcRMA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Gene Data",
+      "description": "This method involves generating randomized sets of genes, plotting data, and performing statistical tests to analyze gene data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Randomized sets of genes or gene pairs were generated.",
+          "searchable_summary": "generate randomized sets of genes or gene pairs",
+          "inputs": [
+            "gene data"
+          ],
+          "outputs": [
+            "randomized gene sets"
+          ],
+          "keywords": [
+            "randomization",
+            "gene sets"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Plots drawn and statistical tests calculated in R.",
+          "searchable_summary": "draw plots and calculate statistical tests in R",
+          "inputs": [
+            "randomized gene sets"
+          ],
+          "outputs": [
+            "plots",
+            "statistical test results"
+          ],
+          "keywords": [
+            "plotting",
+            "statistical tests",
+            "R software"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The significance of density distributions was tested using the MWW rank-sum test with correction and cotranscription correlation by the Pearson product-moment correlation coefficient (r).",
+          "searchable_summary": "test significance of density distributions using MWW rank-sum test and Pearson correlation",
+          "inputs": [
+            "statistical test results"
+          ],
+          "outputs": [
+            "significance results"
+          ],
+          "keywords": [
+            "MWW rank-sum test",
+            "Pearson correlation",
+            "density distribution"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/363667.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

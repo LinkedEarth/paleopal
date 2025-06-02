@@ -1,0 +1,115 @@
+{
+  "paper_title": "Temperature and City Growth in European History",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Collection and Integration",
+      "description": "This method describes the process of collecting and integrating data on European city sizes and temperature variations from historical records and climate proxies to study the impact of temperature changes on city growth.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The main data set for this paper is a balanced panel of 2,120 European cities. Its two key components are data on annual temperature for Europe and data on city size in 1600, 1700, 1750, 1800, and 1850.",
+          "searchable_summary": "fetch historical temperature and city size data for European cities",
+          "inputs": [
+            "Luterbacher et al. (2004) temperature data",
+            "Bairoch (1988) city size data"
+          ],
+          "outputs": [
+            "balanced panel data set of 2,120 European cities"
+          ],
+          "keywords": [
+            "historical data",
+            "temperature data",
+            "city size data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Assign temperature data to each city based on the temperature grid cell in which the city is located.",
+          "searchable_summary": "map temperature data to cities based on grid location",
+          "inputs": [
+            "temperature grid data",
+            "city location data"
+          ],
+          "outputs": [
+            "city-specific temperature data"
+          ],
+          "keywords": [
+            "data mapping",
+            "temperature grid",
+            "city location"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Combine the two data sets by calculating local mean temperature over the preceding 100 or 50 years for each time period.",
+          "searchable_summary": "calculate local mean temperature for specified time periods",
+          "inputs": [
+            "temperature data",
+            "city size data"
+          ],
+          "outputs": [
+            "integrated data set with mean temperatures"
+          ],
+          "keywords": [
+            "data integration",
+            "mean temperature calculation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Drop 71 cities from the original data set because temperature data are not available.",
+          "searchable_summary": "filter out cities with missing temperature data",
+          "inputs": [
+            "original data set"
+          ],
+          "outputs": [
+            "filtered data set"
+          ],
+          "keywords": [
+            "data filtering",
+            "missing data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Use linear interpolation to fill missing values for time periods between nonzero values.",
+          "searchable_summary": "apply linear interpolation to fill missing data",
+          "inputs": [
+            "data set with missing values"
+          ],
+          "outputs": [
+            "data set with interpolated values"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "missing data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Assume cities below 1,000 inhabitants have 500 inhabitants when using the natural log of city size as the outcome variable.",
+          "searchable_summary": "adjust city size data for small cities",
+          "inputs": [
+            "city size data"
+          ],
+          "outputs": [
+            "adjusted city size data"
+          ],
+          "keywords": [
+            "data adjustment",
+            "city size"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/31477172.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

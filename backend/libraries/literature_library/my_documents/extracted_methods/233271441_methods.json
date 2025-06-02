@@ -1,0 +1,224 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pairwise Diatom Flora Comparison",
+      "description": "This method compares the diatom flora of Ile Amsterdam with those of other sub-Antarctic islands using the Community Coefficient of Sørensen to assess species similarity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The Community Coefficient of Sørensen (1948) was used with the formula: 2c/(a+b+2c), where a and b are the number of species observed exclusively in each of the two sites and c is the number of species shared between these sites.",
+          "searchable_summary": "calculate Sørensen similarity coefficient for diatom species",
+          "inputs": [
+            "species count a",
+            "species count b",
+            "shared species count c"
+          ],
+          "outputs": [
+            "similarity coefficient"
+          ],
+          "keywords": [
+            "Sørensen coefficient",
+            "species similarity",
+            "biodiversity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Datasets were made taxonomically consistent prior to the similarity analysis.",
+          "searchable_summary": "standardize taxonomy in datasets",
+          "inputs": [
+            "species datasets"
+          ],
+          "outputs": [
+            "taxonomically consistent datasets"
+          ],
+          "keywords": [
+            "taxonomy",
+            "data standardization"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Species Richness Estimation",
+      "description": "This method evaluates the sampling effort's representation of the moss-inhabiting diatom flora of Ile Amsterdam using species richness estimators.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The incidence-based species richness estimator (ICE) and the mean Chao2 richness estimator were calculated using the EstimateS program v.9.1.0.",
+          "searchable_summary": "calculate species richness using ICE and Chao2 estimators",
+          "inputs": [
+            "species incidence data"
+          ],
+          "outputs": [
+            "species richness estimates"
+          ],
+          "keywords": [
+            "species richness",
+            "ICE estimator",
+            "Chao2 estimator"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Non-metric Multidimensional Scaling (NMDS)",
+      "description": "NMDS is used to reduce the multidimensional species data matrix into two dimensions to reflect site dissimilarities based on diatom species composition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "NMDS was performed based on Bray-Curtis (Sørensen) dissimilarity calculated on square root transformed species data.",
+          "searchable_summary": "perform NMDS using Bray-Curtis dissimilarity",
+          "inputs": [
+            "species data matrix"
+          ],
+          "outputs": [
+            "two-dimensional NMDS plot"
+          ],
+          "keywords": [
+            "NMDS",
+            "Bray-Curtis dissimilarity",
+            "ordination"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Agglomerative Clustering and Indicator Species Analysis",
+      "description": "This method groups diatom assemblages using clustering and identifies indicator species for site groups.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Classical agglomerative clustering was used to group diatom assemblages according to Bray-Curtis distances using the unweighted per group average algorithm (UPGMA).",
+          "searchable_summary": "perform agglomerative clustering using UPGMA",
+          "inputs": [
+            "Bray-Curtis distance matrix"
+          ],
+          "outputs": [
+            "clustered groups"
+          ],
+          "keywords": [
+            "agglomerative clustering",
+            "UPGMA",
+            "Bray-Curtis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Indicator species were identified using the extended Indicator Species Analysis.",
+          "searchable_summary": "identify indicator species using Indicator Species Analysis",
+          "inputs": [
+            "species data",
+            "site groups"
+          ],
+          "outputs": [
+            "indicator species"
+          ],
+          "keywords": [
+            "indicator species",
+            "species analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and Sample Analysis",
+      "description": "This method describes the collection and analysis of moss samples for diatom study.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "In total, 148 moss samples were collected during a field campaign in November and December 2007.",
+          "searchable_summary": "collect moss samples from field",
+          "inputs": [
+            "field locations"
+          ],
+          "outputs": [
+            "moss samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "fieldwork"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Samples were collected in PVC bottles and fixed with 3% formaldehyde.",
+          "searchable_summary": "fix samples with formaldehyde",
+          "inputs": [
+            "moss samples"
+          ],
+          "outputs": [
+            "fixed samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "formaldehyde"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "When possible, the samples were geographically localised using GPS, accompanied by a detailed site description.",
+          "searchable_summary": "record GPS location and site description",
+          "inputs": [
+            "sample location"
+          ],
+          "outputs": [
+            "GPS data",
+            "site description"
+          ],
+          "keywords": [
+            "GPS",
+            "site documentation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "pH, conductivity, and water temperature were measured in situ using a WTW 340i Multimeter.",
+          "searchable_summary": "measure pH, conductivity, and temperature",
+          "inputs": [
+            "field samples"
+          ],
+          "outputs": [
+            "pH",
+            "conductivity",
+            "temperature"
+          ],
+          "keywords": [
+            "in situ measurement",
+            "WTW 340i Multimeter"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Cl-, Na+, K+, Mg2+, and Ca2+ were analysed at the Laboratory for Ecosystem Management using a continuous flow analysis (CFA-SKALAR).",
+          "searchable_summary": "analyze ion concentrations using CFA-SKALAR",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "ion concentrations"
+          ],
+          "keywords": [
+            "ion analysis",
+            "CFA-SKALAR"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233271441.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

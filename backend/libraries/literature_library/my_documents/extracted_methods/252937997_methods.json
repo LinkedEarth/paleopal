@@ -1,0 +1,181 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spectral Analysis of Proxy and Model Data",
+      "description": "This method involves the pre-processing and spectral analysis of proxy and model data to study multi-centennial climate variability. It includes filtering high-frequency noise, interpolating data, and performing spectral analysis using the REDFIT program.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Remove high-frequency noise using a low-pass Butterworth filter in both the proxies and model data.",
+          "searchable_summary": "apply low-pass Butterworth filter to remove high-frequency noise",
+          "inputs": [
+            "proxy data",
+            "model data"
+          ],
+          "outputs": [
+            "filtered proxy data",
+            "filtered model data"
+          ],
+          "keywords": [
+            "Butterworth filter",
+            "noise reduction",
+            "low-pass filter"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Interpolate proxy data with an Akima interpolation to a 10-year, evenly spaced resolution.",
+          "searchable_summary": "interpolate proxy data using Akima method to 10-year resolution",
+          "inputs": [
+            "proxy data"
+          ],
+          "outputs": [
+            "interpolated proxy data"
+          ],
+          "keywords": [
+            "Akima interpolation",
+            "data interpolation",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Apply Butterworth filter to filter out oscillations with frequencies higher than 20 years for proxy data and 60 years for model data.",
+          "searchable_summary": "filter oscillations above 20 years for proxy and 60 years for model data",
+          "inputs": [
+            "interpolated proxy data",
+            "model data"
+          ],
+          "outputs": [
+            "filtered proxy data",
+            "filtered model data"
+          ],
+          "keywords": [
+            "Butterworth filter",
+            "frequency filtering",
+            "oscillation removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform spectral analysis using the REDFIT program adapted to the R package, including a significance test against red noise at the 95% significance level.",
+          "searchable_summary": "conduct spectral analysis with REDFIT and test against red noise",
+          "inputs": [
+            "filtered proxy data",
+            "filtered model data"
+          ],
+          "outputs": [
+            "spectral analysis results"
+          ],
+          "keywords": [
+            "spectral analysis",
+            "REDFIT",
+            "red noise test"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Apply kernel density distributions to illustrate the results in different proxy and model groups.",
+          "searchable_summary": "visualize results using kernel density distributions",
+          "inputs": [
+            "spectral analysis results"
+          ],
+          "outputs": [
+            "kernel density plots"
+          ],
+          "keywords": [
+            "kernel density estimation",
+            "data visualization",
+            "Fourier transform"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Transient Model Simulations",
+      "description": "This method describes the setup and analysis of transient model simulations to study Holocene climate variability, focusing on temperature data and comparing different models and forcing scenarios.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect model data from nine different models with their experimental setup for each simulation.",
+          "searchable_summary": "gather model data and experimental setups from nine models",
+          "inputs": [
+            "model names",
+            "experimental setups"
+          ],
+          "outputs": [
+            "model data"
+          ],
+          "keywords": [
+            "model data collection",
+            "experimental setup",
+            "climate models"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use surface temperature (ts) for some models and 2 m near surface air temperature (tas) for others to make model data more comparable.",
+          "searchable_summary": "standardize temperature data using ts and tas",
+          "inputs": [
+            "model data"
+          ],
+          "outputs": [
+            "standardized temperature data"
+          ],
+          "keywords": [
+            "temperature standardization",
+            "surface temperature",
+            "air temperature"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze annual mean data from model output for global mean temperature (GMT) and six latitude bands.",
+          "searchable_summary": "analyze GMT and latitude bands from model output",
+          "inputs": [
+            "standardized temperature data"
+          ],
+          "outputs": [
+            "GMT analysis",
+            "latitude band analysis"
+          ],
+          "keywords": [
+            "global mean temperature",
+            "latitude analysis",
+            "climate variability"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Compare differentiated forcing simulations and analyze their impact on multi-centennial variability.",
+          "searchable_summary": "compare and analyze differentiated forcing simulations",
+          "inputs": [
+            "model data",
+            "forcing scenarios"
+          ],
+          "outputs": [
+            "forcing impact analysis"
+          ],
+          "keywords": [
+            "forcing simulations",
+            "climate forcing",
+            "variability analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252937997.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,329 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogeographic and Population Demography Analyses",
+      "description": "This method involves analyzing genetic sequences to understand the phylogeographic structure and population demography of different species.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All sequences for each region were edited with sequencher and were aligned using clustal_x 1.81.",
+          "searchable_summary": "edit and align genetic sequences using sequencher and clustal_x",
+          "inputs": [
+            "genetic sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "genetic editing",
+            "clustal_x"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Indels and inversions were treated as single mutations.",
+          "searchable_summary": "treat indels and inversions as single mutations",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "processed sequences"
+          ],
+          "keywords": [
+            "indels",
+            "inversions",
+            "mutation treatment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Haplotype relationships were assessed using the median-joining network method in network 4.1.0.8.",
+          "searchable_summary": "assess haplotype relationships using median-joining network method",
+          "inputs": [
+            "processed sequences"
+          ],
+          "outputs": [
+            "haplotype relationships"
+          ],
+          "keywords": [
+            "haplotype",
+            "median-joining network",
+            "network analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate the total and within-population haplotype diversity using haplonst.",
+          "searchable_summary": "calculate haplotype diversity with haplonst",
+          "inputs": [
+            "haplotype relationships"
+          ],
+          "outputs": [
+            "haplotype diversity metrics"
+          ],
+          "keywords": [
+            "haplotype diversity",
+            "haplonst"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Compare N ST and G ST values using U-statistics to test for phylogeographic structure.",
+          "searchable_summary": "compare N ST and G ST values using U-statistics",
+          "inputs": [
+            "haplotype diversity metrics"
+          ],
+          "outputs": [
+            "phylogeographic structure test results"
+          ],
+          "keywords": [
+            "N ST",
+            "G ST",
+            "U-statistics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Perform multiple regression analysis in SPSS to test the EI model for each species.",
+          "searchable_summary": "perform multiple regression analysis in SPSS",
+          "inputs": [
+            "genetic variation data",
+            "latitude data"
+          ],
+          "outputs": [
+            "regression analysis results"
+          ],
+          "keywords": [
+            "multiple regression",
+            "SPSS",
+            "EI model"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Analyze spatial genetic structure using samova.",
+          "searchable_summary": "analyze spatial genetic structure with samova",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "spatial genetic structure"
+          ],
+          "keywords": [
+            "spatial analysis",
+            "samova"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Test Tajima's D and Fu's F S for potential population growth and expansion.",
+          "searchable_summary": "test for population growth using Tajima's D and Fu's F S",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "population growth indicators"
+          ],
+          "keywords": [
+            "Tajima's D",
+            "Fu's F S",
+            "population growth"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Implement mismatch distribution analyses in arlequin under the model of demographic expansion.",
+          "searchable_summary": "perform mismatch distribution analysis in arlequin",
+          "inputs": [
+            "genetic data"
+          ],
+          "outputs": [
+            "mismatch distribution results"
+          ],
+          "keywords": [
+            "mismatch distribution",
+            "arlequin",
+            "demographic expansion"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Calculate expansion time using the formula T = τ/2 μkg.",
+          "searchable_summary": "calculate expansion time using demographic formula",
+          "inputs": [
+            "τ",
+            "μ",
+            "k",
+            "g"
+          ],
+          "outputs": [
+            "expansion time"
+          ],
+          "keywords": [
+            "expansion time",
+            "demographic calculation"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "modeling",
+          "description": "Reconstruct phylogenetic trees using beast v.1.7.1 to approximate substitution rates.",
+          "searchable_summary": "reconstruct phylogenetic trees with beast",
+          "inputs": [
+            "chloroplast sequences"
+          ],
+          "outputs": [
+            "phylogenetic trees",
+            "substitution rates"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "beast",
+            "substitution rate"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "modeling",
+          "description": "Estimate fluctuations in effective population size using Bayesian skyline plots in beast.",
+          "searchable_summary": "estimate population size fluctuations with Bayesian skyline plots",
+          "inputs": [
+            "genetic data",
+            "substitution rates"
+          ],
+          "outputs": [
+            "population size estimates"
+          ],
+          "keywords": [
+            "Bayesian skyline plots",
+            "beast",
+            "population size"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Species Distribution Modeling",
+      "description": "This method uses the maximum entropy approach to predict species distribution under current and past climatic conditions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Compile environmental variables from the WORLDCLIM database.",
+          "searchable_summary": "download environmental variables from WORLDCLIM",
+          "inputs": [
+            "WORLDCLIM database"
+          ],
+          "outputs": [
+            "environmental variables"
+          ],
+          "keywords": [
+            "environmental data",
+            "WORLDCLIM",
+            "climate variables"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Select variables with pairwise Pearson correlation coefficients r ≤ 0.70.",
+          "searchable_summary": "filter variables based on Pearson correlation",
+          "inputs": [
+            "environmental variables"
+          ],
+          "outputs": [
+            "filtered variables"
+          ],
+          "keywords": [
+            "Pearson correlation",
+            "variable selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Construct SDMs using maxent with presence records and selected environmental variables.",
+          "searchable_summary": "build species distribution models with maxent",
+          "inputs": [
+            "presence records",
+            "filtered variables"
+          ],
+          "outputs": [
+            "species distribution models"
+          ],
+          "keywords": [
+            "SDM",
+            "maxent",
+            "species distribution"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Measure model accuracy using the area under the ROC curve (AUC).",
+          "searchable_summary": "validate model accuracy with AUC",
+          "inputs": [
+            "species distribution models"
+          ],
+          "outputs": [
+            "AUC scores"
+          ],
+          "keywords": [
+            "model validation",
+            "AUC",
+            "ROC curve"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Calculate niche differences using Schoener's D and Hellinger distance.",
+          "searchable_summary": "analyze niche differences with Schoener's D and Hellinger distance",
+          "inputs": [
+            "species distribution models"
+          ],
+          "outputs": [
+            "niche difference metrics"
+          ],
+          "keywords": [
+            "niche analysis",
+            "Schoener's D",
+            "Hellinger distance"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Conduct identity test with pseudoreplicates to compare niche similarity.",
+          "searchable_summary": "perform identity test with pseudoreplicates for niche similarity",
+          "inputs": [
+            "niche difference metrics"
+          ],
+          "outputs": [
+            "niche similarity test results"
+          ],
+          "keywords": [
+            "identity test",
+            "pseudoreplicates",
+            "niche similarity"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/4867099.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

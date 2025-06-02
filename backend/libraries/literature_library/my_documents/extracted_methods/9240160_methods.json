@@ -1,0 +1,219 @@
+{
+  "paper_title": "Paternity Analysis of the Olive Variety “Istrska Belica” and Identification of Pollen Donors by Microsatellite Markers",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Genetic Variability and Information Content Calculation",
+      "description": "This method calculates various parameters of genetic variability and information content for both offspring and parental populations using genotyping data with microsatellites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Observed heterozygosity (Ho) was obtained as the ratio among heterozygous individuals and the total number of genotypes for each locus.",
+          "searchable_summary": "calculate observed heterozygosity for each locus",
+          "inputs": [
+            "genotyping data",
+            "locus information"
+          ],
+          "outputs": [
+            "observed heterozygosity values"
+          ],
+          "keywords": [
+            "observed heterozygosity",
+            "genetic variability"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Expected heterozygosity (He) was estimated according to the formula He = 1−∑ p_i^2, where p_i is the frequency of the ith allele at the studied locus.",
+          "searchable_summary": "calculate expected heterozygosity using allele frequencies",
+          "inputs": [
+            "allele frequencies"
+          ],
+          "outputs": [
+            "expected heterozygosity values"
+          ],
+          "keywords": [
+            "expected heterozygosity",
+            "allele frequency"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The effective number of alleles (Ne) was obtained according to the formula Ne = (∑ p_i^2)^−1.",
+          "searchable_summary": "calculate effective number of alleles",
+          "inputs": [
+            "allele frequencies"
+          ],
+          "outputs": [
+            "effective number of alleles"
+          ],
+          "keywords": [
+            "effective number of alleles",
+            "genetic diversity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Probability of identity (PI) was calculated using the formula to show the probability of wrongly assigning a genotype as the pollen donor.",
+          "searchable_summary": "calculate probability of identity for genotypes",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "probability of identity values"
+          ],
+          "keywords": [
+            "probability of identity",
+            "genotype assignment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Exclusion probability (EP) was calculated according to published formula, which measures the ability of the marker to exclude a given relationship.",
+          "searchable_summary": "calculate exclusion probability for genetic markers",
+          "inputs": [
+            "genetic marker data"
+          ],
+          "outputs": [
+            "exclusion probability values"
+          ],
+          "keywords": [
+            "exclusion probability",
+            "relationship exclusion"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Polymorphic information content (PIC) was calculated as 1 − ∑ p_i^2 − ∑ ∑ 2p_i^2p_j^2, where p_i equals the frequency of the ith allele and p_j the frequency of the (i + 1)th allele.",
+          "searchable_summary": "calculate polymorphic information content",
+          "inputs": [
+            "allele frequencies"
+          ],
+          "outputs": [
+            "polymorphic information content values"
+          ],
+          "keywords": [
+            "polymorphic information content",
+            "allele frequency"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Ho, He, PIC, and PI were calculated using the IDENTITY 1.0 program for the analysis of microsatellite data and EP values were computed using FaMoz software.",
+          "searchable_summary": "use IDENTITY 1.0 and FaMoz software for calculations",
+          "inputs": [
+            "microsatellite data"
+          ],
+          "outputs": [
+            "calculated genetic parameters"
+          ],
+          "keywords": [
+            "IDENTITY 1.0",
+            "FaMoz",
+            "microsatellite analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Paternity Analysis Using FaMoz",
+      "description": "This method performs paternity analysis using the FaMoz software to identify the most likely pollen donor for the olive variety 'Istrska Belica' based on microsatellite markers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Paternity analysis was performed using the software program FaMoz. Genotypes of embryos and available genotypes for the 26 reference olive varieties were used to calculate LOD scores.",
+          "searchable_summary": "perform paternity analysis using FaMoz to calculate LOD scores",
+          "inputs": [
+            "embryo genotypes",
+            "reference olive variety genotypes"
+          ],
+          "outputs": [
+            "LOD scores"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "FaMoz",
+            "LOD scores"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "FaMoz uses the genotypes of offspring, mother, and potential fathers to calculate the log of the odds ratio scores for any potential parentage relationship.",
+          "searchable_summary": "calculate log of odds ratio scores for parentage relationships",
+          "inputs": [
+            "offspring genotypes",
+            "mother genotypes",
+            "potential father genotypes"
+          ],
+          "outputs": [
+            "log of odds ratio scores"
+          ],
+          "keywords": [
+            "log of odds ratio",
+            "parentage relationship"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The genotype with the highest LOD score above the threshold value for a given parent/offspring pair is considered the most likely pollen donor.",
+          "searchable_summary": "identify most likely pollen donor based on LOD scores",
+          "inputs": [
+            "LOD scores",
+            "threshold value"
+          ],
+          "outputs": [
+            "most likely pollen donor"
+          ],
+          "keywords": [
+            "pollen donor identification",
+            "LOD score threshold"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "In order to obtain the threshold value of the LOD score to identify true father, a simulation was done using 1000 generated offspring from the genotyped parents.",
+          "searchable_summary": "simulate offspring to determine LOD score threshold",
+          "inputs": [
+            "genotyped parent data"
+          ],
+          "outputs": [
+            "LOD score threshold"
+          ],
+          "keywords": [
+            "simulation",
+            "LOD score threshold"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Since mistyping is very likely to occur when scoring microsatellite alleles, the error rate was set to 0.01-both in the simulation and in the assignment of the most likely father.",
+          "searchable_summary": "set error rate for microsatellite allele scoring",
+          "inputs": [
+            "microsatellite allele data"
+          ],
+          "outputs": [
+            "adjusted LOD scores"
+          ],
+          "keywords": [
+            "error rate",
+            "microsatellite scoring"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/9240160.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

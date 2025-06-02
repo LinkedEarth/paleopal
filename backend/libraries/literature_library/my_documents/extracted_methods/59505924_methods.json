@@ -1,0 +1,184 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Honey Bee Image Preparation and Classification",
+      "description": "This method involves preparing images of honey bees for classification by addressing non-uniform illumination using the MOG algorithm, followed by color segmentation and removal of small objects.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply background subtraction using the MOG algorithm to cope with non-uniform illumination.",
+          "searchable_summary": "apply MOG algorithm for background subtraction",
+          "inputs": [
+            "recorded video"
+          ],
+          "outputs": [
+            "background subtracted images"
+          ],
+          "keywords": [
+            "MOG algorithm",
+            "background subtraction",
+            "illumination correction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Perform NMC color segmentation on the images.",
+          "searchable_summary": "perform NMC color segmentation",
+          "inputs": [
+            "background subtracted images"
+          ],
+          "outputs": [
+            "color segmented images"
+          ],
+          "keywords": [
+            "NMC color segmentation",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Remove small objects with dimensions less than 70% of the average moving object size in the current frame.",
+          "searchable_summary": "remove small objects from images",
+          "inputs": [
+            "color segmented images"
+          ],
+          "outputs": [
+            "filtered images"
+          ],
+          "keywords": [
+            "object removal",
+            "image filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Classify the prepared images of honey bees.",
+          "searchable_summary": "classify honey bee images",
+          "inputs": [
+            "filtered images"
+          ],
+          "outputs": [
+            "classification results"
+          ],
+          "keywords": [
+            "image classification",
+            "honey bee"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Comparison with State-of-the-Art Image Classification",
+      "description": "This method compares the proposed algorithm with state-of-the-art image classification methods using SVM and VLAD representation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Transfer the recorded video to the host workstation through WLAN.",
+          "searchable_summary": "transfer video via WLAN",
+          "inputs": [
+            "recorded video"
+          ],
+          "outputs": [
+            "video on host workstation"
+          ],
+          "keywords": [
+            "WLAN transfer",
+            "video transfer"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Obtain bee images using background subtraction.",
+          "searchable_summary": "apply background subtraction to obtain bee images",
+          "inputs": [
+            "video on host workstation"
+          ],
+          "outputs": [
+            "bee images"
+          ],
+          "keywords": [
+            "background subtraction",
+            "bee images"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Extract local multispectral Scale-Invariant Feature Transform (MSIFT) descriptors from 12x12 pixel patches.",
+          "searchable_summary": "extract MSIFT descriptors from image patches",
+          "inputs": [
+            "bee images"
+          ],
+          "outputs": [
+            "MSIFT descriptors"
+          ],
+          "keywords": [
+            "MSIFT",
+            "feature extraction",
+            "image patches"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Decorrelate pixel values in spectral bands using principal component analysis (PCA).",
+          "searchable_summary": "apply PCA to decorrelate spectral bands",
+          "inputs": [
+            "MSIFT descriptors"
+          ],
+          "outputs": [
+            "decorrelated descriptors"
+          ],
+          "keywords": [
+            "PCA",
+            "decorrelation",
+            "spectral bands"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Obtain VLAD image representation using a codebook of local descriptors learned with k-means algorithm.",
+          "searchable_summary": "compute VLAD representation using k-means codebook",
+          "inputs": [
+            "decorrelated descriptors"
+          ],
+          "outputs": [
+            "VLAD representation"
+          ],
+          "keywords": [
+            "VLAD",
+            "k-means",
+            "image representation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Classify images using support vector machines (SVM).",
+          "searchable_summary": "classify images using SVM",
+          "inputs": [
+            "VLAD representation"
+          ],
+          "outputs": [
+            "classification results"
+          ],
+          "keywords": [
+            "SVM",
+            "image classification"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/59505924.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

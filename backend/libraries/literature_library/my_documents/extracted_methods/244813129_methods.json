@@ -1,0 +1,373 @@
+{
+  "paper_title": "Lake Diamond Palynology and Multivariate Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Palynological Analysis",
+      "description": "Detailed procedure for processing sediment samples from ice cores, identifying and counting pollen and spores, calculating concentrations and influx, and constructing pollen diagrams to reconstruct past vegetation and climate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 45 pollen samples from LDP2 and LDS2 were taken in intervals ranging 4-10 cm; 4 cm intervals were taken in intervals with glacier fluctuations as interpreted from Oppedal et al. (2018). In surface core LDS2, samples were taken every 10 cm due to limited sediment availability.",
+          "searchable_summary": "Sample sediment cores at specified intervals for palynological analysis.",
+          "inputs": [
+            "Sediment cores (LDP2, LDS2)",
+            "Sampling interval specifications (4-10 cm, 4 cm for glacier fluctuations, 10 cm for LDS2)"
+          ],
+          "outputs": [
+            "Sediment samples"
+          ],
+          "keywords": [
+            "sediment core sampling",
+            "palynology",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Prior to pollen preparation, we added marker tablets to each sample to allow calculation of pollen and spore concentration and influx: Lycopodium clavatum tablets (batch# 177745) were initially used, but afterwards we found the marker indistinguishable from native Lycopodium magellanicum, Eucalyptus tablets (batch# 903722) were added to all subsequent samples.",
+          "searchable_summary": "Add marker tablets (Lycopodium or Eucalyptus) to sediment samples for concentration calculation.",
+          "inputs": [
+            "Sediment samples",
+            "Marker tablets (Lycopodium or Eucalyptus)"
+          ],
+          "outputs": [
+            "Sediment samples with marker tablets"
+          ],
+          "keywords": [
+            "pollen preparation",
+            "marker tablets",
+            "concentration calculation",
+            "Lycopodium",
+            "Eucalyptus"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Preparations were performed using standard methods (Faegri and Iversen, 1989): 1 cm 3 of sediment was treated with KOH, HF, and acetolysis to successively remove humic acids, silicates, and colloids.",
+          "searchable_summary": "Chemically treat sediment samples using KOH, HF, and acetolysis.",
+          "inputs": [
+            "Sediment samples with marker tablets",
+            "KOH",
+            "HF",
+            "Acetolysis reagents"
+          ],
+          "outputs": [
+            "Processed sediment residues"
+          ],
+          "keywords": [
+            "pollen preparation",
+            "chemical treatment",
+            "KOH",
+            "HF",
+            "acetolysis",
+            "sediment processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Residues were mounted in glycerol to allow turning of grains during analysis using a Zeiss light microscope at 400× magnification.",
+          "searchable_summary": "Mount processed sediment residues in glycerol on microscope slides.",
+          "inputs": [
+            "Processed sediment residues",
+            "Glycerol",
+            "Microscope slides"
+          ],
+          "outputs": [
+            "Microscope slides with mounted residues"
+          ],
+          "keywords": [
+            "pollen preparation",
+            "microscopy",
+            "slide mounting",
+            "glycerol"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Analyze mounted samples using a Zeiss light microscope at 400× magnification. Count pollen grains (native and LDT) and non-pollen palynomorphs (NPPs). Identify native species based on Barrow (1976) and the modern pollen reference collection at the University of Bergen, and additional reference slides. Determine LDT pollen based on Heusser (1971), Reille (1995), and the modern reference collection. Count NPPs and Pediastrum using references (Barrow and Lewis Smith 1983, Van Geel 1972).",
+          "searchable_summary": "Perform microscopic analysis, count pollen (native, LDT) and NPPs, and identify taxa using reference materials.",
+          "inputs": [
+            "Microscope slides with mounted residues",
+            "Reference literature (Barrow 1976, Heusser 1971, Reille 1995, Barrow and Lewis Smith 1983, Van Geel 1972)",
+            "Modern pollen reference collections",
+            "Additional reference slides",
+            "Light microscope"
+          ],
+          "outputs": [
+            "Counts of native pollen taxa per sample",
+            "Counts of LDT pollen taxa per sample",
+            "Counts of NPPs per sample"
+          ],
+          "keywords": [
+            "microscopy",
+            "pollen counting",
+            "pollen identification",
+            "NPP counting",
+            "palynology"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate pollen and spore concentration based on the counts of native pollen/spores and the known quantity of marker tablets added to each sample.",
+          "searchable_summary": "Calculate pollen and spore concentration using marker tablet counts and known quantity.",
+          "inputs": [
+            "Counts of native pollen/spores per sample",
+            "Counts of marker grains per sample",
+            "Known quantity of marker grains added per sample"
+          ],
+          "outputs": [
+            "Pollen and spore concentration per sample (grains/cm³)"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "marker tablets",
+            "palynology calculation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Exclude samples from further analysis if the total count of native pollen grains is less than 100.",
+          "searchable_summary": "Filter out samples with native pollen counts below a threshold (100 grains).",
+          "inputs": [
+            "Counts of native pollen grains per sample"
+          ],
+          "outputs": [
+            "Filtered list of samples meeting the minimum count criterion"
+          ],
+          "keywords": [
+            "data filtering",
+            "quality control",
+            "minimum pollen count",
+            "sample exclusion"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Abundances (%) were calculated based on the pollen sum taken as all pollen and spores from native taxa, to exclude closed sum effects in the LDT pollen signal.",
+          "searchable_summary": "Calculate relative pollen abundances (%) based on the sum of native pollen and spores.",
+          "inputs": [
+            "Counts of native pollen/spores per sample (filtered)",
+            "Counts of LDT pollen/NPPs per sample (filtered)"
+          ],
+          "outputs": [
+            "Relative abundances (%) of pollen, spores, and NPPs per sample"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "relative abundance",
+            "percentage calculation",
+            "pollen sum"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Pollen influx rates (grains cm −2 year −1 ) were calculated based on our age-depth model.",
+          "searchable_summary": "Calculate pollen influx rates using pollen concentration and age-depth model.",
+          "inputs": [
+            "Pollen concentration per sample",
+            "Sample depth",
+            "Age-depth model"
+          ],
+          "outputs": [
+            "Pollen influx rates per sample"
+          ],
+          "keywords": [
+            "pollen influx",
+            "concentration",
+            "age-depth model",
+            "palynology calculation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "visualization",
+          "description": "Pollen diagrams were constructed with Tilia version 2.6.1 (Grimm, 1992).",
+          "searchable_summary": "Construct pollen diagrams using Tilia software.",
+          "inputs": [
+            "Pollen abundance data (percentages)",
+            "Pollen influx data",
+            "Sample depth/age information"
+          ],
+          "outputs": [
+            "Pollen diagrams"
+          ],
+          "keywords": [
+            "pollen diagram",
+            "visualization",
+            "Tilia software",
+            "palynology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Multivariate Analysis of Pollen Data",
+      "description": "Statistical analysis of the processed pollen data, including constrained cluster analysis for zonation and Principal Component Analysis (PCA) to explore relationships between native taxa and environmental gradients.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Select percentage data of native vascular species, excluding rushes and sedges because of their uneven preservation in the fossil pollen record (Strother et al., 2015).",
+          "searchable_summary": "Select a subset of native vascular pollen percentage data, excluding specific taxa (rushes, sedges).",
+          "inputs": [
+            "Relative abundance (%) data for all pollen taxa"
+          ],
+          "outputs": [
+            "Subset of relative abundance data for selected native vascular species"
+          ],
+          "keywords": [
+            "data selection",
+            "pollen data",
+            "native species",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Square root transform the selected percentage data prior to clustering.",
+          "searchable_summary": "Apply square root transformation to pollen percentage data for cluster analysis.",
+          "inputs": [
+            "Subset of relative abundance data for clustering"
+          ],
+          "outputs": [
+            "Square root transformed relative abundance data for clustering"
+          ],
+          "keywords": [
+            "data transformation",
+            "square root transform",
+            "palynology data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform stratigraphically constrained incremental sum of squares clustering in CONISS (Grimm, 1987).",
+          "searchable_summary": "Perform stratigraphically constrained cluster analysis (CONISS).",
+          "inputs": [
+            "Square root transformed relative abundance data for clustering",
+            "Sample depth/order"
+          ],
+          "outputs": [
+            "Cluster analysis results",
+            "Zonation scheme"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "constrained clustering",
+            "CONISS",
+            "zonation",
+            "palynology"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Test the significance of the zonation using a broken-stick model in the vegan package (Oksanen et al., 2020) in R (R Core Team, 2017).",
+          "searchable_summary": "Test significance of cluster zonation using a broken-stick model in R (vegan package).",
+          "inputs": [
+            "Cluster analysis results (e.g., sum of squares)",
+            "Number of zones"
+          ],
+          "outputs": [
+            "Significance test results for zonation"
+          ],
+          "keywords": [
+            "statistical testing",
+            "broken-stick model",
+            "cluster significance",
+            "vegan package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Select percentage data of the native vascular plant species for PCA. LDT pollen data were not included in the PCA analysis to focus on the local climate signal.",
+          "searchable_summary": "Select a subset of native vascular pollen percentage data for PCA, excluding LDT pollen.",
+          "inputs": [
+            "Relative abundance (%) data for all pollen taxa"
+          ],
+          "outputs": [
+            "Subset of relative abundance data for native vascular species (excluding LDT) for PCA"
+          ],
+          "keywords": [
+            "data selection",
+            "pollen data",
+            "native species",
+            "LDT pollen",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Square root transform the selected percentage data prior to analysis to downweight the dominant species.",
+          "searchable_summary": "Apply square root transformation to pollen percentage data for PCA.",
+          "inputs": [
+            "Subset of relative abundance data for PCA"
+          ],
+          "outputs": [
+            "Square root transformed relative abundance data for PCA"
+          ],
+          "keywords": [
+            "data transformation",
+            "square root transform",
+            "palynology data",
+            "PCA preparation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Carry out Principal component analysis (PCA) of the Lake Diamond pollen data using the vegan package (Oksanen et al., 2020).",
+          "searchable_summary": "Perform Principal Component Analysis (PCA) on pollen data using the vegan package in R.",
+          "inputs": [
+            "Square root transformed relative abundance data for PCA"
+          ],
+          "outputs": [
+            "PCA results (loadings, scores, explained variance)"
+          ],
+          "keywords": [
+            "PCA",
+            "Principal Component Analysis",
+            "multivariate analysis",
+            "vegan package",
+            "R"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Test the number of interpretable PCA axes using a broken stick model.",
+          "searchable_summary": "Test the significance/interpretability of PCA axes using a broken-stick model.",
+          "inputs": [
+            "PCA results (eigenvalues)"
+          ],
+          "outputs": [
+            "Significance test results for PCA axes"
+          ],
+          "keywords": [
+            "statistical testing",
+            "broken-stick model",
+            "PCA significance",
+            "vegan package",
+            "R"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/244813129.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

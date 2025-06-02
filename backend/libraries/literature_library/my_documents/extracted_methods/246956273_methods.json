@@ -1,0 +1,285 @@
+{
+  "paper_title": "Breath Isotope Analysis Paper (Inferred)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Breath Gas Sampling and Conditioning Procedure",
+      "description": "This method describes the physical setup and procedures for collecting, filtering, and conditioning breath gas samples for spectroscopic analysis, including options for real-time or batch processing, and ensuring stable temperature and pressure conditions within the gas cell.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Select the desired sampling mode, either real-time or batch, controlled by a solenoid valve group.",
+          "searchable_summary": "Select sampling mode for breath gas",
+          "inputs": [
+            "User selection (real-time or batch)"
+          ],
+          "outputs": [
+            "Selected sampling mode"
+          ],
+          "keywords": [
+            "sampling mode",
+            "real-time",
+            "batch processing",
+            "solenoid valve"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "If real-time mode is selected, sample exhaled breath gas directly through a replaceable mouthpiece connected to the gas inlet.",
+          "searchable_summary": "Sample exhaled breath gas in real-time mode",
+          "inputs": [
+            "Exhaled breath gas",
+            "Mouthpiece",
+            "Solenoid valve control signal (for inlet)"
+          ],
+          "outputs": [
+            "Raw breath gas sample (real-time)"
+          ],
+          "keywords": [
+            "breath sampling",
+            "real-time",
+            "mouthpiece",
+            "gas inlet"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "If batch mode is selected, connect prepared breath collection bags (up to 12 channels) to the system and use the solenoid valve group for automatic processing.",
+          "searchable_summary": "Sample breath gas from collection bags in batch mode",
+          "inputs": [
+            "Prepared breath collection bags",
+            "Solenoid valve control signal (for channel selection and inlet)"
+          ],
+          "outputs": [
+            "Raw breath gas sample (from bag)"
+          ],
+          "keywords": [
+            "breath sampling",
+            "batch processing",
+            "sample bags",
+            "solenoid valve"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Filter the collected breath sample to remove water and particles.",
+          "searchable_summary": "Filter breath gas sample to remove water and particles",
+          "inputs": [
+            "Raw breath gas sample"
+          ],
+          "outputs": [
+            "Filtered breath gas sample"
+          ],
+          "keywords": [
+            "gas filtering",
+            "sample preparation",
+            "water removal",
+            "particle removal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Extract the filtered breath sample into the spectroscopic gas cell using a pump.",
+          "searchable_summary": "Pump filtered breath gas into gas cell",
+          "inputs": [
+            "Filtered breath gas sample",
+            "Pump control signal",
+            "Spectroscopic gas cell"
+          ],
+          "outputs": [
+            "Gas cell filled with sample"
+          ],
+          "keywords": [
+            "gas transport",
+            "pump",
+            "gas cell",
+            "sample loading"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Control the gas inlet and outlet flow rates using solenoid operated proportional valves to ensure a stable low pressure in the gas cell, regulated by a homemade digital PID algorithm based pressure controller receiving feedback from a pressure transducer.",
+          "searchable_summary": "Control gas cell pressure using PID controller and proportional valves",
+          "inputs": [
+            "Gas cell pressure (from pressure transducer)",
+            "Desired pressure setpoint",
+            "Proportional valve control signals",
+            "PID controller parameters"
+          ],
+          "outputs": [
+            "Stable gas cell pressure"
+          ],
+          "keywords": [
+            "pressure control",
+            "PID control",
+            "proportional valve",
+            "pressure transducer",
+            "gas cell"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Maintain a stable temperature in the insulation case surrounding the optical components and gas cell using a pair of thermoelectric coolers controlled by a homemade digital PID algorithm based temperature controller receiving feedback from a 10 kΩ thermistor mounted onto the gas cell.",
+          "searchable_summary": "Control gas cell temperature using PID controller and thermoelectric coolers",
+          "inputs": [
+            "Gas cell temperature (from thermistor)",
+            "Desired temperature setpoint",
+            "Thermoelectric cooler control signals",
+            "PID controller parameters"
+          ],
+          "outputs": [
+            "Stable gas cell temperature"
+          ],
+          "keywords": [
+            "temperature control",
+            "PID control",
+            "thermoelectric cooler",
+            "thermistor",
+            "gas cell"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Isotope Ratio Calculation from Absorption Spectra",
+      "description": "This method describes the theoretical basis and calculation steps to determine isotope ratios from laser direct absorption spectroscopy measurements using the Beer-Lambert law, integrated absorption areas, temperature-dependent transition intensities, and known isotopologue abundances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Acquire the transmitted laser intensity spectrum (IT(ν)) after passing through the gas sample in the cell and the incident laser intensity spectrum (I0(ν)) (baseline).",
+          "searchable_summary": "Acquire laser transmission and baseline spectra",
+          "inputs": [
+            "Laser source",
+            "Gas cell with sample",
+            "Spectrometer/detector"
+          ],
+          "outputs": [
+            "IT(ν) spectrum",
+            "I0(ν) spectrum"
+          ],
+          "keywords": [
+            "laser spectroscopy",
+            "absorption spectrum",
+            "transmission spectrum",
+            "baseline",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate the absorption spectrum at each frequency ν using the Beer-Lambert law formula: -ln(IT(ν)/I0(ν)).",
+          "searchable_summary": "Calculate absorption spectrum from transmission and baseline spectra",
+          "inputs": [
+            "IT(ν) spectrum",
+            "I0(ν) spectrum"
+          ],
+          "outputs": [
+            "Absorption spectrum (-ln(IT(ν)/I0(ν)))"
+          ],
+          "keywords": [
+            "Beer-Lambert law",
+            "absorption calculation",
+            "spectroscopy data analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Integrate the absorption spectrum over the frequency range corresponding to the spectral lines of the rare (r) and abundant (a) isotopologues to determine their respective integrated absorption areas (Ar and Aa).",
+          "searchable_summary": "Calculate integrated absorption area for isotopologue spectral lines",
+          "inputs": [
+            "Absorption spectrum",
+            "Frequency ranges for isotopologue lines"
+          ],
+          "outputs": [
+            "Integrated absorption area Ar",
+            "Integrated absorption area Aa"
+          ],
+          "keywords": [
+            "integrated absorption",
+            "spectral line analysis",
+            "peak integration",
+            "isotopologue spectra"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Obtain the temperature-dependent transition intensities Sr(T) and Sa(T) for the rare and abundant isotopologues. This may involve looking up values from databases or calculating them from reference values S(T0) and spectroscopic parameters (E\", ν0) using the provided formula.",
+          "searchable_summary": "Get or calculate temperature-dependent transition intensities",
+          "inputs": [
+            "Measured temperature T",
+            "Spectroscopic database/parameters (S(T0), E\", ν0, Q(T0), Q(T))",
+            "Physical constants (h, c, k)"
+          ],
+          "outputs": [
+            "Transition intensity Sr(T)",
+            "Transition intensity Sa(T)"
+          ],
+          "keywords": [
+            "transition intensity",
+            "line strength",
+            "spectroscopic parameters",
+            "HITRAN",
+            "temperature dependence",
+            "partition function"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "Obtain the known natural or reference isotopologue abundances nr and na.",
+          "searchable_summary": "Get known isotopologue abundances",
+          "inputs": [
+            "Isotope type (e.g., 13C/12C)",
+            "Reference database"
+          ],
+          "outputs": [
+            "Isotopologue abundance nr",
+            "Isotopologue abundance na"
+          ],
+          "keywords": [
+            "isotopologue abundance",
+            "isotope ratio",
+            "reference data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate the isotope ratio (ratio of number densities Nr/Na) using the formula: (Ar / (Sr(T) * nr * L)) / (Aa / (Sa(T) * na * L)), where L is the absorption path length.",
+          "searchable_summary": "Calculate isotope ratio from integrated absorption areas and spectroscopic parameters",
+          "inputs": [
+            "Integrated absorption area Ar",
+            "Integrated absorption area Aa",
+            "Transition intensity Sr(T)",
+            "Transition intensity Sa(T)",
+            "Isotopologue abundance nr",
+            "Isotopologue abundance na",
+            "Absorption path length L"
+          ],
+          "outputs": [
+            "Isotope ratio (r/a)"
+          ],
+          "keywords": [
+            "isotope ratio calculation",
+            "spectroscopy data analysis",
+            "quantitative analysis",
+            "number density"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/246956273.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

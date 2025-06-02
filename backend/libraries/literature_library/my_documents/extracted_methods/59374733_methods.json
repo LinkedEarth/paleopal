@@ -1,0 +1,276 @@
+{
+  "paper_title": "Elemental Analysis on Marine Sediments Related to Depositional Environment of Bangka Strait",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Core Sample Collection",
+      "description": "Collection and selection of gravity core samples from the western part of Bangka Strait for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "This study was conducted on four selected gravity core samples (MBB-67, MBB-119, MBB-120 and MBB-173) that have been collected in 1996 from western part of Bangka Strait, between 9 -30 m water depths.",
+          "searchable_summary": "Collect gravity core samples from specified marine location and depth range.",
+          "inputs": [
+            "location: western Bangka Strait",
+            "depth range: 9-30 m",
+            "year: 1996",
+            "sample type: gravity core"
+          ],
+          "outputs": [
+            "raw gravity core samples"
+          ],
+          "keywords": [
+            "gravity core",
+            "sample collection",
+            "marine sediment",
+            "geology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Selection of four specific gravity core samples (MBB-67, MBB-119, MBB-120 and MBB-173) for analysis.",
+          "searchable_summary": "Select specific core samples from collected set.",
+          "inputs": [
+            "raw gravity core samples"
+          ],
+          "outputs": [
+            "selected gravity core samples (MBB-67, MBB-119, MBB-120, MBB-173)"
+          ],
+          "keywords": [
+            "sample selection",
+            "core sample"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Non-destructive Core Scanning and Measurement",
+      "description": "Non-destructive scanning of selected gravity core samples using MSCL-S Geotek to measure magnetic susceptibility and elemental composition (XRF) at regular intervals.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Prepare selected core samples for scanning. (Implicit step based on using a scanner).",
+          "searchable_summary": "Prepare core samples for non-destructive scanning.",
+          "inputs": [
+            "selected gravity core samples"
+          ],
+          "outputs": [
+            "prepared core samples"
+          ],
+          "keywords": [
+            "core preparation",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Scan core samples using MSCL-S Geotek, at the Core Laboratory of the Marine Geological Institute in Cirebon.",
+          "searchable_summary": "Scan prepared core samples using MSCL-S Geotek.",
+          "inputs": [
+            "prepared core samples",
+            "equipment: MSCL-S Geotek"
+          ],
+          "outputs": [
+            "raw scan data"
+          ],
+          "keywords": [
+            "MSCL-S",
+            "core scanning",
+            "geotek"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Magnetic susceptibility (MS) measurement was performed using Bartington MS2E point sensor... Both sensors are installed to the MSCL equipment.",
+          "searchable_summary": "Measure magnetic susceptibility using Bartington MS2E sensor during scanning.",
+          "inputs": [
+            "raw scan data",
+            "equipment: Bartington MS2E point sensor"
+          ],
+          "outputs": [
+            "magnetic susceptibility data"
+          ],
+          "keywords": [
+            "magnetic susceptibility",
+            "MS",
+            "Bartington MS2E",
+            "geophysics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "...elemental composition of sediment was measured by XRF handheld Olympus Innov-X. Both sensors are installed to the MSCL equipment.",
+          "searchable_summary": "Measure elemental composition using XRF handheld Olympus Innov-X sensor during scanning.",
+          "inputs": [
+            "raw scan data",
+            "equipment: Olympus Innov-X XRF handheld"
+          ],
+          "outputs": [
+            "elemental composition data (XRF)"
+          ],
+          "keywords": [
+            "XRF",
+            "X-Ray Fluorescence",
+            "elemental analysis",
+            "geochemistry",
+            "Olympus Innov-X"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "These samples were analyzed by a nondestructive scanning method in order to determine magnetic susceptibility and X-Ray Fluorescence in 2 cm intervals.",
+          "searchable_summary": "Record measurements at 2 cm intervals along the core.",
+          "inputs": [
+            "magnetic susceptibility data",
+            "elemental composition data (XRF)"
+          ],
+          "outputs": [
+            "interval-based magnetic susceptibility data",
+            "interval-based elemental composition data (XRF)"
+          ],
+          "keywords": [
+            "interval data",
+            "sampling interval",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Proxy Selection Analysis",
+      "description": "Analysis of elemental correlation coefficients to determine the most suitable elemental ratios for use as grain-size and REE content proxies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Obtain elemental concentration data (Zr, Ti, Rb, Y) from XRF measurements.",
+          "searchable_summary": "Extract relevant elemental concentration data (Zr, Ti, Rb, Y) from XRF results.",
+          "inputs": [
+            "interval-based elemental composition data (XRF)"
+          ],
+          "outputs": [
+            "Zr concentration data",
+            "Ti concentration data",
+            "Rb concentration data",
+            "Y concentration data"
+          ],
+          "keywords": [
+            "elemental concentration",
+            "data extraction",
+            "XRF data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculations of correlation coefficient on Zr, Ti and Rb (Table 1) yield highest value on Zr/Ti (0.7) that is used as grain-size proxy in this paper. This selection is supported by its high correlation coefficient (0.61) as is presented in Table 1.",
+          "searchable_summary": "Calculate correlation coefficients between specified elements (Zr, Ti, Rb, Y).",
+          "inputs": [
+            "Zr concentration data",
+            "Ti concentration data",
+            "Rb concentration data",
+            "Y concentration data"
+          ],
+          "outputs": [
+            "correlation coefficients (e.g., corr(Zr, Ti), corr(Zr, Rb), corr(Y, Zr))"
+          ],
+          "keywords": [
+            "correlation coefficient",
+            "statistical analysis",
+            "data analysis",
+            "Pearson correlation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Evaluate correlation coefficients to select the best elemental ratios as proxies (Zr/Ti for grain size, Y/Zr for REE).",
+          "searchable_summary": "Evaluate correlation results to select optimal elemental ratios for proxies.",
+          "inputs": [
+            "correlation coefficients"
+          ],
+          "outputs": [
+            "selected proxies (Zr/Ti, Y/Zr)"
+          ],
+          "keywords": [
+            "proxy selection",
+            "data evaluation",
+            "correlation analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geochemical Proxy Calculation",
+      "description": "Calculation of specific geochemical proxy values (Zr/Ti ratio for grain size, ln(Y/Zr) ratio for REE content) from elemental concentration data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Obtain elemental concentration data (Zr, Ti, Y) from XRF measurements.",
+          "searchable_summary": "Extract relevant elemental concentration data (Zr, Ti, Y) from XRF results.",
+          "inputs": [
+            "interval-based elemental composition data (XRF)"
+          ],
+          "outputs": [
+            "Zr concentration data",
+            "Ti concentration data",
+            "Y concentration data"
+          ],
+          "keywords": [
+            "elemental concentration",
+            "data extraction",
+            "XRF data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculations of correlation coefficient on Zr, Ti and Rb (Table 1) yield highest value on Zr/Ti (0.7) that is used as grain-size proxy in this paper.",
+          "searchable_summary": "Calculate the Zr/Ti ratio for each measurement interval.",
+          "inputs": [
+            "Zr concentration data",
+            "Ti concentration data"
+          ],
+          "outputs": [
+            "Zr/Ti ratio data"
+          ],
+          "keywords": [
+            "ratio calculation",
+            "grain size proxy",
+            "Zr/Ti"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Yttrium concentration in study area is presented as natural log ratio (ln) to avoid variation related to sedimentary dilution effect (Dypvik and Harris (2001). This study uses log ratio of Y/Zr as proxy of REE content.",
+          "searchable_summary": "Calculate the natural log ratio of Y/Zr (ln(Y/Zr)) for each measurement interval.",
+          "inputs": [
+            "Y concentration data",
+            "Zr concentration data"
+          ],
+          "outputs": [
+            "ln(Y/Zr) ratio data"
+          ],
+          "keywords": [
+            "log ratio",
+            "natural log",
+            "REE proxy",
+            "Y/Zr",
+            "ln(Y/Zr)"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/59374733.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

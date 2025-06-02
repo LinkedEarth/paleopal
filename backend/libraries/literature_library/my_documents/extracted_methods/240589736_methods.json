@@ -1,0 +1,219 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate and Biome Data Extraction",
+      "description": "Process for extracting and preparing climate and biome data for analysis over the past 800,000 years.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Mean annual temperature (bio01), total annual precipitation (bio12) and biome (biomeoutput04) were extracted from the model for 1000 year time slices and stored in a raster stack using the 'raster' R package.",
+          "searchable_summary": "extract climate and biome data for 1000-year time slices using 'raster' R package",
+          "inputs": [
+            "climate model data"
+          ],
+          "outputs": [
+            "raster stack of climate and biome data"
+          ],
+          "keywords": [
+            "climate data",
+            "biome data",
+            "raster",
+            "R package"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Selected the time slices corresponding to the mid-age of each assemblage, rounded to the nearest 1000 years to match the resolution of the climate data.",
+          "searchable_summary": "select and round time slices to match climate data resolution",
+          "inputs": [
+            "assemblage date ranges",
+            "climate data resolution"
+          ],
+          "outputs": [
+            "selected time slices"
+          ],
+          "keywords": [
+            "time slices",
+            "assemblage",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Each time slice was cropped according to the predicted sea level for that period, using global sea-level change data and a bathymetry model.",
+          "searchable_summary": "crop time slices using sea-level change data and bathymetry model",
+          "inputs": [
+            "time slices",
+            "sea-level change data",
+            "bathymetry model"
+          ],
+          "outputs": [
+            "cropped time slices"
+          ],
+          "keywords": [
+            "sea level",
+            "bathymetry",
+            "time slices"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Integrated the climate model with an archaeological dataset comprising presence/absence data of tool types and raw material types for eastern African MSA assemblages.",
+          "searchable_summary": "integrate climate model with archaeological dataset",
+          "inputs": [
+            "climate model data",
+            "archaeological dataset"
+          ],
+          "outputs": [
+            "integrated dataset"
+          ],
+          "keywords": [
+            "data integration",
+            "archaeological dataset",
+            "climate model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climatic Parameter Refinement",
+      "description": "Refinement of climatic parameters by extracting and downscaling temperature and precipitation values for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extracted temperature and precipitation values in 50 km radius buffers around the coordinates of each occupation from its mid-age time slice.",
+          "searchable_summary": "extract temperature and precipitation values in 50 km buffers",
+          "inputs": [
+            "coordinates of occupations",
+            "mid-age time slice"
+          ],
+          "outputs": [
+            "temperature and precipitation values"
+          ],
+          "keywords": [
+            "temperature",
+            "precipitation",
+            "buffers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Downscaled model datasets from 30' to 2.5' by resampling the data using bilinear interpolation.",
+          "searchable_summary": "downscale datasets using bilinear interpolation",
+          "inputs": [
+            "model datasets"
+          ],
+          "outputs": [
+            "downscaled datasets"
+          ],
+          "keywords": [
+            "downscaling",
+            "bilinear interpolation",
+            "resampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculated the mean and standard deviation of the values across the 50 km buffer for each occupation.",
+          "searchable_summary": "calculate mean and standard deviation for buffer values",
+          "inputs": [
+            "buffer values"
+          ],
+          "outputs": [
+            "mean and standard deviation"
+          ],
+          "keywords": [
+            "mean",
+            "standard deviation",
+            "buffer analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cluster Analysis",
+      "description": "Cluster analysis to examine grouping of occupations based on temperature and precipitation data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculated dissimilarity matrices for the temperature and precipitation data using the Euclidean distance.",
+          "searchable_summary": "calculate dissimilarity matrices using Euclidean distance",
+          "inputs": [
+            "temperature data",
+            "precipitation data"
+          ],
+          "outputs": [
+            "dissimilarity matrices"
+          ],
+          "keywords": [
+            "dissimilarity matrices",
+            "Euclidean distance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Hierarchical clustering of the dissimilarity matrices was employed to examine grouping of occupations.",
+          "searchable_summary": "perform hierarchical clustering on dissimilarity matrices",
+          "inputs": [
+            "dissimilarity matrices"
+          ],
+          "outputs": [
+            "clusters of occupations"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "grouping",
+            "occupations"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Applied the average silhouette method using k-means clustering to determine the optimal number of clusters.",
+          "searchable_summary": "use k-means clustering to determine optimal number of clusters",
+          "inputs": [
+            "clusters of occupations"
+          ],
+          "outputs": [
+            "optimal number of clusters"
+          ],
+          "keywords": [
+            "k-means clustering",
+            "average silhouette method"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Created a dendrogram of the occupations and cut it according to the k-means output to define clusters.",
+          "searchable_summary": "create and cut dendrogram based on k-means output",
+          "inputs": [
+            "k-means output"
+          ],
+          "outputs": [
+            "dendrogram",
+            "defined clusters"
+          ],
+          "keywords": [
+            "dendrogram",
+            "visualization",
+            "clusters"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/240589736.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

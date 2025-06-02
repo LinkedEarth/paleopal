@@ -1,0 +1,784 @@
+{
+  "paper_title": "Rice Mutant and Gene Function Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Mutant Isolation and Genetic Characterization",
+      "description": "Process of screening an ethyl methanesulfonate (EMS) mutant library, identifying complete male-sterile mutants, characterizing their vegetative and floral phenotypes, and performing genetic analysis (F1/F2 crosses, segregation analysis, chi-square test) to determine the inheritance pattern of the male sterility.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "Screen an ethyl methanesulfonate (EMS) mutant library derived from the indica rice Huanghuazhan (HHZ).",
+          "searchable_summary": "screen EMS mutagenized rice population",
+          "inputs": [
+            "EMS mutant library (rice plants)"
+          ],
+          "outputs": [
+            "Potential mutants"
+          ],
+          "keywords": [
+            "EMS mutagenesis",
+            "mutant screening",
+            "rice"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "Isolated two complete male-sterile mutants (HT5763 and H5524).",
+          "searchable_summary": "identify and isolate plants exhibiting complete male sterility",
+          "inputs": [
+            "Potential mutants from screening"
+          ],
+          "outputs": [
+            "Isolated male-sterile mutants (HT5763, H5524)"
+          ],
+          "keywords": [
+            "Male sterility",
+            "mutant isolation",
+            "rice"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Both mutants exhibited normal vegetative and floral development (Fig. 1A, B).",
+          "searchable_summary": "observe and record vegetative and floral phenotypes",
+          "inputs": [
+            "Isolated mutants"
+          ],
+          "outputs": [
+            "Phenotypic descriptions (vegetative, floral)"
+          ],
+          "keywords": [
+            "Phenotype",
+            "plant morphology",
+            "rice development"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "except for the anthers being smaller without pollen (Fig. 1C-F).",
+          "searchable_summary": "observe and record anther size and pollen presence",
+          "inputs": [
+            "Isolated mutants (flowers)"
+          ],
+          "outputs": [
+            "Anther/pollen phenotype descriptions"
+          ],
+          "keywords": [
+            "Anther",
+            "pollen",
+            "male sterility",
+            "phenotype"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "Both mutant plants pollinated with the wild-type (WT) pollen exhibited normal seed set, indicating normal female fertility.",
+          "searchable_summary": "perform crosses between mutant plants (female) and WT plants (male)",
+          "inputs": [
+            "Mutant plants",
+            "WT pollen"
+          ],
+          "outputs": [
+            "Seeds (F1)"
+          ],
+          "keywords": [
+            "Plant crossing",
+            "pollination",
+            "female fertility",
+            "rice"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "The F1 plants were completely fertile.",
+          "searchable_summary": "grow F1 generation plants from mutant x WT crosses and check fertility",
+          "inputs": [
+            "F1 seeds"
+          ],
+          "outputs": [
+            "F1 plants",
+            "F1 fertility data"
+          ],
+          "keywords": [
+            "F1 generation",
+            "plant growth",
+            "fertility"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "and the F2 progeny exhibited 3:1 segregation of fertile to sterile.",
+          "searchable_summary": "grow F2 generation plants from self-pollinated F1 plants and count fertile/sterile individuals",
+          "inputs": [
+            "F2 seeds (from F1 selfing)"
+          ],
+          "outputs": [
+            "F2 plants",
+            "F2 segregation counts (fertile, sterile)"
+          ],
+          "keywords": [
+            "F2 generation",
+            "plant growth",
+            "segregation analysis",
+            "phenotype counting"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "[232:80 for HT5763 (χ² 3:1 ¼ 0.0339) and 224:61 for H5524 (χ² 3:1 ¼ 1.0344)], suggesting that the male sterile phenotype was controlled by a single recessive gene for both mutants.",
+          "searchable_summary": "perform chi-square test to analyze segregation ratio",
+          "inputs": [
+            "F2 segregation counts"
+          ],
+          "outputs": [
+            "Chi-square value",
+            "p-value"
+          ],
+          "keywords": [
+            "Chi-square test",
+            "genetic segregation",
+            "statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Causal Gene Identification via Bulk Sequencing and SIMM",
+      "description": "Method used to identify the specific gene and mutation responsible for the male sterile phenotype in isolated mutants by sequencing pooled DNA from sterile F2 individuals and analyzing the data with the Simultaneous Identification of Multiple Causal Mutations (SIMM) pipeline.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "30 sterile individuals in each F2 population mentioned above were selected for bulk sequencing (Supplementary Table S1).",
+          "searchable_summary": "select F2 sterile individuals for bulk sequencing",
+          "inputs": [
+            "Sterile F2 individuals (DNA)"
+          ],
+          "outputs": [
+            "Pooled DNA sample"
+          ],
+          "keywords": [
+            "Bulk segregant analysis",
+            "DNA pooling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The sequenced data were analyzed using the Simultaneous Identification of Multiple Causal Mutations (SIMM) pipeline.",
+          "searchable_summary": "perform bulk sequencing",
+          "inputs": [
+            "Pooled DNA sample"
+          ],
+          "outputs": [
+            "Raw sequencing data (reads)"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "bulk sequencing",
+            "next-generation sequencing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The sequenced data were analyzed using the Simultaneous Identification of Multiple Causal Mutations (SIMM) pipeline, which identified two different mutation sites in LOC_Os04g39470 (OsMYB80).",
+          "searchable_summary": "analyze sequencing data using SIMM pipeline to identify candidate causal mutations",
+          "inputs": [
+            "Raw sequencing data",
+            "SIMM pipeline software",
+            "Reference genome"
+          ],
+          "outputs": [
+            "Candidate mutation list",
+            "Mapping data"
+          ],
+          "keywords": [
+            "SIMM pipeline",
+            "bioinformatics",
+            "mutation mapping",
+            "causal gene identification"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "which identified two different mutation sites in LOC_Os04g39470 (OsMYB80).",
+          "searchable_summary": "pinpoint the specific genomic locations of identified mutations within the OsMYB80 gene",
+          "inputs": [
+            "Candidate mutation list",
+            "OsMYB80 gene annotation"
+          ],
+          "outputs": [
+            "Mutation coordinates"
+          ],
+          "keywords": [
+            "Mutation identification",
+            "gene mapping",
+            "OsMYB80"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The G to A mutation in HT5763 caused Glu 74 (GAG) substitution by Lys (AAG), and the T to A mutation in H5524 caused Trp 37 (TGG) substitution by Arg (AGG) (Fig. 1I).",
+          "searchable_summary": "identify the specific nucleotide substitution and predict the resulting amino acid change for each mutation",
+          "inputs": [
+            "Mutation coordinates",
+            "Reference genome sequence",
+            "OsMYB80 coding sequence"
+          ],
+          "outputs": [
+            "Nucleotide change (e.g., G>A)",
+            "Amino acid change (e.g., Glu to Lys)"
+          ],
+          "keywords": [
+            "SNP analysis",
+            "amino acid substitution",
+            "mutation effect prediction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mutation Validation using HRM",
+      "description": "Using High-resolution melting (HRM) analysis to confirm that the identified mutations in OsMYB80 co-segregate with the male sterile phenotype in F2 individuals.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "High-resolution melting (HRM) analysis of the F2 individuals indicated that both mutations co-segregated with the male sterile phenotype.",
+          "searchable_summary": "conduct HRM analysis on F2 individuals to genotype the OsMYB80 mutation",
+          "inputs": [
+            "F2 individuals (DNA)",
+            "HRM primers targeting mutation site",
+            "HRM reagents",
+            "HRM instrument"
+          ],
+          "outputs": [
+            "HRM melting curves/profiles"
+          ],
+          "keywords": [
+            "High-resolution melting",
+            "HRM",
+            "genotyping",
+            "mutation detection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "High-resolution melting (HRM) analysis of the F2 individuals indicated that both mutations co-segregated with the male sterile phenotype.",
+          "searchable_summary": "interpret HRM profiles to determine the genotype for each F2 individual",
+          "inputs": [
+            "HRM melting curves/profiles"
+          ],
+          "outputs": [
+            "Genotype data for F2 individuals"
+          ],
+          "keywords": [
+            "HRM data analysis",
+            "genotype calling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "High-resolution melting (HRM) analysis of the F2 individuals indicated that both mutations co-segregated with the male sterile phenotype.",
+          "searchable_summary": "compare the genotype data from HRM with the male sterile phenotype to confirm co-segregation",
+          "inputs": [
+            "Genotype data",
+            "F2 phenotype data (fertile/sterile)"
+          ],
+          "outputs": [
+            "Co-segregation analysis results"
+          ],
+          "keywords": [
+            "Co-segregation analysis",
+            "mutation validation",
+            "genotype-phenotype correlation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Complementation Test",
+      "description": "A genetic experiment to confirm that the identified mutations in OsMYB80 are indeed responsible for the male sterile phenotype by introducing a wild-type copy of the gene into the mutant background.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "a complementation experiment was performed by introducing a 2,512-bp genomic DNA fragment, including 1,203-bp upstream region and 1,309-bp gene body of OsMYB80, into the HT5763 mutant plant.",
+          "searchable_summary": "construct a DNA fragment containing the OsMYB80 gene including upstream and gene body regions",
+          "inputs": [
+            "OsMYB80 genomic DNA sequence",
+            "Cloning vectors"
+          ],
+          "outputs": [
+            "Complementation construct"
+          ],
+          "keywords": [
+            "Molecular cloning",
+            "gene construct",
+            "genomic DNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "a complementation experiment was performed by introducing a 2,512-bp genomic DNA fragment, including 1,203-bp upstream region and 1,309-bp gene body of OsMYB80, into the HT5763 mutant plant.",
+          "searchable_summary": "transform the HT5763 mutant plants with the complementation construct",
+          "inputs": [
+            "Complementation construct",
+            "HT5763 mutant plants",
+            "Plant transformation system (e.g., Agrobacterium)"
+          ],
+          "outputs": [
+            "Transformed plants"
+          ],
+          "keywords": [
+            "Plant transformation",
+            "genetic transformation",
+            "rice transformation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Five independent transgenic lines of homozygous mutation background showed normal anther and pollen fertility (Fig. 1G, H).",
+          "searchable_summary": "select independent transgenic lines and grow them",
+          "inputs": [
+            "Transformed plants",
+            "Selection media/conditions"
+          ],
+          "outputs": [
+            "Independent transgenic lines"
+          ],
+          "keywords": [
+            "Transgenic plants",
+            "plant selection",
+            "tissue culture"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Five independent transgenic lines of homozygous mutation background showed normal anther and pollen fertility (Fig. 1G, H).",
+          "searchable_summary": "observe and record anther and pollen fertility of transgenic lines",
+          "inputs": [
+            "Transgenic lines"
+          ],
+          "outputs": [
+            "Fertility data of transgenic lines"
+          ],
+          "keywords": [
+            "Fertility phenotype",
+            "transgenic analysis",
+            "phenotype rescue"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "OsMYB80 Gene Expression Analysis (qRT-PCR)",
+      "description": "Analyzing the tissue specificity and developmental expression patterns of the OsMYB80 gene using quantitative reverse transcription PCR (qRT-PCR).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "we analyzed the tissue specificity and developmental expression patterns of OsMYB80 using quantitative reverse transcription PCR (qRT-PCR). OsMYB80 was barely expressed in root, stem, leaf, lemma, palea, sterile lemma and pistil tissues. In anthers, however, the gene showed a developmentally regulated expression pattern (Fig. 2).",
+          "searchable_summary": "collect various rice tissues and anthers at different developmental stages",
+          "inputs": [
+            "Rice plants"
+          ],
+          "outputs": [
+            "Tissue samples"
+          ],
+          "keywords": [
+            "Tissue collection",
+            "plant sampling",
+            "rice development"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "using quantitative reverse transcription PCR (qRT-PCR).",
+          "searchable_summary": "extract RNA from collected tissue samples",
+          "inputs": [
+            "Tissue samples",
+            "RNA extraction kit"
+          ],
+          "outputs": [
+            "Total RNA samples"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "RNA isolation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "using quantitative reverse transcription PCR (qRT-PCR).",
+          "searchable_summary": "synthesize cDNA from RNA using reverse transcription",
+          "inputs": [
+            "Total RNA samples",
+            "Reverse transcription kit"
+          ],
+          "outputs": [
+            "cDNA samples"
+          ],
+          "keywords": [
+            "cDNA synthesis",
+            "reverse transcription"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "using quantitative reverse transcription PCR (qRT-PCR).",
+          "searchable_summary": "perform quantitative reverse transcription PCR using OsMYB80 and reference gene primers",
+          "inputs": [
+            "cDNA samples",
+            "qRT-PCR primers (for OsMYB80 and reference gene)",
+            "Master mix",
+            "qRT-PCR instrument"
+          ],
+          "outputs": [
+            "Raw qRT-PCR data (Ct values)"
+          ],
+          "keywords": [
+            "qRT-PCR",
+            "quantitative PCR",
+            "gene expression measurement"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "OsMYB80 was barely expressed in root, stem, leaf, lemma, palea, sterile lemma and pistil tissues. In anthers, however, the gene showed a developmentally regulated expression pattern (Fig. 2). OsMYB80 mRNA was very low in anthers before meiosis (stage 7), quickly increased during meiosis (stage 8), reached the highest level when microspores were released from the tetrad (stage 9), then declined to a very low level when microspores were vacuolated (stage 10) and became undetectable afterward (Fig. 2).",
+          "searchable_summary": "calculate relative gene expression levels and analyze expression patterns",
+          "inputs": [
+            "Raw qRT-PCR data",
+            "Reference gene data"
+          ],
+          "outputs": [
+            "Relative expression levels",
+            "Expression profiles (tissue specificity, developmental)"
+          ],
+          "keywords": [
+            "qRT-PCR data analysis",
+            "relative gene expression",
+            "delta-delta Ct method",
+            "expression profile"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DAP-seq Analysis",
+      "description": "Performing DNA affinity purification sequencing (DAP-seq) to identify genomic DNA sequences bound by the OsMYB80 protein, including wet-lab procedures for library preparation and protein-DNA binding, and subsequent bioinformatics analysis for peak identification and annotation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Briefly, 5 μg HHZ genomic DNA was sheared into ~200-bp fragments.",
+          "searchable_summary": "fragment genomic DNA to a specific size (~200 bp)",
+          "inputs": [
+            "HHZ genomic DNA"
+          ],
+          "outputs": [
+            "Sheared DNA fragments"
+          ],
+          "keywords": [
+            "DNA shearing",
+            "DNA fragmentation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "and then ligated with the Illumina-based sequencing adaptors to form a DNA library.",
+          "searchable_summary": "attach Illumina sequencing adaptors to DNA fragments",
+          "inputs": [
+            "Sheared DNA fragments",
+            "Illumina adaptors",
+            "Ligase"
+          ],
+          "outputs": [
+            "Adaptor-ligated DNA library"
+          ],
+          "keywords": [
+            "DNA ligation",
+            "library preparation",
+            "sequencing adaptors"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The library was examined for adaptor-ligation frequency by quantitative PCR (qPCR) before applied to DAP-seq assay.",
+          "searchable_summary": "use qPCR to check the efficiency of adaptor ligation in the library",
+          "inputs": [
+            "Adaptor-ligated DNA library",
+            "qPCR primers targeting adaptors"
+          ],
+          "outputs": [
+            "qPCR results (ligation frequency)"
+          ],
+          "keywords": [
+            "qPCR",
+            "library quality control",
+            "adaptor ligation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "OsMYB80 ORF fused to the Halo affinity tag was expressed in vitro using T N T V R SP6 Coupled Wheat Germ Extract System (Promega, Fitchburg, WI, USA).",
+          "searchable_summary": "produce the HaloTag-OsMYB80 fusion protein using an in vitro expression system",
+          "inputs": [
+            "OsMYB80 ORF",
+            "Wheat germ extract system"
+          ],
+          "outputs": [
+            "In vitro expressed protein"
+          ],
+          "keywords": [
+            "In vitro expression",
+            "protein expression",
+            "HaloTag"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "The HaloTag-OsMYB80 protein was then purified from nonspecific proteins in the expression system using the magnetic HaloTag ligand (chloroalkane) beads (Promega).",
+          "searchable_summary": "isolate the fusion protein using magnetic HaloTag ligand beads",
+          "inputs": [
+            "In vitro expressed protein",
+            "Magnetic HaloTag beads"
+          ],
+          "outputs": [
+            "Purified protein"
+          ],
+          "keywords": [
+            "Protein purification",
+            "affinity purification",
+            "HaloTag"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "and verified by Western blotting with the anti-HaloTag antibody (Promega).",
+          "searchable_summary": "confirm the presence and size of the purified protein using Western blot with an anti-HaloTag antibody",
+          "inputs": [
+            "Purified protein",
+            "Anti-HaloTag antibody",
+            "Western blot reagents"
+          ],
+          "outputs": [
+            "Western blot image"
+          ],
+          "keywords": [
+            "Western blot",
+            "protein verification",
+            "antibody"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "The purified protein was incubated with 500 ng adaptor-ligated genomic DNA library at 30 C for 2 h.",
+          "searchable_summary": "mix purified protein with the adaptor-ligated DNA library to allow binding",
+          "inputs": [
+            "Purified protein",
+            "Adaptor-ligated DNA library"
+          ],
+          "outputs": [
+            "Protein-DNA complexes"
+          ],
+          "keywords": [
+            "DNA-protein binding assay",
+            "incubation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "other",
+          "description": "before washing away the unbound DNA fragments.",
+          "searchable_summary": "remove DNA fragments that did not bind to the protein using washes",
+          "inputs": [
+            "Protein-DNA complexes",
+            "Wash buffer"
+          ],
+          "outputs": [
+            "Washed beads with bound complexes"
+          ],
+          "keywords": [
+            "Washing",
+            "binding assay"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "other",
+          "description": "The samples were heated at 98 C for 10 min to release the OsMYB80-bound DNA.",
+          "searchable_summary": "elute the DNA fragments that were bound to the protein by heating",
+          "inputs": [
+            "Washed beads with bound complexes"
+          ],
+          "outputs": [
+            "Recovered bound DNA fragments"
+          ],
+          "keywords": [
+            "DNA elution",
+            "binding assay"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "and the recovered DNA was then PCR-amplified with the indexed TruSeq primers (Illumina, San Diego, CA, USA).",
+          "searchable_summary": "amplify the recovered DNA fragments using indexed primers for sequencing",
+          "inputs": [
+            "Recovered bound DNA",
+            "Indexed TruSeq primers",
+            "PCR reagents"
+          ],
+          "outputs": [
+            "PCR-amplified DNA library"
+          ],
+          "keywords": [
+            "PCR amplification",
+            "library amplification",
+            "indexed primers"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "Indexed DNA samples were subsequently combined.",
+          "searchable_summary": "pool multiple indexed libraries for sequencing",
+          "inputs": [
+            "Multiple PCR-amplified DNA libraries"
+          ],
+          "outputs": [
+            "Combined DNA library"
+          ],
+          "keywords": [
+            "Library pooling",
+            "multiplex sequencing"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_processing",
+          "description": "and size-selected to remove the residual adaptor dimers.",
+          "searchable_summary": "purify the combined library and remove adaptor dimers based on size",
+          "inputs": [
+            "Combined DNA library",
+            "Size selection method (e.g., gel extraction, beads)"
+          ],
+          "outputs": [
+            "Size-selected DNA library"
+          ],
+          "keywords": [
+            "Size selection",
+            "library purification",
+            "adaptor removal"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "data_fetch",
+          "description": "Purified DNA libraries were then sequenced using the Illumina HiSeq sequencing platform.",
+          "searchable_summary": "perform high-throughput sequencing on the prepared library",
+          "inputs": [
+            "Size-selected DNA library",
+            "Illumina HiSeq platform"
+          ],
+          "outputs": [
+            "Raw sequencing data (reads)"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "Illumina sequencing",
+            "high-throughput sequencing"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "data_analysis",
+          "description": "To identify OsMYB80-binding sequences, the clean DAP-seq reads were aligned to the Nipponbare reference genome (MSU v7.0) with HISAT2 (Kim et al. 2015).",
+          "searchable_summary": "map sequencing reads to the rice reference genome",
+          "inputs": [
+            "Clean DAP-seq reads",
+            "Nipponbare reference genome (MSU v7.0)",
+            "HISAT2 software"
+          ],
+          "outputs": [
+            "Aligned reads (e.g., BAM file)"
+          ],
+          "keywords": [
+            "Read alignment",
+            "genome mapping",
+            "HISAT2",
+            "bioinformatics"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "data_analysis",
+          "description": "The enriched peaks were identified using MACS2 (Zhang et al. 2008b) with Àlog10(P-value) !5.",
+          "searchable_summary": "use MACS2 software to call peaks representing protein binding sites",
+          "inputs": [
+            "Aligned reads",
+            "MACS2 software"
+          ],
+          "outputs": [
+            "Peak calls (e.g., BED, narrowPeak files)"
+          ],
+          "keywords": [
+            "Peak calling",
+            "ChIP-seq analysis",
+            "MACS2",
+            "binding site identification"
+          ]
+        },
+        {
+          "step_number": 16,
+          "category": "data_analysis",
+          "description": "Then, the regions of the peaks were defined based on the annotations of the reference genome. Those located within 1.5 kb upstream of a gene were defined as peaks in promoters, and those located within 1 kb downstream of a gene were defined as peaks in 3 0 -UTR. Peaks located with >1.5 kb from the boundaries of a gene were defined as peaks in intergenic regions.",
+          "searchable_summary": "determine the genomic location of identified peaks relative to gene features",
+          "inputs": [
+            "Peak calls",
+            "Reference genome annotations"
+          ],
+          "outputs": [
+            "Annotated peak regions"
+          ],
+          "keywords": [
+            "Peak annotation",
+            "genomic features",
+            "bioinformatics",
+            "gene location"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/212566660.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

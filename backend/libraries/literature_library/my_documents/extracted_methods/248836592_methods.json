@@ -1,0 +1,310 @@
+{
+  "paper_title": "Metabolic and Transcriptomic Analysis of Pollen Germination Stages",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Metabolic Data Analysis and Integration",
+      "description": "This method involves the analysis of metabolic data and the integration of available transcriptomic data to understand the changes in metabolite levels during pollen germination stages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The raw data files in Thermo.RAW format obtained in the profile mode were first centroided by conversion into .mzML format using ProteoWizard with peak picking filter applied.",
+          "searchable_summary": "Convert Thermo.RAW files to .mzML format using ProteoWizard with peak picking",
+          "inputs": [
+            "Thermo.RAW files"
+          ],
+          "outputs": [
+            ".mzML files"
+          ],
+          "keywords": [
+            "ProteoWizard",
+            "centroiding",
+            "peak picking"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Features were detected and a preprocessed data table was created using the program, MZmine 2.53.",
+          "searchable_summary": "Detect features and create a preprocessed data table using MZmine 2.53",
+          "inputs": [
+            ".mzML files"
+          ],
+          "outputs": [
+            "preprocessed data table"
+          ],
+          "keywords": [
+            "MZmine",
+            "feature detection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Data were normalized using average squared intensities available within the MZmine workflow to enable comparison between different samples.",
+          "searchable_summary": "Normalize data using average squared intensities in MZmine",
+          "inputs": [
+            "preprocessed data table"
+          ],
+          "outputs": [
+            "normalized data table"
+          ],
+          "keywords": [
+            "normalization",
+            "MZmine"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Global changes in metabolome were visualized using UMAP.",
+          "searchable_summary": "Visualize metabolome changes using UMAP",
+          "inputs": [
+            "normalized data table"
+          ],
+          "outputs": [
+            "UMAP visualization"
+          ],
+          "keywords": [
+            "UMAP",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "A t-test was carried out to determine the significantly changed metabolites (P < 0.05) in pollen from the hydration or germination stage when compared with the mature pollen stage.",
+          "searchable_summary": "Perform t-test to identify significant metabolite changes",
+          "inputs": [
+            "normalized data table"
+          ],
+          "outputs": [
+            "significant metabolites"
+          ],
+          "keywords": [
+            "t-test",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The resultant subset of features that showed significant differences were annotated using 'Functional Analysis' module of MetaboAnalyst v5.0.",
+          "searchable_summary": "Annotate significant features using MetaboAnalyst Functional Analysis",
+          "inputs": [
+            "significant metabolites"
+          ],
+          "outputs": [
+            "annotated metabolites"
+          ],
+          "keywords": [
+            "MetaboAnalyst",
+            "annotation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Pathway enrichment analysis was performed using the 'Pathway Analysis' module of MetaboAnalyst v5.0.",
+          "searchable_summary": "Perform pathway enrichment analysis using MetaboAnalyst",
+          "inputs": [
+            "annotated metabolites"
+          ],
+          "outputs": [
+            "enriched pathways"
+          ],
+          "keywords": [
+            "pathway enrichment",
+            "MetaboAnalyst"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "A differentially regulated gene list was directly retrieved from supplementary materials of published transcriptomic data by Wang et al. (2008).",
+          "searchable_summary": "Retrieve differentially regulated gene list from Wang et al. (2008)",
+          "inputs": [
+            "Wang et al. (2008) supplementary materials"
+          ],
+          "outputs": [
+            "differentially regulated gene list"
+          ],
+          "keywords": [
+            "transcriptomics",
+            "gene list"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The differentially regulated genes and the consequential metabolites during the transition from mature to hydrated pollen, and from hydrated to germinated pollen, were integrated using the 'Joint Pathway Analysis' module in MetaboAnalyst v5.0.",
+          "searchable_summary": "Integrate genes and metabolites using MetaboAnalyst Joint Pathway Analysis",
+          "inputs": [
+            "differentially regulated gene list",
+            "annotated metabolites"
+          ],
+          "outputs": [
+            "integrated pathway analysis"
+          ],
+          "keywords": [
+            "joint pathway analysis",
+            "MetaboAnalyst"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Germination Stages and Statistical Analysis",
+      "description": "This method evaluates pollen germination rates and performs statistical analysis to understand the changes in metabolite levels across different pollen stages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pollen germination rates were initially evaluated using a light microscope.",
+          "searchable_summary": "Evaluate pollen germination rates using light microscopy",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "germination rates"
+          ],
+          "keywords": [
+            "microscopy",
+            "germination rates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Three different chromatographic methods were used, including hydrophilic interaction chromatography (HILIC), reverse phase chromatography with a C18 column, and lipidomic profiling using a specific reverse phase C8 column.",
+          "searchable_summary": "Perform chromatography using HILIC, C18, and C8 columns",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "chromatographic data"
+          ],
+          "keywords": [
+            "chromatography",
+            "HILIC",
+            "C18",
+            "C8"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "A UMAP analysis was performed to accommodate dimensionality reduction relative to PCA and to visualize the data.",
+          "searchable_summary": "Perform UMAP analysis for dimensionality reduction and visualization",
+          "inputs": [
+            "chromatographic data"
+          ],
+          "outputs": [
+            "UMAP visualization"
+          ],
+          "keywords": [
+            "UMAP",
+            "dimensionality reduction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "After determining the significant changes that occurred in metabolite levels (P < 0.05) between mature and hydrated pollen, and between mature and germinated pollen, we noted the significantly increased or decreased metabolites in each pair.",
+          "searchable_summary": "Identify significant metabolite changes between pollen stages",
+          "inputs": [
+            "UMAP visualization"
+          ],
+          "outputs": [
+            "significant metabolite changes"
+          ],
+          "keywords": [
+            "statistical analysis",
+            "metabolite changes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Differential Metabolic Pathway Enrichment Analysis",
+      "description": "This method involves the analysis of metabolite differences to identify overrepresented metabolic pathways during pollen stage transitions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The metabolite differences were subjected to pathway enrichment analysis where 'enrichment' refers to an overrepresentation of the number of metabolites within a pathway that are coordinately elevated or reduced in level.",
+          "searchable_summary": "Perform pathway enrichment analysis on metabolite differences",
+          "inputs": [
+            "metabolite differences"
+          ],
+          "outputs": [
+            "enriched pathways"
+          ],
+          "keywords": [
+            "pathway enrichment",
+            "metabolite analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Integrative Analysis of Transcriptomics and Metabolomics",
+      "description": "This method integrates metabolomic data with transcriptomic data to provide a comprehensive understanding of metabolic changes during pollen germination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Performed a multiomics analysis that integrated the current metabolomic data with previously published expression levels from transcriptomics.",
+          "searchable_summary": "Integrate metabolomic and transcriptomic data for multiomics analysis",
+          "inputs": [
+            "metabolomic data",
+            "transcriptomic data"
+          ],
+          "outputs": [
+            "multiomics analysis results"
+          ],
+          "keywords": [
+            "multiomics",
+            "integration",
+            "transcriptomics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Performed a pathway enrichment analysis using the previously published transcriptome data.",
+          "searchable_summary": "Perform pathway enrichment analysis on transcriptome data",
+          "inputs": [
+            "transcriptome data"
+          ],
+          "outputs": [
+            "enriched pathways"
+          ],
+          "keywords": [
+            "pathway enrichment",
+            "transcriptomics"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Investigated whether metabolic changes were associated with transcriptional changes.",
+          "searchable_summary": "Analyze association between metabolic and transcriptional changes",
+          "inputs": [
+            "multiomics analysis results"
+          ],
+          "outputs": [
+            "association analysis results"
+          ],
+          "keywords": [
+            "association analysis",
+            "transcriptional changes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248836592.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

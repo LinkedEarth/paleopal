@@ -1,0 +1,101 @@
+{
+  "paper_title": "Relationship between data resolution and the volcanic eruption record of the last glacial (60-9 ka)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Volcanic Eruption Frequency Analysis",
+      "description": "This method investigates the frequency of different size categories of volcanic eruptions over time by considering the sample resolution of sulfate records. It addresses the challenge of detecting smaller eruption signals as layer thinning increases with depth, affecting the apparent number of eruptions detected.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Separate eruptions according to the 0.7 and 0.9 quantiles of the volcanic sulfate deposition distribution for Greenland and Antarctica.",
+          "searchable_summary": "classify eruptions by sulfate deposition quantiles",
+          "inputs": [
+            "sulfate deposition data for Greenland",
+            "sulfate deposition data for Antarctica"
+          ],
+          "outputs": [
+            "classified eruption data by size quantiles"
+          ],
+          "keywords": [
+            "sulfate deposition",
+            "quantiles",
+            "eruption classification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Smooth the NGRIP sulfate record to 2-year resolution for eruption frequency analysis.",
+          "searchable_summary": "apply 2-year smoothing to NGRIP sulfate record",
+          "inputs": [
+            "NGRIP sulfate record"
+          ],
+          "outputs": [
+            "smoothed NGRIP sulfate record"
+          ],
+          "keywords": [
+            "smoothing",
+            "NGRIP",
+            "sulfate record"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Smooth the entire WDC sulfate record to 2-year resolution to homogenize the record resolution across the investigated period.",
+          "searchable_summary": "apply 2-year smoothing to WDC sulfate record",
+          "inputs": [
+            "WDC sulfate record"
+          ],
+          "outputs": [
+            "smoothed WDC sulfate record"
+          ],
+          "keywords": [
+            "smoothing",
+            "WDC",
+            "sulfate record"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Perform spectral analysis of the NGRIP sulfate record to determine a signal cutoff of around 2 cm.",
+          "searchable_summary": "conduct spectral analysis for signal cutoff determination",
+          "inputs": [
+            "NGRIP sulfate record"
+          ],
+          "outputs": [
+            "signal cutoff value"
+          ],
+          "keywords": [
+            "spectral analysis",
+            "signal cutoff",
+            "NGRIP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Perform spectral analysis of the Antarctic sulfate records to determine effective resolution and signal cutoff.",
+          "searchable_summary": "conduct spectral analysis for Antarctic sulfate records",
+          "inputs": [
+            "Antarctic sulfate records"
+          ],
+          "outputs": [
+            "effective resolution",
+            "signal cutoff values"
+          ],
+          "keywords": [
+            "spectral analysis",
+            "Antarctic sulfate",
+            "resolution"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237407010.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

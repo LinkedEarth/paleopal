@@ -1,0 +1,178 @@
+{
+  "paper_title": "Statistical Analysis of Pollen Data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Pollen Data",
+      "description": "This method describes various statistical procedures applied to analyze pollen data, including frequency analysis, diversity and evenness calculations, normality testing, correlation analysis, richness estimation, and similarity assessment. These analyses aim to characterize pollen type distribution, resource use patterns, relationships between variables, and sample sufficiency.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "For the analysis of the pollen types the frequency was expressed in percentage and grouped in the following classes according to Novais et al. (2009): very constant (VC), present in >75% of the samples; constant (C), >50%-≤75%; Low constancy (LC), >25%-≤50%; occasional (O), ≥5%-≤25%; and rare (R), <5%, considering only the simple presence or absence of a pollen type in any of the samples.",
+          "searchable_summary": "Calculate frequency percentage of pollen types across samples and categorize into constancy classes",
+          "inputs": [
+            "pollen type presence/absence data per sample"
+          ],
+          "outputs": [
+            "pollen type frequency percentages",
+            "pollen type constancy categories (VC, C, LC, O, R)"
+          ],
+          "keywords": [
+            "pollen analysis",
+            "frequency analysis",
+            "constancy classes",
+            "percentage calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The trophic niche amplitude was calculated by the Shannon index (H '), using the algorithm H' = -Σpk x ln pk, where pk is the ratio of the number of grains counted by each pollen type (k) and the total counted pollen.For this the PAST software, version.1.85 was used (Hammer et al., 2001).",
+          "searchable_summary": "Calculate Shannon diversity index (H') for trophic niche amplitude",
+          "inputs": [
+            "pollen grain counts per pollen type (k)",
+            "total counted pollen grains"
+          ],
+          "outputs": [
+            "Shannon index (H')"
+          ],
+          "keywords": [
+            "Shannon index",
+            "trophic niche amplitude",
+            "diversity index",
+            "pollen analysis",
+            "PAST software"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The uniformity of resource use was calculated by the Pielou index (J '), using the formula J' = H '/ H'max (Ludwig & Reynolds, 1988).For this the PAST software, version.1.85 was used (Hammer et al., 2001).",
+          "searchable_summary": "Calculate Pielou's evenness index (J') for resource use uniformity",
+          "inputs": [
+            "Shannon index (H')",
+            "maximum possible Shannon index (H'max)"
+          ],
+          "outputs": [
+            "Pielou index (J')"
+          ],
+          "keywords": [
+            "Pielou index",
+            "resource use uniformity",
+            "evenness index",
+            "pollen analysis",
+            "PAST software"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The normality of the data was tested by the Shapiro-Wilk test (W), verifying that the data did not present normal distribution.For this reason, a simple regression analysis was applied through the Spearman correlation coefficient (ρ)...The analyses were done using PAST software version 1.85 (Hammer et al., 2001).",
+          "searchable_summary": "Perform Shapiro-Wilk test to check data normality",
+          "inputs": [
+            "dataset for normality testing"
+          ],
+          "outputs": [
+            "Shapiro-Wilk test statistic (W)",
+            "p-value for normality test"
+          ],
+          "keywords": [
+            "normality test",
+            "Shapiro-Wilk test",
+            "statistical test",
+            "PAST software"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "...a simple regression analysis was applied through the Spearman correlation coefficient (ρ) to verify the existence of correlation between biotic variables, pollen types and abiotic variables such as temperature, rainfall and relative humidity.Significant correlations were considered when p <0.05, by the Student t test.The analyses were done using PAST software version 1.85 (Hammer et al., 2001).",
+          "searchable_summary": "Perform Spearman correlation analysis between biotic and abiotic variables and test significance using Student t test",
+          "inputs": [
+            "biotic variables (e.g., pollen types data)",
+            "abiotic variables (e.g., temperature, rainfall, relative humidity data)"
+          ],
+          "outputs": [
+            "Spearman correlation coefficients (ρ)",
+            "p-values for correlations"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "Spearman correlation",
+            "simple regression",
+            "Student t test",
+            "statistical analysis",
+            "biotic variables",
+            "abiotic variables",
+            "PAST software"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "The Collector Curve was constructed by accumulating the number of pollen types collected by the workers and stored in the pollen pots of their nests during the period of this study.",
+          "searchable_summary": "Construct a Collector Curve by accumulating pollen types over samples/time",
+          "inputs": [
+            "pollen types collected per sample/time point"
+          ],
+          "outputs": [
+            "Collector curve data points",
+            "Collector curve plot"
+          ],
+          "keywords": [
+            "collector curve",
+            "species accumulation curve",
+            "pollen richness",
+            "sampling effort",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "To estimate the total richness of the pollen types that occurred in the study area, Colwell & Coddington (1994) were used.In addition, the Chao 2, Jacknife 1 and Bootstrap wealth estimators, 100 times randomized by the Estimate S 9.1.0program (Colwell, 2013), were used to determine the sample sufficiency of the bees' guild.",
+          "searchable_summary": "Estimate total pollen richness using Colwell & Coddington, Chao 2, Jacknife 1, and Bootstrap estimators",
+          "inputs": [
+            "pollen type presence/absence data per sample"
+          ],
+          "outputs": [
+            "Estimated total pollen richness values",
+            "Sample sufficiency assessment"
+          ],
+          "keywords": [
+            "pollen richness estimation",
+            "species richness estimators",
+            "Chao 2",
+            "Jacknife 1",
+            "Bootstrap",
+            "Colwell & Coddington",
+            "Estimate S software",
+            "sample sufficiency"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The similarity coefficient proposed by Sörensen (Cs) (Sörensen, 1948apud Magurran, 2011) was used to evaluate the degree of similarity in the composition of the pollen types of the boxes of M. mandacaia, varying from 0 to 1. Considering high similarity when values of Cs > 0.7.The coefficient of similarity of Sörensen was calculated using the formula Cs = 2a / 2a + b + c, where: a = number of common types occurring in the two colonies (box A and B); B = number of types occurring in colony A and not in B; C = number of types that occurs in colony B and not in colony A.",
+          "searchable_summary": "Calculate Sörensen similarity coefficient between two samples/colonies",
+          "inputs": [
+            "pollen type presence/absence data for two samples/colonies (A and B)"
+          ],
+          "outputs": [
+            "Sörensen similarity coefficient (Cs)"
+          ],
+          "keywords": [
+            "similarity analysis",
+            "Sörensen coefficient",
+            "community similarity",
+            "pollen analysis",
+            "presence/absence data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/90340062.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

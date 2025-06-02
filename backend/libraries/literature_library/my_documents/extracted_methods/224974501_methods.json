@@ -1,0 +1,148 @@
+{
+  "paper_title": "Characteristics of Strains and Data Acquisition",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Strain Preparation and Cultivation",
+      "description": "Process for preparing and cultivating monoclonal strains of the genus Frustulia for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Mount strains onto permanent slides using Naphrax.",
+          "searchable_summary": "mount strains onto slides with Naphrax",
+          "inputs": [
+            "strains",
+            "Naphrax"
+          ],
+          "outputs": [
+            "mounted slides"
+          ],
+          "keywords": [
+            "mounting",
+            "Naphrax",
+            "slides"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cultivate strains in slightly acidic, oligotrophic liquid medium enriched with sodium metasilicate at 18°C with continuous lighting.",
+          "searchable_summary": "cultivate strains in specific medium and conditions",
+          "inputs": [
+            "strains",
+            "liquid medium",
+            "sodium metasilicate"
+          ],
+          "outputs": [
+            "cultivated strains"
+          ],
+          "keywords": [
+            "cultivation",
+            "medium",
+            "sodium metasilicate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Harvest cells in the exponential phase of growth and clean frustules by incineration.",
+          "searchable_summary": "harvest and clean frustules by incineration",
+          "inputs": [
+            "cultivated strains"
+          ],
+          "outputs": [
+            "cleaned frustules"
+          ],
+          "keywords": [
+            "harvesting",
+            "incineration",
+            "frustules"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Image Acquisition and Processing",
+      "description": "Procedure for photographing and processing images of strains for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Photograph strains using an Olympus BX51 with differential interference contrast imaging.",
+          "searchable_summary": "capture images of strains with Olympus BX51",
+          "inputs": [
+            "strains"
+          ],
+          "outputs": [
+            "strain images"
+          ],
+          "keywords": [
+            "photography",
+            "Olympus BX51",
+            "imaging"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Unify the orientation of cells and cut off the redundant background using Adobe Photoshop 2020.",
+          "searchable_summary": "process images to unify orientation and remove background",
+          "inputs": [
+            "strain images"
+          ],
+          "outputs": [
+            "processed images"
+          ],
+          "keywords": [
+            "image processing",
+            "Adobe Photoshop",
+            "orientation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Landmark Registration",
+      "description": "Method for registering shapes of strains using landmarks for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Digitize 50 images per strain using tpsUtil ver. 1.6.",
+          "searchable_summary": "digitize images with tpsUtil",
+          "inputs": [
+            "processed images"
+          ],
+          "outputs": [
+            "digitized images"
+          ],
+          "keywords": [
+            "digitization",
+            "tpsUtil",
+            "images"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Register shapes by 96 landmarks using tpsDig ver. 2.3 in CW and CCW orientations.",
+          "searchable_summary": "register shapes with landmarks using tpsDig",
+          "inputs": [
+            "digitized images"
+          ],
+          "outputs": [
+            "landmarked shapes"
+          ],
+          "keywords": [
+            "landmark registration",
+            "tpsDig",
+            "shapes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/224974501.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

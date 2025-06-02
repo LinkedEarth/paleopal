@@ -1,0 +1,383 @@
+{
+  "paper_title": "Microbial Community Analysis and Sediment Incubation Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "DNA extraction, 16S rRNA gene sequencing and analysis",
+      "description": "This method describes the process for obtaining microbial community genomic DNA from samples, amplifying and sequencing the 16S rRNA gene, and performing various bioinformatics analyses on the resulting sequence data to characterize microbial community composition, structure, and predicted function.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The microbial community genomic DNA from samples was obtained using the E.Z.N.A. ® soil DNA Kit (Omega Bio-tek, Norcross, GA, U.S.) according to the manufacturer's protocols.",
+          "searchable_summary": "Extract microbial genomic DNA from samples using a commercial kit",
+          "inputs": [
+            "Samples (e.g., soil, sediment)",
+            "E.Z.N.A. ® soil DNA Kit"
+          ],
+          "outputs": [
+            "Extracted genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "genomic DNA",
+            "microbial DNA",
+            "soil DNA kit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The 16S rRNA genes (e.g. V3-V4) were amplified using general primers (e.g. 338F/806R).",
+          "searchable_summary": "Amplify 16S rRNA genes using PCR with specific primers",
+          "inputs": [
+            "Extracted genomic DNA",
+            "16S rRNA primers (e.g., 338F/806R)"
+          ],
+          "outputs": [
+            "Amplified 16S rRNA gene fragments"
+          ],
+          "keywords": [
+            "PCR",
+            "16S rRNA gene amplification",
+            "primers",
+            "V3-V4 region"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Sequencing was performed on the Illumina MiSeq PE300 platform (Illumina, San Diego, USA) according to the standard protocols by Shanghai Majorbio Biopharm Technology Co. Ltd. (Shanghai, China).",
+          "searchable_summary": "Sequence amplified 16S rRNA genes on an Illumina platform",
+          "inputs": [
+            "Amplified 16S rRNA gene fragments"
+          ],
+          "outputs": [
+            "Raw 16S rRNA gene sequence reads (paired-end)"
+          ],
+          "keywords": [
+            "sequencing",
+            "Illumina MiSeq",
+            "16S rRNA sequencing",
+            "paired-end reads"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Paired-end reads were merged by FLASH version 1.2.11 (Magoč and Salzberg 2011).",
+          "searchable_summary": "Merge paired-end sequence reads using FLASH",
+          "inputs": [
+            "Raw paired-end sequence reads"
+          ],
+          "outputs": [
+            "Merged sequence reads"
+          ],
+          "keywords": [
+            "paired-end merging",
+            "FLASH",
+            "bioinformatics",
+            "sequence processing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "A total of 700,820 high-quality reads were obtained from 20 samples, and the lowest number of reads amongst the samples, 35,041, was chosen to rarefy the datasets for all community comparisons.",
+          "searchable_summary": "Filter sequence reads for quality and rarefy datasets to minimum read count",
+          "inputs": [
+            "Merged sequence reads",
+            "Minimum read count threshold (35,041)"
+          ],
+          "outputs": [
+            "High-quality, rarefied sequence datasets"
+          ],
+          "keywords": [
+            "read filtering",
+            "quality control",
+            "rarefaction",
+            "normalization",
+            "bioinformatics",
+            "sequence processing"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Operational taxonomic units (OTUs) with a 97% similarity cutoff were clustered using UPARSE version 7.0 (Edgar 2013), and chimeric sequences were identified and removed.",
+          "searchable_summary": "Cluster sequences into OTUs at 97% similarity and remove chimeric sequences using UPARSE",
+          "inputs": [
+            "Rarefied sequence datasets",
+            "Similarity cutoff (97%)",
+            "UPARSE tool"
+          ],
+          "outputs": [
+            "OTU sequences",
+            "OTU abundance table",
+            "Non-chimeric OTU sequences"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "UPARSE",
+            "operational taxonomic units",
+            "chimeric sequence removal",
+            "bioinformatics",
+            "sequence analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The taxonomy of each representative OTU sequence was analysed by RDP Classifier version 2.11 (Wang et al. 2007) against the Silva v138 16S rRNA database (Quast et al. 2013).",
+          "searchable_summary": "Assign taxonomy to representative OTU sequences using RDP Classifier and Silva database",
+          "inputs": [
+            "Representative OTU sequences",
+            "RDP Classifier",
+            "Silva v138 16S rRNA database"
+          ],
+          "outputs": [
+            "Taxonomic assignments for each OTU"
+          ],
+          "keywords": [
+            "taxonomy assignment",
+            "RDP Classifier",
+            "Silva database",
+            "16S rRNA",
+            "bioinformatics",
+            "OTU analysis"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The rank abundance distributions (RADs) for each sample were calculated using the R package \"RAD analysis\" (Saeedghalati et al. 2017).",
+          "searchable_summary": "Calculate rank abundance distributions for each sample using R package \"RAD analysis\"",
+          "inputs": [
+            "OTU abundance table"
+          ],
+          "outputs": [
+            "Rank abundance distribution data"
+          ],
+          "keywords": [
+            "rank abundance distribution",
+            "RAD analysis",
+            "microbial community structure",
+            "R package"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "NMDS analysis was performed using the R package \"vegan\" (Dixon 2003) based on Bray-Curtis dissimilarities.",
+          "searchable_summary": "Perform Non-metric Multidimensional Scaling (NMDS) analysis using R package \"vegan\" with Bray-Curtis dissimilarity",
+          "inputs": [
+            "OTU abundance table",
+            "Bray-Curtis dissimilarity matrix"
+          ],
+          "outputs": [
+            "NMDS ordination results"
+          ],
+          "keywords": [
+            "NMDS",
+            "Non-metric Multidimensional Scaling",
+            "vegan R package",
+            "Bray-Curtis dissimilarity",
+            "microbial community analysis",
+            "ordination"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Nonparametric multivariate statistical analyses [Adonis, analysis of similarity (ANO-SIM) and multi-response permutation procedure (MRPP)] based on Bray-Curtis distances were used to assess whether the bacterial community compositions were different.",
+          "searchable_summary": "Perform nonparametric multivariate statistical tests (Adonis, ANOSIM, MRPP) on community composition data using Bray-Curtis distances",
+          "inputs": [
+            "OTU abundance table",
+            "Sample grouping/metadata",
+            "Bray-Curtis dissimilarity matrix"
+          ],
+          "outputs": [
+            "Statistical test results (p-values, R-statistics, etc.)"
+          ],
+          "keywords": [
+            "Adonis",
+            "ANOSIM",
+            "MRPP",
+            "nonparametric statistics",
+            "multivariate analysis",
+            "Bray-Curtis distance",
+            "microbial community analysis"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "The differential abundance tests of the microbial communities across groups were analysed based on LEfSe (Segata et al. 2011).",
+          "searchable_summary": "Analyze differential abundance of microbial taxa across groups using LEfSe",
+          "inputs": [
+            "OTU abundance table",
+            "Taxonomic assignments",
+            "Sample grouping/metadata"
+          ],
+          "outputs": [
+            "Differentially abundant taxa identified by LEfSe"
+          ],
+          "keywords": [
+            "differential abundance",
+            "LEfSe",
+            "microbial community analysis",
+            "statistical analysis",
+            "biomarker discovery"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "modeling",
+          "description": "To explore the community structural-functional relationships, Tax4Fun2 (Wemheuer et al. 2020) was used to predict the possible functional profiles and functional redundancy.",
+          "searchable_summary": "Predict microbial community functional profiles and explore functional redundancy using Tax4Fun2",
+          "inputs": [
+            "OTU abundance table",
+            "Taxonomic assignments",
+            "Tax4Fun2 database/tool"
+          ],
+          "outputs": [
+            "Predicted functional profiles (e.g., KEGG pathways, COG categories)",
+            "Metrics or analysis of functional redundancy"
+          ],
+          "keywords": [
+            "functional prediction",
+            "Tax4Fun2",
+            "microbial function",
+            "metagenomics prediction",
+            "bioinformatics",
+            "functional redundancy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Marine sediment sampling and incubation",
+      "description": "This method details the collection of marine sediment samples from a specific location and depth, preparation of a defined incubation medium, setup of laboratory incubations under controlled temperature and shaking conditions for various durations, and storage of samples for later analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "All coastal sediment samples were collected from Xiaoshi Island at Weihai, China (37° 31′ 36″ N, 122° 00′ 58″ E) in September 2018. Samples from depths of 0 to 15 cm were collected, placed in sterile plastic bags, kept cold within an ice box and immediately processed for incubation.",
+          "searchable_summary": "Collect marine sediment samples from a specific location and depth, store cold",
+          "inputs": [
+            "Sampling location (Xiaoshi Island, Weihai, China)",
+            "Sampling coordinates (37° 31′ 36″ N, 122° 00′ 58″ E)",
+            "Sampling date (September 2018)",
+            "Sampling depth range (0-15 cm)",
+            "Sterile plastic bags",
+            "Ice box"
+          ],
+          "outputs": [
+            "Collected marine sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "marine sediment",
+            "sample collection",
+            "environmental sampling",
+            "coastal environment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "other",
+          "description": "The incubation medium is referenced from a previous study (Mu et al. 2018) and consisted of the following substances placed in natural seawater: 0.1% NH 4 Cl, 0.2% CH 3 COONa, 0.02% MgSO 4 ·7H 2 O, 0.02% yeast extract, 0.02% peptone, 0.1% EDTA and 0.125% sodium pyruvate. The pH of the medium was adjusted to 7.0, and it was then autoclaved. Twenty millilitres of 5% (w/v) NaHCO 3 solution and 10 mL of 2% (w/v) KH 2 PO 4 solution were filtered and added to the autoclaved media.",
+          "searchable_summary": "Prepare marine sediment incubation medium with specified components, adjust pH to 7.0, autoclave, and add filtered NaHCO3 and KH2PO4 solutions",
+          "inputs": [
+            "Natural seawater",
+            "NH4Cl (0.1%)",
+            "CH3COONa (0.2%)",
+            "MgSO4·7H2O (0.02%)",
+            "yeast extract (0.02%)",
+            "peptone (0.02%)",
+            "EDTA (0.1%)",
+            "sodium pyruvate (0.125%)",
+            "NaHCO3 solution (5% w/v)",
+            "KH2PO4 solution (2% w/v)",
+            "pH meter",
+            "Autoclave",
+            "Sterile filters"
+          ],
+          "outputs": [
+            "Prepared and sterilized incubation medium"
+          ],
+          "keywords": [
+            "incubation medium",
+            "medium preparation",
+            "microbial culture",
+            "autoclaving",
+            "pH adjustment",
+            "sterile filtration",
+            "laboratory preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Twenty grammes of sediment was added to 250 mL sealed glass bottles, which were then filled with approximate amounts of incubation medium.",
+          "searchable_summary": "Set up incubation bottles by adding sediment and incubation medium",
+          "inputs": [
+            "Collected marine sediment samples (20 g per bottle)",
+            "Prepared incubation medium",
+            "Sealed glass bottles (250 mL)"
+          ],
+          "outputs": [
+            "Incubation bottles containing sediment and medium"
+          ],
+          "keywords": [
+            "incubation setup",
+            "laboratory experiment",
+            "sediment incubation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "All bottles were stored at 33 °C for 0, 5, 12, 21 and 30 days and shaken twice daily.",
+          "searchable_summary": "Incubate bottles at 33 °C for specified durations (0, 5, 12, 21, 30 days) with daily shaking",
+          "inputs": [
+            "Incubation bottles",
+            "Incubation temperature (33 °C)",
+            "Incubation durations (0, 5, 12, 21, 30 days)",
+            "Shaking frequency (twice daily)"
+          ],
+          "outputs": [
+            "Incubated sediment samples at different time points"
+          ],
+          "keywords": [
+            "incubation conditions",
+            "controlled experiment",
+            "temperature control",
+            "shaking",
+            "time series experiment"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "In total, 20 samples were collected and stored at − 80 °C for later analysis.",
+          "searchable_summary": "Store collected samples at -80 °C for long-term preservation",
+          "inputs": [
+            "Incubated sediment samples (at different time points)"
+          ],
+          "outputs": [
+            "Frozen sediment samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "sample preservation",
+            "-80C freezer",
+            "laboratory procedures"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/260322966.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

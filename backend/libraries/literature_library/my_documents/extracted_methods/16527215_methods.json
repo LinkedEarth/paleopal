@@ -1,0 +1,175 @@
+{
+  "paper_title": "Statistical Analysis of Pollen Stress Effects on Bee Worker Performance and Survival",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis of Worker Performance and Survival",
+      "description": "This method describes the statistical procedures used to analyze the effects of colony-level pollen stress on worker performance (participation, weight) and survival. It involves comparing worker participation using chi-square tests, comparing treatment means for performance metrics using t-tests and ANOVAs with Bonferroni correction and Tukey-Kramer post-hoc tests, and comparing worker survival using Kaplan-Meier estimates and log-rank tests with Šidák adjustments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Numbers of focal workers that did or did not participate in a task were compared among treatments with 2x2 (trial 1) or 2x3 contingency tables (trials 2 and 3) using chi-square tests of independence.",
+          "searchable_summary": "Perform chi-square test of independence on contingency table to compare worker participation",
+          "inputs": [
+            "Worker participation counts (participated/did not participate)",
+            "Treatment groups",
+            "Trial number"
+          ],
+          "outputs": [
+            "Chi-square test statistic",
+            "Degrees of freedom",
+            "p-value"
+          ],
+          "keywords": [
+            "chi-square test",
+            "contingency table",
+            "test of independence",
+            "statistical test"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "compare treatment means separately for each trial by t-test (trial 1) or ANOVA (trials 2 and 3)",
+          "searchable_summary": "Compare treatment means using t-test (Trial 1) or ANOVA (Trials 2, 3)",
+          "inputs": [
+            "Worker weight data",
+            "Worker performance data",
+            "Treatment groups",
+            "Trial number"
+          ],
+          "outputs": [
+            "t-statistic (Trial 1)",
+            "ANOVA F-statistic (Trials 2, 3)",
+            "p-value"
+          ],
+          "keywords": [
+            "t-test",
+            "ANOVA",
+            "analysis of variance",
+            "mean comparison",
+            "statistical test"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "applied a Bonferroni correction to α = 0.05 to account for conducting multiple tests.",
+          "searchable_summary": "Apply Bonferroni correction to the significance level",
+          "inputs": [
+            "Original alpha level (0.05)",
+            "Number of tests performed"
+          ],
+          "outputs": [
+            "Adjusted alpha level"
+          ],
+          "keywords": [
+            "Bonferroni correction",
+            "multiple comparisons",
+            "alpha adjustment",
+            "statistical correction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Post-hoc pairwise comparisons were made using the Tukey-Kramer procedure where treatment effects were significant.",
+          "searchable_summary": "Perform Tukey-Kramer post-hoc test for pairwise comparisons",
+          "inputs": [
+            "Data from significant ANOVA/t-test",
+            "Treatment groups"
+          ],
+          "outputs": [
+            "Pairwise mean differences",
+            "Confidence intervals",
+            "Adjusted p-values for pairwise comparisons"
+          ],
+          "keywords": [
+            "Tukey-Kramer",
+            "post-hoc test",
+            "pairwise comparison",
+            "multiple comparisons"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The survival of workers reared in pollen-limited and pollen-abundant treatment conditions was compared with Kaplan-Meier estimates of survival",
+          "searchable_summary": "Calculate Kaplan-Meier survival estimates and curves",
+          "inputs": [
+            "Worker survival data (time to event or censoring)",
+            "Treatment groups (pollen-limited, pollen-abundant)"
+          ],
+          "outputs": [
+            "Kaplan-Meier survival estimates",
+            "Survival curves"
+          ],
+          "keywords": [
+            "Kaplan-Meier",
+            "survival analysis",
+            "survival curve",
+            "time-to-event analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "post-hoc comparisons were made with Šidák adjustments to log-rank tests.",
+          "searchable_summary": "Perform log-rank test with Šidák adjustment for post-hoc survival comparisons",
+          "inputs": [
+            "Kaplan-Meier survival data",
+            "Treatment groups"
+          ],
+          "outputs": [
+            "Log-rank test statistic",
+            "p-value",
+            "Pairwise comparison results for survival curves"
+          ],
+          "keywords": [
+            "log-rank test",
+            "survival comparison",
+            "Šidák adjustment",
+            "post-hoc survival analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "T-tests, ANOVAs, and survivorship analyses were conducted using SAS version 9.3 (SAS Institute, Inc., Cary, NC, U.S.A.); contingency tests were conducted with an open-access statistical calculator (physics.csbsju.edu/stats/contingency. html).",
+          "searchable_summary": "Specify software and tools used for statistical analysis",
+          "inputs": [
+            "Statistical test type",
+            "Data"
+          ],
+          "outputs": [
+            "Execution of statistical tests"
+          ],
+          "keywords": [
+            "SAS",
+            "statistical software",
+            "online calculator",
+            "data analysis tool"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "The dataset is available as Supporting Information (S1 File).",
+          "searchable_summary": "Note dataset availability as supporting information",
+          "inputs": [],
+          "outputs": [
+            "Reference to dataset file (S1 File)"
+          ],
+          "keywords": [
+            "dataset",
+            "supporting information",
+            "data availability"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16527215.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

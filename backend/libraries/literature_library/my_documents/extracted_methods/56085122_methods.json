@@ -1,0 +1,408 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Compilation and Preparation",
+      "description": "Compilation of planktonic foraminifera species' stratigraphic ranges from published sources, calibration to a geologic timescale, and binning into 1 Ma intervals for subsequent analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "compilation of 699 planktonic foraminifera species' stratigraphic ranges from published sources",
+          "searchable_summary": "Compile species stratigraphic ranges from published literature",
+          "inputs": [
+            "Published sources of planktonic foraminifera stratigraphic ranges"
+          ],
+          "outputs": [
+            "Raw stratigraphic range data for 699 species"
+          ],
+          "keywords": [
+            "stratigraphic range",
+            "compilation",
+            "paleontology",
+            "foraminifera",
+            "literature review"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "calibrated to Gradstein et al., (2012) geologic timescale",
+          "searchable_summary": "Calibrate stratigraphic data to a specific geologic timescale",
+          "inputs": [
+            "Raw stratigraphic range data",
+            "Gradstein et al., (2012) geologic timescale"
+          ],
+          "outputs": [
+            "Calibrated stratigraphic range data"
+          ],
+          "keywords": [
+            "geologic timescale",
+            "calibration",
+            "stratigraphy",
+            "geochronology",
+            "Gradstein"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "binned into 1 Ma intervals",
+          "searchable_summary": "Bin calibrated stratigraphic data into 1 million year intervals",
+          "inputs": [
+            "Calibrated stratigraphic range data"
+          ],
+          "outputs": [
+            "Binned stratigraphic range data (1 Ma intervals)"
+          ],
+          "keywords": [
+            "binning",
+            "time series",
+            "paleontology",
+            "stratigraphy",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Standing Diversity Calculation (Boundary-Crossing)",
+      "description": "Calculation of standing diversity using the boundary-crossing (BC) methodology based on binned stratigraphic ranges, preferred over subsampling methods due to data availability limitations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "These stratigraphic ranges were used to determine standing diversity... analyzed using both the boundary-crossing (BC; Bambach, 1999) ... methodologies",
+          "searchable_summary": "Calculate standing diversity using the boundary-crossing method",
+          "inputs": [
+            "Binned stratigraphic range data (1 Ma intervals)"
+          ],
+          "outputs": [
+            "Standing diversity values per 1 Ma interval"
+          ],
+          "keywords": [
+            "standing diversity",
+            "boundary-crossing",
+            "paleodiversity",
+            "paleontology",
+            "Bambach"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "For each curve, data were computed at 1 Ma intervals.",
+          "searchable_summary": "Compute diversity data for each 1 Ma interval",
+          "inputs": [
+            "Binned stratigraphic range data (1 Ma intervals)"
+          ],
+          "outputs": [
+            "Standing diversity data series (1 Ma resolution)"
+          ],
+          "keywords": [
+            "diversity computation",
+            "time series",
+            "paleontology",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Extinction and Origination Rate Calculation (Per-Capita)",
+      "description": "Calculation of extinction and origination rates using the per-capita rates technique based on first and last appearances of taxa within 1 Ma intervals, selected because the raw data is based on first and last appearances and a comprehensive occurrence database is not available.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "raw data for the computation of extinction and origination rates was based on first and last appearances of the taxa",
+          "searchable_summary": "Extract first and last appearance data from binned stratigraphic ranges",
+          "inputs": [
+            "Binned stratigraphic range data (1 Ma intervals)"
+          ],
+          "outputs": [
+            "First appearance data per interval",
+            "Last appearance data per interval"
+          ],
+          "keywords": [
+            "first appearance",
+            "last appearance",
+            "biostratigraphy",
+            "paleontology",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "the per-capita-rates technique for calculating extinction and origination rates (Foote, 2000) was selected",
+          "searchable_summary": "Calculate per-capita extinction and origination rates using first and last appearance data",
+          "inputs": [
+            "First appearance data per interval",
+            "Last appearance data per interval"
+          ],
+          "outputs": [
+            "Per-capita extinction rates (per 1 Ma interval)",
+            "Per-capita origination rates (per 1 Ma interval)"
+          ],
+          "keywords": [
+            "per-capita rates",
+            "extinction rate",
+            "origination rate",
+            "paleontology",
+            "macroevolution",
+            "Foote"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Per-capita rates were used as they address those sorts of biases by drawing a census of taxa at precise moments in time (i.e., the beginning and the end of the interval)",
+          "searchable_summary": "Perform taxon census at interval boundaries for per-capita rate calculation",
+          "inputs": [
+            "Binned stratigraphic range data (1 Ma intervals)"
+          ],
+          "outputs": [
+            "Taxon counts at the beginning of each interval",
+            "Taxon counts at the end of each interval"
+          ],
+          "keywords": [
+            "taxon census",
+            "per-capita rates",
+            "paleontology",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Transformation (First-Generalized Differences)",
+      "description": "Application of first-generalized differences to the datasets (turnover rates and standing diversity) to avoid spurious correlations resulting from serial auto-correlation and 'noisy' secular trends before performing statistical correlation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "the datasets were analyzed using first-generalized differences before the use of the statistical correlation to compare turnover rates (i.e., extinction versus origination)",
+          "searchable_summary": "Compute first-generalized differences for turnover rate datasets",
+          "inputs": [
+            "Per-capita extinction rates",
+            "Per-capita origination rates"
+          ],
+          "outputs": [
+            "First-generalized differences of extinction rates",
+            "First-generalized differences of origination rates"
+          ],
+          "keywords": [
+            "time series analysis",
+            "differencing",
+            "autocorrelation",
+            "data transformation",
+            "turnover rates"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "the datasets were analyzed using first-generalized differences before the use of the statistical correlation to compare ... with the standing diversity pattern.",
+          "searchable_summary": "Compute first-generalized differences for the standing diversity dataset",
+          "inputs": [
+            "Standing diversity data series"
+          ],
+          "outputs": [
+            "First-generalized differences of standing diversity"
+          ],
+          "keywords": [
+            "time series analysis",
+            "differencing",
+            "autocorrelation",
+            "data transformation",
+            "standing diversity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Correlation (Spearman's Rank-Order)",
+      "description": "Testing for statistical correlation between the transformed datasets using Spearman's rank-order coefficient, which is suitable for nonnormal variables observed throughout the fossil history.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Spearman's rank-order coefficient was used to test for correlation of changes in both the extinction and origination per-capita rates",
+          "searchable_summary": "Calculate Spearman correlation between differenced extinction and origination rates",
+          "inputs": [
+            "First-generalized differences of extinction rates",
+            "First-generalized differences of origination rates"
+          ],
+          "outputs": [
+            "Spearman correlation coefficient (extinction vs origination)",
+            "P-value (extinction vs origination)"
+          ],
+          "keywords": [
+            "Spearman correlation",
+            "rank correlation",
+            "statistical test",
+            "time series analysis",
+            "correlation analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Spearman's rank-order coefficient was used to test for correlation of changes in ... species richness and in turnover rates (i.e., extinction and origination).",
+          "searchable_summary": "Calculate Spearman correlation between differenced diversity and differenced turnover rates",
+          "inputs": [
+            "First-generalized differences of standing diversity",
+            "First-generalized differences of extinction rates",
+            "First-generalized differences of origination rates"
+          ],
+          "outputs": [
+            "Spearman correlation coefficient (diversity vs extinction)",
+            "P-value (diversity vs extinction)",
+            "Spearman correlation coefficient (diversity vs origination)",
+            "P-value (diversity vs origination)"
+          ],
+          "keywords": [
+            "Spearman correlation",
+            "rank correlation",
+            "statistical test",
+            "time series analysis",
+            "diversity",
+            "turnover rates",
+            "correlation analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cross-correlation Analysis by Climate Mode",
+      "description": "Testing whether cross-correlations among planktic foraminiferal diversity dynamics time series (diversity pattern and extinction-origination per-capita rates) varied when binned into different global climatic mode intervals.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "binned into different global climatic mode intervals, comprising a 'mixed house' interval ... (~170 to ~100 Ma), a greenhouse phase (~100 to ~37.5 Ma), and an icehouse phase (~37.5 to 0 Ma)",
+          "searchable_summary": "Define time intervals corresponding to different climate modes",
+          "inputs": [
+            "Time ranges for climate modes (Mixed house: ~170-100 Ma, Greenhouse: ~100-37.5 Ma, Icehouse: ~37.5-0 Ma)"
+          ],
+          "outputs": [
+            "Defined climate mode intervals"
+          ],
+          "keywords": [
+            "climate modes",
+            "time intervals",
+            "paleoclimate",
+            "data segmentation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "tested whether cross-correlations among planktic foraminiferal diversity dynamics time series (i.e., diversity pattern and extinction-origination per-capita rates) varied when binned into different global climatic mode intervals",
+          "searchable_summary": "Segment diversity dynamics time series by climate mode intervals",
+          "inputs": [
+            "Standing diversity data series",
+            "Per-capita extinction rates",
+            "Per-capita origination rates",
+            "Defined climate mode intervals"
+          ],
+          "outputs": [
+            "Segmented time series data for each climate mode"
+          ],
+          "keywords": [
+            "data segmentation",
+            "time series",
+            "climate modes",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "tested whether cross-correlations among planktic foraminiferal diversity dynamics time series ... varied when binned into different global climatic mode intervals",
+          "searchable_summary": "Analyze cross-correlations within each climate mode segment",
+          "inputs": [
+            "Segmented time series data for each climate mode"
+          ],
+          "outputs": [
+            "Cross-correlation results for each climate mode (e.g., correlation coefficients, significance)"
+          ],
+          "keywords": [
+            "cross-correlation",
+            "time series analysis",
+            "climate modes",
+            "statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Distribution Comparison (Kolmogorov-Smirnov Test)",
+      "description": "Performing a statistical comparison of the complete distribution frequency shapes of both 'turnover-pulse' model data and planktic foraminiferal first and last occurrence data using a Kolmogorov-Smirnov test.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "statistical comparison of the complete distribution frequency shapes of both 'turnover-pulse' model (Appendix)",
+          "searchable_summary": "Obtain data representing the 'turnover-pulse' model distribution frequency",
+          "inputs": [
+            "'Turnover-pulse' model data (from Appendix)"
+          ],
+          "outputs": [
+            "'Turnover-pulse' model distribution frequency data"
+          ],
+          "keywords": [
+            "turnover-pulse model",
+            "distribution",
+            "paleontology",
+            "data fetch"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "statistical comparison of the complete distribution frequency shapes of both ... and planktic foraminiferal first and last occurrence data (Appendix).",
+          "searchable_summary": "Obtain distribution frequency data for observed first and last occurrences",
+          "inputs": [
+            "Planktic foraminiferal first and last occurrence data (from Appendix)"
+          ],
+          "outputs": [
+            "Observed first and last occurrence distribution frequency data"
+          ],
+          "keywords": [
+            "first appearance",
+            "last appearance",
+            "distribution",
+            "paleontology",
+            "data fetch"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "a Kolmogorov-Smirnov test for equality of distribution was employed to perform a statistical comparison of the complete distribution frequency shapes of both 'turnover-pulse' model ... and planktic foraminiferal first and last occurrence data",
+          "searchable_summary": "Perform Kolmogorov-Smirnov test to compare two distribution frequency shapes",
+          "inputs": [
+            "'Turnover-pulse' model distribution frequency data",
+            "Observed first and last occurrence distribution frequency data"
+          ],
+          "outputs": [
+            "Kolmogorov-Smirnov test statistic",
+            "P-value"
+          ],
+          "keywords": [
+            "Kolmogorov-Smirnov test",
+            "statistical test",
+            "distribution comparison",
+            "hypothesis testing",
+            "validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56085122.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

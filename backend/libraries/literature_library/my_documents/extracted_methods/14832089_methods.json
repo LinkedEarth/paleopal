@@ -1,0 +1,324 @@
+{
+  "paper_title": "miRNA Analysis in Rice Pollen Development",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Small RNA Sequencing and Data Processing",
+      "description": "This method involves sequencing small RNAs from rice pollen and sporophytic tissues to investigate miRNA components and their dynamic changes during pollen development.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Purified cells of UNMs, BCP, and TCP from rice and sequenced their small RNAs using Solexa high-throughput technology.",
+          "searchable_summary": "sequence small RNAs from rice pollen using Solexa technology",
+          "inputs": [
+            "UNMs",
+            "BCP",
+            "TCP cells"
+          ],
+          "outputs": [
+            "raw small RNA sequences"
+          ],
+          "keywords": [
+            "small RNA sequencing",
+            "Solexa",
+            "high-throughput"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Remove sequences of low quality, adaptor contaminants, and RNAs smaller than 18 nucleotides.",
+          "searchable_summary": "filter and clean small RNA sequences",
+          "inputs": [
+            "raw small RNA sequences"
+          ],
+          "outputs": [
+            "high-quality small RNA sequences"
+          ],
+          "keywords": [
+            "data cleaning",
+            "sequence filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Map small RNAs of 18 to 30 nucleotides to the rice genome using SOAP.",
+          "searchable_summary": "map small RNAs to rice genome using SOAP",
+          "inputs": [
+            "high-quality small RNA sequences"
+          ],
+          "outputs": [
+            "mapped small RNA sequences"
+          ],
+          "keywords": [
+            "genome mapping",
+            "SOAP"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Remove sequences corresponding to known non-coding RNAs and possibly degraded species of mRNAs.",
+          "searchable_summary": "filter out known non-coding RNAs and degraded mRNAs",
+          "inputs": [
+            "mapped small RNA sequences"
+          ],
+          "outputs": [
+            "filtered small RNA sequences"
+          ],
+          "keywords": [
+            "non-coding RNA",
+            "mRNA degradation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Identify candidate miRNAs by mapping to precursor sequences in the rice miRNA database.",
+          "searchable_summary": "identify candidate miRNAs using rice miRNA database",
+          "inputs": [
+            "filtered small RNA sequences"
+          ],
+          "outputs": [
+            "candidate miRNAs"
+          ],
+          "keywords": [
+            "miRNA identification",
+            "miRNA database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Prediction of Novel miRNAs (nov-miRs)",
+      "description": "This method predicts novel miRNAs by analyzing structural features of small RNAs and excluding those that do not meet specific criteria.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Fold the flanking genome sequence of un-annotated small RNAs and analyze structural features to exclude those that cannot form the characteristic fold-back structure.",
+          "searchable_summary": "analyze structural features of small RNAs for fold-back structure",
+          "inputs": [
+            "un-annotated small RNAs"
+          ],
+          "outputs": [
+            "small RNAs with fold-back structure"
+          ],
+          "keywords": [
+            "fold-back structure",
+            "structural analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Exclude small RNAs with multiple loci in the rice genome.",
+          "searchable_summary": "filter small RNAs with multiple loci",
+          "inputs": [
+            "small RNAs with fold-back structure"
+          ],
+          "outputs": [
+            "single-locus small RNAs"
+          ],
+          "keywords": [
+            "genome loci",
+            "single-locus"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Eliminate small RNAs of low abundance and those originating from both strands.",
+          "searchable_summary": "remove low abundance and dual-strand small RNAs",
+          "inputs": [
+            "single-locus small RNAs"
+          ],
+          "outputs": [
+            "filtered small RNAs"
+          ],
+          "keywords": [
+            "abundance filtering",
+            "strand specificity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Use 'MIREAP' to recover most kn-miRs and identify novel miRNA candidates.",
+          "searchable_summary": "identify novel miRNA candidates using MIREAP",
+          "inputs": [
+            "filtered small RNAs"
+          ],
+          "outputs": [
+            "novel miRNA candidates"
+          ],
+          "keywords": [
+            "MIREAP",
+            "miRNA prediction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Blast precursor and mature sequences against the Oryza Repeat Database to discard homologs of repetitive sequences.",
+          "searchable_summary": "discard repetitive sequence homologs using Oryza Repeat Database",
+          "inputs": [
+            "novel miRNA candidates"
+          ],
+          "outputs": [
+            "non-repetitive novel miRNAs"
+          ],
+          "keywords": [
+            "repetitive sequences",
+            "Oryza Repeat Database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Target Prediction and Function Analysis",
+      "description": "This method predicts regulatory mRNA targets of identified miRNAs and analyzes their biological functions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Predict targets of all identified miRNAs using the psRNATarget web service.",
+          "searchable_summary": "predict miRNA targets using psRNATarget",
+          "inputs": [
+            "identified miRNAs"
+          ],
+          "outputs": [
+            "predicted miRNA targets"
+          ],
+          "keywords": [
+            "miRNA target prediction",
+            "psRNATarget"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform Gene Ontology (GO) abundance analysis of miRNA targets.",
+          "searchable_summary": "analyze GO terms of miRNA targets",
+          "inputs": [
+            "predicted miRNA targets"
+          ],
+          "outputs": [
+            "GO term analysis results"
+          ],
+          "keywords": [
+            "Gene Ontology",
+            "GO analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compare expression profiles of miRNAs and their targets using transcriptome data.",
+          "searchable_summary": "compare miRNA and target expression profiles",
+          "inputs": [
+            "miRNA expression data",
+            "target expression data"
+          ],
+          "outputs": [
+            "expression profile comparison"
+          ],
+          "keywords": [
+            "expression profiling",
+            "transcriptome data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Computational Analysis of Sequencing Data",
+      "description": "This method involves computational processing of small RNA sequencing data to identify and annotate small RNAs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Filter low quality reads and trim adaptor sequences using a modified dynamic programming algorithm.",
+          "searchable_summary": "filter and trim sequencing reads",
+          "inputs": [
+            "raw sequencing data"
+          ],
+          "outputs": [
+            "processed sequencing data"
+          ],
+          "keywords": [
+            "data filtering",
+            "adaptor trimming"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Map sequences of 18 or more nucleotides to the rice genome using SOAP.",
+          "searchable_summary": "map sequences to rice genome using SOAP",
+          "inputs": [
+            "processed sequencing data"
+          ],
+          "outputs": [
+            "genome-mapped sequences"
+          ],
+          "keywords": [
+            "genome mapping",
+            "SOAP"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Discard sequences matching known rice rRNAs, tRNAs, snRNAs, and snoRNAs.",
+          "searchable_summary": "remove known RNA sequences",
+          "inputs": [
+            "genome-mapped sequences"
+          ],
+          "outputs": [
+            "filtered sequences"
+          ],
+          "keywords": [
+            "RNA filtering",
+            "Rfam database"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identify and annotate repeat-associated small RNAs using a parallel overlap finding algorithm.",
+          "searchable_summary": "annotate repeat-associated small RNAs",
+          "inputs": [
+            "filtered sequences"
+          ],
+          "outputs": [
+            "annotated repeat-associated small RNAs"
+          ],
+          "keywords": [
+            "repeat-associated RNAs",
+            "annotation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Identify kn-miRs by mapping sequences to miRNA precursors in the miRBase miRNA Database.",
+          "searchable_summary": "identify kn-miRs using miRBase",
+          "inputs": [
+            "filtered sequences"
+          ],
+          "outputs": [
+            "identified kn-miRs"
+          ],
+          "keywords": [
+            "miRNA identification",
+            "miRBase"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14832089.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,149 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Two-Way ANOVA Analysis",
+      "description": "A two-way ANOVA was performed to test for association between pollen grain size, number of apertures, and time to 95% rupture using R software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A two-way ANOVA was performed using R software to test for association between pollen grain size and number of apertures and time to 95% rupture.",
+          "searchable_summary": "perform two-way ANOVA using R to test associations",
+          "inputs": [
+            "pollen grain size data",
+            "number of apertures data",
+            "time to 95% rupture data"
+          ],
+          "outputs": [
+            "ANOVA results"
+          ],
+          "keywords": [
+            "ANOVA",
+            "R software",
+            "statistical analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Barcode and Primer Pair Performance Evaluation",
+      "description": "Evaluation of barcode and primer pair performance based on the number of species from the mock community returned from sequencing runs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Barcode and/or primer pair performance were evaluated by the number of species from the mock community returned from sequencing runs.",
+          "searchable_summary": "evaluate barcode and primer performance by species count from sequencing",
+          "inputs": [
+            "sequencing run data",
+            "mock community species list"
+          ],
+          "outputs": [
+            "performance metrics"
+          ],
+          "keywords": [
+            "barcode evaluation",
+            "primer performance",
+            "sequencing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Correct genus assignment was accepted as indication of species presence.",
+          "searchable_summary": "verify species presence by correct genus assignment",
+          "inputs": [
+            "genus assignment data"
+          ],
+          "outputs": [
+            "species presence confirmation"
+          ],
+          "keywords": [
+            "genus assignment",
+            "species presence"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "A species was considered present when five or more reads per species were recovered in at least two of the three replicates in one or more exine rupture treatment.",
+          "searchable_summary": "confirm species presence by read count criteria",
+          "inputs": [
+            "read count data",
+            "replicate data"
+          ],
+          "outputs": [
+            "species presence confirmation"
+          ],
+          "keywords": [
+            "read count",
+            "species presence",
+            "exine rupture"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Exine Rupture Treatment Effect Evaluation",
+      "description": "Evaluation of the effect of exine rupture treatment on read proportions returned, determining optimal exine rupture level for each barcode.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "In evaluation of the effect of exine rupture treatment on read proportions returned, any presence (i.e. singletons reads and above) of the known species was counted.",
+          "searchable_summary": "count species presence by read proportions for exine rupture effect",
+          "inputs": [
+            "read proportion data",
+            "known species list"
+          ],
+          "outputs": [
+            "species presence counts"
+          ],
+          "keywords": [
+            "exine rupture",
+            "read proportions",
+            "species presence"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The resulting read proportion of a species was subtracted from the expected read proportion and then totaled for each treatment and replicate.",
+          "searchable_summary": "calculate deviation from expected read proportions",
+          "inputs": [
+            "read proportion data",
+            "expected read proportions"
+          ],
+          "outputs": [
+            "deviation totals"
+          ],
+          "keywords": [
+            "read proportion",
+            "deviation calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The optimal exine rupture level for each barcode was determined to be the treatment that produced the lowest additive value of deviation from expected proportion.",
+          "searchable_summary": "determine optimal exine rupture level by lowest deviation",
+          "inputs": [
+            "deviation totals"
+          ],
+          "outputs": [
+            "optimal exine rupture level"
+          ],
+          "keywords": [
+            "optimal level",
+            "exine rupture",
+            "deviation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/231788013.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

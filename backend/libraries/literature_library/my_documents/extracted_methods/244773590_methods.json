@@ -1,0 +1,92 @@
+{
+  "paper_title": "Analysis of Equipartition in a 1D Diatomic Chain (Inferred)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Molecular Dynamics Simulation of 1D Diatomic Chain",
+      "description": "This method describes the numerical simulation procedure used to study the dynamics of a 1D diatomic chain, focusing on the approach to equipartition. It involves setting up initial conditions, integrating the equations of motion, and performing ensemble averaging.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Set up initial conditions for the simulation runs. This involves choosing random phases uniformly distributed in [0, 2π] for each mode and assigning positive random initial energies E_k(0) under the constraint that the sum of energies over excited modes equals Nε. The highest 10% of frequency modes are initially excited.",
+          "searchable_summary": "initialize molecular dynamics simulation with random phases and energies for specified excited modes",
+          "inputs": [
+            "System parameters (N, M, etc.)",
+            "Total initial energy constraint (Nε)",
+            "Percentage of initially excited modes (10%)",
+            "Number of ensemble members (120)"
+          ],
+          "outputs": [
+            "Initial state (positions, momenta, or normal mode quantities) for each ensemble member"
+          ],
+          "keywords": [
+            "molecular dynamics",
+            "initial conditions",
+            "random phase",
+            "random energy",
+            "mode excitation",
+            "ensemble initialization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Numerically integrate the equations of motion for the 1D diatomic chain using the eighth-order Yoshida algorithm with a typical time step ∆t = 0.1. The integration is performed for each set of initial conditions generated in Step 1.",
+          "searchable_summary": "perform numerical integration of equations of motion using Yoshida algorithm",
+          "inputs": [
+            "Equations of motion for 1D diatomic chain",
+            "Initial state from Step 1",
+            "Integration algorithm (Yoshida 8th order)",
+            "Time step (∆t = 0.1)",
+            "Total simulation time"
+          ],
+          "outputs": [
+            "Trajectory data (time series of positions, momenta, or normal mode quantities) for each ensemble member"
+          ],
+          "keywords": []
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculate relevant physical quantities from the simulation trajectory data, such as the energy of the kth normal mode E_k(t), the time average of E_k up to time T (Ē_k(T)) using a window parameter µ = 2/3, the spectral entropy S(t), and the normalized effective relative number of degrees of freedom ξ(t).",
+          "searchable_summary": "calculate time-averaged energy, spectral entropy, and equipartition measure from simulation trajectory",
+          "inputs": [
+            "Trajectory data from Step 2",
+            "Time window parameter for averaging (µ = 2/3)"
+          ],
+          "outputs": [
+            "Calculated quantities over time (E_k(t), Ē_k(T), S(t), ξ(t)) for each ensemble member"
+          ],
+          "keywords": [
+            "data analysis",
+            "time average",
+            "spectral entropy",
+            "equipartition measure",
+            "simulation results processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Perform an ensemble average of the numerical results obtained in Step 3 over the 120 different random choices of initial phases (and corresponding initial energies). This is done to suppress fluctuations and obtain statistically representative results.",
+          "searchable_summary": "perform ensemble averaging over multiple simulation runs",
+          "inputs": [
+            "Calculated quantities from Step 3 for all ensemble members"
+          ],
+          "outputs": [
+            "Ensemble-averaged results (e.g., average ξ(t), average Ē_k(T))"
+          ],
+          "keywords": [
+            "ensemble average",
+            "statistical average",
+            "simulation post-processing",
+            "data aggregation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/244773590.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

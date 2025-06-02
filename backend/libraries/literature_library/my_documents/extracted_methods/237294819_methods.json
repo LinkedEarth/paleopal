@@ -1,0 +1,193 @@
+{
+  "paper_title": "SIMS Analysis of Symbiotic Cells",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "NanoSIMS Analysis",
+      "description": "This method describes the process of using a CAMECA NanoSIMS 50 L instrument to analyze identified cells by pre-sputtering and rastering with a primary ion beam to collect negative charged secondary ions for isotope analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Each identified cell was pre-sputtered with a special mode developed to burn through the diatom frustules: Cesium (Cs + ) primary beam between 20-25 nA at D1-0 for 10-15 s.",
+          "searchable_summary": "Pre-sputter cells with Cs+ beam to burn through diatom frustules",
+          "inputs": [
+            "identified cell",
+            "Cs+ primary beam"
+          ],
+          "outputs": [
+            "pre-sputtered cell"
+          ],
+          "keywords": [
+            "pre-sputtering",
+            "Cs+ beam",
+            "diatom frustules"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Cells were rastered with a primary ion beam with a current between 1-2 pA and a beam size <100 nm.",
+          "searchable_summary": "Raster cells with primary ion beam",
+          "inputs": [
+            "pre-sputtered cell",
+            "primary ion beam"
+          ],
+          "outputs": [
+            "rastered cell"
+          ],
+          "keywords": [
+            "rastering",
+            "primary ion beam"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Negative charged secondary ions (12 C − , 13 C − , 12 C 14 N − , 12 C 15 N − , 31 P − , 32 S − ) were collected simultaneously in 6 parallel electron multiplier detectors.",
+          "searchable_summary": "Collect negative charged secondary ions",
+          "inputs": [
+            "rastered cell"
+          ],
+          "outputs": [
+            "secondary ions data"
+          ],
+          "keywords": [
+            "secondary ions",
+            "electron multiplier detectors"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "All scans (15-200 planes per diatom cell) were corrected for drift of the beam and sample stage and accumulated after acquisition using the look@nanoSIMS software package.",
+          "searchable_summary": "Correct scans for drift and accumulate data",
+          "inputs": [
+            "secondary ions data"
+          ],
+          "outputs": [
+            "corrected and accumulated data"
+          ],
+          "keywords": [
+            "drift correction",
+            "look@nanoSIMS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "LG-SIMS Analysis",
+      "description": "This method describes the use of a CAMECA ims1280 large-geometry SIMS instrument to measure symbiotic cells, involving pre-sputtering and measuring secondary ion mass peaks in peak switching mode.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "An initial 10 × 10 µm larger area than analysis area (50 × 50 µm or 50 × 60 µm) was pre-sputtered for 60 s using ca. 3 nA Cs beam.",
+          "searchable_summary": "Pre-sputter larger area with Cs beam",
+          "inputs": [
+            "symbiotic cell",
+            "Cs beam"
+          ],
+          "outputs": [
+            "pre-sputtered area"
+          ],
+          "keywords": [
+            "pre-sputtering",
+            "Cs beam"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The analysis region was measured using a ca. 50 pA primary Cs + beam (spot size~1 µm).",
+          "searchable_summary": "Measure analysis region with primary Cs+ beam",
+          "inputs": [
+            "pre-sputtered area",
+            "primary Cs+ beam"
+          ],
+          "outputs": [
+            "measured data"
+          ],
+          "keywords": [
+            "primary Cs+ beam",
+            "measurement"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The secondary ion mass peaks were measured in peak switching mode in a single ion counting electron multiplier.",
+          "searchable_summary": "Measure secondary ion mass peaks in peak switching mode",
+          "inputs": [
+            "measured data"
+          ],
+          "outputs": [
+            "secondary ion mass peaks"
+          ],
+          "keywords": [
+            "peak switching mode",
+            "ion counting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Isotope Ratio Image Creation",
+      "description": "This method involves creating isotope ratio images by calculating the ratio of the sum of counts for each pixel over all recorded planes of the investigated isotope and the main isotope.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Isotope ratio images were created as the ratio of the sum of counts for each pixel over all recorded planes of the investigated isotope and the main isotope.",
+          "searchable_summary": "Create isotope ratio images from sum of counts",
+          "inputs": [
+            "recorded planes data"
+          ],
+          "outputs": [
+            "isotope ratio images"
+          ],
+          "keywords": [
+            "isotope ratio",
+            "image creation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Regions of interest (ROIs) were defined using the secondary electron (SE), 12 C 14 N − , and epi-fluorescent images taken prior to the analysis.",
+          "searchable_summary": "Define ROIs using SE and epi-fluorescent images",
+          "inputs": [
+            "SE images",
+            "epi-fluorescent images"
+          ],
+          "outputs": [
+            "defined ROIs"
+          ],
+          "keywords": [
+            "regions of interest",
+            "SE images"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "For each ROI, the isotopic ratio was calculated using WinImage2 (CAMECA) or look@nanoSIMS software packages.",
+          "searchable_summary": "Calculate isotopic ratio for each ROI",
+          "inputs": [
+            "defined ROIs"
+          ],
+          "outputs": [
+            "isotopic ratios"
+          ],
+          "keywords": [
+            "isotopic ratio",
+            "WinImage2",
+            "look@nanoSIMS"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237294819.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

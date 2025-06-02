@@ -1,0 +1,280 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the collected data, including dominance index calculation, PCA, correlation analysis, NMDS, Ward clustering, RDA, and box plot analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "McNaughton dominance index of all species was calculated, species with a dominant degree greater than 0.2 were identified as dominant species.",
+          "searchable_summary": "calculate McNaughton dominance index and identify dominant species",
+          "inputs": [
+            "n_i (total number of cells in species i)",
+            "N (total number of cells in all species)",
+            "f_i (frequency of occurrence of species i)"
+          ],
+          "outputs": [
+            "dominance index",
+            "list of dominant species"
+          ],
+          "keywords": [
+            "dominance index",
+            "species identification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A principal component analysis (PCA) on the log transformed environmental variables (log x + 1) was performed to identify the main environmental factors.",
+          "searchable_summary": "perform PCA on log-transformed environmental variables",
+          "inputs": [
+            "log-transformed environmental variables"
+          ],
+          "outputs": [
+            "main environmental factors"
+          ],
+          "keywords": [
+            "PCA",
+            "environmental factors",
+            "R"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Variables with a low factor loading (1st axis) were rejected.",
+          "searchable_summary": "filter variables with low factor loading from PCA",
+          "inputs": [
+            "PCA results"
+          ],
+          "outputs": [
+            "filtered variables"
+          ],
+          "keywords": [
+            "factor loading",
+            "variable selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Correlation analysis (Spearman rank) on the reserved variables was performed, and redundant variables were removed.",
+          "searchable_summary": "perform Spearman rank correlation and remove redundant variables",
+          "inputs": [
+            "reserved variables"
+          ],
+          "outputs": [
+            "non-redundant variables"
+          ],
+          "keywords": [
+            "correlation analysis",
+            "Spearman rank",
+            "redundant variables"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Relative abundance data of diatom community composition were arcsine square root transformed to reduce skewness.",
+          "searchable_summary": "apply arcsine square root transformation to diatom data",
+          "inputs": [
+            "relative abundance data"
+          ],
+          "outputs": [
+            "transformed data"
+          ],
+          "keywords": [
+            "arcsine transformation",
+            "data skewness"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Nonmetric multidimensional scaling (NMDS) was used to reduce dimensions of diatom data.",
+          "searchable_summary": "perform NMDS on diatom data",
+          "inputs": [
+            "transformed diatom data"
+          ],
+          "outputs": [
+            "reduced dimension data"
+          ],
+          "keywords": [
+            "NMDS",
+            "dimensionality reduction"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Ward clustering of the Bray-Curtis matrix was computed, three groups were extracted and the sites according to them were colorized.",
+          "searchable_summary": "perform Ward clustering on Bray-Curtis matrix",
+          "inputs": [
+            "Bray-Curtis matrix"
+          ],
+          "outputs": [
+            "clustered groups",
+            "colorized sites"
+          ],
+          "keywords": [
+            "Ward clustering",
+            "Bray-Curtis matrix"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Redundancy analysis (RDA) was performed on the relative abundance data of diatoms and major environmental factors.",
+          "searchable_summary": "perform RDA on diatom data and environmental factors",
+          "inputs": [
+            "relative abundance data",
+            "major environmental factors"
+          ],
+          "outputs": [
+            "RDA results"
+          ],
+          "keywords": [
+            "RDA",
+            "environmental factors"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "visualization",
+          "description": "Based on the grouping results of Ward clustering, the box plot analysis was implemented to analyze the adaptability of different indexes.",
+          "searchable_summary": "create box plots for adaptability analysis based on Ward clustering",
+          "inputs": [
+            "Ward clustering results"
+          ],
+          "outputs": [
+            "box plots"
+          ],
+          "keywords": [
+            "box plot",
+            "adaptability analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Physical and Chemical Analysis",
+      "description": "Procedures for collecting and analyzing water samples for physical and chemical properties, including in situ measurements and laboratory analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Water samples were collected from the same sites simultaneously with benthic algae samplings in the river network.",
+          "searchable_summary": "collect water samples from river network sites",
+          "inputs": [
+            "river network sites"
+          ],
+          "outputs": [
+            "water samples"
+          ],
+          "keywords": [
+            "water sampling",
+            "river network"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Water temperature (Temp), pH, conductivity (Cond), dissolved oxygen (DO), total dissolved solids (TDS), salinity (SAL), and oxidation-reduction potential (ORP) were measured in situ with a multiparameter instrument.",
+          "searchable_summary": "measure in situ water parameters using multiparameter instrument",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "Temp",
+            "pH",
+            "Cond",
+            "DO",
+            "TDS",
+            "SAL",
+            "ORP"
+          ],
+          "keywords": [
+            "in situ measurement",
+            "multiparameter instrument"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Water width, channel width, and current velocity (Velo) were also measured at each site, and the ratio of water width to channel width (Ratio) was calculated.",
+          "searchable_summary": "measure water and channel width, current velocity, and calculate width ratio",
+          "inputs": [
+            "site measurements"
+          ],
+          "outputs": [
+            "water width",
+            "channel width",
+            "Velo",
+            "Ratio"
+          ],
+          "keywords": [
+            "width measurement",
+            "current velocity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Two liters of water were collected in pre-cleaned plastic containers to measure chemical variables, including total nitrogen (TN), ammonia nitrogen (NH3-N), total phosphorus (TP), and phosphate (Phos), using the spectrophotometric method.",
+          "searchable_summary": "collect water for chemical analysis and measure using spectrophotometry",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "TN",
+            "NH3-N",
+            "TP",
+            "Phos"
+          ],
+          "keywords": [
+            "chemical analysis",
+            "spectrophotometry"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Samples were stored in the dark at 4°C until the measurement in the laboratory.",
+          "searchable_summary": "store samples at 4°C in the dark until laboratory measurement",
+          "inputs": [
+            "water samples"
+          ],
+          "outputs": [
+            "preserved samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "temperature control"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "A qualitative habitat evaluation index (QHEI) developed in China was calculated to evaluate the habitat quality of each site, meanwhile, as an evaluation index in QHEI, the score of the bottom material (Bott) was recorded separately for analysis.",
+          "searchable_summary": "calculate QHEI and record bottom material score",
+          "inputs": [
+            "site data"
+          ],
+          "outputs": [
+            "QHEI",
+            "Bott score"
+          ],
+          "keywords": [
+            "habitat evaluation",
+            "QHEI"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/146582652.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,120 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "General Linear Models for Herbivore Functional Groups",
+      "description": "This method involves running general linear models (GLMs) to determine the probability of occurrence of herbivore functional groups. The models use herbivore biomass as the dependent variable and consider various environmental and risk factors as explanatory variables.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Models included herbivore biomass as the dependent variable and probability of occurrence in relation to water, vegetation type, vegetation density, and proportion human risk (either low or high risk; both were not included in the same model).",
+          "searchable_summary": "Define GLM with herbivore biomass as dependent variable and environmental factors as explanatory variables",
+          "inputs": [
+            "herbivore biomass data",
+            "probability of occurrence data",
+            "vegetation type",
+            "vegetation density",
+            "human risk level"
+          ],
+          "outputs": [
+            "GLM model definition"
+          ],
+          "keywords": [
+            "GLM",
+            "dependent variable",
+            "explanatory variables"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We also included two-way interactions between all possible combinations of these variables.",
+          "searchable_summary": "Include two-way interactions between explanatory variables in GLM",
+          "inputs": [
+            "explanatory variables"
+          ],
+          "outputs": [
+            "GLM model with interactions"
+          ],
+          "keywords": [
+            "interaction terms",
+            "GLM"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Categorical variables (vegetation type and vegetation risk) were included as factors in the GLMs.",
+          "searchable_summary": "Include categorical variables as factors in GLM",
+          "inputs": [
+            "categorical variables"
+          ],
+          "outputs": [
+            "GLM model with factors"
+          ],
+          "keywords": [
+            "categorical variables",
+            "factors",
+            "GLM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Continuous variables (probability of occurrence in relation to water and herbivore biomass) were scaled between 1 and 0.",
+          "searchable_summary": "Scale continuous variables between 0 and 1",
+          "inputs": [
+            "continuous variables"
+          ],
+          "outputs": [
+            "scaled continuous variables"
+          ],
+          "keywords": [
+            "scaling",
+            "continuous variables"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "For the GLMs, we employed a model averaging approach using the best fitting models (those with a akaike information criterion [AICc] < 2) using the dredge function in the MuMIn package.",
+          "searchable_summary": "Perform model averaging using dredge function for best fitting models with AICc < 2",
+          "inputs": [
+            "GLM models",
+            "AICc values"
+          ],
+          "outputs": [
+            "averaged model"
+          ],
+          "keywords": [
+            "model averaging",
+            "AICc",
+            "dredge function",
+            "MuMIn package"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "All statistical analyses were carried out in the statistical software R.",
+          "searchable_summary": "Conduct statistical analyses in R",
+          "inputs": [
+            "GLM models",
+            "R software"
+          ],
+          "outputs": [
+            "statistical analysis results"
+          ],
+          "keywords": [
+            "R software",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248289637.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

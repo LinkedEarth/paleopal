@@ -1,0 +1,203 @@
+{
+  "paper_title": "A growing degree day inference model based on mountain birch leaf cuticle analysis over a latitudinal gradient in Fennoscandia",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Meteorological Data Collection and Analysis",
+      "description": "This method involves collecting and analyzing meteorological data to compare with cuticle analysis results. It includes extracting temperature and precipitation data from the nearest weather stations and calculating growing degree days (GDD 5) and other climatic parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The measured daily average temperature and precipitation data of the weather station nearest to each individual sampling site was extracted from the KNMI Explorer database.",
+          "searchable_summary": "extract daily temperature and precipitation data from KNMI Explorer database",
+          "inputs": [
+            "sampling site locations"
+          ],
+          "outputs": [
+            "daily temperature data",
+            "daily precipitation data"
+          ],
+          "keywords": [
+            "KNMI Explorer",
+            "temperature data",
+            "precipitation data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "GDD 5 was calculated from daily temperatures recorded throughout the growing season.",
+          "searchable_summary": "calculate GDD 5 from daily temperature data",
+          "inputs": [
+            "daily temperature data",
+            "threshold temperature (5°C)"
+          ],
+          "outputs": [
+            "GDD 5 values"
+          ],
+          "keywords": [
+            "GDD 5",
+            "growing degree days",
+            "temperature threshold"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The sum of GDD 5 was calculated from 1 January 2016 to 30 September 2016.",
+          "searchable_summary": "sum GDD 5 values for specified date range",
+          "inputs": [
+            "GDD 5 values",
+            "date range (1 Jan 2016 - 30 Sep 2016)"
+          ],
+          "outputs": [
+            "total GDD 5 sum"
+          ],
+          "keywords": [
+            "GDD 5 sum",
+            "date range"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "May through September (MJJAS) temperature and precipitation data were used to calculate average spring and summer conditions.",
+          "searchable_summary": "calculate average temperature and precipitation for MJJAS",
+          "inputs": [
+            "temperature data",
+            "precipitation data",
+            "MJJAS date range"
+          ],
+          "outputs": [
+            "average spring and summer temperature",
+            "average spring and summer precipitation"
+          ],
+          "keywords": [
+            "average temperature",
+            "average precipitation",
+            "MJJAS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Average winter temperature and precipitation were calculated from November, December 2015 as well as January, February and March 2016 (NDJFM).",
+          "searchable_summary": "calculate average winter temperature and precipitation for NDJFM",
+          "inputs": [
+            "temperature data",
+            "precipitation data",
+            "NDJFM date range"
+          ],
+          "outputs": [
+            "average winter temperature",
+            "average winter precipitation"
+          ],
+          "keywords": [
+            "average temperature",
+            "average precipitation",
+            "NDJFM"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Average precipitation and the total precipitation sum were calculated as 1 October 2015 until 30 September 2016.",
+          "searchable_summary": "calculate average and total precipitation for specified date range",
+          "inputs": [
+            "precipitation data",
+            "date range (1 Oct 2015 - 30 Sep 2016)"
+          ],
+          "outputs": [
+            "average precipitation",
+            "total precipitation sum"
+          ],
+          "keywords": [
+            "average precipitation",
+            "total precipitation",
+            "date range"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "PP was defined as the cumulative sunlight hours at the latitude of each sample location between March and September.",
+          "searchable_summary": "calculate cumulative sunlight hours for specified latitude and date range",
+          "inputs": [
+            "latitude of sample locations",
+            "date range (March - September)"
+          ],
+          "outputs": [
+            "cumulative sunlight hours"
+          ],
+          "keywords": [
+            "cumulative sunlight hours",
+            "latitude",
+            "date range"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "GDD 5 Inference Model Development",
+      "description": "This method involves developing a GDD 5 inference model using linear regression to relate UI values to known GDD 5 values across sampling localities. The model is tested for predictive accuracy using independent data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Linear least-square regression was used to relate measured UI values to known GDD 5 across all sampling localities.",
+          "searchable_summary": "perform linear regression to relate UI values to GDD 5",
+          "inputs": [
+            "UI values",
+            "GDD 5 values"
+          ],
+          "outputs": [
+            "linear regression model"
+          ],
+          "keywords": [
+            "linear regression",
+            "UI values",
+            "GDD 5"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Using inverse regression, we obtained the linear function [GDD 5 ] = 7744.8[UI] −8086.8.",
+          "searchable_summary": "derive linear function from inverse regression",
+          "inputs": [
+            "inverse regression results"
+          ],
+          "outputs": [
+            "linear function for GDD 5 inference"
+          ],
+          "keywords": [
+            "inverse regression",
+            "linear function",
+            "GDD 5 inference"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "To test the predictive skills and accuracy of the inference model, independent UI data from a transect with a similar latitudinal range collected in 1997 with known GDD 5 at growth locality have been run through the inference model.",
+          "searchable_summary": "validate inference model using independent UI data",
+          "inputs": [
+            "independent UI data",
+            "known GDD 5 values"
+          ],
+          "outputs": [
+            "model validation results"
+          ],
+          "keywords": [
+            "model validation",
+            "UI data",
+            "GDD 5"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/201293072.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

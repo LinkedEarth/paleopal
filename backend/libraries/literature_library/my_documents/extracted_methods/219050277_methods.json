@@ -1,0 +1,402 @@
+{
+  "paper_title": "Sediment Core Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Grain size analysis",
+      "description": "Procedure for determining the particle size distribution of sediment samples using a laser diffraction analyzer after chemical pretreatment to remove organic matter and carbonates, and dispersion. This method classifies samples into clay, silt, and sand fractions and calculates mean and median grain sizes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "We set the time of measurement of this analyser to 90 s with a measurement range of 0.04-2000 μm.",
+          "searchable_summary": "Configure laser diffraction particle size analyzer settings",
+          "inputs": [
+            "Beckman Coulter LS13 320 analyzer"
+          ],
+          "outputs": [
+            "Configured analyzer"
+          ],
+          "keywords": [
+            "Laser Diffraction",
+            "Particle Size Analyzer",
+            "Beckman Coulter LS13 320",
+            "Measurement Range",
+            "Measurement Time"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Before measuring the sample, we performed a control analysis (the control standard: Coulter LS control GB 500, Beckman Coulter, Inc.) by using a standard operating method and ensuring that the measurement result was within the following limits: mean: 582±34.5 μm; and SD: 45.4±22.5 μm.",
+          "searchable_summary": "Perform control analysis for particle size analyzer calibration validation",
+          "inputs": [
+            "Configured analyzer",
+            "Coulter LS control GB 500 standard"
+          ],
+          "outputs": [
+            "Control analysis results",
+            "Validation status (within limits)"
+          ],
+          "keywords": [
+            "Control Analysis",
+            "Calibration",
+            "Validation",
+            "Standard Operating Method",
+            "Coulter LS control GB 500",
+            "Beckman Coulter"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We chose a total of 165 sub-samples along the core at intervals of 2 cm.",
+          "searchable_summary": "Select subsamples from sediment core at specified intervals",
+          "inputs": [
+            "Sediment core",
+            "Sampling interval (2 cm)"
+          ],
+          "outputs": [
+            "165 subsamples"
+          ],
+          "keywords": [
+            "Subsampling",
+            "Sediment Core",
+            "Sampling Interval"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Samples were first naturally dried at room temperature",
+          "searchable_summary": "Air dry sediment subsamples at room temperature",
+          "inputs": [
+            "Subsamples"
+          ],
+          "outputs": [
+            "Dried subsamples"
+          ],
+          "keywords": [
+            "Air Drying",
+            "Room Temperature",
+            "Sample Preparation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "and then 0.25-0.28 g per sample was weighed in a 100 ml beaker.",
+          "searchable_summary": "Weigh a specific mass of dried subsample",
+          "inputs": [
+            "Dried subsamples",
+            "Balance",
+            "100 ml beaker"
+          ],
+          "outputs": [
+            "Weighed subsamples in beakers"
+          ],
+          "keywords": [
+            "Weighing",
+            "Sample Preparation",
+            "Mass Measurement"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Next, 10 ml of 10% H2O2 was added to remove organic matter",
+          "searchable_summary": "Add hydrogen peroxide to remove organic matter from samples",
+          "inputs": [
+            "Weighed subsamples in beakers",
+            "10% H2O2"
+          ],
+          "outputs": [
+            "Samples treated with H2O2"
+          ],
+          "keywords": [
+            "Chemical Treatment",
+            "Organic Matter Removal",
+            "Hydrogen Peroxide",
+            "H2O2"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "and 10 ml of 10% HCl was added to eliminate carbonate.",
+          "searchable_summary": "Add hydrochloric acid to remove carbonates from samples",
+          "inputs": [
+            "Samples treated with H2O2",
+            "10% HCl"
+          ],
+          "outputs": [
+            "Samples treated with HCl"
+          ],
+          "keywords": [
+            "Chemical Treatment",
+            "Carbonate Removal",
+            "Hydrochloric Acid",
+            "HCl"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "The samples were then washed",
+          "searchable_summary": "Wash chemically treated samples",
+          "inputs": [
+            "Samples treated with HCl"
+          ],
+          "outputs": [
+            "Washed samples"
+          ],
+          "keywords": [
+            "Washing",
+            "Sample Preparation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "and 10 ml 0.01 mol/L Na(PO3)6 was added to disperse the samples before testing.",
+          "searchable_summary": "Add sodium hexametaphosphate for sample dispersion",
+          "inputs": [
+            "Washed samples",
+            "0.01 mol/L Na(PO3)6"
+          ],
+          "outputs": [
+            "Dispersed samples"
+          ],
+          "keywords": [
+            "Dispersion",
+            "Sodium Hexametaphosphate",
+            "Na(PO3)6",
+            "Sample Preparation"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "(Implicitly, measure the dispersed samples using the analyzer)",
+          "searchable_summary": "Measure particle size distribution using laser diffraction analyzer",
+          "inputs": [
+            "Dispersed samples",
+            "Configured analyzer"
+          ],
+          "outputs": [
+            "Particle size distribution data for each sample"
+          ],
+          "keywords": [
+            "Particle Size Measurement",
+            "Laser Diffraction",
+            "Beckman Coulter LS13 320",
+            "Grain Size Distribution"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_analysis",
+          "description": "We classified the clay (0.04-4 μm), silt (4-63 μm), and sand (63-2000 μm) fractions, the mean grain size (Mz) and the median diameter (Md) of each sample.",
+          "searchable_summary": "Calculate grain size fractions (clay, silt, sand), mean grain size (Mz), and median diameter (Md) from particle size distribution data",
+          "inputs": [
+            "Particle size distribution data"
+          ],
+          "outputs": [
+            "Clay fraction percentage",
+            "Silt fraction percentage",
+            "Sand fraction percentage",
+            "Mean grain size (Mz)",
+            "Median diameter (Md)"
+          ],
+          "keywords": [
+            "Grain Size Fractions",
+            "Clay",
+            "Silt",
+            "Sand",
+            "Mean Grain Size",
+            "Mz",
+            "Median Diameter",
+            "Md",
+            "Particle Size Analysis",
+            "Data Calculation"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "visualization",
+          "description": "The distributions of these 3 fractions from all subsamples are shown using the curve of depth changes and a ternary diagram (Fig 3c).",
+          "searchable_summary": "Generate depth profile curves and ternary diagrams for grain size fractions",
+          "inputs": [
+            "Clay fraction percentage",
+            "Silt fraction percentage",
+            "Sand fraction percentage",
+            "Sample depth"
+          ],
+          "outputs": [
+            "Depth profile plots",
+            "Ternary diagram"
+          ],
+          "keywords": [
+            "Visualization",
+            "Depth Profile",
+            "Ternary Diagram",
+            "Grain Size Distribution",
+            "Plotting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Core Collection and Preparation",
+      "description": "Procedure for collecting a sediment core from the Paozi basin using a specific drill, transporting it to the laboratory, describing its stratigraphy, and preparing subsamples by drying and sieving for subsequent analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "During August 2018, we collected one core (122°00′42.53″E, 39°42′57.74″N) from Xipao Village using a Xy-2 drill produced by the Chongqing drilling geological machinery factory with the assistance of the Liaoning Hydrogeology Engineering Geological Survey Institute.",
+          "searchable_summary": "Collect sediment core using a specific drill at a specified location and date",
+          "inputs": [
+            "Study area location (Xipao Village, coordinates)",
+            "Date (August 2018)",
+            "Xy-2 drill",
+            "Assistance (Liaoning Hydrogeology Engineering Geological Survey Institute)"
+          ],
+          "outputs": [
+            "Sediment core (330 cm deep)"
+          ],
+          "keywords": [
+            "Sediment Core Collection",
+            "Coring",
+            "Xy-2 Drill",
+            "Palaeolake",
+            "Xipao Village",
+            "Geological Survey"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A total of eight core sections were wrapped and transported to the laboratory.",
+          "searchable_summary": "Wrap and transport core sections to laboratory",
+          "inputs": [
+            "Sediment core (in sections)"
+          ],
+          "outputs": [
+            "Wrapped core sections in laboratory"
+          ],
+          "keywords": [
+            "Core Handling",
+            "Transportation",
+            "Laboratory"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "We first described the stratigraphy",
+          "searchable_summary": "Describe stratigraphy of sediment core sections",
+          "inputs": [
+            "Core sections"
+          ],
+          "outputs": [
+            "Stratigraphic description"
+          ],
+          "keywords": [
+            "Stratigraphy",
+            "Core Description",
+            "Sedimentology"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "before subsampling at 2 cm intervals,",
+          "searchable_summary": "Subsample sediment core at specified intervals",
+          "inputs": [
+            "Core sections",
+            "Sampling interval (2 cm)"
+          ],
+          "outputs": [
+            "Subsamples"
+          ],
+          "keywords": [
+            "Subsampling",
+            "Sediment Core",
+            "Sampling Interval"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "and we took care to remove potentially contaminated sections.",
+          "searchable_summary": "Remove potentially contaminated sections during subsampling",
+          "inputs": [
+            "Subsamples",
+            "Contamination criteria"
+          ],
+          "outputs": [
+            "Cleaned subsamples"
+          ],
+          "keywords": [
+            "Sample Preparation",
+            "Contamination Removal",
+            "Quality Control"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The samples were then air dried",
+          "searchable_summary": "Air dry sediment subsamples",
+          "inputs": [
+            "Cleaned subsamples"
+          ],
+          "outputs": [
+            "Dried subsamples"
+          ],
+          "keywords": [
+            "Air Drying",
+            "Sample Preparation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "before sieving at 2 mm,",
+          "searchable_summary": "Sieve dried subsamples at a specific mesh size",
+          "inputs": [
+            "Dried subsamples",
+            "Sieve (2 mm mesh)"
+          ],
+          "outputs": [
+            "Sieved subsamples (< 2 mm fraction)"
+          ],
+          "keywords": [
+            "Sieving",
+            "Sample Preparation",
+            "Particle Size Separation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_fetch",
+          "description": "and we ultimately obtained 165 subsamples for subsequent analyses.",
+          "searchable_summary": "Obtain final prepared subsamples for downstream analysis",
+          "inputs": [
+            "Sieved subsamples"
+          ],
+          "outputs": [
+            "165 prepared subsamples"
+          ],
+          "keywords": [
+            "Sample Preparation",
+            "Subsamples",
+            "Downstream Analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/219050277.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

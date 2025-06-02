@@ -1,0 +1,257 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Algebraic Model for Confined Diatomic Molecule Energy Spectrum Calculation",
+      "description": "This method describes the theoretical framework and computational steps to calculate the energy spectrum of a diatomic molecule confined in a spherical cage using an algebraic model based on u(4) and u(3) Lie algebras and their associated dynamical symmetries. It involves defining the algebraic structure, basis states, Hamiltonian operators, calculating matrix elements, and diagonalizing the Hamiltonian to obtain energy levels.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Specify the Lie algebras u(4) and u(3) for the molecular roto-vibration and center-of-mass degrees of freedom, respectively, and their direct sum u_p(4) ⊕ u_q(3).",
+          "searchable_summary": "Define Lie algebras for molecular system modeling.",
+          "inputs": [
+            "System description (diatomic molecule, spherical cage)"
+          ],
+          "outputs": [
+            "Defined algebraic structure (u(4), u(3))"
+          ],
+          "keywords": [
+            "Lie algebra",
+            "u(4)",
+            "u(3)",
+            "algebraic model",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Specify the chosen subalgebra chain: u_p(4) ⊕ u_q(3) ⊃ so_p(4) ⊕ so_q(3) ⊃ so_p(3) ⊕ so_q(3) ⊃ so(3).",
+          "searchable_summary": "Define the symmetry breaking chain for the algebraic model.",
+          "inputs": [
+            "Defined algebraic structure"
+          ],
+          "outputs": [
+            "Defined symmetry chain"
+          ],
+          "keywords": [
+            "dynamical symmetry",
+            "subalgebra chain",
+            "so(4)",
+            "so(3)",
+            "group theory"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Define the basis states |N_p vJ; N_q L; Λ⟩ based on the quantum numbers associated with the Casimir operators of the algebras in the symmetry chain.",
+          "searchable_summary": "Construct the basis states for the algebraic model using quantum numbers.",
+          "inputs": [
+            "Symmetry chain",
+            "Quantum number definitions (v, J, Nq, L, Λ, Np, ω)"
+          ],
+          "outputs": [
+            "Defined basis states"
+          ],
+          "keywords": [
+            "basis states",
+            "quantum numbers",
+            "Casimir operator",
+            "representation theory",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Express the total Hamiltonian as the sum of the intrinsic molecular (Ĥ_up(4)), intrinsic center-of-mass (Ĥ_uq(3)), and coupling (Ĥ_Coupl) Hamiltonians: Ĥ_total = Ĥ_up(4) + Ĥ_uq(3) + Ĥ_Coupl.",
+          "searchable_summary": "Define the total Hamiltonian operator for the system.",
+          "inputs": [
+            "Component Hamiltonians (conceptual)"
+          ],
+          "outputs": [
+            "Total Hamiltonian operator definition"
+          ],
+          "keywords": [
+            "Hamiltonian",
+            "operator",
+            "quantum mechanics",
+            "coupling"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Specify the form of Ĥ_up(4) in terms of Casimir operators of so_p(4) and so_p(3) and higher-order terms, including free parameters (A, B, C).",
+          "searchable_summary": "Define the molecular roto-vibrational Hamiltonian using Casimir operators.",
+          "inputs": [
+            "Casimir operator definitions (Ĉ2[so_p(4)], Ĉ2[so_p(3)])",
+            "Free parameters (A, B, C)"
+          ],
+          "outputs": [
+            "Ĥ_up(4) operator definition"
+          ],
+          "keywords": [
+            "vibron model",
+            "u(4)",
+            "so(4)",
+            "so(3)",
+            "Casimir operator",
+            "Hamiltonian",
+            "free parameters"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Specify the form of Ĥ_uq(3) in terms of the number operator and Casimir operator of so_q(3), including free parameters (a, b, c).",
+          "searchable_summary": "Define the center-of-mass Hamiltonian using algebraic operators.",
+          "inputs": [
+            "Number operator (Nq)",
+            "Casimir operator (Ĉ2[so_q(3)])",
+            "Free parameters (a, b, c)"
+          ],
+          "outputs": [
+            "Ĥ_uq(3) operator definition"
+          ],
+          "keywords": [
+            "u(3)",
+            "so(3)",
+            "Casimir operator",
+            "number operator",
+            "Hamiltonian",
+            "free parameters"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Calculate the matrix elements of Ĥ_up(4) and Ĥ_uq(3) in the chosen basis |N_p vJ; N_q L; Λ⟩, noting they are diagonal and given by specific energy formulas (Eqs. 8 and 11).",
+          "searchable_summary": "Calculate diagonal matrix elements of intrinsic Hamiltonians using energy formulas.",
+          "inputs": [
+            "Basis states",
+            "Ĥ_up(4) definition",
+            "Ĥ_uq(3) definition",
+            "Quantum numbers (v, J, Nq, L)",
+            "Parameters (A, B, C, a, b, c)"
+          ],
+          "outputs": [
+            "Diagonal matrix elements for Ĥ_up(4) and Ĥ_uq(3)"
+          ],
+          "keywords": [
+            "matrix element",
+            "diagonal matrix",
+            "energy formula",
+            "quantum mechanics",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "(Implicitly) Define the form of Ĥ_Coupl based on symmetry considerations and calculate its matrix elements in the chosen basis.",
+          "searchable_summary": "Define and calculate matrix elements for the molecule-cage coupling Hamiltonian.",
+          "inputs": [
+            "Coupling potential form (implied by symmetry)",
+            "Basis states"
+          ],
+          "outputs": [
+            "Matrix elements for Ĥ_Coupl"
+          ],
+          "keywords": [
+            "coupling Hamiltonian",
+            "interaction",
+            "matrix element",
+            "symmetry",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "modeling",
+          "description": "Assemble the matrix representation of the total Hamiltonian Ĥ_total by summing the matrix elements of Ĥ_up(4), Ĥ_uq(3), and Ĥ_Coupl in the chosen basis.",
+          "searchable_summary": "Construct the full Hamiltonian matrix from component matrix elements.",
+          "inputs": [
+            "Matrix elements of Ĥ_up(4)",
+            "Matrix elements of Ĥ_uq(3)",
+            "Matrix elements of Ĥ_Coupl"
+          ],
+          "outputs": [
+            "Full Hamiltonian matrix"
+          ],
+          "keywords": [
+            "Hamiltonian matrix",
+            "matrix construction",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "modeling",
+          "description": "Compute the eigenvalues and eigenvectors of the full Hamiltonian matrix.",
+          "searchable_summary": "Diagonalize the Hamiltonian matrix to find energy eigenvalues and eigenvectors.",
+          "inputs": [
+            "Full Hamiltonian matrix"
+          ],
+          "outputs": [
+            "Energy eigenvalues (spectrum)",
+            "Eigenvectors"
+          ],
+          "keywords": [
+            "matrix diagonalization",
+            "eigenvalue",
+            "eigenvector",
+            "energy spectrum",
+            "linear algebra",
+            "quantum mechanics"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "The calculated eigenvalues represent the energy levels of the confined molecule system.",
+          "searchable_summary": "Extract energy spectrum from eigenvalues.",
+          "inputs": [
+            "Eigenvalues from diagonalization"
+          ],
+          "outputs": [
+            "Energy spectrum (list of energy levels)"
+          ],
+          "keywords": [
+            "energy spectrum",
+            "energy levels",
+            "eigenvalues",
+            "data extraction"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "validation",
+          "description": "(Optional, application step) Adjust the free parameters (A, B, C, a, b, c, and parameters within Ĥ_Coupl) to minimize the difference between the calculated energy spectrum and experimental spectroscopic data.",
+          "searchable_summary": "Optimize model parameters by fitting calculated spectrum to experimental data.",
+          "inputs": [
+            "Calculated energy spectrum",
+            "Experimental energy levels",
+            "Free parameters"
+          ],
+          "outputs": [
+            "Optimized parameter values"
+          ],
+          "keywords": [
+            "parameter fitting",
+            "optimization",
+            "experimental data",
+            "spectroscopy",
+            "model validation",
+            "least squares"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/55374126.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,248 @@
+{
+  "paper_title": "Raman Spectral Analysis and Pollen Sample Measurement",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Raman Spectral Data Analysis",
+      "description": "This method involves the analysis of Raman spectral data through spectral pre-processing and multivariate statistical analysis to extract meaningful information from the data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Wavelength calibration was performed by using 4-acetaminophenol as a calibration standard.",
+          "searchable_summary": "perform wavelength calibration using 4-acetaminophenol",
+          "inputs": [
+            "Raman spectra",
+            "4-acetaminophenol"
+          ],
+          "outputs": [
+            "calibrated spectra"
+          ],
+          "keywords": [
+            "wavelength calibration",
+            "4-acetaminophenol"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Intensity calibration was performed by recording spectra of a NIST standard white light calibration lamp and correcting for the spectral response function of the system.",
+          "searchable_summary": "perform intensity calibration using NIST standard lamp",
+          "inputs": [
+            "Raman spectra",
+            "NIST standard lamp"
+          ],
+          "outputs": [
+            "intensity-calibrated spectra"
+          ],
+          "keywords": [
+            "intensity calibration",
+            "NIST standard"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Extended multiplicative signal correction (EMSC) was used to remove background from endogenous fluorophores and water.",
+          "searchable_summary": "apply EMSC for background removal",
+          "inputs": [
+            "calibrated spectra",
+            "background spectrum"
+          ],
+          "outputs": [
+            "background-corrected spectra"
+          ],
+          "keywords": [
+            "EMSC",
+            "background removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The resulting spectra were area normalized.",
+          "searchable_summary": "normalize spectra by area",
+          "inputs": [
+            "background-corrected spectra"
+          ],
+          "outputs": [
+            "normalized spectra"
+          ],
+          "keywords": [
+            "area normalization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "HCA was applied to the mean spectra of each pollen sample genus to estimate the pollen growth habit.",
+          "searchable_summary": "apply HCA to mean spectra for clustering",
+          "inputs": [
+            "normalized spectra"
+          ],
+          "outputs": [
+            "HCA clusters"
+          ],
+          "keywords": [
+            "HCA",
+            "clustering"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "PCA combined with SVM was used to determine the pollen taxonomy from the acquired Raman spectra.",
+          "searchable_summary": "apply PCA-SVM for taxonomy classification",
+          "inputs": [
+            "normalized spectra"
+          ],
+          "outputs": [
+            "taxonomy classification"
+          ],
+          "keywords": [
+            "PCA",
+            "SVM",
+            "taxonomy"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "A ten-fold leave one out cross-validation was performed estimating the model performance by means of average misclassification.",
+          "searchable_summary": "perform cross-validation for model performance",
+          "inputs": [
+            "PCA-SVM model",
+            "training data"
+          ],
+          "outputs": [
+            "model performance metrics"
+          ],
+          "keywords": [
+            "cross-validation",
+            "model performance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Raman Measurement of the Pollen Sample",
+      "description": "This method describes the process of measuring pollen samples using Raman spectroscopy, including sample preparation, image processing, and spectral acquisition.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A bright-field image, termed as field of view (FoV), was acquired.",
+          "searchable_summary": "acquire bright-field image for FoV",
+          "inputs": [
+            "pollen sample"
+          ],
+          "outputs": [
+            "bright-field image"
+          ],
+          "keywords": [
+            "bright-field image",
+            "FoV"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A cell detection algorithm was applied to the bright field image, which detected the particles and their coordinates of each sample in the FoV.",
+          "searchable_summary": "apply cell detection algorithm to image",
+          "inputs": [
+            "bright-field image"
+          ],
+          "outputs": [
+            "particle coordinates"
+          ],
+          "keywords": [
+            "cell detection",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The acquired bright field image was converted to an 8-bit greyscale image.",
+          "searchable_summary": "convert image to 8-bit greyscale",
+          "inputs": [
+            "bright-field image"
+          ],
+          "outputs": [
+            "greyscale image"
+          ],
+          "keywords": [
+            "image conversion",
+            "greyscale"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "A calculation of image histogram followed, providing an intensity distribution, which was used to determine a threshold value to separate the pollen from the background in the binary image.",
+          "searchable_summary": "calculate histogram and apply threshold",
+          "inputs": [
+            "greyscale image"
+          ],
+          "outputs": [
+            "binary image"
+          ],
+          "keywords": [
+            "histogram",
+            "thresholding"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The holes and voids of pollen in the binary image were filled by dilation and fill-hole thickening operation.",
+          "searchable_summary": "apply dilation and fill-hole operations",
+          "inputs": [
+            "binary image"
+          ],
+          "outputs": [
+            "filled binary image"
+          ],
+          "keywords": [
+            "dilation",
+            "fill-hole"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "A blob analysis was performed on the processed image to acquire the coordinate of the pollen samples.",
+          "searchable_summary": "perform blob analysis for pollen coordinates",
+          "inputs": [
+            "filled binary image"
+          ],
+          "outputs": [
+            "pollen coordinates"
+          ],
+          "keywords": [
+            "blob analysis",
+            "pollen coordinates"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_fetch",
+          "description": "The OBJ was translated onto each of the particles using STG while acquiring spectra.",
+          "searchable_summary": "translate OBJ and acquire spectra",
+          "inputs": [
+            "pollen coordinates"
+          ],
+          "outputs": [
+            "Raman spectra"
+          ],
+          "keywords": [
+            "spectral acquisition",
+            "OBJ translation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/204739796.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

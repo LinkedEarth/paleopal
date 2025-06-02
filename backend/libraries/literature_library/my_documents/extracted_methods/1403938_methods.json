@@ -1,0 +1,181 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Null Model Analyses of Species Co-occurrence",
+      "description": "This method involves analyzing species co-occurrence patterns in replicated local assemblages to determine if they differ from random chance, which can indicate species interactions, environmental filtering, or dispersal limitation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Organize the dataset into a binary presence-absence matrix where rows are taxa, columns are sites or samples, and entries indicate the presence (1) or absence (0) of a particular species in a site.",
+          "searchable_summary": "create binary presence-absence matrix from species data",
+          "inputs": [
+            "species data",
+            "site/sample data"
+          ],
+          "outputs": [
+            "binary presence-absence matrix"
+          ],
+          "keywords": [
+            "binary matrix",
+            "species co-occurrence",
+            "presence-absence"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Fossil Pollen Data Analysis",
+      "description": "This method uses fossil pollen data from the late Quaternary of eastern North America to analyze vegetation composition and infer ecological responses to millennial-scale climate change.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect fossil pollen data from the Neotoma Paleoecology Database with revised and standardized site age models.",
+          "searchable_summary": "download fossil pollen data from Neotoma Paleoecology Database",
+          "inputs": [
+            "Neotoma Paleoecology Database"
+          ],
+          "outputs": [
+            "fossil pollen data"
+          ],
+          "keywords": [
+            "fossil pollen",
+            "Neotoma",
+            "paleoecology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Aggregate species-level data to the generic level and calculate relative abundance of each fossil pollen taxon at each site.",
+          "searchable_summary": "aggregate species data to genus level and calculate relative abundance",
+          "inputs": [
+            "species-level data"
+          ],
+          "outputs": [
+            "generic-level data",
+            "relative abundance data"
+          ],
+          "keywords": [
+            "aggregation",
+            "relative abundance",
+            "genus level"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Linearly interpolate relative abundances to 1000-year time steps from 21 kyr BP to the present.",
+          "searchable_summary": "interpolate relative abundances to 1000-year intervals",
+          "inputs": [
+            "relative abundance data"
+          ],
+          "outputs": [
+            "interpolated abundance data"
+          ],
+          "keywords": [
+            "interpolation",
+            "time steps",
+            "fossil pollen"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Convert relative abundance data to presence-absence format for analysis with the program Pairs.",
+          "searchable_summary": "convert abundance data to presence-absence format",
+          "inputs": [
+            "interpolated abundance data"
+          ],
+          "outputs": [
+            "presence-absence matrix"
+          ],
+          "keywords": [
+            "presence-absence",
+            "data conversion",
+            "Pairs program"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate and Distance Data Analysis",
+      "description": "This method quantifies environmental characteristics at each site using paleoclimate simulations and transforms climate variables to principal components for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extract paleoclimate simulation data from the National Center for Atmospheric Research Community Climate System Model ver. 3 (CCSM3).",
+          "searchable_summary": "download paleoclimate simulation data from CCSM3",
+          "inputs": [
+            "CCSM3 data"
+          ],
+          "outputs": [
+            "paleoclimate simulation data"
+          ],
+          "keywords": [
+            "paleoclimate",
+            "CCSM3",
+            "climate simulation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Downscale climate data to a 0.5 x 0.5 degree grid for every 1000 years from 21 kyr BP to the present.",
+          "searchable_summary": "downscale climate data to 0.5 degree grid",
+          "inputs": [
+            "paleoclimate simulation data"
+          ],
+          "outputs": [
+            "downscaled climate data"
+          ],
+          "keywords": [
+            "downscaling",
+            "climate grid",
+            "paleoclimate"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Extract mean annual precipitation, mean winter temperature, and mean summer temperature for each site and time slice.",
+          "searchable_summary": "extract climate variables for each site and time slice",
+          "inputs": [
+            "downscaled climate data"
+          ],
+          "outputs": [
+            "climate variables"
+          ],
+          "keywords": [
+            "precipitation",
+            "temperature",
+            "climate variables"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Scale and center climate variables, then transform them to principal components axes.",
+          "searchable_summary": "perform PCA on climate variables",
+          "inputs": [
+            "climate variables"
+          ],
+          "outputs": [
+            "principal components"
+          ],
+          "keywords": [
+            "PCA",
+            "scaling",
+            "climate analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/1403938.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

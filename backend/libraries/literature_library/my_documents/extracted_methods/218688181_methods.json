@@ -1,0 +1,156 @@
+{
+  "paper_title": "A Novel Method Based on Backscattering for Discriminating Summer Blooms of the Raphidophyte (Chattonella spp.) and the Diatom (Skeletonema spp.) Using MODIS Images in Ariake Sea, Japan",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Field Data Collection and Analysis",
+      "description": "Collection and analysis of field data during the summer season to identify bloom conditions based on cellular abundance thresholds.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Field data during the summer season (June to September) were collected from Saga Fisheries Promotion Center and Kumamoto Fisheries Research Center (from 2011-2014).",
+          "searchable_summary": "collect field data from fisheries centers for summer season",
+          "inputs": [
+            "Saga Fisheries Promotion Center",
+            "Kumamoto Fisheries Research Center"
+          ],
+          "outputs": [
+            "field data"
+          ],
+          "keywords": [
+            "field data",
+            "summer season",
+            "fisheries centers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Field data from 2011 to 2014 were divided into three data groups according to the bloom conditions.",
+          "searchable_summary": "divide field data into bloom condition groups",
+          "inputs": [
+            "field data"
+          ],
+          "outputs": [
+            "grouped data by bloom conditions"
+          ],
+          "keywords": [
+            "data grouping",
+            "bloom conditions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "In addition to the field data, a number of bloom reports were also obtained from the Japan Red Tide Online site for the period 2015-2018 for algorithm validation.",
+          "searchable_summary": "obtain bloom reports for algorithm validation",
+          "inputs": [
+            "Japan Red Tide Online site"
+          ],
+          "outputs": [
+            "bloom reports"
+          ],
+          "keywords": [
+            "bloom reports",
+            "algorithm validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Satellite Data Processing and Analysis",
+      "description": "Processing and analysis of MODIS-Aqua satellite data to match with field data and derive inherent optical properties for bloom discrimination.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "MODIS-Aqua level 2 values were downloaded from https://oceancolor.gsfc.nasa.gov/ and extracted from locations where field data was collected in 2011-2014 using Windows Image Manager (WIM) software.",
+          "searchable_summary": "download and extract MODIS-Aqua data using WIM",
+          "inputs": [
+            "MODIS-Aqua level 2 data",
+            "WIM software"
+          ],
+          "outputs": [
+            "extracted satellite data"
+          ],
+          "keywords": [
+            "MODIS-Aqua",
+            "satellite data",
+            "WIM software"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The routine wam_match within WIM was used to find matches between in situ measurements and satellite image data.",
+          "searchable_summary": "match in situ measurements with satellite data using wam_match",
+          "inputs": [
+            "in situ measurements",
+            "satellite image data"
+          ],
+          "outputs": [
+            "matched data points"
+          ],
+          "keywords": [
+            "wam_match",
+            "data matching"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Mean value of the valid pixels within the 3 × 3 windows were used as the final remote sensing reflectance.",
+          "searchable_summary": "calculate mean value of valid pixels for reflectance",
+          "inputs": [
+            "3 × 3 pixel window data"
+          ],
+          "outputs": [
+            "remote sensing reflectance"
+          ],
+          "keywords": [
+            "mean value",
+            "remote sensing reflectance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Flags were used to control the quality of the MODIS data.",
+          "searchable_summary": "apply quality control flags to MODIS data",
+          "inputs": [
+            "MODIS data",
+            "quality control flags"
+          ],
+          "outputs": [
+            "quality-controlled data"
+          ],
+          "keywords": [
+            "quality control",
+            "MODIS data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Inherent optical properties (IOPs) like total absorption and particle backscattering were derived using MODIS as input into the Quasi-Analytical Algorithm (QAA Version 6).",
+          "searchable_summary": "derive IOPs using QAA with MODIS data",
+          "inputs": [
+            "MODIS data",
+            "QAA Version 6"
+          ],
+          "outputs": [
+            "inherent optical properties"
+          ],
+          "keywords": [
+            "IOPs",
+            "QAA",
+            "MODIS data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/218688181.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

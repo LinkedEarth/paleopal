@@ -1,0 +1,206 @@
+{
+  "paper_title": "Analysis of Rainfall Dynamics in the Atacama Desert",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Integrated Water Vapour Flux (IWVF) Calculation",
+      "description": "Process for quantifying atmospheric moisture fluxes using WRF simulations by computing the integrated water vapour flux (IWVF), which includes zonal and meridional components.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Compute the integrated water vapour flux (IWVF) using specific humidity, height, and wind components.",
+          "searchable_summary": "calculate IWVF using specific humidity, height, and wind components",
+          "inputs": [
+            "specific humidity (q)",
+            "height (z)",
+            "zonal wind component (u)",
+            "meridional wind component (v)"
+          ],
+          "outputs": [
+            "IWVF u",
+            "IWVF v"
+          ],
+          "keywords": [
+            "IWVF",
+            "moisture flux",
+            "WRF simulations"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Compute IWVF for low levels (0-2000 m a.g.l.) and upper levels (above 2000 m a.g.l.) separately.",
+          "searchable_summary": "compute IWVF for different atmospheric levels",
+          "inputs": [
+            "IWVF",
+            "height levels"
+          ],
+          "outputs": [
+            "low-level IWVF",
+            "upper-level IWVF"
+          ],
+          "keywords": [
+            "atmospheric levels",
+            "moisture transport"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "MCB Classification Using Machine Learning",
+      "description": "Classification of moisture conveyor belts (MCBs) using machine learning techniques applied to IWVF data over the offshore region of western central South America.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Set IWVF values below a certain threshold to zero before SOM clustering.",
+          "searchable_summary": "apply threshold to IWVF values before clustering",
+          "inputs": [
+            "IWVF",
+            "threshold value"
+          ],
+          "outputs": [
+            "thresholded IWVF"
+          ],
+          "keywords": [
+            "thresholding",
+            "SOM clustering"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Project input vectors onto a 7x7 grid using self-organizing maps (SOMs).",
+          "searchable_summary": "apply SOM to project data onto a grid",
+          "inputs": [
+            "12-hourly IWVF patterns"
+          ],
+          "outputs": [
+            "49 IWVF classes"
+          ],
+          "keywords": [
+            "SOM",
+            "pattern recognition",
+            "grid projection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Process 49 IWVF classes via k-means clustering to obtain final clusters.",
+          "searchable_summary": "apply k-means clustering to SOM classes",
+          "inputs": [
+            "49 IWVF classes"
+          ],
+          "outputs": [
+            "final clusters"
+          ],
+          "keywords": [
+            "k-means clustering",
+            "cluster centroids"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mid-Tropospheric Trough Identification",
+      "description": "Automated identification of mid-tropospheric troughs off the Atacama coast using a detection algorithm based on geopotential height gradients.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Interpolate 500 hPa geopotential height to a regular 2°x2° horizontal grid.",
+          "searchable_summary": "interpolate geopotential height data to a grid",
+          "inputs": [
+            "500 hPa geopotential height"
+          ],
+          "outputs": [
+            "interpolated geopotential height grid"
+          ],
+          "keywords": [
+            "geopotential height",
+            "interpolation",
+            "grid"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Apply detection algorithm to identify trough points where the west-to-east gradient exceeds a threshold.",
+          "searchable_summary": "detect trough points using gradient threshold",
+          "inputs": [
+            "interpolated geopotential height grid",
+            "gradient threshold"
+          ],
+          "outputs": [
+            "trough points"
+          ],
+          "keywords": [
+            "trough detection",
+            "geopotential gradient"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Model Simulations with CESM2 and WRF",
+      "description": "Simulation of climate conditions using CESM2 and WRF models to analyze rainfall dynamics in the Atacama Desert during the mid-Pliocene and present-day.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select CESM2 model output for mid-Pliocene and historical periods.",
+          "searchable_summary": "select CESM2 model output for specific periods",
+          "inputs": [
+            "CESM2 model data"
+          ],
+          "outputs": [
+            "selected model output"
+          ],
+          "keywords": [
+            "CESM2",
+            "model output",
+            "mid-Pliocene"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use CESM2 output as initialization and boundary data for WRF simulations.",
+          "searchable_summary": "initialize WRF simulations with CESM2 data",
+          "inputs": [
+            "CESM2 output"
+          ],
+          "outputs": [
+            "WRF simulation data"
+          ],
+          "keywords": [
+            "WRF",
+            "initialization",
+            "boundary data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Perform WRF simulations with double one-way nesting to achieve high resolution.",
+          "searchable_summary": "perform high-resolution WRF simulations with nesting",
+          "inputs": [
+            "WRF model setup"
+          ],
+          "outputs": [
+            "high-resolution WRF output"
+          ],
+          "keywords": [
+            "WRF",
+            "nesting",
+            "high resolution"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/253187188.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

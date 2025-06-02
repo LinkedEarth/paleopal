@@ -1,0 +1,197 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Source Richness and Similarity Analysis",
+      "description": "This method involves comparing the richness of pollen sources between different areas and verifying the adequacy of sampling efforts. It uses extrapolation curves to estimate the total number of expected pollen types and employs the Renkonen index to determine the similarity in pollen source utilization between areas.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Construct extrapolation curves based on the samples using the program EstimateS 9.1.0.",
+          "searchable_summary": "use EstimateS 9.1.0 to construct extrapolation curves for pollen source richness",
+          "inputs": [
+            "pollen sample data"
+          ],
+          "outputs": [
+            "extrapolation curves"
+          ],
+          "keywords": [
+            "extrapolation curves",
+            "EstimateS",
+            "pollen richness"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Determine similarity in pollen source utilization using the Renkonen index.",
+          "searchable_summary": "calculate Renkonen index for pollen source similarity",
+          "inputs": [
+            "pollen source data from two areas"
+          ],
+          "outputs": [
+            "similarity index"
+          ],
+          "keywords": [
+            "Renkonen index",
+            "pollen source similarity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Food-Niche Breadth and Pollen Source Analysis",
+      "description": "This method evaluates the food-niche breadth and differences in pollen source abundance using statistical tests. It also assesses the influence of specific pollen types on the analysis results.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Evaluate food-niche breadth using the one-sample t test of Hutcheson with PAST 2:13 program.",
+          "searchable_summary": "perform one-sample t test using PAST 2:13 to evaluate food-niche breadth",
+          "inputs": [
+            "pollen source data"
+          ],
+          "outputs": [
+            "food-niche breadth analysis"
+          ],
+          "keywords": [
+            "one-sample t test",
+            "food-niche breadth",
+            "PAST software"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Verify differences in relative abundance of pollen sources using chi-square tests.",
+          "searchable_summary": "conduct chi-square tests for pollen source abundance",
+          "inputs": [
+            "pollen source data",
+            "anther type",
+            "pollen grain size"
+          ],
+          "outputs": [
+            "abundance differences"
+          ],
+          "keywords": [
+            "chi-square test",
+            "pollen abundance"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Repeat analyses excluding Byrsonima pollen type to assess its influence.",
+          "searchable_summary": "repeat statistical analyses excluding Byrsonima pollen",
+          "inputs": [
+            "pollen source data excluding Byrsonima"
+          ],
+          "outputs": [
+            "analysis results without Byrsonima"
+          ],
+          "keywords": [
+            "Byrsonima exclusion",
+            "pollen analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Quantitative Pollen Analysis",
+      "description": "This method involves the quantitative analysis of pollen samples by counting pollen grains and calculating indices for niche breadth and uniformity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Divide each slide into four quadrants and count approximately 100 pollen grains per quadrant.",
+          "searchable_summary": "count pollen grains in quadrants on slides",
+          "inputs": [
+            "pollen slides"
+          ],
+          "outputs": [
+            "pollen grain counts"
+          ],
+          "keywords": [
+            "pollen counting",
+            "quadrant analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate niche breadth using the Shannon-Wiener index.",
+          "searchable_summary": "calculate Shannon-Wiener index for niche breadth",
+          "inputs": [
+            "pollen grain counts"
+          ],
+          "outputs": [
+            "niche breadth index"
+          ],
+          "keywords": [
+            "Shannon-Wiener index",
+            "niche breadth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Determine uniformity of pollen types using the Pielou evenness index.",
+          "searchable_summary": "calculate Pielou evenness index for pollen uniformity",
+          "inputs": [
+            "niche breadth index",
+            "total pollen types"
+          ],
+          "outputs": [
+            "evenness index"
+          ],
+          "keywords": [
+            "Pielou evenness index",
+            "pollen uniformity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Type Classification",
+      "description": "This method classifies pollen types based on anther type and pollen grain size, using literature information.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Classify pollen types into poricidal and non-poricidal based on literature.",
+          "searchable_summary": "classify pollen types by anther type using literature",
+          "inputs": [
+            "pollen type data"
+          ],
+          "outputs": [
+            "classified pollen types"
+          ],
+          "keywords": [
+            "pollen classification",
+            "anther type"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Classify pollen types by grain size into small and medium categories.",
+          "searchable_summary": "classify pollen types by grain size",
+          "inputs": [
+            "pollen type data"
+          ],
+          "outputs": [
+            "size-classified pollen types"
+          ],
+          "keywords": [
+            "pollen size classification",
+            "grain size"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/88128608.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,183 @@
+{
+  "paper_title": "Data Processing and Analysis in Electrophysiology and Microscopy",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Containerized Workflow Deployment",
+      "description": "This method involves using containerization to package code and dependencies into virtual environments for reliable execution across different computing environments. It leverages Docker and Kubernetes for big data analysis and is deployed using Nextflow to manage workflows efficiently.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Package code and dependencies into a container using Docker.",
+          "searchable_summary": "create Docker container for code and dependencies",
+          "inputs": [
+            "source code",
+            "dependencies"
+          ],
+          "outputs": [
+            "Docker container"
+          ],
+          "keywords": [
+            "Docker",
+            "containerization",
+            "virtual environment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Deploy containerized workflows using Kubernetes and Nextflow.",
+          "searchable_summary": "deploy workflows with Kubernetes and Nextflow",
+          "inputs": [
+            "Docker container",
+            "workflow definition"
+          ],
+          "outputs": [
+            "deployed workflow"
+          ],
+          "keywords": [
+            "Kubernetes",
+            "Nextflow",
+            "workflow deployment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Use S3 for reading terabyte scale datasets.",
+          "searchable_summary": "read large datasets from S3",
+          "inputs": [
+            "S3 bucket",
+            "dataset identifier"
+          ],
+          "outputs": [
+            "dataset"
+          ],
+          "keywords": [
+            "S3",
+            "data storage",
+            "big data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Electrophysiology Data Processing Workflow",
+      "description": "A canonical workflow for processing electrophysiology data, which includes detecting neuron action potentials and producing standardized reports. This involves channel scanning, data conversion, and spike sorting.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Scan electrophysiology data to identify active channels and record information to Ceph/S3.",
+          "searchable_summary": "scan data for active channels and save to Ceph/S3",
+          "inputs": [
+            "electrophysiology data"
+          ],
+          "outputs": [
+            "JSON file with active channel information"
+          ],
+          "keywords": [
+            "channel scan",
+            "Ceph",
+            "S3"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Convert dataset from 2-byte integer to 4-byte floating-point format and upload to Ceph/S3.",
+          "searchable_summary": "convert data format and upload to Ceph/S3",
+          "inputs": [
+            "raw data file"
+          ],
+          "outputs": [
+            "converted data file"
+          ],
+          "keywords": [
+            "data conversion",
+            "Ceph",
+            "S3"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform spike sorting and timing analysis using converted data files.",
+          "searchable_summary": "execute spike sorting and timing analysis",
+          "inputs": [
+            "converted data files",
+            "metadata"
+          ],
+          "outputs": [
+            "spike sorting results"
+          ],
+          "keywords": [
+            "spike sorting",
+            "timing analysis",
+            "MountainSort",
+            "Kilosort"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Real-time Data Processing and Visualization",
+      "description": "This method uses Redis for real-time data stream coordination and containerized processes for data transformation and visualization, allowing for real-time monitoring and analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Coordinate real-time data streams using Redis.",
+          "searchable_summary": "use Redis for real-time data stream coordination",
+          "inputs": [
+            "data stream"
+          ],
+          "outputs": [
+            "coordinated data stream"
+          ],
+          "keywords": [
+            "Redis",
+            "real-time",
+            "data stream"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Perform data transformation on the stream and write a new stream with transformed data.",
+          "searchable_summary": "transform data stream and output new stream",
+          "inputs": [
+            "raw data stream"
+          ],
+          "outputs": [
+            "transformed data stream"
+          ],
+          "keywords": [
+            "data transformation",
+            "stream processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Visualize transformed data using a Plotly Dash web page.",
+          "searchable_summary": "create visualization with Plotly Dash",
+          "inputs": [
+            "transformed data stream"
+          ],
+          "outputs": [
+            "visualization"
+          ],
+          "keywords": [
+            "Plotly Dash",
+            "visualization",
+            "real-time"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252549630.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

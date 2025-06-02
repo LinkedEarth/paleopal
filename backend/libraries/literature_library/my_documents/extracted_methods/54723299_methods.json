@@ -1,0 +1,947 @@
+{
+  "paper_title": "Paleoclimate Reconstruction from Maar Lake Sediments using Multi-proxy Analysis (Inferred)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Bulk Sediment Analysis (TC, N, Isotopes, TOC)",
+      "description": "Measurement of total carbon (TC), nitrogen (N), their stable isotopes (δ13CTC, δ15N), total organic carbon (TOC), its stable isotope (δ13CTOC), and calculation of TOC/N atomic ratios in sediment samples using elemental analysis coupled with isotope ratio mass spectrometry (EA-IRMS). Includes steps for carbonate removal.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Total carbon (TC) and nitrogen (N), bulk carbon isotope composition (δ 13 C TC ), and nitrogen isotope composition (δ 15 N) were determined at the Institute of Agronomy and Nutritional Sciences, Soil Biogeochemistry, Martin Luther University Halle-Wittenberg, using EuroVector EA 3000 elemental analyser (Hekatech, Wegberg, Germany) coupled via a Conflo III Interface to a Delta V Advantage isotope ratio mass spectrometer (IRMS; both from Thermo Fisher Scientific, Bremen, Germany).",
+          "searchable_summary": "Measure TC, N, δ13CTC, δ15N using EA-IRMS",
+          "inputs": [
+            "sediment samples (112 samples, 606-727 cm depth)"
+          ],
+          "outputs": [
+            "TC concentration",
+            "N concentration",
+            "δ13CTC value",
+            "δ15N value"
+          ],
+          "keywords": [
+            "EA-IRMS",
+            "elemental analysis",
+            "isotope ratio mass spectrometry",
+            "total carbon",
+            "nitrogen",
+            "stable isotopes",
+            "δ13C",
+            "δ15N"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Additionally, total organic carbon (TOC) and bulk δ 13 C of the total organic carbon (δ 13 C TOC ) were assessed after removal of carbonate with 32 % hydrochloric acid (HCl) fumigation followed by a neutralisation step with moist sodium hydroxide, both for 24 h under 60 • C and vacuum conditions.",
+          "searchable_summary": "Remove carbonate from sediment samples by HCl fumigation",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "decarbonated sediment samples"
+          ],
+          "keywords": [
+            "carbonate removal",
+            "HCl fumigation",
+            "acid treatment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "followed by a neutralisation step with moist sodium hydroxide, both for 24 h under 60 • C and vacuum conditions.",
+          "searchable_summary": "Neutralise decarbonated samples with NaOH",
+          "inputs": [
+            "decarbonated sediment samples",
+            "moist sodium hydroxide (NaOH)"
+          ],
+          "outputs": [
+            "neutralised decarbonated samples"
+          ],
+          "keywords": [
+            "neutralisation",
+            "sodium hydroxide",
+            "NaOH"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "total organic carbon (TOC) and bulk δ 13 C of the total organic carbon (δ 13 C TOC ) were assessed after removal of carbonate...",
+          "searchable_summary": "Measure TOC and δ13CTOC using EA-IRMS on decarbonated samples",
+          "inputs": [
+            "neutralised decarbonated samples"
+          ],
+          "outputs": [
+            "TOC concentration",
+            "δ13CTOC value"
+          ],
+          "keywords": [
+            "TOC",
+            "δ13C",
+            "EA-IRMS",
+            "organic carbon"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Laboratory standards from the International Atomic Energy Agency (IAEA) as well as from the United States Geological Survey (USGS) with known total carbon, nitrogen, 13 C and 15 N contents (IAEA N2, IAEA CH6, IAEA NO3, IAEA CH7, IAEA 305A, USGS 41) were used for calibration.",
+          "searchable_summary": "Calibrate measurements using international standards (IAEA, USGS)",
+          "inputs": [
+            "raw EA-IRMS data",
+            "standard values (IAEA, USGS)"
+          ],
+          "outputs": [
+            "calibrated TC, N, TOC, isotope values"
+          ],
+          "keywords": [
+            "calibration",
+            "standards",
+            "IAEA",
+            "USGS",
+            "laboratory standards"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The 13 C and 15 N contents are expressed in the common δ notation as relative to an international standard (δ 13 C: Vienna Pee Dee Belemnite, VPDB; δ 15 N: atmospheric N 2 , air).",
+          "searchable_summary": "Express isotope values in delta notation relative to international standards (VPDB, air)",
+          "inputs": [
+            "calibrated isotope values"
+          ],
+          "outputs": [
+            "δ13C value (VPDB)",
+            "δ15N value (air)"
+          ],
+          "keywords": [
+            "delta notation",
+            "isotope notation",
+            "VPDB",
+            "air standard"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "This allows calculating TOC/N atomic ratios.",
+          "searchable_summary": "Calculate TOC/N atomic ratios",
+          "inputs": [
+            "TOC concentration",
+            "N concentration"
+          ],
+          "outputs": [
+            "TOC/N atomic ratio"
+          ],
+          "keywords": [
+            "TOC/N ratio",
+            "atomic ratio calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Sample Preparation and Analysis",
+      "description": "Preparation of sediment samples for pollen analysis, including chemical treatment, sieving, and microscopic identification and counting. Results are reported as relative percentages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Preparation was conducted by Frank Dreher according to standard procedures at the laboratory of the Group of Climate and Sediments, Institute of Geosciences, Johannes Gutenberg University of Mainz, using potassium hydroxide, HCl and hydrofluoric acid (Sirocko et al., 2016).",
+          "searchable_summary": "Chemically prepare sediment samples for pollen analysis using KOH, HCl, HF",
+          "inputs": [
+            "sediment samples (16 samples, 1 cm depth range each)",
+            "potassium hydroxide (KOH)",
+            "hydrochloric acid (HCl)",
+            "hydrofluoric acid (HF)"
+          ],
+          "outputs": [
+            "chemically treated samples"
+          ],
+          "keywords": [
+            "pollen preparation",
+            "chemical treatment",
+            "KOH",
+            "HCl",
+            "HF"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Afterwards, acetic acid and a mixture of acetic anhydride and sulfuric acid (9 : 1) were used for acetolysis.",
+          "searchable_summary": "Perform acetolysis on samples using acetic acid and acetic anhydride/sulfuric acid",
+          "inputs": [
+            "chemically treated samples",
+            "acetic acid",
+            "acetic anhydride",
+            "sulfuric acid"
+          ],
+          "outputs": [
+            "acetolysed samples"
+          ],
+          "keywords": [
+            "acetolysis",
+            "acetic acid",
+            "acetic anhydride",
+            "sulfuric acid"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The samples were then centrifuged at 3000 to 3500 rpm for 5 min...",
+          "searchable_summary": "Centrifuge samples",
+          "inputs": [
+            "acetolysed samples"
+          ],
+          "outputs": [
+            "pelleted samples"
+          ],
+          "keywords": [
+            "centrifugation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...and then sieved over a 200 and a 10 µm sieve.",
+          "searchable_summary": "Sieve samples using 200 µm and 10 µm sieves",
+          "inputs": [
+            "centrifuged samples"
+          ],
+          "outputs": [
+            "sieved pollen concentrate"
+          ],
+          "keywords": [
+            "sieving",
+            "pollen concentrate",
+            "mesh size"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Afterwards, the samples were fixed with anhydrous glycerol for reliable identification...",
+          "searchable_summary": "Fix samples with anhydrous glycerol",
+          "inputs": [
+            "sieved pollen concentrate",
+            "anhydrous glycerol"
+          ],
+          "outputs": [
+            "mounted pollen samples"
+          ],
+          "keywords": [
+            "sample fixing",
+            "glycerol",
+            "microscope slide preparation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "...and a maximum magnification of 600 was used for counting the remains.",
+          "searchable_summary": "Identify and count pollen grains microscopically",
+          "inputs": [
+            "mounted pollen samples"
+          ],
+          "outputs": [
+            "pollen counts per taxon"
+          ],
+          "keywords": [
+            "pollen identification",
+            "pollen counting",
+            "microscopy",
+            "palynology"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Pollen results are reported in relative percentages (%).",
+          "searchable_summary": "Report pollen results as relative percentages",
+          "inputs": [
+            "pollen counts per taxon"
+          ],
+          "outputs": [
+            "relative pollen percentages"
+          ],
+          "keywords": [
+            "relative percentage calculation",
+            "pollen data reporting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Core Chronology Development",
+      "description": "Establishing an age model for the sediment core section using multiple chronological tie points derived from radiocarbon dating, tephra layers, and paleoclimate proxy changes, assuming constant sedimentation rates between markers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The first tie point to establish a chronology for the Gemündener Maar core is a radiocarbon-dated piece of charcoal in 727 cm core depth... The second tie point is the clearly visible Laacher See Tephra between 673 and 680 cm core depth... The onset of the Younger Dryas period was set to 12 680 a BP... identified at a depth of 670 cm in the GM1 core due to a clear colour change... The onset of the Preboreal (Holocene) was found to date to 11 590 a BP... This was used to wiggle-match the distinct changes in the pollen spectra... the clear rise in TOC... and the colour change... which were identified at 643 cm depth... The last time marker used to constrain the age model is the middle of the sharp increase in Corylus (hazel) pollen at 622 cm depth...",
+          "searchable_summary": "Identify chronological tie points in core based on physical markers and proxy data",
+          "inputs": [
+            "core description (physical properties like color, tephra layers)",
+            "proxy data (pollen spectra, TOC)"
+          ],
+          "outputs": [
+            "identified tie point depths (727 cm, 673-680 cm, 670 cm, 643 cm, 622 cm)"
+          ],
+          "keywords": [
+            "chronological markers",
+            "tie points",
+            "tephra",
+            "color changes",
+            "pollen zones",
+            "TOC changes",
+            "stratigraphy"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "This age [at 727 cm] is derived from a 14 C age of 11 950 ± 65 a BP as part of the Supplement of Sirocko et al. (2013), calibrated using Cal-Pal software (Weninger and Jöris, 2008) calculated with the IntCal13 calibration curve (Reimer et al., 2013)... The latter [Laacher See Tephra] can be used as chronological marker due to the varve-counted age of 12 880 a BP in the adjacent Meerfelder Maar (Brauer et al., 1999)... The onset of the Younger Dryas period was set to 12 680 a BP (varve-counted in Meerfelder Maar sediments; Brauer et al., 1999;Litt et al., 2009)... The onset of the Preboreal (Holocene) was found to date to 11 590 a BP in Meerfelder Maar by varve counting (Litt et al., 2009)... We used this sharp increase [Corylus] as a marker for the Preboreal to Boreal transition, which is varve-counted by Litt et al. (2009) to 10 740 a BP in the Meerfelder Maar sediments.",
+          "searchable_summary": "Assign ages to tie points using external dating information (calibrated 14C, varve counting from reference sites)",
+          "inputs": [
+            "identified tie point depths",
+            "external dating data (14C ages, varve counts from reference sites like Meerfelder Maar)",
+            "14C calibration software/curve (Cal-Pal, IntCal13)"
+          ],
+          "outputs": [
+            "tie point depths with assigned ages (cal BP or varve years BP)"
+          ],
+          "keywords": [
+            "radiocarbon dating",
+            "14C calibration",
+            "varve counting",
+            "age assignment",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Assuming constant sedimentation rates between the markers, an average resolution of 51 a cm −1 can be calculated...",
+          "searchable_summary": "Develop age model assuming constant sedimentation rates between tie points",
+          "inputs": [
+            "tie point depths with assigned ages"
+          ],
+          "outputs": [
+            "age-depth model"
+          ],
+          "keywords": [
+            "age model",
+            "sedimentation rate",
+            "linear interpolation",
+            "chronological modeling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "...an average resolution of 51 a cm −1 can be calculated; the minimum and maximum resolution are 19 and 124 a cm −1 , respectively. The part above the Laacher See Tephra reveals a lower mean resolution (55 a cm −1 ) than the section below (30 a cm −1 ).",
+          "searchable_summary": "Calculate average and range of age resolution (sedimentation rate)",
+          "inputs": [
+            "age-depth model"
+          ],
+          "outputs": [
+            "average age resolution (a/cm)",
+            "minimum age resolution (a/cm)",
+            "maximum age resolution (a/cm)"
+          ],
+          "keywords": [
+            "age resolution",
+            "sedimentation rate calculation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "n-Alkane Extraction, Quantification, and δ2H Analysis",
+      "description": "Extraction, purification, quantification, and compound-specific stable hydrogen isotope analysis (δ2H) of n-alkanes from sediment samples using microwave extraction, chromatography, GC-MS, and GC-IRMS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "n-Alkanes were extracted from 1 to 6 g freeze-dried and ground samples...",
+          "searchable_summary": "Freeze-dry and grind sediment samples",
+          "inputs": [
+            "sediment samples (59 samples, 607-694 cm depth)"
+          ],
+          "outputs": [
+            "freeze-dried and ground sediment"
+          ],
+          "keywords": [
+            "freeze-drying",
+            "grinding",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "...by microwave extraction at 100 • C for 1 h, using 15 mL of solvent (dichloromethane and methanol, at a ratio of 9 : 1).",
+          "searchable_summary": "Perform microwave extraction of total lipids",
+          "inputs": [
+            "freeze-dried and ground sediment",
+            "dichloromethane",
+            "methanol"
+          ],
+          "outputs": [
+            "total lipid extract"
+          ],
+          "keywords": [
+            "microwave extraction",
+            "lipid extraction",
+            "solvent extraction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The resultant total lipid extracts were separated over aminopropyl silica gel (Supelco 45 µm) filled pipette columns.",
+          "searchable_summary": "Separate non-polar compounds from total lipid extract using aminopropyl silica gel chromatography",
+          "inputs": [
+            "total lipid extract",
+            "aminopropyl silica gel column"
+          ],
+          "outputs": [
+            "non-polar lipid fraction (on column)"
+          ],
+          "keywords": [
+            "lipid separation",
+            "chromatography",
+            "silica gel",
+            "aminopropyl silica gel"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Non-polar compounds (including n-alkanes) were eluted with n-hexane.",
+          "searchable_summary": "Elute non-polar fraction with n-hexane",
+          "inputs": [
+            "non-polar lipid fraction (on column)",
+            "n-hexane"
+          ],
+          "outputs": [
+            "n-hexane eluate containing non-polar lipids"
+          ],
+          "keywords": [
+            "elution",
+            "n-hexane",
+            "chromatography"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The fraction was spiked with a known amount of 5α-androstanone, used as an internal standard.",
+          "searchable_summary": "Add internal standard (5α-androstanone) to the non-polar fraction",
+          "inputs": [
+            "n-hexane eluate",
+            "5α-androstanone standard"
+          ],
+          "outputs": [
+            "spiked non-polar fraction"
+          ],
+          "keywords": [
+            "internal standard",
+            "spiking",
+            "quantification"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Identification and quantification was carried out on an Agilent MS 5975 (EI) interfaced with an Agilent 7890 GC equipped with a 30 m fused silica capillary column (HP5-MS 0.25 mm i.d., 0.25 µm film thickness) and a split-splitless injector operating in splitless mode at 320 • C. Carrier gas was helium and the temperature program was 1 min at 50 • C, from 50 to 200 • C at 30 • C min −1 , from 200 to 320 • C at 7 • C min −1 , and 5 min at 320 • C. Data recording comprised the total ion count (scan mode from m/z 40 to 600) and single-ion monitoring (m/z 57, 71, 85 and 99).",
+          "searchable_summary": "Identify and quantify n-alkanes using GC-MS (Agilent system)",
+          "inputs": [
+            "spiked non-polar fraction"
+          ],
+          "outputs": [
+            "GC-MS chromatograms",
+            "mass spectra",
+            "peak areas (TIC, SIM)"
+          ],
+          "keywords": [
+            "GC-MS",
+            "gas chromatography",
+            "mass spectrometry",
+            "n-alkane identification",
+            "n-alkane quantification",
+            "TIC",
+            "SIM"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Concentrations were calculated relative to the internal standard and to an external standard (n-C 21 to n-C 40 alkane mixture, Supelco), injected in different concentrations (40, 4, 1, 0.4 ng µL −1 ).",
+          "searchable_summary": "Calculate n-alkane concentrations relative to internal and external standards",
+          "inputs": [
+            "GC-MS peak areas",
+            "internal standard amount",
+            "external standard concentrations/areas"
+          ],
+          "outputs": [
+            "n-alkane concentrations"
+          ],
+          "keywords": [
+            "concentration calculation",
+            "internal standard",
+            "external standard",
+            "quantification"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Prior to compound-specific isotope analyses, the n-alkanes were further purified. The non-polar fractions were passed over a pipette column filled with activated AgNO 3 impregnated silica gel...",
+          "searchable_summary": "Purify n-alkanes using AgNO3 impregnated silica gel chromatography",
+          "inputs": [
+            "n-hexane eluate"
+          ],
+          "outputs": [
+            "partially purified n-alkane fraction"
+          ],
+          "keywords": [
+            "n-alkane purification",
+            "AgNO3 silica gel",
+            "chromatography"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "...and a pipette column filled with zeolite (Geokleen).",
+          "searchable_summary": "Purify n-alkanes using zeolite chromatography",
+          "inputs": [
+            "partially purified n-alkane fraction",
+            "zeolite column"
+          ],
+          "outputs": [
+            "n-alkanes adsorbed on zeolite"
+          ],
+          "keywords": [
+            "n-alkane purification",
+            "zeolite",
+            "chromatography"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "After drying, the zeolite was removed using hydrofluoric acid...",
+          "searchable_summary": "Remove zeolite using hydrofluoric acid",
+          "inputs": [
+            "n-alkanes adsorbed on zeolite",
+            "hydrofluoric acid (HF)"
+          ],
+          "outputs": [
+            "n-alkanes in solution"
+          ],
+          "keywords": [
+            "zeolite removal",
+            "hydrofluoric acid",
+            "HF"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "...and the n-alkanes were recovered by liquid–liquid extraction with hexane.",
+          "searchable_summary": "Recover purified n-alkanes by liquid-liquid extraction with hexane",
+          "inputs": [
+            "n-alkanes in solution",
+            "hexane"
+          ],
+          "outputs": [
+            "purified n-alkane fraction in hexane"
+          ],
+          "keywords": [
+            "liquid-liquid extraction",
+            "hexane",
+            "n-alkane recovery"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "The purified n-alkane fractions were measured for their compound-specific stable hydrogen isotope composition (δ 2 H). The measurements were performed at the Institute of Geography, University of Bern on an IsoPrime 100 IRMS, coupled to an Agilent 7890A GC via a GC5 pyrolysis or combustion interface operating in pyrolysis modus with a Cr (ChromeHD) reactor at 1000 • C. Samples were injected with a split-splitless injector. The GC was equipped with 30 m fused silica column (HP5-MS, 0.32 mm inner diameter, 0.25 µm film thickness).",
+          "searchable_summary": "Measure compound-specific δ2H of purified n-alkanes using GC-IRMS with pyrolysis",
+          "inputs": [
+            "purified n-alkane fraction",
+            "GC-IRMS system (IsoPrime 100 IRMS, Agilent 7890A GC, GC5 pyrolysis interface, Cr reactor)"
+          ],
+          "outputs": [
+            "raw δ2H values"
+          ],
+          "keywords": [
+            "GC-IRMS",
+            "compound-specific isotope analysis",
+            "δ2H",
+            "hydrogen isotopes",
+            "pyrolysis",
+            "gas chromatography",
+            "isotope ratio mass spectrometry"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "validation",
+          "description": "The precision was checked by co-analysing a standard alkane mixture (n-C 27 , n-C 29 , n-C 33 ) with known isotope composition (Arndt Schimmelmann, University of Indiana), injected twice every six runs.",
+          "searchable_summary": "Check analytical precision using standard alkane mixture",
+          "inputs": [
+            "standard alkane mixture (n-C27, n-C29, n-C33)",
+            "raw δ2H values from standards"
+          ],
+          "outputs": [
+            "analytical precision report"
+          ],
+          "keywords": [
+            "analytical precision",
+            "isotope standards",
+            "quality control"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "validation",
+          "description": "The samples were analysed in three repetitions (except from the samples in 622 and 672 cm depth), and the analytical precision was generally better than 5 ‰.",
+          "searchable_summary": "Analyze samples in multiple repetitions (triplicates)",
+          "inputs": [
+            "purified n-alkane fraction"
+          ],
+          "outputs": [
+            "replicate δ2H measurements"
+          ],
+          "keywords": [
+            "replicate analysis",
+            "triplicates",
+            "analytical precision"
+          ]
+        },
+        {
+          "step_number": 15,
+          "category": "validation",
+          "description": "The H + 3 -correction factor was checked every 2 days and stayed stable over the course of measurements at 3.14.",
+          "searchable_summary": "Check H+3-correction factor for IRMS",
+          "inputs": [
+            "GC-IRMS system data"
+          ],
+          "outputs": [
+            "H+3 correction factor value"
+          ],
+          "keywords": [
+            "H3+ correction",
+            "IRMS correction",
+            "isotope analysis correction"
+          ]
+        },
+        {
+          "step_number": 16,
+          "category": "data_processing",
+          "description": "The stable hydrogen isotope compositions are given in the δ notation (δ 2 H n-alkane ) versus Vienna Standard Mean Ocean Water (VSMOW).",
+          "searchable_summary": "Express δ2H values in delta notation vs VSMOW",
+          "inputs": [
+            "raw δ2H values"
+          ],
+          "outputs": [
+            "δ2H values (VSMOW)"
+          ],
+          "keywords": [
+            "delta notation",
+            "VSMOW",
+            "isotope notation"
+          ]
+        },
+        {
+          "step_number": 17,
+          "category": "data_processing",
+          "description": "The δ 2 H n-alkane values refer to the area-weighted mean of the δ 2 H values of n-alkanes with 27 and 29 carbon atoms (n-C 27 , n-C 29 ) because of their relatively high abundance in the samples (Fig. 4a).",
+          "searchable_summary": "Calculate area-weighted mean δ2H for specified n-alkanes (n-C27, n-C29)",
+          "inputs": [
+            "δ2H values for n-C27 and n-C29",
+            "GC-MS peak areas for n-C27 and n-C29"
+          ],
+          "outputs": [
+            "area-weighted mean δ2H(n-C27, n-C29)"
+          ],
+          "keywords": [
+            "area-weighted mean",
+            "δ2H calculation",
+            "n-alkanes",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sugar Extraction, Cleaning, Derivatisation, and δ18O Analysis",
+      "description": "Hydrolytic extraction, cleaning, derivatisation, and compound-specific stable oxygen isotope analysis (δ18O) of hemicellulose/polysaccharide-derived sugars from sediment samples using acid hydrolysis, chromatography, derivatisation, and GC-IRMS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The monosaccharide sugars were hydrolytically extracted from samples containing approximately 10 mg total organic carbon with 10 mL of 4 M trifluoroacetic acid at 105 • C for 4 h, applying the method described by Amelung et al. (1996).",
+          "searchable_summary": "Hydrolytically extract monosaccharide sugars using TFA",
+          "inputs": [
+            "sediment samples (~10 mg TOC)",
+            "trifluoroacetic acid (TFA)"
+          ],
+          "outputs": [
+            "sugar extract"
+          ],
+          "keywords": [
+            "hydrolytic extraction",
+            "monosaccharides",
+            "TFA",
+            "acid hydrolysis",
+            "sugar extraction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "After filtration over glass fibre filters, the extracted sugars were cleaned...",
+          "searchable_summary": "Filter the sugar extract",
+          "inputs": [
+            "sugar extract",
+            "glass fibre filters"
+          ],
+          "outputs": [
+            "filtered sugar extract"
+          ],
+          "keywords": [
+            "filtration",
+            "glass fibre filter"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "...using XAD-7 (to remove humic-like substances)...",
+          "searchable_summary": "Clean the extract using XAD-7 columns to remove humic substances",
+          "inputs": [
+            "filtered sugar extract",
+            "XAD-7 column"
+          ],
+          "outputs": [
+            "sugar extract after XAD-7 cleaning"
+          ],
+          "keywords": [
+            "extract cleaning",
+            "XAD-7 chromatography",
+            "humic substances removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...and Dowex 50WX8 columns (to remove interfering cations).",
+          "searchable_summary": "Clean the extract using Dowex 50WX8 columns to remove cations",
+          "inputs": [
+            "sugar extract after XAD-7 cleaning",
+            "Dowex 50WX8 column"
+          ],
+          "outputs": [
+            "purified sugar extract"
+          ],
+          "keywords": [
+            "extract cleaning",
+            "ion exchange chromatography",
+            "Dowex",
+            "cation removal"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Afterwards, the purified samples were freeze-dried...",
+          "searchable_summary": "Freeze-dry the purified sugar samples",
+          "inputs": [
+            "purified sugar extract"
+          ],
+          "outputs": [
+            "freeze-dried sugar samples"
+          ],
+          "keywords": [
+            "freeze-drying",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "...and derivatised by adding methylboronic acid (4 mg in 400 µL pyridine) for 1 h at 60 • C.",
+          "searchable_summary": "Derivatise the samples using methylboronic acid",
+          "inputs": [
+            "freeze-dried sugar samples",
+            "methylboronic acid",
+            "pyridine"
+          ],
+          "outputs": [
+            "derivatised sugar samples"
+          ],
+          "keywords": [
+            "derivatisation",
+            "methylboronic acid",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The compound-specific δ 18 O measurements were performed using a Trace GC 2000 coupled to a Delta V Advantage IRMS via an 18 O-pyrolysis reactor (GC IsoLink) and a ConFlo IV interface (all devices from Thermo Fisher Scientific, Bremen, Germany).",
+          "searchable_summary": "Measure compound-specific δ18O of derivatised sugars using GC-IRMS with pyrolysis",
+          "inputs": [
+            "derivatised sugar samples",
+            "GC-IRMS system (Trace GC 2000, Delta V Advantage IRMS, 18O-pyrolysis reactor, ConFlo IV interface)"
+          ],
+          "outputs": [
+            "raw δ18O values"
+          ],
+          "keywords": [
+            "GC-IRMS",
+            "compound-specific isotope analysis",
+            "δ18O",
+            "oxygen isotopes",
+            "pyrolysis",
+            "gas chromatography",
+            "isotope ratio mass spectrometry"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Each sample was measured in threefold repetition...",
+          "searchable_summary": "Measure samples in threefold repetition (triplicates)",
+          "inputs": [
+            "derivatised sugar samples"
+          ],
+          "outputs": [
+            "replicate δ18O measurements"
+          ],
+          "keywords": [
+            "replicate analysis",
+            "triplicates",
+            "analytical precision"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "...embedded in-between co-derivatised sugar standards at various concentrations and known δ 18 O values.",
+          "searchable_summary": "Embed samples between co-derivatised sugar standards for calibration/drift correction",
+          "inputs": [
+            "derivatised sugar samples",
+            "derivatised sugar standards"
+          ],
+          "outputs": [
+            "GC-IRMS run sequence"
+          ],
+          "keywords": [
+            "isotope standards",
+            "calibration",
+            "quality control",
+            "run sequence"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "The δ 18 O values of the samples are expressed in δ notation (δ 18 O sugar ) versus VSMOW.",
+          "searchable_summary": "Express δ18O values in delta notation vs VSMOW",
+          "inputs": [
+            "raw δ18O values"
+          ],
+          "outputs": [
+            "δ18O values (VSMOW)"
+          ],
+          "keywords": [
+            "delta notation",
+            "VSMOW",
+            "isotope notation"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "data_processing",
+          "description": "The measured δ 18 O sugar values were corrected for drift, amount and area dependency and also for the hydrolytically introduced oxygen atoms that form carbonyl groups with the C1 atoms of the sugar molecules (Zech and Glaser, 2009).",
+          "searchable_summary": "Correct measured δ18O values for drift, amount/area dependency, and hydrolytically introduced oxygen",
+          "inputs": [
+            "raw δ18O values",
+            "calibration data",
+            "correction factors"
+          ],
+          "outputs": [
+            "corrected δ18O values"
+          ],
+          "keywords": [
+            "isotope correction",
+            "drift correction",
+            "amount dependency correction",
+            "area dependency correction",
+            "hydrolytic oxygen correction",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "data_analysis",
+          "description": "The δ 18 O sugar values refer to the δ 18 O values of the monosaccharides arabinose, fucose and xylose (Fig. 4b). Rhamnose areas, or concentrations, were too low for reliable isotope measurements in most samples.",
+          "searchable_summary": "Report δ18O values for specified monosaccharides (arabinose, fucose, xylose)",
+          "inputs": [
+            "corrected δ18O values"
+          ],
+          "outputs": [
+            "δ18O values for arabinose",
+            "δ18O values for fucose",
+            "δ18O values for xylose"
+          ],
+          "keywords": [
+            "data reporting",
+            "monosaccharides",
+            "arabinose",
+            "fucose",
+            "xylose"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Core Sampling",
+      "description": "Description of the location and method used to retrieve the sediment core (GM1) from the Gemündener Maar lake.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The investigated samples were taken from the 8 m Gemündener Maar core (GM1), which was taken at approximately 20 m water depth near the centre of the maar (Fig. 1b) with a Livingston piston corer (UWITEC, Mondsee, Austria). The GM1 core was retrieved from a terrace on the steep slope of the maar exactly in a fan of an underwater erosion gully structure.",
+          "searchable_summary": "Retrieve sediment core using Livingston piston corer from Gemündener Maar",
+          "inputs": [
+            "Gemündener Maar lake (location: 50°10'39.853\"N, 6°50'12.912\"E, ~20m water depth)",
+            "Livingston piston corer (UWITEC)"
+          ],
+          "outputs": [
+            "GM1 sediment core (8m length)"
+          ],
+          "keywords": [
+            "sediment coring",
+            "Livingston piston corer",
+            "maar lake",
+            "paleolimnology",
+            "sample collection"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54723299.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

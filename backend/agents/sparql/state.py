@@ -41,16 +41,6 @@ class SparqlAgentConfig(BaseAgentConfig):
         ...,
         description="SPARQL query embedding service for similarity search"
     )
-    
-    # Clarification behavior configuration
-    enable_clarification: bool = Field(
-        default=True,
-        description="Whether to enable clarification detection"
-    )
-    clarification_threshold: str = Field(
-        default="conservative",
-        description="Clarification detection threshold: 'strict', 'conservative', or 'permissive'"
-    )
 
     class Config:
         """Pydantic configuration."""

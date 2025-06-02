@@ -1,0 +1,239 @@
+{
+  "paper_title": "Geochemical and Sedimentary Analysis of Lake Ledro Cores",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Geochemical Analysis",
+      "description": "Analysis of the chemical composition of sediment core LL08-1 using an XRF core scanner and ICP-AES to determine elemental concentrations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The chemical composition of sediment core LL08-1 was analysed using an Avaatech XRF core scanner at a resolution of 0.2 mm and 2 mm.",
+          "searchable_summary": "analyze sediment core using XRF core scanner",
+          "inputs": [
+            "sediment core LL08-1"
+          ],
+          "outputs": [
+            "XRF data for Si, Ca, K, Ti, Zr"
+          ],
+          "keywords": [
+            "XRF",
+            "sediment core",
+            "geochemical analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "XRF measurements were carried out on split cores with a measurement duration of 20 s using specific voltage and current settings for different elements.",
+          "searchable_summary": "perform XRF measurements with specified settings",
+          "inputs": [
+            "split cores",
+            "XRF scanner settings"
+          ],
+          "outputs": [
+            "semi-quantitative elemental counts"
+          ],
+          "keywords": [
+            "XRF",
+            "elemental analysis",
+            "measurement settings"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "49 samples from the laminated facies of LL08-1 were processed for ICP-AES measurements.",
+          "searchable_summary": "process samples for ICP-AES measurements",
+          "inputs": [
+            "49 sediment samples"
+          ],
+          "outputs": [
+            "ICP-AES data"
+          ],
+          "keywords": [
+            "ICP-AES",
+            "sample processing",
+            "elemental analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Approximately 80 mg of sediment were fully dissolved under pressure at 100°C using a mixture of suprapure grade HCl, HNO3, and HF.",
+          "searchable_summary": "dissolve sediment samples using acid mixture",
+          "inputs": [
+            "sediment samples",
+            "HCl",
+            "HNO3",
+            "HF"
+          ],
+          "outputs": [
+            "dissolved sediment solution"
+          ],
+          "keywords": [
+            "sample dissolution",
+            "acid digestion",
+            "ICP-AES"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "14C and 137Cs Measurements",
+      "description": "Chronology establishment using AMS 14C ages and 137Cs measurements to create an age-depth model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "19 AMS 14C ages measured on terrestrial plant macrofossils and 137Cs measurements taken from the topmost 32 cm of the sediment record.",
+          "searchable_summary": "measure AMS 14C ages and 137Cs in sediment",
+          "inputs": [
+            "terrestrial plant macrofossils",
+            "sediment samples"
+          ],
+          "outputs": [
+            "AMS 14C ages",
+            "137Cs data"
+          ],
+          "keywords": [
+            "AMS 14C",
+            "137Cs",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "All radiocarbon ages were calibrated using the program Calib 6.06 with the Intcal09 calibration set.",
+          "searchable_summary": "calibrate radiocarbon ages using Calib 6.06",
+          "inputs": [
+            "radiocarbon ages"
+          ],
+          "outputs": [
+            "calibrated radiocarbon ages"
+          ],
+          "keywords": [
+            "radiocarbon calibration",
+            "Calib 6.06",
+            "Intcal09"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Results from radiocarbon and short-lived radio-isotope analyses were combined to produce an age-depth model using a smooth cubic spline model in 'Clam' software.",
+          "searchable_summary": "create age-depth model using Clam software",
+          "inputs": [
+            "calibrated radiocarbon ages",
+            "137Cs data"
+          ],
+          "outputs": [
+            "age-depth model"
+          ],
+          "keywords": [
+            "age-depth modeling",
+            "Clam software",
+            "cubic spline"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Flood Deposits Counting and Frequency Analysis",
+      "description": "Automatic and naked-eye counting of flood deposits and frequency analysis using RGB scale and Gaussian mixture model.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Core-image treatment by solarisation to identify flood deposits using RGB scale.",
+          "searchable_summary": "process core images using solarisation",
+          "inputs": [
+            "core images"
+          ],
+          "outputs": [
+            "identified flood deposits"
+          ],
+          "keywords": [
+            "solarisation",
+            "RGB scale",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Normalise the 1/Red signal by removing the low-frequency trend using a moving first quartile.",
+          "searchable_summary": "normalize 1/Red signal by removing low-frequency trend",
+          "inputs": [
+            "1/Red signal"
+          ],
+          "outputs": [
+            "normalized signal"
+          ],
+          "keywords": [
+            "signal normalization",
+            "low-frequency trend",
+            "1/Red"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use a Gaussian mixture model to decompose the peak component and choose the threshold value.",
+          "searchable_summary": "apply Gaussian mixture model to peak component",
+          "inputs": [
+            "peak component"
+          ],
+          "outputs": [
+            "threshold value",
+            "decomposed peak component"
+          ],
+          "keywords": [
+            "Gaussian mixture model",
+            "peak analysis",
+            "threshold"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Evaluate the distribution of peaks along the sequence using a smoothing sum of episodes with a moving time window.",
+          "searchable_summary": "evaluate peak distribution with smoothing sum",
+          "inputs": [
+            "peak component",
+            "time window"
+          ],
+          "outputs": [
+            "peak distribution"
+          ],
+          "keywords": [
+            "peak distribution",
+            "smoothing sum",
+            "time-series analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Naked-eye counting of the dark-brown flood deposits performed three times by different persons and results averaged.",
+          "searchable_summary": "perform naked-eye counting of flood deposits",
+          "inputs": [
+            "core images"
+          ],
+          "outputs": [
+            "averaged counting value"
+          ],
+          "keywords": [
+            "naked-eye counting",
+            "flood deposits",
+            "validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54723554.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

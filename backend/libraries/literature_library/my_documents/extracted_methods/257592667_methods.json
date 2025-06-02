@@ -1,0 +1,231 @@
+{
+  "paper_title": "DNA Barcode Analysis of Parachironomus Species",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Specimen Collection and Preservation",
+      "description": "Process for collecting and preserving specimens for molecular and morphological analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The examined specimens were caught using sweep net and light trap, stored in the dark at 4 °C, and preserved in 85% ethanol.",
+          "searchable_summary": "collect and preserve specimens using sweep net and light trap",
+          "inputs": [
+            "specimens"
+          ],
+          "outputs": [
+            "preserved specimens"
+          ],
+          "keywords": [
+            "specimen collection",
+            "preservation",
+            "ethanol"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Extraction and Mounting",
+      "description": "Extraction of genomic DNA from specimens and preparation of exoskeleton for morphological analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Genomic DNA was extracted from the thorax and leg using a Qiagen DNA Blood and Tissue Kit.",
+          "searchable_summary": "extract genomic DNA using Qiagen kit",
+          "inputs": [
+            "specimen thorax",
+            "specimen leg"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "Qiagen kit"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The exoskeleton of each specimen was mounted in Euparal on a microscope slide together with the corresponding antennae, legs, wing, and abdomen.",
+          "searchable_summary": "mount exoskeleton on microscope slide",
+          "inputs": [
+            "specimen exoskeleton"
+          ],
+          "outputs": [
+            "mounted specimen"
+          ],
+          "keywords": [
+            "exoskeleton mounting",
+            "microscope slide"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "PCR Amplification and Sequencing",
+      "description": "Amplification of mitochondrial COI barcode region and sequencing of PCR products.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The universal primers LCO1490 and HCO2198 were adopted to amplify the standard 658-bp mitochondrial COI barcode region.",
+          "searchable_summary": "amplify COI barcode region using PCR",
+          "inputs": [
+            "primers LCO1490",
+            "primers HCO2198",
+            "template DNA"
+          ],
+          "outputs": [
+            "amplified COI region"
+          ],
+          "keywords": [
+            "PCR",
+            "COI barcode",
+            "primers"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "PCR products were electrophoresed in 1.0% agarose gel, purified, and sequenced in both directions.",
+          "searchable_summary": "electrophorese, purify, and sequence PCR products",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "sequenced DNA"
+          ],
+          "keywords": [
+            "electrophoresis",
+            "sequencing",
+            "agarose gel"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Assembly and Alignment",
+      "description": "Assembly and alignment of DNA sequences for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Raw sequences were assembled and edited in Geneious Prime 2020.",
+          "searchable_summary": "assemble and edit sequences in Geneious Prime",
+          "inputs": [
+            "raw sequences"
+          ],
+          "outputs": [
+            "assembled sequences"
+          ],
+          "keywords": [
+            "sequence assembly",
+            "Geneious Prime"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Alignment of the sequences was carried out using the MUSCLE algorithm on amino acids in MEGA v. 7.0.",
+          "searchable_summary": "align sequences using MUSCLE in MEGA",
+          "inputs": [
+            "assembled sequences"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MUSCLE",
+            "MEGA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "Analysis of phylogenetic relationships using nucleotide substitution models and tree construction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Nucleotide substitution saturation analysis of gene sequences was performed by DAMBE version 6.",
+          "searchable_summary": "perform nucleotide substitution saturation analysis using DAMBE",
+          "inputs": [
+            "gene sequences"
+          ],
+          "outputs": [
+            "saturation analysis results"
+          ],
+          "keywords": [
+            "nucleotide substitution",
+            "saturation analysis",
+            "DAMBE"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The pairwise distances were calculated using the Kimura 2-Parameter (K2P) substitution model in MEGA.",
+          "searchable_summary": "calculate pairwise distances using K2P model in MEGA",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "pairwise distances"
+          ],
+          "keywords": [
+            "pairwise distance",
+            "K2P model",
+            "MEGA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The neighbor-joining (NJ) tree was constructed using the K2P substitution model, 1000 bootstrap replicates, and the 'pairwise deletion' option for missing data in MEGA.",
+          "searchable_summary": "construct NJ tree using K2P model in MEGA",
+          "inputs": [
+            "pairwise distances"
+          ],
+          "outputs": [
+            "NJ tree"
+          ],
+          "keywords": [
+            "neighbor-joining tree",
+            "phylogenetic tree",
+            "MEGA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "ABGD Analysis",
+      "description": "Use of the ABGD web interface for species delimitation based on COI sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The partial COI sequences of Parachironomus were submitted to online ABGD web interface.",
+          "searchable_summary": "submit COI sequences to ABGD web interface",
+          "inputs": [
+            "COI sequences"
+          ],
+          "outputs": [
+            "ABGD analysis results"
+          ],
+          "keywords": [
+            "ABGD",
+            "species delimitation",
+            "COI sequences"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/257592667.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

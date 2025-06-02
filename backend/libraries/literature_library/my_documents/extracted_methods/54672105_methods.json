@@ -1,0 +1,218 @@
+{
+  "paper_title": "Resonances via the complex energy method and Nodal line technique",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Siegert State Calculation",
+      "description": "This method calculates resonances as Siegert states with complex energy, where the real and imaginary parts are related to the resonance energy and width. This approach is used to detect narrow resonances and calculate their characteristics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Determine n linearly-independent particular complex solutions y_j of Eq. (9).",
+          "searchable_summary": "compute linearly-independent complex solutions for Eq. (9)",
+          "inputs": [
+            "Equation (9)"
+          ],
+          "outputs": [
+            "Complex solutions y_j"
+          ],
+          "keywords": [
+            "complex solutions",
+            "Siegert states",
+            "resonance calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Change e into e_S = k^2 resulting in a complex k-value.",
+          "searchable_summary": "convert energy e to complex k-value",
+          "inputs": [
+            "Energy e"
+          ],
+          "outputs": [
+            "Complex k-value"
+          ],
+          "keywords": [
+            "complex energy",
+            "k-value conversion"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Perform inward integration, imposing an outgoing wave asymptotically in the j channel and zero in all others to yield y_j.",
+          "searchable_summary": "integrate inward with outgoing wave conditions",
+          "inputs": [
+            "Complex k-value",
+            "Channel j"
+          ],
+          "outputs": [
+            "Solutions y_j"
+          ],
+          "keywords": [
+            "inward integration",
+            "outgoing wave",
+            "channel conditions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Write the outgoing wave as a combination of regular and irregular Bessel functions.",
+          "searchable_summary": "express outgoing wave using Bessel functions",
+          "inputs": [
+            "Solutions y_j"
+          ],
+          "outputs": [
+            "Bessel function representation"
+          ],
+          "keywords": [
+            "Bessel functions",
+            "wave representation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Obtain the physical Siegert wave function as a linear combination of the y_j solutions, satisfying boundary conditions at small x.",
+          "searchable_summary": "compute physical Siegert wave function with boundary conditions",
+          "inputs": [
+            "Solutions y_j"
+          ],
+          "outputs": [
+            "Siegert wave function"
+          ],
+          "keywords": [
+            "Siegert wave function",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Calculate the resonance energy e_S,r = e_r - iγ_r/2 by ensuring a vanishing determinant of the radial components of y_j at node positions.",
+          "searchable_summary": "calculate resonance energy from determinant condition",
+          "inputs": [
+            "Siegert wave function"
+          ],
+          "outputs": [
+            "Resonance energy e_S,r"
+          ],
+          "keywords": [
+            "resonance energy",
+            "determinant condition"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Nodal Line Technique",
+      "description": "This technique solves the coupled equations in the asymptotic zone using the nodal line method, which imposes physical boundary conditions to determine bound levels and resonances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Expand the wave function in Legendre polynomials, introducing radial functions y(x) for different coupled channels.",
+          "searchable_summary": "expand wave function using Legendre polynomials",
+          "inputs": [
+            "Wave function"
+          ],
+          "outputs": [
+            "Expanded wave function"
+          ],
+          "keywords": [
+            "Legendre polynomials",
+            "wave function expansion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Replace Eq. (7) with a system of coupled equations in vectorial form.",
+          "searchable_summary": "formulate coupled equations in vectorial form",
+          "inputs": [
+            "Equation (7)"
+          ],
+          "outputs": [
+            "Coupled equations"
+          ],
+          "keywords": [
+            "coupled equations",
+            "vectorial form"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Perform the solution of the coupled equations only in the asymptotic zone, imposing physical boundary conditions.",
+          "searchable_summary": "solve coupled equations with boundary conditions",
+          "inputs": [
+            "Coupled equations"
+          ],
+          "outputs": [
+            "Solutions with boundary conditions"
+          ],
+          "keywords": [
+            "asymptotic zone",
+            "boundary conditions"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Adjust parameters x_00, A, and B to experimental data or calculate from molecular potentials.",
+          "searchable_summary": "adjust parameters based on experimental data or potentials",
+          "inputs": [
+            "Experimental data",
+            "Molecular potentials"
+          ],
+          "outputs": [
+            "Adjusted parameters"
+          ],
+          "keywords": [
+            "parameter adjustment",
+            "experimental data"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Add an intensity-dependent term to the nodal lines in the presence of a laser field.",
+          "searchable_summary": "modify nodal lines with intensity-dependent term",
+          "inputs": [
+            "Nodal lines",
+            "Laser field intensity"
+          ],
+          "outputs": [
+            "Modified nodal lines"
+          ],
+          "keywords": [
+            "nodal lines",
+            "laser field"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Solve Eq. (9) numerically by inward integration starting from a large value x_∞, imposing large x boundary conditions.",
+          "searchable_summary": "numerically solve Eq. (9) with inward integration",
+          "inputs": [
+            "Equation (9)",
+            "Boundary conditions"
+          ],
+          "outputs": [
+            "Numerical solutions"
+          ],
+          "keywords": [
+            "numerical solution",
+            "inward integration"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54672105.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

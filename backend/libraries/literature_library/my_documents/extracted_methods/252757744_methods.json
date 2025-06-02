@@ -1,0 +1,228 @@
+{
+  "paper_title": "Sampling and Genetic Diversity Characterization of Pinus pinceana",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and DNA Extraction",
+      "description": "Process for collecting samples from Pinus pinceana and extracting DNA for genetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Needles from nine healthy, regularly distributed adult trees were sampled.",
+          "searchable_summary": "collect needle samples from adult trees",
+          "inputs": [
+            "adult trees"
+          ],
+          "outputs": [
+            "needle samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "tree needles"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "DNA was extracted using the CTAB protocol (Doyle & Doyle, 1987).",
+          "searchable_summary": "extract DNA using CTAB protocol",
+          "inputs": [
+            "needle samples"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "CTAB protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "DNA Sequencing and Quality Control",
+      "description": "Sequencing of DNA samples and quality control of the reads.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples with a concentration over 100 ng/ml were double-digested with the restriction enzymes Pstl/Mspl.",
+          "searchable_summary": "digest DNA samples with Pstl/Mspl enzymes",
+          "inputs": [
+            "DNA samples"
+          ],
+          "outputs": [
+            "digested DNA fragments"
+          ],
+          "keywords": [
+            "DNA digestion",
+            "restriction enzymes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The fragments were single-end sequenced with an Illumina Hi-Seq 2500.",
+          "searchable_summary": "sequence DNA fragments using Illumina Hi-Seq 2500",
+          "inputs": [
+            "digested DNA fragments"
+          ],
+          "outputs": [
+            "sequenced reads"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "Illumina Hi-Seq"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The read adapters were removed using TRIMMOMATIC (v0.36).",
+          "searchable_summary": "remove read adapters using TRIMMOMATIC",
+          "inputs": [
+            "sequenced reads"
+          ],
+          "outputs": [
+            "trimmed reads"
+          ],
+          "keywords": [
+            "adapter removal",
+            "TRIMMOMATIC"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The read quality was visualized with FASTQC (v0.11.7) and MULTIQC (v1.9).",
+          "searchable_summary": "visualize read quality with FASTQC and MULTIQC",
+          "inputs": [
+            "trimmed reads"
+          ],
+          "outputs": [
+            "quality reports"
+          ],
+          "keywords": [
+            "quality control",
+            "FASTQC",
+            "MULTIQC"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Read Mapping and SNP Filtering",
+      "description": "Mapping of high-quality reads to a reference genome and filtering of SNPs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "High-quality reads were mapped to the P. lambertiana genome assembly using the BWA-MEM algorithm (v0.7.10).",
+          "searchable_summary": "map reads to reference genome using BWA-MEM",
+          "inputs": [
+            "high-quality reads",
+            "P. lambertiana genome"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "read mapping",
+            "BWA-MEM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Unmapped reads were discarded.",
+          "searchable_summary": "discard unmapped reads",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "filtered mapped reads"
+          ],
+          "keywords": [
+            "read filtering",
+            "unmapped reads"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The MarkDuplicates feature from the Picard package was used to correct artifacts of PCR duplication.",
+          "searchable_summary": "correct PCR duplicates using Picard MarkDuplicates",
+          "inputs": [
+            "filtered mapped reads"
+          ],
+          "outputs": [
+            "deduplicated reads"
+          ],
+          "keywords": [
+            "PCR duplication",
+            "Picard"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "We obtained a set of curated SNPs that were filtered prior to analysis using VCFtools (v0.1.16).",
+          "searchable_summary": "filter SNPs using VCFtools",
+          "inputs": [
+            "deduplicated reads"
+          ],
+          "outputs": [
+            "filtered SNPs"
+          ],
+          "keywords": [
+            "SNP filtering",
+            "VCFtools"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genetic Diversity Estimation",
+      "description": "Estimation of genetic diversity metrics for the sampled populations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We estimated the genetic diversity for the 10 populations using observed heterozygosity (H O ), within-population gene diversity (H S ), and the inbreeding coefficient (F IS ) using the R package Hierfstat.",
+          "searchable_summary": "calculate genetic diversity metrics using Hierfstat",
+          "inputs": [
+            "filtered SNPs"
+          ],
+          "outputs": [
+            "genetic diversity metrics"
+          ],
+          "keywords": [
+            "genetic diversity",
+            "Hierfstat"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "DNAsp (v6) was used to calculate allelic richness, per site nucleotide diversity (π), and pairwise population differentiation (F ST ).",
+          "searchable_summary": "calculate allelic richness and nucleotide diversity using DNAsp",
+          "inputs": [
+            "filtered SNPs"
+          ],
+          "outputs": [
+            "allelic richness",
+            "nucleotide diversity"
+          ],
+          "keywords": [
+            "allelic richness",
+            "nucleotide diversity",
+            "DNAsp"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/252757744.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

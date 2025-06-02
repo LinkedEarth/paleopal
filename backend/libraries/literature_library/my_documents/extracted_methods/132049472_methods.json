@@ -1,0 +1,281 @@
+{
+  "paper_title": "Palynological data of cores MSM5/5–712–2 and PS2863/1–2 from northeastern Fram Strait spanning the last glacial maximum to present",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Palynological Sample Preparation",
+      "description": "Chemical treatment of sediment samples to dissolve carbonate and silica particles, isolating the organic matter fraction (10-106 µm) for palynological analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Subject the 10e106 mm fraction was subjected to three hydrochloric acid treatments to dissolve carbonate particles",
+          "searchable_summary": "Apply hydrochloric acid treatment to sediment fraction",
+          "inputs": [
+            "Sediment sample (10-106 µm fraction)",
+            "Hydrochloric acid (HCl)"
+          ],
+          "outputs": [
+            "Sediment residue after HCl treatment"
+          ],
+          "keywords": [
+            "palynology",
+            "sample preparation",
+            "acid digestion",
+            "HCl treatment",
+            "sediment processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "interspersed by hydrofluoric acid treatments to dissolve the silica particles.",
+          "searchable_summary": "Apply hydrofluoric acid treatment to sediment residue",
+          "inputs": [
+            "Sediment residue after HCl treatment",
+            "Hydrofluoric acid (HF)"
+          ],
+          "outputs": [
+            "Sediment residue after HF treatment (organic matter enriched)"
+          ],
+          "keywords": [
+            "palynology",
+            "sample preparation",
+            "acid digestion",
+            "HF treatment",
+            "silica dissolution"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The residues were mounted on slides in glycerin jelly",
+          "searchable_summary": "Mount processed sediment residue onto microscope slides",
+          "inputs": [
+            "Final sediment residue",
+            "Glycerin jelly",
+            "Microscope slides"
+          ],
+          "outputs": [
+            "Prepared microscope slides"
+          ],
+          "keywords": [
+            "palynology",
+            "sample preparation",
+            "microscopy slides",
+            "mounting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Palynomorph Counting",
+      "description": "Microscopic observation and counting of palynomorphs on prepared slides to obtain raw counts and relative abundances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "observed under microscope at 400X optical magnification for palynological analysis.",
+          "searchable_summary": "Observe prepared slides under a microscope",
+          "inputs": [
+            "Prepared microscope slides",
+            "Microscope (400X magnification)"
+          ],
+          "outputs": [
+            "Visual observation data"
+          ],
+          "keywords": [
+            "palynology",
+            "microscopy",
+            "observation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Minimum counts of 300 dinocysts per sample were targeted.",
+          "searchable_summary": "Count palynomorphs, targeting a minimum number of dinocysts",
+          "inputs": [
+            "Visual observation data",
+            "Counting protocol (target count)"
+          ],
+          "outputs": [
+            "Raw counts of different palynomorph types per sample"
+          ],
+          "keywords": [
+            "palynology",
+            "counting",
+            "dinocysts",
+            "palynomorphs"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Once the counting completed, the palynomorph concentrations in #/g were calculated as follows:",
+          "searchable_summary": "Record raw palynomorph counts",
+          "inputs": [
+            "Raw counts of palynomorph types"
+          ],
+          "outputs": [
+            "Recorded raw count data"
+          ],
+          "keywords": [
+            "data recording",
+            "palynology"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Then, the dinocyst assemblages (relative abundances of taxa in %) in the samples from each site are shown in the following two tables.",
+          "searchable_summary": "Calculate relative abundances of dinocyst taxa",
+          "inputs": [
+            "Raw counts of dinocyst taxa per sample"
+          ],
+          "outputs": [
+            "Relative abundances (%) of dinocyst taxa per sample"
+          ],
+          "keywords": [
+            "data processing",
+            "relative abundance",
+            "dinocysts",
+            "palynology"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Palynomorph Flux Calculation",
+      "description": "Calculation of palynomorph fluxes (#/cm²/yr) based on counted palynomorphs, sample volume, and sedimentation rate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "(1) Np/volume (cm³) ¼ Dinocyst concentrations (#/cm³)",
+          "searchable_summary": "Calculate palynomorph concentration per unit volume",
+          "inputs": [
+            "Np (Number of palynomorphs counted)",
+            "Sample volume (cm³)"
+          ],
+          "outputs": [
+            "Dinocyst concentration (#/cm³)"
+          ],
+          "keywords": [
+            "calculation",
+            "concentration",
+            "palynomorphs",
+            "volume"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "(2) Flux (#/cm²/yr) ¼ Sedimentation rate (cm/yr) Â Concentration (#/cm³)",
+          "searchable_summary": "Calculate palynomorph flux",
+          "inputs": [
+            "Dinocyst concentration (#/cm³)",
+            "Sedimentation rate (cm/yr)"
+          ],
+          "outputs": [
+            "Flux (#/cm²/yr)"
+          ],
+          "keywords": [
+            "calculation",
+            "flux",
+            "palynomorphs",
+            "sedimentation rate"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sea-Surface Condition Reconstruction (MAT)",
+      "description": "Quantitative reconstruction of sea-surface conditions (temperature, salinity, sea-ice, productivity) using the Modern Analog Technique (MAT) applied to dinocyst relative abundances.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Reconstructions of sea-surface conditions were obtained based on the modern analog technique (MAT; [2]) applied to the dinocyst relative abundances according to Ref. [7].",
+          "searchable_summary": "Obtain dinocyst relative abundances for samples",
+          "inputs": [
+            "Dinocyst relative abundances (%) per sample"
+          ],
+          "outputs": [
+            "Dinocyst relative abundance data"
+          ],
+          "keywords": [
+            "data input",
+            "palynology",
+            "relative abundance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The MAT approach consists of identifying the 5 best analogs from the dinocyst spectra (relative abundance of each taxa) of the surface sediment data set (modern assemblages) that includes 1776 sites [7,8].",
+          "searchable_summary": "Identify best modern analogs based on dinocyst spectra",
+          "inputs": [
+            "Dinocyst relative abundance data (sample)",
+            "Modern analog dataset (dinocyst spectra from 1776 sites)"
+          ],
+          "outputs": [
+            "List of 5 best analog sites from modern dataset for each sample"
+          ],
+          "keywords": [
+            "modern analog technique",
+            "MAT",
+            "analog search",
+            "dataset comparison",
+            "dinocyst spectra",
+            "paleoclimate reconstruction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The sea-surface condition values represent the average of the 5 selected analogs weighted inversely to the distance.",
+          "searchable_summary": "Calculate weighted average of sea-surface conditions from analog sites",
+          "inputs": [
+            "5 best analog sites",
+            "Sea-surface condition values for analog sites",
+            "Distance metric (from analog search)"
+          ],
+          "outputs": [
+            "Reconstructed sea-surface condition values (weighted average)"
+          ],
+          "keywords": [
+            "modern analog technique",
+            "MAT",
+            "weighted average",
+            "reconstruction",
+            "sea-surface conditions",
+            "paleoclimate reconstruction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The maximum and minimum are determined based on the minimum and maximum values from the set of analogs.",
+          "searchable_summary": "Determine maximum and minimum reconstructed values from analog range",
+          "inputs": [
+            "Sea-surface condition values for the 5 best analog sites"
+          ],
+          "outputs": [
+            "Minimum reconstructed sea-surface condition value",
+            "Maximum reconstructed sea-surface condition value"
+          ],
+          "keywords": [
+            "modern analog technique",
+            "MAT",
+            "range estimation",
+            "reconstruction",
+            "uncertainty estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/132049472.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,235 @@
+{
+  "paper_title": "Investigating the consistency between proxy-based reconstructions and climate models using data assimilation: a mid-Holocene case study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data-assimilation method",
+      "description": "This method involves simulating mid-Holocene climate states using the LOVECLIM climate model by altering initial conditions and evaluating the resulting climate states against proxy-based reconstructions. The process aims to explore possible climate states and their agreement with historical data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Change initial conditions by adding small noise to the sea surface temperature while keeping physics and forcing unchanged.",
+          "searchable_summary": "alter initial conditions by adding noise to sea surface temperature",
+          "inputs": [
+            "initial sea surface temperature"
+          ],
+          "outputs": [
+            "altered initial conditions"
+          ],
+          "keywords": [
+            "initial conditions",
+            "sea surface temperature",
+            "noise"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Propagate 96 particles forward in time for six months using the LOVECLIM climate model.",
+          "searchable_summary": "simulate climate model with 96 particles for six months",
+          "inputs": [
+            "altered initial conditions",
+            "LOVECLIM model"
+          ],
+          "outputs": [
+            "climate states for 96 particles"
+          ],
+          "keywords": [
+            "climate model",
+            "LOVECLIM",
+            "particles"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Evaluate 96 climate states according to their agreement with proxy-based reconstructions.",
+          "searchable_summary": "compare climate states with proxy-based reconstructions",
+          "inputs": [
+            "climate states",
+            "proxy-based reconstructions"
+          ],
+          "outputs": [
+            "likelihood of each particle"
+          ],
+          "keywords": [
+            "evaluation",
+            "proxy-based reconstructions",
+            "likelihood"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Resample particles based on likelihood to maintain a constant number of particles.",
+          "searchable_summary": "resample particles based on likelihood",
+          "inputs": [
+            "likelihood of particles"
+          ],
+          "outputs": [
+            "resampled particles"
+          ],
+          "keywords": [
+            "resampling",
+            "likelihood",
+            "particles"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Add small perturbation to surface temperature and propagate particles for the next 6 months.",
+          "searchable_summary": "perturb surface temperature and simulate next 6 months",
+          "inputs": [
+            "resampled particles"
+          ],
+          "outputs": [
+            "next 6 months climate states"
+          ],
+          "keywords": [
+            "perturbation",
+            "surface temperature",
+            "simulation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Experimental design",
+      "description": "This method involves performing and comparing mid-Holocene simulations with data assimilation using different sets of proxy-based reconstructions to understand the information each subset provides and their compatibility with model physics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform three mid-Holocene simulations with data assimilation using different sets of proxy-based reconstructions.",
+          "searchable_summary": "simulate mid-Holocene climate with different proxy sets",
+          "inputs": [
+            "LOVECLIM model",
+            "proxy-based reconstructions"
+          ],
+          "outputs": [
+            "simulation results"
+          ],
+          "keywords": [
+            "mid-Holocene",
+            "data assimilation",
+            "proxy-based reconstructions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Compare simulations to a mid-Holocene reference simulation named NODATA.",
+          "searchable_summary": "compare simulations with reference simulation",
+          "inputs": [
+            "simulation results",
+            "NODATA reference"
+          ],
+          "outputs": [
+            "comparison analysis"
+          ],
+          "keywords": [
+            "comparison",
+            "reference simulation",
+            "NODATA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyze simulations performed with GCMs to compare LOVECLIM results with other models.",
+          "searchable_summary": "analyze and compare GCM simulations",
+          "inputs": [
+            "GCM simulation data",
+            "LOVECLIM results"
+          ],
+          "outputs": [
+            "comparison with GCMs"
+          ],
+          "keywords": [
+            "GCM",
+            "comparison",
+            "LOVECLIM"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Proxy-based data set selection",
+      "description": "This method involves selecting and preparing a data set of proxy-based reconstructions for use in climate simulations, focusing on records that represent air or sea surface temperature and meet specific criteria.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select proxy-based reconstructions representing air or sea surface temperature from archives located between 20 and 90° N.",
+          "searchable_summary": "select temperature reconstructions from specified archives",
+          "inputs": [
+            "Holocene records"
+          ],
+          "outputs": [
+            "selected proxy-based reconstructions"
+          ],
+          "keywords": [
+            "proxy-based reconstructions",
+            "temperature",
+            "selection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate anomalies between the period of interest and the reference period for each selected record.",
+          "searchable_summary": "calculate temperature anomalies for selected records",
+          "inputs": [
+            "selected proxy-based reconstructions"
+          ],
+          "outputs": [
+            "temperature anomalies"
+          ],
+          "keywords": [
+            "anomalies",
+            "temperature",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Average reconstructions representing the same variable and period located in the same model grid.",
+          "searchable_summary": "average similar reconstructions in same grid",
+          "inputs": [
+            "temperature anomalies"
+          ],
+          "outputs": [
+            "averaged reconstructions"
+          ],
+          "keywords": [
+            "averaging",
+            "reconstructions",
+            "model grid"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Estimate uncertainty for each reconstruction for data assimilation.",
+          "searchable_summary": "estimate uncertainty for reconstructions",
+          "inputs": [
+            "averaged reconstructions"
+          ],
+          "outputs": [
+            "uncertainty estimates"
+          ],
+          "keywords": [
+            "uncertainty",
+            "data assimilation",
+            "estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56157754.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

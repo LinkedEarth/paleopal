@@ -1,0 +1,146 @@
+{
+  "paper_title": "Ice Flow and Monte Carlo Sampling in NEGIS",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice-flow Model Simulation",
+      "description": "A two-dimensional Dansgaard-Johnsen model is used to simulate the propagation and deformation of internal layers along approximated flow lines between the ice-sheet summit (GRIP) and East-GRIP. This model is chosen for its simplicity and suitability for the Monte Carlo method due to its few model parameters and analytical solution.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use a two-dimensional Dansgaard-Johnsen model to simulate ice flow.",
+          "searchable_summary": "simulate ice flow using Dansgaard-Johnsen model",
+          "inputs": [
+            "approximated flow lines",
+            "ice-sheet summit data",
+            "East-GRIP data"
+          ],
+          "outputs": [
+            "simulated ice flow data"
+          ],
+          "keywords": [
+            "Dansgaard-Johnsen model",
+            "ice flow simulation",
+            "NEGIS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Assume ice incompressibility and a constant vertical strain rate down to the kink height, below which the strain rate decreases linearly.",
+          "searchable_summary": "apply ice incompressibility and strain rate assumptions",
+          "inputs": [
+            "vertical strain rate",
+            "kink height"
+          ],
+          "outputs": [
+            "adjusted strain rate model"
+          ],
+          "keywords": [
+            "strain rate",
+            "ice incompressibility",
+            "kink height"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Include basal sliding and melting in the model, assuming constant ice-sheet thickness over time.",
+          "searchable_summary": "integrate basal sliding and melting into model",
+          "inputs": [
+            "basal sliding data",
+            "melting data",
+            "ice-sheet thickness"
+          ],
+          "outputs": [
+            "enhanced ice flow model"
+          ],
+          "keywords": [
+            "basal sliding",
+            "melting",
+            "ice-sheet thickness"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Monte Carlo Sampling",
+      "description": "A Markov chain Monte Carlo method is used to determine the unknown parameters of a two-dimensional ice-flow model by minimizing the misfit between modeled and observed isochrones and strain rates. This probabilistic approach is well-suited for nonlinear problems with multiple maxima in the probability density.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use a random number generator to sample according to the target probability distribution.",
+          "searchable_summary": "implement random sampling for probability distribution",
+          "inputs": [
+            "target probability distribution"
+          ],
+          "outputs": [
+            "sampled model parameters"
+          ],
+          "keywords": [
+            "random sampling",
+            "probability distribution",
+            "Monte Carlo"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Start from an initial model and use a random walker to explore the model space, proposing new models accepted with a certain probability.",
+          "searchable_summary": "explore model space with random walker",
+          "inputs": [
+            "initial model",
+            "random walker"
+          ],
+          "outputs": [
+            "proposed new models"
+          ],
+          "keywords": [
+            "random walker",
+            "model space exploration",
+            "Metropolis algorithm"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Evaluate the quality of proposed models using a misfit function and accept new models based on acceptance probability.",
+          "searchable_summary": "evaluate model quality and accept based on probability",
+          "inputs": [
+            "proposed models",
+            "misfit function"
+          ],
+          "outputs": [
+            "accepted models"
+          ],
+          "keywords": [
+            "model evaluation",
+            "acceptance probability",
+            "misfit function"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Discard the first 1×10^6 accepted models to avoid sampling during the burn-in phase and save every 1000th accepted model.",
+          "searchable_summary": "discard initial models and save every 1000th model",
+          "inputs": [
+            "accepted models"
+          ],
+          "outputs": [
+            "filtered model set"
+          ],
+          "keywords": [
+            "burn-in phase",
+            "model filtering",
+            "Monte Carlo"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/232134489.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

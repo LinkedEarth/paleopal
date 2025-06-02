@@ -1,0 +1,280 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Geomatics Survey",
+      "description": "Process for assessing lake depth and sediment thickness using Ground Penetrating Radar (GPR) and creating a high-resolution Digital Elevation Model (DEM) using UAV-based photogrammetry.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Performed a Ground Penetrating Radar (GPR) survey using a Malå ProEx system connected to a 50 MHz shielded antenna.",
+          "searchable_summary": "conduct GPR survey with Malå ProEx system",
+          "inputs": [
+            "Malå ProEx system",
+            "50 MHz shielded antenna"
+          ],
+          "outputs": [
+            "GPR data"
+          ],
+          "keywords": [
+            "GPR",
+            "Malå ProEx",
+            "survey"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Processed GPR data in RadExplorer software using bandpass filtering, DC removal, and time-zero adjustment.",
+          "searchable_summary": "process GPR data with RadExplorer",
+          "inputs": [
+            "GPR data"
+          ],
+          "outputs": [
+            "processed GPR profiles"
+          ],
+          "keywords": [
+            "RadExplorer",
+            "data processing",
+            "GPR"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Created a 10 cm resolution DEM using Structure from Motion (SfM) photogrammetry on UAV imagery.",
+          "searchable_summary": "generate DEM from UAV imagery using SfM",
+          "inputs": [
+            "UAV imagery"
+          ],
+          "outputs": [
+            "DEM"
+          ],
+          "keywords": [
+            "DEM",
+            "SfM",
+            "UAV"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Processed UAV imagery in Agisoft Photoscan to align photos, generate dense point cloud, and build a height field mesh.",
+          "searchable_summary": "process UAV imagery with Agisoft Photoscan",
+          "inputs": [
+            "UAV imagery"
+          ],
+          "outputs": [
+            "dense point cloud",
+            "height field mesh"
+          ],
+          "keywords": [
+            "Agisoft Photoscan",
+            "point cloud",
+            "mesh"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Exported DEM in GeoTIFF format for further analysis using Esri ArcGIS.",
+          "searchable_summary": "export DEM to GeoTIFF for ArcGIS analysis",
+          "inputs": [
+            "DEM"
+          ],
+          "outputs": [
+            "GeoTIFF"
+          ],
+          "keywords": [
+            "GeoTIFF",
+            "ArcGIS",
+            "DEM"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sediment Coring",
+      "description": "Procedure for recovering sediment cores from Lake Ástjörn using piston and gravity corers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Selected a flat section in the central part of the basin for coring.",
+          "searchable_summary": "select coring site in lake basin",
+          "inputs": [
+            "GPR data",
+            "lake basin"
+          ],
+          "outputs": [
+            "coring site"
+          ],
+          "keywords": [
+            "coring",
+            "site selection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Used a hammer driven piston corer and a Uwitec gravity corer to extract sediment cores.",
+          "searchable_summary": "extract sediment cores with piston and gravity corers",
+          "inputs": [
+            "coring site"
+          ],
+          "outputs": [
+            "sediment cores"
+          ],
+          "keywords": [
+            "piston corer",
+            "gravity corer",
+            "sediment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Stratigraphy Analysis",
+      "description": "Techniques for analyzing sediment core AST-P2-18 using XRF scanning, CT scanning, and destructive analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Mapped sediment geochemistry with an X-Ray Fluorescence (XRF) core scanner.",
+          "searchable_summary": "perform XRF scanning on sediment core",
+          "inputs": [
+            "sediment core"
+          ],
+          "outputs": [
+            "elemental profiles"
+          ],
+          "keywords": [
+            "XRF",
+            "geochemistry",
+            "sediment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Visualized sediment structure in 3-D using a CT scanner.",
+          "searchable_summary": "conduct CT scanning for 3-D sediment visualization",
+          "inputs": [
+            "sediment core"
+          ],
+          "outputs": [
+            "3-D scans"
+          ],
+          "keywords": [
+            "CT scanning",
+            "3-D visualization",
+            "sediment"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Performed destructive analyses to determine organic content, density, and grain size distribution.",
+          "searchable_summary": "analyze sediment for organic content and grain size",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "organic content",
+            "density",
+            "grain size distribution"
+          ],
+          "keywords": [
+            "organic content",
+            "grain size",
+            "density"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Dating and Chronology",
+      "description": "Methods for dating sediment cores using radiocarbon dating and tephra analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sent samples for AMS radiocarbon dating.",
+          "searchable_summary": "submit samples for radiocarbon dating",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "radiocarbon dates"
+          ],
+          "keywords": [
+            "AMS",
+            "radiocarbon dating",
+            "chronology"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Extracted and identified basaltic tephra horizons for geochronological analysis.",
+          "searchable_summary": "identify and analyze tephra horizons",
+          "inputs": [
+            "sediment core"
+          ],
+          "outputs": [
+            "tephra horizons"
+          ],
+          "keywords": [
+            "tephra",
+            "geochronology",
+            "basaltic"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures for generating a chronology and analyzing grain size distributions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Generated a chronology using the Clam package in R.",
+          "searchable_summary": "create chronology with Clam in R",
+          "inputs": [
+            "age tie-points"
+          ],
+          "outputs": [
+            "chronology"
+          ],
+          "keywords": [
+            "chronology",
+            "Clam",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Decomposed sample Grain Size Distributions (GSDs) using End-Member Modeling Analysis (EMMA).",
+          "searchable_summary": "perform EMMA on grain size distributions",
+          "inputs": [
+            "grain size data"
+          ],
+          "outputs": [
+            "end-member models"
+          ],
+          "keywords": [
+            "EMMA",
+            "grain size",
+            "modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234351172.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

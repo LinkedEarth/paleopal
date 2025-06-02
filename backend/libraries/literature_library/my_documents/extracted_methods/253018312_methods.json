@@ -1,0 +1,137 @@
+{
+  "paper_title": "Evaluation of DFT Method with PBE and optB88-vdW Functionals",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Error Analysis of DFT Values",
+      "description": "This method assesses the reliability of DFT methods by evaluating the quality or accuracy of the obtained DFT values through various error metrics compared to experimental data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select appropriate experimental data as reference values for error analysis.",
+          "searchable_summary": "select experimental reference data for error analysis",
+          "inputs": [
+            "experimental data tables",
+            "DFT dataset"
+          ],
+          "outputs": [
+            "reference values for error analysis"
+          ],
+          "keywords": [
+            "experimental data",
+            "reference values",
+            "error analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate absolute error (AE) for each DFT value using the selected reference values.",
+          "searchable_summary": "calculate absolute error for DFT values",
+          "inputs": [
+            "DFT values",
+            "reference values"
+          ],
+          "outputs": [
+            "absolute error values"
+          ],
+          "keywords": [
+            "absolute error",
+            "DFT values",
+            "error calculation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Compute mean absolute error (MAE) to describe the mean deviation in the magnitudes of DFT values.",
+          "searchable_summary": "compute mean absolute error for DFT values",
+          "inputs": [
+            "absolute error values"
+          ],
+          "outputs": [
+            "mean absolute error"
+          ],
+          "keywords": [
+            "mean absolute error",
+            "MAE",
+            "error metrics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Calculate relative error (RE) or percentage error (PE) for each DFT value.",
+          "searchable_summary": "calculate relative error for DFT values",
+          "inputs": [
+            "DFT values",
+            "reference values"
+          ],
+          "outputs": [
+            "relative error values"
+          ],
+          "keywords": [
+            "relative error",
+            "percentage error",
+            "error calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Compute mean absolute relative error (MARE) or mean absolute percentage error (MAPE) for the dataset.",
+          "searchable_summary": "compute mean absolute relative error for DFT values",
+          "inputs": [
+            "relative error values"
+          ],
+          "outputs": [
+            "mean absolute relative error"
+          ],
+          "keywords": [
+            "mean absolute relative error",
+            "MARE",
+            "error metrics"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Calculate standard deviation to reflect the discreteness of the dataset.",
+          "searchable_summary": "calculate standard deviation of error values",
+          "inputs": [
+            "error values"
+          ],
+          "outputs": [
+            "standard deviation"
+          ],
+          "keywords": [
+            "standard deviation",
+            "discreteness",
+            "error analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Determine 95% confidence limit for the dataset to estimate expected accuracy for additional calculations.",
+          "searchable_summary": "determine 95% confidence limit for error analysis",
+          "inputs": [
+            "standard deviation",
+            "degree of freedom"
+          ],
+          "outputs": [
+            "95% confidence limit"
+          ],
+          "keywords": [
+            "confidence limit",
+            "error analysis",
+            "accuracy estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/253018312.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

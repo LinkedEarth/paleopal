@@ -1,0 +1,256 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Phylogenetic Analysis",
+      "description": "This method involves conducting sequence alignments, estimating genetic divergence, selecting models of nucleotide substitution, and performing phylogenetic reconstructions to understand evolutionary relationships.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sequence alignments were conducted in MAFFT alignment software (version 7.058) with default settings.",
+          "searchable_summary": "perform sequence alignment using MAFFT",
+          "inputs": [
+            "sequence data"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "sequence alignment",
+            "MAFFT"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Estimates of uncorrected genetic divergence (p-distance) for sequence pairs were conducted in MEGA (version 5.2.2).",
+          "searchable_summary": "calculate genetic divergence using MEGA",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "genetic divergence estimates"
+          ],
+          "keywords": [
+            "genetic divergence",
+            "p-distance",
+            "MEGA"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Statistical selection of models of nucleotide substitution in jModelTest (version 2.1.4).",
+          "searchable_summary": "select nucleotide substitution model using jModelTest",
+          "inputs": [
+            "aligned sequences"
+          ],
+          "outputs": [
+            "selected substitution model"
+          ],
+          "keywords": [
+            "nucleotide substitution model",
+            "jModelTest"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The gene dataset was tested for nucleotide substitution saturation using the test by Xia et al. (2003) implemented in DAMBE v. 5.3.48.",
+          "searchable_summary": "test for nucleotide substitution saturation using DAMBE",
+          "inputs": [
+            "gene dataset"
+          ],
+          "outputs": [
+            "saturation test results"
+          ],
+          "keywords": [
+            "nucleotide substitution saturation",
+            "DAMBE"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Performed four phylogenetic reconstructions: two by Bayesian inference, one by maximum likelihood, and one by parsimony.",
+          "searchable_summary": "perform phylogenetic reconstructions using Bayesian inference, maximum likelihood, and parsimony",
+          "inputs": [
+            "aligned sequences",
+            "substitution model"
+          ],
+          "outputs": [
+            "phylogenetic trees"
+          ],
+          "keywords": [
+            "phylogenetic reconstruction",
+            "Bayesian inference",
+            "maximum likelihood",
+            "parsimony"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "A consensus tree of the two Bayesian and maximum likelihood analyses was constructed by 50% majority-rule in the Mesquite package.",
+          "searchable_summary": "construct consensus tree using Mesquite",
+          "inputs": [
+            "Bayesian trees",
+            "maximum likelihood trees"
+          ],
+          "outputs": [
+            "consensus tree"
+          ],
+          "keywords": [
+            "consensus tree",
+            "Mesquite"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Morphological Analysis",
+      "description": "This method involves analyzing adult morphological characters of South American species of Palaemon to verify morphological support for phylogenetic clades and provide new diagnoses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Checked diagnostic characters traditionally used to differentiate P. carteri from P. ivonicus.",
+          "searchable_summary": "analyze diagnostic morphological characters",
+          "inputs": [
+            "morphological data"
+          ],
+          "outputs": [
+            "character differences"
+          ],
+          "keywords": [
+            "morphological analysis",
+            "diagnostic characters"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyzed other characters traditionally used in Palaemonidae and others less explored.",
+          "searchable_summary": "analyze additional morphological characters",
+          "inputs": [
+            "morphological data"
+          ],
+          "outputs": [
+            "character differences"
+          ],
+          "keywords": [
+            "morphological analysis",
+            "Palaemonidae"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Listed pairwise differences between specimens from each clade and validated those with more than 80% constancy.",
+          "searchable_summary": "validate morphological differences with constancy check",
+          "inputs": [
+            "character differences"
+          ],
+          "outputs": [
+            "validated differences"
+          ],
+          "keywords": [
+            "validation",
+            "constancy check"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Verified diagnostic characters in original descriptions and type series.",
+          "searchable_summary": "verify diagnostic characters in original descriptions",
+          "inputs": [
+            "validated differences"
+          ],
+          "outputs": [
+            "confirmed taxonomic entities"
+          ],
+          "keywords": [
+            "verification",
+            "original descriptions"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Molecular Data Processing",
+      "description": "This method involves DNA extraction, amplification, and sequencing to obtain molecular data for phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Total genomic DNA was extracted from the muscle tissue of the abdomen.",
+          "searchable_summary": "extract genomic DNA from muscle tissue",
+          "inputs": [
+            "muscle tissue"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "genomic DNA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Amplified a 550 bp region of the mitochondrial 16S rRNA gene using PCR.",
+          "searchable_summary": "amplify 16S rRNA gene using PCR",
+          "inputs": [
+            "genomic DNA",
+            "PCR primers"
+          ],
+          "outputs": [
+            "amplified DNA"
+          ],
+          "keywords": [
+            "PCR",
+            "16S rRNA gene"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR products were purified using Sure Clean.",
+          "searchable_summary": "purify PCR products",
+          "inputs": [
+            "PCR products"
+          ],
+          "outputs": [
+            "purified DNA"
+          ],
+          "keywords": [
+            "DNA purification",
+            "Sure Clean"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Sequenced the purified DNA with the ABI Big Dye® Terminator Mix.",
+          "searchable_summary": "sequence DNA using ABI Big Dye Terminator Mix",
+          "inputs": [
+            "purified DNA"
+          ],
+          "outputs": [
+            "DNA sequences"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "ABI Big Dye"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7625212.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

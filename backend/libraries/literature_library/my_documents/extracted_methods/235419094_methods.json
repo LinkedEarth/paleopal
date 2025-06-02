@@ -1,0 +1,490 @@
+{
+  "paper_title": "Sediment Lipid and Isotope Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Lipid Extraction and Fractionation",
+      "description": "Process for extracting lipids from dried sediment samples and separating them into neutral and acid fractions, followed by further processing of each fraction.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Lipids were extracted (×3) from ∼1 g of dried sediment using a Dionex ASE 200 Accelerated Solvent Extractor (Dionex, Sunnyvale, CA, United States) with dichloromethane:methanol (6:4).",
+          "searchable_summary": "Perform accelerated solvent extraction of lipids from dried sediment",
+          "inputs": [
+            "Dried sediment (~1 g)",
+            "Dionex ASE 200",
+            "Dichloromethane:methanol (6:4)"
+          ],
+          "outputs": [
+            "Lipid extract"
+          ],
+          "keywords": [
+            "lipid extraction",
+            "ASE",
+            "accelerated solvent extraction",
+            "sediment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The extract was separated into neutral and acid fractions via aminopropyl silica gel column chromatography (Gao et al., 2015).",
+          "searchable_summary": "Separate lipid extract into neutral and acid fractions using aminopropyl silica gel column chromatography",
+          "inputs": [
+            "Lipid extract",
+            "Aminopropyl silica gel column"
+          ],
+          "outputs": [
+            "Neutral fraction",
+            "Acid fraction"
+          ],
+          "keywords": [
+            "column chromatography",
+            "fractionation",
+            "aminopropyl silica gel"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The acid fraction was methylated with methanol:acetyl chloride (95:5) and purified with SiO 2 column chromatography.",
+          "searchable_summary": "Methylate the acid fraction and purify using SiO2 column chromatography",
+          "inputs": [
+            "Acid fraction",
+            "Methanol:acetyl chloride (95:5)",
+            "SiO2 column"
+          ],
+          "outputs": [
+            "Purified methylated acid fraction"
+          ],
+          "keywords": [
+            "methylation",
+            "fatty acids",
+            "derivatization",
+            "purification",
+            "SiO2 column chromatography"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The neutral fraction was separated into four fractions using SiO 2 column chromatography: F1, 3 ml hexane; F2, 3 ml hexane:toluene (3:1); F3, 4 ml toluene; and F4, 3 ml toluene:CH 3 OH (3:1).",
+          "searchable_summary": "Separate the neutral fraction into four sub-fractions (F1-F4) using SiO2 column chromatography with specified solvent mixtures",
+          "inputs": [
+            "Neutral fraction",
+            "SiO2 column",
+            "Hexane",
+            "Toluene",
+            "Methanol"
+          ],
+          "outputs": [
+            "Neutral sub-fraction F1",
+            "Neutral sub-fraction F2",
+            "Neutral sub-fraction F3",
+            "Neutral sub-fraction F4"
+          ],
+          "keywords": [
+            "column chromatography",
+            "fractionation",
+            "SiO2",
+            "neutral lipids"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "n-Fatty Acid Concentration Analysis (GC-FID)",
+      "description": "Analysis of the concentration of n-fatty acids in the purified acid fraction using Gas Chromatography with Flame Ionization Detection.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples were dissolved in toluene.",
+          "searchable_summary": "Dissolve purified methylated acid fraction sample in toluene",
+          "inputs": [
+            "Purified methylated acid fraction",
+            "Toluene"
+          ],
+          "outputs": [
+            "Sample solution for GC"
+          ],
+          "keywords": [
+            "sample preparation",
+            "dissolution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The concentration of n-fatty acids in the acid fraction was analyzed using gas chromatography (GC) with an Agilent 6890 series gas chromatograph with on-column injection and electronic pressure control systems, and a flame ionization detector (Agilent, Santa Clara, CA, United States). Helium was the carrier gas and the flow velocity was maintained at 30 cm/s. An Agilent J&W CP-Sil 5 CB column was used (length 50 m; i.d. 0.25 mm; thickness 0.25 μm). The oven temperature was programmed from 100 to 130°C at 20°C/min and from 130 to 310°C at 4°C/min, and then maintained at 310°C for 30 min.",
+          "searchable_summary": "Analyze sample solution using GC-FID with specified column and temperature program",
+          "inputs": [
+            "Sample solution",
+            "Agilent 6890 GC",
+            "Agilent J&W CP-Sil 5 CB column",
+            "Helium carrier gas",
+            "Temperature program (100-130°C at 20°C/min, 130-310°C at 4°C/min, hold 310°C for 30 min)"
+          ],
+          "outputs": [
+            "GC chromatograms",
+            "FID signal data"
+          ],
+          "keywords": [
+            "gas chromatography",
+            "GC-FID",
+            "n-fatty acids",
+            "chromatography"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Quantification was achieved by integrating the peak area...",
+          "searchable_summary": "Integrate peaks in GC chromatograms and quantify n-fatty acid concentrations",
+          "inputs": [
+            "GC chromatograms",
+            "FID signal data"
+          ],
+          "outputs": [
+            "n-fatty acid concentrations"
+          ],
+          "keywords": [
+            "peak integration",
+            "quantification",
+            "chromatography data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "n-Fatty Acid Isotope Analysis (GC-IRMS)",
+      "description": "Analysis of the δ13C of methylated n-fatty acids in the acid fraction using Gas Chromatography coupled with Isotope Ratio Mass Spectrometry.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The sample was dissolved in toluene.",
+          "searchable_summary": "Dissolve purified methylated acid fraction sample in toluene",
+          "inputs": [
+            "Purified methylated acid fraction",
+            "Toluene"
+          ],
+          "outputs": [
+            "Sample solution for GC-IRMS"
+          ],
+          "keywords": [
+            "sample preparation",
+            "dissolution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The δ 13 C (‰ Vienna Pee Dee Belemnite [VPDB]) of the methylated n-fatty acids in the acid fraction was analyzed using a Thermo Fisher Scientific (Waltham, MA, United States) GC IsoLink II with a capillary column coated with a TG-5MS column (30 m length; i.d. 0.25 mm; 0.25 μm film thickness) combined with a Delta V mass spectrometer through a combustion furnace at 1,000°C. The oven temperature was programmed from 100 to 230°C at 30°C/min and from 230 to 310°C at 4°C/min and then maintained at 310°C for 15 min.",
+          "searchable_summary": "Analyze sample solution using GC-IRMS with specified column, temperature program, and combustion furnace",
+          "inputs": [
+            "Sample solution",
+            "Thermo Fisher Scientific GC IsoLink II",
+            "TG-5MS column",
+            "Delta V mass spectrometer",
+            "Combustion furnace (1000°C)",
+            "Temperature program (100-230°C at 30°C/min, 230-310°C at 4°C/min, hold 310°C for 15 min)"
+          ],
+          "outputs": [
+            "Mass spectrometer data",
+            "Isotopic ratios"
+          ],
+          "keywords": [
+            "gas chromatography",
+            "isotope ratio mass spectrometry",
+            "GC-IRMS",
+            "stable isotopes",
+            "δ13C"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "As an internal isotopic standard, n-C 36 H 74 was used to check the measurement conditions.",
+          "searchable_summary": "Use n-C36H74 as an internal isotopic standard to check measurement conditions",
+          "inputs": [
+            "GC-IRMS data",
+            "n-C36H74 standard data"
+          ],
+          "outputs": [
+            "Quality control check results"
+          ],
+          "keywords": [
+            "internal standard",
+            "quality control",
+            "isotope analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Data were converted into values relative to VPDB using standard delta notation by comparison with CO 2 standard gas.",
+          "searchable_summary": "Convert raw isotopic data into δ13C values relative to VPDB using standard delta notation and comparison with CO2 standard gas",
+          "inputs": [
+            "Mass spectrometer data",
+            "CO2 standard gas data",
+            "VPDB reference"
+          ],
+          "outputs": [
+            "δ13C values (raw)"
+          ],
+          "keywords": [
+            "isotope data processing",
+            "delta notation",
+            "VPDB",
+            "stable isotopes"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The δ 13 C values of fatty acids were obtained from the measured values of fatty acid-methyl esters by correcting for methyl carbon (−34.1‰).",
+          "searchable_summary": "Correct the δ13C values of fatty acids for the methyl carbon contribution",
+          "inputs": [
+            "Raw δ13C values",
+            "Methyl carbon correction value (-34.1‰)"
+          ],
+          "outputs": [
+            "Corrected δ13C values for fatty acids"
+          ],
+          "keywords": [
+            "isotope data correction",
+            "methyl carbon",
+            "δ13C"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The reproducibility of the measurement based on repeated analyses was better than ±0.1‰.",
+          "searchable_summary": "Assess the reproducibility of the measurement based on repeated analyses",
+          "inputs": [
+            "Repeated measurement data"
+          ],
+          "outputs": [
+            "Reproducibility metric"
+          ],
+          "keywords": [
+            "reproducibility",
+            "quality control",
+            "analytical validation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "GDGT Analysis (HPLC-MS)",
+      "description": "Analysis of Glycerol Dialkyl Glycerol Tetraethers (GDGTs) from the neutral fraction (specifically F4) using High-Performance Liquid Chromatography coupled with Mass Spectrometry.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "An aliquot of F4 was dissolved in hexane-2-propanol (99:1), spiked with an internal standard (500 ng of C 46 glycerol trialkyl glycerol tetraether [GTGT]; Patwardhan and Thompson, 1999), and filtered through a short bed of Na 2 SO 4 .",
+          "searchable_summary": "Dissolve aliquot of neutral fraction F4 in solvent, spike with internal standard, and filter",
+          "inputs": [
+            "Neutral fraction F4",
+            "Hexane-2-propanol (99:1)",
+            "C46 GTGT internal standard (500 ng)",
+            "Na2SO4 bed"
+          ],
+          "outputs": [
+            "Filtered, spiked sample solution for HPLC-MS"
+          ],
+          "keywords": [
+            "sample preparation",
+            "dissolution",
+            "internal standard",
+            "spiking",
+            "filtration"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "GDGTs were analyzed using highperformance liquid chromatography-mass spectrometry (HPLC-MS) with an Agilent 1260 HPLC system coupled to an Agilent 6130 Series quadrupole mass spectrometer. Separation was achieved on two ultra-HPLC silica columns (ACQUITY BEH HILIC columns, 2.1 × 150 mm, 1.7 μm; Waters, Milford, MA, United States) in series, fitted with a 2.1 × 5 m pre-column of the same material (Waters) and maintained at 30°C. GDGTs were eluted isocratically for 25 min with 18% B, followed by a linear gradient to 35% B in 25 min, then a linear gradient to 100% B in 30 min, where A was hexane and B was hexane:isopropanol (9:1, v/v). The flow rate was 0.2 ml/min. The total run time was 90 min with a 20 min re-equilibration. Ionization was achieved using atmospheric pressure, positive ion chemical ionization-MS. The spectrometer was run in selected ion monitoring mode (m/z 743.8, 1,018, 1,020, 1,022, 1,032, 1,034, 1,036, 1,046, 1,048, 1,050, 1,292.3, 1,296.3, 1,298.3, 1,300.3, and 1,302.3).",
+          "searchable_summary": "Analyze filtered sample solution using HPLC-MS with specified columns, temperature, gradient program, and MS detection mode (SIM)",
+          "inputs": [
+            "Filtered, spiked sample solution",
+            "Agilent 1260 HPLC system",
+            "Agilent 6130 Series quadrupole mass spectrometer",
+            "ACQUITY BEH HILIC columns (2.1 × 150 mm, 1.7 μm)",
+            "Pre-column (2.1 × 5 m)",
+            "Column temperature (30°C)",
+            "Gradient program (A=hexane, B=hexane:isopropanol 9:1; 18% B for 25 min, to 35% B in 25 min, to 100% B in 30 min)",
+            "Flow rate (0.2 ml/min)",
+            "MS selected ion monitoring mode (m/z values)"
+          ],
+          "outputs": [
+            "HPLC chromatograms",
+            "MS data (ion chromatograms)"
+          ],
+          "keywords": [
+            "high-performance liquid chromatography",
+            "mass spectrometry",
+            "HPLC-MS",
+            "GDGTs",
+            "chromatography",
+            "selected ion monitoring",
+            "SIM"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Compounds were identified by comparing mass spectra and retention times with those in the literature (Hopmans et al., 2000;De Jonge et al., 2014).",
+          "searchable_summary": "Identify compounds by comparing mass spectra and retention times with literature data",
+          "inputs": [
+            "HPLC-MS data",
+            "Literature data (mass spectra, retention times)"
+          ],
+          "outputs": [
+            "Identified GDGT compounds"
+          ],
+          "keywords": [
+            "compound identification",
+            "mass spectra",
+            "retention time",
+            "chromatography data analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Quantification was achieved by integrating the peak area in the (M+H) + chromatogram and comparing these with the peak area of an internal standard (C 46 GTGT) in the (M+H) + chromatogram according to the method of Huguet et al. (2006).",
+          "searchable_summary": "Quantify GDGT compounds by integrating peak area and comparing with internal standard peak area",
+          "inputs": [
+            "HPLC-MS data ((M+H)+ chromatograms)",
+            "Identified GDGTs",
+            "Internal standard peak area (C46 GTGT)"
+          ],
+          "outputs": [
+            "GDGT concentrations/amounts"
+          ],
+          "keywords": [
+            "quantification",
+            "peak integration",
+            "internal standard",
+            "chromatography data analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "In the routine analysis, a working standard that was a mixture of C 46 GTGT and the GDGTs extracted and purified from East China Sea sediment was inserted every 20 samples to monitor ionization efficiency changes.",
+          "searchable_summary": "Insert a working standard every 20 samples to monitor ionization efficiency changes",
+          "inputs": [
+            "Working standard (C46 GTGT + GDGTs mixture)",
+            "Routine samples",
+            "HPLC-MS data"
+          ],
+          "outputs": [
+            "Ionization efficiency monitoring data"
+          ],
+          "keywords": [
+            "quality control",
+            "ionization efficiency",
+            "working standard"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "The correction value of ionization efficiency between GDGTs and the internal standard was obtained in our laboratory by comparing the peak areas of isolated crenarchaeol and branched GDGTs I and II (Schouten et al., 2013) and C 46 GTGT in known amounts.",
+          "searchable_summary": "Obtain ionization efficiency correction value by comparing peak areas of isolated standards in known amounts",
+          "inputs": [
+            "Isolated standards (crenarchaeol, branched GDGTs I, II, C46 GTGT)",
+            "Known amounts of standards",
+            "HPLC-MS data"
+          ],
+          "outputs": [
+            "Ionization efficiency correction factor"
+          ],
+          "keywords": [
+            "calibration",
+            "ionization efficiency",
+            "correction factor",
+            "standards"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Average Chain Length (ACL) Calculation",
+      "description": "Calculation of the average chain length of n-fatty acids based on their concentrations. Note: The explicit formula is not provided in the text, only the definition is stated.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The average chain length (ACL) of n-fatty acids in this study is defined as: [Formula missing in text]",
+          "searchable_summary": "Calculate the average chain length (ACL) of n-fatty acids using the defined method",
+          "inputs": [
+            "n-fatty acid concentrations (from GC-FID)",
+            "Corresponding chain lengths"
+          ],
+          "outputs": [
+            "ACL value"
+          ],
+          "keywords": [
+            "average chain length",
+            "ACL",
+            "calculation",
+            "fatty acids",
+            "data analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Branched GDGT Terrestrial/In-situ Ratio Estimation",
+      "description": "Estimation of the terrestrial/in-situ production ratio of branched GDGTs. Note: The full method/formula for estimation is not provided in the text, only the input for the estimation is mentioned.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "To estimate the terrestrial/in-situ production ratio of branched GDGTs, the weighted average number of cyclopentane moieties of tetramethylated branched GDGTs (",
+          "searchable_summary": "Calculate the weighted average number of cyclopentane moieties of tetramethylated branched GDGTs",
+          "inputs": [
+            "Concentrations/amounts of tetramethylated branched GDGTs (from HPLC-MS)",
+            "Number of cyclopentane moieties for each GDGT"
+          ],
+          "outputs": [
+            "Weighted average number of cyclopentane moieties"
+          ],
+          "keywords": [
+            "branched GDGTs",
+            "cyclopentane moieties",
+            "weighted average",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Estimate the terrestrial/in-situ production ratio of branched GDGTs...",
+          "searchable_summary": "Estimate the terrestrial/in-situ production ratio using the calculated weighted average number of cyclopentane moieties (method/formula not provided)",
+          "inputs": [
+            "Weighted average number of cyclopentane moieties"
+          ],
+          "outputs": [
+            "Estimated terrestrial/in-situ production ratio"
+          ],
+          "keywords": [
+            "branched GDGTs",
+            "production ratio",
+            "estimation",
+            "proxy",
+            "modeling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235419094.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

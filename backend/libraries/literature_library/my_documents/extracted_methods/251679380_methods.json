@@ -1,0 +1,159 @@
+{
+  "paper_title": "Analysis of Protein Sequence Identity, Binding Sites, and 3D Structures Identifies Eight Pollen Species and Ten Fruit Species with High Risk of Cross-Reactive Allergies",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Signal Peptide and Transmembrane Topology Prediction",
+      "description": "This method involves predicting the presence and location of signal peptide cleavage sites in amino acid sequences using SignalP 6.0, and simultaneously predicting transmembrane topology using TMHMM. This is crucial for distinguishing between signal peptides and membrane-spanning segments in proteins.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Signal peptide analysis was performed using SignalP 6.0.",
+          "searchable_summary": "use SignalP 6.0 to predict signal peptide cleavage sites",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "predicted signal peptide cleavage sites"
+          ],
+          "keywords": [
+            "SignalP",
+            "signal peptide",
+            "cleavage site prediction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "SignalP 6.0 server predicts the presence and location of signal peptide cleavage sites in amino acid sequences from different organisms.",
+          "searchable_summary": "predict presence and location of signal peptide cleavage sites",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "presence and location of signal peptide cleavage sites"
+          ],
+          "keywords": [
+            "SignalP",
+            "signal peptide",
+            "cleavage site prediction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The method incorporates a prediction of cleavage sites and a signal peptide/non-signal peptide prediction based on a combination of several artificial neural networks and hidden Markov models.",
+          "searchable_summary": "use neural networks and HMMs for signal peptide prediction",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "signal peptide/non-signal peptide prediction"
+          ],
+          "keywords": [
+            "neural networks",
+            "HMM",
+            "signal peptide prediction"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "SignalP 6.0 predicts the regions of signal peptides, including n-, h-, and c-regions.",
+          "searchable_summary": "predict n-, h-, and c-regions of signal peptides",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "n-, h-, and c-regions of signal peptides"
+          ],
+          "keywords": [
+            "SignalP",
+            "signal peptide regions",
+            "n-region",
+            "h-region",
+            "c-region"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Signal peptide prediction and transmembrane topology prediction were performed simultaneously by software TMHMM.",
+          "searchable_summary": "use TMHMM for transmembrane topology prediction",
+          "inputs": [
+            "amino acid sequences"
+          ],
+          "outputs": [
+            "transmembrane topology prediction"
+          ],
+          "keywords": [
+            "TMHMM",
+            "transmembrane topology",
+            "signal peptide"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "A-RISC Index Analysis",
+      "description": "This method estimates and visualizes the likelihood of IgE cross-reactivity between allergens using the A-RISC index, which is based on protein sequence similarity and identity. It provides a numerical value indicating the relative homology between allergens.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "We applied the A-RISC index in our study following the method proposed by Chruszcz et al. in 2018.",
+          "searchable_summary": "apply A-RISC index for cross-reactivity analysis",
+          "inputs": [
+            "protein sequences"
+          ],
+          "outputs": [
+            "A-RISC index values"
+          ],
+          "keywords": [
+            "A-RISC index",
+            "cross-reactivity",
+            "protein sequence analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The A-RISC index for a specific protein pair is defined as the average of protein sequence similarity (S) and identity (I).",
+          "searchable_summary": "calculate A-RISC index as average of similarity and identity",
+          "inputs": [
+            "protein sequence similarity",
+            "protein sequence identity"
+          ],
+          "outputs": [
+            "A-RISC index"
+          ],
+          "keywords": [
+            "A-RISC index",
+            "protein similarity",
+            "protein identity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The index provides information on the relative homology between allergens from a particular protein family and selected members of that family.",
+          "searchable_summary": "analyze relative homology using A-RISC index",
+          "inputs": [
+            "A-RISC index"
+          ],
+          "outputs": [
+            "relative homology information"
+          ],
+          "keywords": [
+            "A-RISC index",
+            "relative homology",
+            "allergens"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/251679380.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

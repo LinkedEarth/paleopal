@@ -1,0 +1,211 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "LGM Simulations with ECHAM6-wiso",
+      "description": "An ensemble of Last Glacial Maximum (LGM) simulations using the ECHAM6-wiso model, forced with different combinations of sea surface temperature (SST) and sea ice boundary conditions to investigate isotope-temperature slopes for LGM-to-PI climate change.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Perform an ensemble of LGM simulations with ECHAM6-wiso, forced with different combinations of SST and sea ice boundary forcings.",
+          "searchable_summary": "run LGM simulations with ECHAM6-wiso using various SST and sea ice forcings",
+          "inputs": [
+            "ECHAM6-wiso model",
+            "SST data",
+            "sea ice data"
+          ],
+          "outputs": [
+            "LGM simulation results"
+          ],
+          "keywords": [
+            "LGM simulations",
+            "ECHAM6-wiso",
+            "SST",
+            "sea ice"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Adjust SST to maintain consistency with sea ice extent data.",
+          "searchable_summary": "adjust SST to match sea ice extent",
+          "inputs": [
+            "SST data",
+            "sea ice extent data"
+          ],
+          "outputs": [
+            "consistent SST data"
+          ],
+          "keywords": [
+            "SST adjustment",
+            "sea ice extent"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Run PI and LGM simulations for 60 and 120 model years, respectively, using the last 30 model years for analyses.",
+          "searchable_summary": "execute PI and LGM simulations for specified durations",
+          "inputs": [
+            "simulation parameters"
+          ],
+          "outputs": [
+            "simulation data for analysis"
+          ],
+          "keywords": [
+            "PI simulations",
+            "LGM simulations",
+            "model years"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Perform sensitivity simulations to evaluate impacts of lower MIROC 4m sea ice area fraction and isotopic composition of snow on sea ice.",
+          "searchable_summary": "conduct sensitivity simulations for sea ice and snow isotopic composition",
+          "inputs": [
+            "MIROC 4m sea ice data",
+            "snow isotopic composition data"
+          ],
+          "outputs": [
+            "sensitivity simulation results"
+          ],
+          "keywords": [
+            "sensitivity simulations",
+            "sea ice",
+            "snow isotopes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Observational Data Evaluation",
+      "description": "Evaluation of modeled δ 18 O of precipitation and snow values at ice core stations using observational data from Greenland and Antarctic ice cores for preindustrial and LGM climates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Use a selection of 6 Greenland and 11 Antarctic ice cores for the preindustrial and LGM climates.",
+          "searchable_summary": "select ice core data from Greenland and Antarctica",
+          "inputs": [
+            "ice core data"
+          ],
+          "outputs": [
+            "selected ice core data"
+          ],
+          "keywords": [
+            "ice core data",
+            "Greenland",
+            "Antarctica"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Define observed δ 18 O values as averages over the last 200 years for the preindustrial period and in the 21 ± 1 ka period for the LGM.",
+          "searchable_summary": "calculate average δ 18 O values for specified periods",
+          "inputs": [
+            "ice core δ 18 O data"
+          ],
+          "outputs": [
+            "average δ 18 O values"
+          ],
+          "keywords": [
+            "δ 18 O",
+            "average calculation",
+            "LGM",
+            "preindustrial"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Impact of SST Boundary Conditions",
+      "description": "Comparison of modeled δ 18 O of snow and temperature at polar ice core stations for different boundary conditions in LGM-PI SST changes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Compare modeled δ 18 O of snow and T 2 m at polar ice core stations for different boundary conditions in LGM-PI SST changes.",
+          "searchable_summary": "compare modeled δ 18 O and temperature with different SST conditions",
+          "inputs": [
+            "modeled δ 18 O data",
+            "temperature data",
+            "SST boundary conditions"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "δ 18 O",
+            "temperature",
+            "SST boundary conditions"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Evaluate model-data agreement using reconstructed SST fields.",
+          "searchable_summary": "assess model-data agreement with reconstructed SST",
+          "inputs": [
+            "reconstructed SST data",
+            "model data"
+          ],
+          "outputs": [
+            "model-data agreement metrics"
+          ],
+          "keywords": [
+            "model-data agreement",
+            "reconstructed SST"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Impact of LGM AMOC Strength",
+      "description": "Investigation of the impacts of AMOC strength on the modeled δ 18 O in polar regions using sea surface outputs from MIROC 4m simulation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Use sea surface outputs from MIROC 4m simulation with different LGM AMOC strengths as boundary conditions for ECHAM6-wiso.",
+          "searchable_summary": "apply MIROC 4m sea surface outputs with varying AMOC strengths",
+          "inputs": [
+            "MIROC 4m sea surface data",
+            "AMOC strength variations"
+          ],
+          "outputs": [
+            "boundary conditions for ECHAM6-wiso"
+          ],
+          "keywords": [
+            "AMOC strength",
+            "MIROC 4m",
+            "sea surface outputs"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyze LGM-to-PI changes in δ 18 O in Greenland controlled by changes in mean temperature.",
+          "searchable_summary": "analyze δ 18 O changes in Greenland due to temperature variations",
+          "inputs": [
+            "δ 18 O data",
+            "temperature data"
+          ],
+          "outputs": [
+            "δ 18 O change analysis"
+          ],
+          "keywords": [
+            "δ 18 O",
+            "temperature change",
+            "Greenland"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259727795.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

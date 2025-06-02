@@ -1,0 +1,114 @@
+{
+  "paper_title": "Analysis of KD Pt. Nos. and Pollen Exposure",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Cross-correlation Analysis",
+      "description": "This method analyzes the cross-correlation between trend-excluded monthly KD Pt. Nos. and monthly numbers of pollen release in Kanagawa over a 12-year period. The aim is to identify any significant correlations and their delay times, which may suggest a relationship between pollen release and KD development.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate cross-correlation coefficients (ccc) between trend-excluded monthly KD Pt. Nos. and monthly numbers of pollen release with delay time varying from −48 to +48 months.",
+          "searchable_summary": "calculate cross-correlation coefficients with varying delay times",
+          "inputs": [
+            "trend-excluded monthly KD Pt. Nos.",
+            "monthly numbers of pollen release"
+          ],
+          "outputs": [
+            "cross-correlation coefficients"
+          ],
+          "keywords": [
+            "cross-correlation",
+            "delay time",
+            "KD Pt. Nos.",
+            "pollen release"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "Statistically test each ccc with the significance level set at 0.05 and calculate the 95% confidence interval.",
+          "searchable_summary": "perform statistical significance test and calculate confidence intervals",
+          "inputs": [
+            "cross-correlation coefficients"
+          ],
+          "outputs": [
+            "significant ccc",
+            "95% confidence intervals"
+          ],
+          "keywords": [
+            "statistical test",
+            "confidence interval",
+            "significance level"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Trend Analysis Using Exponential Function",
+      "description": "This method fits the trend in KD Pt. Nos. over 12 years using an exponential function to understand the long-term pattern and its potential causes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Fit the trend in KD Pt. Nos. for 12 years by an exponential function using the least-squares method.",
+          "searchable_summary": "fit exponential function to KD Pt. Nos. trend using least-squares",
+          "inputs": [
+            "KD Pt. Nos. data"
+          ],
+          "outputs": [
+            "exponential function parameters"
+          ],
+          "keywords": [
+            "exponential function",
+            "least-squares",
+            "trend analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cumulative Exposure Analysis",
+      "description": "This method estimates the accumulation period of pollen exposure that corresponds with the trend in KD Pt. Nos. by applying an exponential function to the integrated amount of Po. Nos. for each accumulation period.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Apply an exponential function to the integrated amount of Po. Nos. for each accumulation period and compare its time constant with that of the trend in KD Pt. Nos.",
+          "searchable_summary": "apply exponential function to integrated Po. Nos. and compare time constants",
+          "inputs": [
+            "integrated Po. Nos.",
+            "KD Pt. Nos. trend"
+          ],
+          "outputs": [
+            "estimated accumulation period"
+          ],
+          "keywords": [
+            "exponential function",
+            "time constant",
+            "pollen exposure"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Estimate the accumulation period of pollens using linear interpolation.",
+          "searchable_summary": "estimate pollen accumulation period using linear interpolation",
+          "inputs": [
+            "time constants"
+          ],
+          "outputs": [
+            "accumulation period estimate"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "accumulation period"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/8428267.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

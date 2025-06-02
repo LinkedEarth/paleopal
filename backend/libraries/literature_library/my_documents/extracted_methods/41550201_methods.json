@@ -1,0 +1,178 @@
+{
+  "paper_title": "A statistical study of Weinmannia pollen trajectories across the Andes",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Pollen Trajectory Simulation",
+      "description": "The trajectory of airborne pollen was simulated using the HYSPLIT model to understand the movement and concentration of pollen across regions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The Final Run (FNL)-Southern Hemisphere (SH) Archive furnished by NOAA ARL was used as meteorological input to HYSPLIT.",
+          "searchable_summary": "fetch meteorological data from NOAA ARL FNL-SH Archive",
+          "inputs": [
+            "NOAA ARL FNL-SH Archive"
+          ],
+          "outputs": [
+            "meteorological data"
+          ],
+          "keywords": [
+            "NOAA",
+            "FNL-SH Archive",
+            "meteorological data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Backward trajectories starting at the San Carlos de Bariloche aerobiological station were calculated for specific days when Weinmannia pollen was detected.",
+          "searchable_summary": "calculate backward trajectories using HYSPLIT model",
+          "inputs": [
+            "meteorological data",
+            "pollen detection dates"
+          ],
+          "outputs": [
+            "backward trajectories"
+          ],
+          "keywords": [
+            "HYSPLIT",
+            "backward trajectories",
+            "pollen"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Running time lasted from 24 to 30 hours for each trajectory simulation.",
+          "searchable_summary": "set simulation running time for trajectory calculations",
+          "inputs": [
+            "trajectory simulation parameters"
+          ],
+          "outputs": [
+            "completed trajectory simulations"
+          ],
+          "keywords": [
+            "trajectory simulation",
+            "HYSPLIT",
+            "running time"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Correspondence between trajectories and the position of potential sources were checked through GIS maps.",
+          "searchable_summary": "validate trajectory data using GIS maps",
+          "inputs": [
+            "trajectory data",
+            "GIS maps"
+          ],
+          "outputs": [
+            "validated trajectory data"
+          ],
+          "keywords": [
+            "GIS",
+            "trajectory validation",
+            "potential sources"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Principal Component Analysis (PCA)",
+      "description": "T-Mode PCA with Varimax rotation was used to obtain leading spatial anomaly patterns of geopotential height associated with simulated trajectories.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Daily NCEP-NCAR reanalyses were used, with a 2.5° by 2.5° horizontal resolution.",
+          "searchable_summary": "fetch NCEP-NCAR reanalysis data",
+          "inputs": [
+            "NCEP-NCAR reanalysis data"
+          ],
+          "outputs": [
+            "geopotential height data"
+          ],
+          "keywords": [
+            "NCEP-NCAR",
+            "reanalysis",
+            "geopotential height"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Three vertical levels (1000, 850, and 700 hPa) were selected to represent the lower troposphere.",
+          "searchable_summary": "select vertical levels for analysis",
+          "inputs": [
+            "geopotential height data"
+          ],
+          "outputs": [
+            "selected vertical levels"
+          ],
+          "keywords": [
+            "vertical levels",
+            "lower troposphere",
+            "geopotential height"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Daily anomaly fields of geopotential heights were selected for dates when Weinmannia pollen was detected.",
+          "searchable_summary": "analyze daily anomaly fields for specific dates",
+          "inputs": [
+            "geopotential height data",
+            "pollen detection dates"
+          ],
+          "outputs": [
+            "anomaly fields"
+          ],
+          "keywords": [
+            "anomaly fields",
+            "geopotential height",
+            "pollen"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "PC Scores and loadings were calculated to show primary types of anomalies and their correlation with observed fields.",
+          "searchable_summary": "calculate PC scores and loadings",
+          "inputs": [
+            "anomaly fields"
+          ],
+          "outputs": [
+            "PC scores",
+            "PC loadings"
+          ],
+          "keywords": [
+            "PCA",
+            "PC scores",
+            "PC loadings"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "1000 hPa fields corresponding to the 2 cases with the highest correlation to PC patterns were selected for detailed analysis.",
+          "searchable_summary": "select high-correlation cases for detailed analysis",
+          "inputs": [
+            "PC loadings",
+            "1000 hPa fields"
+          ],
+          "outputs": [
+            "selected cases for analysis"
+          ],
+          "keywords": [
+            "correlation",
+            "detailed analysis",
+            "1000 hPa fields"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/41550201.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

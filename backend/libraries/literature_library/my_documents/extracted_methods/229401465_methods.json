@@ -1,0 +1,260 @@
+{
+  "paper_title": "Peatland Development, Vegetation History, Climate Change and Human Activity in the Valdai Uplands (Central European Russia) during the Holocene: A Multi-Proxy Palaeoecological Study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Macrocharcoal Analysis",
+      "description": "Process for preparing and analyzing macro charcoal samples to determine fire episodes and frequency using CharAnalysis software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples (volume of 1 cm3) were bleached with a water solution of NaOCl and were washed with distilled water using a sieve with a mesh size of 125 µm.",
+          "searchable_summary": "bleach and wash samples using NaOCl and sieve",
+          "inputs": [
+            "samples",
+            "NaOCl solution",
+            "distilled water",
+            "125 µm sieve"
+          ],
+          "outputs": [
+            "cleaned samples"
+          ],
+          "keywords": [
+            "sample preparation",
+            "sieving",
+            "NaOCl"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "All materials in the sieve were carefully transferred to labeled Petri dishes, and all charcoal particles were tallied under a dissecting light microscope at the magnification of 40×.",
+          "searchable_summary": "transfer and count charcoal particles under microscope",
+          "inputs": [
+            "sieved materials"
+          ],
+          "outputs": [
+            "charcoal particle counts"
+          ],
+          "keywords": [
+            "microscopy",
+            "charcoal counting"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Data processing of macro charcoal concentration was carried out in a modified version of the CharAnalysis software developed by Higuera et al.",
+          "searchable_summary": "process charcoal data using CharAnalysis software",
+          "inputs": [
+            "charcoal particle counts"
+          ],
+          "outputs": [
+            "charcoal concentration data"
+          ],
+          "keywords": [
+            "CharAnalysis",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "To determine fire episodes and fire frequency, the following parameters were used: CHAR-charcoal accumulation rate (pieces cm−2 yr−1), Cint-CHAR of interpolated record, Cback-low-frequency trend in Cint, Cpeak-high-frequency trends in Cint.",
+          "searchable_summary": "calculate fire episodes and frequency using charcoal parameters",
+          "inputs": [
+            "charcoal concentration data"
+          ],
+          "outputs": [
+            "fire episodes",
+            "fire frequency"
+          ],
+          "keywords": [
+            "fire frequency",
+            "charcoal accumulation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Fire episodes were defined as a ratio (Cpeak = Cint / Cback). These peaks were separated from background charcoal (Cback) using the smoothing method LOWESS.",
+          "searchable_summary": "define fire episodes using LOWESS smoothing",
+          "inputs": [
+            "Cint",
+            "Cback"
+          ],
+          "outputs": [
+            "Cpeak"
+          ],
+          "keywords": [
+            "LOWESS",
+            "smoothing",
+            "fire episodes"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "A 1000-year window was applied to smoothen the record over for estimating Cback.",
+          "searchable_summary": "apply 1000-year window for Cback estimation",
+          "inputs": [
+            "charcoal data"
+          ],
+          "outputs": [
+            "smoothed Cback"
+          ],
+          "keywords": [
+            "smoothing",
+            "Cback estimation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The associated threshold value within the Cpeak component was set at the 90th percentile of a Gaussian mixture model.",
+          "searchable_summary": "set Cpeak threshold using Gaussian mixture model",
+          "inputs": [
+            "Cpeak data"
+          ],
+          "outputs": [
+            "threshold value"
+          ],
+          "keywords": [
+            "Gaussian mixture model",
+            "threshold setting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Pollen Analysis",
+      "description": "Procedure for preparing and analyzing pollen samples to reconstruct mean July temperature using a pollen-climate calibration set.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples for pollen analysis (volume~1 cm3) were treated using the acetolysis method.",
+          "searchable_summary": "treat pollen samples using acetolysis method",
+          "inputs": [
+            "pollen samples"
+          ],
+          "outputs": [
+            "treated pollen samples"
+          ],
+          "keywords": [
+            "acetolysis",
+            "pollen treatment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The sample preparation included wet sieving through a 500 µm mesh, treatment with 10% KOH in a water bath for 5 min followed by repeated washing with distilled water, dehydration with ice-cold acetic acid and acetolysis followed by washing.",
+          "searchable_summary": "prepare samples with sieving, KOH treatment, and acetolysis",
+          "inputs": [
+            "pollen samples",
+            "500 µm sieve",
+            "10% KOH",
+            "acetic acid"
+          ],
+          "outputs": [
+            "prepared pollen samples"
+          ],
+          "keywords": [
+            "sieving",
+            "KOH treatment",
+            "acetolysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Counting and identification of spores and pollen were carried out in temporary glycerin slides with a light microscope at 400× magnification according to the standard method.",
+          "searchable_summary": "count and identify pollen using light microscope",
+          "inputs": [
+            "prepared pollen samples"
+          ],
+          "outputs": [
+            "pollen counts"
+          ],
+          "keywords": [
+            "microscopy",
+            "pollen counting"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The relative abundance of pollen was calculated to the total pollen sum of arboreal pollen (AP) and non-arboreal pollen (NAP), excluding pollen and spores of aquatic plants.",
+          "searchable_summary": "calculate relative abundance of pollen",
+          "inputs": [
+            "pollen counts"
+          ],
+          "outputs": [
+            "relative abundance data"
+          ],
+          "keywords": [
+            "pollen abundance",
+            "AP",
+            "NAP"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The pollen data were used to reconstruct the mean July temperature based on the pollen-climate calibration set derived from the European Modern Pollen Dataset using the transfer functions developed by Salonen et al.",
+          "searchable_summary": "reconstruct mean July temperature using pollen data",
+          "inputs": [
+            "pollen data",
+            "pollen-climate calibration set"
+          ],
+          "outputs": [
+            "mean July temperature"
+          ],
+          "keywords": [
+            "temperature reconstruction",
+            "pollen-climate calibration"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "A weighted averaging-partial least-squares model (WAPLS: 3-components, RMSEP = 1.73, Maximum bias = 5.90) was applied to square-root transformed species data.",
+          "searchable_summary": "apply WAPLS model to transformed species data",
+          "inputs": [
+            "transformed species data"
+          ],
+          "outputs": [
+            "WAPLS model results"
+          ],
+          "keywords": [
+            "WAPLS",
+            "species data",
+            "modeling"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "visualization",
+          "description": "The analyses and visualization were implemented with the R packages 'rioja' and 'analogue'.",
+          "searchable_summary": "visualize analysis results using R packages",
+          "inputs": [
+            "analysis results"
+          ],
+          "outputs": [
+            "visualizations"
+          ],
+          "keywords": [
+            "R packages",
+            "rioja",
+            "analogue",
+            "visualization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/229401465.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

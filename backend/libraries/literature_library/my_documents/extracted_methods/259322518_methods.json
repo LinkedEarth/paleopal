@@ -1,0 +1,162 @@
+{
+  "paper_title": "Analysis of Satellite-measured Sea Surface Temperature and Cold Water Extent",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "SST Composite Map Generation",
+      "description": "Process for obtaining Aqua MODIS 8-day composite SST data and computing temporal mean SST for generating composite maps.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Eight-day composite data with a horizontal resolution of 1 km over the period of 2013-2021 was obtained from the publicly available ERDDAP server (http://basin.ceoe.udel.edu/erddap/griddap/index.html) maintained by the Ocean Exploration, Remote Sensing and Biogeography Laboratory at University of Delaware.",
+          "searchable_summary": "Download Aqua MODIS 8-day composite SST data from ERDDAP server.",
+          "inputs": [
+            "ERDDAP server URL (http://basin.ceoe.udel.edu/erddap/griddap/index.html)",
+            "Data product (Aqua MODIS 8-day composite SST)",
+            "Time period (2013-2021)",
+            "Spatial resolution (1 km)"
+          ],
+          "outputs": [
+            "Aqua MODIS 8-day composite SST dataset (2013-2021)"
+          ],
+          "keywords": [
+            "satellite data",
+            "SST",
+            "MODIS",
+            "Aqua",
+            "ERDDAP",
+            "data download",
+            "remote sensing",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Temporal mean SST values at each pixel are used in composite maps in Figures 1 and 2.",
+          "searchable_summary": "Compute temporal mean SST values for each pixel.",
+          "inputs": [
+            "Aqua MODIS 8-day composite SST dataset"
+          ],
+          "outputs": [
+            "Grid of temporal mean SST values"
+          ],
+          "keywords": [
+            "temporal mean",
+            "average",
+            "grid data",
+            "raster processing",
+            "climate data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Temporal mean SST values at each pixel are used in composite maps in Figures 1 and 2.",
+          "searchable_summary": "Generate composite maps using temporal mean SST data.",
+          "inputs": [
+            "Grid of temporal mean SST values"
+          ],
+          "outputs": [
+            "Composite maps (Figures 1 and 2)"
+          ],
+          "keywords": [
+            "mapping",
+            "visualization",
+            "plotting",
+            "geospatial data",
+            "climate maps"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cold Water Extent Trend Analysis",
+      "description": "Process for using NOAA Optimal Interpolation SST (OISST) data to evaluate long-term trends in the spatiotemporal extent of waters with SST <4 °C.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The NOAA Optimal Interpolation SST (https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.html) from 1982-2022 were used to evaluate long-term trends in the spatiotemporal extent of waters with SST <4 °C (Fig. 6).",
+          "searchable_summary": "Download NOAA Optimal Interpolation SST (OISST) v2 data.",
+          "inputs": [
+            "NOAA OISST v2 data source URL (https://psl.noaa.gov/data/gridded/data.noaa.oisst.v2.html)",
+            "Time period (1982-2022)"
+          ],
+          "outputs": [
+            "NOAA OISST v2 dataset (1982-2022)"
+          ],
+          "keywords": [
+            "SST",
+            "NOAA",
+            "OISST",
+            "data download",
+            "climate data",
+            "gridded data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "First, the area of waters with SST <4 °C on each day of the time series was computed across the NES domain considered in composite maps (Figs.1-2, 6A).",
+          "searchable_summary": "Compute the daily area where SST is below 4°C within a defined geographical domain.",
+          "inputs": [
+            "NOAA OISST v2 dataset",
+            "Geographical domain (NES domain)",
+            "Temperature threshold (4°C)"
+          ],
+          "outputs": [
+            "Daily time series of 'cold area'"
+          ],
+          "keywords": [
+            "spatial analysis",
+            "area calculation",
+            "thresholding",
+            "geospatial data",
+            "climate data processing",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "For each year of the satellite record, this daily time series of \"cold area\" was integrated to construct an annual time series of the spatiotemporal extent of waters with SST <4 °C.",
+          "searchable_summary": "Aggregate daily cold area values into an annual time series.",
+          "inputs": [
+            "Daily time series of 'cold area'"
+          ],
+          "outputs": [
+            "Annual time series of cold water extent"
+          ],
+          "keywords": [
+            "time series aggregation",
+            "annual sum",
+            "integration",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Linear regression was used to determine the mean long-term trend in this annual time series.",
+          "searchable_summary": "Perform linear regression on the annual cold water extent time series.",
+          "inputs": [
+            "Annual time series of cold water extent"
+          ],
+          "outputs": [
+            "Linear regression model results (trend)"
+          ],
+          "keywords": [
+            "linear regression",
+            "trend analysis",
+            "time series analysis",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259322518.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

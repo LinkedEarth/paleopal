@@ -1,0 +1,196 @@
+{
+  "paper_title": "Expressed Sequence Tag Analysis and Core Analyses",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Full-Length Clone Identification and Function Assignment",
+      "description": "This method identifies putative full-length sequences for function assignment by grouping EST sequences into alignment classes based on BLASTX results, and assigns protein coding frames and functions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The EST sequences were grouped into nine alignment classes based on the subject coverage (CovS) and identities of the BLASTX results.",
+          "searchable_summary": "group EST sequences into alignment classes using BLASTX results",
+          "inputs": [
+            "EST sequences",
+            "BLASTX results"
+          ],
+          "outputs": [
+            "alignment classes"
+          ],
+          "keywords": [
+            "EST",
+            "BLASTX",
+            "alignment classes"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "For sequences in F-1, F-2, M-1, and M-2 alignment classes, the protein coding frame and putative function were assigned based on the BLASTX description.",
+          "searchable_summary": "assign protein coding frame and function using BLASTX description",
+          "inputs": [
+            "alignment classes",
+            "BLASTX description"
+          ],
+          "outputs": [
+            "protein coding frame",
+            "putative function"
+          ],
+          "keywords": [
+            "protein coding",
+            "function assignment",
+            "BLASTX"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sequences were aligned using CLUSTAL W with their corresponding 10 most similar GenBank protein database entries obtained from the BLASTX results.",
+          "searchable_summary": "align sequences using CLUSTAL W with GenBank entries",
+          "inputs": [
+            "sequences",
+            "GenBank protein database entries"
+          ],
+          "outputs": [
+            "aligned sequences"
+          ],
+          "keywords": [
+            "CLUSTAL W",
+            "sequence alignment",
+            "GenBank"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "RPS BLAST was used to identify the COG to which each sequence in the non-redundant collection could be assigned.",
+          "searchable_summary": "identify COG using RPS BLAST",
+          "inputs": [
+            "non-redundant sequences"
+          ],
+          "outputs": [
+            "COG assignments"
+          ],
+          "keywords": [
+            "RPS BLAST",
+            "COG",
+            "sequence classification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "A motif search was made among all non-redundant sequences using RPS BLAST against the Pfam database.",
+          "searchable_summary": "perform motif search using RPS BLAST against Pfam",
+          "inputs": [
+            "non-redundant sequences",
+            "Pfam database"
+          ],
+          "outputs": [
+            "motif assignments"
+          ],
+          "keywords": [
+            "motif search",
+            "RPS BLAST",
+            "Pfam"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Codon usage tables were created for each organism using the subsets of non-redundant ESTs falling in the alignment classes F-1, F-2, M-1, and M-2.",
+          "searchable_summary": "create codon usage tables using non-redundant ESTs",
+          "inputs": [
+            "non-redundant ESTs"
+          ],
+          "outputs": [
+            "codon usage tables"
+          ],
+          "keywords": [
+            "codon usage",
+            "EST",
+            "alignment classes"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Raw Data Processing and Core Analyses",
+      "description": "This method involves the processing of raw EST data, including quality checking, vector clipping, clustering, and annotation to create a non-redundant set of sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Sequences were subjected to quality checking and vector clipping using the Trimest, Trimseq, and Vectorstrip programs of EMBOSS.",
+          "searchable_summary": "perform quality checking and vector clipping using EMBOSS tools",
+          "inputs": [
+            "raw EST sequences"
+          ],
+          "outputs": [
+            "quality-checked sequences"
+          ],
+          "keywords": [
+            "quality checking",
+            "vector clipping",
+            "EMBOSS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Sequences longer than 50 nt were subjected to clustering using the Contig Assembling Program (CAP3) to detect sequence redundancy.",
+          "searchable_summary": "cluster sequences using CAP3 to detect redundancy",
+          "inputs": [
+            "sequences longer than 50 nt"
+          ],
+          "outputs": [
+            "contig assemblies"
+          ],
+          "keywords": [
+            "clustering",
+            "CAP3",
+            "sequence redundancy"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The longest sequence from each assembly was selected and pooled with the singletons to form the non-redundant set.",
+          "searchable_summary": "select longest sequence from each assembly and pool with singletons",
+          "inputs": [
+            "contig assemblies",
+            "singletons"
+          ],
+          "outputs": [
+            "non-redundant sequence set"
+          ],
+          "keywords": [
+            "non-redundant set",
+            "sequence selection",
+            "pooling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Non-redundant sequences were subjected to automated annotation, including searches against the NCBI non-redundant protein database using BLASTX.",
+          "searchable_summary": "annotate sequences using BLASTX against NCBI database",
+          "inputs": [
+            "non-redundant sequences"
+          ],
+          "outputs": [
+            "annotated sequences"
+          ],
+          "keywords": [
+            "annotation",
+            "BLASTX",
+            "NCBI database"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/12784884.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

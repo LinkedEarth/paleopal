@@ -1,0 +1,227 @@
+{
+  "paper_title": "Geochemical and Sediment Analysis in the Kyushu Region",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and Processing",
+      "description": "This method describes the collection and initial processing of stream and marine sediment samples for geochemical analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Stream sediment samples were collected from locations on Kyushu Island and isolated small islands.",
+          "searchable_summary": "collect stream sediment samples from specified locations",
+          "inputs": [
+            "sampling locations"
+          ],
+          "outputs": [
+            "stream sediment samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "stream sediments"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The collected stream sediments were dried in air and sieved through a 180 μm screen.",
+          "searchable_summary": "dry and sieve stream sediment samples",
+          "inputs": [
+            "stream sediment samples"
+          ],
+          "outputs": [
+            "processed stream sediment samples"
+          ],
+          "keywords": [
+            "drying",
+            "sieving"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Magnetic minerals contained in samples were removed using a magnet.",
+          "searchable_summary": "remove magnetic minerals from sediment samples",
+          "inputs": [
+            "processed stream sediment samples"
+          ],
+          "outputs": [
+            "non-magnetic stream sediment samples"
+          ],
+          "keywords": [
+            "magnetic separation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Marine sediment samples were collected using a Kinoshita-type grab sampler.",
+          "searchable_summary": "collect marine sediment samples using grab sampler",
+          "inputs": [
+            "marine sampling locations"
+          ],
+          "outputs": [
+            "marine sediment samples"
+          ],
+          "keywords": [
+            "marine sampling",
+            "grab sampler"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The uppermost 3 cm layer of each marine sediment sample was separated, air-dried, ground with an agate mortar and pestle.",
+          "searchable_summary": "process marine sediment samples by drying and grinding",
+          "inputs": [
+            "marine sediment samples"
+          ],
+          "outputs": [
+            "processed marine sediment samples"
+          ],
+          "keywords": [
+            "drying",
+            "grinding"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geochemical Analysis",
+      "description": "This method involves the digestion and analysis of sediment samples to determine elemental concentrations using ICP-AES and ICP-MS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Each sample was digested using HF, HNO3, and HClO4.",
+          "searchable_summary": "digest sediment samples with acids",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "digested samples"
+          ],
+          "keywords": [
+            "sample digestion",
+            "acid digestion"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Elemental concentrations were determined using ICP-AES and ICP-MS.",
+          "searchable_summary": "analyze elemental concentrations using ICP-AES and ICP-MS",
+          "inputs": [
+            "digested samples"
+          ],
+          "outputs": [
+            "elemental concentration data"
+          ],
+          "keywords": [
+            "ICP-AES",
+            "ICP-MS",
+            "elemental analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "As and Hg analyses of stream sediment samples were subcontracted to ALS Chemex.",
+          "searchable_summary": "subcontract As and Hg analysis to external lab",
+          "inputs": [
+            "stream sediment samples"
+          ],
+          "outputs": [
+            "As and Hg concentration data"
+          ],
+          "keywords": [
+            "subcontracting",
+            "As analysis",
+            "Hg analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Cluster Analysis for Source Material Identification",
+      "description": "This method uses cluster analysis to identify probable source materials for marine sediments based on their chemical compositions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Standardize or transform compositional data of marine and stream sediments.",
+          "searchable_summary": "standardize compositional data for cluster analysis",
+          "inputs": [
+            "compositional data"
+          ],
+          "outputs": [
+            "standardized data"
+          ],
+          "keywords": [
+            "data transformation",
+            "standardization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform cluster analysis using the Ward method on transformed data.",
+          "searchable_summary": "perform cluster analysis using Ward method",
+          "inputs": [
+            "standardized data"
+          ],
+          "outputs": [
+            "dendrograms",
+            "cluster groups"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "Ward method"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Discrimination Study Using Element Ratios",
+      "description": "This method uses elemental concentration ratios to discriminate between stream and marine sediments.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Calculate concentration ratios of immobile elements such as Cr/Ti and La/Yb.",
+          "searchable_summary": "calculate elemental concentration ratios",
+          "inputs": [
+            "elemental concentration data"
+          ],
+          "outputs": [
+            "elemental ratios"
+          ],
+          "keywords": [
+            "elemental ratios",
+            "Cr/Ti",
+            "La/Yb"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Plot scatter diagrams of Cr/Ti and La/Yb ratios.",
+          "searchable_summary": "create scatter plots for elemental ratios",
+          "inputs": [
+            "elemental ratios"
+          ],
+          "outputs": [
+            "scatter diagrams"
+          ],
+          "keywords": [
+            "scatter plot",
+            "visualization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/225104671.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

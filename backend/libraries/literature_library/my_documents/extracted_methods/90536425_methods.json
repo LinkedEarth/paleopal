@@ -1,0 +1,144 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Taxon Assemblage Comparison",
+      "description": "Process for comparing taxon assemblages from DNA amplifications with taxa recorded in vegetation surveys to assess presence/absence and detectability.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "After data filtering, we compared taxon assemblages from DNA amplifications with the taxa recorded in the vegetation surveys.",
+          "searchable_summary": "compare taxon assemblages from DNA and vegetation surveys",
+          "inputs": [
+            "filtered DNA amplification data",
+            "vegetation survey data"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "taxon assemblage",
+            "DNA amplification",
+            "vegetation survey"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "To make this comparison, taxa in the vegetation surveys were lumped according to the taxonomic resolution of the P6 loop (S1 Table), and the comparison was done at the lowest resultant taxonomic level.",
+          "searchable_summary": "lump taxa in vegetation surveys by P6 loop resolution",
+          "inputs": [
+            "vegetation survey data",
+            "P6 loop resolution"
+          ],
+          "outputs": [
+            "lumped taxa data"
+          ],
+          "keywords": [
+            "taxonomic resolution",
+            "P6 loop",
+            "lumping taxa"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The majority of results explore only present/absence (taxa richness); quantitative data are given in tables (including Supporting Information).",
+          "searchable_summary": "analyze presence/absence and taxa richness",
+          "inputs": [
+            "comparison results"
+          ],
+          "outputs": [
+            "presence/absence data",
+            "taxa richness data"
+          ],
+          "keywords": [
+            "presence/absence",
+            "taxa richness",
+            "quantitative analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Probability Analysis of Species Detection",
+      "description": "Statistical analysis to determine the probabilities of species detection in DNA and vegetation surveys, including false positives and detection probabilities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Define probabilities: positive as pDNA_0, the detectability by DNA as pDNA_1, the detectability in the vegetation survey as pVEG_1, and the probability that a species is present as pOCC.",
+          "searchable_summary": "define detection probabilities for species",
+          "inputs": [
+            "species detection data"
+          ],
+          "outputs": [
+            "probability definitions"
+          ],
+          "keywords": [
+            "probability",
+            "species detection",
+            "DNA detectability"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Calculate Prob(DNA=1,Vegetation=0) = (1-pOCC) pDNA_0 + pOCC pDNA_1.",
+          "searchable_summary": "calculate probability of DNA detection without vegetation detection",
+          "inputs": [
+            "pOCC",
+            "pDNA_0",
+            "pDNA_1"
+          ],
+          "outputs": [
+            "Prob(DNA=1,Vegetation=0)"
+          ],
+          "keywords": [
+            "probability calculation",
+            "false positive",
+            "DNA detection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "In this case, the species is either absent and is a false DNA positive, or is present, detected by DNA but not in the vegetation survey.",
+          "searchable_summary": "analyze cases of false DNA positives or undetected in vegetation",
+          "inputs": [
+            "Prob(DNA=1,Vegetation=0)"
+          ],
+          "outputs": [
+            "analysis of detection cases"
+          ],
+          "keywords": [
+            "false positive analysis",
+            "species presence",
+            "detection analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "In this case, the species is present and is detected both in the DNA and the vegetation survey.",
+          "searchable_summary": "analyze cases of detection in both DNA and vegetation",
+          "inputs": [
+            "species detection data"
+          ],
+          "outputs": [
+            "analysis of dual detection cases"
+          ],
+          "keywords": [
+            "dual detection",
+            "species presence",
+            "detection analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/90536425.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

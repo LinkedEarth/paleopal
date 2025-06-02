@@ -1,0 +1,299 @@
+{
+  "paper_title": "Population Genomic and Phylogenomic Analysis of Scrubwrens",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Population Genomic Analysis",
+      "description": "This method involves filtering SNP datasets and performing various statistical analyses to understand genetic diversity and structure in scrubwren populations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We first filtered our data and removed any non-neutral loci using BAYESCAN 2.1.",
+          "searchable_summary": "Filter SNP data to remove non-neutral loci using BAYESCAN 2.1",
+          "inputs": [
+            "SNP datasets from STACKS"
+          ],
+          "outputs": [
+            "Filtered SNP datasets"
+          ],
+          "keywords": [
+            "SNP filtering",
+            "BAYESCAN",
+            "non-neutral loci"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "For the filtered dataset, we estimated the level of missing data in PLINK 1.0.9.",
+          "searchable_summary": "Estimate missing data levels using PLINK 1.0.9",
+          "inputs": [
+            "Filtered SNP datasets"
+          ],
+          "outputs": [
+            "Missing data statistics"
+          ],
+          "keywords": [
+            "missing data",
+            "PLINK"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Calculated summary statistics in GENODIVE 2.0b27 (effective number of alleles and observed heterozygosity) and CERVUS 3.0.7 (polymorphic information content).",
+          "searchable_summary": "Calculate genetic summary statistics using GENODIVE and CERVUS",
+          "inputs": [
+            "Filtered SNP datasets"
+          ],
+          "outputs": [
+            "Summary statistics"
+          ],
+          "keywords": [
+            "GENODIVE",
+            "CERVUS",
+            "alleles",
+            "heterozygosity"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Estimated nucleotide diversity and Tajima's D in DnaSP 6 using the strict fasta file obtained from STACKS.",
+          "searchable_summary": "Estimate nucleotide diversity and Tajima's D using DnaSP 6",
+          "inputs": [
+            "Strict fasta file from STACKS"
+          ],
+          "outputs": [
+            "Nucleotide diversity",
+            "Tajima's D"
+          ],
+          "keywords": [
+            "nucleotide diversity",
+            "Tajima's D",
+            "DnaSP"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Data and Phylogenomic Reconstruction",
+      "description": "This method involves generating and analyzing a ddRADseq dataset to confirm species identity and reconstruct phylogenomic relationships among scrubwrens.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We sampled 74 scrubwrens across an elevational gradient in Mt Wilhelm, Papua New Guinea and generated a genome-wide ddRADseq dataset.",
+          "searchable_summary": "Generate ddRADseq dataset from scrubwren samples",
+          "inputs": [
+            "Scrubwren samples"
+          ],
+          "outputs": [
+            "ddRADseq dataset"
+          ],
+          "keywords": [
+            "ddRADseq",
+            "genome-wide",
+            "sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "We obtained ~104 million cleaned reads from the ddRADseq runs.",
+          "searchable_summary": "Clean and process ddRADseq reads",
+          "inputs": [
+            "Raw ddRADseq reads"
+          ],
+          "outputs": [
+            "Cleaned ddRADseq reads"
+          ],
+          "keywords": [
+            "read cleaning",
+            "ddRADseq"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Confirmed species identity based on both the COI gene network and phylogenomic tree.",
+          "searchable_summary": "Confirm species identity using COI gene network and phylogenomic tree",
+          "inputs": [
+            "COI gene data",
+            "Phylogenomic tree"
+          ],
+          "outputs": [
+            "Confirmed species identity"
+          ],
+          "keywords": [
+            "species identification",
+            "COI",
+            "phylogenomic tree"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sampling and DNA Extraction",
+      "description": "This method describes the process of capturing scrubwrens, collecting blood samples, and extracting DNA for genomic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We mist-netted birds along an elevational gradient on Mt. Wilhelm and collected blood from 74 captured scrubwren individuals.",
+          "searchable_summary": "Capture scrubwrens and collect blood samples",
+          "inputs": [
+            "Scrubwren individuals"
+          ],
+          "outputs": [
+            "Blood samples"
+          ],
+          "keywords": [
+            "mist-netting",
+            "blood collection",
+            "scrubwrens"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Stored blood samples in 95% ethanol prior to DNA extraction.",
+          "searchable_summary": "Store blood samples in ethanol",
+          "inputs": [
+            "Blood samples"
+          ],
+          "outputs": [
+            "Preserved blood samples"
+          ],
+          "keywords": [
+            "sample preservation",
+            "ethanol"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Used the DNeasy Blood and Tissue Kit to extract genomic DNA following the manufacturer's instructions.",
+          "searchable_summary": "Extract genomic DNA using DNeasy Blood and Tissue Kit",
+          "inputs": [
+            "Preserved blood samples"
+          ],
+          "outputs": [
+            "Genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "DNeasy Kit"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Quantified DNA using a Qubit 2.0 high sensitivity DNA Assay kit.",
+          "searchable_summary": "Quantify DNA using Qubit 2.0",
+          "inputs": [
+            "Genomic DNA"
+          ],
+          "outputs": [
+            "Quantified DNA"
+          ],
+          "keywords": [
+            "DNA quantification",
+            "Qubit"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "ddRADseq Data Filtering and Data Matrix Generation",
+      "description": "This method involves filtering and processing ddRADseq data to generate data matrices for phylogenomic and population genomic analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Performed a visual quality check for the raw data using FASTQC v.0.11.5.",
+          "searchable_summary": "Perform quality check on raw data using FASTQC",
+          "inputs": [
+            "Raw ddRADseq data"
+          ],
+          "outputs": [
+            "Quality check report"
+          ],
+          "keywords": [
+            "FASTQC",
+            "quality check"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Filtered and demultiplexed raw reads using the process_radtags program within the STACKS 1.44 pipeline.",
+          "searchable_summary": "Filter and demultiplex reads using STACKS process_radtags",
+          "inputs": [
+            "Raw reads"
+          ],
+          "outputs": [
+            "Filtered and demultiplexed reads"
+          ],
+          "keywords": [
+            "demultiplexing",
+            "STACKS",
+            "process_radtags"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Trimmed the reads to 140 bp and removed all reads that contained at least one uncalled base or were otherwise of low quality.",
+          "searchable_summary": "Trim and filter low-quality reads",
+          "inputs": [
+            "Demultiplexed reads"
+          ],
+          "outputs": [
+            "Trimmed and filtered reads"
+          ],
+          "keywords": [
+            "read trimming",
+            "quality filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Used pyRAD 3.0.66 pipeline for phylogenomic analyses based on concatenated sequence data.",
+          "searchable_summary": "Process data for phylogenomic analysis using pyRAD",
+          "inputs": [
+            "Filtered reads"
+          ],
+          "outputs": [
+            "Concatenated sequence matrix"
+          ],
+          "keywords": [
+            "phylogenomic analysis",
+            "pyRAD"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Used the denovo_map.pl program within STACKS for SNP calling in population-genomic analyses.",
+          "searchable_summary": "Call SNPs using STACKS denovo_map.pl",
+          "inputs": [
+            "Filtered reads"
+          ],
+          "outputs": [
+            "SNP datasets"
+          ],
+          "keywords": [
+            "SNP calling",
+            "STACKS",
+            "denovo_map.pl"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/255790591.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

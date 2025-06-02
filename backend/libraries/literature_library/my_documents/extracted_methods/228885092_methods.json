@@ -1,0 +1,92 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Conceptual Model of Transient Ice Volume Variability",
+      "description": "This method employs a conceptual model to simulate the transient variability of ice volume based on a control parameter, such as CO2 or temperature. The model prescribes the relationship between the control parameter and equilibrium ice volume, as well as the growth and decay rates of the ice sheet. The model accounts for hysteresis in the control parameter-equilibrium ice volume relation, with distinct top and bottom branches.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Define the control parameter-equilibrium ice volume (C-V_eq) relation, including hysteresis with top and bottom branches.",
+          "searchable_summary": "define C-V_eq relation with hysteresis",
+          "inputs": [
+            "control parameter (C)",
+            "equilibrium ice volume (V_eq)"
+          ],
+          "outputs": [
+            "C-V_eq relation"
+          ],
+          "keywords": [
+            "control parameter",
+            "equilibrium ice volume",
+            "hysteresis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Prescribe growth and decay rates for the ice sheet, which may depend on the control parameter, ice volume, and the difference between the ice volume and the equilibrium ice volume.",
+          "searchable_summary": "prescribe growth and decay rates",
+          "inputs": [
+            "control parameter (C)",
+            "ice volume (V)",
+            "equilibrium ice volume (V_eq)"
+          ],
+          "outputs": [
+            "growth rate (g)",
+            "decay rate (d)"
+          ],
+          "keywords": [
+            "growth rate",
+            "decay rate",
+            "ice volume"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Update ice volume based on the growth rate if the current volume is smaller than the bottom branch equilibrium solution, or decrease it by the decay rate if it is larger than the top branch equilibrium solution.",
+          "searchable_summary": "update ice volume based on growth or decay rate",
+          "inputs": [
+            "current ice volume (V)",
+            "bottom branch equilibrium solution (V_eq_bot)",
+            "top branch equilibrium solution (V_eq_top)",
+            "growth rate (g)",
+            "decay rate (d)"
+          ],
+          "outputs": [
+            "updated ice volume"
+          ],
+          "keywords": [
+            "ice volume update",
+            "growth rate",
+            "decay rate"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "If the ice volume is between the top and bottom branch solutions, keep the volume unchanged by default, but discuss the influence of this choice on the results.",
+          "searchable_summary": "handle ice volume between branch solutions",
+          "inputs": [
+            "current ice volume (V)",
+            "top branch equilibrium solution (V_eq_top)",
+            "bottom branch equilibrium solution (V_eq_bot)"
+          ],
+          "outputs": [
+            "unchanged ice volume"
+          ],
+          "keywords": [
+            "ice volume",
+            "equilibrium solution",
+            "modeling choice"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/228885092.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

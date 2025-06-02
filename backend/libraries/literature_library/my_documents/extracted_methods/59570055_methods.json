@@ -1,0 +1,189 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spectral Analysis",
+      "description": "This method involves estimating power spectra using Thomson's multitaper method with linear detrending and Gaussian smoothing to analyze climate data from ice cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Missing years in the published records (∼ 1.6 % of all data points) are linearly interpolated.",
+          "searchable_summary": "interpolate missing data points in time series",
+          "inputs": [
+            "time series data with missing points"
+          ],
+          "outputs": [
+            "complete time series data"
+          ],
+          "keywords": [
+            "linear interpolation",
+            "missing data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Power spectra are then estimated using Thomson's multitaper method with three windows with linear detrending before analysis.",
+          "searchable_summary": "estimate power spectra using multitaper method",
+          "inputs": [
+            "complete time series data"
+          ],
+          "outputs": [
+            "power spectra"
+          ],
+          "keywords": [
+            "multitaper method",
+            "power spectra",
+            "linear detrending"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Spectral smoothing is necessary to improve the quality of the estimates from short time series. A Gaussian smoothing kernel with varying width proportional to the applied frequency is used.",
+          "searchable_summary": "apply Gaussian smoothing to power spectra",
+          "inputs": [
+            "power spectra"
+          ],
+          "outputs": [
+            "smoothed power spectra"
+          ],
+          "keywords": [
+            "Gaussian smoothing",
+            "spectral smoothing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "The lowest frequency is omitted from all plots and calculations to avoid bias.",
+          "searchable_summary": "omit lowest frequency from plots",
+          "inputs": [
+            "smoothed power spectra"
+          ],
+          "outputs": [
+            "adjusted power spectra for plotting"
+          ],
+          "keywords": [
+            "frequency omission",
+            "bias correction"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Illustrating the Methodological Approach",
+      "description": "This method demonstrates the analysis steps using the DML1 data set to derive power spectra and assess isotope variations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Each power spectrum derived from an individual record of the DML1 firn-core array provides a timescale-dependent representation of the isotope variations.",
+          "searchable_summary": "derive power spectrum for each DML1 record",
+          "inputs": [
+            "DML1 firn-core records"
+          ],
+          "outputs": [
+            "individual power spectra"
+          ],
+          "keywords": [
+            "power spectrum",
+            "isotope variations"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The mean spectrum, M, of all individual spectra reduces spectral uncertainty and provides a robust estimate of the single records' spectrum.",
+          "searchable_summary": "calculate mean spectrum from individual spectra",
+          "inputs": [
+            "individual power spectra"
+          ],
+          "outputs": [
+            "mean spectrum"
+          ],
+          "keywords": [
+            "mean spectrum",
+            "spectral uncertainty"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The mean spectrum divided by the number of records (M/n) is the expected spectrum if all isotope variations were independent noise.",
+          "searchable_summary": "divide mean spectrum by number of records",
+          "inputs": [
+            "mean spectrum",
+            "number of records"
+          ],
+          "outputs": [
+            "expected noise spectrum"
+          ],
+          "keywords": [
+            "noise spectrum",
+            "independent noise"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Averaging in the time domain across records results in a spectrum S, where the noise component is reduced by 1/n but the common signal remains.",
+          "searchable_summary": "average records in time domain to obtain spectrum S",
+          "inputs": [
+            "individual records"
+          ],
+          "outputs": [
+            "spectrum S"
+          ],
+          "keywords": [
+            "time domain averaging",
+            "common signal"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Physical Interpretation of the Analysis",
+      "description": "This method assesses the physical meaning of separating variability in Antarctic isotope records into local variations (noise) and spatially coherent variations (signal).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Assess the spatial scales of major processes influencing isotopic composition: temperature variations, atmospheric circulation, precipitation intermittency, and stratigraphic noise.",
+          "searchable_summary": "analyze spatial scales of processes affecting isotopic composition",
+          "inputs": [
+            "isotope records",
+            "process descriptions"
+          ],
+          "outputs": [
+            "spatial scale assessments"
+          ],
+          "keywords": [
+            "spatial scales",
+            "isotopic composition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Interpret estimated isotope signal spectra as temperature signals, considering decorrelation scales and other processes.",
+          "searchable_summary": "interpret isotope signal spectra as temperature signals",
+          "inputs": [
+            "isotope signal spectra"
+          ],
+          "outputs": [
+            "temperature signal interpretation"
+          ],
+          "keywords": [
+            "temperature signals",
+            "decorrelation scales"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/59570055.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

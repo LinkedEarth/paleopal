@@ -1,0 +1,301 @@
+{
+  "paper_title": "Aerobiological and Meteorological Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Aerobiological Data Collection and Analysis",
+      "description": "Process for collecting, processing, and analyzing Quercus pollen data using a volumetric spore trap, including different counting methods, data splicing, season definition, missing data handling, and calculation of various pollen season characteristics.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Quercus pollen data (1996)(1997)(1998)(1999)(2000)(2001)(2002)(2003)(2004)(2005)(2006)(2007)(2008)(2009)(2010)(2011) were collected in Poznań by volumetric spore trap of the Hirst design (Hirst 1952).",
+          "searchable_summary": "Collect Quercus pollen data using Hirst volumetric spore trap.",
+          "inputs": [],
+          "outputs": [
+            "raw pollen count data (1996-2011)"
+          ],
+          "keywords": [
+            "aerobiology",
+            "pollen monitoring",
+            "Hirst trap",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "From 1996 to 1999, pollen data were collected following the methods outlined by Stach (2000) where pollen grains were counted along twelve latitudinal transects.",
+          "searchable_summary": "Count pollen grains using Stach method (1996-1999).",
+          "inputs": [
+            "raw pollen count data (1996-1999)"
+          ],
+          "outputs": [
+            "processed pollen count data (1996-1999)"
+          ],
+          "keywords": [
+            "pollen counting",
+            "Stach method",
+            "microscopy",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "From 2000 to 2011, this method was changed and pollen grains were counted along four longitudinal transects, which were divided into 2-mm (1 hourly) intervals, following the method described by the Spanish Aerobiological Network (Galán et al. 2007).",
+          "searchable_summary": "Count pollen grains using Spanish Aerobiological Network method (2000-2011).",
+          "inputs": [
+            "raw pollen count data (2000-2011)"
+          ],
+          "outputs": [
+            "processed pollen count data (2000-2011)"
+          ],
+          "keywords": [
+            "pollen counting",
+            "Spanish Aerobiological Network method",
+            "microscopy",
+            "data processing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The two Quercus pollen datasets from Poznań were spliced together to make a single dataset running from 1996 to 2011.",
+          "searchable_summary": "Combine pollen datasets from different counting methods.",
+          "inputs": [
+            "processed pollen count data (1996-1999)",
+            "processed pollen count data (2000-2011)"
+          ],
+          "outputs": [
+            "combined pollen count dataset (1996-2011)"
+          ],
+          "keywords": [
+            "data merging",
+            "data splicing",
+            "dataset integration"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Daily average and bi-hourly concentrations of pollen grains are expressed as P m -3 (Comtois 1998).",
+          "searchable_summary": "Calculate and express pollen concentrations in P m^-3.",
+          "inputs": [
+            "combined pollen count dataset (1996-2011)"
+          ],
+          "outputs": [
+            "daily average pollen concentration (P m^-3)",
+            "bi-hourly pollen concentration (P m^-3)"
+          ],
+          "keywords": [
+            "pollen concentration",
+            "data transformation",
+            "units"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The limits of the oak pollen season were calculated by using the 95 % method (Nilsson and Persson 1981) whereby the season starts when 2.5 % of the total catch was achieved and ends when 97.5 % is reached.",
+          "searchable_summary": "Calculate pollen season start and end dates using the 95% method.",
+          "inputs": [
+            "daily average pollen concentration (P m^-3)"
+          ],
+          "outputs": [
+            "pollen season start date",
+            "pollen season end date"
+          ],
+          "keywords": [
+            "pollen season definition",
+            "95% method",
+            "threshold calculation",
+            "time series analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Data related to start, end and peak day were converted to the day of the year from 1 January (DOY).",
+          "searchable_summary": "Convert dates (start, end, peak) to Day of Year (DOY).",
+          "inputs": [
+            "pollen season start date",
+            "pollen season end date",
+            "peak pollen day"
+          ],
+          "outputs": [
+            "pollen season start DOY",
+            "pollen season end DOY",
+            "peak pollen DOY"
+          ],
+          "keywords": [
+            "date conversion",
+            "Day of Year",
+            "time series processing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Due to the trap failure during the 2008 oak pollen season, the dataset contained missing values, which were replaced by the mean daily average Quercus pollen count for that day (1996-2001 mean): 3 days, 9-11 May 2008.",
+          "searchable_summary": "Impute missing pollen data using historical mean.",
+          "inputs": [
+            "daily average pollen concentration (P m^-3) with missing values",
+            "historical daily average pollen concentration (1996-2001)"
+          ],
+          "outputs": [
+            "daily average pollen concentration (P m^-3) with imputed values"
+          ],
+          "keywords": [
+            "missing data imputation",
+            "data cleaning",
+            "mean imputation",
+            "time series imputation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "The following characteristics of the oak pollen season were examined: start date, end date, duration (number of days), the duration of the pre-peak period (number of days from the start of the oak pollen season to the peak date), the intensity of the oak pollen season (season pollen index, SPI), the timing and magnitude of the peak day (the highest daily average pollen concentration during pollen season), percentage of the total SPI recorded during 4 9 1 weekly periods during the oak pollen season (%) and the number of days during the season with daily average oak pollen levels [80 P m -3 .",
+          "searchable_summary": "Calculate various pollen season characteristics.",
+          "inputs": [
+            "daily average pollen concentration (P m^-3)",
+            "pollen season start DOY",
+            "pollen season end DOY",
+            "peak pollen DOY"
+          ],
+          "outputs": [
+            "pollen season duration",
+            "pre-peak duration",
+            "Season Pollen Index (SPI)",
+            "peak day timing",
+            "peak day magnitude",
+            "weekly SPI percentage",
+            "number of days > 80 P m^-3"
+          ],
+          "keywords": [
+            "pollen season characteristics",
+            "SPI",
+            "peak pollen",
+            "duration calculation",
+            "threshold analysis",
+            "data aggregation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Meteorological Data Collection and Analysis",
+      "description": "Process for obtaining and analyzing meteorological data (temperature, rainfall, RH) from a nearby station to assess their influence on oak pollen seasons.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Meteorological data, i.e., daily average maximum, minimum and mean temperature, daily rainfall and relative humidity (RH), were obtained from the station located at Ławica Airport (52°25 0 N 16°49 0 E).",
+          "searchable_summary": "Obtain daily meteorological data (temperature, rainfall, RH).",
+          "inputs": [],
+          "outputs": [
+            "daily meteorological data (temperature, rainfall, RH)"
+          ],
+          "keywords": [
+            "meteorological data",
+            "weather data",
+            "data collection",
+            "temperature",
+            "rainfall",
+            "relative humidity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Fortnightly, monthly, 1.5-monthly and 2-monthly mean, maximum and minimum daily average temperatures and daily rainfall from the year preceding pollination (1995)(1996)(1997)(1998)(1999)(2000)(2001)(2002)(2003)(2004)(2005)(2006)(2007)(2008)(2009)(2010) were examined.",
+          "searchable_summary": "Calculate aggregated meteorological parameters for periods in the preceding year.",
+          "inputs": [
+            "daily meteorological data (temperature, rainfall) for preceding years (1995-2010)"
+          ],
+          "outputs": [
+            "fortnightly mean/max/min temp (preceding year)",
+            "monthly mean/max/min temp (preceding year)",
+            "1.5-monthly mean/max/min temp (preceding year)",
+            "2-monthly mean/max/min temp (preceding year)",
+            "fortnightly rainfall (preceding year)",
+            "monthly rainfall (preceding year)",
+            "1.5-monthly rainfall (preceding year)",
+            "2-monthly rainfall (preceding year)"
+          ],
+          "keywords": [
+            "data aggregation",
+            "time series analysis",
+            "mean",
+            "maximum",
+            "minimum",
+            "temperature",
+            "rainfall",
+            "preceding year"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Fortnightly, monthly, 1.5-monthly and 2-monthly mean, maximum and minimum daily average temperatures and daily rainfall from the same year as pollination (1996-2011, January-April) were examined.",
+          "searchable_summary": "Calculate aggregated meteorological parameters for periods in the current year (Jan-Apr).",
+          "inputs": [
+            "daily meteorological data (temperature, rainfall) for current years (1996-2011, Jan-Apr)"
+          ],
+          "outputs": [
+            "fortnightly mean/max/min temp (current year Jan-Apr)",
+            "monthly mean/max/min temp (current year Jan-Apr)",
+            "1.5-monthly mean/max/min temp (current year Jan-Apr)",
+            "2-monthly mean/max/min temp (current year Jan-Apr)",
+            "fortnightly rainfall (current year Jan-Apr)",
+            "monthly rainfall (current year Jan-Apr)",
+            "1.5-monthly rainfall (current year Jan-Apr)",
+            "2-monthly rainfall (current year Jan-Apr)"
+          ],
+          "keywords": [
+            "data aggregation",
+            "time series analysis",
+            "mean",
+            "maximum",
+            "minimum",
+            "temperature",
+            "rainfall",
+            "current year",
+            "Jan-Apr"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Averages of daily mean, maximum and minimum temperatures and daily rainfall recorded during the first and second week of oak pollen season and during the whole pollen season were examined.",
+          "searchable_summary": "Calculate average meteorological parameters during specific pollen season periods.",
+          "inputs": [
+            "daily meteorological data (temperature, rainfall)",
+            "pollen season start date",
+            "pollen season end date"
+          ],
+          "outputs": [
+            "average temp (mean, max, min) during 1st week of season",
+            "average rainfall during 1st week of season",
+            "average temp (mean, max, min) during 2nd week of season",
+            "average rainfall during 2nd week of season",
+            "average temp (mean, max, min) during whole season",
+            "average rainfall during whole season"
+          ],
+          "keywords": [
+            "data aggregation",
+            "time series analysis",
+            "mean",
+            "temperature",
+            "rainfall",
+            "pollen season",
+            "seasonal analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/15586651.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

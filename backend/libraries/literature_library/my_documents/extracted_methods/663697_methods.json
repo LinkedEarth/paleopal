@@ -1,0 +1,102 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "GeneChip Data Analysis",
+      "description": "Process for analyzing GeneChip data to determine differential gene expression using Affymetrix Expression Console and DNA-Chip Analyzer (dChip).",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Scanned arrays were analyzed first with Affymetrix Expression Console software to obtain Absent/Present calls and to assure that all quality parameters were in the recommended range.",
+          "searchable_summary": "Use Affymetrix Expression Console to analyze scanned arrays for quality control and Absent/Present calls.",
+          "inputs": [
+            "scanned arrays"
+          ],
+          "outputs": [
+            "Absent/Present calls",
+            "quality parameters"
+          ],
+          "keywords": [
+            "Affymetrix Expression Console",
+            "quality control",
+            "Absent/Present calls"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Subsequent analysis was carried out with DNA-Chip Analyzer (dChip) 2010. The 6 arrays were normalized to a baseline array with median CEL intensity by applying an Invariant Set Normalization Method.",
+          "searchable_summary": "Normalize arrays using DNA-Chip Analyzer with Invariant Set Normalization Method.",
+          "inputs": [
+            "6 arrays",
+            "baseline array"
+          ],
+          "outputs": [
+            "normalized arrays"
+          ],
+          "keywords": [
+            "DNA-Chip Analyzer",
+            "normalization",
+            "Invariant Set Normalization Method"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Normalized CEL intensities of the arrays were used to obtain model-based gene expression indices based on a PM (Perfect Match)-only model.",
+          "searchable_summary": "Calculate gene expression indices using PM-only model from normalized CEL intensities.",
+          "inputs": [
+            "normalized CEL intensities"
+          ],
+          "outputs": [
+            "gene expression indices"
+          ],
+          "keywords": [
+            "gene expression indices",
+            "PM-only model"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Replicate data (triplicates) for the conditions were weighted gene-wise by using inverse squared standard error as weights.",
+          "searchable_summary": "Weight replicate data using inverse squared standard error.",
+          "inputs": [
+            "replicate data",
+            "standard error"
+          ],
+          "outputs": [
+            "weighted replicate data"
+          ],
+          "keywords": [
+            "replicate data",
+            "inverse squared standard error",
+            "weighting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Genes compared were considered to be differentially expressed if the 90% lower confidence bound of the fold change between experiment and baseline was above 1.3.",
+          "searchable_summary": "Identify differentially expressed genes using 90% lower confidence bound of fold change.",
+          "inputs": [
+            "fold change data",
+            "baseline data"
+          ],
+          "outputs": [
+            "differentially expressed genes"
+          ],
+          "keywords": [
+            "differential expression",
+            "fold change",
+            "confidence bound"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/663697.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

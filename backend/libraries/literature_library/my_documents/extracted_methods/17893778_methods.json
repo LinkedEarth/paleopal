@@ -1,0 +1,73 @@
+{
+  "paper_title": "A simple mixing model for PDW-SCW δ 13 C gradient analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Simple Mixing Model Simulation",
+      "description": "This method simulates the PDW δ 13 C values under the null hypothesis that PDW ventilation remained unchanged throughout the Late Pleistocene. It uses a simple mixing model assuming PDW is derived from a constant mixing ratio of NCW and SCW plus a constant remineralization offset.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Simulate PDW δ 13 C values using a simple mixing model with a constant mixing ratio of NCW and SCW plus a constant remineralization offset.",
+          "searchable_summary": "simulate PDW δ 13 C values using a mixing model",
+          "inputs": [
+            "NCW δ 13 C",
+            "SCW δ 13 C",
+            "mixing ratio f",
+            "remineralization offset c"
+          ],
+          "outputs": [
+            "simulated PDW δ 13 C values"
+          ],
+          "keywords": [
+            "mixing model",
+            "δ 13 C",
+            "PDW",
+            "NCW",
+            "SCW"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Estimate the mixing ratio f and remineralization offset c by minimizing the root mean square error between the model and the PDW stack for 800-0 ka.",
+          "searchable_summary": "estimate mixing ratio and offset by minimizing RMSE",
+          "inputs": [
+            "model output",
+            "PDW stack data"
+          ],
+          "outputs": [
+            "mixing ratio f",
+            "remineralization offset c"
+          ],
+          "keywords": [
+            "root mean square error",
+            "parameter estimation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Validate the model by comparing the fit between model and data for the entire Late Pleistocene.",
+          "searchable_summary": "validate model fit with correlation coefficient and RMSE",
+          "inputs": [
+            "model output",
+            "PDW stack data"
+          ],
+          "outputs": [
+            "correlation coefficient",
+            "root mean square error"
+          ],
+          "keywords": [
+            "model validation",
+            "correlation",
+            "RMSE"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/17893778.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

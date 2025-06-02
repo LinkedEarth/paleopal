@@ -1,0 +1,331 @@
+{
+  "paper_title": "Cranial Analysis Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Correlation Analysis",
+      "description": "Correlation techniques were used to find associations amongst measurements for the H. erectus assemblage and within the mid-Pleistocene sample. Brain volume and other cranial dimensions were included, in an effort to find patterns of covariation and assess the extent to which modules making up the skull are integrated. Pearson correlation coefficients were used to assess the strength of association between continuous variables that are normally distributed. Partial correlation is a method for disentangling relationships involving multiple variables, by computing 'corrected' correlations for any given pair. For example, in a situation where linear measurements are influenced by one another and also by brain volume or overall cranial size, it is possible to keep volume and/or size constant. The strength of the correlation remaining between the linear dimensions can then be determined, with the effects of other variables controlled.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Pearson correlation coefficients were used to assess the strength of association between continuous variables that are normally distributed.",
+          "searchable_summary": "Calculate Pearson correlation coefficients between pairs of continuous, normally distributed variables.",
+          "inputs": [
+            "Continuous variables (assumed normally distributed)"
+          ],
+          "outputs": [
+            "Pearson correlation coefficients"
+          ],
+          "keywords": [
+            "Pearson correlation",
+            "correlation coefficient",
+            "statistical analysis",
+            "association"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Partial correlation is a method for disentangling relationships involving multiple variables, by computing 'corrected' correlations for any given pair... it is possible to keep volume and/or size constant. The strength of the correlation remaining between the linear dimensions can then be determined, with the effects of other variables controlled.",
+          "searchable_summary": "Calculate partial correlation coefficients between two variables while controlling for the effect of one or more other variables.",
+          "inputs": [
+            "Three or more continuous variables (two variables of interest, one or more control variables)"
+          ],
+          "outputs": [
+            "Partial correlation coefficients"
+          ],
+          "keywords": [
+            "Partial correlation",
+            "statistical analysis",
+            "controlling for variables",
+            "multivariate analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "Correlations, partial correlations and discriminant computations were performed using JMP. 33",
+          "searchable_summary": "Perform correlation and partial correlation analysis using JMP software.",
+          "inputs": [
+            "Data table with variables"
+          ],
+          "outputs": [
+            "Correlation results (coefficients, p-values, etc.)"
+          ],
+          "keywords": [
+            "JMP software",
+            "statistical software",
+            "correlation analysis implementation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Discriminant Analysis",
+      "description": "Discriminant analysis facilitates the comparison of two or more groups, the composition of which is established in advance. Individual crania of unknown affiliation may also be included, with the objective of assigning them to one of the groups analysed. Measurements are used to construct linear functions that will maximise differences between these populations relative to variation within each sample. With a stepwise entry procedure, it is possible to ascertain how each of the original variables contributes to the analysis and whether any can be dropped without loss of substantial information. The discriminant axes are mutually orthogonal. Interpretation of the functions is facilitated by correlating the original measurements with the discriminant scores. Variables with high correlations can be identified as contributing importantly to variation on a given function, and this information helps to reveal the nature of essential population differences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Discriminant analysis facilitates the comparison of two or more groups, the composition of which is established in advance.",
+          "searchable_summary": "Define and assign data points to predefined groups for discriminant analysis.",
+          "inputs": [
+            "Data points (e.g., fossil crania)",
+            "Group labels/criteria"
+          ],
+          "outputs": [
+            "Grouped data"
+          ],
+          "keywords": [
+            "Grouping",
+            "data preparation",
+            "classification"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Measurements are used to construct linear functions... With a stepwise entry procedure, it is possible to ascertain how each of the original variables contributes to the analysis and whether any can be dropped without loss of substantial information.",
+          "searchable_summary": "Select variables for discriminant analysis, potentially using a stepwise procedure to evaluate contribution.",
+          "inputs": [
+            "Available measurements",
+            "Grouped data"
+          ],
+          "outputs": [
+            "Selected subset of variables"
+          ],
+          "keywords": [
+            "Variable selection",
+            "stepwise selection",
+            "feature selection",
+            "discriminant analysis setup"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Measurements are used to construct linear functions that will maximise differences between these populations relative to variation within each sample.",
+          "searchable_summary": "Construct linear discriminant functions to maximize separation between predefined groups.",
+          "inputs": [
+            "Selected variables",
+            "Grouped data"
+          ],
+          "outputs": [
+            "Linear discriminant functions",
+            "Model parameters"
+          ],
+          "keywords": [
+            "Linear discriminant analysis (LDA)",
+            "model training",
+            "classification model"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Individual crania of unknown affiliation may also be included, with the objective of assigning them to one of the groups analysed.",
+          "searchable_summary": "Assign individuals with unknown group affiliation to one of the predefined groups using the trained discriminant model.",
+          "inputs": [
+            "Trained discriminant model",
+            "Measurements for unknown individuals"
+          ],
+          "outputs": [
+            "Predicted group assignments for unknown individuals"
+          ],
+          "keywords": [
+            "Classification",
+            "prediction",
+            "group assignment",
+            "discriminant analysis"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Interpretation of the functions is facilitated by correlating the original measurements with the discriminant scores. Variables with high correlations can be identified as contributing importantly to variation on a given function...",
+          "searchable_summary": "Interpret discriminant functions by correlating original variables with discriminant scores to identify variables contributing most to group separation.",
+          "inputs": [
+            "Trained discriminant model",
+            "Original variables",
+            "Discriminant scores"
+          ],
+          "outputs": [
+            "Correlations between variables and discriminant scores",
+            "Identification of important variables"
+          ],
+          "keywords": [
+            "Discriminant function interpretation",
+            "variable importance",
+            "correlation",
+            "statistical interpretation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "other",
+          "description": "Correlations, partial correlations and discriminant computations were performed using JMP. 33",
+          "searchable_summary": "Perform discriminant analysis using JMP software.",
+          "inputs": [
+            "Data table with variables and group labels"
+          ],
+          "outputs": [
+            "Discriminant analysis results (functions, scores, classification results, variable loadings)"
+          ],
+          "keywords": [
+            "JMP software",
+            "statistical software",
+            "discriminant analysis implementation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Collection and Compilation",
+      "description": "Process of gathering cranial measurement data from various published sources, personal communications, casts, and original fossils.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Cranial capacities are from the literature. 25 Selected dimensions for the Bukuran, Sambungmacan and Ngandong fossils are from Kaifu et al. 29 Data for Ngawi are listed by Widianto and Zeitoun 30 , but measurements of sagittal chords and arcs were taken from a cast... Sangiran IX is documented by Arif et al. 31 Measurements of the Zhoukoudian crania are those of Weidenreich 32 , supplemented by observations from casts... Other data are my own, taken from the original fossils.",
+          "searchable_summary": "Gather cranial measurement data from published scientific literature.",
+          "inputs": [
+            "List of relevant publications (citations 25, 29, 30, 31, 32)"
+          ],
+          "outputs": [
+            "Measurement data extracted from publications"
+          ],
+          "keywords": [
+            "Data extraction",
+            "literature review",
+            "scientific data",
+            "publication data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Measurements of PVH and GBR were provided by F. Spoor (2008, personal communication, May 10).",
+          "searchable_summary": "Obtain specific cranial measurements via personal communication.",
+          "inputs": [
+            "Contact information for data provider",
+            "Request for specific data"
+          ],
+          "outputs": [
+            "Measurement data received via communication"
+          ],
+          "keywords": [
+            "Data acquisition",
+            "personal communication",
+            "research data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "measurements of sagittal chords and arcs [for Ngawi] were taken from a cast held at the American Museum of Natural History. Measurements of the Zhoukoudian crania are those of Weidenreich 32 , supplemented by observations from casts at the Peabody Museum at Harvard University.",
+          "searchable_summary": "Measure cranial dimensions from physical casts of fossils.",
+          "inputs": [
+            "Physical casts of fossils",
+            "Measuring tools"
+          ],
+          "outputs": [
+            "Measurement data from casts"
+          ],
+          "keywords": [
+            "Physical measurement",
+            "fossil casts",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Other data are my own, taken from the original fossils.",
+          "searchable_summary": "Measure cranial dimensions directly from original fossil specimens.",
+          "inputs": [
+            "Original fossil specimens",
+            "Measuring tools"
+          ],
+          "outputs": [
+            "Measurement data from original fossils"
+          ],
+          "keywords": [
+            "Physical measurement",
+            "original fossils",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "(Implicit step to combine data from various sources)",
+          "searchable_summary": "Combine measurement data collected from literature, personal communication, casts, and original fossils into a single dataset.",
+          "inputs": [
+            "Measurement data from various sources"
+          ],
+          "outputs": [
+            "Consolidated dataset of cranial measurements"
+          ],
+          "keywords": [
+            "Data integration",
+            "data merging",
+            "data compilation",
+            "dataset creation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Variable Calculation",
+      "description": "Calculation of derived cranial variables (Endocranial Volume, Geometric Mean) from raw measurements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Note that VOL is converted to the cube root of measured capacity.",
+          "searchable_summary": "Calculate the cube root of the measured endocranial volume.",
+          "inputs": [
+            "Measured endocranial volume (VOL)"
+          ],
+          "outputs": [
+            "Cube root of endocranial volume"
+          ],
+          "keywords": [
+            "Data transformation",
+            "cube root",
+            "volume calculation",
+            "variable derivation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "An additional variable (GMN) was used to estimate overall cranial size. GMN was calculated as the geometric mean of eight linear measurements (GOL, PVH, GBR, BLR, LOR, XCB, ASB and TOR).",
+          "searchable_summary": "Calculate the geometric mean of a specified set of eight linear cranial measurements.",
+          "inputs": [
+            "Values for GOL",
+            "PVH",
+            "GBR",
+            "BLR",
+            "LOR",
+            "XCB",
+            "ASB",
+            "TOR"
+          ],
+          "outputs": [
+            "Geometric mean (GMN)"
+          ],
+          "keywords": [
+            "Geometric mean",
+            "data transformation",
+            "variable derivation",
+            "cranial size estimation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/56006393.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

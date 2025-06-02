@@ -1,0 +1,117 @@
+{
+  "paper_title": "Ice Core Data Collection and Description",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Data Collection",
+      "description": "Process for extracting and preparing ice core samples for isotope analysis using the West Antarctic Ice Sheet Divide core (WDC) to measure the ratios of 2H/1H and 18O/16O, which are proxies for local temperature and regional atmospheric circulation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "The record was analyzed using a Picarro Inc. cavity ring-down spectroscopy (CRDS) instrument, coupled to a continuous flow analysis (CFA) system.",
+          "searchable_summary": "Use CRDS-CFA system to analyze ice core samples for isotope ratios",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "isotope ratio data"
+          ],
+          "keywords": [
+            "CRDS",
+            "CFA",
+            "isotope analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The data are reported in delta (δ) notation relative to the baseline Vienna Standard Mean Ocean Water (VSMOW) and normalized to the Standard Light Antarctic Water (SLAP) scale.",
+          "searchable_summary": "Normalize isotope data to VSMOW and SLAP scales",
+          "inputs": [
+            "isotope ratio data"
+          ],
+          "outputs": [
+            "normalized isotope data"
+          ],
+          "keywords": [
+            "VSMOW",
+            "SLAP",
+            "normalization"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The δ values were determined by δ = 1000(Rsample/RVSMOW −1), where R is the isotopic ratio 18O/16O or D/H.",
+          "searchable_summary": "Calculate delta values for isotope ratios",
+          "inputs": [
+            "isotope ratio data",
+            "RVSMOW"
+          ],
+          "outputs": [
+            "delta values"
+          ],
+          "keywords": [
+            "delta values",
+            "isotopic ratio"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "Water-isotope traces measured on the Picarro instrument were recorded at a rate of 1.18 Hz (0.85 s intervals).",
+          "searchable_summary": "Record water-isotope traces at 1.18 Hz",
+          "inputs": [
+            "Picarro instrument"
+          ],
+          "outputs": [
+            "water-isotope trace data"
+          ],
+          "keywords": [
+            "water-isotope",
+            "trace data",
+            "Picarro"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Ice samples were moved through the CRDS-CFA system at a rate of 2.5 cm/min, yielding millimeter resolution. The data were then averaged over non-overlapping 0.5 cm bins.",
+          "searchable_summary": "Average isotope data over 0.5 cm bins",
+          "inputs": [
+            "isotope trace data"
+          ],
+          "outputs": [
+            "binned isotope data"
+          ],
+          "keywords": [
+            "binning",
+            "data averaging",
+            "resolution"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "For each of these data points, an age was determined using the WDC depth-age scale, providing climate data from 0–68 ka.",
+          "searchable_summary": "Determine age for each data point using WDC depth-age scale",
+          "inputs": [
+            "binned isotope data",
+            "WDC depth-age scale"
+          ],
+          "outputs": [
+            "aged isotope data"
+          ],
+          "keywords": [
+            "depth-age scale",
+            "climate data",
+            "dating"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "literature_pdfs/papers/Climate_entropy_production_recorded_in_a_deep_Antarctic_ice_core.pdf",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

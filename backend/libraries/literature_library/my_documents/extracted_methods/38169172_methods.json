@@ -1,0 +1,155 @@
+{
+  "paper_title": "Genotype and Whole-Genome Sequencing Data Processing",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Genotype Data Collection and Merging",
+      "description": "This method describes the collection of genotype data from various populations and the merging of this data with existing datasets to create a comprehensive SNP dataset for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Samples were collected from Chad, Lebanon, Greece, and Yemen.",
+          "searchable_summary": "collect genotype samples from specified countries",
+          "inputs": [
+            "country names"
+          ],
+          "outputs": [
+            "genotype samples"
+          ],
+          "keywords": [
+            "genotype",
+            "sample collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "All samples (except for those from Greece) were genotyped with the Illumina HumanOmni2.5-8 BeadChip.",
+          "searchable_summary": "genotype samples using Illumina HumanOmni2.5-8 BeadChip",
+          "inputs": [
+            "samples"
+          ],
+          "outputs": [
+            "genotyped data"
+          ],
+          "keywords": [
+            "genotyping",
+            "Illumina",
+            "BeadChip"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Greek genotype information for the 2.5 million sites was extracted from sequence data and merged with array data from other populations.",
+          "searchable_summary": "extract and merge Greek genotype data with other populations",
+          "inputs": [
+            "Greek sequence data",
+            "array data"
+          ],
+          "outputs": [
+            "merged genotype data"
+          ],
+          "keywords": [
+            "genotype",
+            "data merging"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The genotyping data were merged with data from the African Genome Variation Project, the 1000 Genomes Project, and Pagani et al.",
+          "searchable_summary": "merge genotyping data with existing genome projects",
+          "inputs": [
+            "genotyping data",
+            "existing genome datasets"
+          ],
+          "outputs": [
+            "combined dataset"
+          ],
+          "keywords": [
+            "data merging",
+            "genome projects"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Whole-Genome Sequencing and Processing",
+      "description": "This method outlines the sequencing of whole genomes and the processing of genotype data using various bioinformatics tools.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "19 samples were whole-genome sequenced at >30x depth with Illumina HiSeq X Ten or HiSeq 2500 technology.",
+          "searchable_summary": "perform whole-genome sequencing on samples",
+          "inputs": [
+            "samples"
+          ],
+          "outputs": [
+            "whole-genome sequence data"
+          ],
+          "keywords": [
+            "whole-genome sequencing",
+            "Illumina"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Genotype data were processed with PLINK: the SNP genotype success rate required was set to 99%, whereas SNPs with a minor allele frequency < 0.001 or Hardy-Weinberg p value < 0.000001 were removed.",
+          "searchable_summary": "process genotype data with PLINK, applying quality filters",
+          "inputs": [
+            "genotype data"
+          ],
+          "outputs": [
+            "filtered genotype data"
+          ],
+          "keywords": [
+            "PLINK",
+            "SNP filtering",
+            "genotype processing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Genotypes from sequence data were called with SAMtools v.1.2 and BCFtools v.1.2 with the command 'samtools mpileup -q 20 -Q 20 -C 50 | bcftools call -c -V indels.'",
+          "searchable_summary": "call genotypes from sequence data using SAMtools and BCFtools",
+          "inputs": [
+            "sequence data"
+          ],
+          "outputs": [
+            "called genotypes"
+          ],
+          "keywords": [
+            "SAMtools",
+            "BCFtools",
+            "genotype calling"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Phasing was carried out with SHAPEIT with 1000 Genomes Project phase 3 haplotypes as a reference panel.",
+          "searchable_summary": "perform phasing using SHAPEIT with reference haplotypes",
+          "inputs": [
+            "genotype data",
+            "reference haplotypes"
+          ],
+          "outputs": [
+            "phased genotypes"
+          ],
+          "keywords": [
+            "phasing",
+            "SHAPEIT",
+            "haplotypes"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/38169172.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

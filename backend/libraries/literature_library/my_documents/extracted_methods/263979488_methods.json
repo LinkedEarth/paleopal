@@ -1,0 +1,167 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Perturbation Analysis for Particle-Tracking Model",
+      "description": "This method investigates the miRPT model under two different perturbation approaches: perturbing initial aqueous-phase concentrations and perturbing spatial locations of immobile particles. The goal is to study the effects of these perturbations on the distribution and reaction speed of reactants.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Study the effects of perturbing the initial aqueous-phase concentrations stored on the evenly-spaced immobile particles.",
+          "searchable_summary": "simulate perturbation of initial aqueous-phase concentrations in miRPT model",
+          "inputs": [
+            "initial aqueous-phase concentrations",
+            "miRPT model"
+          ],
+          "outputs": [
+            "perturbed concentration distribution"
+          ],
+          "keywords": [
+            "perturbation",
+            "aqueous-phase",
+            "miRPT model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Study perturbations of the spatial locations of the immobile particles.",
+          "searchable_summary": "simulate perturbation of spatial locations of immobile particles in miRPT model",
+          "inputs": [
+            "spatial locations of immobile particles",
+            "miRPT model"
+          ],
+          "outputs": [
+            "perturbed spatial distribution"
+          ],
+          "keywords": [
+            "perturbation",
+            "spatial distribution",
+            "miRPT model"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Conduct an ensemble of 100 realizations to accurately capture the statistics of the results.",
+          "searchable_summary": "perform ensemble simulations to capture statistical results",
+          "inputs": [
+            "perturbed models"
+          ],
+          "outputs": [
+            "statistical data from 100 realizations"
+          ],
+          "keywords": [
+            "ensemble simulation",
+            "statistics",
+            "realizations"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Finite-Difference Model",
+      "description": "This method uses a finite-difference model on a regularly-spaced grid, explicit in time, and second-order centered in space. It employs an operator-splitting approach between diffusion and reaction calculations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Choose a spatial grid with spatial step size ∆x = 1 cm, implying a number of cells, N C := L/∆x = 40.",
+          "searchable_summary": "set up spatial grid for finite-difference model",
+          "inputs": [
+            "spatial step size ∆x",
+            "domain length L"
+          ],
+          "outputs": [
+            "spatial grid configuration"
+          ],
+          "keywords": [
+            "finite-difference",
+            "spatial grid",
+            "operator-splitting"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Consider three different time step lengths of ∆t ∈ {259, 2592, 25920} s to calibrate the model.",
+          "searchable_summary": "calibrate finite-difference model with different time step lengths",
+          "inputs": [
+            "time step lengths ∆t"
+          ],
+          "outputs": [
+            "calibrated model"
+          ],
+          "keywords": [
+            "time step",
+            "calibration",
+            "finite-difference"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Particle-Tracking Model",
+      "description": "This method employs the miRPT algorithm for particle-tracking, which includes mass reduction, diffusive mass transfer, and fluid-solid interactions. It partitions total diffusion into random-walks and mass-transfers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Partition the total diffusion of the system into random-walks, mobile-to-immobile mass-transfers, and immobile-to-mobile mass-transfers.",
+          "searchable_summary": "partition diffusion in particle-tracking model",
+          "inputs": [
+            "total diffusion",
+            "miRPT algorithm"
+          ],
+          "outputs": [
+            "partitioned diffusion components"
+          ],
+          "keywords": [
+            "diffusion",
+            "random-walk",
+            "mass-transfer"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Choose time step lengths to correspond to finite-difference simulations, considering ∆t ∈ {259, 2592, 25920} s.",
+          "searchable_summary": "align time step lengths with finite-difference simulations",
+          "inputs": [
+            "time step lengths ∆t"
+          ],
+          "outputs": [
+            "aligned time step configuration"
+          ],
+          "keywords": [
+            "time step",
+            "finite-difference",
+            "particle-tracking"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Hold the number of mobile particles (N M) to 4000 and vary the number of immobile particles (N I) for different cases.",
+          "searchable_summary": "configure particle numbers for simulations",
+          "inputs": [
+            "number of mobile particles",
+            "number of immobile particles"
+          ],
+          "outputs": [
+            "particle configuration"
+          ],
+          "keywords": [
+            "particle-tracking",
+            "mobile particles",
+            "immobile particles"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/263979488.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

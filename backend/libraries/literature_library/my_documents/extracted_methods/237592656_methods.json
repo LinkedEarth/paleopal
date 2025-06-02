@@ -1,0 +1,147 @@
+{
+  "paper_title": "Discussing anthropogenic global warming from an econometric perspective: a change scenario based on the Arima paleoclimate time series model",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Collection and Preparation",
+      "description": "This method involves collecting and preparing data from Kaufmann et al., (2020) for analysis. The data includes mean land surface temperature during the Holocene era, available in CSV and netCDF formats, and is used as input for further statistical analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extraction of the primary data from this study is available as individual CSV files and merged as a netCDF file at figshare and at NOAA Palaeoclimatology.",
+          "searchable_summary": "download CSV and netCDF files from figshare and NOAA Palaeoclimatology",
+          "inputs": [
+            "figshare URL",
+            "NOAA Palaeoclimatology URL"
+          ],
+          "outputs": [
+            "CSV files",
+            "netCDF file"
+          ],
+          "keywords": [
+            "data extraction",
+            "CSV",
+            "netCDF",
+            "figshare",
+            "NOAA"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "A CSV file with the multi-method joint median and 5th and 95th percentiles is also available in both data repositories.",
+          "searchable_summary": "process CSV file to extract joint median and percentiles",
+          "inputs": [
+            "CSV file"
+          ],
+          "outputs": [
+            "processed data with median and percentiles"
+          ],
+          "keywords": [
+            "data processing",
+            "percentiles",
+            "median"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "All were used as input data to compose the 12k time series of paleotemperatures in the two variables and fed into IBM SPSS-Statistics software (v. 22) for the calculation of parameters and estimates.",
+          "searchable_summary": "analyze data using IBM SPSS-Statistics to calculate parameters and estimates",
+          "inputs": [
+            "processed data",
+            "IBM SPSS-Statistics"
+          ],
+          "outputs": [
+            "calculated parameters",
+            "estimates"
+          ],
+          "keywords": [
+            "data analysis",
+            "SPSS",
+            "parameters",
+            "estimates"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Box-Jenkins ARIMA Modeling",
+      "description": "This method applies the Box-Jenkins methodology to estimate and interpret a statistical model for forecasting based on the ARIMA model. It involves ensuring data stationarity, differentiating the time series, and optimizing the ARIMA model parameters.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "We concluded that the MedTempGlobal time series model was not stationary and we had to normalize it, making it stationary with constant mean and variance and its covariance invariant over time.",
+          "searchable_summary": "normalize time series to achieve stationarity",
+          "inputs": [
+            "MedTempGlobal time series"
+          ],
+          "outputs": [
+            "stationary time series"
+          ],
+          "keywords": [
+            "time series",
+            "normalization",
+            "stationarity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "If a time series is integrated of order 1, therefore, it is I (1), after differentiating it becomes I (0), that is, stationary.",
+          "searchable_summary": "differentiate time series to achieve I(0) stationarity",
+          "inputs": [
+            "integrated time series I(1)"
+          ],
+          "outputs": [
+            "stationary time series I(0)"
+          ],
+          "keywords": [
+            "differentiation",
+            "time series",
+            "stationarity"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "We, therefore, have in this time series an ARIMA (1,0,1) model, as it was differentiated once (d = 1) before becoming stationary (of first difference), and can be modeled as an ARMA (1,1) process.",
+          "searchable_summary": "model time series as ARIMA(1,0,1)",
+          "inputs": [
+            "stationary time series"
+          ],
+          "outputs": [
+            "ARIMA(1,0,1) model"
+          ],
+          "keywords": [
+            "ARIMA",
+            "modeling",
+            "time series"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Run in the software SPSS -Statistics all the possible combinations of the ARIMA model (p,d,q) in the two parameters, to arrive at the statistically optimal model.",
+          "searchable_summary": "optimize ARIMA model parameters using SPSS",
+          "inputs": [
+            "time series data",
+            "SPSS software"
+          ],
+          "outputs": [
+            "optimal ARIMA model parameters"
+          ],
+          "keywords": [
+            "ARIMA",
+            "optimization",
+            "SPSS"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/237592656.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

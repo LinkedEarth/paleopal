@@ -1,0 +1,137 @@
+{
+  "paper_title": "Phylogeny and Expression Analysis of SM Proteins",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "SM Protein Identification",
+      "description": "Identification of SM proteins from various plant species using BLAST sequence search.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We identified SM proteins from tomato, rice and Amborella by BLAST sequence search using the Phytozome 12 database with the SEC1A protein sequence as query.",
+          "searchable_summary": "Perform BLAST sequence search on Phytozome 12 database using SEC1A protein sequence.",
+          "inputs": [
+            "SEC1A protein sequence",
+            "Phytozome 12 database"
+          ],
+          "outputs": [
+            "Identified SM proteins from tomato, rice, and Amborella"
+          ],
+          "keywords": [
+            "BLAST",
+            "Phytozome",
+            "protein sequence",
+            "SM proteins"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The maize gene models were identified in the same way from the MaizeGDB database using the B73 FGS translations 5b.60 for RefGen_v2.",
+          "searchable_summary": "Perform BLAST sequence search on MaizeGDB database using B73 FGS translations 5b.60.",
+          "inputs": [
+            "B73 FGS translations 5b.60",
+            "MaizeGDB database"
+          ],
+          "outputs": [
+            "Identified maize gene models"
+          ],
+          "keywords": [
+            "BLAST",
+            "MaizeGDB",
+            "gene models",
+            "B73 FGS"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Tree Construction",
+      "description": "Construction of a maximum parsimony phylogenetic tree using protein coding sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A maximum parsimony phylogenetic tree was generated using 100 replicate bootstrap values using the Phylip 3.698 program suite with At3g22150 (AEF1) as an outgroup to root the tree.",
+          "searchable_summary": "Generate maximum parsimony phylogenetic tree with 100 bootstrap replicates using Phylip 3.698.",
+          "inputs": [
+            "Protein coding sequences",
+            "At3g22150 (AEF1) as outgroup"
+          ],
+          "outputs": [
+            "Maximum parsimony phylogenetic tree"
+          ],
+          "keywords": [
+            "phylogenetic tree",
+            "maximum parsimony",
+            "Phylip",
+            "bootstrap"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The phylogeny was constructed using the full predicted protein coding sequences and, in the event that more than one transcript per gene was annotated, we took the one encoding the longest protein.",
+          "searchable_summary": "Select longest protein-coding transcript per gene for phylogeny construction.",
+          "inputs": [
+            "Predicted protein coding sequences"
+          ],
+          "outputs": [
+            "Selected longest protein-coding transcripts"
+          ],
+          "keywords": [
+            "protein coding sequences",
+            "transcript selection",
+            "phylogeny"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Expression Analysis and Visualization",
+      "description": "Gathering expression values from RNA-seq and microarray data and visualizing them as a heatmap.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Expression values of the SM homologs were gathered from published RNA-seq data (tomato -Lara-Mondrag on & MacAlister, 2021; maize - Davidson et al., 2011; Amborella -Flores-Tornero et al., 2020; Arabidopsis -Loraine et al., 2013) or microarray data (rice -Wei et al., 2010; Arabidopsis -Klepikova et al., 2016).",
+          "searchable_summary": "Collect expression values from RNA-seq and microarray data for SM homologs.",
+          "inputs": [
+            "RNA-seq data",
+            "microarray data"
+          ],
+          "outputs": [
+            "Expression values of SM homologs"
+          ],
+          "keywords": [
+            "RNA-seq",
+            "microarray",
+            "expression values",
+            "SM homologs"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "A heatmap corresponding to the log2 of the mean expression values per gene was plotted using the pheatmap package in Rstudio.",
+          "searchable_summary": "Plot heatmap of log2 mean expression values using pheatmap in Rstudio.",
+          "inputs": [
+            "Mean expression values per gene"
+          ],
+          "outputs": [
+            "Heatmap of expression values"
+          ],
+          "keywords": [
+            "heatmap",
+            "pheatmap",
+            "Rstudio",
+            "expression visualization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/247584502.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

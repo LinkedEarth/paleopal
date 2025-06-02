@@ -1,0 +1,330 @@
+{
+  "paper_title": "Ancient DNA Analysis and Biostatistical Methods",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ancient DNA Extraction and Library Preparation",
+      "description": "Process for extracting DNA from ancient bone and teeth samples, preparing libraries, and sequencing them to analyze ancient genetic material.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Samples were cleaned from earth and potential contaminants and the teeth were wiped with 1-3% NaOCl solution and ddH2O, and were thereafter subjected to UV radiation at about 6 J/cm2 at 254 nm.",
+          "searchable_summary": "clean and decontaminate samples using NaOCl and UV radiation",
+          "inputs": [
+            "bone and teeth samples"
+          ],
+          "outputs": [
+            "cleaned samples"
+          ],
+          "keywords": [
+            "decontamination",
+            "NaOCl",
+            "UV radiation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Bone powder or bone fragments were obtained using a Dremel drill.",
+          "searchable_summary": "obtain bone powder using a Dremel drill",
+          "inputs": [
+            "bone samples"
+          ],
+          "outputs": [
+            "bone powder or fragments"
+          ],
+          "keywords": [
+            "bone powder",
+            "Dremel drill"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The samples were digested in 1 M Urea, EDTA (0.5 M) and Proteinase K (10 mg/ml).",
+          "searchable_summary": "digest samples using Urea, EDTA, and Proteinase K",
+          "inputs": [
+            "bone powder or fragments"
+          ],
+          "outputs": [
+            "digested samples"
+          ],
+          "keywords": [
+            "digestion",
+            "Urea",
+            "EDTA",
+            "Proteinase K"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "DNA extract was concentrated using Amicon filters and purified with silica-based MinElute spin columns.",
+          "searchable_summary": "concentrate and purify DNA using Amicon filters and MinElute spin columns",
+          "inputs": [
+            "digested samples"
+          ],
+          "outputs": [
+            "purified DNA extract"
+          ],
+          "keywords": [
+            "DNA concentration",
+            "Amicon filters",
+            "MinElute"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Double-stranded blunt-end Illumina genomic libraries were prepared from 20 µl DNA following Meyer & Kircher protocol.",
+          "searchable_summary": "prepare Illumina genomic libraries from DNA",
+          "inputs": [
+            "purified DNA extract"
+          ],
+          "outputs": [
+            "genomic libraries"
+          ],
+          "keywords": [
+            "Illumina libraries",
+            "Meyer & Kircher protocol"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Libraries were sequenced using Illumina HiSeq X platform.",
+          "searchable_summary": "sequence libraries using Illumina HiSeq X",
+          "inputs": [
+            "genomic libraries"
+          ],
+          "outputs": [
+            "sequence data"
+          ],
+          "keywords": [
+            "sequencing",
+            "Illumina HiSeq X"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Data Processing",
+      "description": "Processing and mapping of sequence data to the human reference genome, including filtering and preparation for comparative analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Paired-end reads with a minimum 11 bp overlap were merged and residual adapter sequences were trimmed.",
+          "searchable_summary": "merge paired-end reads and trim adapter sequences",
+          "inputs": [
+            "sequence data"
+          ],
+          "outputs": [
+            "merged and trimmed reads"
+          ],
+          "keywords": [
+            "paired-end reads",
+            "adapter trimming"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Merged reads were mapped to the human reference genome using BWA.",
+          "searchable_summary": "map reads to human reference genome using BWA",
+          "inputs": [
+            "merged and trimmed reads"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "BWA",
+            "genome mapping"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR duplicates were filtered using FilterUniqSAMCons_cc.py.",
+          "searchable_summary": "filter PCR duplicates",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "filtered reads"
+          ],
+          "keywords": [
+            "PCR duplicates",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Reads mapped to the reference genome with more than 10% mismatches and shorter than 35 bp were filtered.",
+          "searchable_summary": "filter reads with high mismatches and short length",
+          "inputs": [
+            "filtered reads"
+          ],
+          "outputs": [
+            "quality-filtered reads"
+          ],
+          "keywords": [
+            "mismatch filtering",
+            "length filtering"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Authenticity Assessment",
+      "description": "Assessment of ancient DNA authenticity through nucleotide misincorporation patterns and contamination estimation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Ancient DNA specific nucleotide misincorporation patterns were examined using PMDtools.",
+          "searchable_summary": "analyze nucleotide misincorporation patterns with PMDtools",
+          "inputs": [
+            "quality-filtered reads"
+          ],
+          "outputs": [
+            "misincorporation pattern analysis"
+          ],
+          "keywords": [
+            "nucleotide misincorporation",
+            "PMDtools"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Mitochondrial DNA based contamination estimation was performed using methods developed by Green et al. and Fu et al.",
+          "searchable_summary": "estimate contamination using Green and Fu methods",
+          "inputs": [
+            "quality-filtered reads"
+          ],
+          "outputs": [
+            "contamination estimates"
+          ],
+          "keywords": [
+            "contamination estimation",
+            "mtDNA"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biological Sex Determination",
+      "description": "Determination of biological sex using read mapping ratios to X and Y chromosomes.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Ratio of reads mapping to Y chromosome to the reads mapping to both X and Y chromosome was calculated.",
+          "searchable_summary": "calculate read mapping ratio for sex determination",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "sex determination ratio"
+          ],
+          "keywords": [
+            "sex determination",
+            "chromosome mapping"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biostatistical Analysis",
+      "description": "Statistical analysis of mitochondrial haplogroup frequencies, genetic differentiation, and haplotype diversity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Mitochondrial haplogroup frequencies and 95% confidence intervals were calculated using a Bayesian method.",
+          "searchable_summary": "calculate haplogroup frequencies with Bayesian method",
+          "inputs": [
+            "haplogroup data"
+          ],
+          "outputs": [
+            "haplogroup frequencies"
+          ],
+          "keywords": [
+            "haplogroup frequencies",
+            "Bayesian method"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Principal component analysis (PCA) was performed using 'PCA' function of 'FactoMineR' library in R.",
+          "searchable_summary": "perform PCA using FactoMineR in R",
+          "inputs": [
+            "haplogroup data"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "FactoMineR"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Slatkin's linearized F ST between pairs of populations was calculated and significance assessed by random permutations.",
+          "searchable_summary": "calculate F ST and assess significance with permutations",
+          "inputs": [
+            "population data"
+          ],
+          "outputs": [
+            "F ST values"
+          ],
+          "keywords": [
+            "F ST",
+            "genetic differentiation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Non-metric multidimensional scaling (NMDS) on F ST values was performed using 'metaMDS' function in 'vegan' library.",
+          "searchable_summary": "perform NMDS on F ST values using vegan in R",
+          "inputs": [
+            "F ST values"
+          ],
+          "outputs": [
+            "NMDS results"
+          ],
+          "keywords": [
+            "NMDS",
+            "vegan"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Mitochondrial haplotype diversity was calculated using DnaSP v.6.",
+          "searchable_summary": "calculate haplotype diversity with DnaSP",
+          "inputs": [
+            "haplotype data"
+          ],
+          "outputs": [
+            "haplotype diversity"
+          ],
+          "keywords": [
+            "haplotype diversity",
+            "DnaSP"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/256955337.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

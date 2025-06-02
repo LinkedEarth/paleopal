@@ -1,0 +1,506 @@
+{
+  "4446702d-443a-4f2c-b63b-16b43f1cf1b6": {
+    "workflow_id": "4446702d-443a-4f2c-b63b-16b43f1cf1b6",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral proxy records measuring \u03b418O with an age coverage that includes parts of the last 10,000 years.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the selected coral \u03b418O dataset(s) into a suitable data structure (e.g., pandas DataFrame or Paleopandas MultipleSeries). Filter or slice the data to strictly include only the last 10,000 years.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Process the loaded time series data: handle age models if necessary, check for data quality issues, and resample the data to a consistent time resolution appropriate for capturing ENSO-scale variability (e.g., annual or sub-annual). If multiple records were loaded, align and potentially merge them.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Calculate a measure of ENSO variability from the processed coral \u03b418O time series over the last 10,000 years. This could involve band-pass filtering the time series for the ENSO frequency range (e.g., 2-7 years) and calculating a rolling standard deviation or variance, or performing spectral analysis on overlapping time windows.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Plot the calculated ENSO variability measure as a function of time over the last 10,000 years to visualize changes in variability.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": "t1",
+    "step_conversations": {
+      "t0": "7fbe712f-a9d3-4a14-ac67-40ef6da77b44",
+      "t1": "5a5d0351-9352-4038-a471-b8ca1138d517"
+    }
+  },
+  "4cbf61e0-e89f-4f4c-a842-fb9f02b75c23": {
+    "workflow_id": "4cbf61e0-e89f-4f4c-a842-fb9f02b75c23",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "code",
+        "user_input": "Import necessary libraries for data handling, analysis, and plotting (e.g., pandas, numpy, matplotlib, seaborn).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "sparql",
+        "user_input": "Fetch a paleoclimate record, for example, a sediment core record with age and proxy data (like \u03b418O or temperature reconstruction) from a specific region and time period (e.g., North Atlantic, Holocene).",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Load the fetched data into a pandas DataFrame and display the first few rows and data types to inspect the structure.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Perform basic data preprocessing. Handle any missing values (e.g., dropping or interpolating, with rationale), ensure data types are correct, and sort the data by age or time.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Perform a basic time series analysis on the primary proxy data. Calculate summary statistics (mean, median, standard deviation) and perhaps smooth the time series.",
+        "dependencies": [
+          "t3"
+        ]
+      },
+      {
+        "step_id": "t5",
+        "agent_type": "code",
+        "user_input": "Visualize the preprocessed paleoclimate record as a time series plot, with age/time on the x-axis and the proxy value on the y-axis. Add titles and labels.",
+        "dependencies": [
+          "t4"
+        ]
+      },
+      {
+        "step_id": "t6",
+        "agent_type": "code",
+        "user_input": "Add a markdown cell or print statement to summarize the key observations from the plot and analysis, and suggest potential next steps (e.g., correlation with climate indices, spectral analysis, comparison with other records or models).",
+        "dependencies": [
+          "t5"
+        ]
+      }
+    ],
+    "estimated_steps": 7,
+    "agents_involved": [
+      "code",
+      "sparql"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "e2e0e6f3-ef93-4c1a-9bd7-b4c17c130c3e": {
+    "workflow_id": "e2e0e6f3-ef93-4c1a-9bd7-b4c17c130c3e",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find ice core dataset records that contain temperature proxy data.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the dataset identified in the previous step into a pandas DataFrame. Display the first few rows and the column names.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Identify the time/age column and the temperature proxy column in the DataFrame. Ensure the time column is in a suitable numerical format (e.g., years Before Present or years CE). If necessary, convert it. Display the data types of the relevant columns.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Create a time series object (e.g., a pandas Series or PyleoSeries) using the processed time column as the index and the temperature proxy column as the values.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Plot the temperature proxy time series. Label the x-axis as 'Age (years BP)' or 'Time (years CE)' (depending on the data) and the y-axis as the name of the temperature proxy.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "464849ca-22b5-41ab-8a0c-2d428f4ecabc": {
+    "workflow_id": "464849ca-22b5-41ab-8a0c-2d428f4ecabc",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find ice core datasets that contain variables related to temperature proxies (e.g., \u03b418O, \u03b4D, inferred temperature).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the results from the SPARQL query into a pandas DataFrame. Display the available variables and their descriptions.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Identify the time column and the column corresponding to the temperature proxy variable from the DataFrame. Ensure the time column is treated as numerical age (e.g., years Before Present) and the proxy column contains numerical data.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Create a Pyleoclim 'Series' object using the identified time and temperature proxy columns. Assign appropriate metadata if available (e.g., variable name, units).",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Plot the Pyleoclim 'Series' object as a time series, with age on the x-axis and the proxy value on the y-axis.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": "t0",
+    "step_conversations": {
+      "t0": "f8f2599d-6695-4149-b26f-65c5381026e3"
+    }
+  },
+  "cdadc10b-e1a4-4d2b-a599-d398a268ce3e": {
+    "workflow_id": "cdadc10b-e1a4-4d2b-a599-d398a268ce3e",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Fetch ice core datasets containing temperature proxy data (e.g., d18O, dD, borehole temperature).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the fetched ice core data files (e.g., .csv, .txt) into a pandas DataFrame or similar structure for processing.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Identify the time/age column and the temperature proxy variable column(s). Ensure the time axis is properly formatted (e.g., numerical age in years BP, or converted to datetime).",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Create a time series object (e.g., Pyleo Series or pandas Series) using the identified time axis and temperature proxy data.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Generate a time series plot of the temperature proxy data against time.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": "t1",
+    "step_conversations": {
+      "t0": "430ae345-e03a-4504-a934-6a80fe3f5984",
+      "t1": "9a568d69-e6bf-44c5-a41e-15e15be0cf57"
+    }
+  },
+  "0ee111ff-9c0d-4087-b7aa-8f0e7d4d6179": {
+    "workflow_id": "0ee111ff-9c0d-4087-b7aa-8f0e7d4d6179",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral d18O records covering the past 10,000 years (0-10,000 years Before Present).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the fetched coral d18O dataset(s) into a suitable data structure, like a pandas DataFrame or xarray Dataset. Inspect the data structure, variables, and time axis.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Filter the data to the specified time range (0 to 10,000 years Before Present). If multiple records were loaded, align them to a common time axis or handle them individually as appropriate for the analysis. Consider resampling if necessary for uniform time steps.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Calculate a metric to represent changes in ENSO variability over time from the d18O data. A common approach is to compute the standard deviation within a moving time window (e.g., a few decades to a century window). Plot this calculated variability metric against age.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Visualize the time series of the calculated ENSO variability metric (e.g., moving standard deviation) over the 0-10,000 years BP period. Add clear labels for axes (Age BP, ENSO Variability Metric) and a title.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": "t0",
+    "step_conversations": {
+      "t0": "e4d2924b-c428-43d7-bfde-7464ac016921"
+    }
+  },
+  "b6703351-235c-46ea-bbf9-1d9841081b89": {
+    "workflow_id": "b6703351-235c-46ea-bbf9-1d9841081b89",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "code",
+        "user_input": "Import necessary Python libraries for data manipulation (e.g., pandas, xarray) and visualization (e.g., matplotlib, seaborn).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "sparql",
+        "user_input": "Query a paleoclimate database (e.g., using LinkedEarth or a similar source) to fetch relevant climate proxy data. For this example, let's query for ice core oxygen isotope (delta-18O) records from Antarctica covering the last ~800,000 years (e.g., EPICA Dome C).",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Load the fetched data into a suitable data structure (e.g., pandas DataFrame or xarray Dataset). Inspect the data structure, column names, and initial rows. Ensure age/time scales are correctly parsed.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Perform initial data inspection and quality control. Check for missing values, outliers, and verify age models. Create a simple time series plot of the primary proxy variable (delta-18O) against age or time to visually inspect the data.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "This cell marks the transition to specific analysis steps. The following cells will contain the core paleoclimate analysis (e.g., spectral analysis, correlation, comparison with climate models, etc.) depending on the specific research question. Add markdown or comments describing the planned analysis steps here.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "code",
+      "sparql"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "451de7bd-2d0a-4ac2-9e20-b1dced567df4": {
+    "workflow_id": "451de7bd-2d0a-4ac2-9e20-b1dced567df4",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral datasets and plot temperature anomalies",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Generate Python code to analyse results from step t0. Original request: Find coral datasets and plot temperature anomalies",
+        "dependencies": [
+          "t0"
+        ]
+      }
+    ],
+    "estimated_steps": 2,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": "t0",
+    "step_conversations": {
+      "t0": "ab50789b-cc16-4fde-ac3a-6ed5a7c8dfb3"
+    }
+  },
+  "b78c4462-c2c0-4c4e-8afc-1acb8ccb26da": {
+    "workflow_id": "b78c4462-c2c0-4c4e-8afc-1acb8ccb26da",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral d18O records covering the last 10,000 years (Holocene).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the fetched coral d18O dataset(s) into a suitable data structure (e.g., Pyleoclim `MultipleSeries` or pandas DataFrame). Perform initial data cleaning, quality control, and ensure a consistent age axis if multiple records are used.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Slice the time series data into multiple overlapping or non-overlapping time windows across the last 10,000 years (e.g., 1000-year or 2000-year segments) to analyze changes over time.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "For each time window, calculate relevant ENSO variability metrics from the coral d18O data. This could include calculating the power spectral density (e.g., Lomb-Scargle periodogram) to identify power in the ENSO frequency band (2-7 years), calculating standard deviation or variance as a measure of overall variability, or other time-domain statistics.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Compare the ENSO variability metrics (e.g., spectral power in the ENSO band, standard deviation) calculated for each time window. Visualize these metrics over time (e.g., plot spectral power vs. time window center age, plot standard deviation vs. time).",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "1023d873-99f7-4ce2-b65a-d39b5935fed4": {
+    "workflow_id": "1023d873-99f7-4ce2-b65a-d39b5935fed4",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral d18O records from the Indo-Pacific region covering all or part of the last 10,000 years (Holocene). Prioritize records with high temporal resolution.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the selected coral d18O time series data. If multiple records are found, load them into a suitable structure like a list of pandas DataFrames or a single MultipleSeries object if applicable.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Preprocess the coral d18O time series. This may include aligning records by age, resampling to a common time step if necessary, and handling potential gaps. If using multiple records, consider normalizing or standardizing them for comparison.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Analyze the variability of the coral d18O time series over the last 10,000 years to infer changes in ENSO characteristics. Calculate a moving variance or apply windowed spectral analysis to identify periods of higher or lower interannual variability.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Visualize the original coral d18O time series alongside the results of the variability analysis (e.g., the moving variance or spectral power changes over time) to illustrate potential shifts in ENSO behavior during the Holocene.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  }
+}

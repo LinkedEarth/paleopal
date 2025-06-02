@@ -1,0 +1,238 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Openness Reconstruction Using REVEALS Model",
+      "description": "This method applies the REVEALS model to reconstruct landscape openness from pollen counts, addressing the underestimation of herb presence in pollen percentage values.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Apply the REVEALS model to reconstruct openness from pollen counts.",
+          "searchable_summary": "use REVEALS model to reconstruct landscape openness from pollen data",
+          "inputs": [
+            "pollen counts",
+            "pollen productivity estimates",
+            "lake diameter"
+          ],
+          "outputs": [
+            "reconstructed openness values"
+          ],
+          "keywords": [
+            "REVEALS model",
+            "pollen analysis",
+            "landscape openness"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use the Lagrangian stochastic model for pollen dispersal and apply pollen productivity estimates derived for the SW-Baltic study area.",
+          "searchable_summary": "apply Lagrangian stochastic model for pollen dispersal",
+          "inputs": [
+            "pollen productivity estimates",
+            "SW-Baltic study area data"
+          ],
+          "outputs": [
+            "pollen dispersal data"
+          ],
+          "keywords": [
+            "Lagrangian stochastic model",
+            "pollen dispersal"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Set the lake diameter in the model at 600 m.",
+          "searchable_summary": "set lake diameter parameter in model",
+          "inputs": [
+            "lake diameter"
+          ],
+          "outputs": [
+            "configured model"
+          ],
+          "keywords": [
+            "lake diameter",
+            "model configuration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Apply the model with the REVEALSinR function from the DISQOVER package in R version 3.6.3.",
+          "searchable_summary": "execute REVEALSinR function in R for model application",
+          "inputs": [
+            "REVEALSinR function",
+            "DISQOVER package"
+          ],
+          "outputs": [
+            "model results"
+          ],
+          "keywords": [
+            "REVEALSinR",
+            "DISQOVER package",
+            "R programming"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Geochemical Data Preprocessing",
+      "description": "Preprocessing of geochemical data for further statistical analysis, including transformations and standardizations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Calculate the CaCO3 relative contribution from the LOI950 data by multiplying the LOI950 percent values by 2.2576.",
+          "searchable_summary": "compute CaCO3 contribution from LOI950 data",
+          "inputs": [
+            "LOI950 data"
+          ],
+          "outputs": [
+            "CaCO3 contribution values"
+          ],
+          "keywords": [
+            "CaCO3 calculation",
+            "LOI950"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Log-transform LOI550 and Fe data.",
+          "searchable_summary": "apply log transformation to LOI550 and Fe data",
+          "inputs": [
+            "LOI550 data",
+            "Fe data"
+          ],
+          "outputs": [
+            "log-transformed LOI550",
+            "log-transformed Fe"
+          ],
+          "keywords": [
+            "log transformation",
+            "LOI550",
+            "Fe data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Select every second CaCO3 and OM sample due to higher resolution.",
+          "searchable_summary": "downsample CaCO3 and OM data",
+          "inputs": [
+            "CaCO3 data",
+            "OM data"
+          ],
+          "outputs": [
+            "downsampled CaCO3",
+            "downsampled OM"
+          ],
+          "keywords": [
+            "downsampling",
+            "CaCO3",
+            "OM"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Standardize geochemical data to zero mean and unit variance before statistical analyses.",
+          "searchable_summary": "standardize geochemical data",
+          "inputs": [
+            "geochemical data"
+          ],
+          "outputs": [
+            "standardized geochemical data"
+          ],
+          "keywords": [
+            "standardization",
+            "zero mean",
+            "unit variance"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Biotic and Geochemical Data",
+      "description": "Statistical procedures to analyze biotic and geochemical data, including transformations, cluster analysis, and redundancy analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Square-root transform biotic dataset for statistical analysis.",
+          "searchable_summary": "apply square-root transformation to biotic data",
+          "inputs": [
+            "biotic dataset"
+          ],
+          "outputs": [
+            "transformed biotic data"
+          ],
+          "keywords": [
+            "square-root transformation",
+            "biotic data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Perform stratigraphically constrained cluster analysis (CONISS) to determine significant compositional changes.",
+          "searchable_summary": "execute CONISS for compositional change analysis",
+          "inputs": [
+            "biotic data",
+            "geochemical data"
+          ],
+          "outputs": [
+            "dendrogram",
+            "significant zones"
+          ],
+          "keywords": [
+            "CONISS",
+            "cluster analysis",
+            "compositional change"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Estimate principal curve (PrC) to analyze compositional trends.",
+          "searchable_summary": "estimate principal curve for trend analysis",
+          "inputs": [
+            "biotic data",
+            "geochemical data"
+          ],
+          "outputs": [
+            "principal curve estimates"
+          ],
+          "keywords": [
+            "principal curve",
+            "trend analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Conduct partial redundancy analyses (pRDA) to assess influence of terrestrial vegetation composition.",
+          "searchable_summary": "perform pRDA for vegetation influence assessment",
+          "inputs": [
+            "terrestrial vegetation data",
+            "aquatic biological data",
+            "geochemical data"
+          ],
+          "outputs": [
+            "pRDA results"
+          ],
+          "keywords": [
+            "pRDA",
+            "redundancy analysis",
+            "vegetation influence"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/248276893.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

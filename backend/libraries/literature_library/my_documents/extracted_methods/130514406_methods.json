@@ -1,0 +1,196 @@
+{
+  "paper_title": "Investigating the consistency between proxies and between proxies and models using data assimilation: a mid-Holocene case study",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Particle Filter with Resampling",
+      "description": "This method involves using a particle filter with resampling to assimilate data into climate simulations. It is used to improve the accuracy of climate model predictions by incorporating paleodata and maintaining a constant number of simulation particles.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "An ensemble of 96 simulations, also referred to as particles or 20 ensemble members, is first initiated from slightly different states obtained by perturbing the surface temperature of an equilibrium experiment under the same conditions as the simulation without data assimilation.",
+          "searchable_summary": "initialize ensemble of simulations with perturbed surface temperatures",
+          "inputs": [
+            "equilibrium experiment data",
+            "surface temperature perturbations"
+          ],
+          "outputs": [
+            "ensemble of 96 simulations"
+          ],
+          "keywords": [
+            "ensemble simulation",
+            "particle filter",
+            "climate model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "After the assimilation step, which is six months here, the likelihood of each member of the difference between mid-Holocene and modern conditions is computed for all the locations and months for which paleodata is available.",
+          "searchable_summary": "compute likelihood of simulation members based on paleodata",
+          "inputs": [
+            "simulation data",
+            "paleodata"
+          ],
+          "outputs": [
+            "likelihood values for each simulation member"
+          ],
+          "keywords": [
+            "likelihood computation",
+            "paleodata",
+            "climate conditions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The particles that have the largest likelihood are retained. The other ensemble members are rejected.",
+          "searchable_summary": "retain particles with largest likelihood",
+          "inputs": [
+            "likelihood values"
+          ],
+          "outputs": [
+            "filtered ensemble of particles"
+          ],
+          "keywords": [
+            "particle filtering",
+            "likelihood threshold"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The remaining particles are resampled a number of times proportional to their likelihood in order to keep the number of particles constant and avoid a degenerative issue.",
+          "searchable_summary": "resample particles based on likelihood",
+          "inputs": [
+            "filtered ensemble of particles",
+            "likelihood values"
+          ],
+          "outputs": [
+            "resampled ensemble of particles"
+          ],
+          "keywords": [
+            "resampling",
+            "particle filter",
+            "degenerative issue"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "A small perturbation of surface temperature is then added to the initial conditions of the members that have been sampled more than once, and the particles are propagated forward in time using the climate model.",
+          "searchable_summary": "add perturbation and propagate particles forward in time",
+          "inputs": [
+            "resampled ensemble of particles",
+            "climate model"
+          ],
+          "outputs": [
+            "updated ensemble of particles"
+          ],
+          "keywords": [
+            "perturbation",
+            "climate model",
+            "time propagation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The whole procedure is repeated until the end of the simulated period (which corresponds to 400 yr here).",
+          "searchable_summary": "repeat procedure for entire simulation period",
+          "inputs": [
+            "updated ensemble of particles"
+          ],
+          "outputs": [
+            "final ensemble of particles"
+          ],
+          "keywords": [
+            "iteration",
+            "simulation period",
+            "climate model"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mid-Holocene Simulation Design",
+      "description": "This method describes the design of mid-Holocene simulations with data assimilation to compare different proxy data and model results. It aims to identify the signal brought by different subsets of data and assess the compatibility between model physics and proxies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Three mid-Holocene simulations with data assimilation are performed and compared to a mid-Holocene reference simulation realized with LOVECLIM, named NODATA.",
+          "searchable_summary": "perform and compare mid-Holocene simulations with and without data assimilation",
+          "inputs": [
+            "LOVECLIM model",
+            "mid-Holocene data"
+          ],
+          "outputs": [
+            "simulation results"
+          ],
+          "keywords": [
+            "mid-Holocene",
+            "data assimilation",
+            "LOVECLIM"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "In two simulations either the continental or the oceanic proxies are assimilated and in one simulation these proxies are assimilated together.",
+          "searchable_summary": "assimilate continental and oceanic proxies in simulations",
+          "inputs": [
+            "continental proxies",
+            "oceanic proxies"
+          ],
+          "outputs": [
+            "simulation results with proxy assimilation"
+          ],
+          "keywords": [
+            "proxy assimilation",
+            "continental proxies",
+            "oceanic proxies"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "A simulation spanning the reference period (950 to 450 yr BP) is required as the likelihood in the data assimilation process compares proxy anomalies with modeled anomalies.",
+          "searchable_summary": "perform reference period simulation for likelihood comparison",
+          "inputs": [
+            "reference period data"
+          ],
+          "outputs": [
+            "reference simulation results"
+          ],
+          "keywords": [
+            "reference period",
+            "likelihood comparison",
+            "proxy anomalies"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Simulations performed with GCMs to allow the comparison of the LOVECLIM results with the ones from three state-of-the-art models: BCC-CSM1-1, CSIRO-Mk3L-1-2 and MPI-ESM-P.",
+          "searchable_summary": "compare LOVECLIM results with GCM simulations",
+          "inputs": [
+            "GCM models",
+            "LOVECLIM results"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "GCM",
+            "LOVECLIM",
+            "model comparison"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/130514406.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

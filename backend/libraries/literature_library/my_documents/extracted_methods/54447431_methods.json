@@ -1,0 +1,240 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Spectra Data Analysis",
+      "description": "Process for analyzing protein secondary structure using ATR-FTIR spectra and curve fitting techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "All spectra were treated with the OPUS software.",
+          "searchable_summary": "process spectra using OPUS software",
+          "inputs": [
+            "raw spectra data"
+          ],
+          "outputs": [
+            "processed spectra data"
+          ],
+          "keywords": [
+            "OPUS software",
+            "spectra processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The analysis of the secondary structure of the proteins was carried out by curve fitting using the GRAMS AI software from Thermo Scientific.",
+          "searchable_summary": "perform curve fitting for protein secondary structure using GRAMS AI",
+          "inputs": [
+            "processed spectra data"
+          ],
+          "outputs": [
+            "curve-fitted spectra data"
+          ],
+          "keywords": [
+            "curve fitting",
+            "GRAMS AI",
+            "protein secondary structure"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The second derivatives were calculated from the ATR-FTIR spectra after smoothing over nine consecutive points.",
+          "searchable_summary": "calculate second derivatives of spectra after smoothing",
+          "inputs": [
+            "ATR-FTIR spectra"
+          ],
+          "outputs": [
+            "second derivative spectra"
+          ],
+          "keywords": [
+            "second derivatives",
+            "smoothing",
+            "ATR-FTIR"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "A straight baseline passing through the ordinate at 1700 and 1610 cm -1 was subtracted before the curve fitting.",
+          "searchable_summary": "subtract baseline from spectra",
+          "inputs": [
+            "second derivative spectra"
+          ],
+          "outputs": [
+            "baseline-corrected spectra"
+          ],
+          "keywords": [
+            "baseline correction",
+            "spectra"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "The baseline was again modified by the least-squares curve-fitting software, which allows for a horizontal baseline to be adjusted as an additional parameter to obtain the best fit.",
+          "searchable_summary": "adjust baseline using least-squares curve-fitting",
+          "inputs": [
+            "baseline-corrected spectra"
+          ],
+          "outputs": [
+            "adjusted baseline spectra"
+          ],
+          "keywords": [
+            "least-squares",
+            "curve-fitting",
+            "baseline adjustment"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The second derivative spectrum was used to determine the initial peak positions for curve fitting, and the peaks were fitted using Gauss functions.",
+          "searchable_summary": "fit peaks using Gauss functions based on second derivative spectrum",
+          "inputs": [
+            "second derivative spectrum"
+          ],
+          "outputs": [
+            "fitted peaks"
+          ],
+          "keywords": [
+            "Gauss functions",
+            "peak fitting",
+            "second derivative"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The area under the entire band was considered as 100%, and each component after fitting was expressed as a percent fraction.",
+          "searchable_summary": "calculate percent fraction of each component after fitting",
+          "inputs": [
+            "fitted peaks"
+          ],
+          "outputs": [
+            "percent fraction of components"
+          ],
+          "keywords": [
+            "percent fraction",
+            "area under curve",
+            "component analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical and Multidimensional Analysis",
+      "description": "Statistical tests and clustering analysis to evaluate differences among Betula species and analyze absorbance spectra.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Firstly, the normal distribution and the homogeneity of variances were checked using Shapiro-Wilk and Brown-Forsyth tests, respectively.",
+          "searchable_summary": "check normal distribution and homogeneity of variances",
+          "inputs": [
+            "data set"
+          ],
+          "outputs": [
+            "normality and variance homogeneity results"
+          ],
+          "keywords": [
+            "Shapiro-Wilk test",
+            "Brown-Forsyth test",
+            "normal distribution"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The statistical hypothesis about the lack of differences among Betula species in respect to the diameter of pollen grains was tested using Kruskal-Wallis test.",
+          "searchable_summary": "perform Kruskal-Wallis test for differences among species",
+          "inputs": [
+            "pollen grain diameter data"
+          ],
+          "outputs": [
+            "Kruskal-Wallis test results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "species differences",
+            "pollen grains"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Dunn's post hoc test was applied for multiple comparisons.",
+          "searchable_summary": "apply Dunn's post hoc test for multiple comparisons",
+          "inputs": [
+            "Kruskal-Wallis test results"
+          ],
+          "outputs": [
+            "Dunn's test results"
+          ],
+          "keywords": [
+            "Dunn's test",
+            "post hoc analysis",
+            "multiple comparisons"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Hierarchical clustering analysis (HCA) with Euclidean distance and Ward's algorithms was used to indicate groups of species with highest similarity.",
+          "searchable_summary": "perform HCA using Euclidean distance and Ward's algorithms",
+          "inputs": [
+            "absorbance spectra",
+            "mean diameter data"
+          ],
+          "outputs": [
+            "HCA results"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "Euclidean distance",
+            "Ward's algorithm"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Raw data were standardized before calculating the Euclidean distance.",
+          "searchable_summary": "standardize raw data for Euclidean distance calculation",
+          "inputs": [
+            "raw data"
+          ],
+          "outputs": [
+            "standardized data"
+          ],
+          "keywords": [
+            "data standardization",
+            "Euclidean distance",
+            "raw data"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Statistical and multidimensional analysis was performed using PAST software.",
+          "searchable_summary": "perform statistical and multidimensional analysis using PAST",
+          "inputs": [
+            "standardized data"
+          ],
+          "outputs": [
+            "analysis results"
+          ],
+          "keywords": [
+            "PAST software",
+            "multidimensional analysis",
+            "statistical analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54447431.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

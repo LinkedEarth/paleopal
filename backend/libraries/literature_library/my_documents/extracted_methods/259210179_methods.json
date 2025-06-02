@@ -1,0 +1,132 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "GWAS Analysis",
+      "description": "Genome-wide association study (GWAS) performed using a mixed linear model to identify significant SNPs associated with traits, accounting for population structure and kinship.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "An established SNP data set (Fu et al., 2013; Li et al., 2012) was used for the GWAS.",
+          "searchable_summary": "use established SNP data set for GWAS",
+          "inputs": [
+            "SNP data set"
+          ],
+          "outputs": [
+            "SNP data for analysis"
+          ],
+          "keywords": [
+            "SNP data",
+            "GWAS"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "GWAS was performed based on a mixed linear model implemented in TASSEL v3.0 software.",
+          "searchable_summary": "perform GWAS using mixed linear model in TASSEL v3.0",
+          "inputs": [
+            "SNP data",
+            "TASSEL v3.0"
+          ],
+          "outputs": [
+            "GWAS results"
+          ],
+          "keywords": [
+            "GWAS",
+            "mixed linear model",
+            "TASSEL"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The population structure and kinship were estimated as described by Yu et al. (2006).",
+          "searchable_summary": "estimate population structure and kinship",
+          "inputs": [
+            "SNP data"
+          ],
+          "outputs": [
+            "population structure",
+            "kinship estimates"
+          ],
+          "keywords": [
+            "population structure",
+            "kinship"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The compromised significance threshold for GWAS was determined by Bonferroni correction.",
+          "searchable_summary": "determine significance threshold using Bonferroni correction",
+          "inputs": [
+            "number of independent markers"
+          ],
+          "outputs": [
+            "significance threshold"
+          ],
+          "keywords": [
+            "Bonferroni correction",
+            "significance threshold"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The 'n' was determined by PLINK based on SNP pruning (plink -file data -indep-pairwise 50 50 0.1), retaining 46,345 independent SNPs.",
+          "searchable_summary": "determine number of independent SNPs using PLINK",
+          "inputs": [
+            "SNP data"
+          ],
+          "outputs": [
+            "number of independent SNPs"
+          ],
+          "keywords": [
+            "PLINK",
+            "SNP pruning"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "The Manhattan and quantile-quantile plots were generated using the R package qqman.",
+          "searchable_summary": "generate Manhattan and QQ plots using qqman",
+          "inputs": [
+            "GWAS results"
+          ],
+          "outputs": [
+            "Manhattan plot",
+            "QQ plot"
+          ],
+          "keywords": [
+            "Manhattan plot",
+            "QQ plot",
+            "qqman"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The phenotypic variation explained by the significant SNP was estimated by an analysis of variance.",
+          "searchable_summary": "estimate phenotypic variation using ANOVA",
+          "inputs": [
+            "significant SNPs",
+            "phenotypic data"
+          ],
+          "outputs": [
+            "phenotypic variation explained"
+          ],
+          "keywords": [
+            "ANOVA",
+            "phenotypic variation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/259210179.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

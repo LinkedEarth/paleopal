@@ -1,0 +1,444 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Molecular Analysis",
+      "description": "Process for extracting genomic DNA from soil samples, amplifying the fungal ITS1 region, and preparing samples for Illumina MiSeq sequencing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Genomic DNA was extracted from 0.25 g frozen soil using the PowerSoil DNA isolation kit (MoBio Laboratories, Inc.) according to the manufacturer's instructions.",
+          "searchable_summary": "extract genomic DNA from soil samples using PowerSoil DNA isolation kit",
+          "inputs": [
+            "0.25 g frozen soil"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "PowerSoil",
+            "soil samples"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "DNA concentration of each sample was measured using a NanoDrop ND-1000 Spectrophotometer (NanoDrop Technologies).",
+          "searchable_summary": "measure DNA concentration using NanoDrop ND-1000 Spectrophotometer",
+          "inputs": [
+            "genomic DNA"
+          ],
+          "outputs": [
+            "DNA concentration"
+          ],
+          "keywords": [
+            "DNA concentration",
+            "NanoDrop"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The fungal internal transcribed spacer 1 (ITS1) region was amplified using a two-step PCR procedure for Illumina MiSeq sequencing.",
+          "searchable_summary": "amplify ITS1 region using two-step PCR for sequencing",
+          "inputs": [
+            "genomic DNA"
+          ],
+          "outputs": [
+            "amplified ITS1 region"
+          ],
+          "keywords": [
+            "PCR",
+            "ITS1",
+            "Illumina MiSeq"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The first amplification of the entire ITS region with primers ITS1F and ITS4 was carried out in a final 25 μl reaction solution.",
+          "searchable_summary": "perform first PCR amplification with ITS1F and ITS4 primers",
+          "inputs": [
+            "genomic DNA",
+            "primers ITS1F and ITS4"
+          ],
+          "outputs": [
+            "first PCR product"
+          ],
+          "keywords": [
+            "PCR",
+            "ITS1F",
+            "ITS4"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "The product of the first amplification was diluted (×40) with sterilized deionized water and used as the template for the second PCR using the ITS5 and ITS2 primers linked to a barcode sequence.",
+          "searchable_summary": "dilute first PCR product and perform second PCR with ITS5 and ITS2 primers",
+          "inputs": [
+            "first PCR product",
+            "primers ITS5 and ITS2"
+          ],
+          "outputs": [
+            "second PCR product"
+          ],
+          "keywords": [
+            "PCR",
+            "ITS5",
+            "ITS2",
+            "barcode"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "PCR products were purified using a gel purification kit (Axygen), and 50 ng of DNA from each of the 240 samples was pooled and adjusted to 10 ng/µl.",
+          "searchable_summary": "purify PCR products and pool DNA samples",
+          "inputs": [
+            "second PCR product"
+          ],
+          "outputs": [
+            "pooled DNA samples"
+          ],
+          "keywords": [
+            "gel purification",
+            "DNA pooling"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Processing",
+      "description": "Process for obtaining clean ITS1 sequences from raw data, including quality control, chimera detection, OTU clustering, and taxonomic assignment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Clean ITS1 sequences were obtained from raw sequences after quality control filtering using QIIME v. 1.7.0.",
+          "searchable_summary": "filter raw sequences for quality control using QIIME",
+          "inputs": [
+            "raw sequences"
+          ],
+          "outputs": [
+            "clean ITS1 sequences"
+          ],
+          "keywords": [
+            "QIIME",
+            "quality control",
+            "ITS1"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The ITS1 region of each remaining sequence was extracted using the fungal ITSX software package.",
+          "searchable_summary": "extract ITS1 region using ITSX software",
+          "inputs": [
+            "clean ITS1 sequences"
+          ],
+          "outputs": [
+            "extracted ITS1 region"
+          ],
+          "keywords": [
+            "ITSX",
+            "ITS1 extraction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Potential chimeras were detected using the chimera.uchime command in Mothur by comparison with entries in the UNITE database.",
+          "searchable_summary": "detect chimeras using chimera.uchime in Mothur",
+          "inputs": [
+            "extracted ITS1 region"
+          ],
+          "outputs": [
+            "non-chimeric sequences"
+          ],
+          "keywords": [
+            "chimera detection",
+            "Mothur",
+            "UNITE"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Nonchimeric ITS1 sequences were clustered into different operational taxonomic units (OTUs) at a 97% sequence similarity level using the UPARSE pipeline.",
+          "searchable_summary": "cluster sequences into OTUs using UPARSE",
+          "inputs": [
+            "non-chimeric sequences"
+          ],
+          "outputs": [
+            "OTUs"
+          ],
+          "keywords": [
+            "OTU clustering",
+            "UPARSE",
+            "sequence similarity"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "A representative sequence of each OTU was selected and searched against the INSDC and UNITE databases using BLAST.",
+          "searchable_summary": "search representative OTU sequences against databases using BLAST",
+          "inputs": [
+            "OTUs"
+          ],
+          "outputs": [
+            "taxonomic assignments"
+          ],
+          "keywords": [
+            "BLAST",
+            "taxonomic assignment",
+            "INSDC",
+            "UNITE"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Fungal OTUs were identified and assigned to functional groups following Tedersoo et al. (2014) and FunGuild.",
+          "searchable_summary": "assign OTUs to functional groups using Tedersoo et al. and FunGuild",
+          "inputs": [
+            "taxonomic assignments"
+          ],
+          "outputs": [
+            "functional group assignments"
+          ],
+          "keywords": [
+            "functional groups",
+            "Tedersoo",
+            "FunGuild"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "The number of sequences per sample was normalized to the smallest sample size using the sub.sample command in Mothur.",
+          "searchable_summary": "normalize sequence counts per sample using Mothur",
+          "inputs": [
+            "sequence counts"
+          ],
+          "outputs": [
+            "normalized sequence counts"
+          ],
+          "keywords": [
+            "normalization",
+            "Mothur",
+            "sequence counts"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study Site and Sampling",
+      "description": "Description of study sites, sampling methods, and initial processing of soil samples for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "This study was conducted in 12 sites, including temperate, subtropical, and tropic forests in China.",
+          "searchable_summary": "select study sites in various forest types in China",
+          "inputs": [
+            "forest types"
+          ],
+          "outputs": [
+            "selected study sites"
+          ],
+          "keywords": [
+            "study sites",
+            "forest types",
+            "China"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Longitude, latitude, and altitude at the sites were provided by the Chinese Forest Biodiversity Monitoring Network (CForBio).",
+          "searchable_summary": "obtain geographic data from CForBio",
+          "inputs": [
+            "CForBio"
+          ],
+          "outputs": [
+            "geographic data"
+          ],
+          "keywords": [
+            "geographic data",
+            "CForBio"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Estimates of the mean annual temperature (MAT) and mean annual precipitation (MAP) were obtained from the WorldClim global climate data set.",
+          "searchable_summary": "fetch climate data from WorldClim",
+          "inputs": [
+            "WorldClim"
+          ],
+          "outputs": [
+            "MAT",
+            "MAP"
+          ],
+          "keywords": [
+            "climate data",
+            "WorldClim",
+            "MAT",
+            "MAP"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "In each site, one permanent forest plot was constructed by the CForBio.",
+          "searchable_summary": "construct permanent forest plots",
+          "inputs": [
+            "study sites"
+          ],
+          "outputs": [
+            "forest plots"
+          ],
+          "keywords": [
+            "forest plots",
+            "CForBio"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_fetch",
+          "description": "During June to October in 2014, 20 quadrats in each plot were randomly selected, and ten soil cores were randomly collected and mixed as one composite sample in each quadrat.",
+          "searchable_summary": "collect and composite soil samples from quadrats",
+          "inputs": [
+            "forest plots"
+          ],
+          "outputs": [
+            "composite soil samples"
+          ],
+          "keywords": [
+            "soil sampling",
+            "quadrat",
+            "composite sample"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Soil samples were immediately packed in an ice box and transported to the laboratory.",
+          "searchable_summary": "transport soil samples to laboratory",
+          "inputs": [
+            "composite soil samples"
+          ],
+          "outputs": [
+            "transported soil samples"
+          ],
+          "keywords": [
+            "sample transport",
+            "ice box"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Fresh soil samples were sieved through a 2-mm sieve to remove roots and debris.",
+          "searchable_summary": "sieve soil samples to remove debris",
+          "inputs": [
+            "transported soil samples"
+          ],
+          "outputs": [
+            "sieved soil samples"
+          ],
+          "keywords": [
+            "sieving",
+            "soil processing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Subsamples for DNA extraction were stored at −80°C until analysis.",
+          "searchable_summary": "store subsamples for DNA extraction at −80°C",
+          "inputs": [
+            "sieved soil samples"
+          ],
+          "outputs": [
+            "stored subsamples"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "sample storage"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Late Quaternary Climate Change Data",
+      "description": "Calculation of climate change variables such as velocity and anomaly of MAT and MAP to study their effects on macroorganisms.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The velocity and anomaly of MAT and MAP metrics have been widely applied to examine the effect of late Quaternary climate change on macroorganisms.",
+          "searchable_summary": "analyze effects of climate change using velocity and anomaly metrics",
+          "inputs": [
+            "MAT",
+            "MAP"
+          ],
+          "outputs": [
+            "climate change effects"
+          ],
+          "keywords": [
+            "climate change",
+            "velocity",
+            "anomaly"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "We computed the velocity and anomaly for MAT and MAP between the last glacial maximum and the present.",
+          "searchable_summary": "compute velocity and anomaly for MAT and MAP",
+          "inputs": [
+            "past MAT",
+            "past MAP",
+            "current MAT",
+            "current MAP"
+          ],
+          "outputs": [
+            "velocity",
+            "anomaly"
+          ],
+          "keywords": [
+            "velocity",
+            "anomaly",
+            "MAT",
+            "MAP"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "To summarize LGM climate, we used estimates of past MAT and MAP from the Paleoclimate Modelling Intercomparison Project Phase II.",
+          "searchable_summary": "fetch LGM climate data from Paleoclimate Modelling Intercomparison Project",
+          "inputs": [
+            "Paleoclimate Modelling Intercomparison Project"
+          ],
+          "outputs": [
+            "LGM climate data"
+          ],
+          "keywords": [
+            "LGM",
+            "paleoclimate",
+            "climate data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/165147303.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

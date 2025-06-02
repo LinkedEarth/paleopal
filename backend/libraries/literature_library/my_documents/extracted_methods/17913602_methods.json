@@ -1,0 +1,122 @@
+{
+  "paper_title": "Diatom Valve Three-Dimensional Representation: A New Imaging Method Based on Combined Microscopies",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "3D Image and Model Creation",
+      "description": "This method involves creating 3D images and models of diatom valves by merging SEM images and digital holograms. The process includes image acquisition, alignment, and transformation to achieve a comprehensive 3D representation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Acquire a holographic image (DHM) and reconstruct amplitude and phase maps of the acquired hologram.",
+          "searchable_summary": "acquire holographic image and reconstruct amplitude and phase maps",
+          "inputs": [
+            "holographic image"
+          ],
+          "outputs": [
+            "amplitude map",
+            "phase map"
+          ],
+          "keywords": [
+            "holographic imaging",
+            "amplitude map",
+            "phase map"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Associate SEM and DHM images to numerical matrices M and N, respectively, based on pixel size and gray scale values.",
+          "searchable_summary": "convert images to numerical matrices based on pixel size and gray scale",
+          "inputs": [
+            "SEM image",
+            "DHM image"
+          ],
+          "outputs": [
+            "matrix M",
+            "matrix N"
+          ],
+          "keywords": [
+            "numerical matrix",
+            "pixel size",
+            "gray scale"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Add constant values to the matrix of lower dimension to match the size of the matrices.",
+          "searchable_summary": "add constants to smaller matrix to match sizes",
+          "inputs": [
+            "matrix M",
+            "matrix N"
+          ],
+          "outputs": [
+            "adjusted matrix M or N"
+          ],
+          "keywords": [
+            "matrix adjustment",
+            "constant values"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Select four points for alignment: two in the DHM amplitude map and two in the SEM image.",
+          "searchable_summary": "select alignment points in DHM and SEM images",
+          "inputs": [
+            "DHM amplitude map",
+            "SEM image"
+          ],
+          "outputs": [
+            "alignment points"
+          ],
+          "keywords": [
+            "alignment",
+            "point selection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Translate, rotate, and magnify one image to align with the other using the selected points.",
+          "searchable_summary": "apply translation, rotation, and magnification for image alignment",
+          "inputs": [
+            "matrix M",
+            "matrix N",
+            "alignment points"
+          ],
+          "outputs": [
+            "aligned matrix M\""
+          ],
+          "keywords": [
+            "translation",
+            "rotation",
+            "magnification",
+            "alignment"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "Implement texture mapping of the phase map retrieved by DHM with the SEM image.",
+          "searchable_summary": "apply texture mapping to combine phase map and SEM image",
+          "inputs": [
+            "phase map",
+            "SEM image"
+          ],
+          "outputs": [
+            "3D model"
+          ],
+          "keywords": [
+            "texture mapping",
+            "3D model"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/17913602.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

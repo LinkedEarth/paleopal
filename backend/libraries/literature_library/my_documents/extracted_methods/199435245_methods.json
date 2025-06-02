@@ -1,0 +1,130 @@
+{
+  "paper_title": "Bioinformatics Analysis of Bacterial Genomes",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Genome Assembly and Annotation",
+      "description": "The genomes of each bacterial strain were assembled using assembly programs and annotated for further analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The genomes of each bacterial strain were assembled using either of the assembly programs Falcon version 1.7.5 or Canu version 1.3.",
+          "searchable_summary": "assemble bacterial genomes using Falcon or Canu",
+          "inputs": [
+            "bacterial strain raw sequence data"
+          ],
+          "outputs": [
+            "assembled genome sequences"
+          ],
+          "keywords": [
+            "genome assembly",
+            "Falcon",
+            "Canu"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Annotated using Prokka version 1.12 beta.",
+          "searchable_summary": "annotate assembled genomes using Prokka",
+          "inputs": [
+            "assembled genome sequences"
+          ],
+          "outputs": [
+            "annotated genome data"
+          ],
+          "keywords": [
+            "genome annotation",
+            "Prokka"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylotaxonomic Analysis",
+      "description": "A phylotaxonomic analysis was performed for each strain independently to determine taxonomic classification.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A phylotaxonomic analysis was performed for each strain independently using PhyloPhlAn version 0.99.",
+          "searchable_summary": "perform phylotaxonomic analysis using PhyloPhlAn",
+          "inputs": [
+            "annotated genome data"
+          ],
+          "outputs": [
+            "phylotaxonomic classification"
+          ],
+          "keywords": [
+            "phylotaxonomy",
+            "PhyloPhlAn"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Prophage Detection",
+      "description": "The presence of prophages in each genome was determined using the phage search tool PHASTER.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The presence of prophages in each genome was determined using the phage search tool PHASTER.",
+          "searchable_summary": "detect prophages using PHASTER",
+          "inputs": [
+            "genome sequences"
+          ],
+          "outputs": [
+            "prophage presence data"
+          ],
+          "keywords": [
+            "prophage detection",
+            "PHASTER"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Biotic Interaction Gene Analysis",
+      "description": "The presence of genes involved in biotic-related interactions was ascertained using Pathway Tools and antiSMASH, as well as manual searches.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The presence of genes involved in biotic-related interactions was ascertained using both Pathway Tools version 20.5/21.0 and antiSMASH version 3.0.5 with all optional analyses turned on.",
+          "searchable_summary": "analyze biotic interaction genes using Pathway Tools and antiSMASH",
+          "inputs": [
+            "annotated genome data"
+          ],
+          "outputs": [
+            "biotic interaction gene data"
+          ],
+          "keywords": [
+            "biotic interactions",
+            "Pathway Tools",
+            "antiSMASH"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Manual searches of each strain's annotation.",
+          "searchable_summary": "perform manual searches for biotic interaction genes",
+          "inputs": [
+            "annotated genome data"
+          ],
+          "outputs": [
+            "verified biotic interaction gene data"
+          ],
+          "keywords": [
+            "manual search",
+            "gene annotation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/199435245.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

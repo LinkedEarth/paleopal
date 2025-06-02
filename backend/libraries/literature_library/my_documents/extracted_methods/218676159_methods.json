@@ -1,0 +1,448 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Study Site Selection",
+      "description": "Process for selecting specific sampling sites within the defined study regions based on geographical location, stream order, and data availability criteria to ensure representation of different stream sizes and network positions.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Identify three geographically distant regions: the Irtysh River (ITR), the middle section of Qiantang River (QTR), and the upper section of the Mekong River (MKR) in China.",
+          "searchable_summary": "Identify study regions based on geographical criteria.",
+          "inputs": [
+            "Geographical criteria (distance, location)",
+            "Region names (ITR, QTR, MKR)"
+          ],
+          "outputs": [
+            "List of study regions"
+          ],
+          "keywords": [
+            "geography",
+            "region selection",
+            "study area"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Focus investigation on streams ranging from first to fourth Strahler orders within the selected regions.",
+          "searchable_summary": "Filter streams by Strahler order.",
+          "inputs": [
+            "Stream network data for regions",
+            "Strahler order definition",
+            "Order range (1-4)"
+          ],
+          "outputs": [
+            "Streams within orders 1-4"
+          ],
+          "keywords": [
+            "stream order",
+            "Strahler",
+            "river network",
+            "filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Classify orders 1-2 as headwater sites and orders 3-4 as downstream sites.",
+          "searchable_summary": "Classify sites into headwater or downstream categories based on stream order.",
+          "inputs": [
+            "Site locations",
+            "Stream order classification"
+          ],
+          "outputs": [
+            "Sites classified as headwater or downstream"
+          ],
+          "keywords": [
+            "headwater",
+            "downstream",
+            "site classification",
+            "stream order"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Select the same number of headwater (n = 15) and downstream (n = 15) sites within each region based on two restrictions: (1) included sites where both macroinvertebrates and diatoms were collected, and (2) included headwater sites that had the highest position in the river network, and downstream sites that had the lowest position in the river network.",
+          "searchable_summary": "Select specific sites based on data availability and network position criteria.",
+          "inputs": [
+            "List of potential sites",
+            "Data availability status (macroinvertebrates, diatoms) for each site",
+            "Site position in river network",
+            "Desired number of sites per category/region (n=15 headwater, n=15 downstream)"
+          ],
+          "outputs": [
+            "List of selected study sites"
+          ],
+          "keywords": [
+            "site selection",
+            "filtering",
+            "criteria",
+            "data availability",
+            "river network position"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Verify that selected headwater sites were significantly (p < 0.0001) narrower and shallower than downstream sites within each region.",
+          "searchable_summary": "Perform statistical test to compare physical characteristics (width, depth) between selected headwater and downstream sites.",
+          "inputs": [
+            "Selected site list",
+            "Site width data",
+            "Site depth data"
+          ],
+          "outputs": [
+            "Statistical test results (e.g., p-value)"
+          ],
+          "keywords": [
+            "statistical test",
+            "comparison",
+            "site characteristics",
+            "width",
+            "depth",
+            "t-test",
+            "ANOVA"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Conduct all analyses using only the selected sites in each region.",
+          "searchable_summary": "Define the dataset for subsequent analyses using only the selected sites.",
+          "inputs": [
+            "Full dataset of potential sites and associated data",
+            "List of selected sites"
+          ],
+          "outputs": [
+            "Subsetted dataset for analysis"
+          ],
+          "keywords": [
+            "data subsetting",
+            "selected sites",
+            "analysis scope"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Benthic Macroinvertebrate Sampling and Processing",
+      "description": "Procedure for collecting benthic macroinvertebrate samples from stream reaches, preserving them, and processing them in the laboratory for identification and counting.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect benthic macroinvertebrates from a 100 m-long reach at each sampling site.",
+          "searchable_summary": "Collect macroinvertebrate samples from defined stream reaches.",
+          "inputs": [
+            "Sampling site locations",
+            "Reach definition (100m)"
+          ],
+          "outputs": [
+            "Raw macroinvertebrate samples from reach"
+          ],
+          "keywords": [
+            "field sampling",
+            "macroinvertebrates",
+            "stream reach"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Collect macroinvertebrates using a Surber-net (30 × 30 cm, 250 µm mesh size) from three riffles and two pools with a total of 0.45 m² sampling area.",
+          "searchable_summary": "Sample specific habitats (riffles, pools) within the reach using a Surber net.",
+          "inputs": [
+            "Raw macroinvertebrate samples from reach",
+            "Surber net specifications (size, mesh)",
+            "Habitat types (riffle, pool)",
+            "Number of samples per habitat (3 riffles, 2 pools)",
+            "Total sampling area (0.45 m²)"
+          ],
+          "outputs": [
+            "Macroinvertebrate samples from specific habitats"
+          ],
+          "keywords": [
+            "Surber net",
+            "sampling gear",
+            "riffle",
+            "pool",
+            "habitat sampling"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Combine all Surber net samples into one composite sample.",
+          "searchable_summary": "Combine multiple sub-samples into a single composite sample.",
+          "inputs": [
+            "Individual Surber net samples"
+          ],
+          "outputs": [
+            "Composite macroinvertebrate sample"
+          ],
+          "keywords": [
+            "composite sample",
+            "sample pooling",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Preserve the composite sample in 10% buffered formalin.",
+          "searchable_summary": "Preserve the composite sample using a chemical fixative.",
+          "inputs": [
+            "Composite macroinvertebrate sample",
+            "10% buffered formalin"
+          ],
+          "outputs": [
+            "Preserved composite macroinvertebrate sample"
+          ],
+          "keywords": [
+            "sample preservation",
+            "formalin",
+            "fixative"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "In the laboratory, sort macroinvertebrate individuals from the sample.",
+          "searchable_summary": "Separate macroinvertebrate individuals from debris in the sample.",
+          "inputs": [
+            "Preserved composite macroinvertebrate sample"
+          ],
+          "outputs": [
+            "Sorted macroinvertebrate individuals"
+          ],
+          "keywords": [
+            "laboratory processing",
+            "sample sorting",
+            "macroinvertebrates"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Count the sorted macroinvertebrate individuals.",
+          "searchable_summary": "Count the number of individuals in the sample.",
+          "inputs": [
+            "Sorted macroinvertebrate individuals"
+          ],
+          "outputs": [
+            "Count of macroinvertebrate individuals"
+          ],
+          "keywords": [
+            "counting",
+            "abundance",
+            "laboratory processing"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Identify macroinvertebrate individuals to the lowest practical taxonomic level, in most case to genus (>75% of taxa).",
+          "searchable_summary": "Identify macroinvertebrate individuals to the lowest possible taxonomic level.",
+          "inputs": [
+            "Sorted macroinvertebrate individuals",
+            "Taxonomic keys/references (e.g., Morse et al., 1994)"
+          ],
+          "outputs": [
+            "Taxonomic identification of individuals"
+          ],
+          "keywords": [
+            "taxonomic identification",
+            "macroinvertebrates",
+            "genus",
+            "species",
+            "laboratory processing"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Presence-absence data for macroinvertebrates are provided in the Supplementary Material Data Sheet 2.",
+          "searchable_summary": "Generate presence-absence data for macroinvertebrates.",
+          "inputs": [
+            "Taxonomic identification and count data"
+          ],
+          "outputs": [
+            "Macroinvertebrate presence-absence data (Supplementary Material Data Sheet 2)"
+          ],
+          "keywords": [
+            "presence-absence data",
+            "data transformation",
+            "biodiversity data"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diatom Sampling and Processing",
+      "description": "Procedure for collecting diatom samples from stream substrates, processing them in the field and laboratory for identification and counting.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Collect diatoms from nine transects at each site.",
+          "searchable_summary": "Collect diatom samples from multiple transects within a site.",
+          "inputs": [
+            "Sampling site locations",
+            "Transect locations (nine per site)"
+          ],
+          "outputs": [
+            "Raw diatom samples from transects"
+          ],
+          "keywords": [
+            "field sampling",
+            "diatoms",
+            "transect sampling"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Scrape diatoms off one coarse substrate particle from a defined area (10.17 cm²) with a toothbrush and an area delimiter (PVC tube) at each transect.",
+          "searchable_summary": "Collect diatoms from a defined area on a substrate particle using specific tools.",
+          "inputs": [
+            "Raw diatom samples",
+            "Coarse substrate particles",
+            "Toothbrush",
+            "Area delimiter (PVC tube)",
+            "Defined area (10.17 cm²)"
+          ],
+          "outputs": [
+            "Diatom samples scraped from substrate"
+          ],
+          "keywords": [
+            "substrate sampling",
+            "scraping",
+            "diatoms",
+            "sampling gear",
+            "defined area"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Wash and combine the nine subsamples into a single composite sample.",
+          "searchable_summary": "Wash and combine multiple subsamples into a single composite sample.",
+          "inputs": [
+            "Individual diatom subsamples from transects"
+          ],
+          "outputs": [
+            "Composite diatom sample"
+          ],
+          "keywords": [
+            "composite sample",
+            "sample pooling",
+            "sample preparation",
+            "washing"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Add distilled water to a constant volume of 500 ml to the composite sample.",
+          "searchable_summary": "Adjust the volume of the composite sample using distilled water.",
+          "inputs": [
+            "Composite diatom sample",
+            "Distilled water",
+            "Target volume (500 ml)"
+          ],
+          "outputs": [
+            "Composite diatom sample at target volume"
+          ],
+          "keywords": [
+            "sample volume adjustment",
+            "distilled water",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Extract 50 ml out of the 500 ml to a specimen bottle for taxonomic analysis.",
+          "searchable_summary": "Take a subsample from the composite sample for laboratory analysis.",
+          "inputs": [
+            "Composite diatom sample (500 ml)",
+            "Specimen bottle",
+            "Target subsample volume (50 ml)"
+          ],
+          "outputs": [
+            "Diatom subsample (50 ml) in a specimen bottle"
+          ],
+          "keywords": [
+            "subsampling",
+            "sample splitting",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Preserve the 50 ml sample by adding two ml of 10% formalin.",
+          "searchable_summary": "Preserve the subsample using a chemical fixative.",
+          "inputs": [
+            "Diatom subsample (50 ml)",
+            "10% formalin (2 ml)"
+          ],
+          "outputs": [
+            "Preserved diatom subsample"
+          ],
+          "keywords": [
+            "sample preservation",
+            "formalin",
+            "fixative"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "In the laboratory, a total of 500 frustules per sample were identified and counted with a light microscope (Olympus BX41TF) at 1,000 × magnification.",
+          "searchable_summary": "Identify and count diatom frustules under a microscope.",
+          "inputs": [
+            "Preserved diatom subsample",
+            "Light microscope (Olympus BX41TF)",
+            "Magnification (1,000x)",
+            "Target count (500 frustules per sample)",
+            "Taxonomic keys/references (e.g., Krammer and Lange-Bertalot, 1986, 1988, 1991aKrammer, 2003)"
+          ],
+          "outputs": [
+            "Taxonomic identification and count data for diatoms"
+          ],
+          "keywords": [
+            "laboratory processing",
+            "diatom identification",
+            "frustule counting",
+            "microscopy",
+            "taxonomic identification"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "All diatom individuals were identified to the [lowest practical taxonomic level, implied by references]. Presence-absence data for diatoms are provided in the Supplementary Material Data Sheet 3.",
+          "searchable_summary": "Generate presence-absence data for diatoms.",
+          "inputs": [
+            "Taxonomic identification and count data"
+          ],
+          "outputs": [
+            "Diatom presence-absence data (Supplementary Material Data Sheet 3)"
+          ],
+          "keywords": [
+            "presence-absence data",
+            "data transformation",
+            "biodiversity data"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/218676159.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,226 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Data Analysis Workflow",
+      "description": "A comprehensive data analysis workflow involving PCA, FCA, cluster analysis, and RDA to analyze lake characteristics and chironomid communities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "A principal component analysis (PCA) was performed on lake characteristics to provide an overview of environmental gradients in the training set.",
+          "searchable_summary": "perform PCA on lake characteristics",
+          "inputs": [
+            "lake characteristics data"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "environmental gradients",
+            "lake characteristics"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Functional diversity of chironomid communities was analysed using fuzzy correspondence analysis (FCA) applied to the taxa-by-trait category dataset.",
+          "searchable_summary": "perform FCA on taxa-by-trait dataset",
+          "inputs": [
+            "taxa-by-trait category dataset"
+          ],
+          "outputs": [
+            "FCA results"
+          ],
+          "keywords": [
+            "FCA",
+            "functional diversity",
+            "chironomid communities"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Cluster analysis based on Euclidean distances among taxa calculated on taxon coordinates along the first four FCA axes was applied to define functional groups.",
+          "searchable_summary": "perform cluster analysis on FCA results",
+          "inputs": [
+            "FCA results"
+          ],
+          "outputs": [
+            "functional groups"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "Euclidean distances",
+            "functional groups"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Chironomid genera were grouped using Ward's method and the significance of the functional groups was assessed using the broken-stick model.",
+          "searchable_summary": "group chironomid genera using Ward's method and assess significance",
+          "inputs": [
+            "functional groups"
+          ],
+          "outputs": [
+            "significant functional groups"
+          ],
+          "keywords": [
+            "Ward's method",
+            "broken-stick model",
+            "chironomid genera"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "An FCA was performed to compare lakes along the elevation gradient based on the trait composition of their chironomid communities.",
+          "searchable_summary": "perform FCA on trait-by-lake dataset",
+          "inputs": [
+            "trait-by-lake dataset"
+          ],
+          "outputs": [
+            "FCA results for lakes"
+          ],
+          "keywords": [
+            "FCA",
+            "elevation gradient",
+            "trait composition"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Cluster analysis based on Euclidean distances calculated on lake coordinates along the first four FCA axes was applied to identify lake clusters.",
+          "searchable_summary": "perform cluster analysis on lake FCA results",
+          "inputs": [
+            "lake FCA results"
+          ],
+          "outputs": [
+            "lake clusters"
+          ],
+          "keywords": [
+            "cluster analysis",
+            "Euclidean distances",
+            "lake clusters"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The 'IndVal' method was applied to identify indicator categories of traits associated with each lake cluster.",
+          "searchable_summary": "apply IndVal method to identify indicator traits",
+          "inputs": [
+            "lake clusters"
+          ],
+          "outputs": [
+            "indicator traits"
+          ],
+          "keywords": [
+            "IndVal method",
+            "indicator traits",
+            "lake clusters"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Statistical comparisons of functional group relative abundances and site elevation among lake clusters were made by Kruskal-Wallis tests followed by multiple comparison tests.",
+          "searchable_summary": "perform Kruskal-Wallis tests on functional group abundances",
+          "inputs": [
+            "functional group abundances",
+            "site elevation data"
+          ],
+          "outputs": [
+            "statistical comparison results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "functional group abundances",
+            "site elevation"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "A redundancy analysis (RDA) using Monte Carlo unrestricted 999 permutation tests was performed to establish a model associating chironomid trait compositions to environmental characteristics of lakes.",
+          "searchable_summary": "perform RDA with Monte Carlo permutation tests",
+          "inputs": [
+            "chironomid trait compositions",
+            "environmental characteristics"
+          ],
+          "outputs": [
+            "RDA model"
+          ],
+          "keywords": [
+            "RDA",
+            "Monte Carlo permutation",
+            "environmental characteristics"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Study Sites and Chironomid Training Set",
+      "description": "Collection and preparation of chironomid assemblage data from 100 lakes in Sweden for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Surface sediment samples (0-1 cm) were retrieved from the deepest part of each lake using a modified Kajak-gravity corer.",
+          "searchable_summary": "collect surface sediment samples using Kajak-gravity corer",
+          "inputs": [
+            "lake locations"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "Kajak-gravity corer",
+            "lake"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Chironomid head capsules were hand-sorted from samples of wet sediment and identified under a microscope.",
+          "searchable_summary": "hand-sort and identify chironomid head capsules",
+          "inputs": [
+            "sediment samples"
+          ],
+          "outputs": [
+            "identified chironomid head capsules"
+          ],
+          "keywords": [
+            "chironomid identification",
+            "microscopy",
+            "hand-sorting"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Chironomid counts were pooled to the genus level to fit the taxonomic resolution of the European Chironomidae Database.",
+          "searchable_summary": "pool chironomid counts to genus level",
+          "inputs": [
+            "identified chironomid head capsules"
+          ],
+          "outputs": [
+            "genus-level chironomid data"
+          ],
+          "keywords": [
+            "chironomid pooling",
+            "genus level",
+            "taxonomic resolution"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/218913015.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

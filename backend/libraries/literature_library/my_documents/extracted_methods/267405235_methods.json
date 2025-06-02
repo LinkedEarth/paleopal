@@ -1,0 +1,344 @@
+{
+  "paper_title": "Genome Sequencing and Assembly of S. aterrima and S. pratorum",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and Sequencing",
+      "description": "Collection of live male adult specimens of S. aterrima and S. pratorum, followed by DNA and RNA extraction and sequencing library preparation.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Live male adult specimens of S. aterrima and S. pratorum were collected at Baitan Lake.",
+          "searchable_summary": "collect live specimens of S. aterrima and S. pratorum",
+          "inputs": [
+            "location coordinates",
+            "species identifiers"
+          ],
+          "outputs": [
+            "collected specimens"
+          ],
+          "keywords": [
+            "specimen collection",
+            "S. aterrima",
+            "S. pratorum"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "After sample collection, the whole bodies of samples were immediately immersed into liquid nitrogen and stored at −80 °C.",
+          "searchable_summary": "store specimens in liquid nitrogen at -80°C",
+          "inputs": [
+            "collected specimens"
+          ],
+          "outputs": [
+            "frozen specimens"
+          ],
+          "keywords": [
+            "specimen storage",
+            "liquid nitrogen"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "DNA was extracted using the 1D DNA Ligation Sequencing kit SQK-LSK109.",
+          "searchable_summary": "extract DNA using SQK-LSK109 kit",
+          "inputs": [
+            "frozen specimens"
+          ],
+          "outputs": [
+            "extracted DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "SQK-LSK109"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "RNA was extracted with the TRIzol ™ Reagent kit.",
+          "searchable_summary": "extract RNA using TRIzol Reagent kit",
+          "inputs": [
+            "frozen specimens"
+          ],
+          "outputs": [
+            "extracted RNA"
+          ],
+          "keywords": [
+            "RNA extraction",
+            "TRIzol"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "A paired-end sequencing library (350 bp in length) was constructed and sequenced using the Beijing Genomics Institute (BGI).",
+          "searchable_summary": "construct and sequence paired-end library at BGI",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "sequencing data"
+          ],
+          "keywords": [
+            "paired-end sequencing",
+            "BGI"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "A Single Molecule Real-Time DNA library was prepared for sequencing using SQK-LSK109 Kit with an insert size of 30 kb.",
+          "searchable_summary": "prepare SMRT DNA library with SQK-LSK109",
+          "inputs": [
+            "extracted DNA"
+          ],
+          "outputs": [
+            "SMRT sequencing data"
+          ],
+          "keywords": [
+            "SMRT sequencing",
+            "SQK-LSK109"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Genome Size Estimation and Assembly",
+      "description": "Quality control, k-mer analysis, and assembly of genomic data to estimate genome size and assemble contigs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Quality control of the BGI data was carried out by BBTools v38.82.",
+          "searchable_summary": "perform quality control on BGI data using BBTools",
+          "inputs": [
+            "BGI sequencing data"
+          ],
+          "outputs": [
+            "quality-controlled data"
+          ],
+          "keywords": [
+            "quality control",
+            "BBTools"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The k-mer frequencies were assessed using 'khist.sh' (BBTools) with a length set to 21 k-mer.",
+          "searchable_summary": "assess k-mer frequencies using khist.sh",
+          "inputs": [
+            "quality-controlled data"
+          ],
+          "outputs": [
+            "k-mer frequency data"
+          ],
+          "keywords": [
+            "k-mer analysis",
+            "BBTools"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The k-mer analysis was then performed using GenomeScope v2.0 with a maximum k-mer coverage of 1,000.",
+          "searchable_summary": "perform k-mer analysis using GenomeScope",
+          "inputs": [
+            "k-mer frequency data"
+          ],
+          "outputs": [
+            "genome size estimation"
+          ],
+          "keywords": [
+            "GenomeScope",
+            "k-mer analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "For genomic contig assembly, the ONT raw data were error-corrected by NextDenovo v2.5.0.",
+          "searchable_summary": "error-correct ONT data using NextDenovo",
+          "inputs": [
+            "ONT raw data"
+          ],
+          "outputs": [
+            "error-corrected data"
+          ],
+          "keywords": [
+            "error correction",
+            "NextDenovo"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Filtered for contaminated sequences using Kraken v2.1.2.",
+          "searchable_summary": "filter contaminated sequences using Kraken",
+          "inputs": [
+            "error-corrected data"
+          ],
+          "outputs": [
+            "filtered data"
+          ],
+          "keywords": [
+            "contamination filtering",
+            "Kraken"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Assembled using NextDenovo software with parameters read_cutoff = 1k.",
+          "searchable_summary": "assemble genome using NextDenovo",
+          "inputs": [
+            "filtered data"
+          ],
+          "outputs": [
+            "assembled contigs"
+          ],
+          "keywords": [
+            "genome assembly",
+            "NextDenovo"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "One round of long sequence correction using Inspector v1.2 and two rounds of short sequence correction with NextPolish v1.3.0.",
+          "searchable_summary": "correct sequences using Inspector and NextPolish",
+          "inputs": [
+            "assembled contigs"
+          ],
+          "outputs": [
+            "corrected genome sequence"
+          ],
+          "keywords": [
+            "sequence correction",
+            "Inspector",
+            "NextPolish"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Minimap2 v.2.17 was employed as the read mapper during long and short-read polishing stages.",
+          "searchable_summary": "map reads using Minimap2",
+          "inputs": [
+            "corrected genome sequence"
+          ],
+          "outputs": [
+            "polished genome sequence"
+          ],
+          "keywords": [
+            "read mapping",
+            "Minimap2"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_processing",
+          "description": "Adapter sequences of raw reads were trimmed and low-quality reads were removed using Juicer v1.6.2.",
+          "searchable_summary": "trim adapters and remove low-quality reads using Juicer",
+          "inputs": [
+            "raw reads"
+          ],
+          "outputs": [
+            "clean reads"
+          ],
+          "keywords": [
+            "adapter trimming",
+            "Juicer"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_processing",
+          "description": "Clean reads were mapped to the draft genome into the chromosome using 3D-DNA.",
+          "searchable_summary": "map clean reads to draft genome using 3D-DNA",
+          "inputs": [
+            "clean reads",
+            "draft genome"
+          ],
+          "outputs": [
+            "chromosome-mapped reads"
+          ],
+          "keywords": [
+            "read mapping",
+            "3D-DNA"
+          ]
+        },
+        {
+          "step_number": 11,
+          "category": "visualization",
+          "description": "Juicebox v1.11.08 was used to correct possible errors in the candidate assembly by visualizing Hi-C heatmaps.",
+          "searchable_summary": "visualize and correct assembly using Juicebox",
+          "inputs": [
+            "chromosome-mapped reads"
+          ],
+          "outputs": [
+            "corrected assembly"
+          ],
+          "keywords": [
+            "Hi-C heatmap",
+            "Juicebox"
+          ]
+        },
+        {
+          "step_number": 12,
+          "category": "validation",
+          "description": "Possible contaminants were detected using MMseqs. 2 v11, which performed BLASTN-like searches.",
+          "searchable_summary": "detect contaminants using MMseqs",
+          "inputs": [
+            "corrected assembly"
+          ],
+          "outputs": [
+            "contaminant-free assembly"
+          ],
+          "keywords": [
+            "contaminant detection",
+            "MMseqs"
+          ]
+        },
+        {
+          "step_number": 13,
+          "category": "validation",
+          "description": "The completeness of the genome was evaluated using BUSCO v3.0.2 with insecta_odb10 dataset.",
+          "searchable_summary": "evaluate genome completeness using BUSCO",
+          "inputs": [
+            "contaminant-free assembly"
+          ],
+          "outputs": [
+            "completeness report"
+          ],
+          "keywords": [
+            "genome completeness",
+            "BUSCO"
+          ]
+        },
+        {
+          "step_number": 14,
+          "category": "validation",
+          "description": "The genomes of S. aterrima and S. pratorum were assembled into three chromosomes.",
+          "searchable_summary": "assemble genomes into chromosomes",
+          "inputs": [
+            "completeness report"
+          ],
+          "outputs": [
+            "final genome assembly"
+          ],
+          "keywords": [
+            "chromosome assembly",
+            "genome assembly"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/267405235.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

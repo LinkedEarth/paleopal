@@ -1,0 +1,119 @@
+{
+  "paper_title": "Salinity Profile Analysis and Hydrate Profile Reconstruction",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Hydrate Profile Reconstruction",
+      "description": "This method reconstructs the hydrate profile from the measured chlorinity profile at the Ocean Drilling Program site 997 on the Blake Ridge. It involves adjusting parameters to account for the absence of hydrate in the upper part of the hydrate stability zone and reconstructing the hydrate amount below this zone.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Extensive data have been acquired, including hydrate samples and the on-site salinity (chlorinity) measurements.",
+          "searchable_summary": "acquire hydrate samples and chlorinity measurements data",
+          "inputs": [
+            "site 997 data"
+          ],
+          "outputs": [
+            "hydrate samples",
+            "chlorinity measurements"
+          ],
+          "keywords": [
+            "hydrate samples",
+            "chlorinity",
+            "data acquisition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Set function f(z) to zero for small z by tuning u_w0, ensuring h = 0 next to z = 0.",
+          "searchable_summary": "adjust function f(z) to zero for small z by tuning filtration velocity u_w0",
+          "inputs": [
+            "function f(z)",
+            "filtration velocity u_w0"
+          ],
+          "outputs": [
+            "adjusted function f(z)"
+          ],
+          "keywords": [
+            "function adjustment",
+            "filtration velocity",
+            "hydrate stability"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "With the chlorinity profile plotted, determine u_w0 = −(8 ± 0.5) cm/kyear.",
+          "searchable_summary": "determine filtration velocity u_w0 from chlorinity profile",
+          "inputs": [
+            "chlorinity profile"
+          ],
+          "outputs": [
+            "filtration velocity u_w0"
+          ],
+          "keywords": [
+            "chlorinity profile",
+            "filtration velocity",
+            "data analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Reconstruct the amount of hydrate below the hydrate stability zone, depending on v_s0.",
+          "searchable_summary": "reconstruct hydrate amount below stability zone based on sedimentation rate v_s0",
+          "inputs": [
+            "sedimentation rate v_s0",
+            "filtration velocity u_w0"
+          ],
+          "outputs": [
+            "reconstructed hydrate profile"
+          ],
+          "keywords": [
+            "hydrate reconstruction",
+            "sedimentation rate",
+            "stability zone"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Plot the hydrate profile with the red solid line as the final result of the reconstruction.",
+          "searchable_summary": "plot final reconstructed hydrate profile",
+          "inputs": [
+            "reconstructed hydrate profile"
+          ],
+          "outputs": [
+            "hydrate profile plot"
+          ],
+          "keywords": [
+            "hydrate profile",
+            "visualization",
+            "plotting"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Plot a formal hydrate profile for purely Fickian diffusion flux for comparison.",
+          "searchable_summary": "plot comparison hydrate profile using Fickian diffusion",
+          "inputs": [
+            "Fickian diffusion parameters"
+          ],
+          "outputs": [
+            "comparison hydrate profile plot"
+          ],
+          "keywords": [
+            "Fickian diffusion",
+            "comparison",
+            "validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/119180660.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

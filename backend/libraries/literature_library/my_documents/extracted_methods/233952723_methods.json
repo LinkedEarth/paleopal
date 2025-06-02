@@ -1,0 +1,124 @@
+{
+  "paper_title": "Palynology, Charcoal, and Principal Curve Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Principal Curve Analysis",
+      "description": "PrC analysis is a non-parametric statistical method used to identify gradients in ecological data. It starts with PCA or CA axis 1 scores and iterates using smoothing splines to increase fit to the data, capturing more variance than standard ordination techniques.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Start with principal components analysis (PCA) or CA axis 1 scores as the starting curve.",
+          "searchable_summary": "initialize principal curve with PCA or CA axis 1 scores",
+          "inputs": [
+            "ecological data"
+          ],
+          "outputs": [
+            "initial curve"
+          ],
+          "keywords": [
+            "PCA",
+            "CA",
+            "principal curve"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Iterate the starting curve using smoothing splines to increase fit to the data.",
+          "searchable_summary": "apply smoothing splines to iterate and fit the principal curve",
+          "inputs": [
+            "initial curve"
+          ],
+          "outputs": [
+            "fitted principal curve"
+          ],
+          "keywords": [
+            "smoothing splines",
+            "curve fitting",
+            "iteration"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Bayesian Age-Model Construction",
+      "description": "Construction of a Bayesian age-model using tephra age estimates, recalculated with the IntCal20 calibration curve, and incorporating prior age estimates for certain tephras.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Recalculate tephra age estimates using the cross-referenced Bayesian age-model and update with the IntCal20 calibration curve.",
+          "searchable_summary": "recalculate tephra ages with Bayesian model and IntCal20 curve",
+          "inputs": [
+            "tephra age estimates",
+            "IntCal20 calibration curve"
+          ],
+          "outputs": [
+            "updated tephra age estimates"
+          ],
+          "keywords": [
+            "Bayesian model",
+            "IntCal20",
+            "age calibration"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Input age of the Fosen Tephra with an arbitrary 1σ error range of 100 years.",
+          "searchable_summary": "input Fosen Tephra age with 100-year error range",
+          "inputs": [
+            "Fosen Tephra age"
+          ],
+          "outputs": [
+            "Fosen Tephra age with error range"
+          ],
+          "keywords": [
+            "Fosen Tephra",
+            "age input",
+            "error range"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Input age estimates for Borrobol and Penifiler tephras as 'priors' due to their non-normal distribution.",
+          "searchable_summary": "input Borrobol and Penifiler tephra ages as priors",
+          "inputs": [
+            "Borrobol Tephra age",
+            "Penifiler Tephra age"
+          ],
+          "outputs": [
+            "prior age estimates"
+          ],
+          "keywords": [
+            "Borrobol Tephra",
+            "Penifiler Tephra",
+            "priors"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Use age-model extrapolation for the Tanera Tephra to the base of the QM1 sequence.",
+          "searchable_summary": "extrapolate Tanera Tephra age to QM1 sequence base",
+          "inputs": [
+            "Tanera Tephra age"
+          ],
+          "outputs": [
+            "extrapolated age"
+          ],
+          "keywords": [
+            "Tanera Tephra",
+            "age extrapolation",
+            "QM1 sequence"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/233952723.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

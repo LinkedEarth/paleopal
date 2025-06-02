@@ -1,0 +1,239 @@
+{
+  "paper_title": "Environmental Monitoring and Metabarcoding in Offshore Oil Fields",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collection and DNA Extraction",
+      "description": "Process for collecting sediment samples from offshore oil fields and extracting genomic DNA for analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Sediments with contrasting characteristics from three different offshore oil fields were sampled.",
+          "searchable_summary": "collect sediment samples from specified offshore oil fields",
+          "inputs": [
+            "offshore oil field locations"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment sampling",
+            "offshore oil fields"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "50-100 g of sediment was fixed with 96% ethanol, stored at -20˚C and centrifuged at 6000x g to remove ethanol.",
+          "searchable_summary": "fix and store sediment samples, then centrifuge to remove ethanol",
+          "inputs": [
+            "sediment samples",
+            "ethanol"
+          ],
+          "outputs": [
+            "processed sediment samples"
+          ],
+          "keywords": [
+            "sample fixation",
+            "centrifugation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Samples were mixed thoroughly using a sterile metal spatula prior to collecting ten replicates of 0.5 g sediment material for genomic DNA extraction using PowerSoil kits.",
+          "searchable_summary": "mix samples and extract genomic DNA using PowerSoil kits",
+          "inputs": [
+            "processed sediment samples"
+          ],
+          "outputs": [
+            "genomic DNA"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "PowerSoil kits"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Sequence Data Processing",
+      "description": "Processing of demultiplexed flowgram data to correct sequencing artifacts and classify OTUs.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Demultiplexed flowgram data was processed using AmpliconNoise and Perseus to correct artifacts from sequencing and PCR.",
+          "searchable_summary": "process flowgram data to correct sequencing artifacts",
+          "inputs": [
+            "demultiplexed flowgram data"
+          ],
+          "outputs": [
+            "denoised sequence datasets"
+          ],
+          "keywords": [
+            "AmpliconNoise",
+            "Perseus",
+            "sequencing artifacts"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Denoised sequence datasets were subjected to hierarchical clustering using NDist and Fcluster, resulting in an OTU frequency table.",
+          "searchable_summary": "perform hierarchical clustering to create OTU frequency table",
+          "inputs": [
+            "denoised sequence datasets"
+          ],
+          "outputs": [
+            "OTU frequency table"
+          ],
+          "keywords": [
+            "hierarchical clustering",
+            "OTU"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Relative OTU abundances were calculated by dividing dataset specific OTU read abundances with the total number of denoised reads.",
+          "searchable_summary": "calculate relative OTU abundances",
+          "inputs": [
+            "OTU frequency table"
+          ],
+          "outputs": [
+            "relative OTU abundances"
+          ],
+          "keywords": [
+            "OTU abundance",
+            "relative abundance"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Representative OTU sequences were taxonomically classified using CREST with default parameters except for a minimum bitscore of 100.",
+          "searchable_summary": "classify OTU sequences taxonomically using CREST",
+          "inputs": [
+            "OTU sequences"
+          ],
+          "outputs": [
+            "taxonomically classified OTUs"
+          ],
+          "keywords": [
+            "CREST",
+            "taxonomic classification"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "OTU distribution table was annotated to allow filtering targeting only metazoan or protist OTUs.",
+          "searchable_summary": "annotate OTU table for filtering metazoan or protist OTUs",
+          "inputs": [
+            "OTU distribution table"
+          ],
+          "outputs": [
+            "annotated OTU table"
+          ],
+          "keywords": [
+            "OTU annotation",
+            "filtering"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Sequence Data",
+      "description": "Statistical procedures to analyze the influence of replication and sequence depth on diversity estimates.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Rarefaction analysis, sub-sampling, and calculation of Shannon diversity were performed using R with packages vegan and phyloseq.",
+          "searchable_summary": "perform rarefaction analysis and calculate Shannon diversity using R",
+          "inputs": [
+            "OTU distribution tables"
+          ],
+          "outputs": [
+            "rarefaction analysis results",
+            "Shannon diversity estimates"
+          ],
+          "keywords": [
+            "rarefaction",
+            "Shannon diversity",
+            "R"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Silhouette scores were calculated using the R package cluster.",
+          "searchable_summary": "calculate silhouette scores using R",
+          "inputs": [
+            "OTU distribution tables"
+          ],
+          "outputs": [
+            "silhouette scores"
+          ],
+          "keywords": [
+            "silhouette scores",
+            "R",
+            "cluster analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Repeated random sub-sampling of OTU distribution tables was carried out for each replicate at sequence depth intervals.",
+          "searchable_summary": "perform repeated sub-sampling of OTU tables",
+          "inputs": [
+            "OTU distribution tables"
+          ],
+          "outputs": [
+            "sub-sampled OTU tables"
+          ],
+          "keywords": [
+            "sub-sampling",
+            "OTU tables"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Estimate the influence of the number of genomic DNA extraction replicates on alpha-diversity using a repeated sampling scheme.",
+          "searchable_summary": "estimate influence of DNA extraction replicates on alpha-diversity",
+          "inputs": [
+            "genomic DNA extraction replicates"
+          ],
+          "outputs": [
+            "alpha-diversity estimates"
+          ],
+          "keywords": [
+            "alpha-diversity",
+            "DNA extraction replicates"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Simulate the effect of read number on accuracy of community dissimilarity measures.",
+          "searchable_summary": "simulate effect of read number on community dissimilarity",
+          "inputs": [
+            "OTU distribution tables"
+          ],
+          "outputs": [
+            "community dissimilarity measures"
+          ],
+          "keywords": [
+            "community dissimilarity",
+            "simulation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/25846735.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,359 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "MACE Data Analysis",
+      "description": "Bioinformatical steps for analyzing MACE data, including mapping reads to the tomato genome and transcriptome, clustering, annotation, and differential expression analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Reads were mapped to the tomato genome (ITAG2.4) and annotated using public annotation files.",
+          "searchable_summary": "map reads to tomato genome and annotate",
+          "inputs": [
+            "reads",
+            "tomato genome ITAG2.4",
+            "annotation files"
+          ],
+          "outputs": [
+            "mapped reads"
+          ],
+          "keywords": [
+            "mapping",
+            "annotation",
+            "genome"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Reads that mapped to genomic regions with no annotation were clustered.",
+          "searchable_summary": "cluster unannotated mapped reads",
+          "inputs": [
+            "mapped reads"
+          ],
+          "outputs": [
+            "clusters"
+          ],
+          "keywords": [
+            "clustering",
+            "unannotated regions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "These clusters (consensus sequences) were annotated via BLASTX to the Uniprot database.",
+          "searchable_summary": "annotate clusters using BLASTX to Uniprot",
+          "inputs": [
+            "clusters",
+            "Uniprot database"
+          ],
+          "outputs": [
+            "annotated clusters"
+          ],
+          "keywords": [
+            "BLASTX",
+            "Uniprot",
+            "annotation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Reads not mapped to the tomato genome were mapped to the tomato transcriptome (ITAG2.4) and annotated using public annotation files.",
+          "searchable_summary": "map unmapped reads to tomato transcriptome and annotate",
+          "inputs": [
+            "unmapped reads",
+            "tomato transcriptome ITAG2.4",
+            "annotation files"
+          ],
+          "outputs": [
+            "mapped transcriptome reads"
+          ],
+          "keywords": [
+            "mapping",
+            "transcriptome",
+            "annotation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Reads that did not map to the genome or transcriptome were de-novo-assembled.",
+          "searchable_summary": "de-novo assemble unmapped reads",
+          "inputs": [
+            "unmapped reads"
+          ],
+          "outputs": [
+            "contigs"
+          ],
+          "keywords": [
+            "de-novo assembly",
+            "unmapped reads"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "The resulting contigs were annotated via BLASTX to the Uniprot database.",
+          "searchable_summary": "annotate contigs using BLASTX to Uniprot",
+          "inputs": [
+            "contigs",
+            "Uniprot database"
+          ],
+          "outputs": [
+            "annotated contigs"
+          ],
+          "keywords": [
+            "BLASTX",
+            "Uniprot",
+            "annotation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "The differential expression of mRNAs between control and stressed samples for each developmental stage was calculated by DESeq (R package version 1.16.0) considering the statistical power of the three biological replicates per sample and log2 fold change.",
+          "searchable_summary": "calculate differential expression using DESeq",
+          "inputs": [
+            "mRNA data",
+            "control samples",
+            "stressed samples"
+          ],
+          "outputs": [
+            "differential expression results"
+          ],
+          "keywords": [
+            "DESeq",
+            "differential expression",
+            "mRNA"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Transcripts with a corrected p-value (FDR) below 0.05 were considered significantly differentially expressed.",
+          "searchable_summary": "filter significant transcripts by FDR",
+          "inputs": [
+            "differential expression results"
+          ],
+          "outputs": [
+            "significant transcripts"
+          ],
+          "keywords": [
+            "FDR",
+            "significance",
+            "transcripts"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "sncRNA-seq Data Processing",
+      "description": "Processing of Illumina-derived sequence reads for sncRNA-seq, including sorting, tag elimination, adapter removal, size and abundance separation, and differential expression analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Libraries were sorted according to their respective index, followed by elimination of PCR-derived tags identified by True-Quant technology.",
+          "searchable_summary": "sort libraries and eliminate PCR-derived tags",
+          "inputs": [
+            "sequence reads",
+            "library index"
+          ],
+          "outputs": [
+            "sorted libraries"
+          ],
+          "keywords": [
+            "sorting",
+            "PCR-derived tags",
+            "True-Quant"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Both sequencing adapter and cDNA synthesis primers were removed in an additional quality filtering step.",
+          "searchable_summary": "remove adapters and primers",
+          "inputs": [
+            "sorted libraries"
+          ],
+          "outputs": [
+            "filtered reads"
+          ],
+          "keywords": [
+            "adapter removal",
+            "primer removal",
+            "quality filtering"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Samples were divided into six parts according to their size and abundance.",
+          "searchable_summary": "divide samples by size and abundance",
+          "inputs": [
+            "filtered reads"
+          ],
+          "outputs": [
+            "divided samples"
+          ],
+          "keywords": [
+            "size separation",
+            "abundance separation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Reads were separated into 22 nt, 24 nt, and 'others' reads including all reads besides 22 nt and 24 nt with a minimum length of 20 nt.",
+          "searchable_summary": "separate reads by nucleotide length",
+          "inputs": [
+            "divided samples"
+          ],
+          "outputs": [
+            "separated reads"
+          ],
+          "keywords": [
+            "nucleotide length",
+            "read separation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Reads were sorted according to their abundance into singletons and non-singletons.",
+          "searchable_summary": "sort reads by abundance",
+          "inputs": [
+            "separated reads"
+          ],
+          "outputs": [
+            "sorted reads"
+          ],
+          "keywords": [
+            "abundance sorting",
+            "singletons",
+            "non-singletons"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "After quantification of ncRNAs in each library, the data were combined to an expression matrix and processed with DESeq in omiRas webtool for annotation and differential expression of sncRNAs.",
+          "searchable_summary": "quantify ncRNAs and perform differential expression analysis",
+          "inputs": [
+            "sorted reads"
+          ],
+          "outputs": [
+            "expression matrix",
+            "differential expression results"
+          ],
+          "keywords": [
+            "ncRNA quantification",
+            "DESeq",
+            "omiRas"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Three pairwise comparisons were analyzed for three pollen stages between control and heat stress conditions.",
+          "searchable_summary": "analyze pairwise comparisons for pollen stages",
+          "inputs": [
+            "expression matrix"
+          ],
+          "outputs": [
+            "comparison results"
+          ],
+          "keywords": [
+            "pairwise comparison",
+            "pollen stages",
+            "heat stress"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Expression Analysis of snoRNAs and tRNAs under Heat Stress",
+      "description": "Analysis of snoRNAs and tRNAs expression changes under heat stress across different pollen stages.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Identified heat-responsive snoRNAs in postmeiotic and mature pollen, but not in tetrad stage.",
+          "searchable_summary": "identify heat-responsive snoRNAs",
+          "inputs": [
+            "snoRNA data",
+            "pollen stages"
+          ],
+          "outputs": [
+            "heat-responsive snoRNAs"
+          ],
+          "keywords": [
+            "snoRNAs",
+            "heat stress",
+            "pollen stages"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Analyzed global expression of tRNAs in different pollen stages under heat stress.",
+          "searchable_summary": "analyze global tRNA expression under heat stress",
+          "inputs": [
+            "tRNA data",
+            "pollen stages"
+          ],
+          "outputs": [
+            "global tRNA expression results"
+          ],
+          "keywords": [
+            "tRNAs",
+            "heat stress",
+            "expression analysis"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Analyzed individual tRNAs and identified transcripts altered after heat-stress application.",
+          "searchable_summary": "analyze individual tRNAs for heat-stress response",
+          "inputs": [
+            "tRNA transcripts",
+            "heat stress data"
+          ],
+          "outputs": [
+            "altered tRNA transcripts"
+          ],
+          "keywords": [
+            "individual tRNAs",
+            "heat stress",
+            "transcript analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Identified specific amino acid-coded tRNAs affected by stress in mature stage.",
+          "searchable_summary": "identify amino acid-coded tRNAs affected by stress",
+          "inputs": [
+            "tRNA transcripts",
+            "amino acid data"
+          ],
+          "outputs": [
+            "affected tRNA transcripts"
+          ],
+          "keywords": [
+            "amino acid-coded tRNAs",
+            "stress response",
+            "mature stage"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/255819055.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

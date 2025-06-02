@@ -1,0 +1,258 @@
+{
+  "paper_title": "Airborne Pollen and Allergen Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Statistical Analysis",
+      "description": "Statistical procedures used to analyze the correlations between airborne pollen, allergen concentrations, and environmental variables using nonparametric Spearman correlation and multiple regression analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Nonparametric Spearman correlation analysis was performed to evaluate statistical correlations between airborne pollen and allergen concentrations.",
+          "searchable_summary": "perform Spearman correlation analysis between pollen and allergen concentrations",
+          "inputs": [
+            "airborne pollen concentrations",
+            "allergen concentrations"
+          ],
+          "outputs": [
+            "correlation coefficients"
+          ],
+          "keywords": [
+            "Spearman correlation",
+            "nonparametric analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Multiple regression analyses were applied based on stepwise variable selection in the statistical software R (version 4.0.3).",
+          "searchable_summary": "apply multiple regression analysis with stepwise variable selection in R",
+          "inputs": [
+            "environmental variables",
+            "airborne pollen concentrations",
+            "allergen concentrations"
+          ],
+          "outputs": [
+            "regression model"
+          ],
+          "keywords": [
+            "multiple regression",
+            "stepwise selection",
+            "R software"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Response variables were log-transformed to adjust for the normality of residuals.",
+          "searchable_summary": "log-transform response variables for normality adjustment",
+          "inputs": [
+            "response variables"
+          ],
+          "outputs": [
+            "log-transformed variables"
+          ],
+          "keywords": [
+            "log transformation",
+            "normality adjustment"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Autoregressive-moving average (ARMA) correlation structure was selected for the models using the function gls from the nlme package.",
+          "searchable_summary": "apply ARMA correlation structure using gls function from nlme package",
+          "inputs": [
+            "regression model residuals"
+          ],
+          "outputs": [
+            "ARMA model"
+          ],
+          "keywords": [
+            "ARMA",
+            "nlme package",
+            "gls function"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Regression models containing all considered explanatory variables were fitted and insignificant variables (p-value > 0.05) were sequentially removed from the model.",
+          "searchable_summary": "fit regression models and remove insignificant variables",
+          "inputs": [
+            "explanatory variables",
+            "regression model"
+          ],
+          "outputs": [
+            "refined regression model"
+          ],
+          "keywords": [
+            "regression model",
+            "variable selection",
+            "p-value"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Airborne Pollen and Allergen Sampling and Quantifying",
+      "description": "Procedures for collecting and quantifying airborne pollen and allergen concentrations using specialized equipment.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Hirst-type volumetric pollen trap was used to evaluate grass pollen concentrations.",
+          "searchable_summary": "use Hirst-type pollen trap to collect grass pollen data",
+          "inputs": [
+            "air samples"
+          ],
+          "outputs": [
+            "grass pollen concentrations"
+          ],
+          "keywords": [
+            "Hirst-type trap",
+            "pollen collection"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Multi-vial Volumetric Cyclone Air Sampler was used to evaluate Phl p 5 allergen concentrations.",
+          "searchable_summary": "use Multi-vial Cyclone Sampler to collect allergen data",
+          "inputs": [
+            "air samples"
+          ],
+          "outputs": [
+            "Phl p 5 allergen concentrations"
+          ],
+          "keywords": [
+            "Cyclone Sampler",
+            "allergen collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Exposed tape from the Hirst sampler was cut into segments for microscopic slide preparation.",
+          "searchable_summary": "prepare microscopic slides from Hirst sampler tape",
+          "inputs": [
+            "exposed tape"
+          ],
+          "outputs": [
+            "microscopic slides"
+          ],
+          "keywords": [
+            "microscopic slides",
+            "tape cutting"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Slides were analyzed under the light microscope at ×400 magnification.",
+          "searchable_summary": "analyze slides under light microscope at ×400 magnification",
+          "inputs": [
+            "microscopic slides"
+          ],
+          "outputs": [
+            "pollen grain counts"
+          ],
+          "keywords": [
+            "microscope analysis",
+            "pollen counting"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Airborne samples were collected dry and stored at −20°C until extraction.",
+          "searchable_summary": "store airborne samples at −20°C for later extraction",
+          "inputs": [
+            "airborne samples"
+          ],
+          "outputs": [
+            "stored samples"
+          ],
+          "keywords": [
+            "sample storage",
+            "cold storage"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Airborne Phl p 5 allergen was enumerated by double-sandwich ELISA assay.",
+          "searchable_summary": "enumerate Phl p 5 allergen using ELISA assay",
+          "inputs": [
+            "extracted samples"
+          ],
+          "outputs": [
+            "allergen concentrations"
+          ],
+          "keywords": [
+            "ELISA assay",
+            "allergen enumeration"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Daily values of grass pollen potency were calculated by dividing daily allergen concentrations by daily pollen concentrations.",
+          "searchable_summary": "calculate grass pollen potency from allergen and pollen concentrations",
+          "inputs": [
+            "daily allergen concentrations",
+            "daily pollen concentrations"
+          ],
+          "outputs": [
+            "grass pollen potency"
+          ],
+          "keywords": [
+            "pollen potency",
+            "concentration ratio"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Environmental Data Collection",
+      "description": "Collection of meteorological and air pollution data to analyze their impact on airborne pollen and allergen levels.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Meteorological data were provided from the Meteorological Observatory of the Comenius University in Bratislava.",
+          "searchable_summary": "collect meteorological data from Comenius University Observatory",
+          "inputs": [
+            "meteorological parameters"
+          ],
+          "outputs": [
+            "weather data"
+          ],
+          "keywords": [
+            "meteorological data",
+            "weather parameters"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Air pollution data were provided by the Slovak Hydrometeorological Institute.",
+          "searchable_summary": "collect air pollution data from Slovak Hydrometeorological Institute",
+          "inputs": [
+            "pollutant parameters"
+          ],
+          "outputs": [
+            "pollution data"
+          ],
+          "keywords": [
+            "air pollution data",
+            "pollutant levels"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/235701344.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

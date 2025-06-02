@@ -1,0 +1,350 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate/Growth Relationship Analysis (DendroCLIM 2002)",
+      "description": "Analyze the statistical relationship between climate variables (temperature, precipitation) and tree-ring growth using the DendroCLIM 2002 software, employing bootstrap resampling for significance testing.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "the DendroCLIM 2002 programme was applied (Biondi and Waikul 2004).",
+          "searchable_summary": "Run DendroCLIM 2002 software for climate-growth analysis.",
+          "inputs": [
+            "Climate data",
+            "Residual chronologies"
+          ],
+          "outputs": [
+            "Analysis results"
+          ],
+          "keywords": [
+            "DendroCLIM 2002",
+            "climate-growth relationship",
+            "dendrochronology",
+            "response function",
+            "correlation analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Climate data from October of the previous year to September of the current year served as independent variables",
+          "searchable_summary": "Select climate data for specific seasonal window (October previous year to September current year) as independent variables.",
+          "inputs": [
+            "Raw climate data"
+          ],
+          "outputs": [
+            "Selected seasonal climate data"
+          ],
+          "keywords": [
+            "climate data",
+            "seasonal window",
+            "independent variable",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "the residual chronologies for each site were used as dependent variables.",
+          "searchable_summary": "Select residual tree-ring chronologies as dependent variables.",
+          "inputs": [
+            "Residual chronologies"
+          ],
+          "outputs": [
+            "Selected residual chronologies"
+          ],
+          "keywords": [
+            "residual chronology",
+            "dependent variable",
+            "dendrochronology",
+            "data selection"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "This program applies a bootstrap procedure to estimate the error using random sampling from the data. DENDROCLIM2002 uses 1,000 bootstrapped samples",
+          "searchable_summary": "Apply bootstrap resampling (1000 samples) for error estimation and significance testing.",
+          "inputs": [
+            "Climate data (seasonal)",
+            "Residual chronologies",
+            "Number of bootstrap samples (1000)"
+          ],
+          "outputs": [
+            "Bootstrapped samples",
+            "Bootstrapped results"
+          ],
+          "keywords": [
+            "bootstrap",
+            "resampling",
+            "error estimation",
+            "DendroCLIM 2002"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "to compute response and correlation coefficients",
+          "searchable_summary": "Calculate response coefficients between climate and growth.",
+          "inputs": [
+            "Bootstrapped samples/results"
+          ],
+          "outputs": [
+            "Response coefficients"
+          ],
+          "keywords": [
+            "response coefficient",
+            "climate-growth",
+            "dendrochronology",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "to compute response and correlation coefficients",
+          "searchable_summary": "Calculate correlation coefficients between climate and growth.",
+          "inputs": [
+            "Bootstrapped samples/results"
+          ],
+          "outputs": [
+            "Correlation coefficients"
+          ],
+          "keywords": [
+            "correlation coefficient",
+            "climate-growth",
+            "dendrochronology",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "validation",
+          "description": "and to test their significance at the 0.05 level",
+          "searchable_summary": "Test statistical significance of response and correlation coefficients at alpha=0.05.",
+          "inputs": [
+            "Computed coefficients",
+            "Bootstrapped results"
+          ],
+          "outputs": [
+            "Significance levels (p-values)",
+            "Significance flags"
+          ],
+          "keywords": [
+            "significance test",
+            "p-value",
+            "alpha level",
+            "statistical significance",
+            "hypothesis testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Data Preparation",
+      "description": "Obtain and preprocess climate data (temperature and precipitation) from a meteorological station, including filtering temperature data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Mean monthly temperatures... were collected from the Bydgoszcz meteorological station (from 1861 to 2000)",
+          "searchable_summary": "Download or retrieve mean monthly temperature data from Bydgoszcz meteorological station for 1861-2000.",
+          "inputs": [
+            "Meteorological station name/ID (Bydgoszcz)",
+            "Data type (mean monthly temperature)",
+            "Time period (1861-2000)"
+          ],
+          "outputs": [
+            "Time series data of mean monthly temperatures"
+          ],
+          "keywords": [
+            "climate data",
+            "temperature",
+            "meteorological station",
+            "data collection",
+            "time series",
+            "Bydgoszcz"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "monthly precipitation sums were collected from the Bydgoszcz meteorological station (from 1861 to 2000)",
+          "searchable_summary": "Download or retrieve monthly precipitation sum data from Bydgoszcz meteorological station for 1861-2000.",
+          "inputs": [
+            "Meteorological station name/ID (Bydgoszcz)",
+            "Data type (monthly precipitation sum)",
+            "Time period (1861-2000)"
+          ],
+          "outputs": [
+            "Time series data of monthly precipitation sums"
+          ],
+          "keywords": [
+            "climate data",
+            "precipitation",
+            "meteorological station",
+            "data collection",
+            "time series",
+            "Bydgoszcz"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "DplR (Bunn 2008) was used to filter the temperature data.",
+          "searchable_summary": "Apply filtering to temperature data using the DplR package/methods.",
+          "inputs": [
+            "Temperature time series data"
+          ],
+          "outputs": [
+            "Filtered temperature time series data"
+          ],
+          "keywords": [
+            "temperature data",
+            "filtering",
+            "DplR",
+            "data processing",
+            "R package"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "A low frequency Hanning filter with a 51-year length weighting was applied, using the formula in dplR according to Oppenheim et al. (1999).",
+          "searchable_summary": "Apply a low-frequency Hanning filter with a 51-year window to temperature time series data using DplR.",
+          "inputs": [
+            "Temperature time series data",
+            "Filter type (Hanning)",
+            "Filter length (51 years)",
+            "Frequency type (low frequency)",
+            "DplR package"
+          ],
+          "outputs": [
+            "Filtered temperature time series data (low frequency component)"
+          ],
+          "keywords": [
+            "Hanning filter",
+            "low frequency filter",
+            "time series filtering",
+            "DplR",
+            "51-year window",
+            "data processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Reconstruction and Validation (Linear Regression)",
+      "description": "Reconstruct past climate (implied temperature) using a linear regression model based on tree-ring chronologies and actual climate data, perform general statistical calculations (regression values, correlations) using R, and validate the reconstruction by comparing it to actual data and calculating correlations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Statistical calculations such as linear regression values for a regression model and correlations were calculated by means of R (R Development Core Team 2007; Verzani 2004).",
+          "searchable_summary": "Calculate linear regression model parameters and correlation coefficients using R.",
+          "inputs": [
+            "Climate data",
+            "Tree-ring chronologies"
+          ],
+          "outputs": [
+            "Linear regression model values (coefficients, R-squared, etc.)",
+            "Correlation coefficients"
+          ],
+          "keywords": [
+            "R",
+            "linear regression",
+            "correlation",
+            "statistical analysis",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Two different approaches were applied: the linear regression... The comparison of actual with reconstructed series shows the significant correlation values (Fig. 5).",
+          "searchable_summary": "Train and apply a linear regression model to reconstruct climate variables from tree-ring chronologies.",
+          "inputs": [
+            "Tree-ring chronologies (independent variable)",
+            "Actual climate data (dependent variable)"
+          ],
+          "outputs": [
+            "Trained linear regression model",
+            "Reconstructed climate time series"
+          ],
+          "keywords": [
+            "linear regression",
+            "climate reconstruction",
+            "modeling",
+            "dendrochronology",
+            "prediction"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "The comparison of actual with reconstructed series shows the significant correlation values (Fig. 5).",
+          "searchable_summary": "Compare actual climate time series with the reconstructed climate time series, potentially visualizing the comparison (Fig. 5).",
+          "inputs": [
+            "Actual climate time series",
+            "Reconstructed climate time series"
+          ],
+          "outputs": [
+            "Comparison results (e.g., plots, difference metrics)"
+          ],
+          "keywords": [
+            "climate reconstruction",
+            "validation",
+            "comparison",
+            "time series",
+            "visualization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "The comparison of actual with reconstructed series shows the significant correlation values (Fig. 5).",
+          "searchable_summary": "Calculate the correlation coefficient between actual and reconstructed climate time series.",
+          "inputs": [
+            "Actual climate time series",
+            "Reconstructed climate time series"
+          ],
+          "outputs": [
+            "Correlation coefficient value(s)"
+          ],
+          "keywords": [
+            "correlation",
+            "validation",
+            "climate reconstruction",
+            "statistical analysis",
+            "calculation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "However, better correlation was achieved for filtered data. A low pass Hanning filter with segment  (Fig. 6).",
+          "searchable_summary": "Apply a low-pass Hanning filter to the reconstructed climate time series.",
+          "inputs": [
+            "Reconstructed climate time series",
+            "Filter type (Hanning)",
+            "Frequency type (low pass)"
+          ],
+          "outputs": [
+            "Filtered reconstructed climate time series"
+          ],
+          "keywords": [
+            "Hanning filter",
+            "low pass filter",
+            "time series filtering",
+            "climate reconstruction",
+            "data processing"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/13067524.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

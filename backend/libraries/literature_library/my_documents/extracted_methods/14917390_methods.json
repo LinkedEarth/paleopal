@@ -1,0 +1,116 @@
+{
+  "paper_title": "Trend Estimation in Climatology",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Nonparametric Kernel Regression for Trend Estimation",
+      "description": "This method estimates the trend component of a climate variable time series using nonparametric kernel regression. It aims to separate the trend from noise by averaging data points within a time neighborhood, using a smooth kernel function to improve estimation accuracy.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Adopt a simple decomposition of a stochastic climate process in discrete time.",
+          "searchable_summary": "decompose climate time series into trend and noise components",
+          "inputs": [
+            "climate time series data"
+          ],
+          "outputs": [
+            "trend component",
+            "noise component"
+          ],
+          "keywords": [
+            "stochastic process",
+            "time series decomposition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Estimate the trend using nonparametric regression or smoothing method by averaging data points within a time neighborhood.",
+          "searchable_summary": "apply nonparametric kernel regression to estimate trend",
+          "inputs": [
+            "time series data",
+            "kernel function"
+          ],
+          "outputs": [
+            "estimated trend"
+          ],
+          "keywords": [
+            "nonparametric regression",
+            "kernel smoothing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "validation",
+          "description": "Construct an error band to measure estimation uncertainty, considering non-normal distributional shape and autocorrelation.",
+          "searchable_summary": "construct error bands for trend estimation using bootstrap resampling",
+          "inputs": [
+            "estimated trend",
+            "residuals"
+          ],
+          "outputs": [
+            "error bands"
+          ],
+          "keywords": [
+            "error band",
+            "bootstrap resampling",
+            "autocorrelation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Perform bootstrap resampling by resampling from regression residuals and time blocks of residuals.",
+          "searchable_summary": "perform moving block bootstrap resampling on residuals",
+          "inputs": [
+            "regression residuals"
+          ],
+          "outputs": [
+            "resampled time series"
+          ],
+          "keywords": [
+            "bootstrap resampling",
+            "moving block bootstrap"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Adapt source code from the University of Zurich for kernel estimation with a parabolic kernel function.",
+          "searchable_summary": "use adapted kernel estimation code with parabolic kernel function",
+          "inputs": [
+            "source code",
+            "time series data"
+          ],
+          "outputs": [
+            "kernel estimation results"
+          ],
+          "keywords": [
+            "kernel estimation",
+            "parabolic kernel"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Use block length selector and parameter of a first-order autoregression for uneven time spacing.",
+          "searchable_summary": "select block length and autoregression parameter for uneven time spacing",
+          "inputs": [
+            "time series data",
+            "autoregression parameter"
+          ],
+          "outputs": [
+            "adjusted time series"
+          ],
+          "keywords": [
+            "block length selector",
+            "autoregression"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/14917390.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

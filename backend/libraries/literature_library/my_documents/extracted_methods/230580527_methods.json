@@ -1,0 +1,214 @@
+{
+  "paper_title": "Feeding Preferences and Dental Microwear Analysis of Extinct and Extant Squirrels",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Microwear Feature Quantification",
+      "description": "This method involves measuring and quantifying microwear features on the molars of squirrel specimens to understand their feeding preferences. The features include fine scratches, wide scratches, large pits, and small pits, which are indicative of dietary habits.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select specimens with good preservation of the occlusal surface, avoiding the ones with advanced wear as well as unworn molars.",
+          "searchable_summary": "select well-preserved molar specimens for analysis",
+          "inputs": [
+            "specimen collection"
+          ],
+          "outputs": [
+            "selected specimens"
+          ],
+          "keywords": [
+            "specimen selection",
+            "occlusal surface",
+            "molar preservation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Examine a square area of 0.01 mm² using ObjectJ (software Fiji-ImageJ 1.04s) to quantify microwear features.",
+          "searchable_summary": "use ObjectJ to quantify microwear features on molars",
+          "inputs": [
+            "selected specimens",
+            "ObjectJ software"
+          ],
+          "outputs": [
+            "quantified microwear features"
+          ],
+          "keywords": [
+            "microwear quantification",
+            "ImageJ",
+            "ObjectJ"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Differentiate pits from scratches based on a width/length ratio higher than 1/4.",
+          "searchable_summary": "differentiate pits from scratches using width/length ratio",
+          "inputs": [
+            "microwear features"
+          ],
+          "outputs": [
+            "differentiated features"
+          ],
+          "keywords": [
+            "pits",
+            "scratches",
+            "width/length ratio"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Distinguish between wide and fine features with a maximum width of 5 µm.",
+          "searchable_summary": "classify features as wide or fine based on width",
+          "inputs": [
+            "differentiated features"
+          ],
+          "outputs": [
+            "classified features"
+          ],
+          "keywords": [
+            "feature classification",
+            "width measurement"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Measure microwear features from photographs taken with an ESEM at 500x magnification.",
+          "searchable_summary": "measure microwear features using ESEM photographs",
+          "inputs": [
+            "ESEM photographs"
+          ],
+          "outputs": [
+            "measured microwear features"
+          ],
+          "keywords": [
+            "ESEM",
+            "microwear measurement",
+            "500x magnification"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Microwear Features",
+      "description": "This method involves statistical analysis of microwear features to explore differences among species and identify features explaining most of the variance.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Conduct a Principal Component Analysis (PCA) to identify features explaining most of the variance.",
+          "searchable_summary": "perform PCA on microwear features",
+          "inputs": [
+            "microwear features"
+          ],
+          "outputs": [
+            "PCA results"
+          ],
+          "keywords": [
+            "PCA",
+            "variance",
+            "microwear features"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Use a non-parametric Kruskal-Wallis test for independent variables to test differences among species.",
+          "searchable_summary": "perform Kruskal-Wallis test on species data",
+          "inputs": [
+            "species data"
+          ],
+          "outputs": [
+            "Kruskal-Wallis test results"
+          ],
+          "keywords": [
+            "Kruskal-Wallis test",
+            "non-parametric",
+            "species comparison"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Perform a pairwise comparison (Wilcoxon test) with Bonferroni correction for the p-values.",
+          "searchable_summary": "conduct Wilcoxon test with Bonferroni correction",
+          "inputs": [
+            "Kruskal-Wallis test results"
+          ],
+          "outputs": [
+            "pairwise comparison results"
+          ],
+          "keywords": [
+            "Wilcoxon test",
+            "Bonferroni correction",
+            "pairwise comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Enamel Thickness Measurement",
+      "description": "This method measures the enamel thickness of squirrel teeth using Micro-CT scanning and software analysis to understand dental adaptations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select unworn specimens with good preservation of the occlusal surface.",
+          "searchable_summary": "select unworn specimens for enamel measurement",
+          "inputs": [
+            "specimen collection"
+          ],
+          "outputs": [
+            "selected unworn specimens"
+          ],
+          "keywords": [
+            "specimen selection",
+            "occlusal surface",
+            "enamel measurement"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Use a Micro-CT scanner Nikon XTH 160 to produce 3D images of the teeth.",
+          "searchable_summary": "scan teeth with Micro-CT for 3D imaging",
+          "inputs": [
+            "selected unworn specimens"
+          ],
+          "outputs": [
+            "3D images"
+          ],
+          "keywords": [
+            "Micro-CT scanning",
+            "3D imaging",
+            "Nikon XTH 160"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Measure enamel thickness using VGStudio MAX 3.0.5 software after orienting dental elements.",
+          "searchable_summary": "measure enamel thickness with VGStudio MAX",
+          "inputs": [
+            "3D images",
+            "VGStudio MAX software"
+          ],
+          "outputs": [
+            "enamel thickness measurements"
+          ],
+          "keywords": [
+            "enamel thickness",
+            "VGStudio MAX",
+            "dental orientation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/230580527.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

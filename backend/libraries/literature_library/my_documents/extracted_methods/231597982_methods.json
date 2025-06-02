@@ -1,0 +1,211 @@
+{
+  "paper_title": "QDM Imaging and Analysis of Speleothem Samples",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "QDM Imaging of Speleothem Samples",
+      "description": "This method involves using Quantum Diamond Microscope (QDM) imaging to analyze the magnetic properties of speleothem samples. The process includes preparing the sample, imaging it under specific conditions, and processing the resulting data to study magnetic field variations over time.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Binned pixels by a factor of 4 to achieve a spatial resolution of 4.7 µm per pixel.",
+          "searchable_summary": "bin pixels to achieve desired spatial resolution",
+          "inputs": [
+            "raw QDM image data"
+          ],
+          "outputs": [
+            "binned image data"
+          ],
+          "keywords": [
+            "pixel binning",
+            "spatial resolution",
+            "image processing"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Imaged an approximately 5 × 10 mm sample with 0.5 mm thickness polished with 1 µm alumina grit extracted from the flank of the speleothem.",
+          "searchable_summary": "image speleothem sample with QDM",
+          "inputs": [
+            "speleothem sample"
+          ],
+          "outputs": [
+            "QDM image data"
+          ],
+          "keywords": [
+            "QDM imaging",
+            "speleothem",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Acquired QDM magnetic field maps in an instantaneous bias magnetic field of 0.9 mT, reversed repeatedly to provide a near-zero net bias field.",
+          "searchable_summary": "acquire magnetic field maps with QDM",
+          "inputs": [
+            "QDM setup",
+            "speleothem sample"
+          ],
+          "outputs": [
+            "magnetic field maps"
+          ],
+          "keywords": [
+            "magnetic field mapping",
+            "QDM",
+            "bias field"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Ran the QDM in projective magnetic microscopy (PMM) mode to maximize the signal-to-noise ratio.",
+          "searchable_summary": "run QDM in PMM mode",
+          "inputs": [
+            "QDM setup"
+          ],
+          "outputs": [
+            "enhanced magnetic field maps"
+          ],
+          "keywords": [
+            "PMM mode",
+            "signal-to-noise ratio",
+            "QDM"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Recomputed maps to show the magnetic field component perpendicular to the surface (Bz) using a Fourier algorithm.",
+          "searchable_summary": "compute Bz component using Fourier transform",
+          "inputs": [
+            "raw magnetic field maps"
+          ],
+          "outputs": [
+            "Bz component maps"
+          ],
+          "keywords": [
+            "Fourier transform",
+            "Bz component",
+            "magnetic field"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Measured a backfield IRM acquisition sequence for a single field of view in steps of 2-10 mT up to 60 mT.",
+          "searchable_summary": "perform backfield IRM acquisition",
+          "inputs": [
+            "speleothem sample",
+            "IRM setup"
+          ],
+          "outputs": [
+            "IRM acquisition data"
+          ],
+          "keywords": [
+            "IRM",
+            "backfield acquisition",
+            "magnetization"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Subtracted blank magnetic field maps of an empty, polished quartz plate from the maps of speleothem magnetic fields.",
+          "searchable_summary": "subtract blank maps from speleothem maps",
+          "inputs": [
+            "blank maps",
+            "speleothem maps"
+          ],
+          "outputs": [
+            "corrected magnetic field maps"
+          ],
+          "keywords": [
+            "background subtraction",
+            "magnetic field correction"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Stitched together the magnetic field maps by matching features in an optical image taken over the overlapping region.",
+          "searchable_summary": "stitch magnetic field maps using optical images",
+          "inputs": [
+            "magnetic field maps",
+            "optical images"
+          ],
+          "outputs": [
+            "stitched magnetic field maps"
+          ],
+          "keywords": [
+            "image stitching",
+            "optical registration",
+            "map alignment"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Averaged the magnetic field value from pixels along lines parallel to visible laminae to produce a curve for the mean magnetic field intensity as a function of time.",
+          "searchable_summary": "average magnetic field values along laminae",
+          "inputs": [
+            "stitched magnetic field maps"
+          ],
+          "outputs": [
+            "mean magnetic field intensity curve"
+          ],
+          "keywords": [
+            "magnetic field averaging",
+            "time series",
+            "laminae"
+          ]
+        },
+        {
+          "step_number": 10,
+          "category": "data_analysis",
+          "description": "Assigned calendar year ages to each data point in the time series of magnetic field strength using linear interpolations between U-Th ages.",
+          "searchable_summary": "assign ages to magnetic field data points",
+          "inputs": [
+            "magnetic field time series",
+            "U-Th ages"
+          ],
+          "outputs": [
+            "dated magnetic field time series"
+          ],
+          "keywords": [
+            "age model",
+            "U-Th dating",
+            "time series"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Spectral Analysis of Magnetic Field Time Series",
+      "description": "This method involves performing spectral analysis on the magnetic field time series to identify periodicities using REDFIT and wavelet analyses.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Performed spectral analysis to identify periodicities in the magnetic field time series using REDFIT and wavelet analyses.",
+          "searchable_summary": "perform spectral analysis on time series",
+          "inputs": [
+            "magnetic field time series"
+          ],
+          "outputs": [
+            "spectral analysis results"
+          ],
+          "keywords": [
+            "spectral analysis",
+            "REDFIT",
+            "wavelet analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/231597982.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

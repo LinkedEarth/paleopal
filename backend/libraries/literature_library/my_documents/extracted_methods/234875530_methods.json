@@ -1,0 +1,311 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sample Collecting and Pollen Processing",
+      "description": "This method describes the process of collecting pollen samples from small and shallow lakes on the Tibetan Plateau and processing them for analysis. The aim is to ensure the samples are representative and minimally influenced by external factors.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Travel along hardened and dirt roads to collect samples from alpine meadow lakes on the Tibetan Plateau.",
+          "searchable_summary": "collect pollen samples from lakes on the Tibetan Plateau",
+          "inputs": [
+            "hardened roads",
+            "dirt roads",
+            "alpine meadow lakes"
+          ],
+          "outputs": [
+            "pollen samples"
+          ],
+          "keywords": [
+            "sample collection",
+            "Tibetan Plateau",
+            "pollen"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "Select small and shallow lakes with less than 100 m radius and without long inflow rivers to collect pollen samples.",
+          "searchable_summary": "select appropriate lakes for pollen sample collection",
+          "inputs": [
+            "lake size",
+            "lake inflow characteristics"
+          ],
+          "outputs": [
+            "selected lakes"
+          ],
+          "keywords": [
+            "lake selection",
+            "pollen samples"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Collect lake surface sediment samples from the central part of each lake, with the top 2 cm of lake sediment forming the sample.",
+          "searchable_summary": "collect sediment samples from lake centers",
+          "inputs": [
+            "lake sediment",
+            "lake center location"
+          ],
+          "outputs": [
+            "sediment samples"
+          ],
+          "keywords": [
+            "sediment collection",
+            "lake center"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Subsample approximately 10 g of wet untreated sediment per sample for pollen extraction.",
+          "searchable_summary": "subsample sediment for pollen extraction",
+          "inputs": [
+            "wet untreated sediment"
+          ],
+          "outputs": [
+            "subsampled sediment"
+          ],
+          "keywords": [
+            "subsampling",
+            "pollen extraction"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Process pollen samples using standard acid-alkali-acid procedures and 7 µm mesh sieving.",
+          "searchable_summary": "process pollen samples with acid-alkali-acid procedures",
+          "inputs": [
+            "pollen samples",
+            "acid-alkali-acid reagents"
+          ],
+          "outputs": [
+            "processed pollen samples"
+          ],
+          "keywords": [
+            "pollen processing",
+            "acid-alkali-acid"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Add a tablet with Lycopodium spores to each sample prior to pollen extraction as tracers.",
+          "searchable_summary": "add Lycopodium spores as tracers to samples",
+          "inputs": [
+            "Lycopodium spores",
+            "pollen samples"
+          ],
+          "outputs": [
+            "samples with tracers"
+          ],
+          "keywords": [
+            "Lycopodium spores",
+            "tracers"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Identify pollen grains with the aid of modern pollen reference slides and published atlases.",
+          "searchable_summary": "identify pollen grains using reference slides and atlases",
+          "inputs": [
+            "processed pollen samples",
+            "reference slides",
+            "atlases"
+          ],
+          "outputs": [
+            "identified pollen grains"
+          ],
+          "keywords": [
+            "pollen identification",
+            "reference slides"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "Count more than 500 terrestrial pollen grains and more than 200 Lycopodium spores for each sample.",
+          "searchable_summary": "count terrestrial pollen grains and Lycopodium spores",
+          "inputs": [
+            "identified pollen grains"
+          ],
+          "outputs": [
+            "pollen count data"
+          ],
+          "keywords": [
+            "pollen counting",
+            "Lycopodium spores"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Processing and Analysis",
+      "description": "This method involves obtaining climatic data for the sampled lakes, analyzing pollen data, and performing statistical analyses to understand the relationship between pollen assemblages and climatic variables.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Obtain modern climatic data for the sampled lakes using the Chinese Meteorological Forcing Dataset (CMFD).",
+          "searchable_summary": "fetch climatic data from CMFD for sampled lakes",
+          "inputs": [
+            "sampled lakes coordinates"
+          ],
+          "outputs": [
+            "climatic data"
+          ],
+          "keywords": [
+            "climatic data",
+            "CMFD",
+            "meteorological dataset"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Calculate geographical distances of each sampled lake to each pixel in the CMFD using the rdist.earth function.",
+          "searchable_summary": "calculate distances from lakes to CMFD pixels",
+          "inputs": [
+            "sampled lakes coordinates",
+            "CMFD pixel coordinates"
+          ],
+          "outputs": [
+            "distance data"
+          ],
+          "keywords": [
+            "geographical distance",
+            "rdist.earth",
+            "CMFD"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Assign meteorological data of the nearest pixel to a sampled lake to represent the climatic conditions of that lake.",
+          "searchable_summary": "assign nearest pixel meteorological data to lakes",
+          "inputs": [
+            "distance data",
+            "CMFD data"
+          ],
+          "outputs": [
+            "assigned climatic data"
+          ],
+          "keywords": [
+            "meteorological data assignment",
+            "nearest pixel"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Calculate mean annual precipitation, mean annual temperature, and mean temperatures of the coldest and warmest months for each sampled lake.",
+          "searchable_summary": "calculate climatic averages for lakes",
+          "inputs": [
+            "assigned climatic data"
+          ],
+          "outputs": [
+            "climatic averages"
+          ],
+          "keywords": [
+            "mean annual precipitation",
+            "mean temperature"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Use ordination techniques to visualize relationships between modern pollen assemblages and climatic variables.",
+          "searchable_summary": "visualize pollen-climate relationships using ordination",
+          "inputs": [
+            "pollen data",
+            "climatic data"
+          ],
+          "outputs": [
+            "ordination plots"
+          ],
+          "keywords": [
+            "ordination",
+            "pollen-climate relationships"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Perform redundancy analysis (RDA) to visualize the distribution of pollen species and sampling sites along climatic gradients.",
+          "searchable_summary": "perform RDA on pollen and climatic data",
+          "inputs": [
+            "pollen data",
+            "climatic data"
+          ],
+          "outputs": [
+            "RDA results"
+          ],
+          "keywords": [
+            "redundancy analysis",
+            "RDA",
+            "climatic gradients"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "Apply boosted regression tree (BRT) analysis to determine the influence of climatic variables on pollen taxa distribution.",
+          "searchable_summary": "apply BRT to analyze pollen-climate influence",
+          "inputs": [
+            "pollen data",
+            "climatic data"
+          ],
+          "outputs": [
+            "BRT model results"
+          ],
+          "keywords": [
+            "boosted regression tree",
+            "BRT",
+            "pollen distribution"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "modeling",
+          "description": "Run weighted-averaging partial least squares (WA-PLS) and random forest (RF) algorithms for past climate reconstruction.",
+          "searchable_summary": "perform WA-PLS and RF for climate reconstruction",
+          "inputs": [
+            "pollen data"
+          ],
+          "outputs": [
+            "climate reconstruction models"
+          ],
+          "keywords": [
+            "WA-PLS",
+            "random forest",
+            "climate reconstruction"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "validation",
+          "description": "Perform statistical significance tests for WA-PLS and RF reconstructions.",
+          "searchable_summary": "validate WA-PLS and RF models with significance tests",
+          "inputs": [
+            "reconstruction models"
+          ],
+          "outputs": [
+            "significance test results"
+          ],
+          "keywords": [
+            "statistical significance",
+            "model validation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/234875530.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,300 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Sequence Data Quality Control and Processing",
+      "description": "This method involves quality control and processing of raw sequence data obtained from Illumina MiSeq to ensure high-quality sequences for clustering.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Quality control of raw fastq data files was performed using FastQC v0.11.4.",
+          "searchable_summary": "perform quality control on raw fastq data using FastQC",
+          "inputs": [
+            "raw fastq data files"
+          ],
+          "outputs": [
+            "quality control report"
+          ],
+          "keywords": [
+            "FastQC",
+            "quality control",
+            "fastq"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "High-throughput sequence raw data were imported into CLC Genomics Workbench version 9.0.1 with plugins CLC Microbial Genomics Module version 1.3.1 according to quality scores from Illumina pipeline 1.8.",
+          "searchable_summary": "import sequence data into CLC Genomics Workbench with quality score filtering",
+          "inputs": [
+            "raw sequence data",
+            "quality scores"
+          ],
+          "outputs": [
+            "imported sequence data"
+          ],
+          "keywords": [
+            "CLC Genomics Workbench",
+            "sequence import",
+            "quality scores"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Sequence data were trimmed using 0.05 as a limit for quality scores with 2 as the maximum number of ambiguities.",
+          "searchable_summary": "trim sequence data based on quality scores and ambiguities",
+          "inputs": [
+            "imported sequence data"
+          ],
+          "outputs": [
+            "trimmed sequence data"
+          ],
+          "keywords": [
+            "sequence trimming",
+            "quality scores",
+            "ambiguities"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "The optional merge paired reads method was run with default settings.",
+          "searchable_summary": "merge paired reads with default settings",
+          "inputs": [
+            "trimmed sequence data"
+          ],
+          "outputs": [
+            "merged sequence data"
+          ],
+          "keywords": [
+            "paired reads",
+            "merge",
+            "default settings"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Sequence reads were clustered and chimeric sequences detected using an identity of 97% as the OTU threshold.",
+          "searchable_summary": "cluster sequence reads and detect chimeric sequences with 97% identity threshold",
+          "inputs": [
+            "merged sequence data"
+          ],
+          "outputs": [
+            "clustered sequence data",
+            "chimeric sequences"
+          ],
+          "keywords": [
+            "clustering",
+            "chimeric sequences",
+            "OTU threshold"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "OTU Reference Data Download",
+      "description": "This method involves downloading reference OTU data from various databases for different microbial communities.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Reference OTU data used in the present study were downloaded from the Greengenes database for 16S rRNA, the Unite database for ITS, and Silva for 18S rRNA.",
+          "searchable_summary": "download OTU reference data from Greengenes, Unite, and Silva databases",
+          "inputs": [
+            "database URLs"
+          ],
+          "outputs": [
+            "OTU reference data"
+          ],
+          "keywords": [
+            "OTU",
+            "Greengenes",
+            "Unite",
+            "Silva",
+            "database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "OTU Relative Abundance Estimation",
+      "description": "This method estimates the relative abundances of OTUs at the family level for different microbial communities across sediment layers.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Relative abundances of the most abundant OTUs among all four-sediment layers for all 10 cores were estimated at the family level for archaea, bacteria, eukaryotes, and fungi.",
+          "searchable_summary": "estimate OTU relative abundances at family level across sediment layers",
+          "inputs": [
+            "clustered sequence data",
+            "OTU reference data"
+          ],
+          "outputs": [
+            "OTU relative abundances"
+          ],
+          "keywords": [
+            "OTU",
+            "relative abundance",
+            "family level"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "LC-MS Data Processing and Analysis",
+      "description": "This method processes and analyzes LC-MS raw data to screen methanol extracts for chemodiversity without focusing on specific metabolites.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "LC-MS raw data were processed and analyzed using Mzmine version 2.02, XCMS R package, and MetaboAnalyst version 3.0.",
+          "searchable_summary": "process and analyze LC-MS data using Mzmine, XCMS, and MetaboAnalyst",
+          "inputs": [
+            "LC-MS raw data"
+          ],
+          "outputs": [
+            "processed LC-MS data"
+          ],
+          "keywords": [
+            "LC-MS",
+            "Mzmine",
+            "XCMS",
+            "MetaboAnalyst"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Selected the most significant MS signals based on p-values (p ≤ 0.01) and Relative Standard Deviations (RSD ≤ 10%) among layers of sampled cores.",
+          "searchable_summary": "select significant MS signals based on p-values and RSD",
+          "inputs": [
+            "processed LC-MS data"
+          ],
+          "outputs": [
+            "significant MS signals"
+          ],
+          "keywords": [
+            "MS signals",
+            "p-values",
+            "RSD"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Diversity and Statistical Analysis",
+      "description": "This method involves various statistical analyses to estimate diversity and compare microbial communities across different layers and cores.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "Good's estimator of coverage and Shannon's entropy were estimated for all microbial communities.",
+          "searchable_summary": "estimate Good's coverage and Shannon's entropy for microbial communities",
+          "inputs": [
+            "OTU relative abundances"
+          ],
+          "outputs": [
+            "Good's coverage",
+            "Shannon's entropy"
+          ],
+          "keywords": [
+            "Good's estimator",
+            "Shannon's entropy",
+            "diversity"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "A PERMANOVA test was conducted based on Bray-Curtis and Weighted UniFrac distances among cores.",
+          "searchable_summary": "conduct PERMANOVA test using Bray-Curtis and Weighted UniFrac distances",
+          "inputs": [
+            "OTU relative abundances"
+          ],
+          "outputs": [
+            "PERMANOVA results"
+          ],
+          "keywords": [
+            "PERMANOVA",
+            "Bray-Curtis",
+            "Weighted UniFrac"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Principal Coordinates Analysis (PCoA) was used to characterize all layers and the top layer among cores.",
+          "searchable_summary": "perform PCoA to characterize layers among cores",
+          "inputs": [
+            "PERMANOVA results"
+          ],
+          "outputs": [
+            "PCoA plots"
+          ],
+          "keywords": [
+            "PCoA",
+            "visualization",
+            "community structure"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Alpha diversity (rarefaction curves) was calculated based on Chao 1 measurements.",
+          "searchable_summary": "calculate alpha diversity using Chao 1 measurements",
+          "inputs": [
+            "OTU relative abundances"
+          ],
+          "outputs": [
+            "alpha diversity metrics"
+          ],
+          "keywords": [
+            "alpha diversity",
+            "Chao 1",
+            "rarefaction curves"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Partial Least Squares Discriminant Analysis (PLS) estimated the weighted sum of absolute regression coefficients among the microbial communities.",
+          "searchable_summary": "perform PLS to estimate regression coefficients among microbial communities",
+          "inputs": [
+            "OTU relative abundances"
+          ],
+          "outputs": [
+            "PLS results"
+          ],
+          "keywords": [
+            "PLS",
+            "regression coefficients",
+            "discriminant analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "visualization",
+          "description": "The heatmap visualization was estimated based on Euclidean matrix distances, and Ward's clustering algorithm was utilized.",
+          "searchable_summary": "create heatmap using Euclidean distances and Ward's clustering",
+          "inputs": [
+            "PLS results"
+          ],
+          "outputs": [
+            "heatmap"
+          ],
+          "keywords": [
+            "heatmap",
+            "Euclidean distances",
+            "Ward's clustering"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/7473632.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

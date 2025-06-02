@@ -1,0 +1,324 @@
+{
+  "paper_title": "Computational methods and data visualization for diatom analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Image Preprocessing and Augmentation",
+      "description": "This method involves preprocessing and augmenting images of wild and modified diatoms to create a balanced training dataset for neural network training. The process ensures equal representation of both diatom types and applies transformations to simulate variations in SEM images.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Select 29 images of wild diatoms and 29 images of modified ones.",
+          "searchable_summary": "select equal number of wild and modified diatom images",
+          "inputs": [
+            "wild diatom images",
+            "modified diatom images"
+          ],
+          "outputs": [
+            "selected images"
+          ],
+          "keywords": [
+            "image selection",
+            "dataset balance"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Randomly select the type of image to add to the training set, then randomly draw a specific image of that type.",
+          "searchable_summary": "randomly select image type and specific image for training set",
+          "inputs": [
+            "selected images"
+          ],
+          "outputs": [
+            "training set images"
+          ],
+          "keywords": [
+            "random selection",
+            "training set"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Rescale all images using resize function from opencv to have the same pixel/nm value of 3.",
+          "searchable_summary": "rescale images to uniform pixel/nm value using opencv",
+          "inputs": [
+            "training set images"
+          ],
+          "outputs": [
+            "rescaled images"
+          ],
+          "keywords": [
+            "image rescaling",
+            "opencv"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Randomly select 250 × 250 px cutaways from a randomly selected image.",
+          "searchable_summary": "select random 250x250 px cutaways from images",
+          "inputs": [
+            "rescaled images"
+          ],
+          "outputs": [
+            "image cutaways"
+          ],
+          "keywords": [
+            "image cutaways",
+            "random selection"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Apply vertical and horizontal mirroring at random.",
+          "searchable_summary": "apply random vertical and horizontal mirroring",
+          "inputs": [
+            "image cutaways"
+          ],
+          "outputs": [
+            "mirrored images"
+          ],
+          "keywords": [
+            "image mirroring",
+            "augmentation"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_processing",
+          "description": "Rotate the cutaway using opencv functions getRotationMatrix2D and warpAffine.",
+          "searchable_summary": "rotate images using opencv functions",
+          "inputs": [
+            "mirrored images"
+          ],
+          "outputs": [
+            "rotated images"
+          ],
+          "keywords": [
+            "image rotation",
+            "opencv"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "Apply non-linear adjustment of contrast for the training set to incorporate possible artifacts from SEM images.",
+          "searchable_summary": "adjust image contrast non-linearly",
+          "inputs": [
+            "rotated images"
+          ],
+          "outputs": [
+            "contrast-adjusted images"
+          ],
+          "keywords": [
+            "contrast adjustment",
+            "image artifacts"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_processing",
+          "description": "Normalize the resulting arrays to [0, 1].",
+          "searchable_summary": "normalize image arrays to range [0, 1]",
+          "inputs": [
+            "contrast-adjusted images"
+          ],
+          "outputs": [
+            "normalized images"
+          ],
+          "keywords": [
+            "normalization",
+            "image processing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Neural Network Training and Validation",
+      "description": "This method describes the architecture, training, and validation of a neural network (NN 1) designed to classify images of wild and modified diatoms. The network's performance is validated to ensure it differentiates based on morphology rather than noise.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Create NN 1 architecture with two convolutional layers, a max pooling layer, and a dense layer using Keras with TensorFlow backend.",
+          "searchable_summary": "design NN 1 architecture with Keras and TensorFlow",
+          "inputs": [
+            "Keras",
+            "TensorFlow"
+          ],
+          "outputs": [
+            "NN 1 model"
+          ],
+          "keywords": [
+            "neural network",
+            "Keras",
+            "TensorFlow"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Use ReLUs as activation functions and a two-unit dense layer with softmax activation for classification.",
+          "searchable_summary": "implement ReLUs and softmax activation in NN 1",
+          "inputs": [
+            "NN 1 model"
+          ],
+          "outputs": [
+            "activated NN 1 model"
+          ],
+          "keywords": [
+            "ReLU",
+            "softmax",
+            "activation functions"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Optimize the network with the Adam optimizer using the cross-entropy metric.",
+          "searchable_summary": "optimize NN 1 with Adam optimizer and cross-entropy",
+          "inputs": [
+            "activated NN 1 model"
+          ],
+          "outputs": [
+            "optimized NN 1 model"
+          ],
+          "keywords": [
+            "Adam optimizer",
+            "cross-entropy",
+            "optimization"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "validation",
+          "description": "Train NN on a randomly selected subset of images, with 80% as training set and 20% as validation set.",
+          "searchable_summary": "train NN 1 with 80/20 train-validation split",
+          "inputs": [
+            "optimized NN 1 model",
+            "training images"
+          ],
+          "outputs": [
+            "trained NN 1 model"
+          ],
+          "keywords": [
+            "training",
+            "validation",
+            "train-validation split"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "validation",
+          "description": "Validate NN performance by retraining with only wild diatom images split into two sets with different labels.",
+          "searchable_summary": "validate NN 1 by retraining with identical class images",
+          "inputs": [
+            "trained NN 1 model",
+            "wild diatom images"
+          ],
+          "outputs": [
+            "validation accuracy"
+          ],
+          "keywords": [
+            "validation",
+            "performance testing"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Data Visualization with CrossVis",
+      "description": "This method uses the CrossVis system to visualize and analyze multivariate data of diatom parameters, allowing for interactive exploration of class interrelationships and parameter correlations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "Inspect class interrelationship between diatom parameters using CrossVis.",
+          "searchable_summary": "use CrossVis to visualize diatom parameter relationships",
+          "inputs": [
+            "diatom parameter data"
+          ],
+          "outputs": [
+            "visualization plots"
+          ],
+          "keywords": [
+            "CrossVis",
+            "data visualization",
+            "multivariate analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "Use parallel coordinates plot to represent N-dimensional tuples with points on N parallel axes.",
+          "searchable_summary": "create parallel coordinates plot for multivariate data",
+          "inputs": [
+            "diatom parameter data"
+          ],
+          "outputs": [
+            "parallel coordinates plot"
+          ],
+          "keywords": [
+            "parallel coordinates",
+            "multivariate data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "visualization",
+          "description": "Select parameter ranges of interest by dragging a rectangular region on the vertical axes.",
+          "searchable_summary": "interactively select parameter ranges on plot",
+          "inputs": [
+            "parallel coordinates plot"
+          ],
+          "outputs": [
+            "selected parameter ranges"
+          ],
+          "keywords": [
+            "interactive selection",
+            "parameter ranges"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "visualization",
+          "description": "Display mean and mean-centered standard deviation range within each vertical axis.",
+          "searchable_summary": "show mean and standard deviation on plot axes",
+          "inputs": [
+            "parallel coordinates plot"
+          ],
+          "outputs": [
+            "statistical overlays"
+          ],
+          "keywords": [
+            "mean",
+            "standard deviation",
+            "statistical visualization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "visualization",
+          "description": "Represent categorical parameters to study wild vs. modified classes.",
+          "searchable_summary": "visualize categorical parameters for class study",
+          "inputs": [
+            "parallel coordinates plot"
+          ],
+          "outputs": [
+            "categorical parameter visualization"
+          ],
+          "keywords": [
+            "categorical data",
+            "class study"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/189930459.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

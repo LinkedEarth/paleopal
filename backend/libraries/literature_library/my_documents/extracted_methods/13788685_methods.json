@@ -1,0 +1,314 @@
+{
+  "paper_title": "Pollen Gene Flow and Reproductive Success in Northern Red Oak",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Paternity Analysis using Microsatellites",
+      "description": "Analysis of genetic data (microsatellites) from parent trees and offspring to determine parentage, check sample identity, and assess genetic marker characteristics, primarily using the software CERVUS.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "A total of 349 northern red oak seed orchard parent trees and 432 offspring were genotyped at 11 microsatellite loci for paternity analysis.",
+          "searchable_summary": "Perform microsatellite genotyping on biological samples from parent trees and offspring.",
+          "inputs": [
+            "Biological samples (parent trees, offspring)",
+            "Microsatellite markers/primers"
+          ],
+          "outputs": [
+            "Raw genotype data (alleles per locus per individual)"
+          ],
+          "keywords": [
+            "genotyping",
+            "microsatellite",
+            "DNA extraction",
+            "PCR",
+            "fragment analysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Paternity analysis performed most efficiently with the nine microsatellite loci described in Table 1.",
+          "searchable_summary": "Select a subset of genetic loci for paternity analysis.",
+          "inputs": [
+            "Raw genotype data for 11 loci"
+          ],
+          "outputs": [
+            "Genotype data for 9 selected loci"
+          ],
+          "keywords": [
+            "locus selection",
+            "genetic markers",
+            "microsatellite"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Loci were highly polymorphic and ranged between 12 and 52 alleles per locus with a mean of 31 alleles per locus. Observed heterozygosity ranged between 0.72 and 0.92 with a mean of 0.83. Minimum polymorphic information content (PIC) was 0.77 and maximum PIC was 0.95 with a mean of 0.88 over all loci (Table 1). Mean proportion of individuals typed over all loci was 0.89, and combined non-exclusion probabilities for one parent, one parent given the other parent, parent-pairs, and identity tests were 0.00003479, 0.00000037, 6.41E -12 , and 1.09E -16 , respectively.",
+          "searchable_summary": "Calculate genetic diversity and informativeness statistics for selected microsatellite loci.",
+          "inputs": [
+            "Genotype data for selected loci"
+          ],
+          "outputs": [
+            "Locus statistics (alleles per locus, Ho, He, PIC, non-exclusion probabilities)",
+            "Proportion of individuals typed per locus"
+          ],
+          "keywords": [
+            "genetic diversity",
+            "polymorphism",
+            "heterozygosity",
+            "PIC",
+            "non-exclusion probability",
+            "genetic marker statistics"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "An identity test was performed to check for misidentified clones and trees in the orchard. In total, 9 of 146 genotypes had at least one ramet mislabeled with a mean probability of identity (pID) of 1.22E -11 . Eleven ramets of 349 were mislabeled.",
+          "searchable_summary": "Perform identity tests using genetic data to verify sample labels.",
+          "inputs": [
+            "Genotype data for parent trees/ramets"
+          ],
+          "outputs": [
+            "Identity test results",
+            "List of potential misidentifications",
+            "Probability of identity (pID)"
+          ],
+          "keywords": [
+            "identity test",
+            "sample identity",
+            "genetic identity",
+            "clone verification",
+            "CERVUS"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Paternity was analyzed using a strict (95%) confidence level and a relaxed (80%) confidence level for 432 offspring and 143 paternal genotypes. When paternity was analyzed given a known mother (i.e., each seed orchard clone except the known female was considered a candidate male), 61% of progeny were assigned a male parent within the orchard at the 95% confidence level and 93% were assigned paternity at the 80% confidence level.",
+          "searchable_summary": "Assign paternity using likelihood-based software (CERVUS) with specified confidence levels and known mothers.",
+          "inputs": [
+            "Offspring genotype data",
+            "Candidate paternal genotype data",
+            "Known maternal genotypes",
+            "Confidence levels (80%, 95%)",
+            "CERVUS software"
+          ],
+          "outputs": [
+            "Paternity assignments (assigned father, confidence level)",
+            "Assignment probabilities"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "parentage assignment",
+            "CERVUS",
+            "likelihood",
+            "confidence level"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Parent pair analysis was also conducted using Cervus 3.0.3 and previously mentioned simulation parameters. Offspring had an average proportion of 0.973 sampled parents and an average of 10585 candidate parent pairs. Sixty-two percent and 91% of offspring were assigned a parent-pair within the orchard at the strict and relaxed confidence levels, respectively.",
+          "searchable_summary": "Perform parent-pair analysis using likelihood-based software (CERVUS).",
+          "inputs": [
+            "Offspring genotype data",
+            "Candidate parent-pair genotype data",
+            "Simulation parameters (e.g., number of candidate parents, genotyping error rate)",
+            "CERVUS software"
+          ],
+          "outputs": [
+            "Parent-pair assignments",
+            "Delta values"
+          ],
+          "keywords": [
+            "parent-pair analysis",
+            "parentage analysis",
+            "CERVUS",
+            "likelihood"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_processing",
+          "description": "A total of 336 offspring had either strict (95%) paternal assignment or a non-zero parent-pair delta value and were retained for analysis of pollen gene flow, female sampling, male reproductive success, and genetic correlations.",
+          "searchable_summary": "Filter offspring data based on paternity assignment confidence or parent-pair delta values.",
+          "inputs": [
+            "Paternity assignments for all offspring",
+            "Parent-pair delta values for all offspring"
+          ],
+          "outputs": [
+            "Filtered list of offspring with high-confidence assignments"
+          ],
+          "keywords": [
+            "data filtering",
+            "paternity assignment criteria",
+            "data subsetting"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Statistical Analysis of Reproductive Success",
+      "description": "Statistical analysis of data, including results from paternity analysis and phenotypic measurements, to determine influences on female mate choice, overall male reproductive success, and male reproductive success per female using SAS/STAT software.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Data analysis was based on a total of 781 individuals after excluding any individual with four or more loci drop-outs caused by poor amplification or ambiguous size scoring.",
+          "searchable_summary": "Filter individuals from the dataset based on the amount of missing genetic data (locus drop-outs).",
+          "inputs": [
+            "Raw genotype data for all individuals"
+          ],
+          "outputs": [
+            "Genotype data with individuals having high missing data removed"
+          ],
+          "keywords": [
+            "data cleaning",
+            "data filtering",
+            "missing data",
+            "genotype data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The multilocus consensus genotype was determined for each VSO clone (a total of 146 parental genotypes representing the 349 orchard ramets) and 432 offspring.",
+          "searchable_summary": "Determine consensus genotypes from potentially multiple samples per clone or raw offspring data.",
+          "inputs": [
+            "Genotype data for all ramets of a clone",
+            "Genotype data for offspring"
+          ],
+          "outputs": [
+            "Single consensus genotype per clone",
+            "Consensus genotype per offspring"
+          ],
+          "keywords": [
+            "consensus genotype",
+            "multilocus genotype",
+            "genotype consolidation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Identity tests, parent-pair analyses, and paternity tests were performed with the software CERVUS 3.0.3 [25,26] with relaxed (80%) and strict (95%) assignment probability and allowance for genotyping error. Offspring with either a strict (95%) paternal assignment or a non-zero parent-pair delta value were used for further statistical analysis.",
+          "searchable_summary": "Perform parentage analysis (identity, paternity, parent-pair tests) using CERVUS and filter offspring based on assignment confidence.",
+          "inputs": [
+            "Filtered genotype data",
+            "CERVUS software",
+            "Confidence levels (80%, 95%)"
+          ],
+          "outputs": [
+            "Results of identity, paternity, and parent-pair tests",
+            "Filtered list of offspring for downstream analysis"
+          ],
+          "keywords": [
+            "paternity analysis",
+            "identity test",
+            "parent-pair analysis",
+            "CERVUS",
+            "data filtering"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Variables assessed to determine influences on female mate choice were individual genotype, year, female phenology class, and mean diameter at breast height (DBH). Variables assessed to determine influences on overall male reproductive success and male reproductive success per female were male subline location, male phenological class, male subline, distance between mother and candidate male, mean DBH, and number of ramets per clone. Mean DBH was determined for each clone on the basis of ramets remaining as of April 20, 2010. Distances between mother tree and candidate males were categorized based on the distance between the subline of the mother tree and the subline of the candidate male. Within-subline pollinations were given a value of 1, pollinations from neighboring sublines were given a value of 2, pollinations from non-neighboring sublines in the main orchard area were given a 3, and all pollinations from males in subline D (approximately 1 km outside the main orchard area) were given a distance value of 4. Male reproductive success was determined by counting the total number of offspring each male contributed to the overall offspring pool (n = 336) and by counting the number of offspring each male contributed to the total offspring of each mother tree (n = 22 to 46). Mean mating frequency for each clone was calculated as the ratio of a single clone's sired offspring to the total number of offspring.",
+          "searchable_summary": "Calculate explanatory and response variables for statistical models, including phenotypic, spatial, and reproductive success metrics.",
+          "inputs": [
+            "Paternity analysis results (assigned parents)",
+            "Phenotypic data (DBH, phenology)",
+            "Spatial data (subline locations)",
+            "Clone information (number of ramets)"
+          ],
+          "outputs": [
+            "Calculated variables (DBH per clone, distance categories, phenology classes, reproductive success counts/proportions, mating frequency)"
+          ],
+          "keywords": [
+            "variable calculation",
+            "phenotypic data",
+            "spatial data",
+            "reproductive success",
+            "mating frequency",
+            "DBH",
+            "phenology",
+            "data categorization"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "Total count data was transformed in SAS to relieve unequal error variance according the best transformation (λ = -2) indicated by the Boxcox option of the SAS TRANSREG procedure. Male reproductive success expressed as proportions of total offspring or proportions of offspring attributable to each mother tree were inverse transformed (λ = -1) in the same manner.",
+          "searchable_summary": "Apply data transformations (Boxcox, inverse) to count and proportion data to address unequal error variance.",
+          "inputs": [
+            "Count data (total offspring sired)",
+            "Proportion data (offspring per mother)",
+            "SAS/STAT software"
+          ],
+          "outputs": [
+            "Transformed count data",
+            "Transformed proportion data"
+          ],
+          "keywords": [
+            "data transformation",
+            "Boxcox transformation",
+            "inverse transformation",
+            "variance stabilization",
+            "SAS",
+            "TRANSREG procedure"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "Regressions, chi-square analyses, and ANOVAs were generated using SAS/STAT1 software, Version 9.1 of the SAS System for Windows (SAS Institute Inc., Cary, NC, USA).",
+          "searchable_summary": "Perform statistical tests (regression, chi-square, ANOVA) on transformed data using SAS.",
+          "inputs": [
+            "Transformed data",
+            "Calculated variables",
+            "SAS/STAT software"
+          ],
+          "outputs": [
+            "Statistical test results (p-values, coefficients, F-statistics, chi-square statistics)"
+          ],
+          "keywords": [
+            "regression analysis",
+            "chi-square test",
+            "ANOVA",
+            "statistical modeling",
+            "SAS"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "other",
+          "description": "Model statistics are presented for models using transformed data; least squares means and standard errors are presented untransformed.",
+          "searchable_summary": "Report statistical model results and summary statistics, presenting transformed model statistics and untransformed means/errors.",
+          "inputs": [
+            "Statistical test results",
+            "Transformed data",
+            "Untransformed data"
+          ],
+          "outputs": [
+            "Tables/figures of model statistics",
+            "Least squares means",
+            "Standard errors"
+          ],
+          "keywords": [
+            "statistical reporting",
+            "model statistics",
+            "least squares means",
+            "standard error",
+            "results presentation"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/13788685.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,130 @@
+{
+  "paper_title": "Non Linear Response of a Harmonic Diatomic Molecule: an Exact Algebraic Approach",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Algebraic Approach for Harmonic Oscillator",
+      "description": "A Lie algebraic approach to solve the problem of a nonlinearly driven harmonic diatomic molecule by reducing it to a set of coupled nonlinear ordinary differential equations.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Write the system's Hamiltonian as H = H0 + V, where H0 is the unperturbed harmonic oscillator Hamiltonian and V is the interaction.",
+          "searchable_summary": "define system Hamiltonian with unperturbed and interaction components",
+          "inputs": [
+            "H0",
+            "V"
+          ],
+          "outputs": [
+            "H"
+          ],
+          "keywords": [
+            "Hamiltonian",
+            "harmonic oscillator",
+            "interaction"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Transform to the interaction picture where the time evolution operator satisfies the equation with the interaction picture Hamiltonian.",
+          "searchable_summary": "transform Hamiltonian to interaction picture",
+          "inputs": [
+            "H",
+            "U0(t, t0)"
+          ],
+          "outputs": [
+            "HI(t)"
+          ],
+          "keywords": [
+            "interaction picture",
+            "time evolution operator"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Use the Wei-Norman Theorem to write the exact time evolution operator as a product of exponentials.",
+          "searchable_summary": "apply Wei-Norman Theorem for time evolution operator",
+          "inputs": [
+            "HI(t)"
+          ],
+          "outputs": [
+            "exact time evolution operator"
+          ],
+          "keywords": [
+            "Wei-Norman Theorem",
+            "time evolution"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Substitute into the set of first order, coupled, nonlinear differential equations for the complex functions αn(t).",
+          "searchable_summary": "derive coupled nonlinear differential equations for αn(t)",
+          "inputs": [
+            "exact time evolution operator"
+          ],
+          "outputs": [
+            "differential equations for αn(t)"
+          ],
+          "keywords": [
+            "nonlinear differential equations",
+            "αn(t)"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Solve the differential equations numerically with initial conditions αi(t0) = 0, i = 1, ..., 6.",
+          "searchable_summary": "numerically solve differential equations with initial conditions",
+          "inputs": [
+            "differential equations for αn(t)",
+            "initial conditions"
+          ],
+          "outputs": [
+            "solutions for αn(t)"
+          ],
+          "keywords": [
+            "numerical solution",
+            "initial conditions"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "modeling",
+          "description": "Obtain the temporal evolution of any observable from the creation, annihilation operators in the Heisenberg picture.",
+          "searchable_summary": "calculate temporal evolution of observables using Heisenberg picture",
+          "inputs": [
+            "solutions for αn(t)"
+          ],
+          "outputs": [
+            "temporal evolution of observables"
+          ],
+          "keywords": [
+            "Heisenberg picture",
+            "observables"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "Calculate the average value of the displacement coordinate taken between number states.",
+          "searchable_summary": "compute average displacement coordinate between number states",
+          "inputs": [
+            "temporal evolution of observables"
+          ],
+          "outputs": [
+            "average displacement coordinate"
+          ],
+          "keywords": [
+            "displacement coordinate",
+            "number states"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/98938216.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

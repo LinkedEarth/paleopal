@@ -1,0 +1,176 @@
+{
+  "paper_title": "Model and experiment design for middle Miocene climate simulations",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Climate Model Configuration",
+      "description": "Configuration of the FOAM version 1.5 climate model for simulating middle Miocene climate conditions, including atmospheric and oceanic components, spatial resolution, and coupling mechanisms.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "FOAM version 1.5 is a fully coupled OAGCM with a parallelised version of Community Climate Model 2 (CCM2) and upgraded atmospheric physics following CCM3.",
+          "searchable_summary": "Configure FOAMv1.5 with CCM2 and CCM3 physics for climate modeling",
+          "inputs": [
+            "FOAMv1.5",
+            "CCM2",
+            "CCM3"
+          ],
+          "outputs": [
+            "Configured climate model"
+          ],
+          "keywords": [
+            "climate model",
+            "FOAM",
+            "CCM2",
+            "CCM3"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "The soil hydrology module is replaced by a simple bucket model (0.15 m deep). Overflow is routed to the ocean using a parallel river transport.",
+          "searchable_summary": "Implement simple bucket model for soil hydrology and route overflow to ocean",
+          "inputs": [
+            "soil hydrology data"
+          ],
+          "outputs": [
+            "Modified hydrology model"
+          ],
+          "keywords": [
+            "soil hydrology",
+            "bucket model",
+            "river transport"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "The atmospheric component runs at R15 (4.5° × 7.5°) spatial resolution, with 18 vertical layers.",
+          "searchable_summary": "Set atmospheric component resolution to R15 with 18 vertical layers",
+          "inputs": [
+            "atmospheric data"
+          ],
+          "outputs": [
+            "Configured atmospheric component"
+          ],
+          "keywords": [
+            "atmospheric resolution",
+            "vertical layers"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "The oceanic component is a parallel ocean model similar to the Geophysical Fluid Dynamics Laboratory's Modular Ocean Model (MOM) with a 128 × 128 Mercator grid (1.4° × 2.8°) and 24 vertical levels.",
+          "searchable_summary": "Configure oceanic component with Mercator grid and 24 vertical levels",
+          "inputs": [
+            "oceanic data"
+          ],
+          "outputs": [
+            "Configured oceanic component"
+          ],
+          "keywords": [
+            "ocean model",
+            "Mercator grid",
+            "vertical levels"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "The atmospheric and oceanic components are linked by a coupler, which calculates and interpolates fluxes between the two components.",
+          "searchable_summary": "Link atmospheric and oceanic components with a coupler for flux calculation",
+          "inputs": [
+            "atmospheric component",
+            "oceanic component"
+          ],
+          "outputs": [
+            "Coupled climate model"
+          ],
+          "keywords": [
+            "coupler",
+            "flux calculation",
+            "interpolation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Middle Miocene Simulation Setup",
+      "description": "Setup of simulations for the middle Miocene period using specific palaeogeography, vegetation, and CO2 concentration settings to test the impact of the Tethys seaway closure on oceanic circulation and climate.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "Simulations are forced with a palaeogeography derived from Herold et al. (2008), with differences such as lower reliefs, an open Central American Isthmus, a closed Bering Strait, and a southward shift of Australia.",
+          "searchable_summary": "Set palaeogeography for middle Miocene simulations based on Herold et al. (2008)",
+          "inputs": [
+            "palaeogeography data"
+          ],
+          "outputs": [
+            "Configured simulation geography"
+          ],
+          "keywords": [
+            "palaeogeography",
+            "Miocene",
+            "geography"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "modeling",
+          "description": "Four sensitivity experiments are performed with various gateway depths to test the impact of the Tethys seaway closure.",
+          "searchable_summary": "Conduct sensitivity experiments with different Tethys seaway depths",
+          "inputs": [
+            "gateway depth data"
+          ],
+          "outputs": [
+            "Sensitivity experiment results"
+          ],
+          "keywords": [
+            "sensitivity experiments",
+            "Tethys seaway",
+            "gateway depth"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "Miocene vegetation is based on Wolfe (1985) with changes such as the absence of desert and larger expansion of tropical and subtropical forests.",
+          "searchable_summary": "Set Miocene vegetation based on Wolfe (1985) for simulations",
+          "inputs": [
+            "vegetation data"
+          ],
+          "outputs": [
+            "Configured vegetation model"
+          ],
+          "keywords": [
+            "Miocene vegetation",
+            "Wolfe",
+            "forest expansion"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Experiments are integrated for 3000 years without flux correction, using the average of the last 30 years for analysis.",
+          "searchable_summary": "Integrate experiments for 3000 years and analyze last 30 years",
+          "inputs": [
+            "simulation data"
+          ],
+          "outputs": [
+            "Integrated simulation results"
+          ],
+          "keywords": [
+            "integration",
+            "flux correction",
+            "simulation analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/16480091.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

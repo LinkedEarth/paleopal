@@ -1,0 +1,174 @@
+{
+  "paper_title": "Model Assessment and Development of eCA on Surface Boundary-Layer Chemistry",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Model Assessment of eCA on Surface Boundary-Layer Chemistry",
+      "description": "This method uses a spatially resolved reaction-diffusion model to quantify the effect of external carbonic anhydrase (eCA) on boundary-layer chemistry, particularly focusing on maintaining CO2 concentrations at the cell surface during photosynthesis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "A model simulation was run in which a diatom takes up CO2 at two-thirds its photosynthetic rate, which is typical of cultured marine diatoms.",
+          "searchable_summary": "simulate diatom CO2 uptake at two-thirds photosynthetic rate",
+          "inputs": [
+            "photosynthetic rate",
+            "diatom species"
+          ],
+          "outputs": [
+            "CO2 uptake rate"
+          ],
+          "keywords": [
+            "model simulation",
+            "diatom",
+            "photosynthesis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "Average photosynthetic rates measured in this study were used in the simulation.",
+          "searchable_summary": "use measured photosynthetic rates in simulation",
+          "inputs": [
+            "measured photosynthetic rates"
+          ],
+          "outputs": [
+            "simulation input data"
+          ],
+          "keywords": [
+            "photosynthetic rates",
+            "simulation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The analysis shows that the measured eCA activities are sufficient to maintain cell surface CO2 near bulk concentrations despite photosynthetic carbon uptake in both species.",
+          "searchable_summary": "analyze eCA activity effect on CO2 concentration",
+          "inputs": [
+            "eCA activity data",
+            "CO2 concentration data"
+          ],
+          "outputs": [
+            "CO2 concentration analysis"
+          ],
+          "keywords": [
+            "eCA activity",
+            "CO2 concentration"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Simulate the scenario where eCA could be involved in the control of surface pH.",
+          "searchable_summary": "simulate eCA effect on surface pH control",
+          "inputs": [
+            "H+ uptake rate",
+            "HCO3- uptake rate"
+          ],
+          "outputs": [
+            "pH control simulation results"
+          ],
+          "keywords": [
+            "eCA",
+            "surface pH",
+            "simulation"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "eCA Model Development",
+      "description": "This method involves developing a box model to consider 18O-CO2 and 18O-HCO3- isotopologs in three compartments: the bulk solution, the boundary layer at the cell surface, and the intracellular space.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "modeling",
+          "description": "The model is described by a system of differential equations with variables and parameters as described in Table III.",
+          "searchable_summary": "develop differential equations for eCA model",
+          "inputs": [
+            "variables",
+            "parameters"
+          ],
+          "outputs": [
+            "differential equations"
+          ],
+          "keywords": [
+            "differential equations",
+            "eCA model"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "The solution volume (Ve) was measured directly, and the intracellular volume was determined using a Coulter Counter.",
+          "searchable_summary": "measure solution and intracellular volumes",
+          "inputs": [
+            "Coulter Counter"
+          ],
+          "outputs": [
+            "solution volume",
+            "intracellular volume"
+          ],
+          "keywords": [
+            "volume measurement",
+            "Coulter Counter"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The uncatalyzed CO2 hydration/HCO3- dehydration rates in the bulk solution (kuf, kur) were determined from 18O removal rates prior to the addition of cells.",
+          "searchable_summary": "determine uncatalyzed reaction rates from 18O removal",
+          "inputs": [
+            "18O removal rates"
+          ],
+          "outputs": [
+            "uncatalyzed reaction rates"
+          ],
+          "keywords": [
+            "reaction rates",
+            "18O removal"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "Calculate mass transfer coefficients for diffusive flux between the bulk solution and the boundary layer.",
+          "searchable_summary": "calculate mass transfer coefficients for diffusive flux",
+          "inputs": [
+            "cell radius",
+            "diffusivity of CO2",
+            "diffusivity of HCO3-"
+          ],
+          "outputs": [
+            "mass transfer coefficients"
+          ],
+          "keywords": [
+            "mass transfer",
+            "diffusive flux"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "Determine eCA-catalyzed hydration/dehydration rate constants by optimizing the model fit to the 18O-CO2 data.",
+          "searchable_summary": "optimize model fit to determine eCA-catalyzed rate constants",
+          "inputs": [
+            "18O-CO2 data"
+          ],
+          "outputs": [
+            "eCA-catalyzed rate constants"
+          ],
+          "keywords": [
+            "eCA-catalyzed",
+            "rate constants",
+            "model optimization"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/23786434.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

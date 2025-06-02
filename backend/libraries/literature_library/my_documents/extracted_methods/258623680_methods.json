@@ -1,0 +1,360 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Charcoal Extraction from Lake Sediments",
+      "description": "Process for extracting macro-charcoal particles from lake sediment cores for subsequent analysis. This involves physical slicing, subsampling, chemical treatment to differentiate charcoal from organic matter, sieving to isolate macro-charcoal, and measuring particle surface area.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "cut the basal sediments continuously into 0.5 -cm-thick slices.",
+          "searchable_summary": "Cut sediment core into 0.5 cm thick slices",
+          "inputs": [
+            "Basal lake sediment core"
+          ],
+          "outputs": [
+            "0.5 cm thick sediment slices"
+          ],
+          "keywords": [
+            "sediment core",
+            "slicing",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "extracted a 1-cm 3 subsample from the middle of each slice to avoid contamination risk (Mustaphi and Pisaric, 2014).",
+          "searchable_summary": "Extract 1 cm³ subsample from the middle of each sediment slice",
+          "inputs": [
+            "0.5 cm thick sediment slice"
+          ],
+          "outputs": [
+            "1 cm³ sediment subsample"
+          ],
+          "keywords": [
+            "subsampling",
+            "sediment",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "Bathed the subsample in a solution of potassium hydroxide (KOH), sodium hexametaphosphate (Na 6 P 6 O 18 ), and sodium hypochlorite (NaClO) for at least 24 h under agitation to perform deflocculation and to help differentiate charcoal particles from organic matter (Whitlock and Larsen, 2001).",
+          "searchable_summary": "Chemically treat sediment subsample with KOH, Na6P6O18, and NaClO solution under agitation for deflocculation and differentiation",
+          "inputs": [
+            "1 cm³ sediment subsample",
+            "Potassium hydroxide (KOH) solution",
+            "Sodium hexametaphosphate (Na6P6O18) solution",
+            "Sodium hypochlorite (NaClO) solution"
+          ],
+          "outputs": [
+            "Chemically treated sediment suspension"
+          ],
+          "keywords": [
+            "chemical treatment",
+            "deflocculation",
+            "potassium hydroxide",
+            "sodium hexametaphosphate",
+            "sodium hypochlorite",
+            "organic matter differentiation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "sieved the solution through a 160 µm mesh to extract macro-charcoal particles",
+          "searchable_summary": "Sieve treated sediment suspension through a 160 µm mesh to isolate macro-charcoal particles",
+          "inputs": [
+            "Chemically treated sediment suspension",
+            "160 µm mesh sieve"
+          ],
+          "outputs": [
+            "Macro-charcoal particles retained on sieve"
+          ],
+          "keywords": [
+            "sieving",
+            "macro-charcoal",
+            "particle isolation",
+            "mesh"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "measured their surface area under a dissecting microscope using the WinSEEDLE ™ image analysis software (Regents Instruments Inc., https://regent.qc.ca/, August 2021).",
+          "searchable_summary": "Measure surface area of macro-charcoal particles using image analysis software",
+          "inputs": [
+            "Macro-charcoal particles",
+            "Dissecting microscope",
+            "WinSEEDLE image analysis software"
+          ],
+          "outputs": [
+            "Charcoal particle surface area measurements"
+          ],
+          "keywords": [
+            "image analysis",
+            "charcoal",
+            "surface area measurement",
+            "WinSEEDLE",
+            "microscopy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Charcoal Size Distribution (CSD) Analysis for Local Fire History",
+      "description": "Application of the Charcoal Size Distribution (CSD) method to reconstruct local fire history from charcoal particle size data. This involves calculating geometric mean diameters, sorting particles into size classes, performing linear regression on size distribution, and classifying fire events based on regression slope and particle size thresholds.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "applied the Charcoal Size Distribution (CSD) method (Asselin and Payette, 2005;Oris et al., 2014a;Remy et al., 2018) to every fire event detected using the CharAnalysis software v1.1 (Higuera et al., 2008; http://CharAnalysis.googlepages.com).",
+          "searchable_summary": "Apply Charcoal Size Distribution (CSD) method to fire events detected by CharAnalysis software",
+          "inputs": [
+            "Fire event data (from CharAnalysis software)",
+            "Charcoal particle data (surface area or diameter)"
+          ],
+          "outputs": [
+            "Data structured for CSD analysis"
+          ],
+          "keywords": [
+            "CSD",
+            "Charcoal Size Distribution",
+            "fire history",
+            "CharAnalysis"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "calculated geometric mean diameters of charcoal particles from the square root of the surface area (Clark and Hussey, 1996)",
+          "searchable_summary": "Calculate geometric mean diameter from the square root of charcoal particle surface area",
+          "inputs": [
+            "Charcoal particle surface area measurements"
+          ],
+          "outputs": [
+            "Charcoal particle geometric mean diameters"
+          ],
+          "keywords": [
+            "geometric mean diameter",
+            "charcoal",
+            "surface area calculation",
+            "particle size"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "converted them to log mm.",
+          "searchable_summary": "Convert charcoal particle geometric mean diameters to log mm scale",
+          "inputs": [
+            "Charcoal particle geometric mean diameters"
+          ],
+          "outputs": [
+            "Charcoal particle diameters in log mm"
+          ],
+          "keywords": [
+            "log transformation",
+            "diameter conversion",
+            "particle size"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Sorted charcoal particles of each sample according to their size into six classes ranging from −0.9 log mm to 0.3 log mm (every 0.2 log mm).",
+          "searchable_summary": "Sort charcoal particles into predefined size classes based on log mm diameter",
+          "inputs": [
+            "Charcoal particle diameters in log mm",
+            "Predefined size classes (-0.9 to 0.3 log mm, 0.2 log mm intervals)"
+          ],
+          "outputs": [
+            "Count or proportion of particles per size class for each sample"
+          ],
+          "keywords": [
+            "particle size distribution",
+            "sorting",
+            "binning",
+            "data aggregation"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Applied a linear regression to the distribution of the proportion of charcoal particles in each size class (−0.8, −0.6, etc.) for each sample.",
+          "searchable_summary": "Perform linear regression on the proportion of charcoal particles in each size class versus the size class value",
+          "inputs": [
+            "Proportion of charcoal particles per size class for each sample",
+            "Size class values"
+          ],
+          "outputs": [
+            "Linear regression slope for each sample's size distribution"
+          ],
+          "keywords": [
+            "linear regression",
+            "size distribution",
+            "slope calculation",
+            "statistical analysis"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "classified as local fires (on the paleo-island) the samples with a slope more gentle than a threshold fixed at −1.77 based on a previous study (Oris et al., 2014a).",
+          "searchable_summary": "Classify fire events as local if the linear regression slope of the charcoal size distribution is gentler (greater) than -1.77",
+          "inputs": [
+            "Linear regression slope for each sample",
+            "Slope threshold (-1.77)"
+          ],
+          "outputs": [
+            "Preliminary classification of fire events (local/other)"
+          ],
+          "keywords": [
+            "classification",
+            "thresholding",
+            "fire history",
+            "slope analysis"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "considered as local fires only the samples having at least one charcoal particle >−0.3 log mm (Supplemental Figure 1).",
+          "searchable_summary": "Refine local fire classification by requiring at least one charcoal particle larger than -0.3 log mm in the sample",
+          "inputs": [
+            "Preliminary classification of fire events (local/other)",
+            "Charcoal particle diameters in log mm for each sample"
+          ],
+          "outputs": [
+            "Final classification of local fire events"
+          ],
+          "keywords": [
+            "filtering",
+            "particle size threshold",
+            "fire history",
+            "classification refinement"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "considered that other fires (extra-local or regional) did not burn on the watersheds of the paleo-islands.",
+          "searchable_summary": "Classify all fire events not meeting the local criteria as extra-local or regional",
+          "inputs": [
+            "Final classification of local fire events"
+          ],
+          "outputs": [
+            "Final classification of all fire events (local/extra-local/regional)"
+          ],
+          "keywords": [
+            "classification",
+            "fire history",
+            "spatial extent"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Site Selection and Lake Sediment Sampling",
+      "description": "Methodology for selecting study sites (lakes) and collecting lake sediment cores for paleoenvironmental analysis. This involves selecting lakes based on specific criteria and using a Livingstone corer to extract complete sediment sequences.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "other",
+          "description": "selected two small headwater lakes surrounded by steep shores to maximize sediment collection: Lake Perché (formerly known as Lake Edrien) in the Aiguebelle National Park (Abijévis hills) and Lake Despériers on the Kekeko hills (Table 1; Figure 2).",
+          "searchable_summary": "Select study lakes based on criteria (small, headwater, steep shores, location)",
+          "inputs": [
+            "Geographical data of study area",
+            "Site selection criteria (small, headwater, steep shores)"
+          ],
+          "outputs": [
+            "Selected lake locations (Lake Perché, Lake Despériers)"
+          ],
+          "keywords": [
+            "site selection",
+            "lake",
+            "headwater",
+            "study area"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "extracted lake sediment cores from the center of each lake with a 60 mm diameter Livingstone corer.",
+          "searchable_summary": "Extract lake sediment cores from the center of selected lakes using a Livingstone corer",
+          "inputs": [
+            "Selected lake locations",
+            "Livingstone corer (60 mm diameter)"
+          ],
+          "outputs": [
+            "Lake sediment cores"
+          ],
+          "keywords": [
+            "sediment coring",
+            "lake sediment",
+            "Livingstone corer",
+            "data collection"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "Collected complete gyttja sequences (organic sediments), from the water-sediment interface to the contact with the underlying mineral glacial sediments.",
+          "searchable_summary": "Collect complete organic sediment (gyttja) sequences within the cores",
+          "inputs": [
+            "Lake sediment cores"
+          ],
+          "outputs": [
+            "Complete gyttja sequences within cores"
+          ],
+          "keywords": [
+            "sediment collection",
+            "gyttja",
+            "organic sediment",
+            "stratigraphy"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "Stored sediments in plastic tubes",
+          "searchable_summary": "Store sediment cores in plastic tubes",
+          "inputs": [
+            "Lake sediment cores (with gyttja sequences)"
+          ],
+          "outputs": [
+            "Sediment cores in plastic tubes"
+          ],
+          "keywords": [
+            "sediment storage",
+            "sample handling",
+            "tubing"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_processing",
+          "description": "kept them in cold conditions (4°C) until further analyses.",
+          "searchable_summary": "Store sediment tubes in cold conditions (4°C)",
+          "inputs": [
+            "Sediment cores in plastic tubes"
+          ],
+          "outputs": [
+            "Cold-stored sediment cores"
+          ],
+          "keywords": [
+            "cold storage",
+            "sediment preservation",
+            "sample storage"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/258623680.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

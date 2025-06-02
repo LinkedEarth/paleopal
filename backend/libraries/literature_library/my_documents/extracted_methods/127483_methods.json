@@ -1,0 +1,147 @@
+{
+  "paper_title": "Species records and environmental data",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Species Records Compilation",
+      "description": "Compilation of species records for three foraminiferal taxa from previous research to assess their biogeography and environmental requirements.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "A total of 189 records of the three foraminiferal taxa were available through previous research on the biogeography of larger foraminifera.",
+          "searchable_summary": "compile species records from previous research",
+          "inputs": [
+            "previous research data"
+          ],
+          "outputs": [
+            "species records"
+          ],
+          "keywords": [
+            "species records",
+            "biogeography",
+            "foraminifera"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "validation",
+          "description": "The accuracy of the coordinates was assessed with DIVA-GIS 7.1.7 by comparing information provided with the records with locality (land shape, bathymetry).",
+          "searchable_summary": "validate coordinate accuracy using DIVA-GIS",
+          "inputs": [
+            "species records",
+            "DIVA-GIS"
+          ],
+          "outputs": [
+            "validated coordinates"
+          ],
+          "keywords": [
+            "coordinate validation",
+            "DIVA-GIS",
+            "geospatial accuracy"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Oceanographic Data Acquisition and Processing",
+      "description": "Acquisition and processing of oceanographic data via remote sensing to obtain sea-surface temperature and salinity information for environmental analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "Information on oceanographic data was obtained via remote sensing. For sea-surface temperature (SST) we used daytime and nighttime monthly averages from 1985 to 2007 with a resolution of 4 km.",
+          "searchable_summary": "obtain SST data from remote sensing",
+          "inputs": [
+            "remote sensing data"
+          ],
+          "outputs": [
+            "SST data"
+          ],
+          "keywords": [
+            "sea-surface temperature",
+            "remote sensing",
+            "SST"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "Annual mean sea-surface temperatures were calculated from the monthly averages with DIVA-GIS.",
+          "searchable_summary": "calculate annual mean SST using DIVA-GIS",
+          "inputs": [
+            "monthly SST data"
+          ],
+          "outputs": [
+            "annual mean SST"
+          ],
+          "keywords": [
+            "annual mean",
+            "SST",
+            "DIVA-GIS"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The datasets were converted to raster format compatible with GISs and were, if necessary, interpolated with ArcGis 9.3 using a bivariate smoothing spline.",
+          "searchable_summary": "convert datasets to raster format and interpolate with ArcGis",
+          "inputs": [
+            "oceanographic datasets"
+          ],
+          "outputs": [
+            "raster format datasets"
+          ],
+          "keywords": [
+            "raster format",
+            "interpolation",
+            "ArcGis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Future Climate Scenario Analysis",
+      "description": "Estimation of likely range changes under a future climate scenario using the AquaMaps dataset and the IPCC climate change scenario A1B.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "To estimate likely range changes under a future climate scenario, we used the AquaMaps dataset, which describes variations in annual mean sea-surface temperatures as expected in 2050.",
+          "searchable_summary": "obtain future SST data from AquaMaps",
+          "inputs": [
+            "AquaMaps dataset"
+          ],
+          "outputs": [
+            "future SST data"
+          ],
+          "keywords": [
+            "future climate scenario",
+            "AquaMaps",
+            "SST"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "The local differences between the present and the future temperature layers were calculated for each grid-cell and added to our own data set following the delta approach.",
+          "searchable_summary": "calculate local temperature differences using delta approach",
+          "inputs": [
+            "present SST data",
+            "future SST data"
+          ],
+          "outputs": [
+            "temperature difference data"
+          ],
+          "keywords": [
+            "temperature difference",
+            "delta approach",
+            "climate change"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/127483.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

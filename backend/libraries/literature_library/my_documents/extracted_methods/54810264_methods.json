@@ -1,0 +1,140 @@
+{
+  "paper_title": "inferred title or filename",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "CMIP5 Data Collection and Analysis",
+      "description": "This method involves obtaining and analyzing CMIP5 data for piControl, lgm, and abrupt4×CO2 experiments to calculate equilibrium climate sensitivities and radiative feedbacks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "CMIP5 data were obtained for piControl, lgm, and abrupt4×CO2 experiments.",
+          "searchable_summary": "obtain CMIP5 data for specified experiments",
+          "inputs": [
+            "experiment names: piControl, lgm, abrupt4×CO2"
+          ],
+          "outputs": [
+            "CMIP5 data"
+          ],
+          "keywords": [
+            "CMIP5",
+            "climate data",
+            "experiments"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The latter were averaged over years 101-150.",
+          "searchable_summary": "average data over specified years",
+          "inputs": [
+            "CMIP5 data",
+            "years: 101-150"
+          ],
+          "outputs": [
+            "averaged CMIP5 data"
+          ],
+          "keywords": [
+            "data averaging",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "Short-wave cloud radiative feedbacks in PMIP2, PMIP3, and abrupt4×CO2 simulations are calculated using the approximate partial radiative perturbation method.",
+          "searchable_summary": "calculate SW cloud radiative feedbacks using APRP method",
+          "inputs": [
+            "PMIP2, PMIP3, abrupt4×CO2 data"
+          ],
+          "outputs": [
+            "SW cloud radiative feedbacks"
+          ],
+          "keywords": [
+            "SW cloud feedback",
+            "APRP method",
+            "radiative perturbation"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "Equilibrium climate sensitivities for the CMIP5 models are derived using the method of Gregory et al. [2004].",
+          "searchable_summary": "derive ECS using Gregory method",
+          "inputs": [
+            "CMIP5 model data"
+          ],
+          "outputs": [
+            "equilibrium climate sensitivities"
+          ],
+          "keywords": [
+            "ECS",
+            "Gregory method",
+            "climate sensitivity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Radiative Forcing and Feedback Decomposition",
+      "description": "This method decomposes short-wave radiative forcing and feedbacks in climate models using the APRP method and calculates long-wave fluxes and greenhouse gas feedbacks.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_analysis",
+          "description": "The short-wave (SW) radiative forcing and feedbacks in each model are decomposed using the APRP method of Taylor et al. [2007].",
+          "searchable_summary": "decompose SW radiative forcing using APRP method",
+          "inputs": [
+            "model data"
+          ],
+          "outputs": [
+            "decomposed SW radiative forcing"
+          ],
+          "keywords": [
+            "SW radiative forcing",
+            "APRP method",
+            "decomposition"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_analysis",
+          "description": "The LW cloud term is calculated as the difference between TOA all-sky and clear-sky fluxes.",
+          "searchable_summary": "calculate LW cloud term from TOA fluxes",
+          "inputs": [
+            "TOA all-sky fluxes",
+            "TOA clear-sky fluxes"
+          ],
+          "outputs": [
+            "LW cloud term"
+          ],
+          "keywords": [
+            "LW cloud term",
+            "TOA fluxes",
+            "radiative forcing"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_analysis",
+          "description": "The greenhouse gas forcing is calculated from the 2×CO2 (for PMIP2 models) or 4×CO2 (for CMIP5 models) greenhouse gas forcing, scaled to the LGM GHG change.",
+          "searchable_summary": "calculate GHG forcing scaled to LGM change",
+          "inputs": [
+            "2×CO2 or 4×CO2 GHG forcing"
+          ],
+          "outputs": [
+            "GHG forcing"
+          ],
+          "keywords": [
+            "GHG forcing",
+            "LGM",
+            "scaling"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/54810264.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

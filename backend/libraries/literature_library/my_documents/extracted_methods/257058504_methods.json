@@ -1,0 +1,362 @@
+{
+  "paper_title": "Ranid Frog Phylogeny and Biogeography (Inferred)",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Taxon Sampling and Molecular Data Collection",
+      "description": "This method describes the process of collecting ranid frog samples, extracting DNA, amplifying specific genetic loci using PCR, and sequencing these loci to obtain molecular data for phylogenetic analysis.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We sampled a total of 146 ranid frogs belonging to the genera    Supplementary Table S1.",
+          "searchable_summary": "Collect biological samples (ranid frogs).",
+          "inputs": [
+            "Sampling plan",
+            "Sampling locations"
+          ],
+          "outputs": [
+            "Ranid frog specimens (146 total)"
+          ],
+          "keywords": [
+            "sampling",
+            "field collection",
+            "biological samples",
+            "ranid frogs"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "DNA extraction... followed published protocols 39 .",
+          "searchable_summary": "Extract genomic DNA from frog tissue samples.",
+          "inputs": [
+            "Frog specimens",
+            "Published DNA extraction protocols (39)"
+          ],
+          "outputs": [
+            "Extracted DNA samples"
+          ],
+          "keywords": [
+            "DNA extraction",
+            "molecular biology",
+            "genomics",
+            "protocols"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "PCR... followed published protocols 39 . Sequences of ten loci were generated for five mtDNA (12S, 16S + tRNA val , COI, cyt b, ND2) and five nucDNA (Brain-derived neurotrophic factor, BDNF; Neurotrophin 3, NTF3; Proopiomelanocortin, POMC; recombination-activating gene 1, RAG1; tyrosinase exon 1, TYR) markers; see Supplementary Table S1 for Genbank accession numbers. Primer information and PCR annealing temperatures applied for this study are provided in Supplementary Table S2.",
+          "searchable_summary": "Amplify specific DNA loci using PCR.",
+          "inputs": [
+            "Extracted DNA samples",
+            "Primers (Supplementary Table S2)",
+            "PCR annealing temperatures (Supplementary Table S2)",
+            "Published PCR protocols (39)"
+          ],
+          "outputs": [
+            "PCR products for 10 loci"
+          ],
+          "keywords": [
+            "PCR",
+            "DNA amplification",
+            "molecular biology",
+            "primers",
+            "annealing temperature"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_processing",
+          "description": "...sequencing followed published protocols 39 .",
+          "searchable_summary": "Sequence amplified DNA loci.",
+          "inputs": [
+            "PCR products",
+            "Published sequencing protocols (39)"
+          ],
+          "outputs": [
+            "DNA sequences (raw data)"
+          ],
+          "keywords": [
+            "DNA sequencing",
+            "molecular biology",
+            "genomics",
+            "protocols"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "other",
+          "description": "...see Supplementary Table S1 for Genbank accession numbers.",
+          "searchable_summary": "Obtain Genbank accession numbers for sequences.",
+          "inputs": [
+            "DNA sequences"
+          ],
+          "outputs": [
+            "Genbank accession numbers (Supplementary Table S1)"
+          ],
+          "keywords": [
+            "Genbank",
+            "sequence submission",
+            "public database"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Phylogenetic Analyses",
+      "description": "This method describes the process of preparing the concatenated gene dataset, selecting appropriate partitioning schemes and substitution models, and inferring phylogenetic trees using both Maximum Likelihood (RAxML) and Bayesian (MrBayes) methods, including assessing convergence.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "The dataset of ten concatenated genes consisted of 7,582 bp.",
+          "searchable_summary": "Concatenate DNA sequences from multiple loci for each sample.",
+          "inputs": [
+            "DNA sequences for 10 loci per sample"
+          ],
+          "outputs": [
+            "Concatenated sequence alignment (7,582 bp total length)"
+          ],
+          "keywords": [
+            "sequence concatenation",
+            "bioinformatics",
+            "multiple sequence alignment"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "In order to create a dataset with a minimum amount of missing data, we only used individuals for which at least three loci (or 1,942 bp total length) were successfully sequenced (see Supplementary Table S1 for details on marker coverage for each sample). Our final dataset comprised 146 specimens for Sumaterana (N = 85) and Wijayarana (N = 61), and an additional 21 sequences for closely related taxa.",
+          "searchable_summary": "Filter concatenated dataset based on minimum locus coverage.",
+          "inputs": [
+            "Concatenated sequence alignment",
+            "Minimum coverage threshold (at least 3 loci or 1,942 bp)"
+          ],
+          "outputs": [
+            "Filtered sequence dataset (146 specimens + 21 related taxa)"
+          ],
+          "keywords": [
+            "data filtering",
+            "sequence data",
+            "bioinformatics",
+            "missing data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "modeling",
+          "description": "We tested a variety of models and partitioning strategies to find the best partitioning scheme and substitution models for the concatenated dataset using PartitionFinder v.1.1 62 66 .",
+          "searchable_summary": "Use PartitionFinder to determine the best partitioning scheme and substitution models.",
+          "inputs": [
+            "Filtered sequence dataset",
+            "PartitionFinder v.1.1"
+          ],
+          "outputs": [
+            "Best partitioning scheme and substitution models"
+          ],
+          "keywords": [
+            "PartitionFinder",
+            "model selection",
+            "phylogenetic models",
+            "bioinformatics",
+            "partitioning strategy"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "modeling",
+          "description": "In RAxML, eleven distinct partitions and associated models (GTR + Γ + G) were defined...",
+          "searchable_summary": "Configure RAxML analysis with defined partitions and models.",
+          "inputs": [
+            "Filtered sequence dataset",
+            "Best partitioning scheme and models (eleven partitions, GTR + Γ + G)",
+            "RAxML"
+          ],
+          "outputs": [
+            "RAxML configuration/input files"
+          ],
+          "keywords": [
+            "RAxML",
+            "phylogenetic inference",
+            "partitioning",
+            "substitution models",
+            "maximum likelihood"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "modeling",
+          "description": "...and we performed joint branch length optimization.",
+          "searchable_summary": "Run RAxML with joint branch length optimization.",
+          "inputs": [
+            "RAxML configuration/input files"
+          ],
+          "outputs": [
+            "Optimized phylogenetic tree (intermediate)"
+          ],
+          "keywords": [
+            "RAxML",
+            "branch length optimization",
+            "phylogenetic tree",
+            "maximum likelihood"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "validation",
+          "description": "Tree support was obtained running 1,000 bootstrap replicates.",
+          "searchable_summary": "Perform bootstrap analysis in RAxML to assess tree support.",
+          "inputs": [
+            "RAxML configuration/input files",
+            "Optimized tree",
+            "Number of replicates (1,000)"
+          ],
+          "outputs": [
+            "Phylogenetic tree with bootstrap support values"
+          ],
+          "keywords": [
+            "RAxML",
+            "bootstrap",
+            "tree support",
+            "phylogenetic inference",
+            "maximum likelihood"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "modeling",
+          "description": "For the Bayesian analysis, we performed two independent runs with one cold and three heated chains for 50 million Markov Chain Monte Carlo (MCMC) iterations, sampling every 1,000 generations.",
+          "searchable_summary": "Run Bayesian phylogenetic analysis using MrBayes.",
+          "inputs": [
+            "Filtered sequence dataset",
+            "MrBayes",
+            "Analysis parameters (2 independent runs, 1 cold/3 heated chains, 50M MCMC iterations, sample every 1k generations)"
+          ],
+          "outputs": [
+            "MrBayes output files (log, tree files)"
+          ],
+          "keywords": [
+            "MrBayes",
+            "Bayesian phylogeny",
+            "MCMC",
+            "phylogenetic inference"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "validation",
+          "description": "Convergence of runs was assessed using the trace plot generated from MrBayes, the average split frequencies being < 0.01, and by assessing ESS values (> 200) of the log files with Tracer v.1.6 67 .",
+          "searchable_summary": "Assess convergence of Bayesian runs using Tracer.",
+          "inputs": [
+            "MrBayes log files",
+            "MrBayes trace plot",
+            "Tracer v.1.6",
+            "Convergence criteria (average split frequencies < 0.01, ESS > 200)"
+          ],
+          "outputs": [
+            "Convergence assessment report/results"
+          ],
+          "keywords": [
+            "Tracer",
+            "Bayesian convergence",
+            "MCMC diagnostics",
+            "ESS",
+            "split frequencies",
+            "phylogenetic analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Mapping of Distribution Patterns",
+      "description": "This method describes how the inferred Bayesian phylogenetic tree was edited and color-coded in MESQUITE to visualize the distribution patterns of the sampled frogs based on defined paleodrainage systems.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "visualization",
+          "description": "The BI tree was transformed and edited in MESQUITE v.3.6 71 ...",
+          "searchable_summary": "Load and edit the Bayesian tree in MESQUITE.",
+          "inputs": [
+            "Bayesian Inference (BI) tree file",
+            "MESQUITE v.3.6"
+          ],
+          "outputs": [
+            "Edited tree file in MESQUITE"
+          ],
+          "keywords": [
+            "MESQUITE",
+            "tree editing",
+            "phylogenetic tree",
+            "bioinformatics",
+            "tree visualization"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "visualization",
+          "description": "...into a color-coded tree to map the distribution patterns of the Sumatran ranid frogs with gastromyzophorous tadpoles.",
+          "searchable_summary": "Apply color-coding to the tree branches/tips based on distribution data.",
+          "inputs": [
+            "Edited tree file",
+            "Distribution data for samples"
+          ],
+          "outputs": [
+            "Color-coded phylogenetic tree (visual representation)"
+          ],
+          "keywords": [
+            "tree visualization",
+            "color-coding",
+            "phylogenetic tree",
+            "distribution mapping",
+            "biogeography"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "other",
+          "description": "We followed Voris' 19 definition of the four paleodrainage systems in Sundaland (color-coded and labeled with number 1-4 in Fig. 2).",
+          "searchable_summary": "Classify sample locations according to Voris' paleodrainage systems 1-4.",
+          "inputs": [
+            "Sample locations",
+            "Voris' 19 paleodrainage definition"
+          ],
+          "outputs": [
+            "Classification of samples into drainage systems 1-4"
+          ],
+          "keywords": [
+            "paleodrainage",
+            "biogeography",
+            "classification",
+            "geographic data",
+            "spatial analysis"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "other",
+          "description": "Thus, in this study, we categorized all watersheds on the western slopes of the mountains as distinct drainage system (color-coded and labeled with number 5 in Fig. 2).",
+          "searchable_summary": "Categorize sample locations on western slopes as distinct drainage system 5.",
+          "inputs": [
+            "Sample locations on western slopes of Bukit Barisan",
+            "Definition of drainage system 5"
+          ],
+          "outputs": [
+            "Classification of samples into drainage system 5"
+          ],
+          "keywords": [
+            "paleodrainage",
+            "biogeography",
+            "classification",
+            "geographic data",
+            "watershed",
+            "spatial analysis"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/257058504.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}

@@ -1,0 +1,237 @@
+{
+  "paper_title": "Ice Core and Climate Data Analysis",
+  "methods_found": true,
+  "methods": [
+    {
+      "method_name": "Ice Core Chemical Analysis",
+      "description": "Process for preparing and analyzing ice core samples to measure stable isotopes, tritium concentrations, and electrical conductivity for chronological and environmental studies.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_processing",
+          "description": "Ice core samples with a thickness of 90 mm were cut longitudinally into three parts (thicknesses of 5, 75, and 10 mm) with a band saw.",
+          "searchable_summary": "cut ice core samples into sections for analysis",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "sectioned ice core samples"
+          ],
+          "keywords": [
+            "ice core",
+            "sample preparation",
+            "band saw"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_processing",
+          "description": "One of the 5 mm-thick sections was horizontally cut at 25 mm intervals for analysis of the stable isotopes of water.",
+          "searchable_summary": "cut 5 mm section into 25 mm intervals for isotope analysis",
+          "inputs": [
+            "5 mm-thick ice core section"
+          ],
+          "outputs": [
+            "subsamples for isotope analysis"
+          ],
+          "keywords": [
+            "isotope analysis",
+            "sample preparation"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_processing",
+          "description": "The subsamples were placed into clean polyethylene bags, melted at ambient temperature, and decanted into glass bottles with an inner cap.",
+          "searchable_summary": "melt subsamples and transfer to glass bottles",
+          "inputs": [
+            "subsamples"
+          ],
+          "outputs": [
+            "melted samples in glass bottles"
+          ],
+          "keywords": [
+            "sample melting",
+            "glass bottles"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_analysis",
+          "description": "The stable oxygen and hydrogen isotope compositions of water were measured using a water stable isotope analyzer (L2130-I, Piccaro Inc.) with an evaporating device (A0212, Picarro Inc.).",
+          "searchable_summary": "measure stable isotopes using isotope analyzer",
+          "inputs": [
+            "melted samples"
+          ],
+          "outputs": [
+            "isotope composition data"
+          ],
+          "keywords": [
+            "isotope analysis",
+            "Picarro analyzer"
+          ]
+        },
+        {
+          "step_number": 5,
+          "category": "data_analysis",
+          "description": "Tritium concentrations were measured using a liquid scintillation counter (LSC-LB3, Aloka Co., Ltd.) to identify the reference horizon of the H-bomb test in 1963.",
+          "searchable_summary": "measure tritium concentrations using scintillation counter",
+          "inputs": [
+            "residue after isotope measurement"
+          ],
+          "outputs": [
+            "tritium concentration data"
+          ],
+          "keywords": [
+            "tritium measurement",
+            "scintillation counter"
+          ]
+        },
+        {
+          "step_number": 6,
+          "category": "data_analysis",
+          "description": "The continuous electrical conductivity was measured using a dielectric profiling system (DEP).",
+          "searchable_summary": "measure electrical conductivity using DEP",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "electrical conductivity data"
+          ],
+          "keywords": [
+            "electrical conductivity",
+            "dielectric profiling"
+          ]
+        },
+        {
+          "step_number": 7,
+          "category": "data_analysis",
+          "description": "A continuous density profile of the ice core was obtained using an X-ray transmission method.",
+          "searchable_summary": "obtain density profile using X-ray transmission",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "density profile data"
+          ],
+          "keywords": [
+            "density profile",
+            "X-ray transmission"
+          ]
+        },
+        {
+          "step_number": 8,
+          "category": "data_analysis",
+          "description": "The concentration of Cl−, SO42−, and Na+ were measured by ion chromatography.",
+          "searchable_summary": "measure ion concentrations using ion chromatography",
+          "inputs": [
+            "ice core samples"
+          ],
+          "outputs": [
+            "ion concentration data"
+          ],
+          "keywords": [
+            "ion chromatography",
+            "Cl−",
+            "SO42−",
+            "Na+"
+          ]
+        },
+        {
+          "step_number": 9,
+          "category": "data_analysis",
+          "description": "Non-sea-salt (nss) SO42− was calculated by the ratio of Na+ and SO42−.",
+          "searchable_summary": "calculate nss SO42− from Na+ and SO42− ratios",
+          "inputs": [
+            "Na+ concentration",
+            "SO42− concentration"
+          ],
+          "outputs": [
+            "nss SO42− data"
+          ],
+          "keywords": [
+            "nss SO42−",
+            "ion ratio"
+          ]
+        }
+      ]
+    },
+    {
+      "method_name": "Climate Data Reanalysis",
+      "description": "Utilization of climate indices and reanalysis data to understand climate variability and its impact on the ice core data.",
+      "steps": [
+        {
+          "step_number": 1,
+          "category": "data_fetch",
+          "description": "We used the monthly data set of the NAO index supplied by the Climatic Research Unit, University of East Anglia.",
+          "searchable_summary": "fetch NAO index data from Climatic Research Unit",
+          "inputs": [
+            "Climatic Research Unit"
+          ],
+          "outputs": [
+            "NAO index data"
+          ],
+          "keywords": [
+            "NAO index",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 2,
+          "category": "data_fetch",
+          "description": "We used the monthly data set of the AMO index supplied by the Earth System Research Laboratory (ESRL).",
+          "searchable_summary": "fetch AMO index data from ESRL",
+          "inputs": [
+            "Earth System Research Laboratory"
+          ],
+          "outputs": [
+            "AMO index data"
+          ],
+          "keywords": [
+            "AMO index",
+            "climate data"
+          ]
+        },
+        {
+          "step_number": 3,
+          "category": "data_fetch",
+          "description": "We estimated the heat flux of the warmer current as the vertically integrated heat transport (VIHT) supplied by the Ocean Analysis/Reanalysis System 3 (ORA-S3), ECMWF.",
+          "searchable_summary": "fetch VIHT data from ORA-S3 ECMWF",
+          "inputs": [
+            "ORA-S3 ECMWF"
+          ],
+          "outputs": [
+            "VIHT data"
+          ],
+          "keywords": [
+            "VIHT",
+            "heat flux",
+            "ocean current"
+          ]
+        },
+        {
+          "step_number": 4,
+          "category": "data_fetch",
+          "description": "The sea ice concentration, precipitation amount, and specific humidity used in this study were from the ERA-interim reanalysis data set supplied by the European Center for Medium-Range Weather Forecasts (ECMWF).",
+          "searchable_summary": "fetch sea ice concentration, precipitation, and humidity data from ERA-interim",
+          "inputs": [
+            "ERA-interim ECMWF"
+          ],
+          "outputs": [
+            "sea ice concentration data",
+            "precipitation data",
+            "humidity data"
+          ],
+          "keywords": [
+            "ERA-interim",
+            "sea ice",
+            "precipitation",
+            "humidity"
+          ]
+        }
+      ]
+    }
+  ],
+  "source_file": "paleoclimatology/papers-text.md/225194405.md",
+  "extracted_at": "/Users/varun/git/paleopal/literature_library"
+}
