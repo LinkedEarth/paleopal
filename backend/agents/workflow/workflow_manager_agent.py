@@ -484,6 +484,19 @@ Return only the JSON object, no additional text."""
             # Build AgentRequest for this step
             step_metadata = request.metadata.copy() if request.metadata else {}
             
+            # Gather results from dependency steps to give as focused context
+            dependency_results: Dict[str, Any] = {}
+            for dep_id in step.get("dependencies", []):
+                dep_key = f"{dep_id}_result"
+                if dep_key in shared_context:
+                    dependency_results[dep_id] = shared_context[dep_key]
+
+            # Compose context: include all shared context plus an explicit dependency section for clarity
+            step_context = {
+                **shared_context,  # full accumulated context
+                "dependency_results": dependency_results  # focused relevant outputs
+            }
+            
             # Preserve clarification configuration settings from the original request
             # These should be passed to all individual agent steps
             enable_clarification = request.metadata.get("enable_clarification") if request.metadata else None
@@ -512,7 +525,7 @@ Return only the JSON object, no additional text."""
                 agent_type=agent_type,
                 capability="generate_query" if agent_type == "sparql" else "generate_code",
                 user_input=user_input,
-                context=shared_context,
+                context=step_context,
                 metadata=step_metadata,
                 conversation_id=conversation_id,
             )
@@ -530,9 +543,14 @@ Return only the JSON object, no additional text."""
                     "result": response.result,
                 })
 
-                # Update shared context with new variables we care about
-                if response.result:
-                    shared_context.update({f"{step_id}_result": response.result})
+                # Store full result for global context
+                shared_context[f"{step_id}_result"] = response.result
+                # Additionally, if response.result contains structured fields like generated_code / generated_query,
+                # bubble them up to top-level keys for easier reference by later LLM prompts.
+                if isinstance(response.result, dict):
+                    for k in ("generated_code", "generated_query", "execution_results"):
+                        if k in response.result and response.result[k] is not None:
+                            shared_context[f"{step_id}_{k}"] = response.result[k]
 
             elif response.status == AgentStatus.NEEDS_CLARIFICATION:
                 # Store waiting step and propagate clarification outward
@@ -618,4 +636,149 @@ Return only the JSON object, no additional text."""
 
     def _get_workflow(self, workflow_id: str) -> Optional[WorkflowPlan]:
         """Get a workflow plan from storage."""
-        return self._workflow_store.get(workflow_id) 
+        return self._workflow_store.get(workflow_id)
+
+    # ------------------------------------------------------------------
+    # Streaming support -------------------------------------------------
+    # ------------------------------------------------------------------
+
+    async def handle_request_streaming(self, request: AgentRequest, progress_callback=None):  # type: ignore
+        """Stream workflow planning or execution with nested agent progress."""
+        if request.capability == "plan_workflow":
+            # Emit a start/complete pair so the UI shows progress during planning.
+            planning_node_name = "plan_workflow"
+            yield {
+                "type": "node_start",
+                "node_name": planning_node_name,
+                "current_state": {}
+            }
+
+            resp = await self._handle_plan_workflow(request)
+
+            # Mark planning finished
+            yield {
+                "type": "node_complete",
+                "node_name": planning_node_name,
+                "node_output": resp.result if hasattr(resp, "result") else None,
+                "current_state": {"status": resp.status.value if hasattr(resp, "status") else "success"}
+            }
+
+            # Final complete event
+            yield {"type": "complete", "response": resp.model_dump() if hasattr(resp, "model_dump") else resp}
+            return
+
+        if request.capability != "execute_workflow":
+            # fall back to non-streaming
+            resp = await self.handle_request(request)
+            yield {"type": "complete", "response": resp.model_dump() if hasattr(resp, "model_dump") else resp}
+            return
+
+        workflow_id = request.context.get("workflow_id") or request.user_input or request.metadata.get("workflow_id")
+        plan = self._get_workflow(workflow_id)
+        if not plan:
+            yield {"type": "error", "message": f"workflow_id '{workflow_id}' not found"}
+            return
+
+        shared_context: Dict[str, Any] = {}
+
+        for step in plan.steps:
+            step_id = step["step_id"]
+            agent_type = step["agent_type"]
+            user_input = step["user_input"]
+
+            # Announce step start
+            start_evt = {
+                "type": "node_start",
+                "node_name": f"{step_id}:{agent_type}",
+                "current_state": {"step_id": step_id}
+            }
+            yield start_evt
+
+            # Build sub-agent request
+            step_metadata = request.metadata.copy() if request.metadata else {}
+            
+            # Gather results from dependency steps to give as focused context
+            dependency_results: Dict[str, Any] = {}
+            for dep_id in step.get("dependencies", []):
+                dep_key = f"{dep_id}_result"
+                if dep_key in shared_context:
+                    dependency_results[dep_id] = shared_context[dep_key]
+
+            # Compose context: include all shared context plus an explicit dependency section for clarity
+            step_context = {
+                **shared_context,  # full accumulated context
+                "dependency_results": dependency_results  # focused relevant outputs
+            }
+            
+            # Preserve clarification configuration settings from the original request
+            # These should be passed to all individual agent steps
+            enable_clarification = request.metadata.get("enable_clarification") if request.metadata else None
+            clarification_threshold = request.metadata.get("clarification_threshold") if request.metadata else None
+            if enable_clarification is not None:
+                step_metadata["enable_clarification"] = enable_clarification
+            if clarification_threshold is not None:
+                step_metadata["clarification_threshold"] = clarification_threshold
+            
+            # Remove clarification responses from step metadata by default
+            # They will only be added back if specifically intended for this step
+            if "clarification_responses" in step_metadata:
+                del step_metadata["clarification_responses"]
+
+            # If this is a follow-up with clarification responses for this specific step, attach them
+            if clarification_responses and target_step_id is not None and target_step_id == step_id:
+                step_metadata["clarification_responses"] = clarification_responses
+                # consume so it's not reused
+                clarification_responses = None
+                target_step_id = None
+
+            # Reuse conversation_id if we have one stored for the step
+            conversation_id = plan.step_conversations.get(step_id)
+
+            agent_request = AgentRequest(
+                agent_type=agent_type,
+                capability="generate_query" if agent_type == "sparql" else "generate_code",
+                user_input=user_input,
+                context=step_context,
+                metadata=step_metadata,
+                conversation_id=conversation_id,
+            )
+
+            from services.agent_registry import agent_registry  # local import to avoid cycles
+
+            sub_agent = agent_registry.get_agent(agent_type)
+
+            if hasattr(sub_agent, "handle_request_streaming"):
+                async for sub_evt in sub_agent.handle_request_streaming(agent_request):
+                    # forward with prefixed node names
+                    forwarded = dict(sub_evt)
+                    if "node_name" in forwarded and forwarded["node_name"]:
+                        forwarded["node_name"] = f"{step_id}.{forwarded['node_name']}"
+                    yield forwarded
+                    # collect results for shared context if complete
+                    if forwarded.get("type") == "complete" and isinstance(forwarded.get("response"), dict):
+                        res = forwarded["response"].get("result")
+                        if res:
+                            shared_context[f"{step_id}_result"] = res
+            else:
+                # non-streaming sub agent
+                sub_resp = await sub_agent.handle_request(agent_request)
+                yield {
+                    "type": "node_complete",
+                    "node_name": f"{step_id}:{agent_type}",
+                    "node_output": sub_resp.result,
+                    "current_state": {}
+                }
+                if sub_resp.result:
+                    shared_context[f"{step_id}_result"] = sub_resp.result
+
+            # mark step complete
+            yield {
+                "type": "node_complete",
+                "node_name": f"{step_id}:{agent_type}",
+                "node_output": {},
+                "current_state": {"step_id": step_id, "status": "done"}
+            }
+
+        # After loop, produce final response via existing execute method
+        final_resp = await self._handle_execute_workflow(request)
+        yield {"type": "complete", "response": final_resp.model_dump() if hasattr(final_resp, "model_dump") else final_resp} 

@@ -1810,4 +1810,194 @@
   .full-code-display {
     font-size: 12px;
   }
+}
+
+/* Enhanced Agent Progress Display Styling */
+.agent-progress-display {
+  background: linear-gradient(135deg, #f8fafe 0%, #f3f8ff 100%);
+  border: 1px solid rgba(66, 139, 202, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.agent-progress-display .progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(66, 139, 202, 0.15);
+}
+
+.agent-progress-display .current-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #2c5282;
+  font-size: 16px;
+}
+
+.agent-progress-display .spinner {
+  animation: spin 1.5s linear infinite;
+  font-size: 18px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.agent-progress-display .execution-time {
+  font-size: 12px;
+  color: #718096;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.agent-progress-display .completed-steps h4 {
+  margin: 0 0 12px 0;
+  color: #2d3748;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.agent-progress-display .progress-step {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 12px;
+  transition: all 0.2s ease;
+}
+
+.agent-progress-display .progress-step.completed {
+  border-left: 4px solid #48bb78;
+  background: linear-gradient(90deg, rgba(72, 187, 120, 0.05) 0%, white 100%);
+}
+
+.agent-progress-display .progress-step.running {
+  border-left: 4px solid #ed8936;
+  background: linear-gradient(90deg, rgba(237, 137, 54, 0.05) 0%, white 100%);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(237, 137, 54, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(237, 137, 54, 0); }
+}
+
+.agent-progress-display .step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.agent-progress-display .step-icon {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.agent-progress-display .step-name {
+  font-weight: 600;
+  color: #2d3748;
+  flex: 1;
+}
+
+.agent-progress-display .step-timing,
+.agent-progress-display .step-status {
+  font-size: 11px;
+  color: #718096;
+  background: rgba(113, 128, 150, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.agent-progress-display .step-state {
+  font-size: 12px;
+  color: #4a5568;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  background: rgba(237, 242, 247, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #cbd5e0;
+}
+
+.agent-progress-display .node-output-details {
+  margin-top: 8px;
+  padding: 8px 0;
+}
+
+.agent-progress-display .output-item {
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: #f7fafc;
+  border-radius: 6px;
+  border-left: 3px solid #4299e1;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.agent-progress-display .output-item.error {
+  background: #fed7d7;
+  border-left-color: #fc8181;
+  color: #c53030;
+}
+
+.agent-progress-display .output-item strong {
+  color: #2d3748;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.agent-progress-display .code-preview {
+  background: #1a202c;
+  color: #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 11px;
+  margin-top: 6px;
+  overflow-x: auto;
+  max-height: 120px;
+  white-space: pre-wrap;
+  border: 1px solid #2d3748;
+}
+
+.agent-progress-display .current-step {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(66, 139, 202, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .agent-progress-display {
+    padding: 16px;
+    margin: 8px 0;
+  }
+  
+  .agent-progress-display .progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .agent-progress-display .step-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .agent-progress-display .code-preview {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
 } 

@@ -2,33 +2,33 @@ from __future__ import annotations
 
 """readthedocs_library.index_code
 
-Build a Chroma vector store that **only** indexes example *code* blocks extracted from
+Build a Qdrant vector store that **only** indexes example *code* blocks extracted from
 Read-the-Docs Sphinx HTML pages.  Each document corresponds to a single class/function
 symbol; its `page_content` is the concatenated example code for that symbol and its
 metadata mirrors the symbol index (symbol, signature, params, source, etc.).
 
 Typical usage:
-    python -m readthedocs_library.index_code path/to/docs --out rtd_code_index
+    python -m readthedocs_library.index_code path/to/docs --collection rtd_code
 """
 
 import pathlib
 import argparse
 import logging
-from typing import List
+import sys
+import uuid
+from typing import List, Dict, Any
+
+# Add parent directory to path for imports
+current_dir = pathlib.Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
+
+from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
 
 from bs4 import BeautifulSoup  # noqa: F401 – required by symbol_loader at runtime
 
-try:
-    from langchain_chroma import Chroma
-except ImportError as e:  # pragma: no cover
-    raise ImportError("langchain_chroma is required: pip install langchain_chroma") from e
-
-try:
-    from langchain_huggingface import HuggingFaceEmbeddings
-except ImportError:
-    HuggingFaceEmbeddings = None  # type: ignore
-
-# Prefer a code-specialised model.  If unavailable, users can pass --model.
+# Prefer a code-specialised model if available
 DEFAULT_MODEL = "microsoft/codebert-base"
 
 # Local import that works both as package and as script
@@ -41,22 +41,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("rtd-code-index")
 
 
-# -----------------------------------------------------------------------------
-# embeddings helper ------------------------------------------------------------
-# -----------------------------------------------------------------------------
-
-def _get_embeddings(model_name: str | None = None):
-    if HuggingFaceEmbeddings is None:
-        raise RuntimeError("HuggingFaceEmbeddings not available – install langchain_huggingface")
-    model_name = model_name or DEFAULT_MODEL
-    logger.info("Using code embedding model: %s", model_name)
-    return HuggingFaceEmbeddings(model_name=model_name)  # type: ignore
-
-
-# -----------------------------------------------------------------------------
-# index builder ----------------------------------------------------------------
-# -----------------------------------------------------------------------------
-
 def _html_files_in(paths: List[pathlib.Path]):
     for root in paths:
         if root.is_dir():
@@ -65,7 +49,26 @@ def _html_files_in(paths: List[pathlib.Path]):
             yield root
 
 
-def build_code_index(html_paths: List[pathlib.Path], out_dir: pathlib.Path, *, model_name: str | None = None):
+def build_code_index(
+    html_paths: List[pathlib.Path], 
+    collection_name: str = None,
+    *,
+    force_recreate: bool = False
+) -> str:
+    """
+    Build Qdrant index from ReadTheDocs code examples.
+    
+    Args:
+        html_paths: List of paths to ReadTheDocs HTML directories or files
+        collection_name: Qdrant collection name (defaults to readthedocs_code)
+        force_recreate: Whether to recreate the collection if it exists
+        
+    Returns:
+        Name of the created collection
+    """
+    if collection_name is None:
+        collection_name = COLLECTION_NAMES["readthedocs_code"]
+    
     documents = []
     for html_path in _html_files_in(html_paths):
         try:
@@ -79,35 +82,87 @@ def build_code_index(html_paths: List[pathlib.Path], out_dir: pathlib.Path, *, m
             code = doc.metadata.get("code", "") if isinstance(doc.metadata, dict) else ""
             if not code:
                 continue  # skip symbols without example code
-            # Build a new Document with code as page_content
-            from langchain.docstore.document import Document  # local import to keep dependency optional
-
-            # Ensure metadata values are primitives
-            meta = {
-                k: (str(v) if not isinstance(v, (str, int, float, bool)) else v)
-                for k, v in doc.metadata.items()
+            
+            # Create Qdrant document
+            qdrant_doc = {
+                "id": str(uuid.uuid4()),
+                "text": code,  # Use code as the main searchable text
+                "code": code,  # Also store as separate field
+                "content": code,  # Alias for compatibility
             }
-            documents.append(Document(page_content=code, metadata=meta))
+            
+            # Add metadata, ensuring all values are JSON-serializable
+            if isinstance(doc.metadata, dict):
+                for k, v in doc.metadata.items():
+                    if not isinstance(v, (str, int, float, bool, list)):
+                        qdrant_doc[k] = str(v)
+                    else:
+                        qdrant_doc[k] = v
+            
+            # Add code classification
+            code_lower = code.lower()
+            if "class " in code_lower:
+                qdrant_doc["code_type"] = "class_definition"
+            elif "def " in code_lower:
+                qdrant_doc["code_type"] = "function_definition"
+            elif "import " in code_lower:
+                qdrant_doc["code_type"] = "import_example"
+            elif any(plot_term in code_lower for plot_term in ["plot", "figure", "show()", "savefig"]):
+                qdrant_doc["code_type"] = "plotting_example"
+            else:
+                qdrant_doc["code_type"] = "general_example"
+            
+            # Extract library information from symbol or source
+            symbol = qdrant_doc.get("symbol", "")
+            source = qdrant_doc.get("source", "")
+            
+            for lib in ["numpy", "pandas", "matplotlib", "scipy", "sklearn", "pyleoclim", "pylipd"]:
+                if lib in symbol.lower() or lib in source.lower():
+                    qdrant_doc["library"] = lib
+                    break
+            else:
+                qdrant_doc["library"] = "unknown"
+            
+            documents.append(qdrant_doc)
 
     if not documents:
         raise RuntimeError("No code documents extracted – check input paths")
 
-    embeddings = _get_embeddings(model_name)
-    vectordb = Chroma.from_documents(documents, embeddings, persist_directory=str(out_dir))
-    logger.info("Indexed %d code snippets → %s", len(documents), out_dir)
-    return out_dir
+    logger.info(f"Extracted {len(documents)} code snippets")
+    
+    # Get Qdrant manager
+    qdrant_manager = get_qdrant_manager()
+    
+    # Create collection
+    if not qdrant_manager.create_collection(collection_name, force_recreate=force_recreate):
+        raise RuntimeError(f"Failed to create collection: {collection_name}")
+    
+    # Index documents
+    indexed_count = qdrant_manager.index_documents(
+        collection_name=collection_name,
+        documents=documents,
+        text_field="text"
+    )
+    
+    logger.info(f"Indexed {indexed_count} code snippets → {collection_name}")
+    return collection_name
 
-
-# -----------------------------------------------------------------------------
-# CLI -------------------------------------------------------------------------
-# -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Index ReadTheDocs example code into Chroma")
+    parser = argparse.ArgumentParser(description="Index ReadTheDocs example code into Qdrant")
     parser.add_argument("paths", nargs="+", help="One or more paths to ReadTheDocs HTML directories or files")
-    parser.add_argument("--out", default="rtd_code_index", help="Output directory for Chroma index")
-    parser.add_argument("--model", default=None, help="Hugging Face model name for code embeddings (default: microsoft/codebert-base)")
+    parser.add_argument("--collection", default=None, help="Qdrant collection name (default: readthedocs_code)")
+    parser.add_argument("--force-recreate", action="store_true", help="Force recreate collection if it exists")
     args = parser.parse_args()
 
     paths = [pathlib.Path(p) for p in args.paths]
-    build_code_index(paths, pathlib.Path(args.out), model_name=args.model) 
+    try:
+        collection_name = build_code_index(
+            paths, 
+            collection_name=args.collection,
+            force_recreate=args.force_recreate
+        )
+        print(f"✅ ReadTheDocs code index built successfully in collection: {collection_name}")
+    except Exception as e:
+        print(f"❌ Failed to build index: {e}")
+        sys.exit(1) 

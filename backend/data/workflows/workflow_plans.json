@@ -502,5 +502,460 @@
     ],
     "waiting_step": null,
     "step_conversations": {}
+  },
+  "9d18a4dd-07b8-4f5b-b463-ab27220438b0": {
+    "workflow_id": "9d18a4dd-07b8-4f5b-b463-ab27220438b0",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral \u03b418O proxy records spanning the Holocene (last 10,000 years) with sufficient temporal resolution to capture ENSO signals (preferably monthly to annual resolution)",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "sparql",
+        "user_input": "Retrieve the identified coral \u03b418O datasets along with their metadata (location, age model, temporal resolution, dating method)",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Load and preprocess the coral \u03b418O datasets, including quality control, standardization, and handling age uncertainties",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Perform time series analysis on the coral \u03b418O records to identify ENSO signals, including spectral analysis, wavelet analysis, and bandpass filtering in the 2-7 year frequency band",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Divide the Holocene into meaningful time periods (e.g., early, middle, late Holocene) and compare ENSO variability between these periods",
+        "dependencies": [
+          "t3"
+        ]
+      },
+      {
+        "step_id": "t5",
+        "agent_type": "code",
+        "user_input": "Create visualizations showing changes in ENSO frequency, amplitude, and spatial patterns throughout the Holocene",
+        "dependencies": [
+          "t4"
+        ]
+      },
+      {
+        "step_id": "t6",
+        "agent_type": "code",
+        "user_input": "Compare the coral-derived ENSO reconstruction with other ENSO proxies and model simulations of Holocene climate",
+        "dependencies": [
+          "t5"
+        ]
+      }
+    ],
+    "estimated_steps": 7,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "da2438d6-9eb7-482f-8e87-278a644b14e7": {
+    "workflow_id": "da2438d6-9eb7-482f-8e87-278a644b14e7",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Fetch the dataset names (identifiers) for all coral records stored in the GraphDB. Assume there is a way to filter by 'coral' as the paleoclimate archive type and that the dataset name is stored with a specific property (e.g., `dqv:hasDataToInterpret / schema:name`).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Use PyLiPD's remote loading function to load the coral datasets identified by the names obtained in the previous SPARQL step. Iterate through the list of dataset names and load each one from the GraphDB source. Store the loaded datasets in a list or dictionary.",
+        "dependencies": [
+          "t0"
+        ]
+      }
+    ],
+    "estimated_steps": 2,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "dbce9927-9be2-4287-9780-5703121cf39c": {
+    "workflow_id": "dbce9927-9be2-4287-9780-5703121cf39c",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Write a SPARQL query to discover the identifiers (e.g., dataset name or LiPD file name) of all coral paleoclimate datasets stored in the GraphDB. The query should select identifiers that are associated with coral records.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "sparql",
+        "user_input": "Execute the SPARQL query defined in the previous step (t0) against the GraphDB endpoint to retrieve the list of coral dataset identifiers.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Process the query results obtained from the SPARQL execution (t1). Extract the dataset identifiers into a Python list or similar data structure that can be directly used by the PyLiPD remote loading function.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Use the Python list of coral dataset identifiers generated in the previous step (t2) to remotely load the corresponding LiPD datasets from the GraphDB using PyLiPD's remote loading capabilities.",
+        "dependencies": [
+          "t2"
+        ]
+      }
+    ],
+    "estimated_steps": 4,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "d9be7dab-b2df-4191-bd65-d3c5c09cf0a0": {
+    "workflow_id": "d9be7dab-b2df-4191-bd65-d3c5c09cf0a0",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Construct a SPARQL query to find the identifiers of coral datasets available in the GraphDB. Focus on datasets explicitly typed or associated with coral records.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the coral datasets identified in the previous SPARQL query (step t0) using PyLiPD's remote loading functionality. Iterate through the list of identifiers obtained from the SPARQL query and load each dataset.",
+        "dependencies": [
+          "t0"
+        ]
+      }
+    ],
+    "estimated_steps": 2,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": "t0",
+    "step_conversations": {
+      "t0": "8012390b-c433-4bf8-b55a-55e788eb1198"
+    }
+  },
+  "22c202d0-198a-4ec2-8008-8a08b019166a": {
+    "workflow_id": "22c202d0-198a-4ec2-8008-8a08b019166a",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find the URIs and titles of all datasets in the GraphDB where the archive type is 'coral'. This list of URIs will be used to load the datasets.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Using PyLiPD, remotely load the datasets identified by the URIs obtained in the previous SPARQL query. Store the loaded datasets in a suitable Python object (e.g., a dictionary or list of LiPD objects).",
+        "dependencies": [
+          "t0"
+        ]
+      }
+    ],
+    "estimated_steps": 2,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {
+      "t0": "88233c7c-3945-4ce2-886b-3a058f947d0f",
+      "t1": "6729226b-b42d-44aa-94b7-69b1bf103b4f"
+    }
+  },
+  "47c7a64e-9aa6-4d09-8a65-0e8485001311": {
+    "workflow_id": "47c7a64e-9aa6-4d09-8a65-0e8485001311",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "code",
+        "user_input": "Define the GraphDB endpoint URL where the datasets are stored. This URL will be used for both SPARQL queries and PyLiPD remote loading.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Define the SPARQL query string. This query should retrieve the identifiers (e.g., unique names, LiPD IDs, or URLs) for datasets identified as 'coral' records within the GraphDB. The specific properties to query (e.g., `type`, `paleoRecordType`, `datasetName`) will depend on the GraphDB's schema.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "sparql",
+        "user_input": "Execute the SPARQL query defined in the previous step against the specified GraphDB endpoint. Fetch the results.",
+        "dependencies": [
+          "t0",
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Process the raw SPARQL query results obtained in the previous step. Extract the list of coral dataset identifiers into a clean Python list.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Use the list of coral dataset identifiers obtained in the previous step and the GraphDB endpoint URL to remotely load the datasets using PyLiPD's loading function. Store the loaded LiPD objects.",
+        "dependencies": [
+          "t0",
+          "t3"
+        ]
+      },
+      {
+        "step_id": "t5",
+        "agent_type": "code",
+        "user_input": "Verify that the datasets were loaded successfully. This could involve listing the names of the loaded datasets, checking the number of loaded datasets, or displaying basic metadata for one of the loaded records.",
+        "dependencies": [
+          "t4"
+        ]
+      }
+    ],
+    "estimated_steps": 6,
+    "agents_involved": [
+      "code",
+      "sparql"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "9ee1645a-a2a0-4de4-8781-882538cea393": {
+    "workflow_id": "9ee1645a-a2a0-4de4-8781-882538cea393",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Construct a SPARQL query to find the unique identifiers (e.g., LipdID or datasetName) for all paleoclimate datasets stored as 'coral' archive type in the GraphDB triplestore. Include the necessary prefixes for the ontology.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Process the results obtained from the SPARQL query to extract a Python list containing the dataset identifiers (e.g., dataset names or LipdIDs).",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Use the extracted list of dataset identifiers and PyLiPD's remote loading function (e.g., `pylipd.lipd.remote_load`) to load the specified coral datasets from the remote repository associated with the GraphDB.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Verify that the datasets were loaded successfully. Display the number of datasets loaded and print the keys or structure of one of the loaded datasets (e.g., the first one in the list) to confirm the data structure.",
+        "dependencies": [
+          "t2"
+        ]
+      }
+    ],
+    "estimated_steps": 4,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {
+      "t0": "01b0c37b-2328-4541-8aaf-b50749969e84",
+      "t1": "3085e888-e3b8-4e85-8805-eb2419e0ff63",
+      "t2": "1b048fda-6f19-49e4-a3d7-cac65542cd7e",
+      "t3": "a779cb11-54a6-4789-90ff-661f5fb15a34"
+    }
+  },
+  "8a397490-cbbe-46e1-8238-540be8df27f7": {
+    "workflow_id": "8a397490-cbbe-46e1-8238-540be8df27f7",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Discover available paleoclimate datasets specifically identified as 'coral' records. Provide relevant metadata such as dataset identifier, source, and location.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the discovered coral datasets (from step t0) into a suitable data structure, such as a pandas DataFrame or xarray Dataset. Handle different potential data formats if necessary.",
+        "dependencies": [
+          "t0"
+        ]
+      }
+    ],
+    "estimated_steps": 2,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "a2ea5167-85c1-4d43-9628-f33545a59b4a": {
+    "workflow_id": "a2ea5167-85c1-4d43-9628-f33545a59b4a",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Find coral paleoclimate records and fetch the corresponding data, ensuring the data includes age/time information and at least one proxy measurement suitable for timeseries plotting (e.g., d18O, Sr/Ca).",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Load the fetched coral dataset into a pandas DataFrame. Identify the columns corresponding to age/time and the paleoclimate proxy. Ensure the age/time column is in a format suitable for plotting (e.g., numeric or datetime).",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Plot the coral timeseries. Create a line plot with age/time on the x-axis and the paleoclimate proxy value on the y-axis. Add appropriate labels and a title.",
+        "dependencies": [
+          "t1"
+        ]
+      }
+    ],
+    "estimated_steps": 3,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "2b86821e-a974-4ce4-a504-ad8fcbc93ece": {
+    "workflow_id": "2b86821e-a974-4ce4-a504-ad8fcbc93ece",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "sparql",
+        "user_input": "Fetch available paleoclimate coral datasets metadata to identify a suitable dataset for time series analysis.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "sparql",
+        "user_input": "Retrieve the chosen coral dataset from the database based on identified metadata in the previous step.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Load the retrieved coral dataset into a Pandas DataFrame for analysis.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Conduct a preliminary quality control check on the data, such as identifying and handling missing or outlier values.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Plot the coral data as a time series using matplotlib or similar library.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "sparql",
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
+  },
+  "695b75bb-9227-431f-bca6-4f423620f8aa": {
+    "workflow_id": "695b75bb-9227-431f-bca6-4f423620f8aa",
+    "steps": [
+      {
+        "step_id": "t0",
+        "agent_type": "code",
+        "user_input": "Import the `Lipd` object from the `pylipd` library.",
+        "dependencies": []
+      },
+      {
+        "step_id": "t1",
+        "agent_type": "code",
+        "user_input": "Define the directory path where the LiPD files are located. For this example, let's assume they are in a directory named `data`.",
+        "dependencies": [
+          "t0"
+        ]
+      },
+      {
+        "step_id": "t2",
+        "agent_type": "code",
+        "user_input": "Load the LiPD files from the specified directory into a `Lipd` object. This will read all the LiPD files in the directory.",
+        "dependencies": [
+          "t1"
+        ]
+      },
+      {
+        "step_id": "t3",
+        "agent_type": "code",
+        "user_input": "Filter the loaded datasets to select only those that are from coral archives. Store the coral datasets in a new variable.",
+        "dependencies": [
+          "t2"
+        ]
+      },
+      {
+        "step_id": "t4",
+        "agent_type": "code",
+        "user_input": "Print the number of coral datasets found to confirm the loading and filtering were successful.",
+        "dependencies": [
+          "t3"
+        ]
+      }
+    ],
+    "estimated_steps": 5,
+    "agents_involved": [
+      "code"
+    ],
+    "waiting_step": null,
+    "step_conversations": {}
   }
 }

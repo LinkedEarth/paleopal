@@ -1,12 +1,12 @@
 """
 State definition for the Code Generation agent.
-Uses the unified BaseAgentState.
+Uses the unified BaseAgentState and new libraries.
 """
 from typing import Dict, Any, List, Optional
 from pydantic import Field
+import pathlib
 
 from agents.base_state import BaseAgentState, BaseAgentConfig
-from services.code_embeddings import CodeEmbeddingsService
 
 
 class CodeAgentState(BaseAgentState):
@@ -56,11 +56,6 @@ class CodeAgentState(BaseAgentState):
 
 class CodeAgentConfig(BaseAgentConfig):
     """Configuration for the Code Generation agent."""
-    
-    code_embedding_service: CodeEmbeddingsService = Field(
-        ...,
-        description="Code embedding service for example search"
-    )
 
     class Config:
         """Pydantic configuration."""

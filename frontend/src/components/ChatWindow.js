@@ -36,15 +36,157 @@ const AGENT_TYPES = [
   }
 ];
 
-// Loading indicator component
-const LoadingIndicator = () => (
-  <div className="loading-indicator">
-    <div className="loading-spinner">
-      <div className="spinner-circle"></div>
+// Enhanced Loading/Progress indicator component that shows detailed agent execution progress
+const AgentProgressDisplay = ({ messages, currentNode, executionStart }) => {
+  const progressMessages = messages.filter(m => m.isNodeProgress);
+  const completedNodes = progressMessages.filter(m => m.phase === 'complete');
+  const currentRunningNode = progressMessages.find(m => m.phase === 'start' && 
+    !completedNodes.some(c => c.nodeName === m.nodeName));
+
+  const formatDuration = (startTime, endTime) => {
+    if (!startTime || !endTime) return '';
+    const duration = endTime - startTime;
+    return duration < 1000 ? `${duration}ms` : `${(duration / 1000).toFixed(1)}s`;
+  };
+
+  const getNodeIcon = (status) => {
+    switch (status) {
+      case 'running': return '⏳';
+      case 'completed': return '✅';
+      case 'error': return '❌';
+      default: return '⏳';
+    }
+  };
+
+  const renderNodeOutput = (outputSummary) => {
+    if (!outputSummary || Object.keys(outputSummary).length === 0) return null;
+
+    return (
+      <div className="node-output-details">
+        {outputSummary.generated_code_preview && (
+          <div className="output-item">
+            <strong>Generated Code Preview:</strong>
+            <pre className="code-preview">{outputSummary.generated_code_preview}</pre>
     </div>
-    <div className="loading-text">Processing your request...</div>
+        )}
+        {outputSummary.execution_results_count && (
+          <div className="output-item">
+            <strong>Results:</strong> {outputSummary.execution_results_count} items found
+          </div>
+        )}
+        {outputSummary.similar_results_count && (
+          <div className="output-item">
+            <strong>Similar Examples:</strong> {outputSummary.similar_results_count} found
+          </div>
+        )}
+        {outputSummary.entity_matches_count && (
+          <div className="output-item">
+            <strong>Entity Matches:</strong> {outputSummary.entity_matches_count} found
+          </div>
+        )}
+        {outputSummary.clarification_questions_count && (
+          <div className="output-item">
+            <strong>Clarification Questions:</strong> {outputSummary.clarification_questions_count} generated
+          </div>
+        )}
+        {outputSummary.error && (
+          <div className="output-item error">
+            <strong>Error:</strong> {outputSummary.error}
+          </div>
+        )}
+        {/* Show other outputs as key-value pairs */}
+        {Object.entries(outputSummary)
+          .filter(([key]) => !['generated_code_preview', 'execution_results_count', 'similar_results_count', 'entity_matches_count', 'clarification_questions_count', 'error'].includes(key))
+          .map(([key, value]) => (
+            <div key={key} className="output-item">
+              <strong>{key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:</strong> {String(value)}
+            </div>
+          ))}
   </div>
 );
+  };
+
+  const [showCompleted, setShowCompleted] = useState(false);
+
+  const toggleCompleted = () => setShowCompleted(prev=>!prev);
+
+  // Determine if execution is finished (last message is agent-complete)
+  const lastProgress = progressMessages[progressMessages.length-1];
+  const executionDone = lastProgress && lastProgress.phase==='complete' && lastProgress.nodeName==='Agent Execution';
+  const statusIcon = currentRunningNode? '⏳' : executionDone? '✅' : '⏳';
+  const statusText = currentRunningNode && currentRunningNode.nodeName? `Running: ${currentRunningNode.nodeName}` : executionDone? 'Execution completed' : completedNodes.length>0? 'Processing...' : 'Starting agent execution...';
+
+  return (
+    <div className="agent-progress-display">
+      <div className="progress-header">
+        <div className="current-status">
+          {statusIcon}
+          &nbsp;&nbsp;
+          {statusText}
+          &nbsp;&nbsp;
+        </div>
+        {executionStart && (
+          <div className="execution-time">
+            Started: {new Date(executionStart).toLocaleTimeString()}
+          </div>
+        )}
+        {completedNodes.length>0 && (
+          <button className="toggle-completed-btn" onClick={toggleCompleted} title={showCompleted?"Hide completed steps":"Show completed steps"}>
+            {showCompleted?"▾ Hide Steps":"▸ Show Steps"}
+          </button>
+        )}
+      </div>
+
+      {/* Show completed steps */}
+      {completedNodes.length > 0 && showCompleted && (
+        <div className="completed-steps">
+          <h4>Completed Steps:</h4>
+          {completedNodes.map((node, index) => (
+            <div key={node.id} className="progress-step completed">
+              <div className="step-header">
+                <span className="step-icon">✅</span>
+                <span className="step-name">{node.nodeName}</span>
+                <span className="step-timing">
+                  {node.timestamp && executionStart && formatDuration(executionStart, node.timestamp)}
+                </span>
+              </div>
+              
+              {/* Show state information */}
+              {node.summary && Object.keys(node.summary).length > 0 && (
+                <div className="step-state">
+                  <strong>State:</strong> {Object.entries(node.summary).map(([k,v]) => `${k}: ${v}`).join(', ')}
+                </div>
+              )}
+              
+              {/* Show output details */}
+              {renderNodeOutput(node.outputSummary)}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Show current running step */}
+      {currentRunningNode && currentRunningNode.nodeName && (
+        <div className="current-step">
+          <div className="progress-step running">
+            <div className="step-header">
+              <span className="step-icon">⏳</span>
+              <span className="step-name">{currentRunningNode.nodeName}</span>
+              <span className="step-status">In Progress...</span>
+            </div>
+            
+            {/* Show current state */}
+            {currentRunningNode.summary && Object.keys(currentRunningNode.summary).length > 0 && (
+              <div className="step-state">
+                <strong>State:</strong> {Object.entries(currentRunningNode.summary).map(([k,v]) => `${k}: ${v}`).join(', ')}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Component to render formatted clarification messages
 const ClarificationMessage = ({ content, clarificationQuestions }) => {
@@ -1006,8 +1148,11 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   const [originalRequestContext, setOriginalRequestContext] = useState(conversation.originalRequestContext || null);
   
   // Clarification settings
-  const [enableClarification, setEnableClarification] = useState(conversation.enableClarification ?? true);
+  const [enableClarification, setEnableClarification] = useState(conversation.enableClarification ?? false);
   const [clarificationThreshold, setClarificationThreshold] = useState(conversation.clarificationThreshold || 'conservative');
+  
+  // Add state to track execution timing
+  const [executionStartTime, setExecutionStartTime] = useState(conversation.executionStartTime || null);
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -1021,26 +1166,31 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   // Memoize conversation data to prevent unnecessary updates
   const conversationData = useMemo(() => {
       const firstUserMsg = messages.find((m) => m.role === 'user');
-      const title = firstUserMsg ? firstUserMsg.content.slice(0, 50) : conversation.title || 'New Chat';
+      // Only auto-generate title from first user message if current title is still the default
+      const title = firstUserMsg && conversation.title === 'New Chat' 
+        ? firstUserMsg.content.slice(0, 50) 
+        : conversation.title || 'New Chat';
 
-    return {
+      return {
         id: conversation.id,
         title,
         messages,
         stateId,
-      waitingForClarification,
-      clarificationQuestions,
-      clarificationAnswers,
-      originalRequestContext,
-      llmProvider,
-      selectedAgent,
-      isLoading,
-      error,
-      enableClarification,
-      clarificationThreshold,
-    };
+        waitingForClarification,
+        clarificationQuestions,
+        clarificationAnswers,
+        originalRequestContext,
+        llmProvider,
+        selectedAgent,
+        isLoading,
+        error,
+        enableClarification,
+        clarificationThreshold,
+        executionStartTime,
+      };
   }, [conversation.id, conversation.title, messages, stateId, waitingForClarification, 
-      clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, selectedAgent, isLoading, error, enableClarification, clarificationThreshold]);
+      clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, 
+      selectedAgent, isLoading, error, enableClarification, clarificationThreshold, executionStartTime]);
 
   // Effect to notify parent about conversation updates
   useEffect(() => {
@@ -1077,6 +1227,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       setSelectedAgent(conversation.selectedAgent || 'workflow_manager');
       setEnableClarification(conversation.enableClarification ?? true);
       setClarificationThreshold(conversation.clarificationThreshold || 'conservative');
+      setExecutionStartTime(conversation.executionStartTime || null);
       
       // For new conversations, force loading to false regardless of stored state
       // This prevents loading state from carrying over when creating new conversations
@@ -1176,27 +1327,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       ...prev,
       [questionId]: value
     }));
-  };
-  
-  // Function to parse clarification options from message content
-  const parseClarificationOptions = (content) => {
-    try {
-      // Check if the message has "Options:" text
-      if (content.includes('Options:')) {
-        const optionsSection = content.split('Options:')[1].split('\n\n')[0];
-        // Extract choices by looking for list items that start with "-"
-        const options = optionsSection
-          .split('\n')
-          .filter(line => line.trim().startsWith('-'))
-          .map(line => line.trim().substring(2).trim());
-        
-        return options.length > 0 ? options : [];
-      }
-      return [];
-    } catch (error) {
-      console.error('Error parsing clarification options:', error);
-      return [];
-    }
   };
 
   // Handle workflow execution
@@ -1325,11 +1455,126 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     }
   };
 
+
+  /**
+   * Stream an agent request via /agents/request/stream and update the chat with progress.
+   */
+  const streamAgentRequest = async (agentRequest, ownerId) => {
+    // Clear any previous progress messages before starting new request
+    setMessages(prev => prev.filter(m => !m.isNodeProgress));
+    
+    const startTime = Date.now();
+    setExecutionStartTime(startTime);
+    
+    const resp = await fetch('/agents/request/stream', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'text/plain'
+      },
+      body: JSON.stringify(agentRequest)
+    });
+
+    if (!resp.ok || !resp.body) {
+      throw new Error(`Streaming request failed: ${resp.status}`);
+    }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let finalResponse = null;
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const parts = buffer.split('\n\n');
+      buffer = parts.pop() || '';
+
+      for (const part of parts) {
+        if (!part.startsWith('data: ')) continue;
+        let data;
+        try {
+          data = JSON.parse(part.slice(6));
+        } catch (err) {
+          console.warn('Failed to parse SSE chunk', err);
+          continue;
+        }
+
+        if (data.type === 'start') {
+          console.log('Agent execution started:', data.message);
+          // Add a start message to track the beginning
+          const startMsg = {
+            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+            role: 'assistant',
+            isNodeProgress: true,
+            phase: 'start',
+            nodeName: 'Agent Execution',
+            timestamp: startTime,
+            summary: { message: data.message },
+            ownerId
+          };
+          setMessages(prev => [...prev, startMsg]);
+        } else if (data.type === 'node_start') {
+          const startMsg = {
+            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+            role: 'assistant',
+            isNodeProgress: true,
+            phase: 'start',
+            nodeName: data.node_name,
+            timestamp: Date.now(),
+            summary: data.current_state || {},
+            ownerId
+          };
+          setMessages(prev => [...prev, startMsg]);
+        } else if (data.type === 'node_complete') {
+          // Mark node completion but keep loading state until final completion
+          const compMsg = {
+            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+            role: 'assistant',
+            isNodeProgress: true,
+            phase: 'complete',
+            nodeName: data.node_name,
+            timestamp: Date.now(),
+            summary: data.current_state || {},
+            outputSummary: data.node_output || {},
+            ownerId
+          };
+          setMessages(prev => [...prev, compMsg]);
+        } else if (data.type === 'error') {
+          throw new Error(data.message || 'Unknown streaming error');
+        } else if (data.type === 'complete') {
+          finalResponse = data.response;
+          // Add completion timestamp
+          const completeMsg = {
+            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+            role: 'assistant',
+            isNodeProgress: true,
+            phase: 'complete',
+            nodeName: 'Agent Execution',
+            timestamp: Date.now(),
+            summary: { status: 'completed' },
+            ownerId
+          };
+          setMessages(prev => [...prev, completeMsg]);
+        }
+      }
+    }
+
+    if (!finalResponse) {
+      throw new Error('No final response received from streaming');
+    }
+
+    return finalResponse;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     const currentUserInput = inputValue.trim();
-    
+    let userMessageId = Date.now(); // unique id for this user request
+
     // For clarification responses, collect all answers BEFORE resetting state
     let clarificationResponses = [];
     if (waitingForClarification) {
@@ -1363,7 +1608,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       }
       
       // Add user message to chat
-      const userMessageId = Date.now();
+      userMessageId = Date.now();
       const userMessage = { 
         id: userMessageId, 
         role: 'user', 
@@ -1383,7 +1628,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       if (!currentUserInput) return;
       
       // Add user message to chat
-      const userMessageId = Date.now();
+      userMessageId = Date.now();
       const userMessage = { id: userMessageId, role: 'user', content: currentUserInput };
       setMessages(prev => [...prev, userMessage]);
     }
@@ -1397,6 +1642,9 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       // For clarification responses, use the original request context
       let agentType, capability;
       let tempOriginalContext = null;
+      // Find the last assistant message that has an agentType (i.e., was produced by an agent run)
+      const prevAssistantMsg = [...messages].reverse().find(m => m.role === 'assistant' && !m.isNodeProgress && m.agentType);
+      const prevAgentType = prevAssistantMsg?.agentType;
       
       if (waitingForClarification && originalRequestContext && clarificationResponses.length > 0) {
         // Use original context only when we have clarification responses
@@ -1405,21 +1653,52 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         capability = originalRequestContext.capability;
       } else {
         // Get the selected agent configuration for new requests
-      const agentConfig = AGENT_TYPES.find(agent => agent.id === selectedAgent);
-      if (!agentConfig) {
-        throw new Error('Invalid agent selected');
+        const agentConfig = AGENT_TYPES.find(agent => agent.id === selectedAgent);
+        if (!agentConfig) {
+          throw new Error('Invalid agent selected');
         }
         agentType = selectedAgent;
         capability = agentConfig.capability;
       }
+      
+      // Determine if this is a refinement or cross-agent request
+      let conversationIdForRequest = stateId;
+      const extraContext = {};
+      
+      if (prevAssistantMsg) {
+        // Same agent => refinement retains conversation id
+        if (prevAgentType === agentType) {
+          conversationIdForRequest = stateId;
+        } else {
+          // Different agent => new conversation
+          conversationIdForRequest = null;
+        }
 
+        // Gather previous outputs into context regardless of agent type
+        if (prevAssistantMsg.sparqlQuery) {
+          extraContext.prev_sparql_query = prevAssistantMsg.sparqlQuery;
+        }
+        if (prevAssistantMsg.queryResults) {
+          extraContext.prev_query_results = prevAssistantMsg.queryResults;
+        }
+        if (prevAssistantMsg.generatedCode) {
+          extraContext.prev_generated_code = prevAssistantMsg.generatedCode;
+        }
+        if (prevAssistantMsg.workflowPlan) {
+          extraContext.prev_workflow_plan = prevAssistantMsg.workflowPlan;
+        }
+        if (prevAssistantMsg.executionResults) {
+          extraContext.prev_execution_results = prevAssistantMsg.executionResults;
+        }
+      }
+      
       // Prepare request payload for the new multi-agent API
       const agentRequest = {
         agent_type: agentType,
         capability: capability,
         user_input: currentUserInput,
-        conversation_id: stateId,
-        context: {},
+        conversation_id: conversationIdForRequest,
+        context: extraContext,
         metadata: {
           llm_provider: llmProvider,
           enable_clarification: enableClarification,
@@ -1449,197 +1728,104 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       
       console.log('Sending agent request:', agentRequest);
       
-      // Send request to new multi-agent API
-      const response = await axios.post('/agents/request', agentRequest);
-      const data = response.data;
+      // Send request via streaming endpoint so we can show progress
+      const data = await streamAgentRequest(agentRequest, userMessageId);
       
-      console.log('Agent API Response:', {
-        status: data.status,
-        has_clarification_questions: !!(data.clarification_questions && data.clarification_questions.length > 0),
-        has_generated_code: !!data.generated_code,
-        has_result: !!data.result,
-        conversation_id: data.conversation_id
-      });
-      
-      // Check if clarification is needed
-      if (data.status === 'needs_clarification') {
-        console.log('New clarification needed, showing UI');
+      // Update conversation ID from successful response so future requests are treated as refinements
+      if (data.conversation_id) {
         setStateId(data.conversation_id);
-        setWaitingForClarification(true);
-        setClarificationAnswers({});
-        
-        // Store the original request context for when clarification is provided
-        if (!originalRequestContext) {
-          setOriginalRequestContext({
-            agentType: agentType,
-            capability: capability
-          });
-        }
-        
-        // Handle clarification questions
-        if (data.clarification_questions && data.clarification_questions.length > 0) {
-          setClarificationQuestions(data.clarification_questions);
-        } else {
-          // Parse from the message if structured data not available
-          const parsedQuestions = parseClarificationQuestions(data.message);
-          setClarificationQuestions(parsedQuestions);
-        }
-        
-        // Add assistant message to chat (simplified for clarification)
-        const assistantMessage = { 
-          id: Date.now(), 
-          role: 'assistant', 
-          content: data.clarification_questions && data.clarification_questions.length > 0 
-            ? "I need some clarification to generate the right query. Please answer the questions below."
-            : data.message,
-          needsClarification: true,
-          clarificationQuestions: data.clarification_questions
-        };
-        setMessages(prev => [...prev, assistantMessage]);
-      } else if (data.status === 'success') {
-        console.log('Success response, processing results');
-        // Clear clarification UI state but keep conversation state (stateId) for refinement
-        setWaitingForClarification(false);
-        setClarificationQuestions([]);
-        setClarificationAnswers({});
-        setOriginalRequestContext(null);
-        
-        // Keep the conversation_id from the response for continued conversation
-        if (data.conversation_id) {
-          setStateId(data.conversation_id);
-        }
-        
-        // Process the results
-        const generatedContent = data.result?.generated_code;
-        const queryResults = data.result?.execution_results;
-        const queryError = data.result?.error;
-        const executionInfo = data.result?.execution_info;
-        
-        // Workflow planning results
-        const workflowPlan = data.result?.workflow_plan;
-        const workflowId = data.result?.workflow_id;
-        const executionResults = data.result?.execution_results;
-        const failedSteps = data.result?.failed_steps;
+      }
+      
+      // if backend wrapped useful fields under .result, unwrap
+      const effectiveData = data.result ? { ...data, ...data.result } : data;
         
         console.log('Processing success response:', {
-          generatedContent: !!generatedContent,
-          generatedContentLength: generatedContent?.length,
-          queryResults: !!queryResults,
-          queryResultsLength: queryResults?.length,
-          queryError: !!queryError,
-          executionInfo: !!executionInfo,
-          workflowPlan: !!workflowPlan,
-          workflowId: !!workflowId,
-          executionResults: !!executionResults,
-          failedSteps: !!failedSteps,
+        generatedContent: !!effectiveData.generated_code,
+        generatedContentLength: effectiveData.generated_code?.length,
+        queryResults: !!data.execution_results,
+        queryResultsLength: data.execution_results?.length,
+        queryError: !!data.error,
+        executionInfo: !!data.execution_info,
+        workflowPlan: !!data.workflow_plan,
+        workflowId: !!data.workflow_id,
+        executionResults: !!data.execution_results,
+        failedSteps: !!data.failed_steps,
           selectedAgent,
           fullData: data
         });
         
-        // Get agent config for the agent that was actually used
-        const usedAgentConfig = AGENT_TYPES.find(agent => agent.id === agentType) || 
-                                AGENT_TYPES.find(agent => agent.id === selectedAgent);
-        
-        if (generatedContent || workflowPlan || executionResults || failedSteps) {
-          // Show results for code/SPARQL generation, workflow planning, or workflow execution
+      // Get agent config for the agent that was actually used
+      const usedAgentConfig = AGENT_TYPES.find(agent => agent.id === agentType) || 
+                              AGENT_TYPES.find(agent => agent.id === selectedAgent);
+      
+      if (effectiveData.generated_code || effectiveData.workflow_plan || effectiveData.execution_results || effectiveData.failed_steps) {
+        // Show results for code/SPARQL generation, workflow planning, or workflow execution
           const resultsMessage = { 
             id: Date.now() + 1, 
             role: 'assistant', 
             content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`,
-            hasQueryResults: agentType === 'sparql' && !!generatedContent,
-            hasGeneratedCode: agentType === 'code' && !!generatedContent,
-            hasWorkflowPlan: agentType === 'workflow_manager' && !!workflowPlan,
-            hasWorkflowExecution: agentType === 'workflow_manager' && !!(executionResults || failedSteps),
-            sparqlQuery: agentType === 'sparql' ? generatedContent : undefined,
-            generatedCode: agentType === 'code' ? generatedContent : undefined,
-            workflowPlan: workflowPlan,
-            workflowId: workflowId,
-            executionResults: executionResults,
-            failedSteps: failedSteps,
-            queryResults: queryResults,
-            queryError: queryError
+            agentType: agentType,
+            hasQueryResults: agentType === 'sparql' && !!effectiveData.generated_code,
+            hasGeneratedCode: agentType === 'code' && !!effectiveData.generated_code,
+            hasWorkflowPlan: agentType === 'workflow_manager' && !!effectiveData.workflow_plan,
+            hasWorkflowExecution: agentType === 'workflow_manager' && !!(effectiveData.execution_results || effectiveData.failed_steps),
+            sparqlQuery: agentType === 'sparql' ? effectiveData.generated_code : undefined,
+            generatedCode: agentType === 'code' ? effectiveData.generated_code : undefined,
+            workflowPlan: effectiveData.workflow_plan,
+            workflowId: effectiveData.workflow_id,
+            executionResults: effectiveData.execution_results,
+            failedSteps: effectiveData.failed_steps,
+            queryResults: effectiveData.execution_results,
+            queryError: effectiveData.error
           };
-          
-          console.log('Creating results message:', {
-            hasQueryResults: resultsMessage.hasQueryResults,
-            hasGeneratedCode: resultsMessage.hasGeneratedCode,
-            hasWorkflowPlan: resultsMessage.hasWorkflowPlan,
-            hasWorkflowExecution: resultsMessage.hasWorkflowExecution,
-            sparqlQuery: !!resultsMessage.sparqlQuery,
-            generatedCode: !!resultsMessage.generatedCode,
-            workflowPlan: !!resultsMessage.workflowPlan,
-            workflowId: resultsMessage.workflowId,
-            selectedAgent: selectedAgent,
-            messageStructure: resultsMessage
-          });
           
           setMessages(prev => [...prev, resultsMessage]);
           
-          // Add agent-specific helpful messages
-          let refinementMessage = null;
-          if (agentType === 'sparql') {
-            refinementMessage = {
+        // Add agent-specific helpful messages
+        let refinementMessage = null;
+        if (agentType === 'sparql') {
+          refinementMessage = {
             id: Date.now() + 2,
             role: 'assistant',
-              content: "You can ask me to refine this query further! For example:\n• \"Add a filter for temperature > 20°C\"\n• \"Show only data from the last 100 years\"\n• \"Include location information\"\n• \"Sort by date descending\""
-            };
-          } else if (agentType === 'code') {
-            refinementMessage = {
-              id: Date.now() + 2,
-              role: 'assistant',
-              content: "You can ask me to modify this code! For example:\n• \"Add error handling\"\n• \"Include data visualization\"\n• \"Add comments to explain the code\"\n• \"Optimize for performance\""
-            };
-          } else if (agentType === 'workflow_manager' && workflowPlan) {
-            refinementMessage = {
-              id: Date.now() + 2,
-              role: 'assistant',
-              content: "Your workflow plan is ready! You can:\n• Click the \"Execute\" button to run the workflow\n• Ask me to modify the plan: \"Add a data visualization step\"\n• Request a different approach: \"Use a different statistical method\"\n• Plan a new workflow with a different request"
-            };
-          } else if (agentType === 'workflow_manager' && (executionResults || failedSteps)) {
-            const successCount = executionResults?.length || 0;
-            const totalSteps = successCount + (failedSteps?.length || 0);
-            refinementMessage = {
-              id: Date.now() + 2,
-              role: 'assistant',
-              content: failedSteps && failedSteps.length > 0 
-                ? `Workflow completed with ${successCount}/${totalSteps} steps successful. You can:\n• Ask me to retry failed steps\n• Request modifications to the workflow\n• Plan a new workflow based on the results`
-                : `Workflow completed successfully! All ${successCount} steps executed. You can:\n• Plan a follow-up workflow\n• Request analysis of the results\n• Ask for modifications or improvements`
-            };
-          }
-          
-          if (refinementMessage) {
+            content: "You can ask me to refine this query further! For example:\n• \"Add a filter for temperature > 20°C\"\n• \"Show only data from the last 100 years\"\n• \"Include location information\"\n• \"Sort by date descending\""
+          };
+        } else if (agentType === 'code') {
+          refinementMessage = {
+            id: Date.now() + 2,
+            role: 'assistant',
+            content: "You can ask me to modify this code! For example:\n• \"Add error handling\"\n• \"Include data visualization\"\n• \"Add comments to explain the code\"\n• \"Optimize for performance\""
+          };
+        } else if (agentType === 'workflow_manager' && effectiveData.workflow_plan) {
+          refinementMessage = {
+            id: Date.now() + 2,
+            role: 'assistant',
+            content: "Your workflow plan is ready! You can:\n• Click the \"Execute\" button to run the workflow\n• Ask me to modify the plan: \"Add a data visualization step\"\n• Request a different approach: \"Use a different statistical method\"\n• Plan a new workflow with a different request"
+          };
+        } else if (agentType === 'workflow_manager' && (effectiveData.execution_results || effectiveData.failed_steps)) {
+          const successCount = effectiveData.execution_results?.length || 0;
+          const totalSteps = successCount + (effectiveData.failed_steps?.length || 0);
+          refinementMessage = {
+            id: Date.now() + 2,
+            role: 'assistant',
+            content: effectiveData.failed_steps && effectiveData.failed_steps.length > 0 
+              ? `Workflow completed with ${successCount}/${totalSteps} steps successful. You can:\n• Ask me to retry failed steps\n• Request modifications to the workflow\n• Plan a new workflow based on the results`
+              : `Workflow completed successfully! All ${successCount} steps executed. You can:\n• Plan a follow-up workflow\n• Request analysis of the results\n• Ask for modifications or improvements`
+          };
+        }
+        
+        if (refinementMessage) {
           setMessages(prev => [...prev, refinementMessage]);
-          }
+        }
         } else {
           // Add assistant message to chat
           const assistantMessage = { 
             id: Date.now(), 
             role: 'assistant', 
-            content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`
+            content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`,
+            agentType: agentType
           };
           setMessages(prev => [...prev, assistantMessage]);
         }
-      } else {
-        // Handle error status
-        console.error('Agent returned error status:', data.status);
-        setError(data.message || 'Error generating query');
-        
-        // Add error message to chat
-        const errorMessage = { 
-          id: Date.now(), 
-          role: 'assistant', 
-          content: `Sorry, I encountered an error: ${data.message || 'Unknown error'}`,
-          isError: true
-        };
-        setMessages(prev => [...prev, errorMessage]);
-        
-        // Reset clarification state on error but keep conversation state
-        setWaitingForClarification(false);
-        setClarificationQuestions([]);
-        setClarificationAnswers({});
-        setOriginalRequestContext(null);
-      }
-      
     } catch (error) {
       console.error('Error calling agent API:', error);
       setError(error.response?.data?.detail || 'Error generating query');
@@ -1660,17 +1846,14 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       setOriginalRequestContext(null);
     } finally {
       setIsLoading(false);
+      setExecutionStartTime(null);
+      
+      // Keep progress messages visible after completion for user reference
     }
   };
 
   // Render the clarification options UI
   const renderClarificationOptions = () => {
-    console.log('renderClarificationOptions called:', {
-      waitingForClarification,
-      clarificationQuestionsLength: clarificationQuestions.length,
-      clarificationQuestions: clarificationQuestions.map(q => q.id)
-    });
-    
     if (!waitingForClarification || clarificationQuestions.length === 0) {
       return null;
     }
@@ -1871,6 +2054,39 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     );
   };
 
+  // Helper to render individual chat message
+  const renderChatMessage = (message) => (
+    <div 
+      key={message.id}
+      className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''} ${message.needsClarification ? 'clarification-message' : ''} ${message.isCombinedAnswers ? 'clarification-response-message' : ''} ${(message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? 'query-results-message' : ''} ${message.isNewConversation ? 'new-conversation-message' : ''}`}
+    >
+      {message.isCombinedAnswers ? (
+        <ClarificationResponseMessage content={message.content} />
+      ) : message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution ? (
+        <QueryAndResultsMessage 
+          query={message.sparqlQuery}
+          results={message.queryResults}
+          error={message.queryError}
+          generatedCode={message.generatedCode}
+          workflowPlan={message.workflowPlan}
+          workflowId={message.workflowId}
+          executionResults={message.executionResults}
+          failedSteps={message.failedSteps}
+          onExecuteWorkflow={handleExecuteWorkflow}
+        />
+      ) : message.needsClarification && waitingForClarification ? (
+        <div className="message-content">{message.content}</div>
+      ) : message.needsClarification ? (
+        <ClarificationMessage 
+          content={message.content}
+          clarificationQuestions={message.clarificationQuestions}
+        />
+      ) : (
+        <div className="message-content">{message.content}</div>
+      )}
+    </div>
+  );
+
   return (
     <div className="chat-window">
       <div className="chat-header">
@@ -1919,8 +2135,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
                 />
                 Enable Clarifications
               </label>
-            </div>
-            
+      </div>
+      
             {enableClarification && (
               <div className="clarification-threshold">
                 <label htmlFor="clarification-threshold">Threshold:</label>
@@ -1940,48 +2156,30 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         </div>
       </div>
       
-      <div className="chat-messages">
-        {messages.map(message => (
-          <div 
-            key={message.id} 
-            className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''} ${message.needsClarification ? 'clarification-message' : ''} ${message.isCombinedAnswers ? 'clarification-response-message' : ''} ${(message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? 'query-results-message' : ''} ${message.isNewConversation ? 'new-conversation-message' : ''}`}
-          >
-            {message.isCombinedAnswers ? (
-              <ClarificationResponseMessage content={message.content} />
-            ) : (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? (
-              <QueryAndResultsMessage 
-                query={message.sparqlQuery}
-                results={message.queryResults}
-                error={message.queryError}
-                generatedCode={message.generatedCode}
-                workflowPlan={message.workflowPlan}
-                workflowId={message.workflowId}
-                executionResults={message.executionResults}
-                failedSteps={message.failedSteps}
-                onExecuteWorkflow={handleExecuteWorkflow}
-              />
-            ) : message.needsClarification && waitingForClarification ? (
-              // Don't show detailed clarification in chat when UI is active
-              <div className="message-content">{message.content}</div>
-            ) : message.needsClarification ? (
-              <ClarificationMessage 
-                content={message.content}
-                clarificationQuestions={message.clarificationQuestions}
-              />
-            ) : (
-              <div className="message-content">{message.content}</div>
-            )}
+      {/* Partition messages to place progress widget before results */}
+      {(()=>{
+        const visibleMessages = messages.filter(m=>!m.isNodeProgress);
+        const getProgressForOwner = (ownerId)=>messages.filter(m=>m.isNodeProgress && m.ownerId===ownerId);
+        return (
+          <div className="chat-messages">
+            {visibleMessages.map(msg=>{
+              const components=[renderChatMessage(msg)];
+              if(msg.role==='user'){
+                const progressMsgs=getProgressForOwner(msg.id);
+                if(progressMsgs.length>0){
+                  components.push(
+                    <div key={`progress-${msg.id}`} className="message assistant-message loading-message">
+                      <AgentProgressDisplay messages={progressMsgs} />
+                    </div>
+                  );
+                }
+              }
+              return components;
+            })}
+            <div ref={messagesEndRef}/>
           </div>
-        ))}
-        
-        {isLoading && (
-          <div className="message assistant-message loading-message">
-            <LoadingIndicator />
-          </div>
-        )}
-        
-        <div ref={messagesEndRef} />
-      </div>
+        );
+      })()}
       
       {renderClarificationOptions()}
       

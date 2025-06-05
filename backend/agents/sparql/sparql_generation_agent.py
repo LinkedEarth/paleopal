@@ -1,10 +1,11 @@
 import logging
 from typing import Dict, Any, Optional, List
+import pathlib
 
 from agents.base_langgraph_agent import BaseLangGraphAgent
 from agents.base_agent import AgentRequest, AgentResponse, AgentStatus, AgentCapability
 from agents.sparql.state import SparqlAgentState, SparqlAgentConfig
-from config import DEFAULT_LLM_PROVIDER, EMBEDDING_PROVIDER
+from config import DEFAULT_LLM_PROVIDER
 from services.service_manager import service_manager
 
 # Import LangGraph workflow creator
@@ -64,14 +65,10 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
         # Get services from service manager
         llm = service_manager.get_llm_provider(request.metadata.get("llm_provider", DEFAULT_LLM_PROVIDER))
         sparql_service = service_manager.get_sparql_service()
-        graphdb_embedding_service = service_manager.get_graphdb_embeddings(EMBEDDING_PROVIDER)
-        sparql_embedding_service = service_manager.get_sparql_embeddings(EMBEDDING_PROVIDER)
         
         return SparqlAgentConfig(
             llm=llm,
             sparql_service=sparql_service,
-            graphdb_embedding_service=graphdb_embedding_service,
-            sparql_embedding_service=sparql_embedding_service,
             enable_clarification=self.enable_clarification,
             clarification_threshold=self.clarification_threshold
         )
@@ -98,6 +95,6 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
             "language": "sparql",
             "endpoint": "triplestore",
             "result_count": len(execution_results) if isinstance(execution_results, list) else 0,
-            "libraries": [],
+            "libraries": ["sparql_library", "ontology_library"],
             "expected_outputs": ["SPARQL query results"]
         }

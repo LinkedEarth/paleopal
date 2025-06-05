@@ -2,120 +2,152 @@ from __future__ import annotations
 
 """notebook_library.search_workflows
 
-Query the FAISS index of notebook *workflows* produced by `index_notebooks.py`.
-Each workflow corresponds to a whole notebook and its ordered recipe headings.
+API to query the Qdrant workflow index built by `index_notebooks.py`.
 """
 
-from typing import List, Dict, Any
-import pathlib
 import json
+import pathlib
 import sys
+from typing import List, Dict, Any, Optional
 
-import faiss  # type: ignore
-from sentence_transformers import SentenceTransformer  # type: ignore
+# Add parent directory to path for imports
+current_dir = pathlib.Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
 
-DEFAULT_INDEX_DIR = pathlib.Path("notebook_index")
-EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
-
-
-def _load_model() -> SentenceTransformer:  # type: ignore
-    if not hasattr(_load_model, "_model"):
-        _load_model._model = SentenceTransformer(EMBED_MODEL_NAME)  # type: ignore
-    return _load_model._model  # type: ignore
+from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
 
 
-def _load_index(index_dir: pathlib.Path):
-    index_path = index_dir / "workflows.faiss"
-    meta_path = index_dir / "workflows_meta.jsonl"
-    if not index_path.exists() or not meta_path.exists():
-        raise FileNotFoundError(f"workflow index not found in {index_dir}; run index_notebooks.py first")
-
-    index = faiss.read_index(str(index_path))
-    metas: List[Dict[str, Any]] = []
-    with meta_path.open() as f:
-        for line in f:
-            metas.append(json.loads(line))
-    return index, metas
-
-
-def search_workflows(query: str, *, top_k: int = 5, index_dir: str | pathlib.Path = DEFAULT_INDEX_DIR) -> List[Dict[str, Any]]:
-    index_dir = pathlib.Path(index_dir)
-    index, metas = _load_index(index_dir)
-
-    model = _load_model()
-    q_emb = model.encode([query], normalize_embeddings=True)
-    scores, ids = index.search(q_emb, top_k)
-    results: List[Dict[str, Any]] = []
-    for score, idx in zip(scores[0], ids[0]):
-        if idx == -1:
-            continue
-        m = metas[int(idx)].copy()
-        m["score"] = float(score)
-        m["similarity_score"] = float(score)  # Add alias for consistency
+def search_workflows(
+    query: str,
+    limit: int = 5,
+    collection_name: str = None,
+    complexity_filter: Optional[str] = None,
+    has_imports_filter: Optional[bool] = None,
+    min_cell_count: Optional[int] = None,
+    score_threshold: Optional[float] = None
+) -> List[Dict[str, Any]]:
+    """
+    Search for notebook workflows.
+    
+    Args:
+        query: Search query string
+        limit: Maximum number of results to return
+        collection_name: Qdrant collection name (defaults to notebook_workflows)
+        complexity_filter: Filter by complexity (simple, medium, complex)
+        has_imports_filter: Filter by whether workflow has imports
+        min_cell_count: Minimum number of cells in workflow
+        score_threshold: Minimum similarity score threshold
         
-        # Enhanced metadata for workflow manager integration
-        m["title"] = pathlib.Path(m.get("notebook", "")).stem
-        m["step_count"] = len(m.get("steps", []))
+    Returns:
+        List of matching workflows with metadata and similarity scores
+    """
+    if collection_name is None:
+        collection_name = COLLECTION_NAMES["notebook_workflows"]
+    
+    # Prepare filters
+    filters = {}
+    if complexity_filter:
+        filters["complexity"] = complexity_filter
+    if has_imports_filter is not None:
+        filters["has_imports"] = has_imports_filter
+    # Note: min_cell_count would need to be implemented as a range filter in Qdrant
+    
+    # Get Qdrant manager and search
+    qdrant_manager = get_qdrant_manager()
+    
+    try:
+        results = qdrant_manager.search(
+            collection_name=collection_name,
+            query=query,
+            limit=limit,
+            filters=filters if filters else None,
+            score_threshold=score_threshold
+        )
         
-        # Extract workflow steps for better context
-        workflow_steps = []
-        for step in m.get("steps", []):
-            step_desc = step.get("markdown_context", "").split('\n')[0]
-            workflow_steps.append({
-                "step_description": step_desc,
-                "code_cell": bool(step.get("code_cell")),
-                "code_preview": step.get("code_cell", "")[:100] + "..." if len(step.get("code_cell", "")) > 100 else step.get("code_cell", "")
-            })
-        m["workflow_steps"] = workflow_steps
+        # Apply additional filtering that's not directly supported by Qdrant
+        if min_cell_count is not None:
+            results = [r for r in results if r.get("cell_count", 0) >= min_cell_count]
         
-        # Add description from notebook context
-        if "description" not in m and m.get("steps"):
-            first_step = m["steps"][0]
-            m["description"] = first_step.get("markdown_context", "").split('\n')[0]
+        return results
         
-        results.append(m)
-    return results
+    except Exception as e:
+        print(f"Workflow search failed: {e}")
+        return []
+
+
+def find_workflows_by_complexity(complexity: str, limit: int = 10) -> List[Dict[str, Any]]:
+    """Find workflows by complexity level."""
+    return search_workflows(
+        query="",  # Empty query to get all results
+        limit=limit,
+        complexity_filter=complexity
+    )
+
+
+def find_workflows_with_imports(limit: int = 10) -> List[Dict[str, Any]]:
+    """Find workflows that include import statements."""
+    return search_workflows(
+        query="",  # Empty query to get all results
+        limit=limit,
+        has_imports_filter=True
+    )
+
+
+def get_workflow_by_id(workflow_id: str, collection_name: str = None) -> Optional[Dict[str, Any]]:
+    """Get a specific workflow by its ID."""
+    if collection_name is None:
+        collection_name = COLLECTION_NAMES["notebook_workflows"]
+    
+    qdrant_manager = get_qdrant_manager()
+    
+    try:
+        # Search by ID (exact match)
+        results = qdrant_manager.search(
+            collection_name=collection_name,
+            query="",  # Empty query
+            limit=1,
+            filters={"id": workflow_id}
+        )
+        
+        return results[0] if results else None
+        
+    except Exception as e:
+        print(f"Failed to get workflow by ID: {e}")
+        return None
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Search notebook workflow index")
-    parser.add_argument("index_dir", nargs="?", default="notebook_index", help="Index directory path")
-    parser.add_argument("--search", type=str, help="Search query")
-    parser.add_argument("--query", type=str, help="Search query (alias for --search)")
-    parser.add_argument("--top-k", "--k", type=int, default=5, help="Number of results to return")
-    parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
-    
+    parser = argparse.ArgumentParser(description="Search notebook workflows")
+    parser.add_argument("query", help="Natural language query describing the workflow")
+    parser.add_argument("--collection", default=None, help="Collection name")
+    parser.add_argument("--k", type=int, default=5, help="Number of results to return")
+    parser.add_argument("--complexity", choices=["simple", "medium", "complex"], help="Filter by complexity")
+    parser.add_argument("--has-imports", action="store_true", help="Filter workflows with imports")
+    parser.add_argument("--min-cells", type=int, help="Minimum number of cells")
     args = parser.parse_args()
+
+    hits = search_workflows(
+        args.query,
+        limit=args.k,
+        collection_name=args.collection,
+        complexity_filter=args.complexity,
+        has_imports_filter=args.has_imports if args.has_imports else None,
+        min_cell_count=args.min_cells
+    )
     
-    # Handle positional query argument for backward compatibility
-    query = args.search or args.query
-    if not query and len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
-        # If first non-flag argument looks like a query, use it
-        if args.index_dir and not pathlib.Path(args.index_dir).exists():
-            query = args.index_dir
-            args.index_dir = "notebook_index"
-
-    if not query:
-        parser.error("Search query is required. Use --search 'your query' or --query 'your query'")
-
-    try:
-        hits = search_workflows(query, top_k=args.top_k, index_dir=args.index_dir)
-        
-        if args.format == "json":
-            print(json.dumps(hits, indent=2))
-        else:
-            # Original text format
-            for h in hits:
-                print(f"Score {h['score']:.3f} | {pathlib.Path(h['notebook']).name}")
-                steps_preview = ", ".join(step['markdown_context'].split('\n')[0] for step in h['steps'][:6])
-                print("Steps:", steps_preview)
-                print("-" * 80)
-                
-    except FileNotFoundError as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-    except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1) 
+    if not hits:
+        print("No workflows found.")
+    else:
+        for h in hits:
+            print(f"Score {h['score']:.3f} | {h.get('title', 'Untitled Workflow')}")
+            print(f"  Description: {h.get('description', 'No description')}")
+            print(f"  Complexity: {h.get('complexity', 'unknown')}")
+            print(f"  Cell count: {h.get('cell_count', 0)}")
+            print(f"  Has imports: {h.get('has_imports', False)}")
+            print(f"  Keywords: {', '.join(h.get('keywords', []))}")
+            print(f"  Notebook: {h.get('notebook_path', 'unknown')}")
+            print("-" * 80) 

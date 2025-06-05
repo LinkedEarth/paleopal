@@ -4,37 +4,16 @@ import ChatWindow from './ChatWindow';
 import './ChatApp.css';
 
 // Helper to generate a simple unique id (timestamp based)
-const generateId = () => `c_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
-
-const LOCAL_STORAGE_KEY = 'paleopal_conversations_v1';
+const generateId = () => `c_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 
 const ChatApp = () => {
-  // Load conversations from backend first, then fallback to localStorage
-  const [conversations, setConversations] = useState(() => {
-    try {
-      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (stored) {
-        return JSON.parse(stored);
-      }
-    } catch (err) {
-      console.error('Error loading conversations from localStorage:', err);
-    }
-    // Fallback – create a single empty conversation
-    const newConv = {
-      id: generateId(),
-      title: 'New Chat',
-      messages: [],
-      stateId: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    return [newConv];
-  });
+  // Conversations will be loaded from backend; start with empty list
+  const [conversations, setConversations] = useState([]);
 
   const [activeId, setActiveId] = useState(conversations[0]?.id || null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Fetch conversations from backend on mount
+  // Fetch conversations from backend on mount (fallback to a new one on error/empty)
   useEffect(() => {
     const fetchConversations = async () => {
       try {
@@ -42,22 +21,26 @@ const ChatApp = () => {
         if (Array.isArray(resp.data) && resp.data.length) {
           setConversations(resp.data);
           setActiveId(resp.data[0].id);
+          return;
         }
       } catch (err) {
-        console.warn('Could not fetch conversations from backend, using localStorage', err);
+        console.warn('Could not fetch conversations from backend', err);
       }
+
+      // // Backend returned no conversations or failed – start a fresh one locally (will POST on first save)
+      // const newConv = {
+      //   id: generateId(),
+      //   title: 'New Chat',
+      //   messages: [],
+      //   stateId: null,
+      //   createdAt: new Date().toISOString(),
+      //   updatedAt: new Date().toISOString()
+      // };
+      // setConversations([newConv]);
+      // setActiveId(newConv.id);
     };
     fetchConversations();
   }, []);
-
-  // Persist conversations whenever they change
-  useEffect(() => {
-    try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(conversations));
-    } catch (err) {
-      console.error('Error saving conversations to localStorage:', err);
-    }
-  }, [conversations]);
 
   // Callback to receive updates from ChatWindow
   const handleConversationUpdate = useCallback(
@@ -98,10 +81,11 @@ const ChatApp = () => {
       clarificationQuestions: [],
       clarificationAnswers: {},
       llmProvider: 'google',
-      selectedAgent: 'code',
+      selectedAgent: 'workflow_manager',
       isLoading: false,
       error: null,
-      enableClarification: true,
+      messages: [],
+      enableClarification: false,
       clarificationThreshold: 'conservative',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
@@ -206,11 +190,35 @@ const ChatApp = () => {
   const saveConversationToBackend = async (conv) => {
     try {
       // Try PUT first; if 404 then POST
-      await axios.put(`/conversations/${conv.id}`, conv);
+      const filteredMessages = (conv.messages || []).filter(m => !m.isNodeProgress);
+      const clean = {
+        id: conv.id,
+        title: conv.title,
+        agent_type: conv.agent_type || conv.selectedAgent || 'unknown',
+        messages: filteredMessages,
+        created_at: conv.createdAt || conv.created_at || new Date().toISOString(),
+        updated_at: conv.updatedAt || conv.updated_at || new Date().toISOString(),
+        status: conv.status || 'active',
+        context: conv.context || {}
+      };
+
+      await axios.put(`/conversations/${conv.id}`, clean);
     } catch (err) {
-      if (err.response && err.response.status === 404) {
+      if (err.response && (err.response.status === 404 || err.response.status === 422)) {
         try {
-          await axios.post('/conversations', conv);
+          const filteredMessages = (conv.messages || []).filter(m => !m.isNodeProgress);
+          const clean = {
+            id: conv.id,
+            title: conv.title,
+            agent_type: conv.agent_type || conv.selectedAgent || 'unknown',
+            messages: filteredMessages,
+            created_at: conv.createdAt || conv.created_at || new Date().toISOString(),
+            updated_at: conv.updatedAt || conv.updated_at || new Date().toISOString(),
+            status: conv.status || 'active',
+            context: conv.context || {}
+          };
+
+          await axios.post('/conversations', clean);
         } catch (postErr) {
           console.error('Failed to save conversation (POST)', postErr);
         }

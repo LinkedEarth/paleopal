@@ -1,14 +1,13 @@
 """
 State definition for the SPARQL generation agent.
-Updated to use the unified BaseAgentState.
+Updated to use the unified BaseAgentState and new libraries.
 """
 from typing import Dict, Any, List, Optional
 from pydantic import Field
+import pathlib
 
 from agents.base_state import BaseAgentState, BaseAgentConfig
 from services.sparql_service import SPARQLService
-from services.graphdb_embeddings import GraphDBEmbeddingService
-from services.sparql_embeddings import SparqlEmbeddingsService
 
 
 class SparqlAgentState(BaseAgentState):
@@ -32,14 +31,6 @@ class SparqlAgentConfig(BaseAgentConfig):
     sparql_service: SPARQLService = Field(
         ...,
         description="SPARQL service for query execution"
-    )
-    graphdb_embedding_service: GraphDBEmbeddingService = Field(
-        ...,
-        description="GraphDB embedding service for entity matching"
-    )
-    sparql_embedding_service: SparqlEmbeddingsService = Field(
-        ...,
-        description="SPARQL query embedding service for similarity search"
     )
 
     class Config:

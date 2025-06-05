@@ -1,54 +1,163 @@
 """notebook_library.retrieve
 
-Utility helpers that the CodeGenerationAgent (or other callers) can import to
-fetch and format top-k code snippets from the FAISS index.
+High-level API for retrieving code snippets, workflows, and steps from the Qdrant indexes.
 """
 from __future__ import annotations
 
+from typing import List, Dict, Any, Optional
 import pathlib
-from typing import List, Dict, Any
+import sys
 
-from search_snippets import search
-from search_workflows import search_workflows
+# Add current directory to path for imports
+current_dir = pathlib.Path(__file__).parent
+if str(current_dir) not in sys.path:
+    sys.path.insert(0, str(current_dir))
 
-DEFAULT_INDEX_DIR = pathlib.Path("notebook_index")
-
-
-def get_relevant_snippets(query: str, *, top_k: int = 5, index_dir: str | pathlib.Path = DEFAULT_INDEX_DIR) -> List[Dict[str, Any]]:
-    """Return raw snippet metadata dicts sorted by similarity."""
-    return search(query, index_dir=index_dir, top_k=top_k)
+from search_snippets import search_snippets, search_workflows, search_steps
 
 
-def snippets_to_markdown(snippets: List[Dict[str, Any]]) -> str:
-    """Turn a list of snippet dicts into markdown suitable for an LLM prompt."""
-    md_parts: List[str] = []
-    for i, s in enumerate(snippets, 1):
-        heading = s.get("markdown_context", "Snippet")
-        md_parts.append(f"### Retrieved Snippet {i}\n{heading}\n")
-        md_parts.append("```python\n" + s["code"].strip() + "\n```\n")
-    return "\n".join(md_parts)
+def retrieve_code_snippets(
+    query: str,
+    top_k: int = 5,
+    notebook_filter: Optional[str] = None,
+    complexity_filter: Optional[str] = None,
+    has_imports_filter: Optional[bool] = None
+) -> List[Dict[str, Any]]:
+    """
+    Retrieve relevant code snippets for a user's query.
+    
+    Args:
+        query: Natural language description of desired code functionality
+        top_k: Maximum number of snippets to return
+        notebook_filter: Filter by notebook path
+        complexity_filter: Filter by complexity (simple, medium, complex)
+        has_imports_filter: Filter by whether snippet has imports
+        
+    Returns:
+        List of relevant code snippets with metadata and scores
+    """
+    return search_snippets(
+        query=query,
+        limit=top_k,
+        notebook_filter=notebook_filter,
+        complexity_filter=complexity_filter,
+        has_imports_filter=has_imports_filter
+    )
 
 
-def get_snippets_markdown_for_prompt(query: str, *, top_k: int = 5, index_dir: str | pathlib.Path = DEFAULT_INDEX_DIR) -> str:
-    """One-liner: retrieve and format snippets for prompt injection."""
-    snippets = get_relevant_snippets(query, top_k=top_k, index_dir=index_dir)
-    return snippets_to_markdown(snippets)
+def retrieve_workflows(
+    query: str,
+    top_k: int = 5,
+    complexity_filter: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """
+    Retrieve relevant workflows for a user's query.
+    
+    Args:
+        query: Natural language description of desired workflow
+        top_k: Maximum number of workflows to return
+        complexity_filter: Filter by complexity (simple, medium, complex)
+        
+    Returns:
+        List of relevant workflows with metadata and scores
+    """
+    return search_workflows(
+        query=query,
+        limit=top_k,
+        complexity_filter=complexity_filter
+    )
 
 
-def get_workflow_markdown(query: str, *, k: int = 3) -> str:
-    hits = search_workflows(query, top_k=k)
-    md_parts: List[str] = []
-    for i, h in enumerate(hits, 1):
-        md_parts.append(f"### Workflow {i}: {pathlib.Path(h['notebook']).name}\n")
-        for j, step in enumerate(h["steps"], 1):
-            title_line = step["markdown_context"].split("\n")[0]
-            md_parts.append(f"**Step {j}:** {title_line}\n")
-        md_parts.append("\n")
-    return "\n".join(md_parts)
+def retrieve_computational_steps(
+    query: str,
+    top_k: int = 5,
+    step_type_filter: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """
+    Retrieve relevant computational steps for a user's query.
+    
+    Args:
+        query: Natural language description of desired step
+        top_k: Maximum number of steps to return
+        step_type_filter: Filter by step type (import, data_loading, visualization, etc.)
+        
+    Returns:
+        List of relevant steps with metadata and scores
+    """
+    return search_steps(
+        query=query,
+        limit=top_k,
+        step_type_filter=step_type_filter
+    )
 
 
-def get_combined_markdown(query: str, *, k_snip: int = 5, k_wf: int = 3) -> str:
-    """Return markdown with both top snippets and workflows for a query."""
-    snip_md = get_snippets_markdown_for_prompt(query, top_k=k_snip)
-    wf_md = get_workflow_markdown(query, k=k_wf)
-    return snip_md + "\n---\n" + wf_md 
+def find_simple_snippets(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    """Find simple code snippets."""
+    return retrieve_code_snippets(
+        query=query,
+        top_k=top_k,
+        complexity_filter="simple"
+    )
+
+
+def find_complex_workflows(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    """Find complex workflows."""
+    return retrieve_workflows(
+        query=query,
+        top_k=top_k,
+        complexity_filter="complex"
+    )
+
+
+def find_visualization_steps(query: str = "", top_k: int = 5) -> List[Dict[str, Any]]:
+    """Find visualization-related steps."""
+    return retrieve_computational_steps(
+        query=query,
+        top_k=top_k,
+        step_type_filter="visualization"
+    )
+
+
+def find_data_loading_steps(query: str = "", top_k: int = 5) -> List[Dict[str, Any]]:
+    """Find data loading steps."""
+    return retrieve_computational_steps(
+        query=query,
+        top_k=top_k,
+        step_type_filter="data_loading"
+    )
+
+
+# Convenience aliases for backward compatibility
+get_code_snippets = retrieve_code_snippets
+get_workflows = retrieve_workflows
+
+
+if __name__ == "__main__":
+    # Demo and testing
+    print("Notebook Library Demo")
+    print("====================")
+    
+    # Test basic snippet search
+    print("\n1. Basic search for 'data visualization':")
+    snippets = retrieve_code_snippets("data visualization", top_k=3)
+    for i, snippet in enumerate(snippets, 1):
+        print(f"   {i}. {snippet.get('title', 'Untitled')} (score: {snippet['score']:.3f})")
+    
+    # Test workflow search
+    print("\n2. Finding workflows for 'machine learning':")
+    workflows = retrieve_workflows("machine learning", top_k=3)
+    for i, workflow in enumerate(workflows, 1):
+        print(f"   {i}. {workflow.get('title', 'Untitled')} (complexity: {workflow.get('complexity', 'unknown')})")
+    
+    # Test step search
+    print("\n3. Finding visualization steps:")
+    steps = find_visualization_steps(top_k=3)
+    for i, step in enumerate(steps, 1):
+        print(f"   {i}. {step.get('description', 'No description')} (type: {step.get('step_type', 'unknown')})")
+    
+    print("\n4. Finding simple snippets for 'pandas dataframe':")
+    simple_snippets = find_simple_snippets("pandas dataframe", top_k=3)
+    for i, snippet in enumerate(simple_snippets, 1):
+        print(f"   {i}. {snippet.get('title', 'Untitled')}")
+        if snippet.get('imports'):
+            print(f"      Imports: {', '.join(snippet['imports'])}") 

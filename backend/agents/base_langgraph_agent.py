@@ -330,6 +330,168 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 result=None,
             )
     
+    async def handle_request_streaming(self, request: AgentRequest, progress_callback=None):
+        """
+        Handle request using LangGraph workflow with streaming updates.
+        
+        Args:
+            request: The agent request to process
+            progress_callback: Async callback function for progress updates
+            
+        Yields:
+            Intermediate state updates during graph execution
+        """
+        try:
+            if not self._graph:
+                raise RuntimeError(f"{self.agent_type} agent graph not available")
+            
+            # Create initial state and config
+            initial_state = self._create_initial_state(request)
+            config_obj = self._create_agent_config(request)
+            
+            # Convert config to dict format that LangGraph expects
+            if hasattr(config_obj, '__dict__'):
+                config_dict = {"configurable": config_obj.__dict__}
+            else:
+                config_dict = {"configurable": config_obj}
+            
+            # Track the final state
+            final_state = None
+            
+            # Stream through graph execution
+            logger.info(f"Starting streaming execution for {self.agent_type} agent")
+            async for chunk in self._graph.astream(initial_state, config_dict):
+                logger.info(f"Streaming chunk: {type(chunk)}")
+                
+                # Extract node name and state from chunk
+                if isinstance(chunk, dict):
+                    for node_name, node_state in chunk.items():
+                        logger.info(f"Node '{node_name}' executed")
+                        
+                        # Send progress update if callback provided
+                        if progress_callback:
+                            await progress_callback(
+                                node_name=node_name,
+                                node_input=self._extract_node_input(node_state),
+                                node_output=self._extract_node_output(node_state)
+                            )
+                        
+                        # Keep track of the latest state
+                        final_state = node_state
+                        
+                        # Yield the intermediate update
+                        yield {
+                            "type": "node_complete",
+                            "node_name": node_name,
+                            "node_output": self._extract_node_output(node_state),
+                            "current_state": self._safe_state_summary(node_state)
+                        }
+            
+            # Use the final state or fall back to initial state
+            if final_state is None:
+                logger.warning("No final state received from streaming, using initial state")
+                final_state = initial_state
+            
+            # Save the state to conversation service
+            conversation_id = self._save_state(final_state)
+            
+            # Update the conversation_id in the result state if it wasn't set
+            if hasattr(final_state, 'conversation_id') and not final_state.conversation_id:
+                final_state.conversation_id = conversation_id
+            
+            # Create and yield final response
+            response = self._create_response_from_state(final_state)
+            yield {
+                "type": "complete",
+                "response": response
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in streaming {self.agent_type} agent: %s", e, exc_info=True)
+            yield {
+                "type": "error",
+                "error": str(e)
+            }
+    
+    def _extract_node_input(self, state) -> Dict[str, Any]:
+        """Extract relevant input information from node state for progress reporting."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
+        # Return key fields that show what the node is working on
+        return {
+            "user_query": get_state_value("user_query", "")[:100],  # Truncate for display
+            "agent_type": get_state_value("agent_type", ""),
+            "capability": get_state_value("capability", ""),
+            "needs_clarification": get_state_value("needs_clarification", False)
+        }
+    
+    def _extract_node_output(self, state) -> Dict[str, Any]:
+        """Extract relevant output information from node state for progress reporting."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
+        # Return key fields that show what the node produced
+        output = {}
+        
+        # Check for generated code/query
+        generated_code = get_state_value("generated_code")
+        if generated_code:
+            output["generated_code_preview"] = generated_code[:200] + "..." if len(generated_code) > 200 else generated_code
+        
+        # Check for execution results
+        execution_results = get_state_value("execution_results")
+        if execution_results:
+            output["execution_results_count"] = len(execution_results) if isinstance(execution_results, list) else 1
+        
+        # Check for search results
+        similar_code = get_state_value("similar_code")
+        if similar_code:
+            output["similar_results_count"] = len(similar_code) if isinstance(similar_code, list) else 1
+        
+        # Check for entity matches
+        entity_matches = get_state_value("entity_matches")
+        if entity_matches:
+            output["entity_matches_count"] = len(entity_matches) if isinstance(entity_matches, list) else 1
+        
+        # Check for clarification questions
+        clarification_questions = get_state_value("clarification_questions")
+        if clarification_questions:
+            output["clarification_questions_count"] = len(clarification_questions) if isinstance(clarification_questions, list) else 1
+        
+        # Check for errors
+        error_message = get_state_value("error_message")
+        if error_message:
+            output["error"] = error_message
+        
+        return output
+    
+    def _safe_state_summary(self, state) -> Dict[str, Any]:
+        """Create a safe summary of the current state for frontend display."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
+        return {
+            "has_generated_code": bool(get_state_value("generated_code")),
+            "has_execution_results": bool(get_state_value("execution_results")),
+            "needs_clarification": get_state_value("needs_clarification", False),
+            "clarification_processed": get_state_value("clarification_processed", False),
+            "error_present": bool(get_state_value("error_message")),
+            "refinement_count": get_state_value("refinement_count", 0)
+        }
+    
     def get_conversation_state(self, conversation_id: str) -> Optional[Dict[str, Any]]:
         """Get conversation state."""
         return conversation_state_service.get(conversation_id)

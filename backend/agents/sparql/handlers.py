@@ -12,15 +12,12 @@ from langchain.schema import HumanMessage, SystemMessage
 from .state import SparqlAgentState, SparqlAgentConfig
 from agents.base_state import MAX_REFINEMENTS
 from agents.base_langgraph_agent import get_config_value, get_message_value
-from .tools import (
-    get_similar_queries,
-    get_entity_matches,
-    execute_sparql_query
-)
+from .tools import execute_sparql_query
 from services.llm_providers import LLMProviderFactory
 from .ontology_context import ONTOLOGY_PREFIXES, ONTOLOGY_CLASSES, ONTOLOGY_PROPERTIES, PROPERTY_VALIDATION
 from services.service_manager import service_manager
-from config import DEFAULT_LLM_PROVIDER, EMBEDDING_PROVIDER
+from services.search_integration_service import search_service
+from config import DEFAULT_LLM_PROVIDER
 
 logger = logging.getLogger(__name__)
 
@@ -77,21 +74,16 @@ def extract_user_query(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
         return {"error_message": str(e)}
 
 def get_similar_queries_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Get similar queries for the user query."""
+    """Retrieve similar SPARQL queries only (no ontology entities)."""
     try:
-        # Access the service directly from service manager
-        sparql_embedding_service = service_manager.get_sparql_embeddings(EMBEDDING_PROVIDER)
-        
-        # Call the tool without await (synchronously)
-        similar_queries = get_similar_queries(
-            sparql_embedding_service,
-            state.user_query or ""
+        import asyncio
+        similar = asyncio.run(
+            search_service.search_sparql_queries(state.user_query or "", top_k=3)
         )
-        return {
-            "similar_code": similar_queries,  # Use generalized field
-        }
+        logger.info(f"Found {len(similar)} similar SPARQL queries")
+        return {"similar_code": similar}
     except Exception as e:
-        logger.error(f"Error getting similar queries: {e}")
+        logger.error(f"Error getting similar SPARQL queries: {e}")
         return {"error_message": str(e)}
 
 def extract_paleo_terms(llm: BaseChatModel, user_query: str) -> List[str]:
@@ -156,38 +148,26 @@ Return ONLY a JSON array of the extracted terms:
         return [user_query]
 
 def get_entity_matches_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Get entity matches for the user query."""
+    """Get entity matches for the user query (fallback if not already available)."""
     try:
-        # Access the services directly from service manager
-        graphdb_embedding_service = service_manager.get_graphdb_embeddings(EMBEDDING_PROVIDER)
-        llm = service_manager.get_llm_provider(state.llm_provider or DEFAULT_LLM_PROVIDER)
+        # Check if entity matches are already available from unified context
+        if hasattr(state, 'entity_matches') and state.entity_matches:
+            logger.info(f"Entity matches already available from unified context: {len(state.entity_matches)} matches")
+            return {}  # No additional updates needed
         
-        # First extract relevant paleoclimate terms using the LLM
-        paleo_terms = extract_paleo_terms(llm, state.user_query or "")
+        # Fallback: Get entity matches individually if not available from unified context
+        logger.info("Entity matches not available from unified context, retrieving individually as fallback")
         
-        # Initialize a list to store matches from all terms
-        all_matches = []
+        # Use the search service directly (it now includes term extraction)
+        import asyncio
+        entity_matches = asyncio.run(search_service.search_ontology_entities(
+            query=state.user_query or "",
+            use_term_extraction=True  # Enable LLM-based term extraction
+        ))
         
-        # Get entity matches for each extracted term
-        for term in paleo_terms:
-            # Call the tool without await (synchronously)
-            term_matches = get_entity_matches(
-                graphdb_embedding_service,
-                term
-            )
-            all_matches.extend(term_matches)
+        logger.info(f"Found {len(entity_matches)} entity matches via fallback search")
+        return {"entity_matches": entity_matches}
         
-        # Remove duplicates based on entity URI
-        seen_uris = set()
-        unique_matches = []
-        for match in all_matches:
-            uri = match.get("entity", "")
-            if uri not in seen_uris:
-                seen_uris.add(uri)
-                unique_matches.append(match)
-        
-        logger.info(f"Found {len(unique_matches)} unique entity matches")
-        return {"entity_matches": unique_matches}
     except Exception as e:
         logger.error(f"Error getting entity matches: {e}")
         return {"error_message": str(e)}
@@ -1080,10 +1060,39 @@ def generate_sparql(
         """
 
 def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Generate a SPARQL query using the LLM without handling clarification detection."""
+    """Enhanced SPARQL query generation with comprehensive contextual information."""
     try:
+        logger.info("=== ENHANCED GENERATE_QUERY_NODE CALLED ===")
+        
         # Get LLM directly from service manager
         llm = service_manager.get_llm_provider(state.llm_provider or DEFAULT_LLM_PROVIDER)
+        
+        user_query = state.user_query or ""
+        similar_queries = state.similar_code or []
+        entity_matches = state.entity_matches or []
+        # Build minimal context dict for prompt formatting
+        contextual_data = {
+            "similar_queries": similar_queries,
+            "entities": entity_matches,
+            "query": user_query
+        }
+        
+        logger.info(f"user_query: '{user_query}'")
+        logger.info(f"similar_queries count: {len(similar_queries)}")
+        logger.info(f"entity_matches count: {len(entity_matches)}")
+        logger.info(f"contextual_data keys: {list(contextual_data.keys())}")
+        
+        if not user_query:
+            logger.error("No user query provided")
+            return {"error_message": "No user query provided for SPARQL generation"}
+        
+        # Format comprehensive context for LLM using the unified search service
+        context_prompt = ""
+        if similar_queries or entity_matches:
+            context_prompt = search_service.format_sparql_context_for_llm(contextual_data)
+            logger.info(f"Formatted context prompt length: {len(context_prompt)}")
+        else:
+            logger.warning("No contextual data available for formatting")
         
         # Prepare clarification info if available
         clarification_info = None
@@ -1095,20 +1104,82 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
                 "clarification_sequence": state.clarification_sequence
             }
         
-        # Generate the query directly, no clarification check
-        sparql_query = generate_sparql(
-            llm,
-            state.user_query or "",
-            state.similar_code or [],
-            state.entity_matches or [],
-            clarification_info
+        # Format clarification information if available
+        clarification_text = ""
+        if clarification_info and clarification_info.get("clarification_processed"):
+            if clarification_info.get("clarification_responses"):
+                clarification_text = "\nUSER CLARIFICATIONS:\n"
+                for resp in clarification_info.get("clarification_responses", []):
+                    question = resp.get("question", "")
+                    response = resp.get("response", "")
+                    clarification_text += f"Question: {question}\nResponse: {response}\n\n"
+        
+        # Use the automatically generated ontology context
+        prefixes = ONTOLOGY_PREFIXES
+        common_properties = ONTOLOGY_PROPERTIES
+        validation_examples = PROPERTY_VALIDATION
+        
+        # Build the property validation section
+        property_validation = build_property_validation_prompt(
+            prefixes, common_properties, validation_examples
         )
         
-        return {
+        # Build the constraints section
+        constraints_text = build_query_constraints_prompt()
+        
+        # Create enhanced prompt using comprehensive context
+        system_prompt = (
+            "You are a SPARQL query generation expert. Generate only the SPARQL query without any explanation, "
+            "JSON wrapping, or additional text. Use the comprehensive context provided to create accurate, "
+            "well-formed SPARQL queries that follow ontology patterns and constraints."
+        )
+        
+        user_prompt = (
+            f"QUERY: {user_query}{clarification_text}\n\n"
+            f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
+            f"{property_validation}\n\n"
+            f"{constraints_text}\n\n"
+            "INSTRUCTIONS:\n"
+            "1. Use similar queries as patterns and adapt them to the current request\n"
+            "2. Use ontology entities that match the query terms\n"
+            "3. Follow property validation rules and constraints\n"
+            "4. Generate syntactically correct SPARQL\n"
+            "5. Include proper PREFIX declarations\n\n"
+            "Return ONLY the SPARQL query without any explanation or formatting."
+        )
+        
+        # Generate query using LLM
+        logger.info("Calling LLM to generate enhanced SPARQL query...")
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_prompt)
+        ]
+        
+        sparql_query = llm._call(messages).strip()
+        
+        # Clean up the query (remove markdown if present)
+        if sparql_query.startswith("```sparql"):
+            sparql_query = sparql_query.replace("```sparql", "").replace("```", "").strip()
+        elif sparql_query.startswith("```"):
+            sparql_query = sparql_query.replace("```", "").strip()
+        
+        logger.info(f"Generated SPARQL query length: {len(sparql_query)}")
+        logger.info(f"Generated SPARQL query preview: {sparql_query[:200]}...")
+        
+        # Add context summary for logging
+        context_summary = f"Used {len(contextual_data.get('similar_queries', []))} similar queries, " \
+                         f"{len(contextual_data.get('entities', []))} ontology entities"
+        
+        result = {
             "generated_code": sparql_query,
+            "context_used": context_summary
         }
+        
+        logger.info(f"Returning enhanced result with generated_code length: {len(result['generated_code'])}")
+        return result
+        
     except Exception as e:
-        logger.error(f"Error generating query: {e}")
+        logger.error(f"Error generating query: {e}", exc_info=True)
         return {"error_message": str(e)}
 
 def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
@@ -1269,10 +1340,10 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
         logger.info("=== DETECT CLARIFICATION NODE CALLED ===")
         
         # Debug logging to see what the config object looks like
-        logger.info(f"Config type: {type(config)}")
-        logger.info(f"Config content: {config}")
-        if hasattr(config, '__dict__'):
-            logger.info(f"Config attributes: {config.__dict__}")
+        # logger.info(f"Config type: {type(config)}")
+        # logger.info(f"Config content: {config}")
+        # if hasattr(config, '__dict__'):
+        #     logger.info(f"Config attributes: {config.__dict__}")
         
         # Check if clarification is disabled in config
         enable_clarification = get_config_value(config, 'enable_clarification', True)
@@ -1398,6 +1469,10 @@ def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         # Add final message
         messages = state.messages or []
         
+        # Gather final artifacts
+        final_generated_code = state.generated_code or None
+        final_execution_results = state.execution_results or None
+        # Determine final message/status
         if refinement_count >= 3 and (has_error or has_error_results):
             message_content = "Query processing completed after maximum refinement attempts."
             final_status = "refinement_exhausted"
@@ -1413,7 +1488,9 @@ def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         return {
             "messages": messages,
             "needs_clarification": False,
-            "final_status": final_status
+            "final_status": final_status,
+            "generated_code": final_generated_code,
+            "execution_results": final_execution_results
         }
     except Exception as e:
         logger.error(f"Error in finalize_query_node: {e}")

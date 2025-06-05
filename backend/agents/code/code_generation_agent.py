@@ -1,9 +1,10 @@
 """
 Code Generation Agent - Produces Python code snippets / notebooks for data analysis tasks.
-Updated to use LangGraph and unified state management.
+Updated to use LangGraph and unified state management with new libraries.
 """
 
 import logging
+import pathlib
 from typing import Dict, Any, Optional
 
 from agents.base_langgraph_agent import BaseLangGraphAgent
@@ -103,12 +104,8 @@ class CodeGenerationAgent(BaseLangGraphAgent):
             model=llm_model
         )
         
-        # Get code embedding service
-        code_embeddings = service_manager.get_code_embeddings()
-        
         return CodeAgentConfig(
             llm=llm,
-            code_embedding_service=code_embeddings,
             enable_clarification=self.enable_clarification,
             clarification_threshold=self.clarification_threshold
         )
@@ -147,6 +144,6 @@ class CodeGenerationAgent(BaseLangGraphAgent):
         return {
             "language": "python",
             "result_count": len(execution_results) if isinstance(execution_results, list) else 0,
-            "libraries": required_libraries,
+            "libraries": ["notebook_library", "readthedocs_library"] + required_libraries,
             "expected_outputs": expected_outputs,
         } 

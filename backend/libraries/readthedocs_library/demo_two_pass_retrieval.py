@@ -31,7 +31,7 @@ def two_pass(query: str, *, sym_k: int = 5, code_k: int = 3, preview_chars: int 
     try:
         symbols = search_symbols_hybrid(query, top_k_dense=sym_k, top_k_lex=3)
     except Exception:
-        symbols = search_symbols(query, top_k=sym_k)
+        symbols = search_symbols(query, limit=sym_k)
     if not symbols:
         print("No symbol hits found.")
         return
@@ -53,7 +53,7 @@ def two_pass(query: str, *, sym_k: int = 5, code_k: int = 3, preview_chars: int 
         # If not present, fall back to code index search using symbol name/signature
         if not code_snippet:
             search_term = f"{query}\n{symbol_name}\n{signature}"
-            code_hits = search_code(search_term, top_k=code_k)
+            code_hits = search_code(search_term, limit=code_k)
             if code_hits:
                 code_snippet = code_hits[0].get("code", "")
 

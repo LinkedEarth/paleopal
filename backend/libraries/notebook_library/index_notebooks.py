@@ -1,7 +1,7 @@
 """notebook_library.index_notebooks
 
 CLI / importable function to scan Jupyter notebooks, extract code (and nearby
-markdown) snippets, embed them, and persist a FAISS index + metadata file.
+markdown) snippets, embed them, and persist a Qdrant index.
 """
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ import os
 import pathlib
 import uuid
 import ast
+import sys
 from typing import List, Dict, Any, Tuple, Set
 import re
 import builtins
@@ -17,15 +18,13 @@ import builtins
 import nbformat
 from tqdm import tqdm
 
-try:
-    import faiss  # type: ignore
-except ImportError as e:
-    raise ImportError("faiss-cpu is required: pip install faiss-cpu") from e
+# Add parent directory to path for imports
+current_dir = pathlib.Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
 
-try:
-    from sentence_transformers import SentenceTransformer  # type: ignore
-except ImportError as e:
-    raise ImportError("sentence-transformers is required: pip install sentence-transformers") from e
+from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
 
 EMBED_MODEL_NAME = os.getenv("SNIPPET_EMBED_MODEL", "all-MiniLM-L6-v2")
 
@@ -250,153 +249,308 @@ def extract_snippets(nb_path: pathlib.Path, *, hoist_imports: bool = True, synth
 
 def build_index(
     notebook_paths: List[pathlib.Path],
-    out_dir: pathlib.Path,
+    collection_name_prefix: str = None,
     *,
     hoist_imports: bool = True,
     keep_invalid: bool = False,
     synth_imports: bool = True,
-) -> pathlib.Path:
-    """Index notebooks and write FAISS + metadata.
-
-    Returns the path to the created index directory.
+    force_recreate: bool = False,
+) -> Dict[str, str]:
     """
-    out_dir.mkdir(parents=True, exist_ok=True)
-    meta_path = out_dir / "snippets_meta.jsonl"
-    index_path = out_dir / "snippets.faiss"
+    Build Qdrant indexes from notebooks.
+    
+    Returns:
+        Dictionary mapping collection types to collection names created
+    """
+    if collection_name_prefix is None:
+        collections = {
+            "snippets": COLLECTION_NAMES["notebook_snippets"],
+            "workflows": COLLECTION_NAMES["notebook_workflows"], 
+            "steps": COLLECTION_NAMES["notebook_steps"]
+        }
+    else:
+        collections = {
+            "snippets": f"{collection_name_prefix}_snippets",
+            "workflows": f"{collection_name_prefix}_workflows",
+            "steps": f"{collection_name_prefix}_steps"
+        }
 
     all_snippets: List[Dict[str, Any]] = []
-    workflows_by_notebook: Dict[str, List[Dict[str, Any]]] = {}
-    for nb_path in tqdm(notebook_paths, desc="Scanning notebooks"):
-        snippets = extract_snippets(nb_path, hoist_imports=hoist_imports, synth_imports=synth_imports)
-        if not keep_invalid:
-            snippets = [s for s in snippets if not s["unresolved"]]
-        all_snippets.extend(snippets)
-
-        # store steps for workflow assembly (keep original order as returned)
-        workflows_by_notebook[str(nb_path)] = snippets
-
-    if not all_snippets:
-        raise RuntimeError("No code snippets found in provided notebooks")
+    all_workflows: List[Dict[str, Any]] = []
+    all_steps: List[Dict[str, Any]] = []
 
     def _embed_text(s: Dict[str, Any]) -> str:
-        preview = " ".join(s["code"].split()[:60])  # ~ first 60 tokens
-        return (
-            (s["markdown_context"] or "")
-            + "\nimports: " + ", ".join(s["imports"])
-            + "\ndefines: " + ", ".join(s["defined"][:20])
-            + "\ncode_preview: " + preview
-        )
+        """Extract text for embedding from snippet metadata."""
+        parts = [s.get("title", "")]
+        if s.get("code"):
+            parts.append(s["code"])
+        if s.get("markdown"):
+            parts.append(s["markdown"])
+        return "\n".join(p for p in parts if p)
 
-    texts = [_embed_text(s) for s in all_snippets]
-    model = _load_model()
-    embeddings = model.encode(texts, show_progress_bar=True, batch_size=32, normalize_embeddings=True)
+    def _workflow_embed_text(w: Dict[str, Any]) -> str:
+        """Extract text for embedding from workflow metadata."""
+        parts = [w.get("title", "")]
+        if w.get("description"):
+            parts.append(w["description"])
+        if w.get("keywords"):
+            parts.extend(w["keywords"])
+        return " ".join(p for p in parts if p)
 
-    dim = embeddings.shape[1]
-    index = faiss.IndexFlatIP(dim)
-    index.add(embeddings)
+    def _step_embed_text(step: Dict[str, Any]) -> str:
+        """Extract text for embedding from step metadata."""
+        parts = [step.get("description", "")]
+        if step.get("code"):
+            parts.append(step["code"])
+        if step.get("dependencies"):
+            parts.extend(step["dependencies"])
+        return " ".join(p for p in parts if p)
 
-    faiss.write_index(index, str(index_path))
-
-    # write snippet metadata line-by-line so line number == vector id
-    with meta_path.open("w") as f:
-        for meta in all_snippets:
-            f.write(json.dumps(meta) + "\n")
-
-    ############################
-    # Build workflow documents #
-    ############################
-
-    workflow_docs: List[Dict[str, Any]] = []
-    workflow_texts: List[str] = []
-    step_docs: List[Dict[str, Any]] = []
-    transitions: Dict[Tuple[str, str], int] = {}
-    for nb_path_str, steps in workflows_by_notebook.items():
-        if not steps:
+    for nb_path in tqdm(notebook_paths, desc="Processing notebooks"):
+        try:
+            snippets = extract_snippets(
+                nb_path, 
+                hoist_imports=hoist_imports, 
+                synth_imports=synth_imports
+            )
+            
+            if keep_invalid:
+                # Keep all snippets even if they have unresolved dependencies
+                valid_snippets = snippets
+            else:
+                # Filter out snippets with unresolved dependencies
+                valid_snippets = [s for s in snippets if not s.get("unresolved")]
+            
+            # Add embedding text to each snippet
+            for snippet in valid_snippets:
+                snippet["text"] = _embed_text(snippet)
+                snippet["id"] = str(uuid.uuid4())
+                snippet["notebook_path"] = str(nb_path)
+                
+            all_snippets.extend(valid_snippets)
+            
+            # Extract workflow information
+            workflows = extract_workflows(nb_path)
+            for workflow in workflows:
+                workflow["text"] = _workflow_embed_text(workflow)
+                workflow["id"] = str(uuid.uuid4())
+                workflow["notebook_path"] = str(nb_path)
+                
+            all_workflows.extend(workflows)
+            
+            # Extract individual steps
+            steps = extract_individual_steps(snippets)
+            for step in steps:
+                step["text"] = _step_embed_text(step)
+                step["id"] = str(uuid.uuid4())
+                step["notebook_path"] = str(nb_path)
+                
+            all_steps.extend(steps)
+            
+        except Exception as e:
+            print(f"Error processing {nb_path}: {e}")
             continue
-        wf_id = str(uuid.uuid4())
-        wf_meta = {
-            "id": wf_id,
-            "notebook": nb_path_str,
-            "steps": [
-                {
-                    "id": s["id"],
-                    "markdown_context": s["markdown_context"],
+
+    if not all_snippets and not all_workflows and not all_steps:
+        raise ValueError("No valid snippets, workflows, or steps extracted from notebooks")
+
+    # Get Qdrant manager
+    qdrant_manager = get_qdrant_manager()
+    
+    # Create collections and index documents
+    results = {}
+    
+    if all_snippets:
+        print(f"Indexing {len(all_snippets)} snippets...")
+        if qdrant_manager.create_collection(collections["snippets"], force_recreate=force_recreate):
+            qdrant_manager.index_documents(
+                collection_name=collections["snippets"],
+                documents=all_snippets,
+                text_field="text"
+            )
+            results["snippets"] = collections["snippets"]
+    
+    if all_workflows:
+        print(f"Indexing {len(all_workflows)} workflows...")
+        if qdrant_manager.create_collection(collections["workflows"], force_recreate=force_recreate):
+            qdrant_manager.index_documents(
+                collection_name=collections["workflows"],
+                documents=all_workflows,
+                text_field="text"
+            )
+            results["workflows"] = collections["workflows"]
+    
+    if all_steps:
+        print(f"Indexing {len(all_steps)} steps...")
+        if qdrant_manager.create_collection(collections["steps"], force_recreate=force_recreate):
+            qdrant_manager.index_documents(
+                collection_name=collections["steps"],
+                documents=all_steps,
+                text_field="text"
+            )
+            results["steps"] = collections["steps"]
+    
+    print(f"Notebook indexing completed. Created collections: {list(results.values())}")
+    return results
+
+
+def extract_workflows(nb_path: pathlib.Path) -> List[Dict[str, Any]]:
+    """Extract workflow-level information from a notebook."""
+    nb = nbformat.read(nb_path, as_version=4)
+    cells = nb.cells
+    
+    workflows = []
+    current_workflow = None
+    
+    for cell in cells:
+        if cell.cell_type == "markdown":
+            source = cell.source.strip()
+            
+            # Look for workflow headers (# or ##)
+            if source.startswith("#"):
+                # Start new workflow
+                if current_workflow:
+                    workflows.append(current_workflow)
+                
+                title_match = re.match(r'^#+\s*(.+)', source)
+                title = title_match.group(1) if title_match else "Unnamed Workflow"
+                
+                # Extract description from remaining markdown
+                lines = source.split('\n')[1:]  # Skip title line
+                description = '\n'.join(lines).strip()
+                
+                current_workflow = {
+                    "title": title,
+                    "description": description,
+                    "keywords": extract_keywords_from_text(f"{title} {description}"),
+                    "cell_count": 0,
+                    "has_imports": False,
+                    "complexity": "simple"
                 }
-                for s in steps
-            ],
-        }
-        workflow_docs.append(wf_meta)
+        
+        elif cell.cell_type == "code" and current_workflow:
+            current_workflow["cell_count"] += 1
+            
+            # Check for imports
+            if re.search(r'^\s*(?:import|from)\s', cell.source, re.MULTILINE):
+                current_workflow["has_imports"] = True
+            
+            # Assess complexity based on code patterns
+            if any(pattern in cell.source for pattern in ['for ', 'while ', 'def ', 'class ', 'if ']):
+                current_workflow["complexity"] = "complex"
+            elif current_workflow["complexity"] == "simple" and len(cell.source.split('\n')) > 5:
+                current_workflow["complexity"] = "medium"
+    
+    # Don't forget the last workflow
+    if current_workflow:
+        workflows.append(current_workflow)
+    
+    return workflows
 
-        # Embedding string: notebook name + ordered step headings
-        step_lines = []
-        for i, s in enumerate(steps):
-            heading = s["markdown_context"].split("\n")[0]
-            code_preview = " ".join(s["code"].split()[:40])  # first ~40 tokens
-            step_lines.append(f"Step {i+1}: {heading} | {code_preview}")
 
-        workflow_texts.append(pathlib.Path(nb_path_str).stem + "\n" + "\n".join(step_lines))
+def extract_individual_steps(snippets: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Extract individual computational steps from snippets."""
+    steps = []
+    
+    for snippet in snippets:
+        code = snippet.get("code", "")
+        if not code:
+            continue
+            
+        # Split code into logical steps (by empty lines or comments)
+        code_blocks = re.split(r'\n\s*\n|\n\s*#[^\n]*\n', code)
+        
+        for i, block in enumerate(code_blocks):
+            block = block.strip()
+            if not block or len(block) < 10:  # Skip very short blocks
+                continue
+            
+            step = {
+                "description": f"Step {i+1} from {snippet.get('title', 'unknown snippet')}",
+                "code": block,
+                "step_number": i + 1,
+                "snippet_id": snippet.get("id"),
+                "dependencies": snippet.get("dependencies", []),
+                "defined_names": extract_defined_names(block),
+                "used_names": extract_used_names(block),
+                "step_type": classify_step_type(block)
+            }
+            steps.append(step)
+    
+    return steps
 
-        # collect step-level docs & transitions
-        for i, s in enumerate(steps):
-            step_docs.append({
-                "id": s["id"],
-                "notebook": nb_path_str,
-                "position": i,
-                "heading": s["markdown_context"].split("\n")[0],
-                "code_preview": " ".join(s["code"].split()[:40]),
-            })
-            if i < len(steps) - 1:
-                a = s["markdown_context"].split("\n")[0]
-                b = steps[i+1]["markdown_context"].split("\n")[0]
-                transitions[(a, b)] = transitions.get((a, b), 0) + 1
 
-    if workflow_docs:
-        wf_index_path = out_dir / "workflows.faiss"
-        wf_meta_path = out_dir / "workflows_meta.jsonl"
+def extract_keywords_from_text(text: str) -> List[str]:
+    """Extract keywords from text using simple heuristics."""
+    # Common data science keywords
+    keywords = set()
+    
+    keyword_patterns = [
+        r'\b(pandas|numpy|matplotlib|seaborn|sklearn|scipy)\b',
+        r'\b(dataframe|array|plot|chart|model|analysis)\b',
+        r'\b(load|save|read|write|import|export)\b',
+        r'\b(filter|sort|group|merge|join|pivot)\b',
+        r'\b(visualization|statistics|machine learning|deep learning)\b'
+    ]
+    
+    text_lower = text.lower()
+    for pattern in keyword_patterns:
+        matches = re.findall(pattern, text_lower)
+        keywords.update(matches)
+    
+    return list(keywords)
 
-        wf_embeddings = model.encode(workflow_texts, show_progress_bar=False, batch_size=32, normalize_embeddings=True)
 
-        dim = wf_embeddings.shape[1]
-        wf_index = faiss.IndexFlatIP(dim)
-        wf_index.add(wf_embeddings)
-        faiss.write_index(wf_index, str(wf_index_path))
+def extract_defined_names(code: str) -> List[str]:
+    """Extract variable names defined in code block."""
+    defined = set()
+    try:
+        tree = ast.parse(code)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+                        defined.add(target.id)
+            elif isinstance(node, ast.FunctionDef):
+                defined.add(node.name)
+    except:
+        pass  # Skip parsing errors
+    
+    return list(defined)
 
-        with wf_meta_path.open("w") as f:
-            for meta in workflow_docs:
-                f.write(json.dumps(meta) + "\n")
 
-        print(f"Indexed {len(workflow_docs)} workflows → {out_dir}")
+def extract_used_names(code: str) -> List[str]:
+    """Extract variable names used in code block."""
+    used = set()
+    try:
+        tree = ast.parse(code)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
+                used.add(node.id)
+    except:
+        pass  # Skip parsing errors
+    
+    return list(used)
 
-    # ---------------- Step index ----------------
-    if step_docs:
-        step_texts = [f"{d['heading']} | {d['code_preview']}" for d in step_docs]
-        step_embeddings = model.encode(step_texts, show_progress_bar=False, batch_size=32, normalize_embeddings=True)
 
-        step_index_path = out_dir / "steps.faiss"
-        step_meta_path = out_dir / "steps_meta.jsonl"
-
-        dim = step_embeddings.shape[1]
-        step_index = faiss.IndexFlatIP(dim)
-        step_index.add(step_embeddings)
-        faiss.write_index(step_index, str(step_index_path))
-
-        with step_meta_path.open("w") as f:
-            for meta in step_docs:
-                f.write(json.dumps(meta) + "\n")
-
-        # write transitions
-        trans_path = out_dir / "step_transitions.json"
-        # Convert tuple-key dict to nested mapping {from: {to: count}}
-        trans_serializable: Dict[str, Dict[str, int]] = {}
-        for (a, b), cnt in transitions.items():
-            trans_serializable.setdefault(a, {})[b] = cnt
-        with trans_path.open("w") as f:
-            json.dump(trans_serializable, f)
-
-        print(f"Indexed {len(step_docs)} workflow steps → {out_dir}")
-
-    print(f"Indexed {len(all_snippets)} snippets → {out_dir}")
-    return out_dir
+def classify_step_type(code: str) -> str:
+    """Classify the type of computational step."""
+    code_lower = code.lower()
+    
+    if any(pattern in code_lower for pattern in ['import ', 'from ']):
+        return "import"
+    elif any(pattern in code_lower for pattern in ['read_csv', 'load', 'open(']):
+        return "data_loading"
+    elif any(pattern in code_lower for pattern in ['plot', 'show()', 'figure', 'subplot']):
+        return "visualization"
+    elif any(pattern in code_lower for pattern in ['def ', 'class ']):
+        return "definition"
+    elif any(pattern in code_lower for pattern in ['for ', 'while ']):
+        return "iteration"
+    elif any(pattern in code_lower for pattern in ['if ', 'else', 'elif']):
+        return "conditional"
+    else:
+        return "computation"
 
 
 if __name__ == "__main__":
@@ -404,7 +558,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Build snippet library from notebooks")
     parser.add_argument("paths", nargs="+", help="Notebook paths or directories (recursively scanned)")
-    parser.add_argument("--out", default="notebook_index", help="Output directory for index files")
+    parser.add_argument("--out", default="notebook", help="Output prefix for collections")
     parser.add_argument("--no-hoist-imports", action="store_true", help="Keep imports in original positions")
     parser.add_argument("--keep-invalid", action="store_true", help="Include snippets with unresolved names")
     parser.add_argument("--no-synth-imports", action="store_true", help="Do not create synthetic import lines for missing names")
@@ -422,4 +576,4 @@ if __name__ == "__main__":
     if not collected:
         raise SystemExit("No .ipynb files found in given paths")
 
-    build_index(collected, pathlib.Path(args.out), hoist_imports=not args.no_hoist_imports, keep_invalid=args.keep_invalid, synth_imports=not args.no_synth_imports) 
+    build_index(collected, args.out, hoist_imports=not args.no_hoist_imports, keep_invalid=args.keep_invalid, synth_imports=not args.no_synth_imports) 

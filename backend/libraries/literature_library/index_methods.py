@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """literature_library.index_methods
 
-Build a FAISS vector store for semantic search from extracted method JSON files.
+Build a Qdrant vector store for semantic search from extracted method JSON files.
 Reads structured method files and creates embeddings for efficient similarity search.
 """
 
@@ -10,17 +10,17 @@ import pathlib
 import re
 import json
 import logging
+import sys
 from typing import List, Dict, Any
+import uuid
 
-try:
-    import faiss  # type: ignore
-except ImportError as e:
-    raise ImportError("faiss-cpu is required: pip install faiss-cpu") from e
+# Add parent directory to path for imports
+current_dir = pathlib.Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
 
-try:
-    from sentence_transformers import SentenceTransformer  # type: ignore
-except ImportError as e:
-    raise ImportError("sentence-transformers is required: pip install sentence-transformers") from e
+from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
 
 import os
 
@@ -28,12 +28,6 @@ LOG = logging.getLogger("lit-index")
 logging.basicConfig(level=logging.INFO)
 
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
-
-
-def _load_model():
-    if not hasattr(_load_model, "_m"):
-        _load_model._m = SentenceTransformer(EMBED_MODEL_NAME)  # type: ignore
-    return _load_model._m  # type: ignore
 
 
 def clean_text(text: str) -> str:
@@ -63,6 +57,7 @@ def extract_searchable_content(method_data: Dict[str, Any]) -> List[Dict[str, An
         # Create a record for the overall method
         method_text = f"{method_name}. {method_description}"
         method_record = {
+            "id": str(uuid.uuid4()),
             "text": clean_text(method_text),
             "source_file": source_file,
             "paper_title": paper_title,
@@ -89,6 +84,7 @@ def extract_searchable_content(method_data: Dict[str, Any]) -> List[Dict[str, An
             ])
             
             step_record = {
+                "id": str(uuid.uuid4()),
                 "text": clean_text(step_text),
                 "source_file": source_file,
                 "paper_title": paper_title,
@@ -108,20 +104,24 @@ def extract_searchable_content(method_data: Dict[str, Any]) -> List[Dict[str, An
     return records
 
 
-def build_index_from_json_files(json_dir: pathlib.Path, out_dir: pathlib.Path) -> pathlib.Path:
+def build_index_from_json_files(
+    json_dir: pathlib.Path, 
+    collection_name: str = None,
+    force_recreate: bool = False
+) -> str:
     """
-    Build FAISS index from extracted method JSON files.
+    Build Qdrant index from extracted method JSON files.
     
     Args:
         json_dir: Directory containing *_methods.json files
-        out_dir: Output directory for the index
+        collection_name: Qdrant collection name (defaults to literature_methods)
+        force_recreate: Whether to recreate the collection if it exists
     
     Returns:
-        Path to the created index directory
+        Name of the created collection
     """
-    out_dir.mkdir(parents=True, exist_ok=True)
-    meta_path = out_dir / "methods_meta.jsonl"
-    index_path = out_dir / "methods.faiss"
+    if collection_name is None:
+        collection_name = COLLECTION_NAMES["literature"]
     
     # Find all method JSON files
     json_files = list(json_dir.glob("*_methods.json"))
@@ -131,7 +131,6 @@ def build_index_from_json_files(json_dir: pathlib.Path, out_dir: pathlib.Path) -
     LOG.info(f"Found {len(json_files)} method JSON files")
     
     all_records: List[Dict[str, Any]] = []
-    all_texts: List[str] = []
     
     for json_file in json_files:
         LOG.info(f"Processing {json_file.name}")
@@ -147,10 +146,7 @@ def build_index_from_json_files(json_dir: pathlib.Path, out_dir: pathlib.Path) -
                 LOG.warning(f"No searchable content extracted from {json_file.name}")
                 continue
             
-            # Add records and texts
             all_records.extend(records)
-            all_texts.extend([record["text"] for record in records])
-            
             LOG.info(f"Extracted {len(records)} searchable items from {json_file.name}")
             
         except Exception as e:
@@ -162,206 +158,187 @@ def build_index_from_json_files(json_dir: pathlib.Path, out_dir: pathlib.Path) -
     
     LOG.info(f"Total searchable items: {len(all_records)}")
     
-    # Create embeddings
-    LOG.info("Creating embeddings...")
-    model = _load_model()
-    embs = model.encode(all_texts, show_progress_bar=True, batch_size=32, normalize_embeddings=True)
+    # Get Qdrant manager
+    qdrant_manager = get_qdrant_manager()
     
-    # Build FAISS index
-    LOG.info("Building FAISS index...")
-    dim = embs.shape[1]
-    index = faiss.IndexFlatIP(dim)
-    index.add(embs)
-    faiss.write_index(index, str(index_path))
+    # Create collection
+    if not qdrant_manager.create_collection(collection_name, force_recreate=force_recreate):
+        raise RuntimeError(f"Failed to create collection: {collection_name}")
     
-    # Save metadata
-    LOG.info("Saving metadata...")
-    with meta_path.open("w", encoding='utf-8') as f:
-        for record in all_records:
-            f.write(json.dumps(record) + "\n")
+    # Index documents
+    indexed_count = qdrant_manager.index_documents(
+        collection_name=collection_name,
+        documents=all_records,
+        text_field="text"
+    )
     
-    LOG.info(f"Index built successfully with {len(all_records)} items → {out_dir}")
-    return out_dir
+    LOG.info(f"Index built successfully with {indexed_count} items → {collection_name}")
+    return collection_name
 
 
 def search_methods_index(
     query: str, 
-    index_dir: pathlib.Path, 
+    collection_name: str = None,
     top_k: int = 10,
-    category_filter: str = None
+    category_filter: str = None,
+    content_type_filter: str = None,
+    score_threshold: float = None
 ) -> List[Dict[str, Any]]:
     """
     Search the methods index for similar content.
     
     Args:
         query: Search query
-        index_dir: Directory containing the index
+        collection_name: Qdrant collection name (defaults to literature_methods)
         top_k: Number of results to return
         category_filter: Optional category filter (e.g., "data_fetch", "data_analysis")
-    
+        content_type_filter: Filter by content type ("method_overview", "method_step")
+        score_threshold: Minimum similarity score threshold
+        
     Returns:
-        List of search results with metadata
+        List of matching records with similarity scores
     """
-    index_path = index_dir / "methods.faiss"
-    meta_path = index_dir / "methods_meta.jsonl"
+    if collection_name is None:
+        collection_name = COLLECTION_NAMES["literature"]
     
-    if not index_path.exists() or not meta_path.exists():
-        raise RuntimeError(f"Index not found in {index_dir}")
+    # Prepare filters
+    filters = {}
+    if category_filter:
+        filters["category"] = category_filter
+    if content_type_filter:
+        filters["content_type"] = content_type_filter
     
-    # Load index and metadata
-    index = faiss.read_index(str(index_path))
+    # Get Qdrant manager and search
+    qdrant_manager = get_qdrant_manager()
     
-    metadata = []
-    with meta_path.open(encoding='utf-8') as f:
-        for line in f:
-            metadata.append(json.loads(line))
-    
-    # Create query embedding
-    model = _load_model()
-    query_embedding = model.encode([clean_text(query)], normalize_embeddings=True)
-    
-    # Search
-    scores, indices = index.search(query_embedding, min(top_k * 2, len(metadata)))  # Get extra for filtering
-    
-    # Prepare results
-    results = []
-    for score, idx in zip(scores[0], indices[0]):
-        if idx == -1:  # No more results
-            break
-            
-        result = metadata[idx].copy()
-        result["similarity_score"] = float(score)
+    try:
+        results = qdrant_manager.search(
+            collection_name=collection_name,
+            query=query,
+            limit=top_k,
+            filters=filters if filters else None,
+            score_threshold=score_threshold
+        )
         
-        # Apply category filter if specified
-        if category_filter and result.get("category") != category_filter:
-            continue
-            
-        results.append(result)
+        return results
         
-        if len(results) >= top_k:
-            break
-    
-    return results
+    except Exception as e:
+        LOG.error(f"Search failed: {e}")
+        return []
 
 
-def create_index_summary(index_dir: pathlib.Path) -> Dict[str, Any]:
-    """Create a summary of the index contents."""
-    meta_path = index_dir / "methods_meta.jsonl"
+def create_index_summary(collection_name: str = None) -> Dict[str, Any]:
+    """
+    Create a summary of the indexed methods.
     
-    if not meta_path.exists():
-        return {"error": "Metadata file not found"}
+    Args:
+        collection_name: Qdrant collection name (defaults to literature_methods)
+        
+    Returns:
+        Dictionary with collection statistics
+    """
+    if collection_name is None:
+        collection_name = COLLECTION_NAMES["literature"]
     
-    # Load metadata
-    metadata = []
-    with meta_path.open(encoding='utf-8') as f:
-        for line in f:
-            metadata.append(json.loads(line))
+    qdrant_manager = get_qdrant_manager()
     
-    # Calculate statistics
-    total_items = len(metadata)
-    unique_papers = len(set(item.get("source_file", "") for item in metadata))
-    unique_methods = len(set(item.get("method_name", "") for item in metadata if item.get("content_type") == "method_overview"))
+    # Get collection info
+    collection_info = qdrant_manager.get_collection_info(collection_name)
+    if not collection_info:
+        return {"error": "Collection not found"}
     
-    # Category distribution
+    # Get sample of documents to analyze content
+    sample_results = qdrant_manager.search(
+        collection_name=collection_name,
+        query="",  # Empty query to get sample
+        limit=100
+    )
+    
+    # Analyze categories and content types
     categories = {}
     content_types = {}
+    methods = set()
+    papers = set()
     
-    for item in metadata:
-        cat = item.get("category", "unknown")
-        content_type = item.get("content_type", "unknown")
+    for result in sample_results:
+        # Count categories
+        category = result.get("category", "unknown")
+        categories[category] = categories.get(category, 0) + 1
         
-        categories[cat] = categories.get(cat, 0) + 1
+        # Count content types
+        content_type = result.get("content_type", "unknown")
         content_types[content_type] = content_types.get(content_type, 0) + 1
+        
+        # Collect unique methods and papers
+        if result.get("method_name"):
+            methods.add(result["method_name"])
+        if result.get("paper_title"):
+            papers.add(result["paper_title"])
     
-    summary = {
-        "total_items": total_items,
-        "unique_papers": unique_papers,
-        "unique_methods": unique_methods,
+    return {
+        "collection_name": collection_name,
+        "total_documents": collection_info.get("points_count", 0),
+        "indexed_documents": collection_info.get("indexed_vectors_count", 0),
         "categories": categories,
         "content_types": content_types,
-        "papers": list(set(item.get("paper_title", "Unknown") for item in metadata if item.get("paper_title")))
+        "unique_methods": len(methods),
+        "unique_papers": len(papers),
+        "sample_methods": list(methods)[:10],  # First 10 methods
+        "sample_papers": list(papers)[:5]  # First 5 papers
     }
-    
-    return summary
 
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
     
-    parser = argparse.ArgumentParser(description="Build FAISS index from extracted method JSON files")
-    parser.add_argument("json_dir", help="Directory containing *_methods.json files")
-    parser.add_argument("--out", default="methods_index", help="Output index directory")
-    parser.add_argument("--search", type=str, help="Search the index for similar methods")
-    parser.add_argument("--top-k", type=int, default=10, help="Number of search results to return")
-    parser.add_argument("--category", type=str, help="Filter results by category")
+    parser = argparse.ArgumentParser(description="Index literature methods from JSON into Qdrant")
+    parser.add_argument("--json-dir", default="my_documents", help="Directory containing *_methods.json files")
+    parser.add_argument("--collection", default=None, help="Qdrant collection name (default: literature_methods)")
+    parser.add_argument("--force-recreate", action="store_true", help="Force recreate collection if it exists")
+    parser.add_argument("--test-search", type=str, help="Test search with a query")
     parser.add_argument("--summary", action="store_true", help="Show index summary")
     
     args = parser.parse_args()
     
     json_dir = pathlib.Path(args.json_dir)
-    out_dir = pathlib.Path(args.out)
     
-    if not json_dir.exists():
-        sys.exit(f"Directory {json_dir} does not exist")
-    
-    # Handle search functionality
-    if args.search:
-        if not out_dir.exists():
-            sys.exit(f"Index directory {out_dir} does not exist. Build index first.")
-        
-        try:
-            results = search_methods_index(
-                args.search, 
-                out_dir, 
-                top_k=args.top_k,
-                category_filter=args.category
-            )
-            
-            print(f"\nFound {len(results)} results for '{args.search}':")
-            for i, result in enumerate(results, 1):
-                print(f"\n{i}. [{result['similarity_score']:.3f}] {result['paper_title']}")
-                print(f"   Method: {result['method_name']}")
-                if result['content_type'] == 'method_step':
-                    print(f"   Step {result['step_number']}: {result['searchable_summary']}")
-                    print(f"   Category: {result['category']}")
-                else:
-                    print(f"   Description: {result['method_description']}")
-                print(f"   Source: {result['source_file']}")
-                
-        except Exception as e:
-            sys.exit(f"Search failed: {e}")
-        
-        sys.exit(0)
-    
-    # Handle summary functionality
     if args.summary:
-        if not out_dir.exists():
-            sys.exit(f"Index directory {out_dir} does not exist. Build index first.")
-        
-        summary = create_index_summary(out_dir)
-        print("\nIndex Summary:")
-        print(f"Total items: {summary['total_items']}")
-        print(f"Unique papers: {summary['unique_papers']}")
-        print(f"Unique methods: {summary['unique_methods']}")
-        print(f"\nContent types: {summary['content_types']}")
-        print(f"\nCategories: {summary['categories']}")
-        print(f"\nPapers indexed:")
-        for paper in summary['papers'][:10]:  # Show first 10
-            print(f"  - {paper}")
-        if len(summary['papers']) > 10:
-            print(f"  ... and {len(summary['papers']) - 10} more")
-        
-        sys.exit(0)
+        # Show index summary
+        summary = create_index_summary(args.collection)
+        print("Literature Methods Index Summary:")
+        print("=" * 40)
+        for key, value in summary.items():
+            if isinstance(value, dict):
+                print(f"{key}:")
+                for k, v in value.items():
+                    print(f"  {k}: {v}")
+            elif isinstance(value, list):
+                print(f"{key}: {', '.join(map(str, value))}")
+            else:
+                print(f"{key}: {value}")
     
-    # Build index
-    try:
-        build_index_from_json_files(json_dir, out_dir)
-        print(f"\nIndex built successfully in {out_dir}")
-        
-        # Show summary
-        summary = create_index_summary(out_dir)
-        print(f"\nIndexed {summary['total_items']} items from {summary['unique_papers']} papers")
-        print(f"Found {summary['unique_methods']} unique methods")
-        
-    except Exception as e:
-        sys.exit(f"Index building failed: {e}") 
+    elif args.test_search:
+        # Test search functionality
+        results = search_methods_index(args.test_search, collection_name=args.collection, top_k=5)
+        print(f"\nSearch results for '{args.test_search}':")
+        for i, result in enumerate(results, 1):
+            print(f"{i}. {result.get('method_name', 'Unknown')} (score: {result['score']:.3f})")
+            print(f"   Paper: {result.get('paper_title', 'Unknown')}")
+            print(f"   Type: {result.get('content_type', 'unknown')}")
+            print(f"   Category: {result.get('category', 'unknown')}")
+            if result.get('searchable_summary'):
+                print(f"   Summary: {result['searchable_summary']}")
+            print()
+    
+    else:
+        # Build index
+        try:
+            collection_name = build_index_from_json_files(
+                json_dir=json_dir,
+                collection_name=args.collection,
+                force_recreate=args.force_recreate
+            )
+            print(f"✅ Literature methods index built successfully in collection: {collection_name}")
+        except Exception as e:
+            print(f"❌ Failed to build index: {e}")
+            sys.exit(1) 

@@ -128,40 +128,6 @@ async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConf
                 "source_type": "readthedocs_library"
             })
 
-        # 3) Keep existing embedding service search as fallback
-        code_embedding_service = get_config_value(config, 'code_embedding_service')
-        if code_embedding_service:
-            try:
-                embedding_examples = code_embedding_service.search_examples(query=search_query, limit=5)
-                for ex in embedding_examples:
-                    examples.append({
-                        "name": ex.get("name", "Embedding Example"),
-                        "description": ex.get("description", ""),
-                        "categories": ex.get("categories", ["embedding_service"]),
-                        "relevance_score": ex.get("relevance_score", 0),
-                        "code": ex.get("code", ""),
-                        "source_type": "embedding_service"
-                    })
-            except Exception as ce_err:
-                logger.warning(f"Code embedding service search failed: {ce_err}")
-
-        # 4) Legacy snippet library search as additional fallback
-        try:
-            from libraries.notebook_library.retrieve import get_relevant_snippets
-
-            snippet_hits = get_relevant_snippets(search_query, top_k=3)
-            for hit in snippet_hits:
-                examples.append({
-                    "name": f"Legacy Snippet {hit['notebook'].split('/')[-1]} cells {hit.get('cell_indices')}",
-                    "description": hit.get("markdown_context", ""),
-                    "categories": ["legacy_snippet"],
-                    "relevance_score": hit.get("score", 0),
-                    "code": hit["code"],
-                    "source_type": "snippet_library"
-                })
-        except ImportError:
-            logger.warning("snippet_library not installed; skipping legacy snippet retrieval")
-
         # Sort examples by relevance score (descending)
         examples.sort(key=lambda x: x.get("relevance_score", 0), reverse=True)
 
@@ -635,21 +601,34 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 response = resp.get("response", "")
                 clarification_text += f"Question: {question}\nResponse: {response}\n\n"
         
-        # Create enhanced prompts
-        system_prompt = (
-            "You are an expert Python data-analysis assistant specializing in paleoclimate data. "
-            "You have access to comprehensive context including code snippets, documentation, "
-            "and previous code. Generate complete, executable code that integrates seamlessly "
-            "with existing variables and follows established patterns. "
-            "Use PyLiPD, Pyleoclim, pandas, numpy, and matplotlib as appropriate. "
-            "Return your response as JSON with keys: code, description, libraries, outputs."
-        )
-        
+        # Include previous agent output context if available
+        prev_ctx_lines = []
+        prev_ctx = state.context or {}
+        if prev_ctx.get("prev_sparql_query"):
+            prev_ctx_lines.append("PREVIOUS SPARQL QUERY:\n```sparql\n" + prev_ctx["prev_sparql_query"] + "\n```")
+        if prev_ctx.get("prev_query_results"):
+            sample_results = prev_ctx["prev_query_results"]
+            try:
+                import json as _json
+                prev_ctx_lines.append("PREVIOUS SPARQL RESULTS (truncated):\n" + _json.dumps(sample_results[:3], indent=2) + ("\n..." if len(sample_results) > 3 else ""))
+            except Exception:
+                prev_ctx_lines.append("PREVIOUS SPARQL RESULTS present (unable to display)\n")
+        if prev_ctx.get("prev_generated_code"):
+            code_snip = prev_ctx["prev_generated_code"]
+            prev_ctx_lines.append("PREVIOUS GENERATED CODE:\n```python\n" + (code_snip[:400] + ("\n..." if len(code_snip) > 400 else "")) + "\n```")
+        if prev_ctx.get("prev_workflow_plan"):
+            prev_ctx_lines.append("PREVIOUS WORKFLOW PLAN PROVIDED (refer to steps as needed).")
+        if prev_ctx.get("prev_execution_results"):
+            prev_ctx_lines.append(f"PREVIOUS EXECUTION RESULTS: {len(prev_ctx['prev_execution_results'])} items available for reference.")
+
+        previous_context_section = "\n\n".join(prev_ctx_lines)
+
         user_prompt = (
             f"ANALYSIS REQUEST: {analysis_request}{clarification_text}\n\n"
             f"DATA CONTEXT: {data_context}\n"
             f"ANALYSIS TYPE: {analysis_type}\n"
             f"OUTPUT FORMAT: {output_format}\n\n"
+            f"{previous_context_section}\n\n" if previous_context_section else "" +
             f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
             f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
             "INSTRUCTIONS:\n"
@@ -670,7 +649,12 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         
         logger.info("Calling LLM to generate enhanced code...")
         messages = [
-            SystemMessage(content=system_prompt),
+            SystemMessage(content="You are an expert Python data-analysis assistant specializing in paleoclimate data. "
+                                 "You have access to comprehensive context including code snippets, documentation, "
+                                 "and previous code. Generate complete, executable code that integrates seamlessly "
+                                 "with existing variables and follows established patterns. "
+                                 "Use PyLiPD, Pyleoclim, pandas, numpy, and matplotlib as appropriate. "
+                                 "Return your response as JSON with keys: code, description, libraries, outputs."),
             HumanMessage(content=user_prompt)
         ]
         
@@ -779,6 +763,7 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         return {
             "messages": messages,
             "execution_results": execution_results,
+            "generated_code": generated_code,
             "needs_clarification": False,
             "final_status": final_status
         }

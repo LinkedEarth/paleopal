@@ -41,24 +41,15 @@ class SearchIntegrationService:
             List of workflow matches with metadata
         """
         try:
-            # Check if workflow index exists
-            index_dir = self.notebook_library_dir / "notebook_index"
-            if not index_dir.exists():
-                logger.warning("Workflow index not found. Skipping workflow search.")
-                return []
-            
-            # Import and call the search function directly
-            try:
-                from libraries.notebook_library.search_workflows import search_workflows
-                results = search_workflows(query, top_k=top_k, index_dir=index_dir)
-                return results if isinstance(results, list) else []
-            except ImportError as e:
-                logger.error(f"Failed to import search_workflows: {e}")
-                return []
-            except FileNotFoundError as e:
-                logger.warning(f"Workflow index not found: {e}")
-                return []
-                
+            # Import and call the Qdrant-backed search function directly
+            from libraries.notebook_library.search_workflows import search_workflows as _search_workflows
+
+            results = _search_workflows(query, limit=top_k)
+            return results if isinstance(results, list) else []
+
+        except ImportError as e:
+            logger.error(f"Failed to import notebook_library.search_workflows: {e}")
+            return []
         except Exception as e:
             logger.error(f"Error searching workflows: {e}")
             return []
@@ -75,28 +66,15 @@ class SearchIntegrationService:
             List of method matches with metadata
         """
         try:
-            # Check if methods index exists
-            index_dir = self.literature_library_dir / "methods_index"
-            if not index_dir.exists():
-                logger.warning("Methods index not found. Skipping methods search.")
-                return []
-            
-            # Import and call the search function directly
-            try:
-                from libraries.literature_library.index_methods import search_methods_index
-                results = search_methods_index(
-                    query=query,
-                    index_dir=index_dir,
-                    top_k=top_k
-                )
-                return results if isinstance(results, list) else []
-            except ImportError as e:
-                logger.error(f"Failed to import index_methods: {e}")
-                return []
-            except RuntimeError as e:
-                logger.warning(f"Methods index not available: {e}")
-                return []
-                
+            # Import and call the Qdrant-backed search function directly
+            from libraries.literature_library.search_methods import search_methods as _search_methods
+
+            results = _search_methods(query, limit=top_k)
+            return results if isinstance(results, list) else []
+
+        except ImportError as e:
+            logger.error(f"Failed to import literature_library.search_methods: {e}")
+            return []
         except Exception as e:
             logger.error(f"Error searching methods: {e}")
             return []
@@ -113,38 +91,29 @@ class SearchIntegrationService:
             List of code snippet matches with metadata
         """
         try:
-            # Check if snippet index exists
-            index_dir = self.notebook_library_dir / "notebook_index"
-            if not index_dir.exists():
-                logger.warning("Notebook/snippet index not found. Skipping snippet search.")
-                return []
-            
-            # Import and call the search function directly
-            try:
-                from libraries.notebook_library.search_snippets import search
-                results = search(query, index_dir=index_dir, top_k=top_k)
-                
-                # Enhance results with additional metadata for code generation
-                enhanced_results = []
-                for result in results:
-                    enhanced_result = result.copy()
-                    enhanced_result["snippet_type"] = "code"
-                    enhanced_result["similarity_score"] = result.get("score", 0.0)
-                    
-                    # Extract useful context
-                    if "code" in result:
-                        enhanced_result["code_preview"] = result["code"][:200] + "..." if len(result["code"]) > 200 else result["code"]
-                    
-                    enhanced_results.append(enhanced_result)
-                
-                return enhanced_results
-            except ImportError as e:
-                logger.error(f"Failed to import search_snippets: {e}")
-                return []
-            except FileNotFoundError as e:
-                logger.warning(f"Snippet index not found: {e}")
-                return []
-                
+            # Import and call the Qdrant-backed search function directly
+            from libraries.notebook_library.search_snippets import search_snippets as _search_snippets
+
+            raw_results = _search_snippets(query, limit=top_k)
+
+            # Enhance results with additional metadata for code generation
+            enhanced_results = []
+            for result in raw_results:
+                enhanced_result = result.copy()
+                enhanced_result["snippet_type"] = "code"
+                enhanced_result["similarity_score"] = result.get("score", result.get("similarity_score", 0.0))
+
+                # Extract useful context
+                if "code" in result:
+                    enhanced_result["code_preview"] = result["code"][:200] + "..." if len(result["code"]) > 200 else result["code"]
+
+                enhanced_results.append(enhanced_result)
+
+            return enhanced_results
+
+        except ImportError as e:
+            logger.error(f"Failed to import notebook_library.search_snippets: {e}")
+            return []
         except Exception as e:
             logger.error(f"Error searching snippets: {e}")
             return []
@@ -161,40 +130,31 @@ class SearchIntegrationService:
             List of documentation matches with metadata
         """
         try:
-            # Check if docs index exists
-            index_dir = self.readthedocs_library_dir / "rtd_index"
-            if not index_dir.exists():
-                logger.warning("ReadTheDocs index not found. Skipping documentation search.")
-                return []
-            
-            # Import and call the search function directly
-            try:
-                from libraries.readthedocs_library.search_docs import search
-                results = search(query, top_k=top_k, index_dir=index_dir)
-                
-                # Enhance results with additional metadata
-                enhanced_results = []
-                for result in results:
-                    enhanced_result = result.copy()
-                    enhanced_result["doc_type"] = "documentation"
-                    enhanced_result["similarity_score"] = result.get("score", 0.0)
-                    
-                    # Add content preview
-                    if "content" in result:
-                        enhanced_result["content_preview"] = result["content"][:300] + "..." if len(result["content"]) > 300 else result["content"]
-                    
-                    enhanced_results.append(enhanced_result)
-                
-                return enhanced_results
-            except ImportError as e:
-                logger.error(f"Failed to import search_docs: {e}")
-                return []
-            except Exception as e:
-                logger.warning(f"Documentation search failed: {e}")
-                return []
-                
+            # Import and call the Qdrant-backed search function directly
+            from libraries.readthedocs_library.search_docs import search_docs as _search_docs
+
+            raw_results = _search_docs(query, limit=top_k)
+
+            # Enhance results with additional metadata
+            enhanced_results = []
+            for result in raw_results:
+                enhanced_result = result.copy()
+                enhanced_result["doc_type"] = result.get("doc_type", "documentation")
+                enhanced_result["similarity_score"] = result.get("score", result.get("similarity_score", 0.0))
+
+                # Add content preview
+                if "content" in result:
+                    enhanced_result["content_preview"] = result["content"][:300] + "..." if len(result["content"]) > 300 else result["content"]
+
+                enhanced_results.append(enhanced_result)
+
+            return enhanced_results
+
+        except ImportError as e:
+            logger.error(f"Failed to import readthedocs_library.search_docs: {e}")
+            return []
         except Exception as e:
-            logger.error(f"Error searching documentation: {e}")
+            logger.warning(f"Documentation search failed: {e}")
             return []
     
     async def search_code_examples(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
@@ -209,41 +169,249 @@ class SearchIntegrationService:
             List of code example matches with metadata
         """
         try:
-            # Check if code index exists
-            index_dir = self.readthedocs_library_dir / "rtd_code_index"
-            if not index_dir.exists():
-                logger.warning("ReadTheDocs code index not found. Skipping code example search.")
+            # Import and call the Qdrant-backed search function directly
+            from libraries.readthedocs_library.search_code import search_code as _search_code
+
+            raw_results = _search_code(query, limit=top_k)
+
+            # Enhance results with additional metadata
+            enhanced_results = []
+            for result in raw_results:
+                enhanced_result = result.copy()
+                enhanced_result["example_type"] = "code_example"
+                enhanced_result["similarity_score"] = result.get("score", result.get("similarity_score", 0.0))
+
+                # Add code preview
+                if "code" in result:
+                    enhanced_result["code_preview"] = result["code"][:200] + "..." if len(result["code"]) > 200 else result["code"]
+
+                enhanced_results.append(enhanced_result)
+
+            return enhanced_results
+
+        except ImportError as e:
+            logger.error(f"Failed to import readthedocs_library.search_code: {e}")
+            return []
+        except Exception as e:
+            logger.warning(f"Code example search failed: {e}")
+            return []
+    
+    async def search_sparql_queries(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
+        """
+        Search for relevant SPARQL queries from the SPARQL library.
+        
+        Args:
+            query: Search query
+            top_k: Number of results to return
+            
+        Returns:
+            List of SPARQL query matches with metadata
+        """
+        try:
+            # Check if SPARQL index exists
+            sparql_lib_path = self.base_dir / "libraries" / "sparql_library"
+            if not sparql_lib_path.exists():
+                logger.warning("SPARQL library not found. Skipping SPARQL search.")
                 return []
             
             # Import and call the search function directly
             try:
-                from libraries.readthedocs_library.search_code import search_code
-                results = search_code(query, top_k=top_k, index_dir=index_dir)
+                # Add sparql_library to path temporarily
+                import sys
+                sparql_lib_str = str(sparql_lib_path)
+                if sparql_lib_str not in sys.path:
+                    sys.path.insert(0, sparql_lib_str)
+                
+                from retrieve import retrieve_sparql_queries
+                results = retrieve_sparql_queries(query, top_k=top_k)
                 
                 # Enhance results with additional metadata
                 enhanced_results = []
                 for result in results:
                     enhanced_result = result.copy()
-                    enhanced_result["example_type"] = "code_example"
-                    enhanced_result["similarity_score"] = result.get("score", 0.0)
+                    enhanced_result["result_type"] = "sparql_query"
+                    enhanced_result["similarity_score"] = result.get("score", result.get("similarity", 0.0))
                     
-                    # Add code preview
-                    if "code" in result:
-                        enhanced_result["code_preview"] = result["code"][:200] + "..." if len(result["code"]) > 200 else result["code"]
+                    # Standardize field names
+                    if "description" not in enhanced_result and "name" in result:
+                        enhanced_result["description"] = result["name"]
+                    if "sparql" not in enhanced_result and "query" in result:
+                        enhanced_result["sparql"] = result["query"]
                     
                     enhanced_results.append(enhanced_result)
                 
                 return enhanced_results
             except ImportError as e:
-                logger.error(f"Failed to import search_code: {e}")
+                logger.error(f"Failed to import SPARQL search functions: {e}")
                 return []
             except Exception as e:
-                logger.warning(f"Code example search failed: {e}")
+                logger.warning(f"SPARQL search failed: {e}")
                 return []
                 
         except Exception as e:
-            logger.error(f"Error searching code examples: {e}")
+            logger.error(f"Error searching SPARQL queries: {e}")
             return []
+
+    async def search_ontology_entities(self, query: str, top_k: int = 5, use_term_extraction: bool = True) -> List[Dict[str, Any]]:
+        """
+        Search for relevant ontology entities from the ontology library.
+        
+        Args:
+            query: Search query
+            top_k: Number of results to return
+            use_term_extraction: Whether to use LLM-based term extraction for better results
+            
+        Returns:
+            List of ontology entity matches with metadata
+        """
+        try:
+            # Check if ontology library exists
+            ontology_lib_path = self.base_dir / "libraries" / "ontology_library"
+            if not ontology_lib_path.exists():
+                logger.warning("Ontology library not found. Skipping ontology search.")
+                return []
+            
+            # Use LLM-based term extraction for paleoclimate queries if enabled
+            search_terms = [query]  # Default to using the original query
+            
+            if use_term_extraction:
+                try:
+                    # Import here to avoid circular imports
+                    from services.service_manager import service_manager
+                    from config import DEFAULT_LLM_PROVIDER
+                    
+                    # Get LLM for term extraction
+                    llm = service_manager.get_llm_provider(DEFAULT_LLM_PROVIDER)
+                    
+                    # Extract paleoclimate terms using LLM (similar to extract_paleo_terms)
+                    search_terms = self._extract_paleo_terms_for_search(llm, query)
+                    logger.info(f"Extracted paleoclimate terms for ontology search: {search_terms}")
+                except Exception as e:
+                    logger.warning(f"Term extraction failed, using original query: {e}")
+                    search_terms = [query]
+            
+            # Import and call the search function directly
+            try:
+                # Add ontology_library to path temporarily
+                import sys
+                ontology_lib_str = str(ontology_lib_path)
+                if ontology_lib_str not in sys.path:
+                    sys.path.insert(0, ontology_lib_str)
+                
+                from search_ontology import search_entities
+                
+                # Search for entities using each extracted term
+                all_matches = []
+                for term in search_terms:
+                    term_results = search_entities(term, limit=top_k)
+                    all_matches.extend(term_results)
+                
+                # Remove duplicates based on entity URI/ID
+                seen_uris = set()
+                unique_matches = []
+                for result in all_matches:
+                    entity_id = result.get("entity_id", result.get("uri", ""))
+                    if entity_id and entity_id not in seen_uris:
+                        seen_uris.add(entity_id)
+                        
+                        # Enhance results with additional metadata
+                        enhanced_result = result.copy()
+                        enhanced_result["result_type"] = "ontology_entity"
+                        enhanced_result["similarity_score"] = result.get("score", result.get("similarity", 0.0))
+                        
+                        # Ensure required fields exist
+                        if "uri" not in enhanced_result and "entity_id" in result:
+                            enhanced_result["uri"] = result["entity_id"]
+                        if "label" not in enhanced_result and "name" in result:
+                            enhanced_result["label"] = result["name"]
+                        if "type" not in enhanced_result:
+                            enhanced_result["type"] = "Unknown"
+                        
+                        unique_matches.append(enhanced_result)
+                
+                # Sort by similarity score and limit results
+                unique_matches.sort(key=lambda x: x.get("similarity_score", 0), reverse=True)
+                return unique_matches[:top_k]
+                
+            except ImportError as e:
+                logger.error(f"Failed to import ontology search functions: {e}")
+                return []
+            except Exception as e:
+                logger.warning(f"Ontology search failed: {e}")
+                return []
+                
+        except Exception as e:
+            logger.error(f"Error searching ontology entities: {e}")
+            return []
+    
+    def _extract_paleo_terms_for_search(self, llm, user_query: str) -> List[str]:
+        """
+        Extract relevant paleoclimate terms from a user query using an LLM.
+        Similar to the extract_paleo_terms function in SPARQL handlers.
+        
+        Args:
+            llm: LLM model to use
+            user_query: Raw user query
+            
+        Returns:
+            List of extracted paleoclimate terms
+        """
+        try:
+            # Import here to avoid circular imports
+            from langchain.schema import HumanMessage, SystemMessage
+            import json
+            import re
+            
+            # Construct a prompt that asks the LLM to extract relevant terms
+            prompt = f"""Analyze this paleoclimate query and extract key domain terms that may match ontology entities:
+
+Query: "{user_query}"
+
+Extract specialized terms like:
+- Archive types (coral, ice core, speleothem, etc.)
+- Variables (d18O, temperature, precipitation, etc.)  
+- Units (permil, degrees Celsius, etc.)
+- Proxy types (radiocarbon, alkenone, etc.)
+- Geographic locations (Pacific Ocean, Atlantic, etc.)
+
+Return ONLY a JSON array of the extracted terms:
+["term1", "term2", "term3"]
+"""
+
+            # Generate the extraction using LangChain message types
+            messages = [
+                SystemMessage(content="You are a paleoclimate data expert. Extract only the relevant terms without explanation."),
+                HumanMessage(content=prompt)
+            ]
+            
+            # Execute LLM directly with the prompt
+            response = llm._call(messages).strip()
+
+            # Extract JSON from the response
+            json_pattern = re.compile(r'\[\s*".*"\s*\]', re.DOTALL)
+            match = json_pattern.search(response)
+
+            terms = []
+            if match:
+                try:
+                    terms = json.loads(match.group(0))
+                except Exception as e:
+                    logger.warning(f"Error parsing LLM output as JSON: {str(e)}")
+                    # Fallback: try to find JSON with more relaxed pattern
+                    match = re.search(r'(\[.*\])', response, re.DOTALL)
+                    if match:
+                        try:
+                            terms = json.loads(match.group(1))
+                        except Exception as e:
+                            logger.warning(f"Error parsing with relaxed pattern: {str(e)}")
+
+            logger.info(f"Extracted paleo terms: {terms}")
+            return terms if terms else [user_query]
+            
+        except Exception as e:
+            logger.error(f"Error extracting paleo terms: {e}")
+            # Return the user query as a single term as fallback
+            return [user_query]
     
     async def get_context_for_planning(self, user_query: str) -> Dict[str, Any]:
         """
@@ -294,6 +462,29 @@ class SearchIntegrationService:
             "documentation": documentation,
             "code_examples": code_examples,
             "previous_code": previous_code,
+            "query": user_query
+        }
+    
+    async def get_context_for_sparql_generation(self, user_query: str) -> Dict[str, Any]:
+        """
+        Get comprehensive context for SPARQL query generation by searching
+        similar SPARQL queries and ontology entities.
+        
+        Args:
+            user_query: The user's request for SPARQL query generation
+            
+        Returns:
+            Dictionary containing SPARQL generation context
+        """
+        # Search similar SPARQL queries (high weight)
+        similar_queries = await self.search_sparql_queries(user_query, top_k=3)
+        
+        # Search ontology entities (important for entity matching)
+        entities = await self.search_ontology_entities(user_query, top_k=5)
+        
+        return {
+            "similar_queries": similar_queries,
+            "entities": entities,
             "query": user_query
         }
     
@@ -408,6 +599,52 @@ class SearchIntegrationService:
                     sections.append(example["code"])
                     sections.append("```")
                     
+                sections.append("")  # Add spacing
+        
+        return "\n".join(sections)
+
+    def format_sparql_context_for_llm(self, context: Dict[str, Any]) -> str:
+        """
+        Format the SPARQL generation context into a text prompt for the LLM.
+        
+        Args:
+            context: Context from get_context_for_sparql_generation
+            
+        Returns:
+            Formatted text for LLM consumption
+        """
+        sections = []
+        
+        # Add similar SPARQL queries (high weight)
+        if context.get("similar_queries"):
+            sections.append("## RELEVANT SPARQL QUERIES (High Priority - Use These Queries):\n")
+            for i, query in enumerate(context["similar_queries"], 1):
+                sections.append(f"### Query {i}: {query.get('description', 'Unknown')}")
+                sections.append(f"**Similarity**: {query.get('similarity_score', 0):.3f}")
+                
+                if query.get("sparql"):
+                    sections.append("**Query**:")
+                    sections.append("```sparql")
+                    sections.append(query["sparql"])
+                    sections.append("```")
+                
+                sections.append("")  # Add spacing
+        
+        # Add ontology entities (important for entity matching)
+        if context.get("entities"):
+            sections.append("## RELEVANT ONTOLOGY ENTITIES (Important - Use These Entities):\n")
+            for i, entity in enumerate(context["entities"], 1):
+                sections.append(f"### Entity {i}: {entity.get('label', 'Unknown')}")
+                sections.append(f"**Similarity**: {entity.get('similarity_score', 0):.3f}")
+                
+                if entity.get("uri"):
+                    sections.append("**URI**:")
+                    sections.append(entity["uri"])
+                
+                if entity.get("type"):
+                    sections.append("**Type**:")
+                    sections.append(entity["type"])
+                
                 sections.append("")  # Add spacing
         
         return "\n".join(sections)
