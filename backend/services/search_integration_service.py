@@ -285,7 +285,6 @@ class SearchIntegrationService:
                     
                     # Extract paleoclimate terms using LLM (similar to extract_paleo_terms)
                     search_terms = self._extract_paleo_terms_for_search(llm, query)
-                    logger.info(f"Extracted paleoclimate terms for ontology search: {search_terms}")
                 except Exception as e:
                     logger.warning(f"Term extraction failed, using original query: {e}")
                     search_terms = [query]

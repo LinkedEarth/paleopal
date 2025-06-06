@@ -1,14 +1,16 @@
 import json
 import logging
+import sqlite3
 from pathlib import Path
 from threading import Lock
 from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
+# Data directory and SQLite DB path
 _DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 _DATA_DIR.mkdir(exist_ok=True)
-_STATE_FILE = _DATA_DIR / "conversation_states.json"
+_DB_PATH = _DATA_DIR / "conversations.db"
 
 class ConversationStateService:
     """Service for persisting SPARQL agent conversation states."""
@@ -16,36 +18,40 @@ class ConversationStateService:
     _lock = Lock()
 
     def __init__(self):
-        self._states = {}
+        self._states: Dict[str, Any] = {}
+        self._conn = sqlite3.connect(_DB_PATH, check_same_thread=False)
+        self._conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS conversation_states (
+                id TEXT PRIMARY KEY,
+                state_json TEXT NOT NULL
+            )
+            """
+        )
+        self._conn.commit()
         self._load()
 
     def _load(self):
-        if _STATE_FILE.exists():
-            try:
-                data = json.loads(_STATE_FILE.read_text())
-                self._states = data
-                logger.info(f"Loaded {len(self._states)} conversation states from disk")
-            except Exception as e:
-                logger.error(f"Error loading conversation states: {e}")
-        else:
-            logger.info("Conversation states file does not exist; starting fresh")
+        """Load all states from SQLite into memory cache."""
+        try:
+            cur = self._conn.execute("SELECT id, state_json FROM conversation_states")
+            rows = cur.fetchall()
+            self._states = {row[0]: json.loads(row[1]) for row in rows}
+            logger.info(f"Loaded {len(self._states)} conversation states from SQLite")
+        except Exception as e:
+            logger.error(f"Error loading states from SQLite: {e}")
 
-    def _save(self):
+    def _save_state_to_db(self, state_id: str, state_json_str: str):
+        """Insert or replace single state into SQLite."""
         try:
             with self._lock:
-                # Make a backup first to avoid corruption
-                backup_file = _STATE_FILE.with_suffix('.json.backup')
-                if _STATE_FILE.exists():
-                    backup_file.write_text(_STATE_FILE.read_text())
-                
-                _STATE_FILE.write_text(json.dumps(self._states, ensure_ascii=False, indent=2))
-                
-                # Remove backup after successful write
-                if backup_file.exists():
-                    backup_file.unlink()
-                    
+                self._conn.execute(
+                    "INSERT OR REPLACE INTO conversation_states (id, state_json) VALUES (?, ?)",
+                    (state_id, state_json_str),
+                )
+                self._conn.commit()
         except Exception as e:
-            logger.error(f"Error saving conversation states: {e}")
+            logger.error(f"Error saving state {state_id} to SQLite: {e}")
 
     def get(self, state_id: str) -> Optional[Dict[str, Any]]:
         return self._states.get(state_id)
@@ -134,7 +140,8 @@ class ConversationStateService:
             json.dumps(state_copy)
             
             self._states[state_id] = state_copy
-            self._save()
+            state_json_str = json.dumps(state_copy, ensure_ascii=False)
+            self._save_state_to_db(state_id, state_json_str)
             logger.debug(f"Saved conversation state for {state_id}")
         except Exception as e:
             logger.error(f"Error setting conversation state for {state_id}: {e}")
@@ -143,8 +150,10 @@ class ConversationStateService:
         try:
             if state_id in self._states:
                 del self._states[state_id]
-                self._save()
-                logger.debug(f"Deleted conversation state for {state_id}")
+            with self._lock:
+                self._conn.execute("DELETE FROM conversation_states WHERE id = ?", (state_id,))
+                self._conn.commit()
+            logger.debug(f"Deleted conversation state for {state_id}")
         except Exception as e:
             logger.error(f"Error deleting conversation state for {state_id}: {e}")
 

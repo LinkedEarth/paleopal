@@ -16,6 +16,7 @@ import logging
 import uuid
 import json
 import os
+import sqlite3
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -37,9 +38,10 @@ from utils.agent_utils import route_agent_request_with_custom_config
 
 logger = logging.getLogger(__name__)
 
-# Workflow storage directory
-WORKFLOW_STORE_DIR = Path("data/workflows")
-WORKFLOW_STORE_FILE = WORKFLOW_STORE_DIR / "workflow_plans.json"
+# SQLite DB path (shared with conversation data)
+DATA_DIR = Path("data")
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+DB_PATH = DATA_DIR / "conversations.db"
 
 class WorkflowPlan(BaseModel):
     """Model for a workflow plan returned by the *plan_workflow* capability."""
@@ -122,10 +124,21 @@ class WorkflowManagerAgent(BaseAgent):
             )
         )
 
-        # Internal store for workflow plans keyed by workflow_id
+        # Internal in-memory cache
         self._workflow_store: Dict[str, WorkflowPlan] = {}
-        
-        # Load existing workflows from disk on startup
+
+        # SQLite connection
+        self._conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+        self._conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS workflow_plans (
+                id TEXT PRIMARY KEY,
+                plan_json TEXT NOT NULL
+            )
+            """
+        )
+        self._conn.commit()
+
         self._load_workflows()
 
     # ---------------------------------------------------------------------
@@ -588,51 +601,35 @@ Return only the JSON object, no additional text."""
             },
         )
 
-    def _save_workflows(self) -> None:
-        """Save workflow plans to disk."""
+    def _save_workflow_to_db(self, workflow_id: str, plan: WorkflowPlan) -> None:
         try:
-            # Ensure directory exists
-            WORKFLOW_STORE_DIR.mkdir(parents=True, exist_ok=True)
-            
-            # Convert WorkflowPlan objects to dictionaries for JSON serialization
-            serializable_store = {}
-            for workflow_id, plan in self._workflow_store.items():
-                serializable_store[workflow_id] = plan.model_dump()
-            
-            # Save to file
-            with open(WORKFLOW_STORE_FILE, 'w') as f:
-                json.dump(serializable_store, f, indent=2)
-                
-            logger.debug(f"Saved {len(self._workflow_store)} workflows to {WORKFLOW_STORE_FILE}")
-            
+            plan_json = json.dumps(plan.model_dump(), ensure_ascii=False)
+            self._conn.execute(
+                "INSERT OR REPLACE INTO workflow_plans (id, plan_json) VALUES (?, ?)",
+                (workflow_id, plan_json),
+            )
+            self._conn.commit()
         except Exception as e:
-            logger.error(f"Failed to save workflows: {e}")
+            logger.error(f"Failed to save workflow {workflow_id} to DB: {e}")
 
     def _load_workflows(self) -> None:
-        """Load workflow plans from disk."""
+        """Load workflow plans from SQLite into memory cache."""
         try:
-            if not WORKFLOW_STORE_FILE.exists():
-                logger.debug("No existing workflow file found, starting with empty store")
-                return
-                
-            with open(WORKFLOW_STORE_FILE, 'r') as f:
-                serializable_store = json.load(f)
-            
-            # Convert dictionaries back to WorkflowPlan objects
-            for workflow_id, plan_data in serializable_store.items():
-                self._workflow_store[workflow_id] = WorkflowPlan(**plan_data)
-                
-            logger.info(f"Loaded {len(self._workflow_store)} workflows from {WORKFLOW_STORE_FILE}")
-            
+            cur = self._conn.execute("SELECT id, plan_json FROM workflow_plans")
+            for wid, pjson in cur.fetchall():
+                try:
+                    plan_data = json.loads(pjson)
+                    self._workflow_store[wid] = WorkflowPlan(**plan_data)
+                except Exception as e:
+                    logger.warning(f"Skipping invalid workflow plan {wid}: {e}")
+            logger.info(f"Loaded {len(self._workflow_store)} workflow plans from DB")
         except Exception as e:
-            logger.error(f"Failed to load workflows: {e}")
-            # Continue with empty store if loading fails
-            self._workflow_store = {}
+            logger.error(f"Failed to load workflow plans from DB: {e}")
 
     def _store_workflow(self, workflow_id: str, plan: WorkflowPlan) -> None:
-        """Store a workflow plan and persist to disk."""
+        """Store a workflow plan and persist to SQLite."""
         self._workflow_store[workflow_id] = plan
-        self._save_workflows()
+        self._save_workflow_to_db(workflow_id, plan)
 
     def _get_workflow(self, workflow_id: str) -> Optional[WorkflowPlan]:
         """Get a workflow plan from storage."""

@@ -10,7 +10,6 @@ from typing import Optional, Dict, Any
 from langchain_core.language_models import BaseLanguageModel
 
 # Import services
-from services.embedding_manager import embedding_manager
 from services.sparql_service import SPARQLService
 
 # Import LLM provider factory
@@ -30,19 +29,8 @@ class ServiceManager:
         self._sparql_service: Optional[SPARQLService] = None
         self._llm_cache: Dict[str, BaseLanguageModel] = {}
         
-        # Preload default embeddings to improve first-request performance
-        self._preload_embeddings()
-        
         logger.info("ServiceManager initialized")
-    
-    def _preload_embeddings(self):
-        """Preload default embedding models to improve performance."""
-        try:
-            logger.info("Preloading default embedding models...")
-            embedding_manager.preload_default_embeddings()
-            logger.info("Default embedding models preloaded successfully")
-        except Exception as e:
-            logger.warning(f"Failed to preload embedding models: {e}")
+
     
     def get_sparql_service(self, endpoint_url: str = None) -> SPARQLService:
         """
@@ -89,21 +77,12 @@ class ServiceManager:
             self._llm_cache[cache_key] = llm
             
         return self._llm_cache[cache_key]
-    
-    def get_embedding_cache_info(self) -> Dict[str, str]:
-        """Get information about cached embedding models."""
-        return embedding_manager.get_cache_info()
-    
-    def clear_embedding_cache(self):
-        """Clear embedding model cache."""
-        embedding_manager.clear_cache()
-    
+
     def get_service_status(self) -> Dict[str, Any]:
         """Get status of all services."""
         return {
             "sparql_service_initialized": self._sparql_service is not None,
             "llm_providers_cached": list(self._llm_cache.keys()),
-            "embedding_models_cached": list(embedding_manager.get_cache_info().keys()),
             "note": "Vector search now handled by unified Qdrant libraries"
         }
 
