@@ -147,15 +147,27 @@ class ConversationStateService:
             logger.error(f"Error setting conversation state for {state_id}: {e}")
 
     def delete(self, state_id: str):
+        logger.info(f"Attempting to delete conversation state: {state_id}")
         try:
+            # Check if state exists in memory cache
+            existed_in_memory = state_id in self._states
+            logger.info(f"State {state_id} existed in memory cache: {existed_in_memory}")
+            
             if state_id in self._states:
                 del self._states[state_id]
+                logger.info(f"Removed state {state_id} from memory cache")
+            
+            # Delete from database
             with self._lock:
-                self._conn.execute("DELETE FROM conversation_states WHERE id = ?", (state_id,))
+                cursor = self._conn.execute("DELETE FROM conversation_states WHERE id = ?", (state_id,))
                 self._conn.commit()
-            logger.debug(f"Deleted conversation state for {state_id}")
+                rows_deleted = cursor.rowcount
+                logger.info(f"Deleted {rows_deleted} rows from conversation_states table for state_id: {state_id}")
+            
+            logger.info(f"Successfully deleted conversation state for {state_id}")
         except Exception as e:
             logger.error(f"Error deleting conversation state for {state_id}: {e}")
+            raise
 
     def clear_old_states(self, max_age_days: int = 30):
         """Clear states older than max_age_days (if we had timestamps)"""

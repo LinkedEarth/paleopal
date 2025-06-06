@@ -54,6 +54,9 @@ class WorkflowPlan(BaseModel):
     # runtime info (not part of initial planning)
     waiting_step: Optional[str] = None
     step_conversations: Dict[str, str] = Field(default_factory=dict)
+    
+    # track which conversation created this workflow plan
+    creator_conversation_id: Optional[str] = None
 
 
 class WorkflowManagerAgent(BaseAgent):
@@ -184,6 +187,8 @@ class WorkflowManagerAgent(BaseAgent):
         user_request = request.user_input.strip()
         workflow_id = str(uuid.uuid4())
 
+        logger.info(f"Creating workflow plan {workflow_id} with conversation_id: {request.conversation_id}")
+
         try:
             # Get context from notebook workflows and literature methods
             logger.info("Searching for contextual guidance for workflow planning...")
@@ -242,6 +247,7 @@ class WorkflowManagerAgent(BaseAgent):
                 steps=steps,
                 estimated_steps=len(steps),
                 agents_involved=agents_involved,
+                creator_conversation_id=request.conversation_id,
             ))
 
             logger.info("Planned workflow %s with %d steps using %d workflow examples and %d method examples", 

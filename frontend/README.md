@@ -1,71 +1,57 @@
-# PaleoPal SPARQL Chatbot Frontend
+# PaleoPal Front-End
 
-A chat-bot style interface for interacting with the PaleoPal SPARQL generation API.
+React SPA that talks to the **multi-agent** PaleoPal backend and visualises:
 
-## Features
+* real-time LangGraph execution progress (per-message progress widgets)
+* workflow planning / execution, SPARQL generation & Python code generation
+* clarification question/answer flow
 
-- Chat interface for natural language queries
-- Support for handling clarification questions
-- LLM provider selection (OpenAI, Anthropic, Ollama)
-- Split-pane layout with chat on one side and results on the other
-- Display of generated SPARQL queries with syntax highlighting
-- Display of query execution results in a tabular format
-- Copy to clipboard functionality for SPARQL queries
+## Major UI features
 
-## Prerequisites
+| Feature | Notes |
+|---------|-------|
+| Multi-agent selector | Switch between Workflow-Planner, Code-Generator, SPARQL-Generator. |
+| SSE streaming | Uses `fetch(..., { mode: "cors" })` + `ReadableStream` to render progress live. |
+| Per-message progress | Each user message gets its own `AgentProgressDisplay` showing node-by-node status. |
+| Query & Results panes | SPARQL, generated Python code, workflow plans, execution results – all nicely formatted. |
+| Clarification UX | Detects needs, presents questions, collects answers, sends back to backend. |
 
-- Node.js (v14 or newer)
-- npm or yarn
-- PaleoPal Backend API running on port 8000
-
-## Setup and Installation
-
-1. Install the dependencies:
+## Quick start
 
 ```bash
-npm install
-# or with yarn
-yarn install
+cd frontend
+npm install   # installs React, axios, react-syntax-highlighter …
+
+# dev server (proxy to backend at :8000)
+npm start     # http://localhost:3000
 ```
 
-2. Start the development server:
+The `package.json` proxy points to the FastAPI server running on `localhost:8000`.
+
+## Build
 
 ```bash
-npm start
-# or with yarn
-yarn start
+npm run build   # production build in ./build
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser to use the application.
+## Directory structure
 
-## Usage
+```
+frontend/
+  src/
+    components/
+      ChatApp.js          – conversation list + active window
+      ChatWindow.js       – main chat UI and logic
+      AgentProgressDisplay.js (inlined) – node progress widget
+```
 
-1. Select your preferred LLM provider from the dropdown menu at the top of the chat.
-2. Type your natural language query about paleoclimate data in the chat input.
-3. The system will generate a SPARQL query based on your request.
-4. If clarification is needed, the system will ask a question - respond to provide more context.
-5. Once the SPARQL query is generated, it will be displayed on the right side along with its execution results.
-6. You can copy the SPARQL query to clipboard for use in other applications.
+## Environment variables
 
-## API Integration
+If you want to target a different back-end URL, edit the `proxy` field in `package.json` or create a `.env` file with `REACT_APP_API_BASE`. (The code falls back to `/` which works with the dev-proxy.)
 
-The frontend connects to the PaleoPal backend API endpoints:
+## New in May 2025
 
-- `/sparql/generate` - Generates SPARQL queries from natural language
-- `/sparql/execute` - Executes SPARQL queries (used indirectly via generate)
-
-The application uses axios for API requests and handles the proper format for clarification responses.
-
-## Development
-
-The frontend is built with:
-
-- React - UI library
-- Axios - API requests
-- react-syntax-highlighter - SPARQL query syntax highlighting
-
-The application follows a component-based architecture with:
-
-- `App.js` - Main application component with layout
-- `ChatWindow.js` - Chat interface for queries and responses
-- `ResultPane.js` - Display of SPARQL queries and results 
+* Per-message streaming progress
+* Cross-agent context passing (SPARQL → Code, etc.)
+* Removal of `localStorage` in favour of server-side conversation persistence
+* Frontend no longer stores any chat state locally – refresh pulls conversation list from backend. 
