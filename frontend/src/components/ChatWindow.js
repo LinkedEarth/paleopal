@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
-import './ChatWindow.css';
 import { AgentProgressDisplay } from './AgentProgressDisplay';
 import QueryAndResultsMessage from './QueryAndResultsMessage';
 import ClarificationMessage from './ClarificationMessage';
 import ClarificationResponseMessage from './ClarificationResponseMessage';
-import { parseClarificationQuestions } from '../utils/parse';
+import GeneratedCodeDisplay from './GeneratedCodeDisplay';
+import { buildApiUrl, apiRequest } from '../config/api';
 
 const LLM_PROVIDERS = [
   { id: 'openai', name: 'OpenAI' },  
@@ -39,8 +39,130 @@ const AGENT_TYPES = [
   }
 ];
 
+// Message service utility for new API
+const messageService = {
+  async createMessage(conversationId, role, content, messageType = 'chat', agentType = null) {
+    const url = buildApiUrl('/messages/');
+    return await apiRequest(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        conversation_id: conversationId,
+        role,
+        content,
+        message_type: messageType,
+        agent_type: agentType
+      })
+    });
+  },
+
+  async updateMessage(messageId, updateData) {
+    const url = buildApiUrl(`/messages/${messageId}`);
+    return await apiRequest(url, {
+      method: 'PUT',
+      body: JSON.stringify(updateData)
+    });
+  },
+
+  async getConversationMessages(conversationId, includeProgress = false) {
+    const url = buildApiUrl(`/messages/conversation/${conversationId}?include_progress=${includeProgress}`);
+    console.log(`🔍 Fetching messages from: ${url}`);
+    const result = await apiRequest(url);
+    console.log(`📝 Messages API response:`, result);
+    return result;
+  },
+
+  async createProgressMessage(ownerMessageId, nodeName, phase, content = '', metadata = null) {
+    const url = buildApiUrl('/messages/progress');
+    return await apiRequest(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        owner_message_id: ownerMessageId,
+        node_name: nodeName,
+        phase,
+        content,
+        metadata
+      })
+    });
+  }
+};
+
+// Utility function to convert backend message format to frontend format
+const convertBackendMessagesToFrontend = (backendMessages) => {
+  return backendMessages.map(msg => {
+    const baseMessage = {
+      id: msg.id,
+      role: msg.role,
+      content: msg.content,
+      timestamp: msg.created_at,
+      agentType: msg.agent_type,
+      messageType: msg.message_type,
+      
+      // Agent results
+      sparqlQuery: msg.query_generated,
+      queryResults: msg.query_results,
+      generatedCode: msg.query_generated,
+      executionResults: msg.execution_results,
+      
+      // Workflow data - default mapping
+      workflowPlan: msg.workflow_plan,
+      workflowId: msg.workflow_id,
+      failedSteps: msg.failed_steps,
+      
+      // Progress tracking
+      isNodeProgress: msg.is_node_progress,
+      ownerId: msg.owner_message_id,
+      phase: msg.phase,
+      nodeName: msg.node_name,
+      
+      // UI flags - these are crucial for special UIs!
+      hasQueryResults: msg.has_query_results,
+      hasGeneratedCode: msg.has_generated_code,
+      hasWorkflowPlan: msg.has_workflow_plan,
+      hasWorkflowExecution: msg.has_workflow_execution,
+      
+      // Similar results for display
+      similarResults: msg.similar_results,
+      entityMatches: msg.entity_matches,
+      
+      // Clarification
+      needsClarification: msg.needs_clarification,
+      clarificationQuestions: msg.clarification_questions,
+      
+      // Check if this is a clarification response message
+      isCombinedAnswers: msg.message_type === 'clarification_response',
+      
+      // Metadata
+      metadata: msg.metadata
+    };
+
+    // Special handling for workflow agent: JSON workflow is stored in query_generated
+    if (msg.agent_type === 'workflow_manager' && msg.query_generated) {
+      try {
+        // Try to parse as JSON workflow
+        const workflowData = JSON.parse(msg.query_generated);
+        if (workflowData && workflowData.steps && Array.isArray(workflowData.steps)) {
+          baseMessage.workflowPlan = msg.query_generated; // This is the JSON workflow
+          baseMessage.isJsonWorkflow = true; // Flag to indicate this is JSON format
+        }
+      } catch (e) {
+        // If not valid JSON, check if it's a Mermaid flowchart (backward compatibility)
+        if (msg.query_generated.includes('flowchart')) {
+          baseMessage.workflowPlan = msg.query_generated; // This is the Mermaid code
+          baseMessage.isJsonWorkflow = false; // Flag to indicate this is legacy Mermaid format
+        }
+      }
+    }
+
+    return baseMessage;
+  });
+};
 
 const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
+  // Debug logging to see what conversation object we're receiving
+  // console.log('💬 ChatWindow received conversation:', conversation);
+  // console.log('💬 Conversation ID:', conversation.id);
+  // console.log('💬 Conversation messages:', conversation.messages);
+  
   // Use conversation data if provided, otherwise default greeting
   const defaultGreeting = [{
     id: 1,
@@ -50,7 +172,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
 
   const [messages, setMessages] = useState(conversation.messages?.length ? conversation.messages : defaultGreeting);
   const [inputValue, setInputValue] = useState('');
-  const [stateId, setStateId] = useState(conversation.stateId || null);
   const [waitingForClarification, setWaitingForClarification] = useState(conversation.waitingForClarification || false);
   const [clarificationQuestions, setClarificationQuestions] = useState(conversation.clarificationQuestions || []);
   const [llmProvider, setLlmProvider] = useState(conversation.llmProvider || 'google');
@@ -71,12 +192,18 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const messagesContainerRef = useRef(null);
+  const lastVisibleMessageCountRef = useRef(0);
 
   // Keep track of when we're updating from conversation prop to avoid loops
   const updatingFromPropRef = useRef(false);
   
   // Previous conversation ID to detect conversation switches
-  const prevConversationIdRef = useRef(conversation.id);
+  const prevConversationIdRef = useRef(null);
+
+  // Add refs for step execution tracking
+  const stepCompletionResolver = useRef(null);
+  const stepExecutionInProgress = useRef(false);
   
   // Memoize conversation data to prevent unnecessary updates
   const conversationData = useMemo(() => {
@@ -117,7 +244,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       id: conversation.id,
       title,
       messages, // Still use local messages state for UI rendering (real-time updates)
-      stateId,
       waitingForClarification,
       clarificationQuestions,
       clarificationAnswers,
@@ -130,52 +256,94 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       clarificationThreshold,
       executionStartTime,
     };
-  }, [conversation.id, conversation.title, conversation.messages, messages, stateId, waitingForClarification, 
+  }, [conversation.id, conversation.title, conversation.messages, messages, waitingForClarification, 
       clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, 
       selectedAgent, isLoading, error, enableClarification, clarificationThreshold, executionStartTime]);
 
   // Effect to notify parent about conversation updates
   useEffect(() => {
     // Only update parent if we're not currently updating from props (avoid circular updates)
+    // AND we're not in the middle of polling updates
     if (!updatingFromPropRef.current && onConversationUpdate && typeof onConversationUpdate === 'function') {
+      console.log('🔄 Updating parent with conversation data');
       onConversationUpdate(conversationData);
+    } else if (updatingFromPropRef.current) {
+      console.log('⏸️ Skipping parent update (updating from props or polling)');
     }
   }, [conversationData, onConversationUpdate]);
 
   // Effect to sync with conversation prop changes (when switching conversations)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    // console.log('🔄 ChatWindow useEffect triggered!');
+    // console.log('🔄 Current conversation.id:', conversation.id);
+    // console.log('🔄 Previous conversation ID:', prevConversationIdRef.current);
+    
     // Only sync when the conversation ID actually changes (conversation switch)
     if (conversation.id && conversation.id !== prevConversationIdRef.current) {
+      console.log('✅ Conversation ID changed, loading messages...');
       updatingFromPropRef.current = true;
       
-      // If we're switching away from a conversation with an active request,
-      // we need to be more careful about state management
-      const isNewConversation = !conversation.messages || conversation.messages.length === 0;
-      
-      // Update messages if the conversation has different messages
-      if (conversation.messages?.length) {
-        setMessages(conversation.messages);
+      // Load messages from the new API
+      const loadMessages = async () => {
+        try {
+          console.log(`🔍 Loading messages for conversation ${conversation.id}...`);
+          const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
+          console.log(`📝 Raw messages from API:`, loadedMessages);
+          
+          if (loadedMessages.length > 0) {
+            console.log(`✅ Found ${loadedMessages.length} messages`);
+            // Convert backend message format to frontend format
+            const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
+            console.log(`�� Converted messages:`, convertedMessages);
+            setMessages(convertedMessages);
+            
+            // Check if we need to restore clarification state from messages
+            // This handles cases where the last message is asking for clarification
+            const lastAssistantMessage = convertedMessages
+              .filter(msg => msg.role === 'assistant' && !msg.isNodeProgress)
+              .pop(); // Get the most recent assistant message
+              
+            if (lastAssistantMessage && lastAssistantMessage.needsClarification && lastAssistantMessage.clarificationQuestions) {
+              console.log('🔄 Detected clarification state from messages, will restore UI');
+              // Set clarification state after a brief delay to ensure other state is set
+              setTimeout(() => {
+                setWaitingForClarification(true);
+                setClarificationQuestions(lastAssistantMessage.clarificationQuestions);
+                // Clear any existing answers to start fresh
+                setClarificationAnswers({});
+              }, 100);
+            }
       } else {
+            console.log('⚠️ No messages found, using default greeting');
         setMessages(defaultGreeting);
       }
+        } catch (error) {
+          console.error('❌ Failed to load messages:', error);
+          console.error('❌ Error details:', {
+            message: error.message,
+            conversationId: conversation.id
+          });
+          setMessages(defaultGreeting);
+        }
+      };
       
-      // Restore all states from conversation
-      setStateId(conversation.stateId || null);
-      setWaitingForClarification(conversation.waitingForClarification || false);
-      setClarificationQuestions(conversation.clarificationQuestions || []);
-      setClarificationAnswers(conversation.clarificationAnswers || {});
-      setOriginalRequestContext(conversation.originalRequestContext || null);
-      setLlmProvider(conversation.llmProvider || 'google');
-      setSelectedAgent(conversation.selectedAgent || 'sparql');
-      setEnableClarification(conversation.enableClarification ?? true);
-      setClarificationThreshold(conversation.clarificationThreshold || 'conservative');
-      setExecutionStartTime(conversation.executionStartTime || null);
+      loadMessages();
       
-      // For new conversations, force loading to false regardless of stored state
-      // This prevents loading state from carrying over when creating new conversations
-      setIsLoading(isNewConversation ? false : (conversation.isLoading || false));
-      setError(conversation.error || null);
+      // Restore conversation state from the conversation object
+      setWaitingForClarification(conversation.waiting_for_clarification || false);
+      setClarificationQuestions(conversation.clarification_questions || []);
+      setClarificationAnswers(conversation.clarification_answers || {});
+      setOriginalRequestContext(conversation.original_request || null);
+      setLlmProvider(conversation.llm_provider || 'google');
+      setSelectedAgent(conversation.selected_agent || 'sparql');
+      setEnableClarification(conversation.enable_clarification ?? true);
+      setClarificationThreshold(conversation.clarification_threshold || 'conservative');
+      setExecutionStartTime(null); // Reset execution time
+      
+      // Reset UI state for new conversation
+      setIsLoading(false);
+      setError(null);
       
       // Clear input value when switching conversations
       setInputValue('');
@@ -186,13 +354,46 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       // Reset the flag after a brief delay to allow state updates to settle
       setTimeout(() => {
         updatingFromPropRef.current = false;
-      }, 0);
+      }, 100);
+    } else {
+      // console.log('❌ Not loading messages because:');
+      // console.log('  - Has conversation.id?', !!conversation.id);
+      // console.log('  - ID changed?', conversation.id !== prevConversationIdRef.current);
+      // console.log('  - Same as before?', conversation.id === prevConversationIdRef.current);
+      // console.log('  - prevConversationIdRef.current:', prevConversationIdRef.current);
     }
   }, [conversation.id, defaultGreeting]);
 
-  // Scroll to bottom whenever messages change or loading state changes
+  // Helper function to check if user has scrolled up
+  const isUserScrolledUp = () => {
+    if (!messagesContainerRef.current) return false;
+    const container = messagesContainerRef.current;
+    const scrolledUp = container.scrollTop < container.scrollHeight - container.clientHeight - 100;
+    return scrolledUp;
+  };
+
+  // Smart scroll to bottom - only when appropriate
+  const scrollToBottomIfNeeded = (force = false) => {
+    if (force || !isUserScrolledUp()) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Scroll to bottom only for meaningful message changes, not progress updates
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const visibleMessages = messages.filter(m => !m.isNodeProgress);
+    const currentVisibleCount = visibleMessages.length;
+    const lastVisibleCount = lastVisibleMessageCountRef.current;
+    
+    // Only auto-scroll if:
+    // 1. We have new visible (non-progress) messages
+    // 2. We're loading (to show loading state)
+    // 3. Force scroll on conversation switch
+    if (currentVisibleCount > lastVisibleCount || isLoading || updatingFromPropRef.current) {
+      scrollToBottomIfNeeded(updatingFromPropRef.current);
+    }
+    
+    lastVisibleMessageCountRef.current = currentVisibleCount;
   }, [messages, isLoading]);
 
   // Focus input field on load
@@ -224,11 +425,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     
     setSelectedAgent(newAgent);
     // Reset conversation state when switching agents
-    setStateId(null);
-    setWaitingForClarification(false);
-    setClarificationQuestions([]);
-    setClarificationAnswers({});
-    setOriginalRequestContext(null);
     setError(null);
     
     // Reset the flag after state updates complete
@@ -239,18 +435,30 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
 
   // Update clarification answer for a specific question
   const handleClarificationChoice = (questionId, choice) => {
+    console.log('🔄 User selected choice for question', questionId, ':', choice);
+    
+    // Update the local state only - do NOT update the conversation
     setClarificationAnswers(prev => ({
       ...prev,
       [questionId]: choice
     }));
+    
+    // Note: We no longer update the conversation here. The conversation will only
+    // be updated when all answers are submitted and the backend processes them.
   };
 
   // Update clarification answer input
   const handleClarificationAnswerChange = (questionId, value) => {
+    console.log('🔄 User entered answer for question', questionId, ':', value);
+    
+    // Update the local state only - do NOT update the conversation
     setClarificationAnswers(prev => ({
       ...prev,
       [questionId]: value
     }));
+    
+    // Note: We no longer update the conversation here. The conversation will only
+    // be updated when all answers are submitted and the backend processes them.
   };
   
   // Handle workflow execution
@@ -272,7 +480,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         agent_type: 'workflow_manager',
         capability: 'execute_workflow',
         user_input: workflowId,
-        conversation_id: stateId,
+        conversation_id: conversation.id,
         context: { workflow_id: workflowId },
         metadata: {
           llm_provider: llmProvider,
@@ -284,90 +492,25 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
 
       // console.log('Executing workflow:', agentRequest);
 
-      // Send request to execute workflow
-      const response = await axios.post('/agents/request', agentRequest);
-      const data = response.data;
-
-      // console.log('Workflow execution response:', data);
-
-      if (data.status === 'needs_clarification') {
-        // Handle clarification for workflow execution
-        setStateId(data.conversation_id);
-        setWaitingForClarification(true);
-        setClarificationAnswers({});
+      // Send request to execute workflow via async endpoint (same as other requests)
+      const requestUrl = buildApiUrl('/agents/request/async');
+      const result = await apiRequest(requestUrl, {
+        method: 'POST',
+        body: JSON.stringify(agentRequest)
+      });
         
-        // Store the original request context for workflow execution
-        setOriginalRequestContext({
-          agentType: 'workflow_manager',
-          capability: 'execute_workflow',
-          workflowId: workflowId,
-          context: { workflow_id: workflowId },
-          metadata: {
-            llm_provider: llmProvider,
-            workflow_id: workflowId,
-            enable_clarification: enableClarification,
-            clarification_threshold: clarificationThreshold
-          }
-        });
-        
-        if (data.clarification_questions && data.clarification_questions.length > 0) {
-          setClarificationQuestions(data.clarification_questions);
-        } else {
-          const parsedQuestions = parseClarificationQuestions(data.message);
-          setClarificationQuestions(parsedQuestions);
-        }
-        
-        const assistantMessage = { 
-          id: Date.now(), 
-          role: 'assistant', 
-          content: data.message,
-          needsClarification: true,
-          clarificationQuestions: data.clarification_questions
-        };
-        setMessages(prev => [...prev, assistantMessage]);
-      } else if (data.status === 'success') {
-        // Handle successful workflow execution
-        setStateId(data.conversation_id);
-        
-        const executionResults = data.result?.execution_results;
-        const failedSteps = data.result?.failed_steps;
-        
-        const resultsMessage = {
-          id: Date.now(),
-          role: 'assistant',
-          content: data.message || 'Workflow executed successfully!',
-          hasWorkflowExecution: true,
-          workflowId: workflowId,
-          executionResults: executionResults,
-          failedSteps: failedSteps
-        };
-        
-        setMessages(prev => [...prev, resultsMessage]);
-        setOriginalRequestContext(null);
-      } else {
-        // Handle error
-        console.error('Workflow execution error:', data.status);
-        setError(data.message || 'Error executing workflow');
-        
-        const errorMessage = {
-          id: Date.now(),
-          role: 'assistant',
-          content: `Sorry, I encountered an error executing the workflow: ${data.message || 'Unknown error'}`,
-          isError: true
-        };
-        setMessages(prev => [...prev, errorMessage]);
+      if (result.error) {
+        throw new Error(result.error);
       }
+
+      console.log('Workflow execution request queued:', result);
+
+      // Start polling for new messages (same as other requests)
+      startPollingForMessages(conversation.id);
+
     } catch (error) {
       console.error('Error executing workflow:', error);
-      setError(error.response?.data?.detail || 'Error executing workflow');
-      
-      const errorMessage = {
-        id: Date.now(),
-        role: 'assistant',
-        content: `Sorry, I encountered an error executing the workflow: ${error.response?.data?.detail || error.message}`,
-        isError: true
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      setError(error.response?.data?.detail || error.message || 'Error executing workflow');
       
       // Reset clarification state on error but keep conversation state
       setWaitingForClarification(false);
@@ -379,420 +522,296 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     }
   };
 
+  // Handle step-by-step workflow execution
+  const handleExecuteStep = async (stepInfo) => {
+    try {
+      console.log('Executing workflow step:', stepInfo);
+      
+      // Set up step execution tracking
+      stepExecutionInProgress.current = true;
+      
+      // Create a promise that will be resolved when the step completes
+      const stepCompletionPromise = new Promise((resolve, reject) => {
+        stepCompletionResolver.current = resolve;
+        
+        // Set up a timeout
+        setTimeout(() => {
+          if (stepCompletionResolver.current) {
+            stepCompletionResolver.current = null;
+            stepExecutionInProgress.current = false;
+            reject(new Error('Step execution timeout - no response received'));
+          }
+        }, 60000); // 60 second timeout
+      });
+      
+      // Create a user message for this step
+      const stepMessage = `Step ${stepInfo.stepNumber}/${stepInfo.totalSteps}: ${stepInfo.stepName}
 
-  /**
-   * Stream an agent request via /agents/request/stream and update the chat with progress.
-   */
-  const streamAgentRequest = async (agentRequest, ownerId) => {
-    // Clear any previous progress messages before starting new request
-    setMessages(prev => prev.filter(m => !m.isNodeProgress));
-    
-    const startTime = Date.now();
-    setExecutionStartTime(startTime);
-    
-    const resp = await fetch('/agents/request/stream', {
+📋 ${stepInfo.agentType.toUpperCase()} Agent Task:
+${stepInfo.input}`;
+      
+      const userMessage = {
+        id: `step_${Date.now()}`,
+        role: 'user',
+        content: stepMessage
+      };
+      
+      // Add the step message to chat immediately
+      setMessages(prev => [...prev, userMessage]);
+      
+      // Wait a moment for UI to update
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Submit the step input using the existing submit logic (agent type passed directly)
+      console.log(`Executing step with agent: ${stepInfo.agentType}`);
+      await submitRequest(stepInfo.input, conversation.id, false, stepInfo.agentType);
+      
+      // Wait for the step to complete
+      await stepCompletionPromise;
+      
+      stepExecutionInProgress.current = false;
+      console.log(`Step ${stepInfo.stepNumber} completed successfully`);
+      
+    } catch (error) {
+      stepExecutionInProgress.current = false;
+      stepCompletionResolver.current = null;
+      console.error('Error executing step:', error);
+      throw new Error(`Failed to execute step: ${error.message}`);
+    }
+  };
+
+  // Update the handleSubmit to also handle clarification responses
+  const submitRequest = async (userInput, conversationId, isClariSubmission = false, overrideAgentType = null) => {
+    try {
+      // Use override agent type if provided, otherwise use current selected agent
+      const agentTypeToUse = overrideAgentType || selectedAgent;
+      
+      // For clarification submissions, include clarification responses in metadata
+      const metadata = {
+        llm_provider: llmProvider,
+        enable_clarification: enableClarification,
+        clarification_threshold: clarificationThreshold
+      };
+
+      if (isClariSubmission && Object.keys(clarificationAnswers).length > 0) {
+        // Convert clarification answers to the format expected by the agent
+        const clarificationResponses = Object.entries(clarificationAnswers).map(([questionId, answer]) => ({
+          id: questionId,
+          answer: answer
+        }));
+        metadata.clarification_responses = clarificationResponses;
+        console.log('Including clarification responses:', clarificationResponses);
+      } else if (!isClariSubmission) {
+        // Store the original query for potential clarification requests
+        setOriginalRequestContext({
+          originalQuery: userInput,
+          agentType: agentTypeToUse,
+          timestamp: new Date().toISOString()
+        });
+        console.log('🔄 Stored original query for potential clarification:', userInput);
+      }
+
+      // Prepare agent request
+      const agentRequest = {
+        agent_type: agentTypeToUse,
+        capability: AGENT_TYPES.find(a => a.id === agentTypeToUse)?.capability || 'generate_query',
+        user_input: userInput,
+        conversation_id: conversationId,
+        context: {},
+        metadata: metadata
+      };
+
+      console.log('Sending async agent request:', agentRequest);
+      console.log(`📋 Using ${agentTypeToUse.toUpperCase()} agent for request:`, userInput.substring(0, 100) + '...');
+
+      // Send async request to agent
+      const requestUrl = buildApiUrl('/agents/request/async');
+      const result = await apiRequest(requestUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'text/plain'
-      },
       body: JSON.stringify(agentRequest)
     });
 
-    if (!resp.ok || !resp.body) {
-      throw new Error(`Streaming request failed: ${resp.status}`);
-    }
-
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    let finalResponse = null;
-
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const parts = buffer.split('\n\n');
-      buffer = parts.pop() || '';
-
-      for (const part of parts) {
-        if (!part.startsWith('data: ')) continue;
-        let data;
-        try {
-          data = JSON.parse(part.slice(6));
-        } catch (err) {
-          console.warn('Failed to parse SSE chunk', err);
-          continue;
-        }
-
-        if (data.type === 'start') {
-          // console.log('Agent execution started:', data.message);
-          // Add a start message to track the beginning
-          const startMsg = {
-            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
-            role: 'assistant',
-            isNodeProgress: true,
-            phase: 'start',
-            nodeName: 'Agent Execution',
-            timestamp: startTime,
-            summary: { message: data.message },
-            ownerId
-          };
-          setMessages(prev => [...prev, startMsg]);
-        } else if (data.type === 'node_start') {
-          const startMsg = {
-            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
-      role: 'assistant',
-            isNodeProgress: true,
-            phase: 'start',
-            nodeName: data.node_name,
-            timestamp: Date.now(),
-            summary: data.current_state || {},
-            ownerId
-          };
-          setMessages(prev => [...prev, startMsg]);
-        } else if (data.type === 'node_complete') {
-          // Mark node completion but keep loading state until final completion
-          const compMsg = {
-            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
-            role: 'assistant',
-            isNodeProgress: true,
-            phase: 'complete',
-            nodeName: data.node_name,
-            timestamp: Date.now(),
-            summary: data.current_state || {},
-            outputSummary: data.node_output || {},
-            ownerId
-          };
-          setMessages(prev => [...prev, compMsg]);
-        } else if (data.type === 'error') {
-          throw new Error(data.message || 'Unknown streaming error');
-        } else if (data.type === 'complete') {
-          finalResponse = data.response;
-          // Add completion timestamp
-          const completeMsg = {
-            id: `${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
-            role: 'assistant',
-            isNodeProgress: true,
-            phase: 'complete',
-            nodeName: 'Agent Execution',
-            timestamp: Date.now(),
-            summary: { status: 'completed' },
-            ownerId
-          };
-          setMessages(prev => [...prev, completeMsg]);
-        }
+      if (result.error) {
+        throw new Error(result.error);
       }
-    }
 
-    if (!finalResponse) {
-      throw new Error('No final response received from streaming');
-    }
+      console.log('Agent request queued:', result);
 
-    return finalResponse;
+      // Start polling for new messages using the correct conversation ID
+      startPollingForMessages(conversationId);
+      
+      // If this was a clarification submission, update clarification state
+      if (isClariSubmission) {
+        console.log('🔄 Clearing clarification state after submission');
+        setWaitingForClarification(false);
+        setClarificationQuestions([]);
+        setClarificationAnswers({});
+        // Keep originalRequestContext until we get the final response
+        // It will be cleared by the polling logic when final success is detected
+        
+        // Note: We no longer create a temporary clarification message here since
+        // the backend now creates proper clarification response messages that will
+        // appear through polling
+      }
+
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      setError(error.message || 'Failed to send request');
+      throw error;
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Polling function to check for new messages
+  const startPollingForMessages = (conversationId) => {
+    console.log('🔄 Starting polling for conversation:', conversationId);
+    console.log('🔄 Current state when polling starts:', {
+      waitingForClarification,
+      isLoading
+    });
+    let pollCount = 0;
+    const maxPolls = 120; // 2 minutes with 1-second intervals
     
-    const currentUserInput = inputValue.trim();
-    let userMessageId = Date.now(); // unique id for this user request
-    
-    // For clarification responses, collect all answers BEFORE resetting state
-    let clarificationResponses = [];
-    if (waitingForClarification) {
-      // Collect all answered questions
-      clarificationResponses = Object.entries(clarificationAnswers)
-        .filter(([_, answer]) => answer && answer.trim())
-        .map(([questionId, answer]) => ({
-          question_id: questionId,
-          response: answer.trim()
-        }));
-      
-      // Don't proceed if no answers provided
-      if (clarificationResponses.length === 0 && !currentUserInput) {
-        return;
-      }
-      
-      // Create a summary message showing all answers
-      let summaryContent = '';
-      if (clarificationResponses.length > 0) {
-        summaryContent = clarificationResponses.map((answer) => {
-          const question = clarificationQuestions.find(q => q.id === answer.question_id);
-          const questionText = question ? question.question : `Question ${answer.question_id}`;
-          return `Q: ${questionText}\nA: ${answer.response}`;
-        }).join('\n\n');
+    const pollInterval = setInterval(async () => {
+      try {
+        console.log(`Polling attempt ${pollCount + 1} for conversation ${conversationId}`);
+        const pollUrl = buildApiUrl(`/messages/conversation/${conversationId}?include_progress=true`);
+        const newMessages = await apiRequest(pollUrl);
+        console.log(`Received ${newMessages.length} messages from polling`);
         
-        if (currentUserInput) {
-          summaryContent += `\n\nAdditional comment: ${currentUserInput}`;
-        }
-      } else {
-        summaryContent = currentUserInput;
-      }
-      
-      // Add user message to chat
-      userMessageId = Date.now();
-      const userMessage = { 
-        id: userMessageId, 
-        role: 'user', 
-        content: summaryContent,
-        isCombinedAnswers: true
-      };
-      setMessages(prev => [...prev, userMessage]);
-      
-      // Hide clarification UI immediately after submission
-      setWaitingForClarification(false);
-      setClarificationQuestions([]);
-      setClarificationAnswers({});
-      // Clear original request context immediately to prevent it from affecting subsequent requests
-      setOriginalRequestContext(null);
-    } else {
-      // Regular query - don't proceed if no input
-      if (!currentUserInput) return;
-      
-      // Add user message to chat
-      userMessageId = Date.now();
-      const userMessage = { id: userMessageId, role: 'user', content: currentUserInput };
-      setMessages(prev => [...prev, userMessage]);
-    }
-    
-    // Clear input and set loading
-    setInputValue('');
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      // For clarification responses, use the original request context
-      let agentType, capability;
-      let tempOriginalContext = null;
-      // Find the last assistant message that has an agentType (i.e., was produced by an agent run)
-      const prevAssistantMsg = [...messages].reverse().find(m => m.role === 'assistant' && !m.isNodeProgress && m.agentType);
-      const prevAgentType = prevAssistantMsg?.agentType;
-      
-      if (waitingForClarification && originalRequestContext && clarificationResponses.length > 0) {
-        // Use original context only when we have clarification responses
-        tempOriginalContext = originalRequestContext;
-        agentType = originalRequestContext.agentType;
-        capability = originalRequestContext.capability;
-      } else {
-        // Get the selected agent configuration for new requests
-      const agentConfig = AGENT_TYPES.find(agent => agent.id === selectedAgent);
-      if (!agentConfig) {
-        throw new Error('Invalid agent selected');
-        }
-        agentType = selectedAgent;
-        capability = agentConfig.capability;
-      }
-      
-      // Determine if this is a refinement or cross-agent request
-      let conversationIdForRequest = stateId;
-      const extraContext = {};
-      
-      if (prevAssistantMsg) {
-        // Same agent => refinement retains conversation id
-        if (prevAgentType === agentType) {
-          conversationIdForRequest = stateId;
-        } else {
-          // Different agent => new conversation, except for workflow_manager
-          // Workflow plans should always be associated with the current conversation
-          if (agentType === 'workflow_manager') {
-            // For workflow manager, use the conversation.id to maintain association
-            conversationIdForRequest = conversation.id || stateId;
-          } else {
-            conversationIdForRequest = null;
+        // Convert backend message format to frontend format
+        const convertedMessages = convertBackendMessagesToFrontend(newMessages);
+
+        // Update messages if we got new ones
+        if (convertedMessages.length > messages.length) {
+          console.log('Updating messages with new data', {
+            oldCount: messages.length,
+            newCount: convertedMessages.length,
+            newMessages: convertedMessages.slice(messages.length)
+          });
+          
+          // Set a flag to prevent conversation updates during polling
+          updatingFromPropRef.current = true;
+          setMessages(convertedMessages);
+          
+          // Check if the latest message indicates completion
+          const assistantMessages = convertedMessages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
+          const progressMessages = convertedMessages.filter(msg => msg.role === 'assistant' && msg.isNodeProgress);
+          
+          // Simple approach: Just check the LAST message to determine what to do
+          const allMessages = [...assistantMessages, ...progressMessages];
+          if (allMessages.length === 0) {
+            console.log('🔍 No assistant messages found, continuing to poll...');
+            return; // Continue polling
           }
-        }
-
-        // Gather previous outputs into context regardless of agent type
-        if (prevAssistantMsg.sparqlQuery) {
-          extraContext.prev_sparql_query = prevAssistantMsg.sparqlQuery;
-        }
-        if (prevAssistantMsg.queryResults) {
-          extraContext.prev_query_results = prevAssistantMsg.queryResults;
-        }
-        if (prevAssistantMsg.generatedCode) {
-          extraContext.prev_generated_code = prevAssistantMsg.generatedCode;
-        }
-        if (prevAssistantMsg.workflowPlan) {
-          extraContext.prev_workflow_plan = prevAssistantMsg.workflowPlan;
-        }
-        if (prevAssistantMsg.executionResults) {
-          extraContext.prev_execution_results = prevAssistantMsg.executionResults;
-        }
-      } else if (agentType === 'workflow_manager') {
-        // Even if no previous message, workflow plans should be associated with the conversation
-        conversationIdForRequest = conversation.id || stateId;
-      }
-
-      // Prepare request payload for the new multi-agent API
-      const agentRequest = {
-        agent_type: agentType,
-        capability: capability,
-        user_input: currentUserInput,
-        conversation_id: conversationIdForRequest,
-        context: extraContext,
-        metadata: {
-          llm_provider: llmProvider,
-          enable_clarification: enableClarification,
-          clarification_threshold: clarificationThreshold
-        }
-      };
-      
-      // If we have clarification responses to send, add them
-      if (clarificationResponses.length > 0) {
-        agentRequest.metadata.clarification_responses = clarificationResponses;
-      }
-      
-      // If this is a clarification response for workflow execution, preserve the workflow context
-      if (tempOriginalContext) {
-        // Only override user_input for the main workflow execution capability, not for individual steps
-        if (tempOriginalContext.workflowId && capability === 'execute_workflow') {
-          agentRequest.user_input = tempOriginalContext.workflowId;
-        }
-        // Merge the original context and metadata
-        if (tempOriginalContext.context) {
-          agentRequest.context = { ...agentRequest.context, ...tempOriginalContext.context };
-        }
-        if (tempOriginalContext.metadata) {
-          agentRequest.metadata = { ...agentRequest.metadata, ...tempOriginalContext.metadata };
-        }
-      }
-      
-      // console.log('Sending agent request:', agentRequest);
-      
-      // Send request via streaming endpoint so we can show progress
-      const data = await streamAgentRequest(agentRequest, userMessageId);
-      
-      // Update conversation ID from successful response so future requests are treated as refinements
-        if (data.conversation_id) {
-          setStateId(data.conversation_id);
-        }
-        
-      // if backend wrapped useful fields under .result, unwrap
-      const effectiveData = data.result ? { ...data, ...data.result } : data;
-        
-        // console.log('Processing success response:', {
-        // generatedContent: !!effectiveData.generated_code,
-        // generatedContentLength: effectiveData.generated_code?.length,
-        // queryResults: !!data.execution_results,
-        // queryResultsLength: data.execution_results?.length,
-        // queryError: !!data.error,
-        // executionInfo: !!data.execution_info,
-        // workflowPlan: !!data.workflow_plan,
-        // workflowId: !!data.workflow_id,
-        // executionResults: !!data.execution_results,
-        // failedSteps: !!data.failed_steps,
-        //   selectedAgent,
-        //   fullData: data
-        // });
-        
-      // Get agent config for the agent that was actually used
-      const usedAgentConfig = AGENT_TYPES.find(agent => agent.id === agentType) || 
-                              AGENT_TYPES.find(agent => agent.id === selectedAgent);
-      
-      if (effectiveData.generated_code || effectiveData.workflow_plan || effectiveData.execution_results || effectiveData.failed_steps) {
-        // Show results for code/SPARQL generation, workflow planning, or workflow execution
-          const resultsMessage = { 
-            id: Date.now() + 1, 
-            role: 'assistant', 
-            content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`,
-            agentType: agentType,
-            hasQueryResults: agentType === 'sparql' && !!effectiveData.generated_code,
-            hasGeneratedCode: agentType === 'code' && !!effectiveData.generated_code,
-            hasWorkflowPlan: agentType === 'workflow_manager' && !!effectiveData.workflow_plan,
-            hasWorkflowExecution: agentType === 'workflow_manager' && !!(effectiveData.execution_results || effectiveData.failed_steps),
-            sparqlQuery: agentType === 'sparql' ? effectiveData.generated_code : undefined,
-            generatedCode: agentType === 'code' ? effectiveData.generated_code : undefined,
-            workflowPlan: effectiveData.workflow_plan,
-            workflowId: effectiveData.workflow_id,
-            executionResults: effectiveData.execution_results,
-            failedSteps: effectiveData.failed_steps,
-            queryResults: effectiveData.execution_results,
-            queryError: effectiveData.error
-          };
           
-          setMessages(prev => [...prev, resultsMessage]);
+          // Get the most recent message (by timestamp)
+          const lastMessage = allMessages.reduce((latest, current) => {
+            const latestTime = new Date(latest.timestamp || latest.created_at || 0);
+            const currentTime = new Date(current.timestamp || current.created_at || 0);
+            return currentTime > latestTime ? current : latest;
+          });
           
-        // Add agent-specific helpful messages
-        let refinementMessage = null;
-        if (agentType === 'sparql') {
-          refinementMessage = {
-            id: Date.now() + 2,
-            role: 'assistant',
-            content: "You can ask me to refine this query further! For example:\n• \"Add a filter for temperature > 20°C\"\n• \"Show only data from the last 100 years\"\n• \"Include location information\"\n• \"Sort by date descending\""
-          };
-        } else if (agentType === 'code') {
-          refinementMessage = {
-            id: Date.now() + 2,
-            role: 'assistant',
-            content: "You can ask me to modify this code! For example:\n• \"Add error handling\"\n• \"Include data visualization\"\n• \"Add comments to explain the code\"\n• \"Optimize for performance\""
-          };
-        } else if (agentType === 'workflow_manager' && effectiveData.workflow_plan) {
-          refinementMessage = {
-            id: Date.now() + 2,
-            role: 'assistant',
-            content: "Your workflow plan is ready! You can:\n• Click the \"Execute\" button to run the workflow\n• Ask me to modify the plan: \"Add a data visualization step\"\n• Request a different approach: \"Use a different statistical method\"\n• Plan a new workflow with a different request"
-          };
-        } else if (agentType === 'workflow_manager' && (effectiveData.execution_results || effectiveData.failed_steps)) {
-          const successCount = effectiveData.execution_results?.length || 0;
-          const totalSteps = successCount + (effectiveData.failed_steps?.length || 0);
-          refinementMessage = {
-            id: Date.now() + 2,
-            role: 'assistant',
-            content: effectiveData.failed_steps && effectiveData.failed_steps.length > 0 
-              ? `Workflow completed with ${successCount}/${totalSteps} steps successful. You can:\n• Ask me to retry failed steps\n• Request modifications to the workflow\n• Plan a new workflow based on the results`
-              : `Workflow completed successfully! All ${successCount} steps executed. You can:\n• Plan a follow-up workflow\n• Request analysis of the results\n• Ask for modifications or improvements`
-          };
+          console.log('🔍 Checking last message for UI decisions:', {
+            messageId: lastMessage.id,
+            isProgress: lastMessage.isNodeProgress,
+            metadata: lastMessage.metadata,
+            timestamp: lastMessage.timestamp || lastMessage.created_at
+          });
+          
+          // Parse metadata
+          let metadata = lastMessage.metadata;
+          if (typeof metadata === 'string') {
+            try {
+              metadata = JSON.parse(metadata);
+            } catch (e) {
+              console.warn('Failed to parse metadata for message', lastMessage.id, ':', metadata);
+              metadata = {};
+            }
+          }
+          
+          // Decision logic based on last message
+          const needsClarification = metadata && metadata.status === 'needs_clarification';
+          const isFinalSuccess = metadata && metadata.final_response === true && (metadata.status === 'success' || metadata.status === 'error');
+          
+          console.log('🔍 Decision factors:', {
+            needsClarification,
+            isFinalSuccess,
+            status: metadata?.status,
+            final_response: metadata?.final_response
+          });
+          
+          if (isFinalSuccess) {
+            // Final success/error - stop polling
+            console.log('🎯 Final completion detected, stopping polling');
+            clearInterval(pollInterval);
+            setIsLoading(false);
+            setWaitingForClarification(false);
+            setClarificationQuestions([]);
+            setClarificationAnswers({});
+            setOriginalRequestContext(null);
+            
+            // Resolve step completion if we're in step execution mode
+            if (stepExecutionInProgress.current && stepCompletionResolver.current) {
+              console.log('🎯 Resolving step completion');
+              stepCompletionResolver.current();
+              stepCompletionResolver.current = null;
+            }
+          } else if (needsClarification) {
+            // Agent needs clarification - stop polling and show UI
+            console.log('🔄 Clarification needed, stopping polling and showing UI');
+            clearInterval(pollInterval);
+            setIsLoading(false);
+            
+            // Find the actual clarification message (non-progress)
+            const clarificationMessage = assistantMessages.find(msg => msg.needsClarification && msg.clarificationQuestions);
+            if (clarificationMessage) {
+              console.log('🔄 Setting up clarification UI from message:', clarificationMessage.id);
+              setWaitingForClarification(true);
+              setClarificationQuestions(clarificationMessage.clarificationQuestions);
+              setClarificationAnswers({});
+            } else {
+              console.warn('⚠️ Clarification needed but no clarification message found');
+            }
+          } else {
+            // Still processing - continue polling
+            console.log('🔍 Agent still processing, continuing to poll...');
+          }
+          
+          // Reset the flag after a brief delay
+          setTimeout(() => {
+            updatingFromPropRef.current = false;
+          }, 100);
         }
         
-        if (refinementMessage) {
-          setMessages(prev => [...prev, refinementMessage]);
-        }
-        } else {
-          // Add assistant message to chat
-          const assistantMessage = { 
-            id: Date.now(), 
-            role: 'assistant', 
-            content: data.message || `${usedAgentConfig?.name || 'Agent'} completed successfully!`,
-            agentType: agentType
-          };
-          setMessages(prev => [...prev, assistantMessage]);
-        }
-    } catch (error) {
-      console.error('Error calling agent API:', error);
-      setError(error.response?.data?.detail || 'Error generating query');
-      
-      // Add error message to chat
-      const errorMessage = { 
-        id: Date.now(), 
-        role: 'assistant', 
-        content: `Sorry, I encountered an error: ${error.response?.data?.detail || error.message}`,
-        isError: true
-      };
-      setMessages(prev => [...prev, errorMessage]);
-      
-      // Reset clarification state on error but keep conversation state
-      setWaitingForClarification(false);
-      setClarificationQuestions([]);
-      setClarificationAnswers({});
-      setOriginalRequestContext(null);
-    } finally {
+        pollCount++;
+        if (pollCount >= maxPolls) {
+          console.log('Polling timeout reached');
+          clearInterval(pollInterval);
       setIsLoading(false);
-      setExecutionStartTime(null);
-      
-      // Keep progress messages visible after completion for user reference
-    }
+          setError('Request timeout - agent execution took too long');
+        }
+      } catch (error) {
+        console.error('Polling request failed:', error);
+        
+        pollCount++;
+        if (pollCount >= maxPolls) {
+          console.log('Polling timeout reached');
+          clearInterval(pollInterval);
+          setIsLoading(false);
+          setError('Request timeout - agent execution took too long');
+        }
+      }
+    }, 1000); // Poll every second
   };
 
   // Render the clarification options UI
   const renderClarificationOptions = () => {
-    if (!waitingForClarification || clarificationQuestions.length === 0) {
+    if (!waitingForClarification) {
       return null;
     }
 
     // Determine if we should use compact mode (for many questions)
-    const useCompactMode = clarificationQuestions.length > 5;
+    const useCompactMode = true; //clarificationQuestions.length > 5;
     
     // Calculate progress
     const answeredCount = Object.keys(clarificationAnswers).filter(
@@ -831,40 +850,23 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       }
     };
     
-    // Handle keyboard navigation
     const handleKeyDown = (event, questionId) => {
-      if (event.key === 'Enter' && event.ctrlKey) {
-        // Ctrl+Enter to submit
-        const submitButton = document.querySelector('.send-button');
-        if (submitButton) {
-          submitButton.click();
-        }
-      } else if (event.key === 'Tab' && event.shiftKey) {
-        // Shift+Tab to go to previous question
+      // Handle keyboard navigation
+      if (event.key === 'Tab') {
+        // Default tab behavior is fine
+        return;
+      }
+      
+      if (event.ctrlKey && event.key === 'Enter') {
+        // Quick submit on Ctrl+Enter
         event.preventDefault();
-        const currentIndex = clarificationQuestions.findIndex(q => q.id === questionId);
-        if (currentIndex > 0) {
-          const prevQuestionElement = document.querySelector(`[data-question-id="${clarificationQuestions[currentIndex - 1].id}"] input`);
-          if (prevQuestionElement) {
-            prevQuestionElement.focus();
-          }
-        }
-      } else if (event.key === 'Tab' && !event.shiftKey) {
-        // Tab to go to next question
-        event.preventDefault();
-        const currentIndex = clarificationQuestions.findIndex(q => q.id === questionId);
-        if (currentIndex < clarificationQuestions.length - 1) {
-          const nextQuestionElement = document.querySelector(`[data-question-id="${clarificationQuestions[currentIndex + 1].id}"] input`);
-          if (nextQuestionElement) {
-            nextQuestionElement.focus();
-          }
-        }
+        document.querySelector('.send-button')?.click();
       }
     };
 
     return (
-      <div className={`clarification-options ${useCompactMode ? 'compact-mode' : ''}`}>
-        <div className="clarification-title">
+      <div className={`p-4 bg-yellow-50 border-t border-yellow-200 ${useCompactMode ? 'text-sm' : ''}`}>
+        <div className="mb-4 text-lg font-medium text-yellow-800">
           {clarificationQuestions.length > 1 
             ? `Please answer ${clarificationQuestions.length} questions to help me generate the right response:` 
             : "Please provide clarification:"}
@@ -872,17 +874,17 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         
         {/* Progress indicator for multiple questions */}
         {clarificationQuestions.length > 1 && (
-          <div className="clarification-progress">
-            <div className="progress-text">
+          <div className="mb-4 p-3 bg-white rounded border border-yellow-200">
+            <div className="text-sm font-medium text-yellow-700 mb-2">
               Progress: {answeredCount} of {clarificationQuestions.length} answered
             </div>
-            <div className="progress-dots">
+            <div className="flex gap-2">
               {clarificationQuestions.map((question, index) => (
                 <div 
                   key={question.id} 
-                  className={`progress-dot ${
-                    isQuestionAnswered(question.id) ? 'answered' : 
-                    index === 0 ? 'current' : ''
+                  className={`w-3 h-3 rounded-full ${
+                    isQuestionAnswered(question.id) ? 'bg-green-500' : 
+                    index === 0 ? 'bg-yellow-500' : 'bg-gray-300'
                   }`}
                   title={`Question ${index + 1}: ${isQuestionAnswered(question.id) ? 'Answered' : 'Not answered'}`}
                 />
@@ -891,42 +893,62 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
           </div>
         )}
         
-        <div className="clarification-questions-container">
+        <div className="space-y-4 max-h-96 overflow-y-auto">
           {clarificationQuestions.map((question, index) => {
             const isAnswered = isQuestionAnswered(question.id);
             
             return (
               <div 
                 key={question.id} 
-                className={`clarification-question-item ${isAnswered ? 'answered' : ''}`}
+                className={`border rounded-lg p-4 transition-colors ${isAnswered ? 'bg-green-50 border-green-200' : 'bg-white border-yellow-200'}`}
                 data-question-id={question.id}
               >
-                <div className="question-header">
+                <div className="mb-3">
                   {clarificationQuestions.length > 1 && (
-                    <div className="question-number">
+                    <div className="text-sm font-medium text-yellow-700 mb-2">
                       Question {index + 1} {isAnswered && '✓'}
                     </div>
                   )}
-                  <div className="question-text">{question.question}</div>
+                  <div className="text-gray-800 font-medium mb-2">{question.question}</div>
                   {question.context && (
-                    <div className="question-context">{question.context}</div>
+                    <div className="text-sm text-gray-600 p-2 bg-gray-50 rounded border">{question.context}</div>
                   )}
                 </div>
                 
-                <div className="question-details">
+                <div className="space-y-3">
                   {question.choices && question.choices.length > 0 && (
-                    <div className="question-choices">
-                      <div className="choices-label">Quick options:</div>
-                      <div className="choices-buttons">
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-gray-700">Quick options:</div>
+                      <div className="flex flex-wrap gap-2">
                         {question.choices.map((choice, choiceIndex) => {
-                          const isSelected = clarificationAnswers[question.id] === choice;
+                          // Handle both string choices and object choices
+                          let choiceText;
+                          let choiceValue;
+                          
+                          if (typeof choice === 'string') {
+                            choiceText = choice;
+                            choiceValue = choice;
+                          } else if (choice && typeof choice === 'object') {
+                            // Handle object choices with value/description or similar structure
+                            choiceText = choice.description || choice.text || choice.value || JSON.stringify(choice);
+                            choiceValue = choice.value || choice.description || choice.text || JSON.stringify(choice);
+                          } else {
+                            choiceText = String(choice);
+                            choiceValue = String(choice);
+                          }
+                          
+                          const isSelected = clarificationAnswers[question.id] === choiceValue;
                           return (
                             <button
-                              key={choiceIndex}
-                              className={`choice-button ${isSelected ? 'selected' : ''}`}
-                              onClick={(e) => handleChoiceClick(question.id, choice, e)}
+                              key={`${question.id}-choice-${choiceIndex}`}
+                              className={`px-3 py-1 rounded text-sm border transition-colors ${
+                                isSelected 
+                                  ? 'bg-blue-500 text-white border-blue-500' 
+                                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                              }`}
+                              onClick={(e) => handleChoiceClick(question.id, choiceValue, e)}
                             >
-                              {choice}
+                              {choiceText}
                             </button>
                           );
                         })}
@@ -934,7 +956,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
                     </div>
                   )}
                   
-                  <div className="question-answer">
+                  <div className="space-y-1">
                     <input
                       type="text"
                       value={clarificationAnswers[question.id] || ''}
@@ -945,7 +967,9 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
                           ? "Choose from options above or enter custom answer..."
                           : "Enter your answer..."
                       }
-                      className={`clarification-answer-input ${isAnswered ? 'answered' : ''}`}
+                      className={`w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                        isAnswered ? 'bg-green-50 border-green-300' : 'border-gray-300'
+                      }`}
                       title="Use Tab/Shift+Tab to navigate, Ctrl+Enter to submit"
                     />
                   </div>
@@ -957,18 +981,18 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         
         {/* Navigation/summary for many questions */}
         {clarificationQuestions.length > 3 && (
-          <div className="clarification-navigation">
-            <div className="nav-info">
+          <div className="mt-4 p-3 bg-white rounded border border-yellow-200">
+            <div className="text-sm font-medium text-yellow-700 mb-2">
               {answeredCount === clarificationQuestions.length 
                 ? "All questions answered! Ready to submit." 
                 : `${clarificationQuestions.length - answeredCount} questions remaining`}
             </div>
-            <div className="keyboard-shortcuts">
+            <div className="text-xs text-gray-600 mb-2">
               <small>💡 Tip: Use Tab/Shift+Tab to navigate, Ctrl+Enter to submit</small>
             </div>
             {answeredCount === clarificationQuestions.length && (
               <button 
-                className="nav-button"
+                className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors"
                 onClick={() => {
                   // Scroll to submit button
                   const submitButton = document.querySelector('.send-button');
@@ -987,50 +1011,253 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     );
   };
 
+  // Handle deleting a specific message
+  const handleDeleteMessage = async (messageIndex) => {
+    // Show confirmation dialog
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete this message? This action cannot be undone.\n\n` +
+      `Message preview: "${messages[messageIndex]?.content?.substring(0, 100)}..."`
+    );
+    
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const deleteUrl = buildApiUrl(`/conversations/${conversation.id}/messages/${messageIndex}`);
+      await apiRequest(deleteUrl, { method: 'DELETE' });
+
+      // Update local state directly by filtering out the deleted message
+      setMessages(prev => prev.filter((_, index) => index !== messageIndex));
+      
+      // Refresh messages from server using proper message service to ensure special UI flags are preserved
+      try {
+        console.log(`🔍 Reloading messages after deletion for conversation ${conversation.id}...`);
+        const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
+        console.log(`📝 Reloaded ${loadedMessages.length} messages after deletion`);
+        
+        if (loadedMessages.length > 0) {
+          // Convert backend message format to frontend format (same as in useEffect)
+          const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
+          setMessages(convertedMessages);
+        } else {
+          setMessages([]);
+        }
+      } catch (reloadError) {
+        console.error('Error reloading messages after deletion:', reloadError);
+        // If reload fails, keep the local deletion
+      }
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      alert('Failed to delete message. Please try again.');
+    }
+  };
+
+  // Handle deleting messages from a specific index onwards
+  const handleDeleteFromIndex = async (fromIndex) => {
+    const numToDelete = messages.length - fromIndex;
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete this message and all ${numToDelete - 1} messages after it? This action cannot be undone.\n\n` +
+      `This will reset the conversation to before: "${messages[fromIndex]?.content?.substring(0, 100)}..."`
+    );
+    
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const deleteUrl = buildApiUrl(`/conversations/${conversation.id}/messages/from/${fromIndex}`);
+      await apiRequest(deleteUrl, { method: 'DELETE' });
+
+      // Update local state directly by keeping only messages before the fromIndex
+      setMessages(prev => prev.slice(0, fromIndex));
+      
+      // Refresh messages from server using proper message service to ensure special UI flags are preserved
+      try {
+        console.log(`🔍 Reloading messages after bulk deletion for conversation ${conversation.id}...`);
+        const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
+        console.log(`📝 Reloaded ${loadedMessages.length} messages after bulk deletion`);
+        
+        if (loadedMessages.length > 0) {
+          // Convert backend message format to frontend format (same as in useEffect)
+          const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
+          setMessages(convertedMessages);
+        } else {
+          setMessages([]);
+        }
+      } catch (reloadError) {
+        console.error('Error reloading messages after bulk deletion:', reloadError);
+        // If reload fails, keep the local deletion
+      }
+    } catch (error) {
+      console.error('Error deleting messages:', error);
+      alert('Failed to delete messages. Please try again.');
+    }
+  };
+
   // Helper to render individual chat message
-  const renderChatMessage = (message) => (
+  const renderChatMessage = (message, messageIndex) => {
+    const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm";
+    const roleClasses = message.role === 'user' 
+      ? "bg-blue-50 border-blue-200 text-blue-900" 
+      : "bg-gray-50 border-gray-200 text-gray-900";
+    const errorClasses = message.isError ? "bg-red-50 border-red-200 text-red-900" : "";
+    const clarificationClasses = message.needsClarification ? "bg-yellow-50 border-yellow-200" : "";
+    const responseClasses = message.isCombinedAnswers ? "bg-green-50 border-green-200" : "";
+    const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? "bg-white border-gray-300" : "";
+    const newConversationClasses = message.isNewConversation ? "bg-purple-50 border-purple-200" : "";
+    
+    const allClasses = [baseClasses, roleClasses, errorClasses, clarificationClasses, responseClasses, queryResultsClasses, newConversationClasses]
+      .filter(Boolean)
+      .join(" ");
+
+    return (
           <div 
             key={message.id} 
-      className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''} ${message.needsClarification ? 'clarification-message' : ''} ${message.isCombinedAnswers ? 'clarification-response-message' : ''} ${(message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? 'query-results-message' : ''} ${message.isNewConversation ? 'new-conversation-message' : ''}`}
+        className={`${allClasses} relative group`}
+      >
+        {/* Delete button - only show on hover and for non-loading states */}
+        {!isLoading && messageIndex > 0 && message.role === 'user' && messageIndex < messages.length - 1 && (
+          <button
+            onClick={() => handleDeleteFromIndex(messageIndex)}
+            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 text-lg font-medium transition-all duration-200"
+            title={`Delete this question and all ${messages.length - messageIndex - 1} messages after it`}
           >
+            ×
+          </button>
+        )}
+        
             {message.isCombinedAnswers ? (
               <ClarificationResponseMessage content={message.content} />
       ) : message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution ? (
               <QueryAndResultsMessage 
+                message={message}
                 query={message.sparqlQuery}
                 results={message.queryResults}
                 error={message.queryError}
                 generatedCode={message.generatedCode}
-          workflowPlan={message.workflowPlan}
-          workflowId={message.workflowId}
-          executionResults={message.executionResults}
-          failedSteps={message.failedSteps}
-          onExecuteWorkflow={handleExecuteWorkflow}
+                workflowPlan={message.workflowPlan}
+                workflowId={message.workflowId}
+                executionResults={message.executionResults}
+                failedSteps={message.failedSteps}
+                onExecuteWorkflow={handleExecuteWorkflow}
+                onExecuteStep={handleExecuteStep}
+                agentType={message.agentType}
+                isJsonWorkflow={message.isJsonWorkflow}
               />
             ) : message.needsClarification && waitingForClarification ? (
-              <div className="message-content">{message.content}</div>
+              // When actively waiting for clarification, just show plain text since the interactive UI is shown below
+              <div className="text-gray-800">{message.content}</div>
             ) : message.needsClarification ? (
+              // When not actively waiting, show the full clarification component (historical view)
               <ClarificationMessage 
                 content={message.content}
                 clarificationQuestions={message.clarificationQuestions}
               />
             ) : (
-              <div className="message-content">{message.content}</div>
+          <div className="text-gray-800">{message.content}</div>
             )}
           </div>
   );
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    console.log('🔄 Submit button clicked', {
+      waitingForClarification,
+      inputValue: inputValue.trim(),
+      clarificationAnswersCount: Object.keys(clarificationAnswers).length,
+      clarificationAnswers,
+      isLoading
+    });
+    
+    // For clarification submissions, allow empty input since answers come from clarification form
+    // For regular submissions, require input
+    if (!waitingForClarification && !inputValue.trim()) return;
+    if (isLoading) return;
+
+    // If waiting for clarification, ensure we have at least some answers
+    if (waitingForClarification && Object.keys(clarificationAnswers).length === 0) {
+      setError('Please provide answers to the clarification questions before submitting.');
+      return;
+    }
+
+    const userInput = inputValue.trim();
+    setInputValue('');
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Create user message immediately in local state for immediate feedback
+      // Only create a user message if there's actual input content
+      if (userInput) {
+        const tempUserMessage = {
+          id: `temp_${Date.now()}`,
+          role: 'user',
+          content: userInput,
+          timestamp: new Date().toISOString()
+        };
+        setMessages(prev => [...prev, tempUserMessage]);
+      }
+
+      // Ensure we have a valid conversation ID
+      let conversationId = conversation.id;
+      if (!conversationId) {
+        throw new Error('No conversation ID available. Please create a new conversation first.');
+      }
+
+      // Check if this is a clarification submission
+      const isClariSubmission = waitingForClarification && Object.keys(clarificationAnswers).length > 0;
+      
+      // For clarification submissions, use the original query from context
+      // For new queries, use the current input
+      let finalUserInput;
+      if (isClariSubmission && originalRequestContext && originalRequestContext.originalQuery) {
+        finalUserInput = originalRequestContext.originalQuery;
+        console.log('🔄 Using original query for clarification submission:', finalUserInput);
+      } else {
+        finalUserInput = userInput || "No input provided";
+      }
+      
+      console.log('🔄 Submit request details:', {
+        userInput: userInput,
+        finalUserInput: finalUserInput,
+        conversationId,
+        isClariSubmission,
+        waitingForClarification,
+        clarificationAnswersCount: Object.keys(clarificationAnswers).length,
+        hasOriginalContext: !!originalRequestContext,
+        originalQuery: originalRequestContext?.originalQuery
+      });
+      
+      // Submit the request
+      await submitRequest(finalUserInput, conversationId, isClariSubmission);
+
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      setError(error.message || 'Failed to send request');
+      
+      // Remove the temporary user message on error (only if we created one)
+      if (userInput) {
+        setMessages(prev => prev.filter(msg => !msg.id.startsWith('temp_')));
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="chat-window">
-      <div className="chat-header">
-        <div className="header-controls">
-          <div className="llm-provider-selector">
-            <label htmlFor="llm-provider">LLM Provider:</label>
+    <div className="flex flex-col h-full bg-white">
+      <div className="flex-shrink-0 p-4 bg-gray-50 border-b border-gray-200">
+        <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex items-center gap-2">
+            <label htmlFor="llm-provider" className="text-sm font-medium text-gray-700">LLM Provider:</label>
             <select 
               id="llm-provider" 
               value={llmProvider} 
               onChange={handleLlmProviderChange}
-              className="llm-provider-select"
+              className="px-3 py-1 bg-white border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               {LLM_PROVIDERS.map(provider => (
                 <option key={provider.id} value={provider.id}>
@@ -1040,28 +1267,28 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
             </select>
           </div>
       
-          <div className="clarification-settings">
-            <div className="clarification-enable">
-              <label htmlFor="enable-clarification">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <label htmlFor="enable-clarification" className="flex items-center gap-2 text-sm text-gray-700">
                 <input
                   id="enable-clarification"
                   type="checkbox"
                   checked={enableClarification}
                   onChange={handleEnableClarificationChange}
-                  className="clarification-checkbox"
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 Enable Clarifications
               </label>
             </div>
       
             {enableClarification && (
-              <div className="clarification-threshold">
-                <label htmlFor="clarification-threshold">Threshold:</label>
+              <div className="flex items-center gap-2">
+                <label htmlFor="clarification-threshold" className="text-sm font-medium text-gray-700">Threshold:</label>
                 <select 
                   id="clarification-threshold" 
                   value={clarificationThreshold} 
                   onChange={handleClarificationThresholdChange}
-                  className="clarification-threshold-select"
+                  className="px-3 py-1 bg-white border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="permissive">Permissive</option>
                   <option value="conservative">Conservative</option>
@@ -1073,21 +1300,24 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
         </div>
       </div>
       
-      {/* Partition messages to place progress widget before results */}
+      {/* Messages area */}
       {(()=>{
         const visibleMessages = messages.filter(m=>!m.isNodeProgress);
         const getProgressForOwner = (ownerId)=>messages.filter(m=>m.isNodeProgress && m.ownerId===ownerId);
         return (
-          <div className="chat-messages">
-            {visibleMessages.map(msg=>{
-              const components=[renderChatMessage(msg)];
+          <div className="flex-1 overflow-y-auto p-4 space-y-4" ref={messagesContainerRef}>
+            {visibleMessages.map((msg, visibleIndex) => {
+              // Find the original index of this message in the full messages array
+              const originalIndex = messages.findIndex(m => m.id === msg.id);
+              
+              const components=[renderChatMessage(msg, originalIndex)];
               if(msg.role==='user'){
                 const progressMsgs=getProgressForOwner(msg.id);
                 if(progressMsgs.length>0){
                   components.push(
-                    <div key={`progress-${msg.id}`} className="message assistant-message loading-message">
+                    <div key={`progress-${msg.id}`} className="p-4 mb-4 rounded-lg border bg-blue-50 border-blue-200">
                       <AgentProgressDisplay messages={progressMsgs} />
-      </div>
+                    </div>
                   );
                 }
               }
@@ -1100,12 +1330,12 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       
       {renderClarificationOptions()}
       
-      <form className="chat-input-form" onSubmit={handleSubmit}>
-        <div className="input-with-agent">
+      <form className="flex-shrink-0 p-4 bg-gray-50 border-t border-gray-200" onSubmit={handleSubmit}>
+        <div className="flex gap-2">
           <select 
             value={selectedAgent} 
             onChange={handleAgentChange}
-            className="compact-agent-select"
+            className="px-3 py-2 bg-white border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
             {AGENT_TYPES.map(agent => (
@@ -1121,20 +1351,22 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
           onChange={handleInputChange}
           placeholder={waitingForClarification 
             ? "Additional comments (optional)..." 
-            : stateId 
+              : messages.length > 1
               ? "Ask me to refine the result or ask a new question..." 
               : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
-          className={`chat-input ${waitingForClarification ? 'clarification-input' : ''}`}
+            className={`flex-1 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              waitingForClarification ? 'bg-yellow-50 border-yellow-300' : 'bg-white border-gray-300'
+            }`}
           disabled={isLoading}
         />
-        </div>
         <button 
           type="submit" 
-          className="send-button"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           disabled={isLoading}
         >
           {isLoading ? 'Generating...' : waitingForClarification ? 'Submit Answers' : 'Send'}
         </button>
+        </div>
       </form>
     </div>
   );

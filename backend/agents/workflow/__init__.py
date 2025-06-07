@@ -1,1 +1,2 @@
-from .workflow_manager_agent import WorkflowManagerAgent 
+from .workflow_manager_agent import WorkflowManagerAgent
+from .workflow_langgraph_agent import WorkflowLangGraphAgent 

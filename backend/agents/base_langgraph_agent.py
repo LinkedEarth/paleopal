@@ -1,10 +1,11 @@
 """
 Base LangGraph agent implementation that provides common functionality
-for all agents using the unified state model.
+for all agents using the unified state model with normalized message storage.
 """
 
 import logging
 import uuid
+import json
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, Type
 from langgraph.graph import StateGraph, START, END
@@ -12,7 +13,9 @@ from pydantic import BaseModel
 
 from agents.base_agent import BaseAgent, AgentRequest, AgentResponse, AgentStatus, AgentCapability
 from agents.base_state import BaseAgentState, BaseAgentConfig
-from services.conversation_state_service import conversation_state_service
+from services.conversation_service import conversation_service
+from services.message_service import message_service
+from schemas.message import MessageCreate, MessageUpdate
 
 logger = logging.getLogger(__name__)
 
@@ -88,13 +91,13 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         pass
     
     def _create_initial_state(self, request: AgentRequest):
-        """Create initial state instance from request."""
-        # Retrieve stored state dict if exists
-        stored_dict = None
-        if request.conversation_id:
-            stored_dict = conversation_state_service.get(request.conversation_id)
+        """Create initial state for agent execution."""
+        logger.info(f"Creating initial state for agent_type: {request.agent_type}")
         
-        # Build base dict
+        # Import message service at the top for use throughout the function
+        from services.message_service import message_service
+        
+        # Build base state from request
         state_data = {
             "conversation_id": request.conversation_id,
             "user_input": request.user_input,
@@ -104,76 +107,154 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             "notebook_context": request.notebook_context,
             "metadata": request.metadata,
             "llm_provider": request.metadata.get("llm_provider", "openai"),
+            "messages": []
         }
         
-        # Extract clarification responses from metadata if present
-        clarification_responses = request.metadata.get("clarification_responses")
+        # Handle clarification responses if provided
+        clarification_responses = request.metadata.get("clarification_responses", [])
         if clarification_responses:
+            logger.info(f"Processing {len(clarification_responses)} clarification responses")
+            
+            # Create a user message in the database to represent the clarification responses
+            try:
+                # Format the clarification responses as a readable message
+                clarification_text_parts = []
+                
+                # Try to get the clarification questions from the previous assistant message to format nicely
+                clarification_questions = {}
+                if request.conversation_id:
+                    try:
+                        recent_messages = message_service.get_conversation_messages(request.conversation_id)
+                        # Look for the most recent message with clarification questions
+                        for msg in reversed(recent_messages):
+                            if (msg.role == 'assistant' and 
+                                msg.needs_clarification and 
+                                hasattr(msg, 'clarification_questions') and 
+                                msg.clarification_questions):
+                                # Parse clarification questions if they exist
+                                questions = msg.clarification_questions
+                                if isinstance(questions, str):
+                                    import json
+                                    try:
+                                        questions = json.loads(questions)
+                                    except:
+                                        questions = []
+                                elif isinstance(questions, list):
+                                    questions = questions
+                                else:
+                                    questions = []
+                                
+                                # Create a mapping of question IDs to questions
+                                for q in questions:
+                                    if isinstance(q, dict) and 'id' in q and 'question' in q:
+                                        clarification_questions[q['id']] = q['question']
+                                break
+                    except Exception as e:
+                        logger.warning(f"Could not retrieve clarification questions: {e}")
+                
+                # Format the clarification responses with questions
+                for response in clarification_responses:
+                    question_id = response.get('id', '')
+                    answer = response.get('answer', '')
+                    question_text = clarification_questions.get(question_id, f"Question {question_id}")
+                    
+                    clarification_text_parts.append(f"Regarding '{question_text}': {answer}")
+                
+                clarification_message = f"Clarification responses for: \"{request.user_input}\"\n\n" + "\n\n".join(clarification_text_parts)
+                
+                # Create the clarification response message in the database
+                clarification_msg = message_service.create_message(
+                    conversation_id=request.conversation_id,
+                    role="user",
+                    content=clarification_message,
+                    message_type="clarification_response"
+                )
+                logger.info(f"Created clarification response message: {clarification_msg.id}")
+                
+            except Exception as e:
+                logger.error(f"Failed to create clarification response message: {e}")
+            
+            # Set clarification state
             state_data["clarification_responses"] = clarification_responses
-            logger.info(f"Found clarification responses in request: {len(clarification_responses)} responses")
+            state_data["clarification_processed"] = True
         
-        # Check if this is a refinement request
-        if stored_dict and request.conversation_id:
-            # This is a follow-up message in an existing conversation
-            # Check if the previous state had a successful query result
-            has_previous_query = stored_dict.get("generated_code") is not None
-            has_successful_results = stored_dict.get("execution_results") is not None
-            no_pending_clarification = not stored_dict.get("needs_clarification", False)
-            no_clarification_responses = not clarification_responses
-            
-            logger.info(f"Refinement detection - conversation_id: {request.conversation_id}")
-            logger.info(f"  has_previous_query: {has_previous_query}")
-            logger.info(f"  has_successful_results: {has_successful_results}")
-            logger.info(f"  no_pending_clarification: {no_pending_clarification}")
-            logger.info(f"  no_clarification_responses: {no_clarification_responses}")
-            
-            # If we have a previous successful query and this is a new user input without clarification responses,
-            # treat it as a refinement request
-            if has_previous_query and no_pending_clarification and no_clarification_responses:
-                # Make the condition less strict - don't require successful results, just a previous query
-                state_data["is_refinement"] = True
-                state_data["refinement_request"] = request.user_input
-                state_data["previous_query"] = stored_dict.get("generated_code")
-                state_data["previous_results"] = stored_dict.get("execution_results", [])
-                logger.info(f"Detected refinement request: '{request.user_input[:100]}...'")
-            else:
-                logger.info("Not a refinement request - treating as new query")
+        # Extract conversation context from previous messages (simplified approach)
+        if request.conversation_id:
+            try:
+                previous_messages = message_service.get_conversation_messages(request.conversation_id)
+                logger.info(f"Found {len(previous_messages)} previous messages for context")
+                
+                # Extract the most recent relevant context (last assistant message with generated content)
+                for msg in reversed(previous_messages):
+                    if (msg.role == 'assistant' and 
+                        msg.query_generated and 
+                        not msg.is_node_progress):  # Skip progress messages
+                        
+                        # Add this as context for the generation nodes to use
+                        context = state_data.get("context", {})
+                        context["previous_query"] = msg.query_generated
+                        context["previous_results"] = msg.query_results or []
+                        context["previous_agent_type"] = msg.agent_type
+                        context["has_previous_context"] = True
+                        state_data["context"] = context
+                        
+                        logger.info(f"✅ Added previous context from {msg.agent_type} agent")
+                        logger.info(f"   - Previous query length: {len(msg.query_generated)} chars")
+                        logger.info(f"   - Previous results count: {len(msg.query_results) if msg.query_results else 0}")
+                        break
+                else:
+                    logger.info("No previous assistant messages with generated content found")
+                    
+            except Exception as e:
+                logger.warning(f"Failed to extract conversation context: {e}")
         
-        if stored_dict:
-            state_data = {**stored_dict, **state_data}
-            # merge messages etc handled below
-        else:
-            state_data["messages"] = []
-        
-        # Handle messages append
+        # Add user input as message
         if request.user_input:
-            msgs = state_data.get("messages", [])
-            msgs.append({"role": "user", "content": request.user_input})
-            state_data["messages"] = msgs
+            state_data["messages"].append({"role": "user", "content": request.user_input})
         
-        # Convert to model
+        logger.info(f"Created initial state for conversation: {state_data['conversation_id']}")
         return self.state_class(**state_data)
     
     def _save_state(self, state):
-        """Persist state (Pydantic model) and return conversation id"""
+        """Persist state - no longer needed with message-based architecture."""
+        # State is now persisted via message creation during execution
+        # This method kept for compatibility but does nothing
         if isinstance(state, BaseModel):
-            state_dict = state.model_dump()
-            conversation_id = state_dict.get("conversation_id")
+            conversation_id = state.conversation_id
         else:
-            state_dict = state
             conversation_id = state.get("conversation_id")
         
-        if not conversation_id:
-            conversation_id = str(uuid.uuid4())
-            state_dict["conversation_id"] = conversation_id
-            if isinstance(state, BaseModel):
-                state.conversation_id = conversation_id
-        
-        conversation_state_service.set(conversation_id, state_dict)
+        logger.debug(f"State management now handled via messages for conversation: {conversation_id}")
         return conversation_id
     
+    def _create_assistant_message(self, conversation_id: str, content: str, agent_results: Dict[str, Any]) -> str:
+        """Create an assistant message with agent results in the database."""
+        try:
+            # Create the message
+            message_data = MessageCreate(
+                conversation_id=conversation_id,
+                role='assistant',
+                content=content,
+                message_type='chat',
+                agent_type=self.agent_type
+            )
+            
+            message = message_service.create_message(message_data)
+            
+            # Update with agent results
+            update_data = MessageUpdate(**agent_results)
+            message_service.update_message(message.id, update_data)
+            
+            logger.info(f"Created assistant message {message.id} with agent results")
+            return message.id
+            
+        except Exception as e:
+            logger.error(f"Failed to create assistant message: {e}")
+            # Return a fallback ID so the response can still work
+            return f"msg_fallback_{uuid.uuid4().hex[:8]}"
+
     def _create_response_from_state(self, state) -> AgentResponse:
-        """Create response from final state."""
+        """Create response from final state and save as message."""
         try:
             # Helper function to get values from either Pydantic model or dict
             def get_state_value(key, default=None):
@@ -181,6 +262,15 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     return state.get(key, default)
                 else:
                     return getattr(state, key, default)
+            
+            conversation_id = get_state_value('conversation_id')
+            if not conversation_id:
+                logger.error("No conversation_id in state, cannot create message")
+                return AgentResponse(
+                    status=AgentStatus.ERROR,
+                    message="Internal error: no conversation ID",
+                    result=None
+                )
             
             # Debug logging to see the final state
             needs_clarification = get_state_value('needs_clarification')
@@ -191,60 +281,166 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             # Check if clarification is needed
             if needs_clarification:
-                # Get the clarification message from the last message
-                messages = get_state_value('messages', [])
-                if messages:
-                    last_message = messages[-1]
-                    # Handle both dict and LangChain message objects using helper function
-                    message = get_message_value(last_message, 'content', 'Clarification needed')
-                else:
-                    message = "Clarification needed"
+                clarification_questions = get_state_value('clarification_questions', [])
+                message_content = "I need some clarification to provide the best response."
                 
-                logger.info(f"Returning clarification response with message: {message[:100]}...")
+                # Create the message with clarification data
+                try:
+                    message_data = MessageCreate(
+                        conversation_id=conversation_id,
+                        role='assistant',
+                        content=message_content,
+                        message_type='clarification',
+                        agent_type=self.agent_type
+                    )
+                    
+                    message = message_service.create_message(message_data)
+                    
+                    # Update with clarification data
+                    update_data = MessageUpdate(
+                        needs_clarification=True,
+                        clarification_questions=clarification_questions,
+                        metadata={'clarification_type': 'request'}
+                    )
+                    message_service.update_message(message.id, update_data)
+                    
+                    logger.info(f"Created clarification message {message.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create clarification message: {e}")
+                
+                logger.info(f"Returning clarification response with message: {message_content[:100]}...")
                 return AgentResponse(
                     status=AgentStatus.NEEDS_CLARIFICATION,
-                    message=message,
+                    message=message_content,
                     result={
-                        "clarification_questions": get_state_value('clarification_questions', [])
+                        "clarification_questions": clarification_questions
                     },
-                    conversation_id=get_state_value('conversation_id'),
-                    clarification_questions=get_state_value('clarification_questions', [])  # Add at top level for frontend compatibility
+                    conversation_id=conversation_id,
+                    clarification_questions=clarification_questions
                 )
             
             # Check for errors
             error_message = get_state_value('error_message')
             if error_message:
+                # Create error message
+                try:
+                    message_data = MessageCreate(
+                        conversation_id=conversation_id,
+                        role='assistant',
+                        content=error_message,
+                        message_type='error',
+                        agent_type=self.agent_type
+                    )
+                    
+                    message = message_service.create_message(message_data)
+                    
+                    # Update with error metadata
+                    update_data = MessageUpdate(
+                        has_error=True,
+                        metadata={'error_type': 'execution_error'}
+                    )
+                    message_service.update_message(message.id, update_data)
+                    
+                    logger.info(f"Created error message {message.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create error message: {e}")
+                
                 logger.info(f"Returning error response: {error_message}")
                 return AgentResponse(
                     status=AgentStatus.ERROR,
                     message=error_message,
                     result=None,
-                    conversation_id=get_state_value('conversation_id')
+                    conversation_id=conversation_id
                 )
             
-            # Success case
+            # Success case - create message with agent results
             generated_code = get_state_value('generated_code')
             execution_results = get_state_value('execution_results')
+            similar_results = get_state_value('similar_code', [])
+            entity_matches = get_state_value('entity_matches', [])
             
             if generated_code:
+                success_message = "Successfully generated and executed code."
+                if execution_results:
+                    result_count = len(execution_results) if isinstance(execution_results, list) else 1
+                    success_message += f" Found {result_count} results."
+                
+                # Prepare agent results for message storage
+                agent_results = {
+                    'query_generated': generated_code,
+                    'query_results': execution_results,
+                    'execution_info': self._create_execution_info_from_state(state),
+                    'similar_results': similar_results,
+                    'entity_matches': entity_matches,
+                    'has_generated_code': True,
+                    'has_query_results': bool(execution_results)
+                }
+                
+                # Create the message with agent results
+                try:
+                    message_data = MessageCreate(
+                        conversation_id=conversation_id,
+                        role='assistant',
+                        content=success_message,
+                        message_type='chat',
+                        agent_type=self.agent_type
+                    )
+                    
+                    message = message_service.create_message(message_data)
+                    
+                    # Update with agent results
+                    update_data = MessageUpdate(**agent_results)
+                    message_service.update_message(message.id, update_data)
+                    
+                    logger.info(f"Created success message {message.id} with agent results")
+                except Exception as e:
+                    logger.error(f"Failed to create success message: {e}")
+                
                 logger.info("Returning success response with generated code")
                 return AgentResponse(
                     status=AgentStatus.SUCCESS,
-                    message="Query generated and executed successfully",
+                    message=success_message,
                     result={
                         "generated_code": generated_code,
                         "execution_results": execution_results,
-                        "execution_info": self._create_execution_info_from_state(state)
+                        "execution_info": self._create_execution_info_from_state(state),
+                        "similar_results": similar_results,
+                        "entity_matches": entity_matches
                     },
-                    conversation_id=get_state_value('conversation_id')
+                    conversation_id=conversation_id
                 )
             else:
+                error_msg = "No code was generated"
+                
+                # Create error message
+                try:
+                    message_data = MessageCreate(
+                        conversation_id=conversation_id,
+                        role='assistant',
+                        content=error_msg,
+                        message_type='error',
+                        agent_type=self.agent_type
+                    )
+                    
+                    message = message_service.create_message(message_data)
+                    
+                    # Update with error metadata
+                    update_data = MessageUpdate(
+                        has_error=True,
+                        metadata={'error_type': 'no_code_generated'}
+                    )
+                    message_service.update_message(message.id, update_data)
+                    
+                    logger.info(f"Created no-code error message {message.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create no-code error message: {e}")
+                
                 logger.info("No generated code found, returning error")
                 return AgentResponse(
                     status=AgentStatus.ERROR,
-                    message="No code was generated",
+                    message=error_msg,
                     result=None,
-                    conversation_id=get_state_value('conversation_id')
+                    conversation_id=conversation_id
                 )
                 
         except Exception as e:
@@ -286,6 +482,20 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         try:
             if not self._graph:
                 raise RuntimeError(f"{self.agent_type} agent graph not available")
+            
+            # Create initial user message in database if we have a conversation_id
+            if request.conversation_id and request.user_input:
+                try:
+                    user_message_data = MessageCreate(
+                        conversation_id=request.conversation_id,
+                        role='user',
+                        content=request.user_input,
+                        message_type='chat'
+                    )
+                    user_message = message_service.create_message(user_message_data)
+                    logger.info(f"Created user message {user_message.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create user message: {e}")
             
             # Create initial state and config
             initial_state = self._create_initial_state(request)
@@ -358,6 +568,36 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Track the final state
             final_state = None
             
+            # Create initial user message in database if we have a conversation_id
+            user_message_id = None
+            if request.conversation_id and request.user_input:
+                try:
+                    user_message_data = MessageCreate(
+                        conversation_id=request.conversation_id,
+                        role='user',
+                        content=request.user_input,
+                        message_type='chat'
+                    )
+                    user_message = message_service.create_message(user_message_data)
+                    user_message_id = user_message.id
+                    logger.info(f"Created user message {user_message_id}")
+                except Exception as e:
+                    logger.error(f"Failed to create user message: {e}")
+            
+            # Create initial progress message
+            if user_message_id:
+                try:
+                    progress_msg = message_service.create_progress_message(
+                        user_message_id,
+                        "Agent Execution",
+                        "start", 
+                        f"Starting {self.agent_type} agent execution...",
+                        {"agent_type": self.agent_type, "capability": request.capability}
+                    )
+                    logger.info(f"Created start progress message {progress_msg.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create start progress message: {e}")
+            
             # Stream through graph execution
             logger.info(f"Starting streaming execution for {self.agent_type} agent")
             async for chunk in self._graph.astream(initial_state, config_dict):
@@ -367,6 +607,23 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 if isinstance(chunk, dict):
                     for node_name, node_state in chunk.items():
                         logger.info(f"Node '{node_name}' executed")
+                        
+                        # Create progress message for this node
+                        if user_message_id:
+                            try:
+                                progress_msg = message_service.create_progress_message(
+                                    user_message_id,
+                                    node_name,
+                                    "complete",
+                                    f"Completed {node_name}",
+                                    {
+                                        "node_output": self._extract_node_output(node_state),
+                                        "current_state": self._safe_state_summary(node_state)
+                                    }
+                                )
+                                logger.info(f"Created node progress message {progress_msg.id} for {node_name}")
+                            except Exception as e:
+                                logger.error(f"Failed to create node progress message for {node_name}: {e}")
                         
                         # Send progress update if callback provided
                         if progress_callback:
@@ -401,6 +658,21 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             # Create and yield final response
             response = self._create_response_from_state(final_state)
+            
+            # Create completion progress message
+            if user_message_id:
+                try:
+                    progress_msg = message_service.create_progress_message(
+                        user_message_id,
+                        "Agent Execution",
+                        "complete",
+                        f"{self.agent_type} agent execution completed",
+                        {"status": response.status.value, "final_response": True}
+                    )
+                    logger.info(f"Created completion progress message {progress_msg.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create completion progress message: {e}")
+            
             yield {
                 "type": "complete",
                 "response": response
@@ -408,6 +680,21 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
         except Exception as e:
             logger.error(f"Error in streaming {self.agent_type} agent: %s", e, exc_info=True)
+            
+            # Create error progress message if we have user_message_id
+            if 'user_message_id' in locals() and user_message_id:
+                try:
+                    progress_msg = message_service.create_progress_message(
+                        user_message_id,
+                        "Agent Execution",
+                        "error",
+                        f"Error in {self.agent_type} agent: {str(e)}",
+                        {"error": str(e)}
+                    )
+                    logger.info(f"Created error progress message {progress_msg.id}")
+                except Exception as e:
+                    logger.error(f"Failed to create error progress message: {e}")
+            
             yield {
                 "type": "error",
                 "error": str(e)
@@ -424,7 +711,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         
         # Return key fields that show what the node is working on
         return {
-            "user_query": get_state_value("user_query", "")[:100],  # Truncate for display
+            "user_input": get_state_value("user_input", "")[:100],  # Truncate for display
             "agent_type": get_state_value("agent_type", ""),
             "capability": get_state_value("capability", ""),
             "needs_clarification": get_state_value("needs_clarification", False)
@@ -452,15 +739,33 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         if execution_results:
             output["execution_results_count"] = len(execution_results) if isinstance(execution_results, list) else 1
         
-        # Check for search results
+        # Check for search results - return actual matches instead of just counts
         similar_code = get_state_value("similar_code")
         if similar_code:
             output["similar_results_count"] = len(similar_code) if isinstance(similar_code, list) else 1
+            output["similar_results"] = similar_code if isinstance(similar_code, list) else [similar_code]
         
-        # Check for entity matches
+        # Check for entity matches - return actual matches instead of just counts
         entity_matches = get_state_value("entity_matches")
         if entity_matches:
             output["entity_matches_count"] = len(entity_matches) if isinstance(entity_matches, list) else 1
+            output["entity_matches"] = entity_matches if isinstance(entity_matches, list) else [entity_matches]
+
+        # Check for workflow contextual search data (for workflow agent)
+        contextual_search_data = get_state_value("contextual_search_data")
+        if contextual_search_data and isinstance(contextual_search_data, dict):
+            workflows = contextual_search_data.get("workflows", [])
+            methods = contextual_search_data.get("methods", [])
+            
+            if workflows:
+                output["similar_results_count"] = len(workflows)
+                output["similar_results"] = workflows
+            
+            if methods:
+                output["literature_examples"] = methods
+                if "similar_results_count" not in output:
+                    output["similar_results_count"] = 0
+                output["similar_results_count"] += len(methods)
         
         # Check for clarification questions
         clarification_questions = get_state_value("clarification_questions")
@@ -493,27 +798,16 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         }
     
     def get_conversation_state(self, conversation_id: str) -> Optional[Dict[str, Any]]:
-        """Get conversation state."""
-        return conversation_state_service.get(conversation_id)
-    
+        """Get conversation state - deprecated, now handled via messages."""
+        logger.warning("get_conversation_state is deprecated - state now managed via messages")
+        return None
+
     def set_conversation_state(self, conversation_id: str, state: Dict[str, Any]) -> None:
-        """Set conversation state."""
-        conversation_state_service.set(conversation_id, state)
+        """Set conversation state - deprecated, now handled via messages."""
+        logger.warning("set_conversation_state is deprecated - state now managed via messages")
 
 
 # Common node functions that can be used by all agents
-def extract_user_query_node(state: BaseAgentState) -> Dict[str, Any]:
-    """Extract user query from messages."""
-    messages = state.messages or []
-    if not messages:
-        return {"error_message": "No messages found in state"}
-    
-    last_message = messages[-1]
-    user_query = get_message_value(last_message, "content", "")
-    
-    return {"user_query": user_query}
-
-
 def process_clarification_response_node(state: BaseAgentState) -> Dict[str, Any]:
     """Process clarification responses."""
     clarification_responses = state.clarification_responses or []

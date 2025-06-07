@@ -448,17 +448,17 @@ Return ONLY a JSON array of the extracted terms:
             Dictionary containing code generation context
         """
         # Search code snippets (high weight)
-        snippets = await self.search_snippets(user_query, top_k=5)
+        snippets = await self.search_snippets(user_query, top_k=2)
         
         # Search documentation (important for API usage)
-        documentation = await self.search_documentation(user_query, top_k=5)
+        # documentation = await self.search_documentation(user_query, top_k=1)
         
         # Search code examples (important for patterns)
-        code_examples = await self.search_code_examples(user_query, top_k=3)
+        code_examples = await self.search_code_examples(user_query, top_k=5)
         
         return {
             "snippets": snippets,
-            "documentation": documentation,
+            # "documentation": documentation,
             "code_examples": code_examples,
             "previous_code": previous_code,
             "query": user_query
@@ -540,14 +540,65 @@ Return ONLY a JSON array of the extracted terms:
         Format the code generation context into a text prompt for the LLM.
         
         Args:
-            context: Context from get_context_for_code_generation
+            context: Context from get_context_for_code_generation or generate_code_node
             
         Returns:
             Formatted text for LLM consumption
         """
         sections = []
         
-        # Add previous code context (highest priority)
+        # Add refinement context first if this is a refinement request (highest priority)
+        if context.get("refinement_context"):
+            refinement_ctx = context["refinement_context"]
+            sections.append("## REFINEMENT CONTEXT (Highest Priority - Build Upon This):\n")
+            
+            previous_agent_type = refinement_ctx.get("previous_agent_type", "unknown")
+            
+            if refinement_ctx.get("previous_query"):
+                # Handle different agent types appropriately
+                if previous_agent_type == "sparql":
+                    sections.append("### Previous SPARQL Query:")
+                    sections.append("```sparql")
+                    sections.append(refinement_ctx["previous_query"])
+                    sections.append("```")
+                elif previous_agent_type == "code":
+                    sections.append("### Previous Generated Code:")
+                    sections.append("```python")
+                    sections.append(refinement_ctx["previous_query"])
+                    sections.append("```")
+                else:
+                    sections.append("### Previous Query/Code:")
+                    sections.append("```")
+                    sections.append(refinement_ctx["previous_query"])
+                    sections.append("```")
+                sections.append("")
+            
+            if refinement_ctx.get("previous_results"):
+                prev_results = refinement_ctx["previous_results"]
+                sections.append("### Previous Results:")
+                sections.append(f"**Result count**: {len(prev_results)}")
+                
+                # Show a sample of previous results for context
+                if prev_results and len(prev_results) > 0:
+                    sections.append("**Sample results** (use these in your code):")
+                    import json
+                    try:
+                        # Show first few results as examples
+                        sample_results = prev_results[:3] if len(prev_results) > 3 else prev_results
+                        for i, result in enumerate(sample_results, 1):
+                            sections.append(f"Result {i}: {json.dumps(result, indent=2)}")
+                        if len(prev_results) > 3:
+                            sections.append(f"... and {len(prev_results) - 3} more results")
+                    except Exception as e:
+                        sections.append(f"Previous results available but could not display: {str(e)}")
+                sections.append("")
+            
+            if refinement_ctx.get("refinement_request"):
+                sections.append("### User's Refinement Request:")
+                sections.append(refinement_ctx["refinement_request"])
+                sections.append("")
+        
+        # Add previous code context (highest priority for regular requests)
         if context.get("previous_code"):
             sections.append("## PREVIOUS CODE (Highest Priority - Use Variables and Build Upon This):\n")
             sections.append("```python")
@@ -607,12 +658,49 @@ Return ONLY a JSON array of the extracted terms:
         Format the SPARQL generation context into a text prompt for the LLM.
         
         Args:
-            context: Context from get_context_for_sparql_generation
+            context: Context from get_context_for_sparql_generation or generate_query_node
             
         Returns:
             Formatted text for LLM consumption
         """
         sections = []
+        
+        # Add refinement context first if this is a refinement request (highest priority)
+        if context.get("refinement_context"):
+            refinement_ctx = context["refinement_context"]
+            sections.append("## REFINEMENT CONTEXT (Highest Priority - Use This for Context):\n")
+            
+            if refinement_ctx.get("previous_query"):
+                sections.append("### Previous SPARQL Query:")
+                sections.append("```sparql")
+                sections.append(refinement_ctx["previous_query"])
+                sections.append("```")
+                sections.append("")
+            
+            if refinement_ctx.get("previous_results"):
+                prev_results = refinement_ctx["previous_results"]
+                sections.append("### Previous Query Results:")
+                sections.append(f"**Result count**: {len(prev_results)}")
+                
+                # Show a sample of previous results for context
+                if prev_results and len(prev_results) > 0:
+                    sections.append("**Sample results** (for context):")
+                    import json
+                    try:
+                        # Show first few results as examples
+                        sample_results = prev_results[:3] if len(prev_results) > 3 else prev_results
+                        for i, result in enumerate(sample_results, 1):
+                            sections.append(f"Result {i}: {json.dumps(result, indent=2)}")
+                        if len(prev_results) > 3:
+                            sections.append(f"... and {len(prev_results) - 3} more results")
+                    except Exception as e:
+                        sections.append(f"Previous results available but could not display: {str(e)}")
+                sections.append("")
+            
+            if refinement_ctx.get("refinement_request"):
+                sections.append("### User's Refinement Request:")
+                sections.append(refinement_ctx["refinement_request"])
+                sections.append("")
         
         # Add similar SPARQL queries (high weight)
         if context.get("similar_queries"):

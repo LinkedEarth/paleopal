@@ -4,7 +4,7 @@ Multi-agent router for the paleoclimate analysis system.
 
 import logging
 import asyncio
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks
 from fastapi.responses import StreamingResponse
 from typing import Dict, Any, List, AsyncGenerator
 import json
@@ -17,7 +17,8 @@ from agents.workflow.workflow_manager_agent import WorkflowManagerAgent
 from utils.agent_utils import (
     create_sparql_agent_with_config, 
     create_code_agent_with_config, 
-    route_agent_request_with_custom_config
+    route_agent_request_with_custom_config,
+    create_workflow_agent_with_config
 )
 
 logger = logging.getLogger(__name__)
@@ -90,6 +91,12 @@ async def stream_agent_execution(request: AgentRequest) -> AsyncGenerator[str, N
             
             if enable_clarification != True or clarification_threshold != "conservative":
                 agent = create_code_agent_with_config(enable_clarification, clarification_threshold)
+        
+        # Check if this is a workflow agent request
+        elif request.agent_type == "workflow_manager":
+            # Always use the new LangGraph workflow agent for better progress tracking
+            logger.info("Creating LangGraph workflow agent for streaming")
+            agent = create_workflow_agent_with_config()
         
         # Fallback to registry agent
         if not agent:
@@ -210,6 +217,33 @@ async def handle_agent_request(request: AgentRequest):
         logger.error(f"Error handling agent request: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/request/async")
+async def handle_agent_request_async(request: AgentRequest, background_tasks: BackgroundTasks):
+    """
+    Route a request to the appropriate agent asynchronously.
+    
+    Returns immediately while the agent runs in the background.
+    The UI can poll for messages to see progress and results.
+    """
+    try:
+        # Validate conversation exists or create one if needed
+        if not request.conversation_id:
+            return {"error": "conversation_id is required for async requests"}
+        
+        # Add the agent execution as a background task
+        background_tasks.add_task(execute_agent_async, request)
+        
+        return {
+            "status": "accepted",
+            "message": "Agent request queued for execution",
+            "conversation_id": request.conversation_id,
+            "poll_endpoint": f"/messages/conversation/{request.conversation_id}"
+        }
+        
+    except Exception as e:
+        logger.error(f"Error queueing async agent request: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.post("/request/stream")
 async def handle_agent_request_streaming(request: AgentRequest):
     """
@@ -323,4 +357,71 @@ async def find_agents_with_capability(capability_name: str):
         }
     except Exception as e:
         logger.error(f"Error finding agents with capability: {e}")
-        raise HTTPException(status_code=500, detail=str(e)) 
+        raise HTTPException(status_code=500, detail=str(e))
+
+async def execute_agent_async(request: AgentRequest):
+    """Execute agent request in the background."""
+    try:
+        logger.info(f"Starting async execution for {request.agent_type} agent")
+        
+        # Use the utility function to handle custom agent creation
+        agent = None
+        
+        # Check if this is a SPARQL agent request with clarification config
+        if request.agent_type == "sparql":
+            enable_clarification = request.metadata.get("enable_clarification", True)
+            clarification_threshold = request.metadata.get("clarification_threshold", "conservative")
+            
+            if enable_clarification != True or clarification_threshold != "conservative":
+                agent = create_sparql_agent_with_config(enable_clarification, clarification_threshold)
+        
+        # Check if this is a code agent request with clarification config
+        elif request.agent_type == "code":
+            enable_clarification = request.metadata.get("enable_clarification", True)
+            clarification_threshold = request.metadata.get("clarification_threshold", "conservative")
+            
+            if enable_clarification != True or clarification_threshold != "conservative":
+                agent = create_code_agent_with_config(enable_clarification, clarification_threshold)
+        
+        # Check if this is a workflow agent request
+        elif request.agent_type == "workflow_manager":
+            # Always use the new LangGraph workflow agent for better progress tracking
+            logger.info("Creating LangGraph workflow agent for streaming")
+            agent = create_workflow_agent_with_config()
+        
+        # Fallback to registry agent
+        if not agent:
+            agent = agent_registry.get_agent(request.agent_type)
+        
+        if not agent:
+            logger.error(f"Agent type {request.agent_type} not found")
+            return
+        
+        # Check if agent supports streaming for progress tracking
+        if hasattr(agent, 'handle_request_streaming'):
+            logger.info(f"Using streaming execution for progress tracking")
+            # Execute with streaming but don't stream to client - just process progress internally
+            user_message_id = None
+            
+            async for update in agent.handle_request_streaming(request):
+                if update.get("type") == "complete":
+                    # Handle AgentResponse object properly - use attribute access not dict access
+                    response = update.get('response')
+                    if response and hasattr(response, 'status'):
+                        logger.info(f"Async streaming execution completed with status: {response.status}")
+                    else:
+                        logger.info(f"Async streaming execution completed")
+                    break
+                # Progress messages are automatically created by the streaming handler
+                # We just need to process the stream without sending to client
+                logger.debug(f"Progress update: {update.get('type')} - {update.get('node_name')}")
+        else:
+            # Fallback to regular execution without progress tracking
+            logger.info(f"Using regular execution (no progress tracking)")
+            response = await agent.handle_request(request)
+            logger.info(f"Async execution completed for {request.agent_type} agent with status: {response.status}")
+        
+    except Exception as e:
+        logger.error(f"Error in async agent execution: {e}", exc_info=True)
+        # The agent should have created error messages in the database already
+        # via the _create_response_from_state method 

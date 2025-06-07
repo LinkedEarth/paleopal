@@ -6,6 +6,7 @@ Enhanced with comprehensive contextual search.
 import logging
 import json
 import re
+import uuid
 from typing import Dict, Any, List
 from langchain.schema import HumanMessage, SystemMessage
 
@@ -18,50 +19,43 @@ logger = logging.getLogger(__name__)
 
 
 def extract_analysis_request_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Extract and process the analysis request from user input."""
+    """Extract analysis request from messages."""
     try:
-        # Get the last message from the user
+        logger.info("=== EXTRACT_ANALYSIS_REQUEST_NODE CALLED ===")
+        
         messages = state.messages or []
-        if not messages:
-            raise ValueError("No messages found in state")
-
-        # Extract the text using the helper function
-        user_query = ""
-        last_message = messages[-1]
+        user_input = ""
         
-        # Check if the last message is from a user
-        role = get_message_value(last_message, 'role')
-        if role == 'user':
-            user_query = get_message_value(last_message, 'content', '')
+        if messages:
+            # Get the most recent message
+            last_message = messages[-1]
+            user_input = get_message_value(last_message, 'content', '')
         else:
-            # Look for the last user message in the list
-            for msg in reversed(messages):
-                if get_message_value(msg, 'role') == 'user':
-                    user_query = get_message_value(msg, 'content', '')
-                    break
+            # Look for user_input if no messages
+            user_input = get_message_value(msg, 'content', '')
         
-        if not user_query:
-            raise ValueError("Empty user query after all extraction attempts")
         
-        # Extract context information
-        context = state.context or {}
-        analysis_type = context.get("analysis_type", "general")
-        output_format = context.get("output_format", "notebook")
-        data_context = context.get("data_context", {})
+        if not user_input:
+            logger.warning("No user input found in state")
+            return {
+                "error_message": "No analysis request found",
+                "analysis_request": "",
+                "conversation_id": state.conversation_id
+            }
         
-        logger.info(f"Extracted analysis request: '{user_query[:100]}...'")
+        logger.info(f"Extracted analysis request: '{user_input[:100]}...'")
         
         return {
-            "analysis_request": user_query,
-            "user_query": user_query,  # For compatibility with base state
-            "analysis_type": analysis_type,
-            "output_format": output_format,
-            "data_context": data_context,
+            "analysis_request": user_input,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
     except Exception as e:
         logger.error(f"Error extracting analysis request: {e}")
-        return {"error_message": f"Failed to extract analysis request: {str(e)}"}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id
+        }
 
 
 async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
@@ -71,7 +65,10 @@ async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConf
         analysis_type = getattr(state, "analysis_type", "general")
         
         if not analysis_request:
-            return {"error_message": "No analysis request to search examples for"}
+            return {
+                "error_message": "No analysis request to search examples for",
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         search_query = f"{analysis_request} {analysis_type}"
         logger.info(f"Searching for code context with query: '{search_query}'")
@@ -148,16 +145,20 @@ async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConf
             "similar_code": examples,  # Use generalized field
             "code_examples_used": used_examples_meta,
             "contextual_search_data": context_data,  # Store for code generation
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
     except Exception as e:
         logger.error(f"Error searching code examples: {e}")
-        return {"error_message": str(e)}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
 
 
 def detect_clarification_needs_code(
     llm,
-    user_query: str,
+    user_input: str,
     examples: list,
     data_context: dict
 ) -> Dict[str, Any]:
@@ -166,8 +167,8 @@ def detect_clarification_needs_code(
     
     Args:
         llm: LLM model to use
-        user_query: Raw user query
-        examples: Code examples found for the query
+        user_input: Raw user input
+        examples: Code examples found for the input
         data_context: Context about the data being analyzed
         
     Returns:
@@ -179,14 +180,14 @@ def detect_clarification_needs_code(
         
         # Case 1: Vague analysis request
         vague_terms = ['analyze', 'plot', 'show', 'look at', 'examine', 'study']
-        if any(term in user_query.lower() for term in vague_terms) and len(user_query.split()) < 5:
+        if any(term in user_input.lower() for term in vague_terms) and len(user_input.split()) < 5:
             ambiguities.append({
                 'type': 'vague_request',
                 'description': 'The analysis request is quite general and could be interpreted in multiple ways'
             })
         
         # Case 2: Missing data context
-        if not data_context and 'data' in user_query.lower():
+        if not data_context and 'data' in user_input.lower():
             ambiguities.append({
                 'type': 'missing_data_context',
                 'description': 'No information about the data structure or format is available'
@@ -203,7 +204,7 @@ def detect_clarification_needs_code(
         
         matching_types = []
         for analysis_type, keywords in analysis_keywords.items():
-            if any(keyword in user_query.lower() for keyword in keywords):
+            if any(keyword in user_input.lower() for keyword in keywords):
                 matching_types.append(analysis_type)
         
         if len(matching_types) > 1:
@@ -217,7 +218,7 @@ def detect_clarification_needs_code(
         if ambiguities:
             prompt = f"""Based on the user's code generation request, I need to generate clarification questions.
 
-USER REQUEST: "{user_query}"
+USER REQUEST: "{user_input}"
 
 DATA CONTEXT: {data_context}
 
@@ -234,6 +235,7 @@ Generate the questions in JSON format:
 {{
   "questions": [
     {{
+      "id": "optional_unique_id",
       "question": "What specific type of analysis would you like to perform?",
       "context": "Your request could involve multiple analysis types",
       "choices": ["time series analysis", "correlation analysis", "spectral analysis"]
@@ -241,6 +243,8 @@ Generate the questions in JSON format:
   ]
 }}
 ```
+
+Note: The "id" field is optional - unique IDs will be generated automatically if not provided.
 
 Only include the JSON object, nothing else."""
 
@@ -254,6 +258,11 @@ Only include the JSON object, nothing else."""
                     questions = parsed.get("questions", [])
                     
                     if questions:
+                        # Add unique IDs to questions if they don't have them
+                        for i, question in enumerate(questions):
+                            if 'id' not in question:
+                                question['id'] = f"code_q{i+1}_{uuid.uuid4().hex[:8]}"
+                        
                         return {
                             "needs_clarification": True,
                             "clarification_questions": questions,
@@ -282,22 +291,31 @@ def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) ->
         llm = get_config_value(config, 'llm')
         if not llm:
             logger.warning("No LLM available for clarification detection")
-            return {"needs_clarification": False}
+            return {
+                "needs_clarification": False,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Check if clarification is enabled
         enable_clarification = get_config_value(config, 'enable_clarification', True)
         if not enable_clarification:
             logger.info("Clarification is disabled, skipping detection")
-            return {"needs_clarification": False}
+            return {
+                "needs_clarification": False,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Skip clarification if we already have clarification responses
         if state.clarification_responses:
             logger.info("Clarification responses already provided, skipping detection")
-            return {"needs_clarification": False}
+            return {
+                "needs_clarification": False,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Get clarification threshold from config
         clarification_threshold = get_config_value(config, 'clarification_threshold', 'conservative')
-        user_query = analysis_request
+        user_input = analysis_request
         
         # For permissive threshold, skip clarification for simple, clear requests
         if clarification_threshold == "permissive":
@@ -310,14 +328,17 @@ def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) ->
             ]
             
             for pattern in simple_patterns:
-                if re.search(pattern, user_query.lower()):
+                if re.search(pattern, user_input.lower()):
                     logger.info(f"Permissive threshold: skipping clarification for simple code pattern: {pattern}")
-                    return {"needs_clarification": False}
+                    return {
+                        "needs_clarification": False,
+                        "conversation_id": state.conversation_id  # Preserve conversation_id
+                    }
         
         # Detect clarification needs using existing function
         clarification_result = detect_clarification_needs_code(
             llm=llm,
-            user_query=analysis_request,
+            user_input=analysis_request,
             examples=examples,
             data_context=data_context
         )
@@ -339,15 +360,22 @@ def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) ->
             return {
                 "needs_clarification": True,
                 "clarification_questions": clarification_result.get("clarification_questions", []),
-                "clarification_ambiguities": clarification_result.get("ambiguities", [])
+                "clarification_ambiguities": clarification_result.get("ambiguities", []),
+                "conversation_id": state.conversation_id  # Preserve conversation_id
             }
         else:
             logger.info(f"No clarification needed (threshold: {clarification_threshold})")
-            return {"needs_clarification": False}
+            return {
+                "needs_clarification": False,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
     except Exception as e:
         logger.error(f"Error in clarification detection: {e}")
-        return {"needs_clarification": False}
+        return {
+            "needs_clarification": False,
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
 
 
 def process_clarification_response(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
@@ -356,7 +384,10 @@ def process_clarification_response(state: CodeAgentState, config: CodeAgentConfi
         clarification_responses = state.clarification_responses or []
         
         if not clarification_responses:
-            return {"error_message": "No clarification responses to process"}
+            return {
+                "error_message": "No clarification responses to process",
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         logger.info(f"Processing {len(clarification_responses)} clarification responses")
         
@@ -387,11 +418,15 @@ def process_clarification_response(state: CodeAgentState, config: CodeAgentConfi
             "clarification_processed": True,
             "analysis_preferences": analysis_preferences,
             "needs_clarification": False,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
     except Exception as e:
         logger.error(f"Error processing clarification response: {e}")
-        return {"error_message": str(e)}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
 
 
 def should_refine_code(state: CodeAgentState) -> str:
@@ -428,12 +463,18 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
         
         if refinement_count >= MAX_REFINEMENTS:
             logger.warning("Maximum refinements reached")
-            return {"refinement_complete": True}
+            return {
+                "refinement_complete": True,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Get LLM from config
         llm = get_config_value(config, 'llm')
         if not llm:
-            return {"error_message": "LLM not available for refinement"}
+            return {
+                "error_message": "LLM not available for refinement",
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Create refinement prompt
         refinement_prompt = f"""
@@ -489,68 +530,16 @@ Return your response as JSON with keys: code, description, improvements_made.
             "refinement_count": refinement_count + 1,
             "error_message": "",  # Clear previous error
             "refinement_description": parsed.get("description", "Code refined"),
-            "improvements_made": parsed.get("improvements_made", [])
+            "improvements_made": parsed.get("improvements_made", []),
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
     except Exception as e:
         logger.error(f"Error refining code: {e}")
-        return {"error_message": str(e)}
-
-
-def process_refinement_request(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Process a user request to refine existing code."""
-    try:
-        # Extract refinement request from the latest message
-        messages = state.messages or []
-        refinement_request = ""
-        
-        for msg in reversed(messages):
-            if get_message_value(msg, 'role') == 'user':
-                refinement_request = get_message_value(msg, 'content', '')
-                break
-        
-        if not refinement_request:
-            return {"error_message": "No refinement request found"}
-        
-        # Get previous code from context
-        context = state.context or {}
-        previous_code = context.get("previous_code", "")
-        
-        if previous_code:
-            # Create combined request that incorporates previous code context
-            combined_request = f"""
-Refine this existing code based on the user's request:
-
-EXISTING CODE:
-```python
-{previous_code}
-```
-
-USER REFINEMENT REQUEST:
-{refinement_request}
-
-Please generate new Python code that builds upon the previous code while incorporating the user's refinement request.
-"""
-            
-            logger.info(f"Processing refinement request: {refinement_request}")
-            logger.info(f"Previous code context: {previous_code[:100]}...")
-            
-            return {
-                "user_query": combined_request,
-                "analysis_request": combined_request,
-                "is_refinement": True
-            }
-        else:
-            # No previous code context, treat as regular request
-            logger.warning("No previous code found, treating refinement as new request")
-            return {
-                "user_query": refinement_request,
-                "analysis_request": refinement_request
-            }
-            
-    except Exception as e:
-        logger.error(f"Error processing refinement request: {e}")
-        return {"error_message": str(e)}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
 
 
 def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
@@ -558,7 +547,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
     try:
         logger.info("=== ENHANCED GENERATE_CODE_NODE CALLED ===")
         
-        analysis_request = state.analysis_request or ""
+        analysis_request = state.analysis_request or state.user_input or ""
         analysis_type = state.analysis_type or "general"
         output_format = state.output_format or "notebook"
         data_context = state.data_context or {}
@@ -566,19 +555,43 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         contextual_data = getattr(state, 'contextual_search_data', {})
         
         logger.info(f"analysis_request: '{analysis_request}'")
+        logger.info(f"user_input fallback: '{state.user_input}'")
         logger.info(f"analysis_type: {analysis_type}")
         logger.info(f"output_format: {output_format}")
         logger.info(f"examples count: {len(examples)}")
         logger.info(f"contextual_data keys: {list(contextual_data.keys())}")
         
         if not analysis_request:
-            logger.error("No analysis request provided")
-            return {"error_message": "No analysis request provided for code generation"}
+            logger.error("No analysis request or user input provided")
+            return {
+                "error_message": "No analysis request or user input provided for code generation",
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Format comprehensive context for LLM
         context_prompt = ""
         if contextual_data:
             context_prompt = search_service.format_code_context_for_llm(contextual_data)
+        
+        # Add previous context if available (replaces refinement-specific logic)
+        context = state.context or {}
+        if context.get("has_previous_context"):
+            logger.info("=== ADDING PREVIOUS CONTEXT TO CODE GENERATION ===")
+            # Add previous context to contextual_data for proper formatting
+            contextual_data["refinement_context"] = {
+                "is_refinement": True,
+                "previous_query": context.get("previous_query"),
+                "previous_results": context.get("previous_results"),
+                "refinement_request": analysis_request,
+                "previous_agent_type": context.get("previous_agent_type")
+            }
+            
+            # Update the context prompt to include previous context
+            context_prompt = search_service.format_code_context_for_llm(contextual_data)
+            
+            logger.info(f"Previous query/code length: {len(context.get('previous_query', ''))}")
+            logger.info(f"Previous results count: {len(context.get('previous_results', []))}")
+            logger.info(f"Previous agent type: {context.get('previous_agent_type')}")
         
         # Build examples section for prompt
         examples_section = ""
@@ -601,34 +614,14 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 response = resp.get("response", "")
                 clarification_text += f"Question: {question}\nResponse: {response}\n\n"
         
-        # Include previous agent output context if available
-        prev_ctx_lines = []
-        prev_ctx = state.context or {}
-        if prev_ctx.get("prev_sparql_query"):
-            prev_ctx_lines.append("PREVIOUS SPARQL QUERY:\n```sparql\n" + prev_ctx["prev_sparql_query"] + "\n```")
-        if prev_ctx.get("prev_query_results"):
-            sample_results = prev_ctx["prev_query_results"]
-            try:
-                import json as _json
-                prev_ctx_lines.append("PREVIOUS SPARQL RESULTS (truncated):\n" + _json.dumps(sample_results[:3], indent=2) + ("\n..." if len(sample_results) > 3 else ""))
-            except Exception:
-                prev_ctx_lines.append("PREVIOUS SPARQL RESULTS present (unable to display)\n")
-        if prev_ctx.get("prev_generated_code"):
-            code_snip = prev_ctx["prev_generated_code"]
-            prev_ctx_lines.append("PREVIOUS GENERATED CODE:\n```python\n" + (code_snip[:400] + ("\n..." if len(code_snip) > 400 else "")) + "\n```")
-        if prev_ctx.get("prev_workflow_plan"):
-            prev_ctx_lines.append("PREVIOUS WORKFLOW PLAN PROVIDED (refer to steps as needed).")
-        if prev_ctx.get("prev_execution_results"):
-            prev_ctx_lines.append(f"PREVIOUS EXECUTION RESULTS: {len(prev_ctx['prev_execution_results'])} items available for reference.")
-
-        previous_context_section = "\n\n".join(prev_ctx_lines)
-
+        # The previous context is now handled through the unified refinement_context 
+        # in contextual_data, which is formatted by the search service
+        
         user_prompt = (
             f"ANALYSIS REQUEST: {analysis_request}{clarification_text}\n\n"
             f"DATA CONTEXT: {data_context}\n"
             f"ANALYSIS TYPE: {analysis_type}\n"
             f"OUTPUT FORMAT: {output_format}\n\n"
-            f"{previous_context_section}\n\n" if previous_context_section else "" +
             f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
             f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
             "INSTRUCTIONS:\n"
@@ -645,8 +638,12 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         llm = get_config_value(config, 'llm')
         if not llm:
             logger.error("No LLM found in config")
-            return {"error_message": "LLM not available"}
+            return {
+                "error_message": "LLM not available",
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
+        logger.info(f"User prompt: {user_prompt}")
         logger.info("Calling LLM to generate enhanced code...")
         messages = [
             SystemMessage(content="You are an expert Python data-analysis assistant specializing in paleoclimate data. "
@@ -654,7 +651,8 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                                  "and previous code. Generate complete, executable code that integrates seamlessly "
                                  "with existing variables and follows established patterns. "
                                  "Use PyLiPD, Pyleoclim, pandas, numpy, and matplotlib as appropriate. "
-                                 "Return your response as JSON with keys: code, description, libraries, outputs."),
+                                 "Return your response as JSON with keys: code, description, libraries, outputs."
+                                 "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible."),
             HumanMessage(content=user_prompt)
         ]
         
@@ -714,7 +712,8 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "expected_outputs": parsed.get("outputs", []),
             "messages": messages,
             "execution_results": [{"type": "code_generated", "status": "success"}],
-            "context_used": context_summary
+            "context_used": context_summary,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
         logger.info(f"Returning enhanced result with generated_code length: {len(result['generated_code'])}")
@@ -722,7 +721,10 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         
     except Exception as e:
         logger.error(f"Error generating code: {e}", exc_info=True)
-        return {"error_message": str(e)}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
 
 
 def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
@@ -734,7 +736,10 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         has_error = bool(state.error_message)
         
         if not generated_code:
-            return {"error_message": "No code was generated"}
+            return {
+                "error_message": "No code was generated",
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
         
         # Add final message if not already present
         messages = state.messages or []
@@ -765,9 +770,13 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
             "execution_results": execution_results,
             "generated_code": generated_code,
             "needs_clarification": False,
-            "final_status": final_status
+            "final_status": final_status,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
     except Exception as e:
         logger.error(f"Error finalizing code response: {e}")
-        return {"error_message": str(e)} 
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        } 

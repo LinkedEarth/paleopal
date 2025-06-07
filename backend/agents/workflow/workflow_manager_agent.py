@@ -33,8 +33,8 @@ from services.agent_registry import agent_registry
 from services.search_integration_service import search_service
 from services.service_manager import service_manager
 
-# Import the utility function to handle custom agent creation
-from utils.agent_utils import route_agent_request_with_custom_config
+# Remove the circular import - this import is not used in this file
+# from utils.agent_utils import route_agent_request_with_custom_config
 
 logger = logging.getLogger(__name__)
 
@@ -684,6 +684,7 @@ Return only the JSON object, no additional text."""
 
         shared_context: Dict[str, Any] = {}
 
+        clarification_responses = request.metadata.get("clarification_responses") if request.metadata else None
         for step in plan.steps:
             step_id = step["step_id"]
             agent_type = step["agent_type"]

@@ -1,48 +1,66 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 
-from schemas.conversation import Conversation
+from schemas.conversation import Conversation, ConversationCreate, ConversationUpdate
 from services.conversation_service import conversation_service
 
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
-@router.get("/", response_model=List[Conversation], response_model_by_alias=True)
+@router.get("/", response_model=List[Conversation])
 def list_conversations():
-    """Return list of conversations (metadata and messages)."""
-    return conversation_service.list_conversations()
+    """Return list of conversations (metadata only, messages loaded separately)."""
+    return conversation_service.list_conversations(include_messages=False)
 
-@router.get("/{conv_id}", response_model=Conversation, response_model_by_alias=True)
+@router.get("/{conv_id}", response_model=Conversation)
 def get_conversation(conv_id: str):
-    """Get a specific conversation by ID."""
-    conv = conversation_service.get_conversation(conv_id)
+    """Get a specific conversation by ID with all messages."""
+    conv = conversation_service.get_conversation(conv_id, include_messages=True)
     if not conv:
         raise HTTPException(status_code=404, detail="Conversation not found")
     return conv
 
-@router.post("/", response_model=Conversation, response_model_by_alias=True)
-def create_conversation(conv: Conversation):
+@router.post("/", response_model=Conversation)
+def create_conversation(conv_data: ConversationCreate):
     """Create a new conversation."""
-    if conversation_service.conversation_exists(conv.id):
-        raise HTTPException(status_code=400, detail="Conversation with id already exists")
-    return conversation_service.create_conversation(conv)
+    return conversation_service.create_conversation(conv_data)
 
-@router.put("/{conv_id}", response_model=Conversation, response_model_by_alias=True)
-def update_conversation(conv_id: str, conv: Conversation):
-    """Update an existing conversation."""
-    if conv_id != conv.id:
-        raise HTTPException(status_code=400, detail="ID mismatch")
-    
-    if not conversation_service.conversation_exists(conv_id):
+@router.put("/{conv_id}", response_model=Conversation)
+def update_conversation(conv_id: str, update_data: ConversationUpdate):
+    """Update conversation metadata (not messages)."""
+    conv = conversation_service.update_conversation(conv_id, update_data)
+    if not conv:
         raise HTTPException(status_code=404, detail="Conversation not found")
-    
-    return conversation_service.update_conversation(conv)
+    return conv
 
 @router.delete("/{conv_id}")
 def delete_conversation(conv_id: str):
-    """Delete a conversation."""
+    """Delete a conversation and all its messages."""
     if not conversation_service.delete_conversation(conv_id):
         raise HTTPException(status_code=404, detail="Conversation not found")
     return {"status": "deleted"}
+
+# Legacy endpoints for backward compatibility
+@router.delete("/{conv_id}/messages/{message_index}")
+def delete_message(conv_id: str, message_index: int):
+    """Delete a specific message from a conversation by index (legacy endpoint)."""
+    if not conversation_service.conversation_exists(conv_id):
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    if not conversation_service.delete_message(conv_id, message_index):
+        raise HTTPException(status_code=400, detail="Invalid message index or message not found")
+    
+    return {"status": "message_deleted", "message_index": message_index}
+
+@router.delete("/{conv_id}/messages/from/{from_index}")
+def delete_messages_from_index(conv_id: str, from_index: int):
+    """Delete all messages from a specific index onwards (legacy endpoint)."""
+    if not conversation_service.conversation_exists(conv_id):
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    if not conversation_service.delete_messages_from_index(conv_id, from_index):
+        raise HTTPException(status_code=400, detail="Invalid from_index or no messages to delete")
+    
+    return {"status": "messages_deleted", "from_index": from_index}
 
 @router.get("/debug/database-state")
 def get_database_state():

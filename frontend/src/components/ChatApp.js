@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import ChatWindow from './ChatWindow';
-import './ChatApp.css';
+import { testApiConnectivity } from '../config/api';
+
+// Configure axios defaults
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 // Helper to generate a simple unique id (timestamp based)
 const generateId = () => `c_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
@@ -13,18 +16,43 @@ const ChatApp = () => {
   const [activeId, setActiveId] = useState(conversations[0]?.id || null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Track which conversations have been persisted to backend to avoid duplicate POSTs
+  const persistedIdsRef = React.useRef(new Set());
+  const savingIdsRef = React.useRef(new Set());
+
   // Fetch conversations from backend on mount (fallback to a new one on error/empty)
   useEffect(() => {
     const fetchConversations = async () => {
+      // Test API connectivity first
+      console.log('🧪 Testing API connectivity before fetching conversations...');
+      const isConnected = await testApiConnectivity();
+      if (!isConnected) {
+        console.error('❌ Cannot connect to API, skipping conversation fetch');
+        return;
+      }
+      
       try {
-        const resp = await axios.get('/conversations');
+        console.log('🔍 Fetching conversations from backend...');
+        console.log('📍 Axios base URL:', axios.defaults.baseURL);
+        const resp = await axios.get('/conversations/');
+        console.log('✅ Conversations response:', resp);
+        console.log('📝 Conversations data:', resp.data);
+        
         if (Array.isArray(resp.data) && resp.data.length) {
+          console.log(`✅ Found ${resp.data.length} conversations`);
           setConversations(resp.data);
           setActiveId(resp.data[0].id);
           return;
+        } else {
+          console.log('⚠️ No conversations found in response');
         }
       } catch (err) {
-        console.warn('Could not fetch conversations from backend', err);
+        console.error('❌ Could not fetch conversations from backend', err);
+        console.error('❌ Error details:', {
+          message: err.message,
+          config: err.config,
+          response: err.response
+        });
       }
 
       // // Backend returned no conversations or failed – start a fresh one locally (will POST on first save)
@@ -54,8 +82,10 @@ const ChatApp = () => {
         return [...prev, { ...updatedConv, updatedAt: new Date().toISOString() }];
       });
 
-      // Persist to backend
-      saveConversationToBackend(updatedConv);
+      // Persist to backend only if the conversation is not currently loading
+      if (!updatedConv.isLoading) {
+        saveConversationToBackend(updatedConv);
+      }
     },
     []
   );
@@ -75,8 +105,6 @@ const ChatApp = () => {
       id: generateId(),
       title: 'New Chat',
       messages: [],
-      stateId: null,
-      // Explicitly reset all state properties to prevent carryover
       waitingForClarification: false,
       clarificationQuestions: [],
       clarificationAnswers: {},
@@ -187,7 +215,13 @@ const ChatApp = () => {
 
   // Helper to POST/PUT conversation
   const saveConversationToBackend = async (conv) => {
+    // Avoid concurrent saves for the same conversation
+    if (savingIdsRef.current.has(conv.id)) {
+      return;
+    }
+
     try {
+      savingIdsRef.current.add(conv.id);
       // Try PUT first; if 404 then POST
       const filteredMessages = (conv.messages || []).filter(m => !m.isNodeProgress);
       const clean = {
@@ -195,12 +229,17 @@ const ChatApp = () => {
         title: conv.title,
         agent_type: conv.agent_type || conv.selectedAgent || 'unknown',
         messages: filteredMessages,
-        stateId: conv.stateId || conv.state_id || null,
         created_at: conv.createdAt || conv.created_at || new Date().toISOString(),
         updated_at: conv.updatedAt || conv.updated_at || new Date().toISOString(),
         status: conv.status || 'active',
         context: conv.context || {}
       };
+
+      // If we've already POSTed this conversation before, skip straight to PUT
+      if (persistedIdsRef.current.has(conv.id)) {
+        await axios.put(`/conversations/${conv.id}`, clean);
+        return;
+      }
 
       await axios.put(`/conversations/${conv.id}`, clean);
     } catch (err) {
@@ -212,47 +251,55 @@ const ChatApp = () => {
             title: conv.title,
             agent_type: conv.agent_type || conv.selectedAgent || 'unknown',
             messages: filteredMessages,
-            stateId: conv.stateId || conv.state_id || null,
             created_at: conv.createdAt || conv.created_at || new Date().toISOString(),
             updated_at: conv.updatedAt || conv.updated_at || new Date().toISOString(),
             status: conv.status || 'active',
             context: conv.context || {}
           };
 
-          await axios.post('/conversations', clean);
+          if (!persistedIdsRef.current.has(conv.id)) {
+            await axios.post('/conversations', clean);
+            // Mark as persisted to prevent future duplicate POSTs
+            persistedIdsRef.current.add(conv.id);
+          }
         } catch (postErr) {
           console.error('Failed to save conversation (POST)', postErr);
         }
       } else {
         console.error('Failed to save conversation (PUT)', err);
       }
+    } finally {
+      savingIdsRef.current.delete(conv.id);
     }
   };
 
   return (
-    <div className="chat-app-container">
+    <div className="flex h-screen w-screen overflow-hidden font-sans relative">
       {/* Mobile toggle button */}
-      <button className="sidebar-toggle" onClick={() => setSidebarOpen((o) => !o)}>
+      <button 
+        className="fixed top-2.5 left-2.5 z-50 bg-gray-800 text-gray-200 border-none w-9 h-9 text-lg rounded-md cursor-pointer md:hidden"
+        onClick={() => setSidebarOpen((o) => !o)}
+      >
         ☰
       </button>
 
       {/* Sidebar */}
-      <aside className={`chat-sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h2 className="sidebar-title">Conversations</h2>
+      <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-gray-800 text-gray-200 flex flex-col transition-transform duration-300 ease-in-out z-50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <div className="flex items-center justify-between p-4 border-b border-white/10">
+          <h2 className="text-lg font-semibold m-0">Conversations</h2>
           <button 
-            className={`new-chat-btn`}
+            className="bg-green-600 border-none text-white w-8 h-8 rounded text-xl leading-8 cursor-pointer transition-colors duration-200 hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
             onClick={handleNewChat}
             title="New Chat"
           >
             +
           </button>
         </div>
-        <ul className="conversation-list">
+        <ul className="list-none p-0 m-0 overflow-y-auto overflow-x-hidden flex-1">
           {conversations.map((conv) => (
-            <li key={conv.id} className={`conversation-item ${conv.id === activeId ? 'active' : ''} ${conv.isLoading ? 'loading' : ''}`}>
+            <li key={conv.id} className={`relative flex items-center border-b border-white/5 transition-colors duration-150 min-h-12 group ${conv.id === activeId ? 'bg-gray-700' : 'hover:bg-white/5'} ${conv.isLoading ? 'bg-yellow-500/20 border-l-3 border-yellow-500' : ''}`}>
               <div
-                className="conversation-click"
+                className="flex-1 flex items-center gap-2 py-3 px-2 pl-4 cursor-pointer rounded-lg transition-colors duration-200 min-w-0 overflow-hidden hover:bg-white/10"
                 onClick={() => {
                   // Warn if switching away from a conversation with an active request
                   if (hasActiveRequest && conv.id !== activeId) {
@@ -268,14 +315,16 @@ const ChatApp = () => {
                 onDoubleClick={() => handleRenameConversation(conv.id)}
                 title={conv.isLoading && conv.id !== activeId ? "Click to switch (will warn about active request)" : ""}
               >
-                <span className="conversation-title">{conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}</span>
+                <span className={`flex-1 text-sm leading-tight overflow-hidden text-ellipsis whitespace-nowrap min-w-0 ${conv.isLoading ? 'text-yellow-500 font-medium' : 'text-gray-200'}`}>
+                  {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
+                </span>
                 {conv.isLoading && (
-                  <div className="conversation-status">
-                    <span className="conversation-loading-indicator">⏳</span>
+                  <div className="flex items-center gap-1 ml-1 flex-shrink-0">
+                    <span className="text-xs ml-1 animate-pulse flex-shrink-0">⏳</span>
                     {/* Show clear loading button if conversation has been loading for more than 2 minutes */}
                     {conv.updatedAt && (Date.now() - new Date(conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
                       <button
-                        className="clear-loading-btn"
+                        className="bg-transparent border-none text-xs cursor-pointer p-0.5 rounded opacity-70 transition-all duration-200 flex-shrink-0 hover:bg-yellow-500/20 hover:opacity-100"
                         title="Clear stuck loading state"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -289,7 +338,7 @@ const ChatApp = () => {
                 )}
               </div>
               <button
-                className="conversation-rename-btn"
+                className="bg-transparent border-none text-xs cursor-pointer p-1 rounded opacity-0 transition-all duration-200 ml-0.5 text-gray-400 flex-shrink-0 w-6 h-6 flex items-center justify-center hover:bg-white/10 hover:text-white group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-30"
                 title="Rename"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -297,7 +346,7 @@ const ChatApp = () => {
                 }}
               >✏️</button>
               <button
-                className="conversation-delete-btn"
+                className="bg-transparent border-none text-xs cursor-pointer p-1 rounded opacity-0 transition-all duration-200 ml-0.5 text-gray-400 flex-shrink-0 w-6 h-6 flex items-center justify-center hover:bg-white/10 hover:text-white group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-30"
                 title={conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -310,11 +359,11 @@ const ChatApp = () => {
       </aside>
 
       {/* Main Chat Window */}
-      <main className="chat-main" onClick={() => sidebarOpen && setSidebarOpen(false)}>
+      <main className="ml-0 w-full bg-gray-100 flex flex-col h-screen overflow-hidden md:ml-80 md:w-[calc(100vw-320px)]" onClick={() => sidebarOpen && setSidebarOpen(false)}>
         {activeConversation ? (
           <ChatWindow conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
         ) : (
-          <div className="no-chat-selected">Select or start a conversation.</div>
+          <div className="m-auto text-xl text-gray-600">Select or start a conversation.</div>
         )}
       </main>
     </div>

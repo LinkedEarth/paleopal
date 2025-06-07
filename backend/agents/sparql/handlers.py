@@ -6,6 +6,7 @@ Updated to work with Pydantic state and unified config.
 import logging
 import re
 import json
+import uuid
 from typing import Dict, Any, List
 from langchain.chat_models.base import BaseChatModel
 from langchain.schema import HumanMessage, SystemMessage
@@ -22,69 +23,70 @@ from config import DEFAULT_LLM_PROVIDER
 logger = logging.getLogger(__name__)
 
 def extract_user_query(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Extract the user query from the last message."""
+    """Extract user query from the latest message."""
     try:
-        # Get the last message from the user
+        logger.info("=== EXTRACT USER QUERY NODE CALLED ===")
+        
         messages = state.messages or []
         if not messages:
-            raise ValueError("No messages found in state")
-
-        # Handle the message based on its format
+            return {
+                "error_message": "No messages found in state",
+                "conversation_id": state.conversation_id
+            }
+        
+        # Get the last message (most recent user input)
         last_message = messages[-1]
         
-        # Extract the text using the helper function
-        user_query = ""
-        
-        # Check if the last message is from a user
-        role = get_message_value(last_message, 'role')
-        if role == 'user':
-            user_query = get_message_value(last_message, 'content', '')
+        # Handle both dict and object message formats
+        if isinstance(last_message, dict):
+            user_query = last_message.get("content", "")
         else:
-            # Look for the last user message in the list
-            for msg in reversed(messages):
-                if get_message_value(msg, 'role') == 'user':
-                    user_query = get_message_value(msg, 'content', '')
-                    break
+            user_query = getattr(last_message, "content", "")
         
-        # Final fallback: if still no query, try alternative extraction methods
-        if not user_query or user_query.strip() == "":
-            logger.warning("No user query extracted using standard methods, trying fallbacks")
-            
-            # Try text method if available
-            if hasattr(last_message, "text"):
-                user_query = last_message.text()
-            else:
-                # Convert to string as last resort
-                user_query = str(last_message)
+        if not user_query:
+            return {
+                "error_message": "No user query found in last message",
+                "conversation_id": state.conversation_id
+            }
         
-        if not user_query or user_query.strip() == "":
-            # Log the message structure for debugging
-            logger.error(f"Failed to extract user query. Message structure: {type(last_message)}")
-            if hasattr(last_message, '__dict__'):
-                logger.error(f"Message attributes: {last_message.__dict__}")
-            elif isinstance(last_message, dict):
-                logger.error(f"Message dict: {last_message}")
-            raise ValueError("Empty user query after all extraction attempts")
+        logger.info(f"Extracted user query: '{user_query[:50]}...'")
         
-        logger.info(f"Extracted user query: '{user_query[:100]}...'")
-        
-        return {"user_query": user_query}
+        return {
+            "user_query": user_query,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
+        }
     except Exception as e:
-        logger.error(f"Error extracting user query: {e}", exc_info=True)
-        return {"error_message": str(e)}
+        logger.error(f"Error extracting user query: {e}")
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id
+        }
 
 def get_similar_queries_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Retrieve similar SPARQL queries only (no ontology entities)."""
+    """Get similar SPARQL queries from the database."""
     try:
+        user_input = state.user_input or ""
+        if not user_input:
+            return {
+                "similar_code": [],
+                "conversation_id": state.conversation_id
+            }
+        
+        # Use the search service to get similar queries
         import asyncio
-        similar = asyncio.run(
-            search_service.search_sparql_queries(state.user_query or "", top_k=3)
-        )
-        logger.info(f"Found {len(similar)} similar SPARQL queries")
-        return {"similar_code": similar}
+        similar_queries = asyncio.run(search_service.search_sparql_queries(user_input, top_k=3))
+        
+        logger.info(f"Found {len(similar_queries)} similar SPARQL queries")
+        return {
+            "similar_code": similar_queries,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
+        }
     except Exception as e:
-        logger.error(f"Error getting similar SPARQL queries: {e}")
-        return {"error_message": str(e)}
+        logger.error(f"Error getting similar queries: {e}")
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id
+        }
 
 def extract_paleo_terms(llm: BaseChatModel, user_query: str) -> List[str]:
     """
@@ -161,16 +163,22 @@ def get_entity_matches_node(state: SparqlAgentState, config: SparqlAgentConfig) 
         # Use the search service directly (it now includes term extraction)
         import asyncio
         entity_matches = asyncio.run(search_service.search_ontology_entities(
-            query=state.user_query or "",
+            query=state.user_input or "",
             use_term_extraction=True  # Enable LLM-based term extraction
         ))
         
         logger.info(f"Found {len(entity_matches)} entity matches via fallback search")
-        return {"entity_matches": entity_matches}
+        return {
+            "entity_matches": entity_matches,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
+        }
         
     except Exception as e:
         logger.error(f"Error getting entity matches: {e}")
-        return {"error_message": str(e)}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id
+        }
 
 def identify_clarification_needs(
     llm: BaseChatModel,
@@ -391,7 +399,7 @@ def clarify_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
         # Identify if clarification is needed
         clarification_info = identify_clarification_needs(
             llm,
-            state.user_query,
+            state.user_input,
             state.entity_matches
         )
         
@@ -412,19 +420,12 @@ def should_ask_for_clarification(state: SparqlAgentState) -> str:
     Returns:
         str: "true" if clarification is needed, "false" otherwise
     """
-    # Get the clarification sequence
-    clarification_sequence = state.clarification_sequence or 0
     
     # Log detailed state information for debugging
-    logger.info(f"Clarification check - sequence: {clarification_sequence}, "
+    logger.info(f"Clarification check - "
                 f"needs_clarification: {state.needs_clarification}, "
                 f"has_responses: {bool(state.clarification_responses)}, "
                 f"processed: {state.clarification_processed}")
-    
-    # Only allow one clarification cycle per query - if we've already processed one, don't ask again
-    if clarification_sequence > 0:
-        logger.info(f"Already processed clarification (sequence {clarification_sequence}), not asking again")
-        return "false"
     
     # If clarification has been explicitly turned off, don't ask
     if state.needs_clarification is False:
@@ -553,8 +554,7 @@ def process_multiple_clarification_responses(state: SparqlAgentState, response_t
         return {
             "clarification_responses": responses,
             "clarification_processed": clarification_processed,
-            "needs_clarification": needs_more_clarification,
-            "clarification_sequence": state.clarification_sequence or 0 + 1
+            "needs_clarification": needs_more_clarification
         }
     except Exception as e:
         logger.error(f"Error processing multiple clarification responses: {e}", exc_info=True)
@@ -890,7 +890,7 @@ def detect_clarification_needs(
                         
                         # Process each question
                         for i, q in enumerate(json_questions):
-                            question_id = q.get("id", f"q{i+1}")
+                            question_id = q.get("id", f"sparql_q{i+1}_{uuid.uuid4().hex[:8]}")
                             question_text = q.get("question", "")
                             question_choices = q.get("choices", [])
                             question_context = q.get("context", "")
@@ -932,7 +932,7 @@ def detect_clarification_needs(
                                 choices = re.findall(r'"([^"]+)"', choices_text)
                         
                         clarification_questions.append({
-                            "id": f"q{i+1}",
+                            "id": f"sparql_q{i+1}_{uuid.uuid4().hex[:8]}",
                             "question": q_text.strip(),
                             "choices": choices,
                             "context": "Extracted from unstructured response"
@@ -945,7 +945,7 @@ def detect_clarification_needs(
                     # We determined clarification is needed but didn't parse any questions
                     # Add a default question as fallback
                     clarification_questions.append({
-                        "id": "q1",
+                        "id": f"sparql_q1_{uuid.uuid4().hex[:8]}",
                         "question": "Could you please clarify your query?",
                         "choices": [],
                         "context": "Additional details would help generate a more precise SPARQL query."
@@ -956,7 +956,7 @@ def detect_clarification_needs(
                 if "clarification" in clarification_response.lower():
                     needs_clarification = True
                     clarification_questions.append({
-                        "id": "q1",
+                        "id": f"sparql_q1_{uuid.uuid4().hex[:8]}",
                         "question": "Could you please clarify your query?",
                         "choices": [],
                         "context": "I couldn't parse the clarification needs correctly."
@@ -1067,28 +1067,44 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         # Get LLM directly from service manager
         llm = service_manager.get_llm_provider(state.llm_provider or DEFAULT_LLM_PROVIDER)
         
-        user_query = state.user_query or ""
+        user_input = state.user_input or ""
         similar_queries = state.similar_code or []
         entity_matches = state.entity_matches or []
+        
         # Build minimal context dict for prompt formatting
         contextual_data = {
             "similar_queries": similar_queries,
             "entities": entity_matches,
-            "query": user_query
+            "query": user_input
         }
         
-        logger.info(f"user_query: '{user_query}'")
+        # Add previous context if available (replaces refinement-specific logic)
+        context = state.context or {}
+        if context.get("has_previous_context"):
+            logger.info("=== ADDING PREVIOUS CONTEXT TO QUERY GENERATION ===")
+            contextual_data["refinement_context"] = {
+                "is_refinement": True,
+                "previous_query": context.get("previous_query"),
+                "previous_results": context.get("previous_results"),
+                "refinement_request": user_input,
+                "previous_agent_type": context.get("previous_agent_type")
+            }
+            logger.info(f"Previous query length: {len(context.get('previous_query', ''))}")
+            logger.info(f"Previous results count: {len(context.get('previous_results', []))}")
+            logger.info(f"Previous agent type: {context.get('previous_agent_type')}")
+        
+        logger.info(f"user_input: '{user_input}'")
         logger.info(f"similar_queries count: {len(similar_queries)}")
         logger.info(f"entity_matches count: {len(entity_matches)}")
         logger.info(f"contextual_data keys: {list(contextual_data.keys())}")
         
-        if not user_query:
-            logger.error("No user query provided")
-            return {"error_message": "No user query provided for SPARQL generation"}
+        if not user_input:
+            logger.error("No user input provided")
+            return {"error_message": "No user input provided for SPARQL generation"}
         
         # Format comprehensive context for LLM using the unified search service
         context_prompt = ""
-        if similar_queries or entity_matches:
+        if similar_queries or entity_matches or contextual_data.get("refinement_context"):
             context_prompt = search_service.format_sparql_context_for_llm(contextual_data)
             logger.info(f"Formatted context prompt length: {len(context_prompt)}")
         else:
@@ -1100,8 +1116,7 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
             clarification_info = {
                 "clarification_processed": state.clarification_processed,
                 "clarification_questions": state.clarification_questions,
-                "clarification_responses": state.clarification_responses,
-                "clarification_sequence": state.clarification_sequence
+                "clarification_responses": state.clarification_responses
             }
         
         # Format clarification information if available
@@ -1135,7 +1150,7 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         )
         
         user_prompt = (
-            f"QUERY: {user_query}{clarification_text}\n\n"
+            f"QUERY: {user_input}{clarification_text}\n\n"
             f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
             f"{property_validation}\n\n"
             f"{constraints_text}\n\n"
@@ -1172,7 +1187,8 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         
         result = {
             "generated_code": sparql_query,
-            "context_used": context_summary
+            "context_used": context_summary,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
         logger.info(f"Returning enhanced result with generated_code length: {len(result['generated_code'])}")
@@ -1180,7 +1196,10 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         
     except Exception as e:
         logger.error(f"Error generating query: {e}", exc_info=True)
-        return {"error_message": str(e)}
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
 
 def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
     """Execute the generated SPARQL query."""
@@ -1203,6 +1222,7 @@ def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
             )
             return {
                 "execution_results": results,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
             }
         except Exception as e:
             logger.error(f"Error executing SPARQL query: {e}")
@@ -1212,13 +1232,15 @@ def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
             # Return a structured error result instead of raising an exception
             return {
                 "error_message": error_message,
-                "execution_results": [{"error": error_message}]
+                "execution_results": [{"error": error_message}],
+                "conversation_id": state.conversation_id  # Preserve conversation_id
             }
     except Exception as e:
         logger.error(f"Error in execute_query_node: {e}")
         return {
             "error_message": str(e),
-            "execution_results": [{"error": f"Error: {str(e)}"}]
+            "execution_results": [{"error": f"Error: {str(e)}"}],
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
 def should_refine_query(state: SparqlAgentState) -> str:
@@ -1257,6 +1279,77 @@ def should_refine_query(state: SparqlAgentState) -> str:
     # If we reach here, the query seems successful
     logger.info("Query appears successful, no refinement needed")
     return "false"
+
+def refine_query(
+    llm: BaseChatModel,
+    user_input: str,
+    current_query: str,
+    execution_results: List[Dict[str, Any]],
+    similar_queries: List[Dict[str, Any]] = None,
+    entity_matches: List[Dict[str, Any]] = None
+) -> str:
+    """
+    Refine a SPARQL query based on execution results and user feedback.
+    
+    Args:
+        llm: Language model for refinement
+        user_input: The user's query
+        current_query: Current SPARQL query to refine
+        execution_results: Results from the current query execution
+        similar_queries: Similar queries for context
+        entity_matches: Matched entities for context
+    
+    Returns:
+        Refined SPARQL query string
+    """
+    try:
+        # Analysis logic for refinement...
+        is_refinement = "Original query context:" in user_input or "Please generate a new SPARQL query that builds upon" in user_input
+        
+        prompt = f"""
+Refine this SPARQL query based on the execution results and user requirements.
+
+CURRENT QUERY:
+{current_query}
+
+{user_input}{clarification_text}
+
+EXECUTION RESULTS ANALYSIS:
+- Result count: {len(execution_results)}
+- Analysis: [Analysis based on results...]
+
+Provide the refined SPARQL query:
+"""
+
+        # Generate refined query using LangChain message types
+        messages = [
+            SystemMessage(content="You are a SPARQL query refinement expert. Generate only the refined SPARQL query."),
+            HumanMessage(content=prompt)
+        ]
+        
+        refined_query = llm._call(messages).strip()
+        
+        # Clean up the refined query (remove markdown if present)
+        if refined_query.startswith("```sparql"):
+            refined_query = refined_query.replace("```sparql", "").replace("```", "").strip()
+        elif refined_query.startswith("```"):
+            refined_query = refined_query.replace("```", "").strip()
+        
+        logger.info(f"Refined query: {refined_query[:200]}...")
+        
+        # Return only the updated fields
+        return {
+            "generated_code": refined_query,
+            "error_message": None,
+            "execution_results": None,
+            "refinement_count": state.refinement_count or 0 + 1
+        }
+    except Exception as e:
+        logger.error(f"Error refining query: {e}")
+        return {
+            "error_message": f"Error during refinement: {str(e)}",
+            "refinement_count": state.refinement_count or 0 + 1
+        }
 
 def refine_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
     """Refine the generated query based on results or errors."""
@@ -1322,13 +1415,15 @@ Return ONLY the SPARQL query without any explanation."""
             "generated_code": refined_query,
             "error_message": None,
             "execution_results": None,
-            "refinement_count": refinement_count + 1
+            "refinement_count": refinement_count + 1,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
     except Exception as e:
         logger.error(f"Error refining query: {e}")
         return {
             "error_message": f"Error during refinement: {str(e)}",
-            "refinement_count": state.refinement_count or 0 + 1
+            "refinement_count": (state.refinement_count or 0) + 1,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
 
 def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
@@ -1353,7 +1448,8 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
             return {"needs_clarification": False}
         
         # Skip clarification for refinement requests
-        if state.is_refinement:
+        context = state.context or {}
+        if context.get("has_previous_context"):
             logger.info("Skipping clarification detection for refinement request")
             return {"needs_clarification": False}
         
@@ -1376,11 +1472,6 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
             return {"needs_clarification": False}
             
         # Skip if we've already processed a clarification for this query
-        clarification_sequence = state.clarification_sequence or 0
-        if clarification_sequence > 0:
-            logger.info(f"Already processed clarification (sequence {clarification_sequence}), skipping clarification detection")
-            return {"needs_clarification": False}
-            
         # Skip if we already have clarification responses
         if state.clarification_responses:
             logger.info("Clarification responses already provided, skipping clarification detection")
@@ -1388,7 +1479,7 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
         
         # Apply threshold-based logic for simple queries
         clarification_threshold = get_config_value(config, 'clarification_threshold', 'conservative')
-        user_query = state.user_query or ""
+        user_input = state.user_input or ""
         
         # For permissive threshold, skip clarification for simple, clear queries
         if clarification_threshold == "permissive":
@@ -1400,7 +1491,7 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
             ]
             
             for pattern in simple_patterns:
-                if re.search(pattern, user_query.lower()):
+                if re.search(pattern, user_input.lower()):
                     logger.info(f"Permissive threshold: skipping clarification for simple query pattern: {pattern}")
                     return {"needs_clarification": False}
         
@@ -1410,14 +1501,13 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
             clarification_info = {
                 "clarification_processed": state.clarification_processed,
                 "clarification_questions": state.clarification_questions,
-                "clarification_responses": state.clarification_responses,
-                "clarification_sequence": state.clarification_sequence
+                "clarification_responses": state.clarification_responses
             }
         
         # Check if clarification is needed using our refactored function
         result = detect_clarification_needs(
             llm,
-            state.user_query or "",
+            state.user_input or "",
             state.similar_code or [],
             state.entity_matches or [],
             clarification_info
@@ -1438,16 +1528,24 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
             logger.info(f"Clarification needed (threshold: {clarification_threshold}), adding questions to state")
             response = {
                 "needs_clarification": True,
-                "clarification_questions": result.get("clarification_questions", [])
+                "clarification_questions": result.get("clarification_questions", []),
+                "conversation_id": state.conversation_id  # Preserve conversation_id
             }
             logger.info(f"DETECT CLARIFICATION RETURNING: {response}")
             return response
         else:
             logger.info(f"No clarification needed (threshold: {clarification_threshold})")
-            return {"needs_clarification": False}
+            return {
+                "needs_clarification": False,
+                "conversation_id": state.conversation_id  # Preserve conversation_id
+            }
     except Exception as e:
         logger.error(f"Error in detect_clarification_node: {e}", exc_info=True)
-        return {"error_message": str(e), "needs_clarification": False}
+        return {
+            "error_message": str(e), 
+            "needs_clarification": False,
+            "conversation_id": state.conversation_id
+        }
 
 def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
     """
@@ -1490,61 +1588,17 @@ def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
             "needs_clarification": False,
             "final_status": final_status,
             "generated_code": final_generated_code,
-            "execution_results": final_execution_results
+            "execution_results": final_execution_results,
+            "conversation_id": state.conversation_id  # Preserve conversation_id
         }
     except Exception as e:
         logger.error(f"Error in finalize_query_node: {e}")
         return {
             "error_message": str(e),
             "needs_clarification": False,
-            "final_status": "error"
+            "final_status": "error",
+            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
-
-def process_refinement_request(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Process a query refinement request by combining previous context with the new request."""
-    try:
-        logger.info("=== PROCESS REFINEMENT REQUEST CALLED ===")
-        
-        # Get the refinement request
-        refinement_request = state.refinement_request or ""
-        previous_query = state.previous_query or ""
-        
-        logger.info(f"refinement_request: '{refinement_request}'")
-        logger.info(f"previous_query: '{previous_query[:100] if previous_query else 'None'}...'")
-        
-        if not refinement_request:
-            logger.warning("No refinement request found, treating as regular query")
-            return {}
-        
-        # Build a comprehensive query context for refinement
-        if previous_query:
-            # Combine the original intent with the refinement request
-            combined_query = f"""
-Original query context: The user previously asked a question that resulted in this SPARQL query:
-{previous_query}
-
-Now the user wants to refine this query with the following request:
-{refinement_request}
-
-Please generate a new SPARQL query that builds upon the previous query while incorporating the user's refinement request.
-"""
-            
-            logger.info(f"Processing refinement request: {refinement_request}")
-            logger.info(f"Previous query context: {previous_query[:100]}...")
-            logger.info(f"Combined query length: {len(combined_query)}")
-            
-            return {
-                "user_query": combined_query,
-                "is_refinement": True
-            }
-        else:
-            # No previous query context, treat as regular query
-            logger.warning("No previous query found, treating refinement as new query")
-            return {"user_query": refinement_request}
-            
-    except Exception as e:
-        logger.error(f"Error processing refinement request: {e}")
-        return {"error_message": str(e)}
 
 def build_query_generation_prompt(
     user_query: str,

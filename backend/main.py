@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import routers
-from routers import conversations, agents
+from routers import conversations, agents, messages
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +37,7 @@ app.add_middleware(
 # Include routers
 app.include_router(conversations.router)
 app.include_router(agents.router)
+app.include_router(messages.router)
 
 @app.get("/")
 async def root():

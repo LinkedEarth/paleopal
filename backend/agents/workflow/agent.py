@@ -1,23 +1,19 @@
 """
-SPARQL query generation agent using LangGraph.
+Workflow Manager agent using LangGraph.
 """
 
 import logging
 from langgraph.graph import Graph, StateGraph, START, END
 from typing import Dict, Any
-import json
 
-from .state import SparqlAgentState, SparqlAgentConfig
+from .state import WorkflowAgentState, WorkflowAgentConfig
 from .handlers import (
-    get_similar_queries_node,
-    get_entity_matches_node,
+    extract_workflow_request_node,
+    search_workflow_context_node,
     detect_clarification_node,
     process_clarification_response,
-    generate_query_node,
-    execute_query_node,
-    should_refine_query,
-    refine_query_node,
-    finalize_query_node
+    generate_workflow_plan_node,
+    finalize_workflow_response_node
 )
 
 logger = logging.getLogger(__name__)
@@ -31,7 +27,7 @@ def _get(state, key, default=None):
     except AttributeError:
         return default
 
-def human_clarification_needed_node(state: SparqlAgentState) -> Dict[str, Any]:
+def human_clarification_needed_node(state: WorkflowAgentState) -> Dict[str, Any]:
     """Node that handles when human clarification is needed."""
     try:
         logger.info("=== HUMAN CLARIFICATION NEEDED NODE CALLED ===")
@@ -42,7 +38,7 @@ def human_clarification_needed_node(state: SparqlAgentState) -> Dict[str, Any]:
         messages = _get(state, "messages") or []
         clarification_message = {
             "role": "assistant",
-            "content": "I need some clarifications",
+            "content": "I need some clarifications to create a better workflow plan",
         }
         updated_messages = messages + [clarification_message]
         
@@ -51,7 +47,7 @@ def human_clarification_needed_node(state: SparqlAgentState) -> Dict[str, Any]:
             "messages": updated_messages,
             "needs_clarification": True,
             "clarification_questions": _get(state, "clarification_questions", []),
-            "conversation_id": _get(state, "conversation_id")  # Preserve conversation_id
+            "conversation_id": _get(state, "conversation_id")
         }
         
         logger.info(f"Returning state update: needs_clarification=True, questions={len(result['clarification_questions'])}")
@@ -64,21 +60,19 @@ def human_clarification_needed_node(state: SparqlAgentState) -> Dict[str, Any]:
         }
 
 def create_agent() -> Graph:
-    """Create a SPARQL query generation agent."""
+    """Create a workflow planning agent."""
     try:
         # Create the graph with config
-        workflow = StateGraph(SparqlAgentState, config_schema=SparqlAgentConfig)
+        workflow = StateGraph(WorkflowAgentState, config_schema=WorkflowAgentConfig)
         
-        # Add nodes (updated for LangGraph v2)
-        # Each node function will receive both state and config
-        workflow.add_node("get_similar_queries", get_similar_queries_node)
-        workflow.add_node("get_entity_matches", get_entity_matches_node)
+        # Add nodes
+        workflow.add_node("extract_request", extract_workflow_request_node)
+        workflow.add_node("search_context", search_workflow_context_node)
         workflow.add_node("detect_clarification", detect_clarification_node)
-        workflow.add_node("generate_query", generate_query_node)
         workflow.add_node("process_clarification", process_clarification_response)
-        workflow.add_node("execute_query", execute_query_node)
-        workflow.add_node("refine_query", refine_query_node)
+        workflow.add_node("generate_plan", generate_workflow_plan_node)
         workflow.add_node("human_clarification_needed", human_clarification_needed_node)
+        workflow.add_node("finalize", finalize_workflow_response_node)
         
         # Enhanced conditional routing from start
         def route_initial_request(state):
@@ -91,24 +85,24 @@ def create_agent() -> Graph:
                 logger.info("Routing to: has_clarification")
                 return "has_clarification"
             else:
-                logger.info("Routing to: new_query")
-                return "new_query"
+                logger.info("Routing to: new_request")
+                return "new_request"
         
         workflow.add_conditional_edges(
             START,
             route_initial_request,
             {
                 "has_clarification": "process_clarification",
-                "new_query": "get_similar_queries"  # Start with getting similar queries and context
+                "new_request": "extract_request"
             }
         )
         
-        # After processing clarification, continue with query generation
-        workflow.add_edge("process_clarification", "get_similar_queries")
+        # After processing clarification, continue with context search
+        workflow.add_edge("process_clarification", "search_context")
         
-        # Main flow - user_input is used directly, so we start with similar queries
-        workflow.add_edge("get_similar_queries", "get_entity_matches")
-        workflow.add_edge("get_entity_matches", "detect_clarification")
+        # Main flow
+        workflow.add_edge("extract_request", "search_context")
+        workflow.add_edge("search_context", "detect_clarification")
         
         # Add conditional edge from detect_clarification based on needs_clarification
         workflow.add_conditional_edges(
@@ -116,34 +110,19 @@ def create_agent() -> Graph:
             lambda state: "true" if _get(state, "needs_clarification", False) else "false",
             {
                 "true": "human_clarification_needed",
-                "false": "generate_query"
+                "false": "generate_plan"
             }
         )
         
-        # After human responds, process the clarification and go back to get_similar_queries for context
+        # After human responds, process the clarification and continue
         workflow.add_edge("human_clarification_needed", END)
-        workflow.add_edge("process_clarification", "get_similar_queries")
         
-        # Remaining flow
-        workflow.add_edge("generate_query", "execute_query")
-        
-        # Define conditional edges with string keys for refinement
-        workflow.add_conditional_edges(
-            "execute_query",
-            should_refine_query,
-            {
-                "true": "refine_query",
-                "false": "finalize"
-            }
-        )
-        workflow.add_edge("refine_query", "execute_query")
-        
-        # Add finalize node that returns the final state
-        workflow.add_node("finalize", finalize_query_node)
+        # Generate plan and finalize
+        workflow.add_edge("generate_plan", "finalize")
         workflow.add_edge("finalize", END)
         
-        # Compile the graph with the config
+        # Compile the graph
         return workflow.compile()
     except Exception as e:
-        logger.error(f"Error creating agent: {e}")
-        raise
+        logger.error(f"Error creating workflow agent: {e}")
+        raise 

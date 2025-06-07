@@ -9,6 +9,8 @@ from agents.base_agent import AgentRequest, AgentResponse, AgentStatus
 from services.agent_registry import agent_registry
 from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
 from agents.code import CodeGenerationAgent
+# Remove the import to avoid circular dependency - import locally when needed
+# from agents.workflow import WorkflowLangGraphAgent
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +29,13 @@ def create_code_agent_with_config(enable_clarification: bool = True, clarificati
         enable_clarification=enable_clarification,
         clarification_threshold=clarification_threshold
     )
+
+
+def create_workflow_agent_with_config(enable_clarification: bool = True, clarification_threshold: str = "conservative"):
+    """Create a workflow agent with specific clarification configuration."""
+    # Import locally to avoid circular dependency
+    from agents.workflow import WorkflowLangGraphAgent
+    return WorkflowLangGraphAgent()
 
 
 async def route_agent_request_with_custom_config(request: AgentRequest) -> AgentResponse:
@@ -64,6 +73,14 @@ async def route_agent_request_with_custom_config(request: AgentRequest) -> Agent
                 code_agent = create_code_agent_with_config(enable_clarification, clarification_threshold)
                 response = await code_agent.handle_request(request)
                 return response
+        
+        # Check if this is a workflow agent request
+        elif request.agent_type == "workflow_manager":
+            # Always use the new LangGraph workflow agent for better progress tracking
+            logger.info("Creating LangGraph workflow agent")
+            workflow_agent = create_workflow_agent_with_config()
+            response = await workflow_agent.handle_request(request)
+            return response
         
         # Route the request through the registry (default behavior)
         response = await agent_registry.route_request(request)

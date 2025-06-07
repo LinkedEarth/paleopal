@@ -27,11 +27,7 @@ class BaseAgentState(BaseModel):
     # User input and context
     user_input: str = Field(
         default="",
-        description="Current user input/query"
-    )
-    user_query: str = Field(
-        default="",
-        description="Extracted/processed user query"
+        description="Original user input/query from the request"
     )
     
     # Agent configuration
@@ -79,18 +75,6 @@ class BaseAgentState(BaseModel):
         default=False,
         description="Whether clarification has been processed"
     )
-    clarification_ambiguities: List[Dict[str, Any]] = Field(
-        default_factory=list,
-        description="List of detected ambiguities"
-    )
-    clarification_response: str = Field(
-        default="",
-        description="Single clarification response (legacy)"
-    )
-    clarification_sequence: int = Field(
-        default=0,
-        description="Counter to track number of clarifications processed"
-    )
     
     # Generation results
     generated_code: str = Field(
@@ -109,27 +93,9 @@ class BaseAgentState(BaseModel):
     )
     
     # Processing flags
-    is_refinement: bool = Field(
-        default=False,
-        description="Whether this is a refinement request"
-    )
     refinement_count: int = Field(
         default=0,
         description="Number of refinements attempted"
-    )
-    
-    # Refinement specific fields
-    refinement_request: str = Field(
-        default="",
-        description="The user's refinement request"
-    )
-    previous_query: str = Field(
-        default="",
-        description="Previous query/code for context"
-    )
-    previous_results: List[Dict[str, Any]] = Field(
-        default_factory=list,
-        description="Previous execution results for context"
     )
     
     # Similar examples/queries (useful for both SPARQL and code generation)
