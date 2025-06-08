@@ -197,6 +197,55 @@ async def extract_from_url(request: URLExtractionRequest):
         logger.error(f"URL extraction failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/sparql", response_model=ExtractionResponse)
+async def extract_sparql(
+    file: UploadFile = File(...),
+    params: Optional[str] = Form(None)
+):
+    """
+    Extract SPARQL queries from markdown files or Jupyter notebooks.
+    """
+    allowed_extensions = ['.md', '.markdown', '.ipynb']
+    file_extension = Path(file.filename).suffix.lower()
+    
+    if file_extension not in allowed_extensions:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"File must be a markdown (.md) or notebook (.ipynb) file. Got: {file_extension}"
+        )
+    
+    try:
+        # Parse parameters if provided
+        extraction_params = {}
+        if params:
+            import json
+            extraction_params = json.loads(params)
+        
+        # Read file content
+        content = await file.read()
+        
+        # Extract data
+        result = await extraction_service.extract_from_file(
+            content, 
+            file.filename,
+            DocumentType.SPARQL,
+            extraction_params
+        )
+        
+        return ExtractionResponse(
+            success=result.success,
+            request_id=result.request_id,
+            document_type=result.document_type.value,
+            extracted_count=len(result.extracted_data),
+            extracted_data=result.extracted_data,
+            source_info=result.source_info,
+            error_message=result.error_message
+        )
+    
+    except Exception as e:
+        logger.error(f"SPARQL extraction failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.post("/preview/notebook")
 async def preview_notebook_extraction(file: UploadFile = File(...)):
     """

@@ -141,6 +141,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         let endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/preview/notebook`;
         if (documentType === 'pdf' || selectedFile.name.toLowerCase().endsWith('.pdf')) {
           endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/preview/pdf`;
+        } else if (documentType === 'sparql' || selectedFile.name.toLowerCase().match(/\.(md|markdown)$/)) {
+          endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/preview/notebook`; // SPARQL doesn't have preview yet, use notebook
         }
 
         const response = await axios.post(endpoint, formData);
@@ -172,6 +174,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         let endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/notebook`;
         if (documentType === 'pdf' || selectedFile.name.toLowerCase().endsWith('.pdf')) {
           endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/pdf`;
+        } else if (documentType === 'sparql' || selectedFile.name.toLowerCase().match(/\.(md|markdown)$/)) {
+          endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/sparql`;
         }
 
         response = await axios.post(endpoint, formData);
