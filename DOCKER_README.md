@@ -39,7 +39,7 @@ This guide explains how to run the PaleoPal system using Docker with data persis
 
 4. **Start the system**:
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 5. **Access the application**:
@@ -70,49 +70,49 @@ Your data will persist across container restarts and rebuilds.
 
 ### Start the system
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Stop the system
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### View logs
 ```bash
 # All services
-docker-compose logs -f
+docker compose logs -f
 
 # Specific service
-docker-compose logs -f backend
-docker-compose logs -f frontend
-docker-compose logs -f qdrant
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f qdrant
 ```
 
 ### Check service status
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 ### Rebuild and restart
 ```bash
 # Rebuild everything
-docker-compose down
-docker-compose build --no-cache
-docker-compose up -d
+docker compose down
+docker compose build --no-cache
+docker compose up -d
 
 # Rebuild specific service
-docker-compose build backend
-docker-compose up -d backend
+docker compose build backend
+docker compose up -d backend
 ```
 
 ### Access service shells
 ```bash
 # Backend container
-docker-compose exec backend bash
+docker compose exec backend bash
 
 # Frontend container
-docker-compose exec frontend sh
+docker compose exec frontend sh
 ```
 
 ## Development Mode
@@ -122,7 +122,7 @@ For development with hot-reloading:
 1. **Backend development**:
    ```bash
    # Stop the containerized backend
-   docker-compose stop backend
+   docker compose stop backend
    
    # Run backend locally
    cd backend
@@ -133,7 +133,7 @@ For development with hot-reloading:
 2. **Frontend development**:
    ```bash
    # Stop the containerized frontend
-   docker-compose stop frontend
+   docker compose stop frontend
    
    # Run frontend locally
    cd frontend
@@ -143,7 +143,7 @@ For development with hot-reloading:
 
 3. **Keep Qdrant running**:
    ```bash
-   docker-compose up -d qdrant
+   docker compose up -d qdrant
    ```
 
 ## Configuration
@@ -183,13 +183,13 @@ Default ports (can be changed in `docker-compose.yml`):
 ### Services not starting
 ```bash
 # Check service status
-docker-compose ps
+docker compose ps
 
 # Check logs for errors
-docker-compose logs
+docker compose logs
 
 # Restart specific service
-docker-compose restart backend
+docker compose restart backend
 ```
 
 ### Port conflicts
@@ -204,9 +204,9 @@ services:
 ### Volume permission issues
 ```bash
 # Reset volumes (WARNING: This deletes all data)
-docker-compose down -v
+docker compose down -v
 docker volume prune
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Memory issues
@@ -255,7 +255,7 @@ docker run --rm -v paleopal_backend-libraries:/data -v $(pwd)/backups:/backup al
 ### Restore data
 ```bash
 # Stop services
-docker-compose down
+docker compose down
 
 # Restore volumes
 docker run --rm -v paleopal_qdrant-data:/data -v $(pwd)/backups:/backup alpine tar xzf /backup/qdrant-backup.tar.gz -C /data
@@ -263,13 +263,13 @@ docker run --rm -v paleopal_backend-data:/data -v $(pwd)/backups:/backup alpine 
 docker run --rm -v paleopal_backend-libraries:/data -v $(pwd)/backups:/backup alpine tar xzf /backup/libraries-backup.tar.gz -C /data
 
 # Start services
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Support
 
 For issues with the Docker setup:
 1. Check this README for common solutions
-2. Review Docker and docker-compose logs
+2. Review Docker and Docker Compose logs
 3. Ensure system requirements are met
 4. Check for port conflicts and resource availability 

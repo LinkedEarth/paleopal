@@ -9,9 +9,9 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-# Check if docker-compose is available
-if ! command -v docker-compose > /dev/null 2>&1; then
-    echo "❌ docker-compose is not installed or not in PATH."
+# Check if docker compose is available
+if ! docker compose version > /dev/null 2>&1; then
+    echo "❌ Docker Compose is not available. Please install Docker Compose V2."
     exit 1
 fi
 
@@ -33,7 +33,7 @@ fi
 
 # Start the system
 echo "🚀 Starting PaleoPal services..."
-docker-compose up -d
+docker compose up -d
 
 # Wait for services to be healthy
 echo "⏳ Waiting for services to start..."
@@ -41,7 +41,7 @@ sleep 10
 
 # Check service status
 echo "📊 Service Status:"
-docker-compose ps
+docker compose ps
 
 echo ""
 echo "✅ PaleoPal is starting up!"
@@ -52,8 +52,8 @@ echo "   Backend API: http://localhost:8000"
 echo "   Qdrant Dashboard: http://localhost:6333/dashboard"
 echo ""
 echo "📋 Useful commands:"
-echo "   View logs: docker-compose logs -f"
-echo "   Stop system: docker-compose down"
-echo "   Restart: docker-compose restart"
+echo "   View logs: docker compose logs -f"
+echo "   Stop system: docker compose down"
+echo "   Restart: docker compose restart"
 echo ""
 echo "For full documentation, see DOCKER_README.md" 
