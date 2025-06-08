@@ -38,6 +38,10 @@ except ImportError as e:
     def search_symbols(*args, **kwargs): return []
     def search_snippets(*args, **kwargs): return []
     def search_workflows(*args, **kwargs): return []
+    def get_system_status(*args, **kwargs): return {"error": "Qdrant libraries not available"}
+    def get_library_status(*args, **kwargs): return {"error": "Qdrant libraries not available"}
+    def get_qdrant_manager(*args, **kwargs): raise Exception("Qdrant not available")
+    COLLECTION_NAMES = {}
 
 logger = logging.getLogger(__name__)
 
