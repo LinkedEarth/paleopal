@@ -35,11 +35,11 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(conversations.router)
-app.include_router(agents.router)
-app.include_router(messages.router)
-app.include_router(libraries.router)
-app.include_router(document_extraction.router)
+app.include_router(conversations.router, prefix="/api")
+app.include_router(agents.router, prefix="/api")
+app.include_router(messages.router, prefix="/api")
+app.include_router(libraries.router, prefix="/api")
+app.include_router(document_extraction.router, prefix="/api")
 
 @app.get("/")
 async def root():
@@ -49,15 +49,20 @@ async def root():
         "version": "2.0.0",
         "description": "Multi-agent system for paleoclimate data analysis",
         "available_endpoints": {
-            "agents": "/agents",
-            "conversations": "/conversations",
-            "libraries": "/libraries"
+            "agents": "/api/agents",
+            "conversations": "/api/conversations",
+            "libraries": "/api/libraries"
         }
     }
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
     """Health check endpoint."""
+    return {"status": "healthy", "message": "PaleoPal API is running"}
+
+@app.get("/health")
+async def health_check_legacy():
+    """Legacy health check endpoint for backward compatibility."""
     return {"status": "healthy", "message": "PaleoPal API is running"}
 
 if __name__ == "__main__":

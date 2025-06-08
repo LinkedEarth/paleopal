@@ -5,10 +5,12 @@ const API_CONFIG = {
   
   // API endpoints
   ENDPOINTS: {
-    CONVERSATIONS: '/conversations',
-    MESSAGES: '/messages',
-    AGENTS: '/agents',
-    HEALTH: '/health'
+    CONVERSATIONS: '/api/conversations',
+    MESSAGES: '/api/messages',
+    AGENTS: '/api/agents',
+    HEALTH: '/api/health',
+    LIBRARIES: '/api/libraries',
+    EXTRACT: '/api/extract'
   }
 };
 
@@ -68,7 +70,7 @@ export const apiRequest = async (url, options = {}) => {
 export const testApiConnectivity = async () => {
   try {
     console.log('🧪 Testing API connectivity...');
-    const healthUrl = buildApiUrl('/health');
+    const healthUrl = buildApiUrl(API_CONFIG.ENDPOINTS.HEALTH);
     const result = await apiRequest(healthUrl);
     console.log('✅ API connectivity test passed:', result);
     return true;

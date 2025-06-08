@@ -6,6 +6,7 @@ import ClarificationMessage from './ClarificationMessage';
 import ClarificationResponseMessage from './ClarificationResponseMessage';
 import GeneratedCodeDisplay from './GeneratedCodeDisplay';
 import { buildApiUrl, apiRequest } from '../config/api';
+import API_CONFIG from '../config/api';
 
 const LLM_PROVIDERS = [
   { id: 'openai', name: 'OpenAI' },  
@@ -42,7 +43,7 @@ const AGENT_TYPES = [
 // Message service utility for new API
 const messageService = {
   async createMessage(conversationId, role, content, messageType = 'chat', agentType = null) {
-    const url = buildApiUrl('/messages/');
+    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/`);
     return await apiRequest(url, {
       method: 'POST',
       body: JSON.stringify({
@@ -56,7 +57,7 @@ const messageService = {
   },
 
   async updateMessage(messageId, updateData) {
-    const url = buildApiUrl(`/messages/${messageId}`);
+    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/${messageId}`);
     return await apiRequest(url, {
       method: 'PUT',
       body: JSON.stringify(updateData)
@@ -64,7 +65,7 @@ const messageService = {
   },
 
   async getConversationMessages(conversationId, includeProgress = false) {
-    const url = buildApiUrl(`/messages/conversation/${conversationId}?include_progress=${includeProgress}`);
+    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/conversation/${conversationId}?include_progress=${includeProgress}`);
     console.log(`🔍 Fetching messages from: ${url}`);
     const result = await apiRequest(url);
     console.log(`📝 Messages API response:`, result);
@@ -72,7 +73,7 @@ const messageService = {
   },
 
   async createProgressMessage(ownerMessageId, nodeName, phase, content = '', metadata = null) {
-    const url = buildApiUrl('/messages/progress');
+    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/progress`);
     return await apiRequest(url, {
       method: 'POST',
       body: JSON.stringify({
@@ -493,7 +494,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       // console.log('Executing workflow:', agentRequest);
 
       // Send request to execute workflow via async endpoint (same as other requests)
-      const requestUrl = buildApiUrl('/agents/request/async');
+      const requestUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.AGENTS}/request/async`);
       const result = await apiRequest(requestUrl, {
         method: 'POST',
         body: JSON.stringify(agentRequest)
@@ -625,7 +626,7 @@ ${stepInfo.input}`;
       console.log(`📋 Using ${agentTypeToUse.toUpperCase()} agent for request:`, userInput.substring(0, 100) + '...');
 
       // Send async request to agent
-      const requestUrl = buildApiUrl('/agents/request/async');
+      const requestUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.AGENTS}/request/async`);
       const result = await apiRequest(requestUrl, {
       method: 'POST',
       body: JSON.stringify(agentRequest)
@@ -674,7 +675,7 @@ ${stepInfo.input}`;
     const pollInterval = setInterval(async () => {
       try {
         console.log(`Polling attempt ${pollCount + 1} for conversation ${conversationId}`);
-        const pollUrl = buildApiUrl(`/messages/conversation/${conversationId}?include_progress=true`);
+        const pollUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/conversation/${conversationId}?include_progress=true`);
         const newMessages = await apiRequest(pollUrl);
         console.log(`Received ${newMessages.length} messages from polling`);
         
@@ -1024,7 +1025,7 @@ ${stepInfo.input}`;
     }
 
     try {
-      const deleteUrl = buildApiUrl(`/conversations/${conversation.id}/messages/${messageIndex}`);
+      const deleteUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}/messages/${messageIndex}`);
       await apiRequest(deleteUrl, { method: 'DELETE' });
 
       // Update local state directly by filtering out the deleted message
@@ -1066,7 +1067,7 @@ ${stepInfo.input}`;
     }
 
     try {
-      const deleteUrl = buildApiUrl(`/conversations/${conversation.id}/messages/from/${fromIndex}`);
+      const deleteUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}/messages/from/${fromIndex}`);
       await apiRequest(deleteUrl, { method: 'DELETE' });
 
       // Update local state directly by keeping only messages before the fromIndex

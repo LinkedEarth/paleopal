@@ -673,7 +673,6 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 "conversation_id": state.conversation_id  # Preserve conversation_id
             }
         
-        logger.info(f"User prompt: {user_prompt}")
         logger.info("Calling LLM to generate enhanced code...")
         messages = [
             SystemMessage(content="You are an expert Python data-analysis assistant specializing in paleoclimate data. "

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ChatWindow from './ChatWindow';
 import { testApiConnectivity } from '../config/api';
+import API_CONFIG from '../config/api';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -35,7 +36,7 @@ const ChatApp = () => {
       try {
         console.log('🔍 Fetching conversations from backend...');
         console.log('📍 Axios base URL:', axios.defaults.baseURL);
-        const resp = await axios.get('/conversations/');
+        const resp = await axios.get(API_CONFIG.ENDPOINTS.CONVERSATIONS);
         console.log('✅ Conversations response:', resp);
         console.log('📝 Conversations data:', resp.data);
         
@@ -142,7 +143,7 @@ const ChatApp = () => {
     }
     
     try {
-      await axios.delete(`/conversations/${convId}`);
+      await axios.delete(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${convId}`);
     } catch (err) {
       console.error('Failed to delete conversation on backend', err);
     }
@@ -238,11 +239,11 @@ const ChatApp = () => {
 
       // If we've already POSTed this conversation before, skip straight to PUT
       if (persistedIdsRef.current.has(conv.id)) {
-        await axios.put(`/conversations/${conv.id}`, clean);
+        await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, clean);
         return;
       }
 
-      await axios.put(`/conversations/${conv.id}`, clean);
+      await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, clean);
     } catch (err) {
       if (err.response && (err.response.status === 404 || err.response.status === 422)) {
         try {
@@ -259,7 +260,7 @@ const ChatApp = () => {
           };
 
           if (!persistedIdsRef.current.has(conv.id)) {
-            await axios.post('/conversations', clean);
+            await axios.post(API_CONFIG.ENDPOINTS.CONVERSATIONS, clean);
             // Mark as persisted to prevent future duplicate POSTs
             persistedIdsRef.current.add(conv.id);
           }
@@ -297,11 +298,11 @@ const ChatApp = () => {
             <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
           </div>
           <div className="flex items-center space-x-2">
-            <button 
+          <button 
               className="w-9 h-9 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors duration-200 shadow-sm hover:shadow-md group"
-              onClick={handleNewChat}
-              title="New Chat"
-            >
+            onClick={handleNewChat}
+            title="New Chat"
+          >
               <svg className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
@@ -315,7 +316,7 @@ const ChatApp = () => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+          </button>
           </div>
         </div>
 
@@ -333,7 +334,7 @@ const ChatApp = () => {
             </div>
           ) : (
             <ul className="list-none p-2 m-0 space-y-1">
-              {conversations.map((conv) => (
+          {conversations.map((conv) => (
                 <li key={conv.id} className="relative group">
                   <div
                     className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 ${
@@ -345,21 +346,21 @@ const ChatApp = () => {
                         ? 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200' 
                         : ''
                     }`}
-                    onClick={() => {
-                      // Warn if switching away from a conversation with an active request
-                      if (hasActiveRequest && conv.id !== activeId) {
-                        const shouldSwitch = window.confirm(
-                          'The current conversation is processing a request. ' +
-                          'Switching away may interrupt the process. Continue?'
-                        );
-                        if (!shouldSwitch) return;
-                      }
-                      setActiveId(conv.id);
-                      setSidebarOpen(false);
-                    }}
-                    onDoubleClick={() => handleRenameConversation(conv.id)}
-                    title={conv.isLoading && conv.id !== activeId ? "Click to switch (will warn about active request)" : ""}
-                  >
+                onClick={() => {
+                  // Warn if switching away from a conversation with an active request
+                  if (hasActiveRequest && conv.id !== activeId) {
+                    const shouldSwitch = window.confirm(
+                      'The current conversation is processing a request. ' +
+                      'Switching away may interrupt the process. Continue?'
+                    );
+                    if (!shouldSwitch) return;
+                  }
+                  setActiveId(conv.id);
+                  setSidebarOpen(false);
+                }}
+                onDoubleClick={() => handleRenameConversation(conv.id)}
+                title={conv.isLoading && conv.id !== activeId ? "Click to switch (will warn about active request)" : ""}
+              >
                     {/* Conversation Icon */}
                     <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
                       conv.id === activeId 
@@ -385,9 +386,9 @@ const ChatApp = () => {
                         <h3 className={`text-sm font-medium truncate ${
                           conv.id === activeId ? 'text-blue-900' : 'text-gray-900'
                         }`}>
-                          {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
+                  {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
                         </h3>
-                        {conv.isLoading && (
+                {conv.isLoading && (
                           <div className="flex items-center space-x-1 ml-2">
                             <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
                             <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
@@ -449,9 +450,9 @@ const ChatApp = () => {
                       </button>
                     )}
                   </div>
-                </li>
-              ))}
-            </ul>
+            </li>
+          ))}
+        </ul>
           )}
         </div>
         
@@ -501,9 +502,9 @@ const ChatApp = () => {
         </div>
         
         <div className="flex-1 flex flex-col overflow-hidden">
-          {activeConversation ? (
-            <ChatWindow conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
-          ) : (
+        {activeConversation ? (
+          <ChatWindow conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
+        ) : (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -524,7 +525,7 @@ const ChatApp = () => {
                 </button>
               </div>
             </div>
-          )}
+        )}
         </div>
       </main>
     </div>

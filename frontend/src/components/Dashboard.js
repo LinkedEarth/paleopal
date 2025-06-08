@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DocumentExtraction from './DocumentExtraction';
+import API_CONFIG from '../config/api';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -457,7 +458,7 @@ const Dashboard = () => {
   const fetchLibrariesOverview = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/libraries/');
+      const response = await axios.get(`${API_CONFIG.ENDPOINTS.LIBRARIES}/`);
       setLibraries(response.data.libraries);
       setSystemStatus(response.data.system_status);
       setError(null);
@@ -472,7 +473,7 @@ const Dashboard = () => {
   const fetchLibraryDetails = async (libraryKey) => {
     try {
       setLoading(true);
-      const response = await axios.get(`/libraries/${libraryKey}`);
+      const response = await axios.get(`${API_CONFIG.ENDPOINTS.LIBRARIES}/${libraryKey}`);
       setLibraryDetails(response.data);
       setSelectedLibrary(libraryKey);
       setActiveTab('overview');
@@ -494,7 +495,7 @@ const Dashboard = () => {
 
     try {
       setDocumentsLoading(true);
-      let url = `/libraries/${libraryKey}/documents?page=${page}&limit=20`;
+      let url = `${API_CONFIG.ENDPOINTS.LIBRARIES}/${libraryKey}/documents?page=${page}&limit=20`;
       if (collection) {
         url += `&collection=${collection}`;
       }
@@ -515,7 +516,7 @@ const Dashboard = () => {
   const fetchDocumentDetails = async (libraryKey, documentId) => {
     try {
       setLoading(true);
-      const response = await axios.get(`/libraries/${libraryKey}/documents/${documentId}`);
+      const response = await axios.get(`${API_CONFIG.ENDPOINTS.LIBRARIES}/${libraryKey}/documents/${documentId}`);
       setDocumentDetails(response.data);
       setSelectedDocument(documentId);
       setError(null);
@@ -532,9 +533,9 @@ const Dashboard = () => {
 
     try {
       setLoading(true);
-      let url = `/libraries/${libraryKey}/search`;
+      let url = `${API_CONFIG.ENDPOINTS.LIBRARIES}/${libraryKey}/search`;
       if (collection) {
-        url = `/libraries/${libraryKey}/${collection}/search`;
+        url = `${API_CONFIG.ENDPOINTS.LIBRARIES}/${libraryKey}/${collection}/search`;
       }
 
       const response = await axios.post(url, {
@@ -557,7 +558,7 @@ const Dashboard = () => {
   const viewFileContent = async (libraryKey, filePath) => {
     try {
       setLoading(true);
-      const response = await axios.get(`/libraries/${libraryKey}/files/${encodeURIComponent(filePath)}`);
+      const response = await axios.get(`${API_CONFIG.ENDPOINTS.LIBRARIES}/${libraryKey}/files/${encodeURIComponent(filePath)}`);
       setFileContent(response.data);
       setSelectedFile(filePath);
       setError(null);
@@ -617,7 +618,7 @@ const Dashboard = () => {
         }
       }
 
-      const response = await axios.post(`/libraries/${selectedLibrary}/documents`, {
+      const response = await axios.post(`${API_CONFIG.ENDPOINTS.LIBRARIES}/${selectedLibrary}/documents`, {
         text: newDocumentText,
         metadata: metadata,
         collection: selectedCollection
@@ -649,7 +650,7 @@ const Dashboard = () => {
 
     try {
       setLoading(true);
-      await axios.delete(`/libraries/${selectedLibrary}/documents/${documentId}`);
+      await axios.delete(`${API_CONFIG.ENDPOINTS.LIBRARIES}/${selectedLibrary}/documents/${documentId}`);
       
       // Refresh documents list
       fetchDocuments();
@@ -1157,64 +1158,97 @@ const Dashboard = () => {
                           </div>
                         )}
 
-                        {/* Documents Table */}
-                        <div className="overflow-x-auto">
-                          <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                              <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Collection</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                              {documents.map((doc, idx) => (
-                                <tr key={doc.id} className="hover:bg-gray-50">
-                                  <td className="px-6 py-4">
-                                    <div className="max-w-md">
-                                      <div className="text-sm font-medium text-gray-900 truncate">
-                                        {doc.title || doc.name || doc.symbol || `Document ${idx + 1}`}
-                                      </div>
-                                      <div className="text-sm text-gray-600 mt-1">
-                                        {(doc.text || doc.content || doc.description || '').substring(0, 150)}
-                                        {(doc.text || doc.content || doc.description || '').length > 150 ? '...' : ''}
-                                      </div>
-                                      <div className="text-xs text-gray-500 mt-1">
-                                        ID: {doc.id}
-                                      </div>
-                                    </div>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                        {/* Documents Cards */}
+                        <div className="divide-y divide-gray-200">
+                          {documents.map((doc, idx) => (
+                            <div key={doc.id} className="p-6 hover:bg-gray-50 transition-colors">
+                              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                                {/* Main Content */}
+                                <div className="flex-1 min-w-0">
+                                  {/* Header with Title and Metadata */}
+                                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                                    <h4 className="text-lg font-medium text-gray-900 truncate">
+                                      {doc.title || doc.name || doc.symbol || `Document ${idx + 1}`}
+                                    </h4>
+                                    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
                                       {doc.collection}
                                     </span>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {doc.content_type || doc.category || doc.type || 'unknown'}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {doc.source || doc.source_file || doc.library || 'unknown'}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                    <button
-                                      onClick={() => fetchDocumentDetails(selectedLibrary, doc.id)}
-                                      className="text-blue-600 hover:text-blue-900"
-                                    >
-                                      View
-                                    </button>
-                                    <button
-                                      onClick={() => deleteDocument(doc.id)}
-                                      className="text-red-600 hover:text-red-900"
-                                    >
-                                      Delete
-                                    </button>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                    {(doc.content_type || doc.category || doc.type) && (
+                                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                                        {doc.content_type || doc.category || doc.type}
+                                      </span>
+                                    )}
+                                    <span className="text-xs text-gray-500">
+                                      ID: {doc.id}
+                                    </span>
+                                  </div>
+
+                                  {/* Document Content */}
+                                  <div className="mb-3">
+                                    <div className="text-sm text-gray-700 leading-relaxed">
+                                      {(doc.text || doc.content || doc.description || '').length > 0 ? (
+                                        <div>
+                                          {(doc.text || doc.content || doc.description || '').substring(0, 300)}
+                                          {(doc.text || doc.content || doc.description || '').length > 300 && (
+                                            <span className="text-gray-500">...</span>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <span className="text-gray-400 italic">No content available</span>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {/* Source Information */}
+                                  {(doc.source || doc.source_file || doc.library) && (
+                                    <div className="mb-2">
+                                      <div className="text-xs text-gray-500">
+                                        <span className="font-medium">Source:</span>
+                                        <span className="ml-1 bg-gray-100 px-2 py-1 rounded max-w-xs inline-block truncate">
+                                          {doc.source || doc.source_file || doc.library}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Additional Metadata */}
+                                  <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+                                    {doc.created_at && (
+                                      <span>
+                                        <span className="font-medium">Created:</span> {new Date(doc.created_at).toLocaleDateString()}
+                                      </span>
+                                    )}
+                                    {doc.updated_at && (
+                                      <span>
+                                        <span className="font-medium">Updated:</span> {new Date(doc.updated_at).toLocaleDateString()}
+                                      </span>
+                                    )}
+                                    {doc.score && (
+                                      <span>
+                                        <span className="font-medium">Score:</span> {(doc.score * 100).toFixed(1)}%
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex lg:flex-col gap-1 lg:ml-4 text-sm">
+                                  <button
+                                    onClick={() => fetchDocumentDetails(selectedLibrary, doc.id)}
+                                    className="px-3 py-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors whitespace-nowrap"
+                                  >
+                                    View
+                                  </button>
+                                  <button
+                                    onClick={() => deleteDocument(doc.id)}
+                                    className="px-3 py-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors whitespace-nowrap"
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
 
                         {/* Pagination Footer */}

@@ -122,8 +122,8 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
 
         // Transform workflow data for display
         const steps = parsedWorkflow.steps.map(step => ({
-          id: step.id,
-          name: step.name,
+            id: step.id,
+            name: step.name,
           description: step.description || '',
           agent: step.agent,
           input: step.input,

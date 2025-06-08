@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import API_CONFIG from '../config/api';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -27,7 +28,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
   const fetchSupportedTypes = async () => {
     try {
-      const response = await axios.get('/extract/types');
+      const response = await axios.get(`${API_CONFIG.ENDPOINTS.EXTRACT}/types`);
       setSupportedTypes(response.data.type_details || {});
     } catch (error) {
       console.error('Failed to fetch supported types:', error);
@@ -136,9 +137,9 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         const formData = new FormData();
         formData.append('file', selectedFile);
 
-        let endpoint = '/extract/preview/notebook';
+        let endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/preview/notebook`;
         if (documentType === 'pdf' || selectedFile.name.toLowerCase().endsWith('.pdf')) {
-          endpoint = '/extract/preview/pdf';
+          endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/preview/pdf`;
         }
 
         const response = await axios.post(endpoint, formData);
@@ -167,17 +168,17 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         formData.append('file', selectedFile);
         formData.append('params', JSON.stringify(extractionParams));
 
-        let endpoint = '/extract/notebook';
+        let endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/notebook`;
         if (documentType === 'pdf' || selectedFile.name.toLowerCase().endsWith('.pdf')) {
-          endpoint = '/extract/pdf';
+          endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/pdf`;
         }
 
         response = await axios.post(endpoint, formData);
       } else if (extractionMode === 'url' && selectedUrl) {
-        response = await axios.post('/extract/url', {
-          url: selectedUrl,
-          document_type: documentType === 'auto' ? null : documentType,
-          params: extractionParams
+        response = await axios.post(`${API_CONFIG.ENDPOINTS.EXTRACT}/url`, {
+            url: selectedUrl,
+            document_type: documentType === 'auto' ? null : documentType,
+            params: extractionParams
         });
       }
 
@@ -240,20 +241,20 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     setLoading(true);
     try {
       // Index selected documents into the target library
-      const response = await axios.post(`/libraries/${targetLibrary}/documents/bulk`, {
+      const response = await axios.post(`${API_CONFIG.ENDPOINTS.LIBRARIES}/${targetLibrary}/documents/bulk`, {
         documents: itemsToIndex.map(item => ({
-          text: item.content || item.description || item.query || item.name || '',
-          metadata: {
-            title: item.title || item.name,
-            content_type: item.content_type,
-            extraction_type: item.extraction_type,
-            source_file: extractionResult.source_file || 'Document Extraction',
-            extracted_at: new Date().toISOString(),
-            ...item // Include all other fields as metadata
-          }
-        }))
+            text: item.content || item.description || item.query || item.name || '',
+            metadata: {
+              title: item.title || item.name,
+              content_type: item.content_type,
+              extraction_type: item.extraction_type,
+              source_file: extractionResult.source_file || 'Document Extraction',
+              extracted_at: new Date().toISOString(),
+              ...item // Include all other fields as metadata
+            }
+          }))
       });
-
+      
       // Call the success callback if provided
       if (onIndexComplete) {
         onIndexComplete(response.data);
@@ -673,14 +674,14 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                           onChange={() => toggleItemSelection(idx)}
                           className="rounded border-gray-300"
                         />
-                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                          {item.content_type}
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                        {item.content_type}
+                      </span>
+                      {item.extraction_type && (
+                        <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                          {item.extraction_type}
                         </span>
-                        {item.extraction_type && (
-                          <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
-                            {item.extraction_type}
-                          </span>
-                        )}
+                      )}
                       </div>
                       <button
                         onClick={() => viewItemDetails(item, idx)}
@@ -745,159 +746,159 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
   const libraryDescription = getLibrarySpecificDescription();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Input Section */}
-      <div className="lg:col-span-1 space-y-6">
-        {/* Mode Selection */}
-        <div className="bg-white p-4 rounded-lg border">
-          <h3 className="font-semibold text-gray-900 mb-3">Input Source</h3>
-          <div className="space-y-3">
-            <div className="flex space-x-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="file"
-                  checked={extractionMode === 'file'}
-                  onChange={(e) => setExtractionMode(e.target.value)}
-                  className="mr-2"
-                />
-                Upload File
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  value="url"
-                  checked={extractionMode === 'url'}
-                  onChange={(e) => setExtractionMode(e.target.value)}
-                  className="mr-2"
-                />
-                From URL
-              </label>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Input Section */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Mode Selection */}
+          <div className="bg-white p-4 rounded-lg border">
+            <h3 className="font-semibold text-gray-900 mb-3">Input Source</h3>
+            <div className="space-y-3">
+              <div className="flex space-x-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="file"
+                    checked={extractionMode === 'file'}
+                    onChange={(e) => setExtractionMode(e.target.value)}
+                    className="mr-2"
+                  />
+                  Upload File
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="url"
+                    checked={extractionMode === 'url'}
+                    onChange={(e) => setExtractionMode(e.target.value)}
+                    className="mr-2"
+                  />
+                  From URL
+                </label>
+              </div>
+
+              {extractionMode === 'file' ? (
+                <div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    onChange={handleFileSelect}
+                    accept=".ipynb,.pdf,.ttl,.rdf,.owl,.n3,.md,.markdown,.html,.htm"
+                    className="w-full"
+                  />
+                  {selectedFile && (
+                    <div className="mt-2 text-sm text-gray-600">
+                      Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <input
+                    type="url"
+                    value={selectedUrl}
+                    onChange={(e) => setSelectedUrl(e.target.value)}
+                    placeholder="https://example.com/document.pdf"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              )}
             </div>
-
-            {extractionMode === 'file' ? (
-              <div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  onChange={handleFileSelect}
-                  accept=".ipynb,.pdf,.ttl,.rdf,.owl,.n3,.md,.markdown,.html,.htm"
-                  className="w-full"
-                />
-                {selectedFile && (
-                  <div className="mt-2 text-sm text-gray-600">
-                    Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div>
-                <input
-                  type="url"
-                  value={selectedUrl}
-                  onChange={(e) => setSelectedUrl(e.target.value)}
-                  placeholder="https://example.com/document.pdf"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                />
-              </div>
-            )}
           </div>
-        </div>
 
-        {/* Document Type Selection */}
-        <div className="bg-white p-4 rounded-lg border">
-          <h3 className="font-semibold text-gray-900 mb-3">Document Type</h3>
-          <select
-            value={documentType}
-            onChange={(e) => setDocumentType(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-          >
+          {/* Document Type Selection */}
+          <div className="bg-white p-4 rounded-lg border">
+            <h3 className="font-semibold text-gray-900 mb-3">Document Type</h3>
+            <select
+              value={documentType}
+              onChange={(e) => setDocumentType(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            >
             {supportedDocumentTypes.map(type => (
               <option key={type.value} value={type.value}>{type.label}</option>
             ))}
-          </select>
-          
-          {supportedTypes[documentType] && (
-            <div className="mt-2 text-xs text-gray-600">
-              {supportedTypes[documentType].description}
-            </div>
-          )}
+            </select>
+            
+            {supportedTypes[documentType] && (
+              <div className="mt-2 text-xs text-gray-600">
+                {supportedTypes[documentType].description}
+              </div>
+            )}
 
           {libraryDescription && (
             <div className="mt-2 text-xs text-blue-600 bg-blue-50 p-2 rounded">
               {libraryDescription}
             </div>
           )}
-        </div>
-
-        {/* Parameters */}
-        {documentType !== 'auto' && (
-          <div className="bg-white p-4 rounded-lg border">
-            {renderParameterControls()}
           </div>
-        )}
 
-        {/* Action Buttons */}
-        <div className="space-y-2">
-          <button
-            onClick={handlePreview}
-            disabled={loading || (!selectedFile && !selectedUrl)}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
-          >
-            {loading ? 'Loading...' : 'Preview Extraction'}
-          </button>
-          
-          <button
-            onClick={handleExtraction}
-            disabled={loading || (!selectedFile && !selectedUrl)}
-            className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-gray-400 transition-colors"
-          >
-            {loading ? 'Extracting...' : 'Extract Data'}
-          </button>
-        </div>
-
-        {/* Target Library Info */}
-        {targetLibrary && libraryDetails && (
-          <div className="bg-green-50 p-4 rounded-lg border">
-            <h3 className="font-semibold text-green-900 mb-3">Target Library</h3>
-            <div className="space-y-2 text-sm">
-              <div>
-                <span className="font-medium text-green-800">Name:</span> {libraryDetails.library.name}
-              </div>
-              <div>
-                <span className="font-medium text-green-800">Type:</span> {libraryDetails.library.type?.replace(/_/g, ' ') || 'unknown'}
-              </div>
-              <div>
-                <span className="font-medium text-green-800">Collections:</span> {libraryDetails.collections?.length || 0}
-              </div>
-              <div>
-                <span className="font-medium text-green-800">Documents:</span> {(libraryDetails.library.total_documents || 0).toLocaleString()}
-              </div>
+          {/* Parameters */}
+          {documentType !== 'auto' && (
+            <div className="bg-white p-4 rounded-lg border">
+              {renderParameterControls()}
             </div>
-            <p className="text-xs text-green-700 mt-2">
-              ✓ Extracted documents will be indexed into this library
-            </p>
-          </div>
-        )}
-      </div>
+          )}
 
-      {/* Results Section */}
-      <div className="lg:col-span-2 space-y-6">
-        {error && (
-          <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
-            <div className="text-red-700 font-medium">Error</div>
-            <div className="text-red-600 text-sm mt-1">{error}</div>
+          {/* Action Buttons */}
+          <div className="space-y-2">
+            <button
+              onClick={handlePreview}
+              disabled={loading || (!selectedFile && !selectedUrl)}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+            >
+              {loading ? 'Loading...' : 'Preview Extraction'}
+            </button>
+            
+            <button
+              onClick={handleExtraction}
+              disabled={loading || (!selectedFile && !selectedUrl)}
+              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-gray-400 transition-colors"
+            >
+              {loading ? 'Extracting...' : 'Extract Data'}
+            </button>
           </div>
-        )}
 
-        {preview && (
-          <div className="bg-white border rounded-lg p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Preview</h3>
-            {renderPreview()}
-          </div>
-        )}
+          {/* Target Library Info */}
+          {targetLibrary && libraryDetails && (
+            <div className="bg-green-50 p-4 rounded-lg border">
+              <h3 className="font-semibold text-green-900 mb-3">Target Library</h3>
+              <div className="space-y-2 text-sm">
+                <div>
+                  <span className="font-medium text-green-800">Name:</span> {libraryDetails.library.name}
+                </div>
+                <div>
+                  <span className="font-medium text-green-800">Type:</span> {libraryDetails.library.type?.replace(/_/g, ' ') || 'unknown'}
+                </div>
+                <div>
+                  <span className="font-medium text-green-800">Collections:</span> {libraryDetails.collections?.length || 0}
+                </div>
+                <div>
+                  <span className="font-medium text-green-800">Documents:</span> {(libraryDetails.library.total_documents || 0).toLocaleString()}
+                </div>
+              </div>
+              <p className="text-xs text-green-700 mt-2">
+                ✓ Extracted documents will be indexed into this library
+              </p>
+            </div>
+          )}
+        </div>
 
-        {extractionResult && renderExtractionResult()}
+        {/* Results Section */}
+        <div className="lg:col-span-2 space-y-6">
+          {error && (
+            <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
+              <div className="text-red-700 font-medium">Error</div>
+              <div className="text-red-600 text-sm mt-1">{error}</div>
+            </div>
+          )}
+
+          {preview && (
+            <div className="bg-white border rounded-lg p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Preview</h3>
+              {renderPreview()}
+            </div>
+          )}
+
+          {extractionResult && renderExtractionResult()}
 
         {/* Library-Specific Documentation */}
         {libraryDetails && (
