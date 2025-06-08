@@ -254,7 +254,19 @@ Only include the JSON object, nothing else."""
                 # Parse JSON response
                 json_match = re.search(r"```json\s*(\{.*?\})\s*```", response, re.DOTALL)
                 if json_match:
-                    parsed = json.loads(json_match.group(1))
+                    raw_json = json_match.group(1)
+                    try:
+                        parsed = json.loads(raw_json)
+                    except json.JSONDecodeError as je:
+                        # Minimal fix: escape single backslashes that are not part of valid escapes
+                        logger.warning(f"Primary JSON parse failed ({je}), applying backslash-escape fix and retrying")
+                        safe_raw_json = raw_json.replace("\\", "\\\\")
+                        try:
+                            parsed = json.loads(safe_raw_json)
+                        except json.JSONDecodeError as je2:
+                            logger.error(f"Secondary JSON parse failed ({je2}), falling back to regex code extraction")
+                            raise
+                    
                     questions = parsed.get("questions", [])
                     
                     if questions:
@@ -510,9 +522,27 @@ Return your response as JSON with keys: code, description, improvements_made.
         try:
             json_match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
             if json_match:
-                parsed = json.loads(json_match.group(1))
+                raw_json = json_match.group(1)
+                try:
+                    parsed = json.loads(raw_json)
+                except json.JSONDecodeError as je:
+                    # Minimal fix: escape single backslashes that are not part of valid escapes
+                    logger.warning(f"Primary JSON parse failed ({je}), applying backslash-escape fix and retrying")
+                    safe_raw_json = raw_json.replace("\\", "\\\\")
+                    try:
+                        parsed = json.loads(safe_raw_json)
+                    except json.JSONDecodeError as je2:
+                        logger.error(f"Secondary JSON parse failed ({je2}), falling back to regex code extraction")
+                        raise
             else:
-                parsed = json.loads(raw_response)
+                # Fallback: extract code block
+                code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
+                refined_code = code_match.group(1) if code_match else generated_code
+                parsed = {
+                    "code": refined_code,
+                    "description": "Refined code",
+                    "improvements_made": ["General improvements applied"]
+                }
         except (json.JSONDecodeError, AttributeError):
             # Fallback: extract code block
             code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
@@ -666,7 +696,18 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             json_match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
             if json_match:
                 logger.info("Found JSON in code block")
-                parsed = json.loads(json_match.group(1))
+                raw_json = json_match.group(1)
+                try:
+                    parsed = json.loads(raw_json)
+                except json.JSONDecodeError as je:
+                    # Minimal fix: escape single backslashes that are not part of valid escapes
+                    logger.warning(f"Primary JSON parse failed ({je}), applying backslash-escape fix and retrying")
+                    safe_raw_json = raw_json.replace("\\", "\\\\")
+                    try:
+                        parsed = json.loads(safe_raw_json)
+                    except json.JSONDecodeError as je2:
+                        logger.error(f"Secondary JSON parse failed ({je2}), falling back to regex code extraction")
+                        raise
             else:
                 logger.info("Trying to parse entire response as JSON")
                 parsed = json.loads(raw_response)

@@ -15,7 +15,9 @@ const QueryAndResultsMessage = ({
   onExecuteWorkflow, 
   onExecuteStep, 
   agentType, 
-  isJsonWorkflow 
+  isJsonWorkflow,
+  messageIndex,
+  allMessages
 }) => {
   return (
     <div className="space-y-4">
@@ -44,6 +46,8 @@ const QueryAndResultsMessage = ({
           workflowId={workflowId || 'unknown'}
           onExecuteWorkflow={onExecuteWorkflow}
           onExecuteStep={onExecuteStep}
+          messageIndex={messageIndex}
+          allMessages={allMessages}
         />
       )}
 
@@ -63,10 +67,7 @@ const QueryAndResultsMessage = ({
 
       {/* Display query results if available */}
       {message.queryResults && (
-        <QueryResultsDisplay 
-          results={message.queryResults} 
-          agentType={agentType}
-        />
+        <QueryResultsDisplay results={message.queryResults} />
       )}
     </div>
   );

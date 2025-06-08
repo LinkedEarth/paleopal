@@ -1144,6 +1144,8 @@ ${stepInfo.input}`;
                 onExecuteStep={handleExecuteStep}
                 agentType={message.agentType}
                 isJsonWorkflow={message.isJsonWorkflow}
+                messageIndex={messageIndex}
+                allMessages={messages}
               />
             ) : message.needsClarification && waitingForClarification ? (
               // When actively waiting for clarification, just show plain text since the interactive UI is shown below
