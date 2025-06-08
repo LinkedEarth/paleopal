@@ -6,7 +6,8 @@ import { testApiConnectivity } from '../config/api';
 import API_CONFIG from '../config/api';
 
 // Configure axios defaults
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
+                         (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000');
 
 // Helper to generate a simple unique id (timestamp based)
 const generateId = () => `c_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;

@@ -4,8 +4,8 @@ services:
     image: qdrant/qdrant:v1.7.0
     container_name: paleopal-qdrant
     ports:
-      - "6333:6333"
-      - "6334:6334"
+      - "6335:6333"
+      - "6336:6334"
     volumes:
       - qdrant-data:/qdrant/storage
     environment:
@@ -26,14 +26,14 @@ services:
       dockerfile: Dockerfile
     container_name: paleopal-backend
     ports:
-      - "8000:8000"
+      - "8200:8000"
     volumes:
       - backend-data:/app/data
       - backend-libraries:/app/libraries
       - ./backend/.env:/app/.env:ro
     environment:
       - QDRANT_HOST=qdrant
-      - QDRANT_PORT=6333
+      - QDRANT_PORT=6335
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
     depends_on:
       - qdrant
@@ -52,7 +52,7 @@ services:
       dockerfile: Dockerfile
     container_name: paleopal-frontend
     ports:
-      - "3000:80"
+      - "3200:80"
     depends_on:
       - backend
     restart: unless-stopped

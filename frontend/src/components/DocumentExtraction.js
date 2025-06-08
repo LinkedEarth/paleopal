@@ -3,7 +3,8 @@ import axios from 'axios';
 import API_CONFIG from '../config/api';
 
 // Configure axios defaults
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
+                         (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000');
 
 const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) => {
   const [selectedFile, setSelectedFile] = useState(null);

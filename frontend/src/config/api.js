@@ -1,7 +1,9 @@
 // API configuration for PaleoPal frontend
 const API_CONFIG = {
-  // Use environment variable if available, otherwise fall back to development default
-  BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+  // In production/Docker, use relative URLs to go through nginx proxy
+  // In development, use localhost
+  BASE_URL: process.env.REACT_APP_API_URL || 
+            (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000'),
   
   // API endpoints
   ENDPOINTS: {
@@ -18,7 +20,8 @@ const API_CONFIG = {
 console.log('🔧 API Configuration:', {
   BASE_URL: API_CONFIG.BASE_URL,
   REACT_APP_API_URL: process.env.REACT_APP_API_URL,
-  NODE_ENV: process.env.NODE_ENV
+  NODE_ENV: process.env.NODE_ENV,
+  usingRelativeURLs: API_CONFIG.BASE_URL === ''
 });
 
 // Helper function to build API URLs

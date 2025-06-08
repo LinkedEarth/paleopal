@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import DocumentExtraction from './DocumentExtraction';
 import API_CONFIG from '../config/api';
 
-// Configure axios defaults
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// Configure axios defaults - use same logic as API_CONFIG
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
+                         (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000');
 
 // Simple CSS for line clamping
 const styles = `
