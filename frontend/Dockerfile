@@ -7,10 +7,10 @@ FROM node:18-alpine as build
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Clean npm cache and install dependencies
+RUN npm cache clean --force && npm ci
 
 # Copy source code
 COPY . .
