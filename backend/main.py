@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="PaleoPal API",
     description="API for paleoclimate data analysis with multi-agent system",
-    version="2.0.0"
+    version="2.0.0",
+    redirect_slashes=False  # Disable automatic redirects to prevent Docker proxy issues
 )
 
 # Add CORS middleware

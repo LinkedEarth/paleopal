@@ -43,6 +43,26 @@ SPARQL_ENDPOINT_URL = os.getenv("SPARQL_ENDPOINT_URL", "http://localhost:7200/re
 SPARQL_UPDATE_URL = os.getenv("SPARQL_UPDATE_URL", "http://localhost:7200/repositories/LiPDVerse-dynamic/statements")
 SPARQL_USERNAME = os.getenv("SPARQL_USERNAME", "")
 SPARQL_PASSWORD = os.getenv("SPARQL_PASSWORD", "")
+SPARQL_TIMEOUT = int(os.getenv("SPARQL_TIMEOUT", "30"))
+
+# Common SPARQL endpoints for different environments
+SPARQL_ENDPOINTS = {
+    "local": {
+        "url": "http://localhost:7200/repositories/LiPDVerse-dynamic",
+        "update_url": "http://localhost:7200/repositories/LiPDVerse-dynamic/statements",
+        "description": "Local GraphDB instance"
+    },
+    "remote_lipd": {
+        "url": "https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse-dynamic",
+        "update_url": "https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse-dynamic/statements",
+        "description": "Remote LiPDVerse repository"
+    },
+    "remote_lipd2": {
+        "url": "https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse2",
+        "update_url": "https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse2/statements",
+        "description": "Remote LiPDVerse2 repository"
+    }
+}
 
 # Ollama settings
 OLLAMA_REASONING_MODELS = os.getenv("OLLAMA_REASONING_MODELS", "deepseek-r1,marco-o1,qwen2.5-coder,thinking-model").split(",")

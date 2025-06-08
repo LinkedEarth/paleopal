@@ -137,6 +137,7 @@ LIBRARY_CONFIGS = {
 }
 
 @router.get("/")
+@router.get("")  # Handle both /libraries/ and /libraries
 async def get_libraries() -> Dict[str, Any]:
     """Get overview of all available libraries."""
     try:

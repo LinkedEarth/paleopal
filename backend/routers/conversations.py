@@ -7,6 +7,7 @@ from services.conversation_service import conversation_service
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
 @router.get("/", response_model=List[Conversation])
+@router.get("", response_model=List[Conversation])  # Handle both /conversations/ and /conversations
 def list_conversations():
     """Return list of conversations (metadata only, messages loaded separately)."""
     return conversation_service.list_conversations(include_messages=False)
@@ -20,6 +21,7 @@ def get_conversation(conv_id: str):
     return conv
 
 @router.post("/", response_model=Conversation)
+@router.post("", response_model=Conversation)  # Handle both /conversations/ and /conversations
 def create_conversation(conv_data: ConversationCreate):
     """Create a new conversation."""
     return conversation_service.create_conversation(conv_data)

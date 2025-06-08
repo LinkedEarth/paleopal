@@ -169,6 +169,7 @@ async def stream_agent_execution(request: AgentRequest) -> AsyncGenerator[str, N
             del streaming_connections[stream_id]
 
 @router.get("/")
+@router.get("")  # Handle both /agents/ and /agents
 async def list_agents():
     """List all available agents and their capabilities."""
     try:

@@ -3,6 +3,7 @@ import logging
 from typing import Dict, List, Any, Optional
 import textwrap
 import re
+from config import SPARQL_ENDPOINT_URL, SPARQL_USERNAME, SPARQL_PASSWORD, SPARQL_TIMEOUT
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -13,15 +14,24 @@ class SPARQLService:
     Service for executing SPARQL queries against a GraphDB endpoint.
     """
     
-    def __init__(self, endpoint_url: str = "http://localhost:7200/repositories/paleopal"):
+    def __init__(self, endpoint_url: str = None, username: str = None, password: str = None, timeout: int = None):
         """
         Initialize the SPARQL service.
         
         Args:
-            endpoint_url: URL of the GraphDB SPARQL endpoint
+            endpoint_url: URL of the GraphDB SPARQL endpoint (defaults to config value)
+            username: Optional username for authentication
+            password: Optional password for authentication  
+            timeout: Query timeout in seconds (defaults to config value)
         """
-        self.endpoint_url = endpoint_url
-        logger.info(f"Initialized SPARQL service with endpoint: {endpoint_url}")
+        self.endpoint_url = endpoint_url or SPARQL_ENDPOINT_URL
+        self.username = username or SPARQL_USERNAME
+        self.password = password or SPARQL_PASSWORD
+        self.timeout = timeout or SPARQL_TIMEOUT
+        
+        logger.info(f"Initialized SPARQL service with endpoint: {self.endpoint_url}")
+        if self.username:
+            logger.info(f"Using authentication with username: {self.username}")
         
     def execute_query(self, query: str, limit: Optional[int] = None) -> Dict[str, Any]:
         """
@@ -52,8 +62,21 @@ class SPARQLService:
         
         try:
             logger.info(f"Executing SPARQL query: {textwrap.shorten(query, width=100, placeholder='...')}")
+            
+            # Prepare authentication if configured
+            auth = None
+            if self.username and self.password:
+                auth = (self.username, self.password)
+                logger.debug("Using HTTP Basic authentication")
+            
             # Add a timeout to avoid hanging on slow endpoints
-            response = requests.post(self.endpoint_url, headers=headers, data=data, timeout=10.0)
+            response = requests.post(
+                self.endpoint_url, 
+                headers=headers, 
+                data=data, 
+                timeout=self.timeout,
+                auth=auth
+            )
             response.raise_for_status()
             
             # Parse response
@@ -62,8 +85,8 @@ class SPARQLService:
             
             return result
         except requests.exceptions.Timeout:
-            logger.error(f"Timeout executing SPARQL query (10s limit)")
-            return {"error": "Query timed out after 10 seconds"}
+            logger.error(f"Timeout executing SPARQL query ({self.timeout}s limit)")
+            return {"error": f"Query timed out after {self.timeout} seconds"}
         except requests.exceptions.RequestException as e:
             logger.error(f"Error executing SPARQL query: {str(e)}")
             if hasattr(e, 'response') and e.response:
@@ -234,8 +257,21 @@ class SPARQLService:
                 "query": test_query
             }
             
+            # Prepare authentication if configured
+            auth = None
+            if self.username and self.password:
+                auth = (self.username, self.password)
+            
             logger.info(f"Testing connection to SPARQL endpoint: {self.endpoint_url}")
-            response = requests.post(self.endpoint_url, headers=headers, data=data, timeout=5.0)
+            # Use half the configured timeout for connection testing
+            test_timeout = min(5.0, self.timeout / 2)
+            response = requests.post(
+                self.endpoint_url, 
+                headers=headers, 
+                data=data, 
+                timeout=test_timeout,
+                auth=auth
+            )
             response.raise_for_status()
             
             # Check if the response is valid JSON
@@ -243,7 +279,7 @@ class SPARQLService:
             logger.info(f"Successfully connected to SPARQL endpoint")
             return "results" in result
         except requests.exceptions.Timeout:
-            logger.error(f"Connection test timed out after 5 seconds")
+            logger.error(f"Connection test timed out after {test_timeout} seconds")
             return False
         except requests.exceptions.ConnectionError:
             logger.error(f"Connection error: Could not connect to {self.endpoint_url}")

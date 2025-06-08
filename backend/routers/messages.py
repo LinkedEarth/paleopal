@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/messages", tags=["messages"])
 
 @router.post("/", response_model=Message)
+@router.post("", response_model=Message)  # Handle both /messages/ and /messages
 async def create_message(message_data: MessageCreate):
     """Create a new message in a conversation."""
     try:
