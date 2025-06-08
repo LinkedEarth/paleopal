@@ -612,6 +612,10 @@ class AddDocumentRequest(BaseModel):
     metadata: Optional[Dict[str, Any]] = {}
     collection: Optional[str] = None
 
+class BulkAddDocumentsRequest(BaseModel):
+    documents: List[Dict[str, Any]]
+    collection: Optional[str] = None
+
 @router.post("/{library_key}/documents")
 async def add_document(library_key: str, request: AddDocumentRequest) -> Dict[str, Any]:
     """Add a new document to the library."""
@@ -670,6 +674,87 @@ async def add_document(library_key: str, request: AddDocumentRequest) -> Dict[st
         raise
     except Exception as e:
         logger.error(f"Error adding document: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/{library_key}/documents/bulk")
+async def add_documents_bulk(library_key: str, request: BulkAddDocumentsRequest) -> Dict[str, Any]:
+    """Add multiple documents to the library at once."""
+    if library_key not in LIBRARY_CONFIGS:
+        raise HTTPException(status_code=404, detail=f"Library '{library_key}' not found")
+    
+    if not request.documents:
+        raise HTTPException(status_code=400, detail="No documents provided")
+    
+    try:
+        config = LIBRARY_CONFIGS[library_key]
+        qdrant_manager = get_qdrant_manager()
+        
+        # Determine target collection
+        if request.collection:
+            if request.collection not in config["collections"]:
+                raise HTTPException(
+                    status_code=400, 
+                    detail=f"Collection '{request.collection}' not found in library '{library_key}'"
+                )
+            collection_name = request.collection
+        else:
+            # Use primary collection (first one)
+            collection_name = config["collections"][0]
+        
+        # Prepare documents
+        import uuid
+        from datetime import datetime
+        
+        prepared_documents = []
+        for doc_data in request.documents:
+            document_id = str(uuid.uuid4())
+            
+            # Extract text from various possible fields
+            text = (doc_data.get("text") or 
+                   doc_data.get("content") or 
+                   doc_data.get("description") or 
+                   doc_data.get("query") or 
+                   doc_data.get("name") or "")
+            
+            if not text:
+                logger.warning(f"Document has no extractable text content: {doc_data}")
+                continue
+            
+            document = {
+                "id": document_id,
+                "text": text,
+                "indexed_at": datetime.now().isoformat(),
+                "source": "document_extraction",
+                "library": library_key,
+                "collection": collection_name,
+                **doc_data  # Include all original fields as metadata
+            }
+            
+            prepared_documents.append(document)
+        
+        if not prepared_documents:
+            raise HTTPException(status_code=400, detail="No valid documents to index")
+        
+        # Index all documents at once
+        indexed_count = qdrant_manager.index_documents(
+            collection_name=collection_name,
+            documents=prepared_documents,
+            text_field="text"
+        )
+        
+        return {
+            "message": f"Successfully indexed {indexed_count} documents",
+            "requested_documents": len(request.documents),
+            "indexed_documents": indexed_count,
+            "collection": collection_name,
+            "library": library_key,
+            "document_ids": [doc["id"] for doc in prepared_documents]
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error adding bulk documents: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/{library_key}/collections/{collection_name}/stats")

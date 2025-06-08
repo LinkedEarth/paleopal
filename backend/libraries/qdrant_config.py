@@ -133,6 +133,9 @@ class QdrantManager:
             logger.warning("No documents to index")
             return 0
         
+        # Ensure collection exists before indexing
+        self.create_collection(collection_name)
+        
         # Extract texts for embedding
         texts = [doc.get(text_field, "") for doc in documents]
         if not any(texts):

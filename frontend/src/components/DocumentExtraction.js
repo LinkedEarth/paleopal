@@ -46,7 +46,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         { value: 'pdf', label: 'PDF Paper' },
         { value: 'readthedocs', label: 'ReadTheDocs Site' },
         { value: 'ontology', label: 'Ontology (TTL/RDF/OWL)' },
-        { value: 'sparql', label: 'SPARQL Queries (Markdown)' }
+        { value: 'sparql', label: 'SPARQL Queries (Markdown/Notebook)' }
       ];
     }
 
@@ -56,8 +56,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     const typeMapping = {
       'query_library': [
         { value: 'auto', label: 'Auto-detect' },
-        { value: 'sparql', label: 'SPARQL Queries (Markdown)' },
-        { value: 'notebook', label: 'Jupyter Notebook (for SPARQL)' }
+        { value: 'sparql', label: 'SPARQL Queries (Markdown/Notebook)' },
+        { value: 'notebook', label: 'Jupyter Notebook (Enhanced SPARQL)' }
       ],
       'reference_library': [
         { value: 'auto', label: 'Auto-detect' },
@@ -83,7 +83,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
       { value: 'pdf', label: 'PDF Paper' },
       { value: 'readthedocs', label: 'ReadTheDocs Site' },
       { value: 'ontology', label: 'Ontology (TTL/RDF/OWL)' },
-      { value: 'sparql', label: 'SPARQL Queries (Markdown)' }
+      { value: 'sparql', label: 'SPARQL Queries (Markdown/Notebook)' }
     ];
   };
 
@@ -92,7 +92,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     if (!libraryDetails?.library?.type) return null;
 
     const descriptions = {
-      'query_library': 'Extract SPARQL queries and code snippets for the query library',
+      'query_library': 'Extract SPARQL queries from markdown files and Jupyter notebooks with enhanced context analysis, including cell-level metadata, variable names, and surrounding documentation',
       'reference_library': 'Extract ontology entities and research references for the reference library',
       'methods_library': 'Extract research methods and analytical procedures for the methods library',
       'documentation_library': 'Extract documentation, tutorials, and API references for the documentation library'
@@ -171,11 +171,27 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         formData.append('file', selectedFile);
         formData.append('params', JSON.stringify(extractionParams));
 
+        // Determine the correct endpoint based on document type and library
         let endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/notebook`;
+        
+        // Route to appropriate extractor
         if (documentType === 'pdf' || selectedFile.name.toLowerCase().endsWith('.pdf')) {
           endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/pdf`;
         } else if (documentType === 'sparql' || selectedFile.name.toLowerCase().match(/\.(md|markdown)$/)) {
           endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/sparql`;
+        } else if (documentType === 'notebook' || selectedFile.name.toLowerCase().endsWith('.ipynb')) {
+          // Check if we should use SPARQL extraction for notebooks in query libraries
+          const isQueryLibrary = libraryDetails?.library?.type === 'query_library';
+          const isAutoDetectInQueryLib = documentType === 'auto' && isQueryLibrary;
+          const isSparqlRequested = documentType === 'sparql';
+          
+          if (isQueryLibrary || isAutoDetectInQueryLib || isSparqlRequested) {
+            // Use enhanced SPARQL extractor for notebooks in query libraries
+            endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/sparql`;
+          } else {
+            // Use regular notebook extractor for other libraries
+            endpoint = `${API_CONFIG.ENDPOINTS.EXTRACT}/notebook`;
+          }
         }
 
         response = await axios.post(endpoint, formData);
@@ -401,8 +417,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
-          <div className="p-6 border-b border-gray-200">
+        <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="p-6 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
                 Extracted Item Details #{selectedItem.index + 1}
@@ -416,7 +432,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             </div>
           </div>
           
-          <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+          <div className="p-6 overflow-y-auto flex-1 min-h-0">
             <div className="space-y-6">
               {/* Basic Information */}
               <div>
@@ -456,6 +472,98 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                 </div>
               </div>
 
+              {/* Notebook-specific metadata */}
+              {(selectedItem.cell_index !== undefined || selectedItem.variable_name || selectedItem.extraction_method) && (
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Notebook Context</h4>
+                  <div className="bg-purple-50 p-4 rounded-lg space-y-2">
+                    {selectedItem.cell_index !== undefined && (
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Cell Index:</span>
+                          <span className="ml-2 text-sm text-gray-900">{selectedItem.cell_index}</span>
+                        </div>
+                        {selectedItem.execution_count && (
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Execution Count:</span>
+                            <span className="ml-2 text-sm text-gray-900">{selectedItem.execution_count}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {selectedItem.variable_name && (
+                      <div>
+                        <span className="text-sm font-medium text-gray-600">Variable Name:</span>
+                        <div className="mt-1">
+                          <span className="text-sm bg-indigo-100 text-indigo-800 px-2 py-1 rounded font-mono">
+                            {selectedItem.variable_name}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {selectedItem.extraction_method && (
+                      <div>
+                        <span className="text-sm font-medium text-gray-600">Extraction Method:</span>
+                        <div className="mt-1">
+                          <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                            {selectedItem.extraction_method.replace(/_/g, ' ')}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedItem.context && (
+                      <div>
+                        <span className="text-sm font-medium text-gray-600">Context:</span>
+                        <div className="mt-1 text-sm text-gray-900">{selectedItem.context}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Concepts */}
+              {selectedItem.concepts && Array.isArray(selectedItem.concepts) && selectedItem.concepts.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Extracted Concepts</h4>
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <div className="flex flex-wrap gap-2">
+                      {selectedItem.concepts.map((concept, i) => (
+                        <span key={i} className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+                          {concept}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Surrounding Cells Context */}
+              {selectedItem.surrounding_cells && Array.isArray(selectedItem.surrounding_cells) && selectedItem.surrounding_cells.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Surrounding Notebook Cells</h4>
+                  <div className="bg-blue-50 p-4 rounded-lg space-y-3">
+                    {selectedItem.surrounding_cells.map((cell, i) => (
+                      <div key={i} className="bg-white p-3 rounded border">
+                        <div className="flex items-center mb-2">
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">
+                            Cell {cell.index}
+                          </span>
+                          <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                            {cell.type}
+                          </span>
+                        </div>
+                        <div className="text-sm text-gray-700 whitespace-pre-wrap max-h-20 overflow-y-auto">
+                          {cell.content}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Content */}
               {(selectedItem.content || selectedItem.description || selectedItem.query) && (
                 <div>
@@ -481,8 +589,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.query && (
                       <div>
-                        <span className="text-sm font-medium text-gray-600">Query:</span>
-                        <div className="mt-1 text-sm font-mono text-gray-900 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white">
+                        <span className="text-sm font-medium text-gray-600">SPARQL Query:</span>
+                        <div className="mt-1 text-sm font-mono text-gray-900 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white">
                           {selectedItem.query}
                         </div>
                       </div>
@@ -524,7 +632,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                   <div className="space-y-2">
                     {Object.entries(selectedItem).map(([key, value]) => {
                       // Skip already displayed fields
-                      if (['content_type', 'extraction_type', 'title', 'name', 'uri', 'content', 'description', 'query', 'method_structure', 'code', 'index'].includes(key)) {
+                      if ([
+                        'content_type', 'extraction_type', 'title', 'name', 'uri', 'content', 
+                        'description', 'query', 'method_structure', 'code', 'index',
+                        'cell_index', 'variable_name', 'extraction_method', 'context', 
+                        'concepts', 'surrounding_cells', 'execution_count'
+                      ].includes(key)) {
                         return null;
                       }
                       
@@ -568,7 +681,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             </div>
           </div>
           
-          <div className="p-6 border-t border-gray-200 bg-gray-50">
+          <div className="p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
             <div className="flex justify-between items-center">
               <div className="text-sm text-gray-600">
                 Item {selectedItem.index + 1} of {extractionResult?.extracted_data?.length || 0}
@@ -672,21 +785,37 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     selectedItems.has(idx) ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
                   }`}>
                     <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 flex-wrap gap-1">
                         <input
                           type="checkbox"
                           checked={selectedItems.has(idx)}
                           onChange={() => toggleItemSelection(idx)}
                           className="rounded border-gray-300"
                         />
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                        {item.content_type}
-                      </span>
-                      {item.extraction_type && (
-                        <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
-                          {item.extraction_type}
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                          {item.content_type}
                         </span>
-                      )}
+                        {item.extraction_type && (
+                          <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                            {item.extraction_type}
+                          </span>
+                        )}
+                        {/* Enhanced notebook metadata badges */}
+                        {item.cell_index !== undefined && (
+                          <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                            Cell {item.cell_index}
+                          </span>
+                        )}
+                        {item.variable_name && item.variable_name !== 'anonymous' && (
+                          <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">
+                            {item.variable_name}
+                          </span>
+                        )}
+                        {item.extraction_method && (
+                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                            {item.extraction_method.replace(/_/g, ' ')}
+                          </span>
+                        )}
                       </div>
                       <button
                         onClick={() => viewItemDetails(item, idx)}
@@ -707,10 +836,33 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                         <div><span className="font-medium">Description:</span> {item.description.substring(0, 200)}...</div>
                       )}
                       {item.query && (
-                        <div><span className="font-medium">Query:</span> <code className="bg-gray-200 px-1 rounded">{item.query.substring(0, 100)}...</code></div>
+                        <div>
+                          <span className="font-medium">Query:</span> 
+                          <code className="bg-gray-200 px-1 rounded ml-1">
+                            {item.query.substring(0, 100)}...
+                          </code>
+                        </div>
                       )}
                       {item.uri && (
                         <div><span className="font-medium">URI:</span> <code className="bg-gray-200 px-1 rounded">{item.uri}</code></div>
+                      )}
+                      {/* Enhanced notebook context */}
+                      {item.context && (
+                        <div><span className="font-medium">Context:</span> {item.context}</div>
+                      )}
+                      {/* Display concepts if available */}
+                      {item.concepts && Array.isArray(item.concepts) && item.concepts.length > 0 && (
+                        <div className="flex items-center flex-wrap gap-1 mt-2">
+                          <span className="font-medium text-xs">Concepts:</span>
+                          {item.concepts.slice(0, 5).map((concept, i) => (
+                            <span key={i} className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                              {concept}
+                            </span>
+                          ))}
+                          {item.concepts.length > 5 && (
+                            <span className="text-xs text-gray-500">+{item.concepts.length - 5} more</span>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -832,6 +984,22 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           {libraryDescription && (
             <div className="mt-2 text-xs text-blue-600 bg-blue-50 p-2 rounded">
               {libraryDescription}
+            </div>
+          )}
+
+          {/* Enhanced Notebook SPARQL Extraction Info */}
+          {((documentType === 'sparql' && selectedFile?.name.endsWith('.ipynb')) || 
+            (documentType === 'notebook' && libraryDetails?.library?.type === 'query_library') ||
+            (documentType === 'auto' && selectedFile?.name.endsWith('.ipynb') && libraryDetails?.library?.type === 'query_library')) && (
+            <div className="mt-3 text-xs text-purple-700 bg-purple-50 p-3 rounded border border-purple-200">
+              <div className="font-medium mb-1">Enhanced Notebook SPARQL Extraction</div>
+              <ul className="list-disc list-inside space-y-1 text-xs">
+                <li>Extracts SPARQL queries from code cells (variables, strings, f-strings)</li>
+                <li>Analyzes surrounding markdown cells for context and descriptions</li>
+                <li>Captures cell metadata (index, variable names, execution count)</li>
+                <li>Extracts concepts and provides rich indexing metadata</li>
+                <li>Deduplicates queries and identifies extraction methods</li>
+              </ul>
             </div>
           )}
           </div>
