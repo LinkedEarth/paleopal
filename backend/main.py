@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import routers
-from routers import conversations, agents, messages
+from routers import conversations, agents, messages, libraries, document_extraction
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -38,6 +38,8 @@ app.add_middleware(
 app.include_router(conversations.router)
 app.include_router(agents.router)
 app.include_router(messages.router)
+app.include_router(libraries.router)
+app.include_router(document_extraction.router)
 
 @app.get("/")
 async def root():
@@ -48,7 +50,8 @@ async def root():
         "description": "Multi-agent system for paleoclimate data analysis",
         "available_endpoints": {
             "agents": "/agents",
-            "conversations": "/conversations"
+            "conversations": "/conversations",
+            "libraries": "/libraries"
         }
     }
 

@@ -29,7 +29,7 @@ class SearchIntegrationService:
         self.literature_library_dir = self.base_dir / "libraries" / "literature_library"
         self.readthedocs_library_dir = self.base_dir / "libraries" / "readthedocs_library"
         
-    async def search_workflows(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
+    async def search_notebook_workflows(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
         """
         Search for relevant workflows from the notebook library.
         
@@ -54,7 +54,7 @@ class SearchIntegrationService:
             logger.error(f"Error searching workflows: {e}")
             return []
     
-    async def search_methods(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    async def search_literature_methods(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         """
         Search for relevant methods from the literature library.
         
@@ -424,10 +424,10 @@ Return ONLY a JSON array of the extracted terms:
             Dictionary containing workflow and method context
         """
         # Search workflows with higher weight
-        workflows = await self.search_workflows(user_query, top_k=3)
+        workflows = await self.search_notebook_workflows(user_query, top_k=3)
         
         # Search methods with lower weight (for loose guidance)
-        methods = await self.search_methods(user_query, top_k=5)
+        methods = await self.search_literature_methods(user_query, top_k=5)
         
         return {
             "workflows": workflows,
@@ -487,7 +487,7 @@ Return ONLY a JSON array of the extracted terms:
             "query": user_query
         }
     
-    def format_context_for_llm(self, context: Dict[str, Any]) -> str:
+    def format_workflow_context_for_llm(self, context: Dict[str, Any]) -> str:
         """
         Format the search context into a text prompt for the LLM.
         
@@ -505,31 +505,72 @@ Return ONLY a JSON array of the extracted terms:
             for i, workflow in enumerate(context["workflows"], 1):
                 sections.append(f"### Workflow {i}: {workflow.get('title', 'Unknown')}")
                 sections.append(f"**Similarity**: {workflow.get('similarity_score', 0):.3f}")
-                sections.append(f"**Steps**: {workflow.get('step_count', 'Unknown')}")
+                sections.append(f"**Steps**: {workflow.get('num_steps', workflow.get('step_count', 'Unknown'))}")
+                sections.append(f"**Type**: {workflow.get('workflow_type', 'general')}")
+                sections.append(f"**Complexity**: {workflow.get('complexity', 'simple')}")
                 
-                if workflow.get("workflow_steps"):
+                # Get workflow steps from either workflow_steps or steps field
+                workflow_steps = workflow.get("workflow_steps", workflow.get("steps", []))
+                if workflow_steps:
                     sections.append("**Step Breakdown**:")
-                    for step in workflow["workflow_steps"]:
-                        sections.append(f"- {step.get('step_description', step)}")
+                    for step in workflow_steps:
+                        # Handle different step formats - some have step_number, description, etc.
+                        step_desc = step.get("description", step.get("step_description", ""))
+                        step_num = step.get("step_number", "")
+                        step_type = step.get("step_type", "")
+                        if step_num:
+                            sections.append(f"- Step {step_num}: {step_desc}")
+                        elif step_type:
+                            sections.append(f"- [{step_type}] {step_desc}")
+                        else:
+                            sections.append(f"- {step_desc}")
                 
                 if workflow.get("description"):
                     sections.append(f"**Description**: {workflow['description']}")
                     
                 sections.append("")  # Add spacing
         
-        # Add method context (lower weight)
+        # Add method context (lower weight) - now using complete methods
         if context.get("methods"):
             sections.append("## RELEVANT SCIENTIFIC METHODS (Lower Priority - Use as Loose Guidance):\n")
             for i, method in enumerate(context["methods"], 1):
                 sections.append(f"### Method {i}: {method.get('method_name', 'Unknown')}")
                 sections.append(f"**From Paper**: {method.get('paper_title', 'Unknown')}")
                 sections.append(f"**Similarity**: {method.get('similarity_score', 0):.3f}")
+                sections.append(f"**Steps**: {method.get('num_steps', 'Unknown')}")
                 
-                if method.get("searchable_summary"):
-                    sections.append(f"**Summary**: {method['searchable_summary']}")
-                    
-                if method.get("category"):
+                # Get method description
+                if method.get("description"):
+                    sections.append(f"**Summary**: {method['description']}")
+                elif method.get("method_description"):
+                    sections.append(f"**Summary**: {method['method_description']}")
+                
+                # Get step categories from the complete method
+                if method.get("step_categories"):
+                    sections.append(f"**Categories**: {', '.join(method['step_categories'])}")
+                elif method.get("category"):
                     sections.append(f"**Category**: {method['category']}")
+                
+                # Show step breakdown from method structure
+                method_structure = method.get("method_structure", {})
+                steps = method_structure.get("steps", method.get("steps", []))
+                if steps:
+                    sections.append("**Method Steps**:")
+                    for step in steps[:5]:  # Show first 5 steps
+                        step_num = step.get("step_number", "")
+                        step_cat = step.get("category", "")
+                        step_summary = step.get("searchable_summary", step.get("summary", ""))
+                        step_desc = step.get("description", "")
+                        
+                        if step_num and step_cat:
+                            sections.append(f"- Step {step_num} [{step_cat}]: {step_summary or step_desc}")
+                        elif step_cat:
+                            sections.append(f"- [{step_cat}] {step_summary or step_desc}")
+                        else:
+                            sections.append(f"- {step_summary or step_desc}")
+                    
+                    if len(steps) > 5:
+                        sections.append(f"... and {len(steps) - 5} more steps")
                     
                 sections.append("")  # Add spacing
         

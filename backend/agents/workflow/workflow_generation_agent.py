@@ -1,9 +1,16 @@
 """
-Workflow Manager Agent using LangGraph.
+Workflow Generation Agent using LangGraph.
 Enhanced with comprehensive contextual search and LLM-based planning.
 """
 
 import logging
+import os
+import sys
+
+# Add the backend directory to Python path to enable imports
+backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if backend_dir not in sys.path:
+    sys.path.append(backend_dir)
 
 from agents.base_langgraph_agent import BaseLangGraphAgent
 from agents.base_agent import AgentRequest
@@ -14,13 +21,13 @@ from services.service_manager import service_manager
 logger = logging.getLogger(__name__)
 
 
-class WorkflowLangGraphAgent(BaseLangGraphAgent):
-    """LangGraph-based workflow manager agent."""
+class WorkflowGenerationAgent(BaseLangGraphAgent):
+    """LangGraph-based workflow generation agent."""
     
     def __init__(self):
         super().__init__(
-            agent_type="workflow_manager",
-            name="Workflow Manager Agent (LangGraph)",
+            agent_type="workflow_generation",
+            name="Workflow Generation Agent (LangGraph)",
             description="Plans multi-step paleoclimate analysis workflows using LLM and contextual search",
             state_class=WorkflowAgentState
         )

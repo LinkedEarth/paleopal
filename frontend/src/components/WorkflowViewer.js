@@ -207,7 +207,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           >
             💾 Download
           </button>
-          {onExecuteWorkflow && workflowId && (
+          {/* {onExecuteWorkflow && workflowId && (
             <button 
               className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors"
               onClick={() => onExecuteWorkflow(workflowId)}
@@ -215,14 +215,14 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
             >
               ▶️ Execute
             </button>
-          )}
+          )} */}
           {onExecuteStep && (
             <button 
-              className="px-3 py-1 bg-yellow-500 text-white rounded text-sm hover:bg-yellow-600 transition-colors"
+              className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors"
               onClick={handleExecuteStepByStep}
               title="Execute workflow step by step"
             >
-              🚀 Execute Step by Step
+              🚀 Execute
             </button>
           )}
         </div>

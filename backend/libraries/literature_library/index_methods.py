@@ -40,7 +40,7 @@ def clean_text(text: str) -> str:
 def extract_searchable_content(method_data: Dict[str, Any]) -> List[Dict[str, Any]]:
     """
     Extract searchable content from method JSON data.
-    Returns a list of records with text and metadata for indexing.
+    Creates one document per complete method with all steps as metadata.
     """
     records = []
     
@@ -53,53 +53,61 @@ def extract_searchable_content(method_data: Dict[str, Any]) -> List[Dict[str, An
     for method in method_data.get("methods", []):
         method_name = method.get("method_name", "")
         method_description = method.get("description", "")
+        steps = method.get("steps", [])
         
-        # Create a record for the overall method
-        method_text = f"{method_name}. {method_description}"
+        # Combine method description with all step descriptions for searchable text
+        method_text_parts = [method_name, method_description]
+        
+        # Add all step content to make it searchable
+        for step in steps:
+            step_desc = step.get("description", "")
+            step_summary = step.get("searchable_summary", "")
+            step_keywords = " ".join(step.get("keywords", []))
+            method_text_parts.extend([step_desc, step_summary, step_keywords])
+        
+        # Create comprehensive searchable text
+        searchable_text = " ".join(method_text_parts)
+        
+        # Collect all keywords from all steps
+        all_keywords = []
+        all_categories = []
+        for step in steps:
+            all_keywords.extend(step.get("keywords", []))
+            step_category = step.get("category", "")
+            if step_category and step_category not in all_categories:
+                all_categories.append(step_category)
+        
+        # Create single record for the complete method
         method_record = {
             "id": str(uuid.uuid4()),
-            "text": clean_text(method_text),
+            "text": clean_text(searchable_text),
             "source_file": source_file,
             "paper_title": paper_title,
             "method_name": method_name,
-            "method_description": method_description,
-            "content_type": "method_overview",
-            "step_number": None,
+            "description": method_description,
+            "content_type": "complete_method",
             "category": "method",
-            "searchable_summary": f"Implement {method_name.lower()} methodology",
-            "keywords": [],
-            "inputs": [],
-            "outputs": []
-        }
-        records.append(method_record)
-        
-        # Create records for each step
-        for step in method.get("steps", []):
-            step_text = " ".join([
-                step.get("searchable_summary", ""),
-                step.get("description", ""),
-                " ".join(step.get("keywords", [])),
-                method_name,
-                method_description
-            ])
+            "num_steps": len(steps),
+            "step_categories": all_categories,
+            "keywords": list(set(all_keywords)),  # Remove duplicates
             
-            step_record = {
-                "id": str(uuid.uuid4()),
-                "text": clean_text(step_text),
-                "source_file": source_file,
-                "paper_title": paper_title,
+            # Include complete method structure as metadata
+            "method_structure": {
                 "method_name": method_name,
-                "method_description": method_description[:200] + "..." if len(method_description) > 200 else method_description,
-                "content_type": "method_step",
-                "step_number": step.get("step_number"),
-                "category": step.get("category", "other"),
-                "searchable_summary": step.get("searchable_summary", ""),
-                "keywords": step.get("keywords", []),
-                "inputs": step.get("inputs", []),
-                "outputs": step.get("outputs", []),
-                "step_description": step.get("description", "")
-            }
-            records.append(step_record)
+                "description": method_description,
+                "steps": steps  # Full step structure preserved
+            },
+            
+            # Summary fields for quick reference
+            "step_summaries": [step.get("searchable_summary", "") for step in steps],
+            "inputs": list(set([inp for step in steps for inp in step.get("inputs", [])])),
+            "outputs": list(set([out for step in steps for out in step.get("outputs", [])])),
+            
+            # Indexing metadata
+            "indexed_at": str(uuid.uuid4())  # Using UUID as timestamp placeholder
+        }
+        
+        records.append(method_record)
     
     return records
 

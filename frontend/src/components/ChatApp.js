@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ChatWindow from './ChatWindow';
 import { testApiConnectivity } from '../config/api';
 
@@ -274,97 +275,257 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden font-sans relative">
-      {/* Mobile toggle button */}
-      <button 
-        className="fixed top-2.5 left-2.5 z-50 bg-gray-800 text-gray-200 border-none w-9 h-9 text-lg rounded-md cursor-pointer md:hidden"
-        onClick={() => setSidebarOpen((o) => !o)}
-      >
-        ☰
-      </button>
+    <div className="flex h-screen w-screen overflow-hidden font-sans relative bg-gray-100">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-gray-800 text-gray-200 flex flex-col transition-transform duration-300 ease-in-out z-50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
-        <div className="flex items-center justify-between p-4 border-b border-white/10">
-          <h2 className="text-lg font-semibold m-0">Conversations</h2>
-          <button 
-            className="bg-green-600 border-none text-white w-8 h-8 rounded text-xl leading-8 cursor-pointer transition-colors duration-200 hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
-            onClick={handleNewChat}
-            title="New Chat"
-          >
-            +
-          </button>
+      <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out z-40 shadow-xl md:shadow-none ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50/80 backdrop-blur-sm">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
+          </div>
+          <div className="flex items-center space-x-2">
+            <button 
+              className="w-9 h-9 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors duration-200 shadow-sm hover:shadow-md group"
+              onClick={handleNewChat}
+              title="New Chat"
+            >
+              <svg className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+            {/* Close button for mobile */}
+            <button
+              className="w-9 h-9 bg-gray-600 hover:bg-gray-700 text-white rounded-lg md:hidden flex items-center justify-center transition-colors duration-200"
+              onClick={() => setSidebarOpen(false)}
+              title="Close sidebar"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
-        <ul className="list-none p-0 m-0 overflow-y-auto overflow-x-hidden flex-1">
-          {conversations.map((conv) => (
-            <li key={conv.id} className={`relative flex items-center border-b border-white/5 transition-colors duration-150 min-h-12 group ${conv.id === activeId ? 'bg-gray-700' : 'hover:bg-white/5'} ${conv.isLoading ? 'bg-yellow-500/20 border-l-3 border-yellow-500' : ''}`}>
-              <div
-                className="flex-1 flex items-center gap-2 py-3 px-2 pl-4 cursor-pointer rounded-lg transition-colors duration-200 min-w-0 overflow-hidden hover:bg-white/10"
-                onClick={() => {
-                  // Warn if switching away from a conversation with an active request
-                  if (hasActiveRequest && conv.id !== activeId) {
-                    const shouldSwitch = window.confirm(
-                      'The current conversation is processing a request. ' +
-                      'Switching away may interrupt the process. Continue?'
-                    );
-                    if (!shouldSwitch) return;
-                  }
-                  setActiveId(conv.id);
-                  setSidebarOpen(false);
-                }}
-                onDoubleClick={() => handleRenameConversation(conv.id)}
-                title={conv.isLoading && conv.id !== activeId ? "Click to switch (will warn about active request)" : ""}
-              >
-                <span className={`flex-1 text-sm leading-tight overflow-hidden text-ellipsis whitespace-nowrap min-w-0 ${conv.isLoading ? 'text-yellow-500 font-medium' : 'text-gray-200'}`}>
-                  {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
-                </span>
-                {conv.isLoading && (
-                  <div className="flex items-center gap-1 ml-1 flex-shrink-0">
-                    <span className="text-xs ml-1 animate-pulse flex-shrink-0">⏳</span>
-                    {/* Show clear loading button if conversation has been loading for more than 2 minutes */}
-                    {conv.updatedAt && (Date.now() - new Date(conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
+
+        {/* Conversations List */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+          {conversations.length === 0 ? (
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <p className="text-gray-500 text-sm">No conversations yet</p>
+              <p className="text-gray-400 text-xs mt-1">Click the + button to start a new chat</p>
+            </div>
+          ) : (
+            <ul className="list-none p-2 m-0 space-y-1">
+              {conversations.map((conv) => (
+                <li key={conv.id} className="relative group">
+                  <div
+                    className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 ${
+                      conv.id === activeId 
+                        ? 'bg-blue-50 border border-blue-200 shadow-sm' 
+                        : 'hover:bg-gray-50 border border-transparent'
+                    } ${
+                      conv.isLoading 
+                        ? 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200' 
+                        : ''
+                    }`}
+                    onClick={() => {
+                      // Warn if switching away from a conversation with an active request
+                      if (hasActiveRequest && conv.id !== activeId) {
+                        const shouldSwitch = window.confirm(
+                          'The current conversation is processing a request. ' +
+                          'Switching away may interrupt the process. Continue?'
+                        );
+                        if (!shouldSwitch) return;
+                      }
+                      setActiveId(conv.id);
+                      setSidebarOpen(false);
+                    }}
+                    onDoubleClick={() => handleRenameConversation(conv.id)}
+                    title={conv.isLoading && conv.id !== activeId ? "Click to switch (will warn about active request)" : ""}
+                  >
+                    {/* Conversation Icon */}
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                      conv.id === activeId 
+                        ? 'bg-blue-100 text-blue-600' 
+                        : conv.isLoading 
+                        ? 'bg-amber-100 text-amber-600' 
+                        : 'bg-gray-100 text-gray-500'
+                    }`}>
+                      {conv.isLoading ? (
+                        <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                      )}
+                    </div>
+
+                    {/* Conversation Details */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <h3 className={`text-sm font-medium truncate ${
+                          conv.id === activeId ? 'text-blue-900' : 'text-gray-900'
+                        }`}>
+                          {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
+                        </h3>
+                        {conv.isLoading && (
+                          <div className="flex items-center space-x-1 ml-2">
+                            <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+                            <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                            <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-between mt-1">
+                        <p className={`text-xs truncate ${
+                          conv.id === activeId ? 'text-blue-600' : 'text-gray-500'
+                        }`}>
+                          {conv.messages && conv.messages.length > 0 
+                            ? `${conv.messages.length} message${conv.messages.length === 1 ? '' : 's'}`
+                            : 'No messages yet'
+                          }
+                        </p>
+                        <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <button
+                            className="w-7 h-7 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-md flex items-center justify-center transition-colors duration-200"
+                            title="Rename"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRenameConversation(conv.id);
+                            }}
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                          </button>
+                          <button
+                            className="w-7 h-7 bg-red-100 hover:bg-red-200 text-red-600 hover:text-red-800 rounded-md flex items-center justify-center transition-colors duration-200"
+                            title={conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteConversation(conv.id);
+                            }}
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Loading indicator with clear button for stuck states */}
+                    {conv.isLoading && conv.updatedAt && (Date.now() - new Date(conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
                       <button
-                        className="bg-transparent border-none text-xs cursor-pointer p-0.5 rounded opacity-70 transition-all duration-200 flex-shrink-0 hover:bg-yellow-500/20 hover:opacity-100"
+                        className="absolute top-2 right-2 w-6 h-6 bg-amber-100 hover:bg-amber-200 text-amber-600 hover:text-amber-800 rounded-full flex items-center justify-center transition-colors duration-200 text-xs"
                         title="Clear stuck loading state"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleClearStuckLoading(conv.id);
                         }}
                       >
-                        ⚠️
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </button>
                     )}
                   </div>
-                )}
-              </div>
-              <button
-                className="bg-transparent border-none text-xs cursor-pointer p-1 rounded opacity-0 transition-all duration-200 ml-0.5 text-gray-400 flex-shrink-0 w-6 h-6 flex items-center justify-center hover:bg-white/10 hover:text-white group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-30"
-                title="Rename"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRenameConversation(conv.id);
-                }}
-              >✏️</button>
-              <button
-                className="bg-transparent border-none text-xs cursor-pointer p-1 rounded opacity-0 transition-all duration-200 ml-0.5 text-gray-400 flex-shrink-0 w-6 h-6 flex items-center justify-center hover:bg-white/10 hover:text-white group-hover:opacity-100 disabled:cursor-not-allowed disabled:opacity-30"
-                title={conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteConversation(conv.id);
-                }}
-              >🗑</button>
-            </li>
-          ))}
-        </ul>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        
+        {/* Dashboard Link at bottom */}
+        <div className="border-t border-gray-200 p-4 bg-gray-50/50">
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-xl text-sm text-gray-700 hover:bg-white hover:text-gray-900 transition-all duration-200 border border-transparent hover:border-gray-200 hover:shadow-sm group"
+          >
+            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <div>
+              <div className="font-medium">Libraries Dashboard</div>
+              <div className="text-xs text-gray-500">Browse paleoclimate data</div>
+            </div>
+            <svg className="w-4 h-4 text-gray-400 ml-auto group-hover:text-gray-600 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </aside>
 
       {/* Main Chat Window */}
-      <main className="ml-0 w-full bg-gray-100 flex flex-col h-screen overflow-hidden md:ml-80 md:w-[calc(100vw-320px)]" onClick={() => sidebarOpen && setSidebarOpen(false)}>
-        {activeConversation ? (
-          <ChatWindow conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
-        ) : (
-          <div className="m-auto text-xl text-gray-600">Select or start a conversation.</div>
-        )}
+      <main className="ml-0 w-full bg-gray-100 flex flex-col h-screen overflow-hidden md:ml-80 md:w-[calc(100vw-320px)] transition-all duration-300" onClick={() => sidebarOpen && setSidebarOpen(false)}>
+        {/* Mobile header with menu button */}
+        <div className="md:hidden bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center cursor-pointer" onClick={() => setSidebarOpen(true)}>
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <h1 className="text-lg font-semibold text-gray-900">Conversations</h1>
+          </div>
+          <button 
+            className="w-9 h-9 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors duration-200 shadow-sm hover:shadow-md group"
+            onClick={handleNewChat}
+            title="New Chat"
+          >
+            <svg className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+        
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {activeConversation ? (
+            <ChatWindow conversation={activeConversation} onConversationUpdate={handleConversationUpdate} />
+          ) : (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Welcome to PaleoPal</h3>
+                <p className="text-gray-600 mb-6">Select a conversation or start a new chat to begin</p>
+                <button
+                  onClick={handleNewChat}
+                  className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Start New Conversation
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -13,7 +13,7 @@ from agents.base_agent import AgentRequest, AgentResponse, AgentStatus
 from services.agent_registry import agent_registry
 from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
 from agents.code import CodeGenerationAgent
-from agents.workflow.workflow_manager_agent import WorkflowManagerAgent
+from agents.workflow.workflow_generation_agent import WorkflowGenerationAgent
 from utils.agent_utils import (
     create_sparql_agent_with_config, 
     create_code_agent_with_config, 
@@ -38,8 +38,8 @@ def initialize_agents():
         code_agent = CodeGenerationAgent()
         agent_registry.register_agent(code_agent)
         
-        # Register Workflow Manager agent
-        workflow_agent = WorkflowManagerAgent()
+        # Register Workflow Generation agent
+        workflow_agent = WorkflowGenerationAgent()
         agent_registry.register_agent(workflow_agent)
         
         logger.info("All agents initialized successfully")
@@ -93,7 +93,7 @@ async def stream_agent_execution(request: AgentRequest) -> AsyncGenerator[str, N
                 agent = create_code_agent_with_config(enable_clarification, clarification_threshold)
         
         # Check if this is a workflow agent request
-        elif request.agent_type == "workflow_manager":
+        elif request.agent_type == "workflow_generation":
             # Always use the new LangGraph workflow agent for better progress tracking
             logger.info("Creating LangGraph workflow agent for streaming")
             agent = create_workflow_agent_with_config()
@@ -384,7 +384,7 @@ async def execute_agent_async(request: AgentRequest):
                 agent = create_code_agent_with_config(enable_clarification, clarification_threshold)
         
         # Check if this is a workflow agent request
-        elif request.agent_type == "workflow_manager":
+        elif request.agent_type == "workflow_generation":
             # Always use the new LangGraph workflow agent for better progress tracking
             logger.info("Creating LangGraph workflow agent for streaming")
             agent = create_workflow_agent_with_config()

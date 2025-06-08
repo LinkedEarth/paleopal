@@ -20,8 +20,8 @@ const AGENT_TYPES = [
     id: 'sparql', 
     name: 'SPARQL',
     capability: 'generate_query',
-    description: 'Generate SPARQL queries for paleoclimate data',
-    placeholder: 'Ask a question to generate a SPARQL query...'
+    description: 'Query paleoclimate databases with SPARQL',
+    placeholder: 'Ask about paleoclimate data, proxies, time periods...'
   },
   { 
     id: 'code', 
@@ -31,7 +31,7 @@ const AGENT_TYPES = [
     placeholder: 'Describe the analysis you want to perform...'
   },  
   { 
-    id: 'workflow_manager', 
+    id: 'workflow_generation', 
     name: 'Workflow',
     capability: 'plan_workflow', 
     description: 'Plan multi-step paleoclimate analysis workflows',
@@ -136,7 +136,7 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
     };
 
     // Special handling for workflow agent: JSON workflow is stored in query_generated
-    if (msg.agent_type === 'workflow_manager' && msg.query_generated) {
+    if (msg.agent_type === 'workflow_generation' && msg.query_generated) {
       try {
         // Try to parse as JSON workflow
         const workflowData = JSON.parse(msg.query_generated);
@@ -389,7 +389,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     // 1. We have new visible (non-progress) messages
     // 2. We're loading (to show loading state)
     // 3. Force scroll on conversation switch
-    if (currentVisibleCount > lastVisibleCount || isLoading || updatingFromPropRef.current) {
+    if (currentVisibleCount > lastVisibleCount) { // || isLoading || updatingFromPropRef.current) {
       scrollToBottomIfNeeded(updatingFromPropRef.current);
     }
     
@@ -477,7 +477,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     try {
       // Prepare request for workflow execution
       const agentRequest = {
-        agent_type: 'workflow_manager',
+        agent_type: 'workflow_generation',
         capability: 'execute_workflow',
         user_input: workflowId,
         conversation_id: conversation.id,

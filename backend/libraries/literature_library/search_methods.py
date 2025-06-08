@@ -38,13 +38,13 @@ def search_methods(
         query: Search query string
         limit: Maximum number of results to return
         collection_name: Qdrant collection name (defaults to literature_methods)
-        category_filter: Filter by category (e.g., "data_analysis", "sample_preparation")
-        content_type_filter: Filter by content type ("method_overview", "method_step")
+        category_filter: Filter by step category (e.g., "data_analysis", "sample_preparation")
+        content_type_filter: Filter by content type (now always "complete_method")
         method_filter: Filter by specific method name
         score_threshold: Minimum similarity score threshold
         
     Returns:
-        List of matching methods with metadata and similarity scores
+        List of matching complete methods with full step structure and metadata
     """
     if collection_name is None:
         collection_name = COLLECTION_NAMES["literature"]
@@ -52,9 +52,14 @@ def search_methods(
     # Prepare filters
     filters = {}
     if category_filter:
-        filters["category"] = category_filter
-    if content_type_filter:
-        filters["content_type"] = content_type_filter
+        # For complete methods, filter by step categories
+        filters["step_categories"] = category_filter
+    if content_type_filter and content_type_filter != "complete_method":
+        # Legacy compatibility - map old content types to new structure
+        if content_type_filter in ["method_overview", "method_step"]:
+            filters["content_type"] = "complete_method"
+    else:
+        filters["content_type"] = "complete_method"
     if method_filter:
         filters["method_name"] = method_filter
     
@@ -70,41 +75,59 @@ def search_methods(
             score_threshold=score_threshold
         )
         
-        # Format results for backward compatibility
+        # Format results with complete method structure
         formatted_results = []
         for result in results:
-            # Create backward compatible format
+            # Extract the complete method structure
+            method_structure = result.get("method_structure", {})
+            steps = method_structure.get("steps", [])
+            
+            # Create rich result format
             formatted_result = {
                 "id": result["id"],
                 "score": result["score"],
                 "similarity_score": result["score"],  # Alias for compatibility
+                
+                # Method identification
                 "method_name": result.get("method_name", ""),
+                "description": result.get("description", ""),
                 "paper_title": result.get("paper_title", ""),
                 "source_file": result.get("source_file", ""),
-                "content_type": result.get("content_type", ""),
-                "category": result.get("category", ""),
-                "searchable_summary": result.get("searchable_summary", ""),
+                
+                # Content classification
+                "content_type": "complete_method",
+                "category": "method",
+                "num_steps": result.get("num_steps", 0),
+                "step_categories": result.get("step_categories", []),
+                
+                # Aggregated metadata
                 "keywords": result.get("keywords", []),
                 "inputs": result.get("inputs", []),
                 "outputs": result.get("outputs", []),
-                "method_description": result.get("method_description", ""),
-                "step_description": result.get("step_description", ""),
-                "step_number": result.get("step_number"),
-                "text": result.get("text", "")
+                "step_summaries": result.get("step_summaries", []),
+                
+                # Complete method structure
+                "method_structure": method_structure,
+                "steps": steps,  # Direct access to steps array
+                
+                # Legacy compatibility fields
+                "title": result.get("paper_title", ""),
+                "file": result.get("source_file", ""),
+                "method_description": result.get("description", ""),
+                "text": result.get("text", ""),
+                "raw": result.get("text", ""),
+                
+                # For UI display - formatted step information
+                "steps_preview": [
+                    {
+                        "step_number": step.get("step_number"),
+                        "category": step.get("category"),
+                        "summary": step.get("searchable_summary", ""),
+                        "description": step.get("description", "")[:200] + "..." if len(step.get("description", "")) > 200 else step.get("description", "")
+                    }
+                    for step in steps[:3]  # Show first 3 steps as preview
+                ]
             }
-            
-            # Add legacy fields for compatibility
-            formatted_result["title"] = result.get("paper_title", "")
-            formatted_result["file"] = result.get("source_file", "")
-            
-            # Parse steps from method description for legacy compatibility
-            if result.get("step_description"):
-                formatted_result["steps"] = [result["step_description"]]
-            else:
-                formatted_result["steps"] = []
-            
-            # Add raw text field
-            formatted_result["raw"] = result.get("text", "")
             
             formatted_results.append(formatted_result)
         
@@ -116,7 +139,7 @@ def search_methods(
 
 
 def find_methods_by_category(category: str, limit: int = 20) -> List[Dict[str, Any]]:
-    """Find methods by category."""
+    """Find methods that contain steps of a specific category."""
     return search_methods(
         query="",  # Empty query to get all results
         limit=limit,
@@ -124,22 +147,24 @@ def find_methods_by_category(category: str, limit: int = 20) -> List[Dict[str, A
     )
 
 
-def find_method_overviews(limit: int = 20) -> List[Dict[str, Any]]:
-    """Find method overview documents."""
+def find_complete_methods(limit: int = 20) -> List[Dict[str, Any]]:
+    """Find all complete method documents."""
     return search_methods(
         query="",  # Empty query to get all results
         limit=limit,
-        content_type_filter="method_overview"
+        content_type_filter="complete_method"
     )
+
+
+# Legacy functions updated for backward compatibility
+def find_method_overviews(limit: int = 20) -> List[Dict[str, Any]]:
+    """Legacy function - now returns complete methods."""
+    return find_complete_methods(limit)
 
 
 def find_method_steps(limit: int = 20) -> List[Dict[str, Any]]:
-    """Find individual method steps."""
-    return search_methods(
-        query="",  # Empty query to get all results
-        limit=limit,
-        content_type_filter="method_step"
-    )
+    """Legacy function - now returns complete methods."""
+    return find_complete_methods(limit)
 
 
 def search_by_method_name(method_name: str, limit: int = 10) -> List[Dict[str, Any]]:

@@ -6,7 +6,7 @@ This directory contains the FastAPI / LangGraph **multi-agent backend** for Pale
 
 | Area | Path | Notes |
 |------|------|-------|
-| Agents | `backend/agents/` | LangGraph agents (`sparql`, `code`, `workflow_manager`, …). |
+| Agents | `backend/agents/` | LangGraph agents (`sparql`, `code`, `workflow_generation`, …). |
 | Vector search | `backend/libraries/` | Notebook, literature, ontology & documentation indexes (all served from **Qdrant**). |
 | API & routers | `backend/routers/` | HTTP endpoints exposed to the React front-end. |
 | Services | `backend/services/` | Helper services (LLM provider, conversation state, search integration, …). |

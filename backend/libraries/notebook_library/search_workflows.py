@@ -24,35 +24,38 @@ def search_workflows(
     limit: int = 5,
     collection_name: str = None,
     complexity_filter: Optional[str] = None,
+    workflow_type_filter: Optional[str] = None,
     has_imports_filter: Optional[bool] = None,
     min_cell_count: Optional[int] = None,
     score_threshold: Optional[float] = None
 ) -> List[Dict[str, Any]]:
     """
-    Search for notebook workflows.
+    Search for complete notebook workflows.
     
     Args:
         query: Search query string
         limit: Maximum number of results to return
         collection_name: Qdrant collection name (defaults to notebook_workflows)
         complexity_filter: Filter by complexity (simple, medium, complex)
+        workflow_type_filter: Filter by workflow type (data_analysis, visualization, etc.)
         has_imports_filter: Filter by whether workflow has imports
         min_cell_count: Minimum number of cells in workflow
         score_threshold: Minimum similarity score threshold
         
     Returns:
-        List of matching workflows with metadata and similarity scores
+        List of matching complete workflows with full step structure and metadata
     """
     if collection_name is None:
         collection_name = COLLECTION_NAMES["notebook_workflows"]
     
     # Prepare filters
-    filters = {}
+    filters = {"content_type": "complete_workflow"}
     if complexity_filter:
         filters["complexity"] = complexity_filter
+    if workflow_type_filter:
+        filters["workflow_type"] = workflow_type_filter
     if has_imports_filter is not None:
         filters["has_imports"] = has_imports_filter
-    # Note: min_cell_count would need to be implemented as a range filter in Qdrant
     
     # Get Qdrant manager and search
     qdrant_manager = get_qdrant_manager()
@@ -70,11 +73,76 @@ def search_workflows(
         if min_cell_count is not None:
             results = [r for r in results if r.get("cell_count", 0) >= min_cell_count]
         
-        return results
+        # Format results with complete workflow structure
+        formatted_results = []
+        for result in results:
+            workflow_steps = result.get("workflow_steps", [])
+            
+            # Create rich result format
+            formatted_result = {
+                "id": result["id"],
+                "score": result["score"],
+                "similarity_score": result["score"],  # Alias for compatibility
+                
+                # Workflow identification
+                "title": result.get("title", ""),
+                "description": result.get("description", ""),
+                "notebook_path": result.get("notebook_path", ""),
+                
+                # Content classification
+                "content_type": "complete_workflow",
+                "workflow_type": result.get("workflow_type", "general"),
+                "complexity": result.get("complexity", "simple"),
+                
+                # Workflow metadata
+                "num_steps": result.get("num_steps", 0),
+                "step_types": result.get("step_types", []),
+                "has_imports": result.get("has_imports", False),
+                "cell_count": result.get("cell_count", 0),
+                "keywords": result.get("keywords", []),
+                "all_keywords": result.get("all_keywords", []),
+                
+                # Complete workflow structure
+                "workflow_steps": workflow_steps,
+                "steps": workflow_steps,  # Direct access to steps array
+                
+                # Aggregated step metadata
+                "defined_names": result.get("defined_names", []),
+                "used_names": result.get("used_names", []),
+                "all_dependencies": result.get("all_dependencies", []),
+                
+                # For UI display - step preview
+                "steps_preview": result.get("steps_preview", []),
+                
+                # Legacy compatibility fields
+                "text": result.get("text", ""),
+                "raw": result.get("text", "")
+            }
+            
+            formatted_results.append(formatted_result)
+        
+        return formatted_results
         
     except Exception as e:
         print(f"Workflow search failed: {e}")
         return []
+
+
+def find_workflows_by_type(workflow_type: str, limit: int = 10) -> List[Dict[str, Any]]:
+    """Find workflows by type (data_analysis, visualization, preprocessing, etc.)."""
+    return search_workflows(
+        query="",  # Empty query to get all results
+        limit=limit,
+        workflow_type_filter=workflow_type
+    )
+
+
+def find_complete_workflows(limit: int = 20) -> List[Dict[str, Any]]:
+    """Find all complete workflow documents."""
+    return search_workflows(
+        query="",  # Empty query to get all results
+        limit=limit
+    )
 
 
 def find_workflows_by_complexity(complexity: str, limit: int = 10) -> List[Dict[str, Any]]:

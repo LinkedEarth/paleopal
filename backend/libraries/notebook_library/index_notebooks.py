@@ -11,12 +11,13 @@ import pathlib
 import uuid
 import ast
 import sys
-from typing import List, Dict, Any, Tuple, Set
+from typing import List, Dict, Any, Tuple, Set, Optional
 import re
 import builtins
 
 import nbformat
 from tqdm import tqdm
+from sentence_transformers import SentenceTransformer
 
 # Add parent directory to path for imports
 current_dir = pathlib.Path(__file__).parent
@@ -88,14 +89,32 @@ def _names_defined_used(code: str) -> Tuple[Set[str], Set[str], Set[str]]:
 IMPORT_RE = re.compile(r"^\s*(?:import\s+\w|from\s+\S+\s+import)" )
 
 
-def extract_snippets(nb_path: pathlib.Path, *, hoist_imports: bool = True, synth_imports: bool = True) -> List[Dict[str, Any]]:
-    """Return list of multi-cell recipe snippets from a notebook.
+############################
+# Common Cell Clustering Logic
+############################
 
-    Heuristic:
-    * A markdown cell starting with `#` denotes the beginning of a new recipe.
-    * All following code cells until the next heading (or EOF) belong to it.
-    * Before finalising, we prepend earlier dependency cells so that all
-      variables used in the block are defined.
+
+def cluster_notebook_cells(
+    nb_path: pathlib.Path, 
+    *, 
+    hoist_imports: bool = True, 
+    synth_imports: bool = True,
+    snippet_mode: bool = True,
+    workflow_title: Optional[str] = None
+) -> List[Dict[str, Any]]:
+    """
+    Common function to cluster notebook cells into meaningful code units.
+    
+    Args:
+        nb_path: Path to the notebook file
+        hoist_imports: Whether to move all imports to the top of each cluster
+        synth_imports: Whether to synthesize missing import statements
+        snippet_mode: If True, clusters based on markdown headers (snippet mode).
+                     If False, clusters all code cells together (workflow step mode).
+        workflow_title: If provided, only extract cells from this specific workflow section
+        
+    Returns:
+        List of clustered code units with metadata
     """
     nb = nbformat.read(nb_path, as_version=4)
     cells = nb.cells
@@ -109,10 +128,12 @@ def extract_snippets(nb_path: pathlib.Path, *, hoist_imports: bool = True, synth
 
     idx_to_info = {idx: (code, defined, used, imports) for idx, code, defined, used, imports in code_cells_info}
 
-    snippets: List[Dict[str, Any]] = []
-
+    clusters: List[Dict[str, Any]] = []
     current_block_code_idxs: List[int] = []
     current_heading = "Notebook start"
+    
+    # For workflow mode, track if we're in the target workflow
+    in_target_workflow = workflow_title is None  # If no specific workflow, process all
 
     def flush_block():
         if not current_block_code_idxs:
@@ -216,9 +237,9 @@ def extract_snippets(nb_path: pathlib.Path, *, hoist_imports: bool = True, synth
         else:
             full_code = "\n\n# ----\n".join(code_sections)
 
-        snippet_id = str(uuid.uuid4())
-        snippets.append({
-            "id": snippet_id,
+        cluster_id = str(uuid.uuid4())
+        clusters.append({
+            "id": cluster_id,
             "notebook": str(nb_path),
             "cell_indices": all_code_idxs,
             "code": full_code,
@@ -233,18 +254,78 @@ def extract_snippets(nb_path: pathlib.Path, *, hoist_imports: bool = True, synth
     for idx, cell in enumerate(cells):
         if cell.cell_type == "markdown" and cell.source.lstrip().startswith("#"):
             # heading boundary
-            flush_block()
-            current_block_code_idxs = []
-            current_heading = cell.source
+            if snippet_mode:
+                # In snippet mode, each heading creates a new cluster
+                flush_block()
+                current_block_code_idxs = []
+                current_heading = cell.source
+                in_target_workflow = workflow_title is None or workflow_title in cell.source
+            else:
+                # In workflow mode, create clusters for sub-headings within workflows
+                if workflow_title is None:
+                    # Process all workflows - each heading starts a new cluster
+                    flush_block()
+                    current_block_code_idxs = []
+                    current_heading = cell.source
+                    in_target_workflow = True
+                elif workflow_title in cell.source:
+                    # Found target workflow - start collecting
+                    flush_block()
+                    current_block_code_idxs = []
+                    current_heading = cell.source
+                    in_target_workflow = True
+                elif in_target_workflow:
+                    # Check if this is a sub-heading within the target workflow
+                    if cell.source.lstrip().startswith("#"):
+                        # Count the number of # to determine heading level
+                        stripped = cell.source.lstrip()
+                        heading_level = 0
+                        for char in stripped:
+                            if char == '#':
+                                heading_level += 1
+                            else:
+                                break
+                        
+                        # If it's a main heading (single #), this means end of current workflow
+                        if heading_level == 1:
+                            flush_block()
+                            in_target_workflow = False
+                            break
+                        else:
+                            # It's a sub-heading (##, ###, etc.) - create a new step
+                            flush_block()
+                            current_block_code_idxs = []
+                            current_heading = cell.source
+                            # Stay in the workflow
             continue
 
-        if cell.cell_type == "code":
+        if cell.cell_type == "code" and in_target_workflow:
             current_block_code_idxs.append(idx)
 
     # flush last block
-    flush_block()
+    if in_target_workflow:
+        flush_block()
 
-    return snippets
+    return clusters
+
+
+def extract_snippets(nb_path: pathlib.Path, *, hoist_imports: bool = True, synth_imports: bool = True) -> List[Dict[str, Any]]:
+    """Return list of multi-cell recipe snippets from a notebook.
+
+    This function now uses the common clustering logic in snippet mode.
+    
+    Heuristic:
+    * A markdown cell starting with `#` denotes the beginning of a new recipe.
+    * All following code cells until the next heading (or EOF) belong to it.
+    * Before finalising, we prepend earlier dependency cells so that all
+      variables used in the block are defined.
+    """
+    return cluster_notebook_cells(
+        nb_path, 
+        hoist_imports=hoist_imports, 
+        synth_imports=synth_imports,
+        snippet_mode=True
+    )
 
 
 def build_index(
@@ -265,19 +346,17 @@ def build_index(
     if collection_name_prefix is None:
         collections = {
             "snippets": COLLECTION_NAMES["notebook_snippets"],
-            "workflows": COLLECTION_NAMES["notebook_workflows"], 
-            "steps": COLLECTION_NAMES["notebook_steps"]
+            "workflows": COLLECTION_NAMES["notebook_workflows"]
+            # Note: no longer creating separate notebook_steps collection
         }
     else:
         collections = {
             "snippets": f"{collection_name_prefix}_snippets",
-            "workflows": f"{collection_name_prefix}_workflows",
-            "steps": f"{collection_name_prefix}_steps"
+            "workflows": f"{collection_name_prefix}_workflows"
         }
 
     all_snippets: List[Dict[str, Any]] = []
     all_workflows: List[Dict[str, Any]] = []
-    all_steps: List[Dict[str, Any]] = []
 
     def _embed_text(s: Dict[str, Any]) -> str:
         """Extract text for embedding from snippet metadata."""
@@ -288,22 +367,23 @@ def build_index(
             parts.append(s["markdown"])
         return "\n".join(p for p in parts if p)
 
-    def _workflow_embed_text(w: Dict[str, Any]) -> str:
-        """Extract text for embedding from workflow metadata."""
+    def _complete_workflow_embed_text(w: Dict[str, Any]) -> str:
+        """Extract text for embedding from complete workflow with steps."""
         parts = [w.get("title", "")]
         if w.get("description"):
             parts.append(w["description"])
         if w.get("keywords"):
             parts.extend(w["keywords"])
-        return " ".join(p for p in parts if p)
-
-    def _step_embed_text(step: Dict[str, Any]) -> str:
-        """Extract text for embedding from step metadata."""
-        parts = [step.get("description", "")]
+        
+        # Add all step content for comprehensive searchability
+        for step in w.get("workflow_steps", []):
+            if step.get("description"):
+                parts.append(step["description"])
         if step.get("code"):
             parts.append(step["code"])
         if step.get("dependencies"):
             parts.extend(step["dependencies"])
+        
         return " ".join(p for p in parts if p)
 
     for nb_path in tqdm(notebook_paths, desc="Processing notebooks"):
@@ -329,30 +409,21 @@ def build_index(
                 
             all_snippets.extend(valid_snippets)
             
-            # Extract workflow information
-            workflows = extract_workflows(nb_path)
-            for workflow in workflows:
-                workflow["text"] = _workflow_embed_text(workflow)
+            # Extract complete workflows with embedded steps
+            complete_workflows = extract_complete_workflows(nb_path, snippets)
+            for workflow in complete_workflows:
+                workflow["text"] = _complete_workflow_embed_text(workflow)
                 workflow["id"] = str(uuid.uuid4())
                 workflow["notebook_path"] = str(nb_path)
                 
-            all_workflows.extend(workflows)
-            
-            # Extract individual steps
-            steps = extract_individual_steps(snippets)
-            for step in steps:
-                step["text"] = _step_embed_text(step)
-                step["id"] = str(uuid.uuid4())
-                step["notebook_path"] = str(nb_path)
-                
-            all_steps.extend(steps)
+            all_workflows.extend(complete_workflows)
             
         except Exception as e:
             print(f"Error processing {nb_path}: {e}")
             continue
 
-    if not all_snippets and not all_workflows and not all_steps:
-        raise ValueError("No valid snippets, workflows, or steps extracted from notebooks")
+    if not all_snippets and not all_workflows:
+        raise ValueError("No valid snippets or workflows extracted from notebooks")
 
     # Get Qdrant manager
     qdrant_manager = get_qdrant_manager()
@@ -371,7 +442,7 @@ def build_index(
             results["snippets"] = collections["snippets"]
     
     if all_workflows:
-        print(f"Indexing {len(all_workflows)} workflows...")
+        print(f"Indexing {len(all_workflows)} complete workflows...")
         if qdrant_manager.create_collection(collections["workflows"], force_recreate=force_recreate):
             qdrant_manager.index_documents(
                 collection_name=collections["workflows"],
@@ -380,18 +451,266 @@ def build_index(
             )
             results["workflows"] = collections["workflows"]
     
-    if all_steps:
-        print(f"Indexing {len(all_steps)} steps...")
-        if qdrant_manager.create_collection(collections["steps"], force_recreate=force_recreate):
-            qdrant_manager.index_documents(
-                collection_name=collections["steps"],
-                documents=all_steps,
-                text_field="text"
-            )
-            results["steps"] = collections["steps"]
-    
     print(f"Notebook indexing completed. Created collections: {list(results.values())}")
     return results
+
+
+def extract_complete_workflows(nb_path: pathlib.Path, snippets: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Extract complete workflow documents with all steps embedded as metadata."""
+    nb = nbformat.read(nb_path, as_version=4)
+    cells = nb.cells
+    
+    workflows = []
+    current_workflow = None
+    seen_workflow_titles = set()  # Track duplicate workflows
+    
+    # First, get basic workflow structure
+    for cell in cells:
+        if cell.cell_type == "markdown":
+            source = cell.source.strip()
+            
+            # Look for workflow headers (# or ##)
+            if source.startswith("#"):
+                # Finalize previous workflow
+                if current_workflow:
+                    # Use intelligent clustering for this workflow's steps
+                    workflow_steps = extract_workflow_steps_for_workflow(nb_path, current_workflow["title"])
+                    
+                    # Skip workflows with 0 steps
+                    if len(workflow_steps) == 0:
+                        # print(f"Skipping workflow '{current_workflow['title']}' - no steps found")
+                        current_workflow = None
+                        continue
+                        
+                    current_workflow["workflow_steps"] = workflow_steps
+                    current_workflow["num_steps"] = len(workflow_steps)
+                    
+                    # Aggregate metadata from steps
+                    all_step_types = set()
+                    all_keywords = set(current_workflow.get("keywords", []))
+                    defined_names = set()
+                    used_names = set()
+                    all_dependencies = set()
+                    
+                    for step in workflow_steps:
+                        all_step_types.add(step.get("step_type", "computation"))
+                        all_keywords.update(step.get("keywords", []))
+                        defined_names.update(step.get("defined_names", []))
+                        used_names.update(step.get("used_names", []))
+                        all_dependencies.update(step.get("dependencies", []))
+                    
+                    current_workflow.update({
+                        "step_types": list(all_step_types),
+                        "all_keywords": list(all_keywords),
+                        "defined_names": list(defined_names),
+                        "used_names": list(used_names),
+                        "all_dependencies": list(all_dependencies),
+                        "steps_preview": [
+                            {
+                                "step_number": step.get("step_number"),
+                                "step_type": step.get("step_type"),
+                                "description": step.get("description", "")[:200] + "..." if len(step.get("description", "")) > 200 else step.get("description", "")
+                            }
+                            for step in workflow_steps[:3]  # Show first 3 steps as preview
+                        ]
+                    })
+                    
+                    workflows.append(current_workflow)
+                
+                # Start new workflow
+                title_match = re.match(r'^#+\s*(.+)', source)
+                title = title_match.group(1) if title_match else "Unnamed Workflow"
+                
+                # Skip duplicate workflows (case-insensitive)
+                title_normalized = title.lower().strip()
+                if title_normalized in seen_workflow_titles:
+                    # print(f"Skipping duplicate workflow '{title}'")
+                    current_workflow = None
+                    continue
+                
+                seen_workflow_titles.add(title_normalized)
+                
+                # Extract description from remaining markdown
+                lines = source.split('\n')[1:]  # Skip title line
+                description = '\n'.join(lines).strip()
+                
+                current_workflow = {
+                    "title": title,
+                    "description": description,
+                    "content_type": "complete_workflow",
+                    "workflow_type": classify_workflow_type(f"{title} {description}"),
+                    "keywords": extract_keywords_from_text(f"{title} {description}"),
+                    "complexity": "simple",
+                    "has_imports": False,
+                    "cell_count": 0
+                }
+        
+        elif cell.cell_type == "code" and current_workflow:
+            current_workflow["cell_count"] += 1
+            
+            # Check for imports
+            if re.search(r'^\s*(?:import|from)\s', cell.source, re.MULTILINE):
+                current_workflow["has_imports"] = True
+            
+            # Assess complexity based on code patterns
+            if any(pattern in cell.source for pattern in ['for ', 'while ', 'def ', 'class ', 'if ']):
+                current_workflow["complexity"] = "complex"
+            elif current_workflow["complexity"] == "simple" and len(cell.source.split('\n')) > 5:
+                current_workflow["complexity"] = "medium"
+    
+    # Don't forget the last workflow
+    if current_workflow:
+        # Use intelligent clustering for this workflow's steps
+        workflow_steps = extract_workflow_steps_for_workflow(nb_path, current_workflow["title"])
+        
+        # Skip workflows with 0 steps
+        if len(workflow_steps) == 0:
+            # print(f"Skipping workflow '{current_workflow['title']}' - no steps found")
+            pass
+        else:
+            current_workflow["workflow_steps"] = workflow_steps
+            current_workflow["num_steps"] = len(workflow_steps)
+            
+            # Aggregate metadata from steps
+            all_step_types = set()
+            all_keywords = set(current_workflow.get("keywords", []))
+            defined_names = set()
+            used_names = set()
+            all_dependencies = set()
+            
+            for step in workflow_steps:
+                all_step_types.add(step.get("step_type", "computation"))
+                all_keywords.update(step.get("keywords", []))
+                defined_names.update(step.get("defined_names", []))
+                used_names.update(step.get("used_names", []))
+                all_dependencies.update(step.get("dependencies", []))
+            
+            current_workflow.update({
+                "step_types": list(all_step_types),
+                "all_keywords": list(all_keywords),
+                "defined_names": list(defined_names),
+                "used_names": list(used_names),
+                "all_dependencies": list(all_dependencies),
+                "steps_preview": [
+                    {
+                        "step_number": step.get("step_number"),
+                        "step_type": step.get("step_type"),
+                        "description": step.get("description", "")[:200] + "..." if len(step.get("description", "")) > 200 else step.get("description", "")
+                    }
+                    for step in workflow_steps[:3]  # Show first 3 steps as preview
+                ]
+            })
+            
+            workflows.append(current_workflow)
+    
+    return workflows
+
+
+def extract_workflow_steps(snippets: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Extract steps from snippets belonging to a workflow using intelligent clustering."""
+    steps = []
+    step_number = 1
+    
+    for snippet in snippets:
+        code = snippet.get("code", "").strip()
+        
+        # Skip steps with no meaningful code content
+        if not code:
+            continue
+            
+        # Skip steps that only contain comments or whitespace
+        code_lines = [line.strip() for line in code.split('\n') if line.strip()]
+        meaningful_lines = [line for line in code_lines if not line.startswith('#') and not line.startswith('"""') and not line.startswith("'''")]
+        
+        if not meaningful_lines:
+            # print(f"Skipping step with only comments/markdown: {snippet.get('markdown_context', 'Unknown')[:50]}...")
+            continue
+        
+        # Convert snippet to step format
+        step = {
+            "step_number": step_number,
+            "description": snippet.get("markdown_context", f"Step {step_number}"),
+            "code": code,
+            "step_type": classify_step_type(code),
+            "defined_names": snippet.get("defined", []),
+            "used_names": snippet.get("used", []),
+            "dependencies": snippet.get("imports", []),
+            "keywords": extract_keywords_from_text(code + " " + snippet.get("markdown_context", "")),
+            "cell_indices": snippet.get("cell_indices", []),
+            "unresolved_dependencies": snippet.get("unresolved", [])
+        }
+        steps.append(step)
+        step_number += 1
+    
+    return steps
+
+
+def extract_workflow_steps_for_workflow(nb_path: pathlib.Path, workflow_title: str) -> List[Dict[str, Any]]:
+    """Extract workflow steps for a specific workflow using intelligent clustering."""
+    # Use the common clustering function in workflow mode for the specific workflow
+    clusters = cluster_notebook_cells(
+        nb_path,
+        hoist_imports=True,
+        synth_imports=True,
+        snippet_mode=False,  # Use workflow mode
+        workflow_title=workflow_title
+    )
+    
+    return extract_workflow_steps(clusters)
+
+
+def extract_individual_steps_from_workflow(workflow: Dict[str, Any], nb_path: pathlib.Path) -> List[Dict[str, Any]]:
+    """Extract individual steps directly from notebook cells for a workflow."""
+    nb = nbformat.read(nb_path, as_version=4)
+    cells = nb.cells
+    
+    steps = []
+    in_workflow = False
+    step_number = 1
+    
+    for cell in cells:
+        if cell.cell_type == "markdown":
+            source = cell.source.strip()
+            if source.startswith("#") and workflow["title"] in source:
+                in_workflow = True
+                continue
+            elif source.startswith("#") and in_workflow:
+                # Next workflow started
+                break
+        
+        elif cell.cell_type == "code" and in_workflow and cell.source.strip():
+            step = {
+                "step_number": step_number,
+                "description": f"Step {step_number} from {workflow['title']}",
+                "code": cell.source.strip(),
+                "step_type": classify_step_type(cell.source),
+                "defined_names": extract_defined_names(cell.source),
+                "used_names": extract_used_names(cell.source),
+                "dependencies": [],
+                "keywords": extract_keywords_from_text(cell.source)
+            }
+            steps.append(step)
+            step_number += 1
+    
+    return steps
+
+
+def classify_workflow_type(text: str) -> str:
+    """Classify the overall type of workflow based on title and description."""
+    text_lower = text.lower()
+    
+    if any(keyword in text_lower for keyword in ['analysis', 'analyze', 'statistical']):
+        return "data_analysis"
+    elif any(keyword in text_lower for keyword in ['visualization', 'plot', 'chart', 'graph']):
+        return "visualization"
+    elif any(keyword in text_lower for keyword in ['preprocess', 'clean', 'transform']):
+        return "preprocessing"
+    elif any(keyword in text_lower for keyword in ['model', 'train', 'predict', 'machine learning']):
+        return "modeling"
+    elif any(keyword in text_lower for keyword in ['load', 'import', 'read', 'fetch']):
+        return "data_loading"
+    else:
+        return "general"
 
 
 def extract_workflows(nb_path: pathlib.Path) -> List[Dict[str, Any]]:
@@ -562,6 +881,7 @@ if __name__ == "__main__":
     parser.add_argument("--no-hoist-imports", action="store_true", help="Keep imports in original positions")
     parser.add_argument("--keep-invalid", action="store_true", help="Include snippets with unresolved names")
     parser.add_argument("--no-synth-imports", action="store_true", help="Do not create synthetic import lines for missing names")
+    parser.add_argument("--force-recreate", action="store_true", help="Force recreate collections if they exist")
     args = parser.parse_args()
 
     # collect notebooks
@@ -576,4 +896,11 @@ if __name__ == "__main__":
     if not collected:
         raise SystemExit("No .ipynb files found in given paths")
 
-    build_index(collected, args.out, hoist_imports=not args.no_hoist_imports, keep_invalid=args.keep_invalid, synth_imports=not args.no_synth_imports) 
+    build_index(
+        collected, 
+        args.out, 
+        hoist_imports=not args.no_hoist_imports, 
+        keep_invalid=args.keep_invalid, 
+        synth_imports=not args.no_synth_imports,
+        force_recreate=args.force_recreate
+    ) 

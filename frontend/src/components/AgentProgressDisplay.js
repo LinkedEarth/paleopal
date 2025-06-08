@@ -221,7 +221,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
     if (!nodeOutput || Object.keys(nodeOutput).length === 0) {
       // Fallback to legacy outputSummary
       const output = message.outputSummary;
-      if (!output || Object.keys(output).length === 0) return null;
+    if (!output || Object.keys(output).length === 0) return null;
       
       return (
         <div className="mt-2 p-3 bg-gray-50 rounded border">

@@ -383,7 +383,8 @@ def generate_workflow_plan_node(state: WorkflowAgentState, config: WorkflowAgent
         # Format context for LLM
         context_text = ""
         if context_data:
-            context_text = search_service.format_context_for_llm(context_data)
+            context_text = search_service.format_workflow_context_for_llm(context_data)
+        logger.info(f"Context text: {context_text}")
         
         # Include clarification context if available
         clarification_text = ""

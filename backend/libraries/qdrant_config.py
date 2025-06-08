@@ -40,7 +40,6 @@ COLLECTION_NAMES = {
     "ontology": "ontology_entities", 
     "notebook_snippets": "notebook_snippets",
     "notebook_workflows": "notebook_workflows",
-    "notebook_steps": "notebook_steps",
     "literature": "literature_methods",
     "readthedocs_docs": "readthedocs_docs",
     "readthedocs_code": "readthedocs_code",
