@@ -6,9 +6,30 @@ import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 export const AgentProgressDisplay = ({ messages, executionStart }) => {
   const progressMessages = messages.filter(m => m.isNodeProgress);
   const completedNodes = progressMessages.filter(m => m.phase === 'complete');
+  
+  // Get the current running node with improved logic
   const currentRunningNode = progressMessages.find(
     m => m.phase === 'start' && !completedNodes.some(c => c.nodeName === m.nodeName)
   );
+
+  // Alternative approach: look for most recent progress message that might indicate current activity
+  const getMostRecentActivityNode = () => {
+    if (progressMessages.length === 0) return null;
+    
+    // Sort by timestamp and get the most recent non-completion message
+    const sortedMessages = progressMessages.sort((a, b) => 
+      new Date(b.timestamp || b.created_at || 0) - new Date(a.timestamp || a.created_at || 0)
+    );
+    
+    // If the most recent message is not a completion of "Agent Execution", 
+    // it might indicate what's currently running
+    const mostRecent = sortedMessages[0];
+    if (mostRecent && mostRecent.nodeName !== 'Agent Execution') {
+      return mostRecent;
+    }
+    
+    return null;
+  };
 
   const [showCompleted, setShowCompleted] = useState(false);
   const [expandedMatches, setExpandedMatches] = useState({});
@@ -330,13 +351,58 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
 
   const lastProgress = progressMessages[progressMessages.length - 1];
   const executionDone = lastProgress && lastProgress.phase === 'complete' && lastProgress.nodeName === 'Agent Execution';
-  const statusText = currentRunningNode
-    ? `Running: ${currentRunningNode.nodeName}`
-    : executionDone
-    ? 'Execution completed'
-    : completedNodes.length > 0
-    ? 'Processing…'
-    : 'Starting agent execution…';
+  
+  // Improved status text logic
+  const getStatusText = () => {
+    // If we have a current running node, show it
+    if (currentRunningNode && currentRunningNode.nodeName !== 'Agent Execution') {
+      return `Running: ${currentRunningNode.nodeName}`;
+    }
+    
+    // If execution is done, show completion
+    if (executionDone) {
+      return 'Execution completed';
+    }
+    
+    // Try alternative approach to detect current activity
+    const recentActivity = getMostRecentActivityNode();
+    if (recentActivity) {
+      // If it's a completion message and we don't have "Agent Execution" complete yet, 
+      // show that this step was just completed
+      if (recentActivity.phase === 'complete' && !completedNodes.some(n => n.nodeName === 'Agent Execution')) {
+        return `Completed: ${recentActivity.nodeName}`;
+      }
+      
+      // If it's a start message, show it's running
+      if (recentActivity.phase === 'start') {
+        return `Running: ${recentActivity.nodeName}`;
+      }
+    }
+    
+    // If we have completed nodes, try to infer what might be running next
+    if (completedNodes.length > 0) {
+      // Get the most recent completed node that's not "Agent Execution"
+      const recentCompletedNode = completedNodes
+        .filter(n => n.nodeName !== 'Agent Execution')
+        .sort((a, b) => new Date(b.timestamp || b.created_at || 0) - new Date(a.timestamp || a.created_at || 0))[0];
+      
+      if (recentCompletedNode) {
+        // Check if we're still processing (no final completion message)
+        const hasAgentExecutionComplete = completedNodes.some(n => n.nodeName === 'Agent Execution');
+        if (!hasAgentExecutionComplete) {
+          // Instead of showing generic processing, show the actual last completed step
+          return `Last completed: ${recentCompletedNode.nodeName}`;
+        }
+      }
+      
+      return 'Processing…';
+    }
+    
+    // Default fallback
+    return 'Starting agent execution…';
+  };
+
+  const statusText = getStatusText();
 
   // Determine the appropriate icon based on execution state
   const statusIcon = executionDone ? '✅' : '⏳';
