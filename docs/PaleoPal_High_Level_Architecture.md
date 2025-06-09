@@ -1,6 +1,6 @@
 # PaleoPal – High-Level Architecture Overview
 
-![PaleoPal Architecture Diagram](ArchitectureDiagram.png)
+<p align="center"><img src="ArchitectureDiagram.png" alt="PaleoPal Architecture Diagram" width="500"/></p>
 
 <sub><sup>Diagram source: [`ArchitectureDiagram.mmd`](ArchitectureDiagram.mmd)</sup></sub>
 
@@ -30,13 +30,17 @@ PaleoPal is an AI-powered assistant for paleoclimate research.  At its core it c
    * SPARQL Agent (build queries)
    * Code Agent (write analysis code)
    * Workflow Agent (plan multi-step workflows)
-3. **Context retrieval** – agent performs semantic search against Qdrant **and gathers the running conversation history (previous code, queries, messages)**:
+3. **Agent execution flow (summary):**
+   * **SPARQL Agent** – similar-query lookup → entity match → (optional) clarification → query generation → execution → refinement.
+   * **Code Agent** – example search → (optional) clarification → code generation → refinement.
+   * **Workflow Agent** – request extraction → context search → (optional) clarification → workflow plan generation.
+4. **Context retrieval** – agent performs semantic search against Qdrant **and gathers the running conversation history (previous code, queries, messages)**:
    * `sparql_queries`, `ontology_entities` → SPARQL Agent
    * `notebook_snippets`, `readthedocs_docs` → Code Agent
    * `literature_methods`, `notebook_snippets` → Workflow Agent
-4. **Augmented prompt** – agent merges top-k docs with original question.
-5. **Generation** – prompt sent to the selected LLM provider.
-6. **Response streaming** back to the client.
+5. **Augmented prompt** – agent merges top-k docs with original question.
+6. **Generation** – prompt sent to the selected LLM provider.
+7. **Response streaming** back to the client.
 
 ---
 
@@ -74,4 +78,6 @@ Ingestion tasks are decoupled; new sources can be added without touching the mai
 
 ---
 
-*Last updated 2025.* 
+*Last updated 2025.*
+
+Detailed node-by-node execution flows for each agent are available in the full Technical Architecture paper (Section 5.2). 

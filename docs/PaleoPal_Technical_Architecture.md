@@ -1,6 +1,6 @@
 # PaleoPal: A Multi-Agent System for Paleoclimate Data Analysis
 
-![PaleoPal Architecture Diagram](ArchitectureDiagram.png)
+<p align="center"><img src="ArchitectureDiagram.png" alt="PaleoPal Architecture Diagram" width="500"/></p>
 
 <sub><sup>Diagram source: [`ArchitectureDiagram.mmd`](ArchitectureDiagram.mmd)</sup></sub>
 
@@ -151,18 +151,44 @@ class BaseLangGraphAgent(BaseAgent):
 - **Input**: Natural language questions
 - **Output**: Optimized SPARQL queries with metadata
 - **Features**: Query validation, optimization, error handling
+- **Execution Flow (LangGraph nodes)**
+  1. `get_similar_queries` – searches `sparql_queries` collection for templates that resemble the user question.
+  2. `get_entity_matches` – matches ontology entities (`ontology_entities` collection) to key terms in the prompt.
+  3. `detect_clarification` – checks if the prompt is ambiguous; if so prepares questions.
+  4. `human_clarification_needed` – emits questions back to the UI (terminates cycle until answered).
+  5. `process_clarification` – merges human answers, loops back to context-gathering nodes.
+  6. `generate_query` – drafts a SPARQL query with the retrieved examples + entities + conversation history.
+  7. `execute_query` – sends the draft to LinkedEarth GraphDB and stores results.
+  8. `refine_query` – re-runs query generation if execution indicates low result quality.
+  9. `finalize` – packages the final query + result preview.
 
 ##### 5.2.2 Code Generation Agent
 - **Purpose**: Generate Python code for data analysis
 - **Input**: Analysis requirements
 - **Output**: Executable Python code with dependencies
 - **Features**: Import synthesis, error handling, best practices
+- **Execution Flow (LangGraph nodes)**
+  1. `search_examples` – semantic search over `notebook_snippets` & `readthedocs_docs` for relevant code.
+  2. `detect_clarification` – determines if more user info is required.
+  3. `human_clarification_needed` – produces clarification questions.
+  4. `process_clarification` – merges answers, loops back to `search_examples`.
+  5. `generate_code` – composes runnable Python using examples + prior conversation code.
+  6. `refine_code` – optional improvement pass triggered by static checks or LLM self-reflection.
+  7. `finalize` – returns complete script / notebook cell.
 
 ##### 5.2.3 Workflow Generation Agent
 - **Purpose**: Create complete analytical workflows
 - **Input**: High-level objectives
 - **Output**: Multi-step workflows with code and queries
 - **Features**: Dependency management, step ordering, validation
+- **Execution Flow (LangGraph nodes)**
+  1. `extract_request` – parses high-level objective (e.g., "reconstruct temperature for Site X").
+  2. `search_context` – pulls steps & snippets from `literature_methods` + `notebook_snippets`.
+  3. `detect_clarification` – asks for missing details (e.g., time period, variables).
+  4. `human_clarification_needed` – sends questions to the user.
+  5. `process_clarification` – integrates responses, loops back to context search.
+  6. `generate_plan` – produces ordered workflow with SPARQL + code stubs.
+  7. `finalize` – returns JSON+markdown describing each step and dependent code blocks.
 
 #### 5.3 Agent Communication Protocol
 Agents communicate through standardized request/response objects:
