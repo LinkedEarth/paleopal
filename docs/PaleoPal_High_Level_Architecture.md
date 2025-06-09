@@ -79,5 +79,3 @@ Ingestion tasks are decoupled; new sources can be added without touching the mai
 ---
 
 *Last updated 2025.*
-
-Detailed node-by-node execution flows for each agent are available in the full Technical Architecture paper (Section 5.2). 
