@@ -1,8 +1,3 @@
----
-config:
-  layout: dagre
-  theme: neutral
----
 flowchart TB
     USER["👤  User"] --> CLIENT["🖥️  Web Client (React)"]
     CLIENT --> BACKEND["<b>🚀  Backend API (FastAPI)</b>"]
@@ -15,24 +10,3 @@ flowchart TB
     AGENTS -- direct queries --> SPARQL_EP
     SOURCES_BOX@{ shape: cyl}
     VECTOR@{ shape: cyl}
-     USER:::uiClass
-     CLIENT:::uiClass
-     BACKEND:::apiClass
-     PERSIST:::dbClass
-     AGENTS:::engineClass
-     SOURCES_BOX:::extClass
-     EMBED:::genClass
-     VECTOR:::dbClass
-     LLMS:::genClass
-     SPARQL_EP:::apiClass
-     PALEO:::extClass
-    classDef uiClass fill:#e1f5fe,stroke:#90a4ae,stroke-width:2px,color:#263238,font-size:16px
-    classDef engineClass fill:#fff9c4,stroke:#90a4ae,stroke-width:2px,color:#263238,font-size:16px
-    classDef Pine stroke-width:1px, stroke-dasharray:none, stroke:#254336, fill:#27654A, color:#FFFFFF
-    classDef Sky stroke-width:1px, stroke-dasharray:none, stroke:#374D7C, fill:#E2EBFF, color:#374D7C
-    classDef Ash stroke-width:1px, stroke-dasharray:none, stroke:#999999, fill:#EEEEEE, color:#000000
-    classDef dataClass fill:#f3e5f5, stroke:#90a4ae, stroke-width:2px, color:#263238, font-size:16px
-    classDef apiClass fill:#dcedc8, stroke:#90a4ae, stroke-width:2px, color:#263238, font-size:16px
-    classDef dbClass fill:#fff3e0, stroke:#90a4ae, stroke-width:2px, color:#263238, font-size:16px
-    classDef genClass fill:#fce4ec, stroke:#90a4ae, stroke-width:2px, color:#263238, font-size:16px
-    classDef extClass fill:#eeeeee, stroke:#90a4ae, stroke-width:2px, color:#263238, font-size:16px
