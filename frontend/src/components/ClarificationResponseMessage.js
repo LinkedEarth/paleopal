@@ -6,26 +6,26 @@ const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
 
     const renderHeader = () => (
         <div 
-            className="flex items-center gap-3 text-gray-600 cursor-pointer hover:bg-gray-50 rounded transition-colors p-2 -m-2"
+            className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300 cursor-pointer rounded transition-colors p-2 -m-2"
             onClick={() => setIsCollapsed(!isCollapsed)}
             title={isCollapsed ? 'Expand response' : 'Collapse response'}
         >
             <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
             <div className="flex-1">
-                <span className="text-sm font-medium text-gray-800">Clarification Response</span>
-                <span className="text-xs text-gray-500 ml-2">Answers to clarification questions</span>
+                <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">Clarification Response</span>
+                <span className="text-xs text-neutral-500 dark:text-neutral-400 ml-2">Answers to clarification questions</span>
             </div>
             <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-600">
+                <span className="text-xs text-neutral-600 dark:text-neutral-400">
                     {clarificationResponses ? `${clarificationResponses.length} answers provided` : 'Questions answered'}
                 </span>
-                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">Completed</span>
+                <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">Completed</span>
                 <svg 
-                    className={`w-4 h-4 text-gray-600 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
+                    className={`w-4 h-4 text-neutral-600 dark:text-neutral-400 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -42,11 +42,11 @@ const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
             return (
                 <div className="ml-9 mt-2 space-y-3">
                     {clarificationResponses.map((response, index) => (
-                        <div key={index} className="text-sm text-gray-700">
-                            <div className="font-medium text-gray-800 mb-1">
+                        <div key={index} className="text-sm text-neutral-700 dark:text-neutral-300">
+                            <div className="font-medium text-neutral-800 dark:text-neutral-200 mb-1">
                                 {response.question || `Question ${index + 1}`}
                             </div>
-                            <div className="text-gray-700 pl-3 border-l-2 border-gray-200">
+                            <div className="text-neutral-700 dark:text-neutral-300 pl-3 border-l-2 border-neutral-200 dark:border-neutral-600">
                                 {response.answer || 'No answer provided'}
                             </div>
                         </div>
@@ -58,7 +58,7 @@ const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
         // Fallback to plain text content for backward compatibility
         return (
             <div className="ml-9 mt-2">
-                <div className="text-sm text-gray-700 whitespace-pre-wrap">{content}</div>
+                <div className="text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap">{content}</div>
             </div>
         );
     };

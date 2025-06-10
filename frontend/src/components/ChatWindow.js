@@ -160,7 +160,7 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
   });
 };
 
-const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
+const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = false }) => {
   // Debug logging to see what conversation object we're receiving
   // console.log('💬 ChatWindow received conversation:', conversation);
   // console.log('💬 Conversation ID:', conversation.id);
@@ -760,27 +760,6 @@ ${stepInfo.input}`;
                 m.isCombinedAnswers || m.messageType === 'clarification_response'
               ) : false;
             
-            // Debug logging
-            if (msg.needsClarification && msg.clarificationQuestions) {
-              console.log('🔍 Checking clarification message:', {
-                messageId: msg.id,
-                messageIndex,
-                hasSubsequent,
-                needsClarification: msg.needsClarification,
-                hasQuestions: !!msg.clarificationQuestions
-              });
-              
-              // Also log the subsequent messages to see what's there
-              console.log('🔍 Messages after clarification:', 
-                convertedMessages.slice(messageIndex + 1).map(m => ({
-                  id: m.id,
-                  role: m.role,
-                  messageType: m.messageType,
-                  isCombinedAnswers: m.isCombinedAnswers
-                }))
-              );
-            }
-            
             return msg.needsClarification && 
                    msg.clarificationQuestions && 
                    messageIndex >= 0 && 
@@ -805,9 +784,7 @@ ${stepInfo.input}`;
             hasCompletionMessage,
             status: metadata?.status,
             final_response: metadata?.final_response,
-            recentAssistantMessageId: recentAssistantMessage?.id,
-            lastUserMessageIndex: convertedMessages.map((m, i) => m.role === 'user' ? i : -1).filter(i => i >= 0).pop() || -1,
-            totalMessages: convertedMessages.length
+            recentAssistantMessageId: recentAssistantMessage?.id
           });
           
           if (isFinalSuccess || hasCompletionMessage) {
@@ -857,7 +834,7 @@ ${stepInfo.input}`;
         if (pollCount >= maxPolls) {
           console.log('Polling timeout reached');
           clearInterval(pollInterval);
-      setIsLoading(false);
+          setIsLoading(false);
           setError('Request timeout - agent execution took too long');
         }
       } catch (error) {
@@ -1056,11 +1033,11 @@ ${stepInfo.input}`;
   const renderChatMessage = (message, messageIndex) => {
     const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm";
     const roleClasses = message.role === 'user' 
-      ? "bg-blue-50 border-blue-200 text-blue-900" 
-      : "bg-gray-50 border-gray-200 text-gray-900";
-    const errorClasses = message.isError ? "bg-red-50 border-red-200 text-red-900" : "";
-    const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? "bg-white border-gray-300" : "";
-    const newConversationClasses = message.isNewConversation ? "bg-purple-50 border-purple-200" : "";
+      ? "bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/30 text-neutral-900 dark:text-neutral-100" 
+      : "bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600 text-neutral-900 dark:text-neutral-100";
+    const errorClasses = message.isError ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700 text-red-900 dark:text-red-100" : "";
+    const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? "bg-white dark:bg-neutral-800 border-neutral-300 dark:border-neutral-600" : "";
+    const newConversationClasses = message.isNewConversation ? "bg-neutral-100 dark:bg-neutral-600 border-neutral-200 dark:border-neutral-500" : "";
     
     // Check if this message or any subsequent messages are being deleted
     const isBeingDeleted = deletingMessages.has(`bulk_${messageIndex}`);
@@ -1085,12 +1062,12 @@ ${stepInfo.input}`;
       >
         {/* Deletion overlay */}
         {(isBeingDeleted || willBeDeleted) && (
-          <div className="absolute inset-0 bg-red-100 bg-opacity-75 rounded-lg flex items-center justify-center">
-            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md">
-              <svg className="w-4 h-4 animate-spin text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="absolute inset-0 bg-red-100 dark:bg-red-900/50 bg-opacity-75 rounded-lg flex items-center justify-center">
+            <div className="flex items-center gap-2 bg-white dark:bg-neutral-800 px-3 py-2 rounded-lg shadow-md">
+              <svg className="w-4 h-4 animate-spin text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-sm font-medium text-red-700">
+              <span className="text-sm font-medium text-red-700 dark:text-red-300">
                 {isBeingDeleted ? 'Deleting messages...' : 'Will be deleted...'}
               </span>
             </div>
@@ -1104,8 +1081,8 @@ ${stepInfo.input}`;
             disabled={deletingMessages.has(`bulk_${messageIndex}`)}
             className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
               deletingMessages.has(`bulk_${messageIndex}`)
-                ? 'opacity-100 bg-red-100 text-red-400 cursor-not-allowed'
-                : 'opacity-0 group-hover:opacity-100 bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 shadow-md hover:shadow-lg'
+                ? 'opacity-100 bg-red-100 dark:bg-red-900/30 text-red-400 dark:text-red-500 cursor-not-allowed'
+                : 'opacity-0 group-hover:opacity-100 bg-white dark:bg-neutral-700 hover:bg-red-50 dark:hover:bg-red-900/30 text-neutral-400 dark:text-neutral-500 hover:text-red-500 dark:hover:text-red-400 shadow-md hover:shadow-lg'
             }`}
             title={deletingMessages.has(`bulk_${messageIndex}`) 
               ? 'Deleting messages...' 
@@ -1146,6 +1123,7 @@ ${stepInfo.input}`;
                 isJsonWorkflow={message.isJsonWorkflow}
                 messageIndex={messageIndex}
                 allMessages={messages}
+                isDarkMode={isDarkMode}
               />
             ) : message.needsClarification ? (
               // Show clarification questions - use main form button to answer
@@ -1155,21 +1133,45 @@ ${stepInfo.input}`;
                 hasSubsequentResponse={hasSubsequentClarificationResponse(messageIndex)}
               />
             ) : message.isLoading ? (
-              <div className="flex items-center gap-3 text-gray-600">
-                <svg className="w-5 h-5 animate-spin text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300">
+                <svg className="w-5 h-5 animate-spin text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span className="text-sm">Sending request...</span>
               </div>
             ) : (
               <div>
-                <div className="text-gray-800">{message.content}</div>
-                {/* Show agent type for user messages */}
-                {message.role === 'user' && message.agentType && (
-                  <div className="mt-2 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md inline-block">
-                    Sent to: {AGENT_TYPES.find(agent => agent.id === message.agentType)?.name || message.agentType}
+                {/* Show role indicator and content */}
+                <div className="flex items-start gap-3">
+                  {/* Role indicator */}
+                  <div className="flex-shrink-0 mt-1">
+                    {message.role === 'user' ? (
+                      <div className="w-6 h-6 bg-blue-100 dark:bg-blue-800/30 border border-blue-200 dark:border-blue-700/50 rounded-full flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 bg-neutral-100 dark:bg-neutral-600 border border-neutral-200 dark:border-neutral-500 rounded-full flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
-                )}
+                  
+                  {/* Content area with agent badge for user messages */}
+                  <div className="flex-1 min-w-0">
+                    {message.role === 'user' && message.agentType && (
+                      <div className="mb-2">
+                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50">
+                          {AGENT_TYPES.find(agent => agent.id === message.agentType)?.name || message.agentType}
+                        </span>
+                      </div>
+                    )}
+                    <div className="text-neutral-800 dark:text-neutral-200">{message.content}</div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -1285,16 +1287,16 @@ ${stepInfo.input}`;
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
-      <div className="flex-shrink-0 p-4 bg-gray-50 border-b border-gray-200">
+    <div className="flex flex-col h-full bg-white dark:bg-neutral-800">
+      <div className="flex-shrink-0 p-4 bg-neutral-100 dark:bg-neutral-700 border-b border-neutral-200 dark:border-neutral-600">
         <div className="flex flex-wrap gap-4 items-center">
           <div className="flex items-center gap-2">
-            <label htmlFor="llm-provider" className="text-sm font-medium text-gray-700">LLM Provider:</label>
+            <label htmlFor="llm-provider" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">LLM Provider:</label>
             <select 
               id="llm-provider" 
               value={llmProvider} 
               onChange={handleLlmProviderChange}
-              className="px-3 py-1 bg-white border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="px-3 py-1 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500"
             >
               {LLM_PROVIDERS.map(provider => (
                 <option key={provider.id} value={provider.id}>
@@ -1306,13 +1308,13 @@ ${stepInfo.input}`;
       
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <label htmlFor="enable-clarification" className="flex items-center gap-2 text-sm text-gray-700">
+              <label htmlFor="enable-clarification" className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-200">
                 <input
                   id="enable-clarification"
                   type="checkbox"
                   checked={enableClarification}
                   onChange={handleEnableClarificationChange}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 focus:ring-neutral-500 dark:bg-neutral-600"
                 />
                 Enable Clarifications
               </label>
@@ -1320,12 +1322,12 @@ ${stepInfo.input}`;
       
             {enableClarification && (
               <div className="flex items-center gap-2">
-                <label htmlFor="clarification-threshold" className="text-sm font-medium text-gray-700">Threshold:</label>
+                <label htmlFor="clarification-threshold" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Threshold:</label>
                 <select 
                   id="clarification-threshold" 
                   value={clarificationThreshold} 
                   onChange={handleClarificationThresholdChange}
-                  className="px-3 py-1 bg-white border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="px-3 py-1 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500"
                 >
                   <option value="permissive">Permissive</option>
                   <option value="conservative">Conservative</option>
@@ -1341,13 +1343,13 @@ ${stepInfo.input}`;
       {messagesLoading ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg className="w-6 h-6 text-blue-500 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-12 h-12 bg-neutral-100 dark:bg-neutral-600 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-6 h-6 text-neutral-500 dark:text-neutral-300 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <p className="text-gray-600 text-sm font-medium">Loading messages...</p>
-            <p className="text-gray-400 text-xs mt-1">Fetching conversation history</p>
+            <p className="text-neutral-600 dark:text-neutral-300 text-sm font-medium">Loading messages...</p>
+            <p className="text-neutral-400 dark:text-neutral-500 text-xs mt-1">Fetching conversation history</p>
           </div>
         </div>
       ) : (()=>{
@@ -1364,7 +1366,7 @@ ${stepInfo.input}`;
                 const progressMsgs=getProgressForOwner(msg.id);
                 if(progressMsgs.length>0){
                   components.push(
-                    <div key={`progress-${msg.id}`} className="mb-4 rounded-lg border border-gray-300">
+                    <div key={`progress-${msg.id}`} className="p-4 mb-4 rounded-lg border shadow-sm bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600 text-neutral-900 dark:text-neutral-100">
                       <AgentProgressDisplay messages={progressMsgs} />
                     </div>
                   );
@@ -1377,12 +1379,12 @@ ${stepInfo.input}`;
         );
       })()}
       
-      <form className="flex-shrink-0 p-4 bg-gray-50 border-t border-gray-200" onSubmit={handleSubmit}>
+      <form className="flex-shrink-0 p-4 bg-neutral-100 dark:bg-neutral-700 border-t border-neutral-200 dark:border-neutral-600" onSubmit={handleSubmit}>
         <div className="flex gap-2">
           <select 
             value={selectedAgent} 
             onChange={handleAgentChange}
-            className="px-3 py-2 bg-white border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="px-3 py-2 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 disabled:bg-neutral-100 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
             {AGENT_TYPES.map(agent => (
@@ -1399,12 +1401,12 @@ ${stepInfo.input}`;
           placeholder={messages.length > 1
             ? "Ask me to refine the result or ask a new question..." 
             : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
-          className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed bg-white"
+          className="flex-1 px-3 py-2 border border-neutral-300 dark:border-neutral-500 rounded focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 disabled:bg-neutral-100 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed bg-white dark:bg-neutral-600 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
           disabled={isLoading || hasUnansweredClarificationQuestions()}
         />
         <button 
           type="submit" 
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="px-4 py-2 bg-neutral-600 dark:bg-neutral-500 text-white rounded hover:bg-neutral-700 dark:hover:bg-neutral-400 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2"
           disabled={isLoading}
         >
           {isLoading ? 'Generating...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}

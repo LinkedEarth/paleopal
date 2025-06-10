@@ -1,8 +1,6 @@
 import React from 'react';
 import SparqlQueryDisplay from './SparqlQueryDisplay';
 import GeneratedCodeDisplay from './GeneratedCodeDisplay';
-import WorkflowPlanDisplay from './WorkflowPlanDisplay';
-import WorkflowExecutionDisplay from './WorkflowExecutionDisplay';
 import QueryResultsDisplay from './QueryResultsDisplay';
 import WorkflowViewer from './WorkflowViewer';
 
@@ -17,27 +15,30 @@ const QueryAndResultsMessage = ({
   agentType, 
   isJsonWorkflow,
   messageIndex,
-  allMessages
+  allMessages,
+  isDarkMode = false
 }) => {
   return (
     <div className="space-y-4">
-      {message.content && (
+      {/* {message.content && (
         <div className="prose max-w-none">
           <div>{message.content}</div>
         </div>
-      )}
+      )} */}
 
       {/* Display workflow query if available */}
       {message.query && (
         <SparqlQueryDisplay 
           query={message.query} 
+          agentType={agentType}
+          isDarkMode={isDarkMode}
           onExecute={() => {}} 
           canExecute={agentType === 'sparql'} 
         />
       )}
 
       {/* Display generated code if available */}
-      {generatedCode && <GeneratedCodeDisplay code={generatedCode} />}
+      {generatedCode && <GeneratedCodeDisplay code={generatedCode} agentType={agentType} isDarkMode={isDarkMode} />}
 
       {/* Workflow display for JSON workflows */}
       {workflowPlan && isJsonWorkflow && (
@@ -51,22 +52,8 @@ const QueryAndResultsMessage = ({
         />
       )}
 
-      {/* Legacy workflow display for older Mermaid workflows */}
-      {workflowPlan && workflowId && !isJsonWorkflow && (
-        <WorkflowPlanDisplay 
-          plan={workflowPlan} 
-          workflowId={workflowId}
-          onExecute={onExecuteWorkflow}
-        />
-      )}
-
-      {/* Display execution results if available */}
-      {message.executionResults && (
-        <WorkflowExecutionDisplay results={message.executionResults} />
-      )}
-
-      {/* Display query results if available */}
-      {message.queryResults && (
+      {/* Display query results if available - only for SPARQL agent */}
+      {message.queryResults && agentType === 'sparql' && (
         <QueryResultsDisplay results={message.queryResults} />
       )}
     </div>

@@ -318,9 +318,13 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
 
   if (error) {
     return (
-      <div className="border border-red-300 rounded-lg p-4 bg-red-50">
-        <div className="text-red-800 font-medium">❌ Workflow Error</div>
-        <div className="text-red-700 mt-2">{error}</div>
+      <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800">
+        <div className="flex justify-between items-center p-3 border-b border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-700 rounded-t-lg">
+          <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0">❌ Workflow Error</h4>
+        </div>
+        <div className="p-3">
+          <div className="text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-200 dark:border-red-600 text-sm">{error}</div>
+        </div>
       </div>
     );
   }
@@ -332,19 +336,19 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
   const hasStarted = startedCount > 0;
 
   return (
-    <div className="border border-purple-300 rounded-lg p-4 bg-purple-50">
-      <div className="flex justify-between items-center mb-4">
-        <h4 className="text-purple-800 font-medium m-0">📋 Workflow Plan</h4>
+    <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800">
+      <div className="flex justify-between items-center p-3 border-b border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-700 rounded-t-lg">
+        <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0">📋 Workflow Plan</h4>
         <div className="flex gap-2">
           <button 
-            className="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600 transition-colors"
+            className="px-3 py-1 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded text-xs hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors border border-neutral-300 dark:border-neutral-500"
             onClick={copyWorkflowData}
             title="Copy workflow data to clipboard"
           >
-            📋 Copy Data
+            📋 Copy
           </button>
           <button 
-            className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors"
+            className="px-3 py-1 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded text-xs hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors border border-neutral-300 dark:border-neutral-500"
             onClick={downloadWorkflow}
             title="Download workflow file"
           >
@@ -352,7 +356,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           </button>
           {onExecuteStep && !allCompleted && (
             <button 
-              className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors"
+              className="px-3 py-1 bg-neutral-600 dark:bg-neutral-500 text-white rounded text-xs hover:bg-neutral-700 dark:hover:bg-neutral-400 transition-colors border border-neutral-500 dark:border-neutral-400"
               onClick={handleExecuteStepByStep}
               title={hasStarted ? "Continue execution from next step" : "Execute workflow step by step"}
               disabled={isExecuting}
@@ -361,62 +365,65 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
             </button>
           )}
           {allCompleted && (
-            <span className="px-3 py-1 bg-green-100 text-green-800 rounded text-sm font-medium">
+            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded text-xs font-medium border border-green-300 dark:border-green-600">
               ✅ Completed
             </span>
           )}
         </div>
       </div>
 
-      {isLoading && (
-        <div className="text-center py-8 text-gray-600">
-          Loading workflow...
-        </div>
-      )}
-
-      {/* Execution Status Summary */}
-      {totalSteps > 0 && (
-        <div className="mb-4 p-3 bg-white rounded border border-purple-200">
-          <div className="flex items-center justify-between">
-            <div className={`text-lg font-medium ${allCompleted ? 'text-green-700' : hasStarted ? 'text-yellow-700' : 'text-purple-700'}`}>
-              {allCompleted ? '✅' : hasStarted ? '⚡' : '📋'} 
-              {completedCount}/{totalSteps} steps completed
-              {startedCount > completedCount && (
-                <span className="ml-2 text-sm text-orange-600">
-                  ({startedCount - completedCount} in progress)
-                </span>
-              )}
-              {isExecuting && (
-                <span className="ml-2 text-xs text-yellow-600">
-                  (Executing step {currentStep + 1}...)
-                </span>
-              )}
-            </div>
-            {hasStarted && !allCompleted && (
-              <div className="text-sm text-gray-600">
-                Workflow can be resumed from any pending step
+      <div className="p-3">
+        <div className="bg-white dark:bg-neutral-800 rounded border border-neutral-200 dark:border-neutral-600 overflow-hidden max-h-96 overflow-y-auto">
+          <div className="p-4 space-y-4">
+            {isLoading && (
+              <div className="text-center py-8 text-neutral-600 dark:text-neutral-400">
+                Loading workflow...
               </div>
             )}
-          </div>
-          
-          {/* Progress bar */}
-          <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className={`h-2 rounded-full transition-all duration-300 ${
-                allCompleted ? 'bg-green-500' : hasStarted ? 'bg-yellow-500' : 'bg-purple-500'
-              }`}
-              style={{ width: `${totalSteps > 0 ? (completedCount / totalSteps) * 100 : 0}%` }}
-            ></div>
-          </div>
-        </div>
-      )}
 
-      {/* Workflow Steps */}
-      {workflowSteps.length > 0 && (
-        <div className="bg-white rounded border border-purple-200 p-3">
-          <h5 className="text-sm font-medium text-purple-700 mb-3 m-0">
-            Workflow Steps ({workflowSteps.length})
-          </h5>
+            {/* Execution Status Summary */}
+            {totalSteps > 0 && (
+              <div className="bg-neutral-50 dark:bg-neutral-700 rounded border border-neutral-200 dark:border-neutral-600 p-3">
+                <div className="flex items-center justify-between">
+                  <div className={`text-sm font-medium ${allCompleted ? 'text-green-700 dark:text-green-400' : hasStarted ? 'text-yellow-700 dark:text-yellow-400' : 'text-neutral-700 dark:text-neutral-300'}`}>
+                    {allCompleted ? '✅' : hasStarted ? '⚡' : '📋'} 
+                    {completedCount}/{totalSteps} steps completed
+                    {startedCount > completedCount && (
+                      <span className="ml-2 text-xs text-orange-600 dark:text-orange-400">
+                        ({startedCount - completedCount} in progress)
+                      </span>
+                    )}
+                    {isExecuting && (
+                      <span className="ml-2 text-xs text-yellow-600 dark:text-yellow-400">
+                        (Executing step {currentStep + 1}...)
+                      </span>
+                    )}
+                  </div>
+                  {hasStarted && !allCompleted && (
+                    <div className="text-xs text-neutral-600 dark:text-neutral-400">
+                      Workflow can be resumed from any pending step
+                    </div>
+                  )}
+                </div>
+                
+                {/* Progress bar */}
+                <div className="mt-2 w-full bg-neutral-200 dark:bg-neutral-600 rounded-full h-2">
+                  <div 
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      allCompleted ? 'bg-green-500 dark:bg-green-600' : hasStarted ? 'bg-yellow-500 dark:bg-yellow-600' : 'bg-neutral-500 dark:bg-neutral-400'
+                    }`}
+                    style={{ width: `${totalSteps > 0 ? (completedCount / totalSteps) * 100 : 0}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
+
+            {/* Workflow Steps */}
+            {workflowSteps.length > 0 && (
+              <div className="bg-neutral-50 dark:bg-neutral-700 rounded border border-neutral-200 dark:border-neutral-600 p-3">
+                <h5 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-3 m-0">
+                  Workflow Steps ({workflowSteps.length})
+                </h5>
           <div className="space-y-3">
             {workflowSteps.map((step, index) => {
               const isCompleted = executedSteps.has(step.id);
@@ -429,18 +436,18 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
                 <div 
                   key={step.id} 
                   className={`border rounded p-3 transition-colors ${
-                    isCompleted ? 'bg-green-50 border-green-200' :
-                    isInProgress ? 'bg-orange-50 border-orange-200' :
-                    isCurrent ? 'bg-yellow-50 border-yellow-300 ring-2 ring-yellow-200' :
-                    'bg-gray-50 border-gray-200'
+                    isCompleted ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-600' :
+                    isInProgress ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-600' :
+                    isCurrent ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-600 ring-2 ring-yellow-200 dark:ring-yellow-600' :
+                    'bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-600'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <span className={`rounded-full w-6 h-6 flex items-center justify-center text-sm font-medium flex-shrink-0 ${
-                      isCompleted ? 'bg-green-500 text-white' :
-                      isInProgress ? 'bg-orange-500 text-white' :
-                      isCurrent ? 'bg-yellow-500 text-white' :
-                      'bg-purple-500 text-white'
+                      isCompleted ? 'bg-green-500 dark:bg-green-600 text-white' :
+                      isInProgress ? 'bg-orange-500 dark:bg-orange-600 text-white' :
+                      isCurrent ? 'bg-yellow-500 dark:bg-yellow-600 text-white' :
+                      'bg-neutral-500 dark:bg-neutral-600 text-white'
                     }`}>
                       {isCompleted ? '✓' : 
                        isInProgress ? '⏳' :
@@ -450,25 +457,25 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          step.agent === 'sparql' ? 'bg-blue-100 text-blue-800' :
-                          step.agent === 'code' ? 'bg-green-100 text-green-800' :
-                          'bg-gray-100 text-gray-800'
+                          step.agent === 'sparql' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300' :
+                          step.agent === 'code' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
+                          'bg-neutral-100 dark:bg-neutral-600 text-neutral-800 dark:text-neutral-200'
                         }`}>
                           {step.agent.toUpperCase()}
                         </span>
-                        <span className="text-xs text-gray-500">{step.id}</span>
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400">{step.id}</span>
                         {isCompleted && (
-                          <span className="text-xs text-green-600 font-medium">Completed</span>
+                          <span className="text-xs text-green-600 dark:text-green-400 font-medium">Completed</span>
                         )}
                         {isInProgress && (
-                          <span className="text-xs text-orange-600 font-medium">In Progress</span>
+                          <span className="text-xs text-orange-600 dark:text-orange-400 font-medium">In Progress</span>
                         )}
                         {isCurrent && (
-                          <span className="text-xs text-yellow-600 font-medium">Executing...</span>
+                          <span className="text-xs text-yellow-600 dark:text-yellow-400 font-medium">Executing...</span>
                         )}
                         {canExecuteFrom && (
                           <button
-                            className="ml-auto px-2 py-1 bg-orange-500 text-white rounded text-xs hover:bg-orange-600 transition-colors"
+                            className="ml-auto px-2 py-1 bg-orange-500 dark:bg-orange-600 text-white rounded text-xs hover:bg-orange-600 dark:hover:bg-orange-500 transition-colors"
                             onClick={() => handleExecuteFromStep(index)}
                             title={`Execute workflow starting from step ${index + 1}`}
                           >
@@ -476,20 +483,20 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
                           </button>
                         )}
                       </div>
-                      <div className="text-sm font-medium text-gray-800 mb-1">{step.name}</div>
+                      <div className="text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">{step.name}</div>
                       {step.description && (
-                        <div className="text-sm text-gray-600 mb-2">{step.description}</div>
+                        <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">{step.description}</div>
                       )}
-                      <div className="text-xs text-gray-600 bg-gray-100 p-2 rounded">
+                      <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-700 p-2 rounded">
                         <strong>Input:</strong> {step.input}
                       </div>
                       {step.expected_output && (
-                        <div className="text-xs text-gray-600 bg-blue-50 p-2 rounded mt-1">
+                        <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-blue-50 dark:bg-blue-900/20 p-2 rounded mt-1">
                           <strong>Expected Output:</strong> {step.expected_output}
                         </div>
                       )}
                       {step.dependencies && step.dependencies.length > 0 && (
-                        <div className="text-xs text-gray-600 mt-1">
+                        <div className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
                           <strong>Dependencies:</strong> {step.dependencies.join(', ')}
                         </div>
                       )}
@@ -498,9 +505,12 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
                 </div>
               );
             })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

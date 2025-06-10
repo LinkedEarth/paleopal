@@ -299,7 +299,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
     return (
       <div className="space-y-4">
-        <h4 className="font-medium text-gray-900">Extraction Parameters</h4>
+        <h4 className="font-medium text-neutral-900 dark:text-neutral-100">Extraction Parameters</h4>
         
         {/* Required parameters */}
         {typeInfo.required_params && typeInfo.required_params.map(param => (
@@ -907,8 +907,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Input Section */}
         <div className="lg:col-span-1 space-y-6">
           {/* Mode Selection */}
-          <div className="bg-white p-4 rounded-lg border">
-            <h3 className="font-semibold text-gray-900 mb-3">Input Source</h3>
+          <div className="bg-white dark:bg-neutral-800 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Input Source</h3>
             <div className="space-y-3">
               <div className="flex space-x-4">
                 <label className="flex items-center">
@@ -943,7 +943,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     className="w-full"
                   />
                   {selectedFile && (
-                    <div className="mt-2 text-sm text-gray-600">
+                    <div className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
                       Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
                     </div>
                   )}
@@ -955,7 +955,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     value={selectedUrl}
                     onChange={(e) => setSelectedUrl(e.target.value)}
                     placeholder="https://example.com/document.pdf"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md"
                   />
                 </div>
               )}
@@ -963,12 +963,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           </div>
 
           {/* Document Type Selection */}
-          <div className="bg-white p-4 rounded-lg border">
-            <h3 className="font-semibold text-gray-900 mb-3">Document Type</h3>
+          <div className="bg-white dark:bg-neutral-800 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Document Type</h3>
             <select
               value={documentType}
               onChange={(e) => setDocumentType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md"
             >
             {supportedDocumentTypes.map(type => (
               <option key={type.value} value={type.value}>{type.label}</option>
@@ -1058,15 +1058,15 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Results Section */}
         <div className="lg:col-span-2 space-y-6">
           {error && (
-            <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
-              <div className="text-red-700 font-medium">Error</div>
-              <div className="text-red-600 text-sm mt-1">{error}</div>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 p-4 rounded-lg">
+              <div className="text-red-700 dark:text-red-300 font-medium">Error</div>
+              <div className="text-red-600 dark:text-red-400 text-sm mt-1">{error}</div>
             </div>
           )}
 
           {preview && (
-            <div className="bg-white border rounded-lg p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Preview</h3>
+            <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6">
+              <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-4">Preview</h3>
               {renderPreview()}
             </div>
           )}

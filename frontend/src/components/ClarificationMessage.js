@@ -5,32 +5,39 @@ import { parseMessageParts } from '../utils/parse';
 const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentResponse = false }) => {
     const [isCollapsed, setIsCollapsed] = React.useState(hasSubsequentResponse); // Collapse by default if answered
 
+    // Update collapsed state when hasSubsequentResponse changes
+    React.useEffect(() => {
+        if (hasSubsequentResponse) {
+            setIsCollapsed(true);
+        }
+    }, [hasSubsequentResponse]);
+
     const questionCount = clarificationQuestions ? clarificationQuestions.length : 1;
 
     const renderHeader = () => (
       <div 
-        className="flex items-center gap-3 text-gray-600 cursor-pointer hover:bg-gray-50 rounded transition-colors p-2 -m-2"
+        className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-700 rounded transition-colors p-2 -m-2"
         onClick={() => setIsCollapsed(!isCollapsed)}
         title={isCollapsed ? 'Expand questions' : 'Collapse questions'}
       >
         <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-          <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
         <div className="flex-1">
-          <span className="text-sm font-medium text-gray-800">Clarification Questions</span>
-          <span className="text-xs text-gray-500 ml-2">
+          <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">Clarification Questions</span>
+          <span className="text-xs text-neutral-500 dark:text-neutral-400 ml-2">
             {hasSubsequentResponse ? 'Questions that were asked for clarification' : 'Questions requesting clarification'}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-600">{questionCount} {questionCount === 1 ? 'question' : 'questions'}</span>
+          <span className="text-xs text-neutral-600 dark:text-neutral-400">{questionCount} {questionCount === 1 ? 'question' : 'questions'}</span>
           {hasSubsequentResponse && (
-            <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">Answered</span>
+            <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">Answered</span>
           )}
           <svg 
-            className={`w-4 h-4 text-gray-600 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
+            className={`w-4 h-4 text-neutral-600 dark:text-neutral-400 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -47,20 +54,20 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
         return (
           <div className="ml-9 mt-2 space-y-3">
             {clarificationQuestions.map((question, index) => (
-              <div key={question.id || index} className="text-sm text-gray-700">
+              <div key={question.id || index} className="text-sm text-neutral-700 dark:text-neutral-300">
                 {clarificationQuestions.length > 1 && (
-                  <div className="font-medium text-gray-800 mb-1">Question {index + 1}</div>
+                  <div className="font-medium text-neutral-800 dark:text-neutral-200 mb-1">Question {index + 1}</div>
                 )}
                 <div className="font-medium mb-1">{question.question}</div>
                 
                 {question.context && (
-                  <div className="text-xs text-gray-600 mb-2 pl-3 border-l-2 border-gray-200">{question.context}</div>
+                  <div className="text-xs text-neutral-600 dark:text-neutral-400 mb-2 pl-3 border-l-2 border-neutral-200 dark:border-neutral-600">{question.context}</div>
                 )}
                 
                 {question.choices && question.choices.length > 0 && (
                   <div className="mt-1">
-                    <div className="text-xs font-medium text-gray-600 mb-1">Options:</div>
-                    <ul className="list-disc list-inside space-y-1 text-xs text-gray-600 pl-3">
+                    <div className="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1">Options:</div>
+                    <ul className="list-disc list-inside space-y-1 text-xs text-neutral-600 dark:text-neutral-400 pl-3">
                       {question.choices.map((choice, choiceIndex) => {
                         // Handle both string choices and object choices
                         let choiceText;
@@ -90,16 +97,16 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
       const parts = parseMessageParts(content);
       return (
         <div className="ml-9 mt-2 space-y-2">
-          <div className="text-sm font-medium text-gray-700">{parts.question}</div>
+          <div className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{parts.question}</div>
           
           {parts.context && (
-            <div className="text-xs text-gray-600 pl-3 border-l-2 border-gray-200">{parts.context}</div>
+            <div className="text-xs text-neutral-600 dark:text-neutral-400 pl-3 border-l-2 border-neutral-200 dark:border-neutral-600">{parts.context}</div>
           )}
           
           {parts.options.length > 0 && (
             <div>
-              <div className="text-xs font-medium text-gray-600 mb-1">Options:</div>
-              <ul className="list-disc list-inside space-y-1 text-xs text-gray-600 pl-3">
+              <div className="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1">Options:</div>
+              <ul className="list-disc list-inside space-y-1 text-xs text-neutral-600 dark:text-neutral-400 pl-3">
                 {parts.options.map((option, index) => {
                   // Handle both string options and object options
                   let optionText;
