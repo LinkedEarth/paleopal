@@ -869,7 +869,7 @@ const Dashboard = () => {
           {!selectedLibrary ? (
             // System Overview
             <div className="p-6 overflow-y-auto">
-              <div className="max-w-4xl">
+              <div className="w-full">
                 <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">System Overview</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -906,7 +906,11 @@ const Dashboard = () => {
                       </thead>
                       <tbody className="bg-white dark:bg-neutral-800 divide-y divide-neutral-200 dark:divide-neutral-700">
                         {Object.entries(libraries || {}).map(([key, library]) => (
-                          <tr key={key} className="hover:bg-neutral-50 dark:hover:bg-neutral-700">
+                          <tr
+                            key={key}
+                            onClick={() => fetchLibraryDetails(key)}
+                            className="hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer"
+                          >
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div>
                                 <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{library.name}</div>
@@ -1021,7 +1025,7 @@ const Dashboard = () => {
               {/* Tab Content */}
               <div className="flex-1 overflow-y-auto p-6">
                 {activeTab === 'overview' && libraryDetails && (
-                  <div className="max-w-4xl">
+                  <div className="w-full">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow border border-neutral-200 dark:border-neutral-700">
                         <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">Library Info</h3>
@@ -1102,7 +1106,7 @@ const Dashboard = () => {
                 )}
 
                 {activeTab === 'collections' && libraryDetails && (
-                  <div className="max-w-6xl">
+                  <div className="w-full">
                     <div className="grid gap-6">
                       {(libraryDetails.collections || []).map((collection) => (
                         <div key={collection.name} className="bg-white dark:bg-neutral-800 rounded-lg shadow border border-neutral-200 dark:border-neutral-700">
@@ -1162,7 +1166,7 @@ const Dashboard = () => {
                 )}
 
                 {activeTab === 'documents' && libraryDetails && (
-                  <div className="max-w-6xl">
+                  <div className="w-full">
                     <div className="flex items-center justify-between mb-6">
                       <div>
                         <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Documents</h3>
@@ -1403,7 +1407,7 @@ const Dashboard = () => {
                 )}
 
                 {activeTab === 'search' && (
-                  <div className="max-w-6xl">
+                  <div className="w-full">
                     {searchResults ? (
                       <div className="bg-white dark:bg-neutral-800 rounded-lg shadow border border-neutral-200 dark:border-neutral-700">
                         <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-600">
@@ -1554,7 +1558,7 @@ const Dashboard = () => {
                 )}
 
                 {activeTab === 'extraction' && (
-                  <div className="max-w-6xl">
+                  <div className="w-full">
                     <div className="mb-6">
                       <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
                         Document Extraction for {libraryDetails?.library.name}
@@ -1667,15 +1671,15 @@ const Dashboard = () => {
                     {documentDetails.document.content_type === 'complete_method' && documentDetails.document.method_structure ? (
                       <div className="space-y-4">
                         {/* Method Overview */}
-                        <div className="bg-blue-50 p-4 rounded border">
-                          <h5 className="font-semibold text-blue-900 mb-2">Method: {documentDetails.document.method_name}</h5>
-                          <p className="text-sm text-blue-800">{documentDetails.document.description}</p>
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded border border-blue-200 dark:border-blue-700">
+                          <h5 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">Method: {documentDetails.document.method_name}</h5>
+                          <p className="text-sm text-blue-800 dark:text-blue-300">{documentDetails.document.description}</p>
                           <div className="flex items-center space-x-4 mt-2 text-xs">
-                            <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded">
+                            <span className="bg-blue-200 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
                               {documentDetails.document.num_steps} steps
                             </span>
                             {documentDetails.document.step_categories && (
-                              <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
+                              <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-1 rounded">
                                 {documentDetails.document.step_categories.join(', ')}
                               </span>
                             )}
@@ -1726,20 +1730,20 @@ const Dashboard = () => {
                       /* Special handling for complete workflows */
                       <div className="space-y-4">
                         {/* Workflow Overview */}
-                        <div className="bg-green-50 p-4 rounded border">
-                          <h5 className="font-semibold text-green-900 mb-2">Workflow: {documentDetails.document.title}</h5>
-                          <p className="text-sm text-green-800">{documentDetails.document.description}</p>
+                        <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded border border-green-200 dark:border-green-700">
+                          <h5 className="font-semibold text-green-900 dark:text-green-300 mb-2">Workflow: {documentDetails.document.title}</h5>
+                          <p className="text-sm text-green-800 dark:text-green-300">{documentDetails.document.description}</p>
                           <div className="flex items-center space-x-4 mt-2 text-xs">
-                            <span className="bg-green-200 text-green-800 px-2 py-1 rounded">
+                            <span className="bg-green-200 dark:bg-green-800/30 text-green-800 dark:text-green-300 px-2 py-1 rounded">
                               {documentDetails.document.num_steps} steps
                             </span>
                             {documentDetails.document.workflow_type && (
-                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                              <span className="bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
                                 {documentDetails.document.workflow_type}
                               </span>
                             )}
                             {documentDetails.document.complexity && (
-                              <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                              <span className="bg-yellow-100 dark:bg-yellow-800/30 text-yellow-800 dark:text-yellow-300 px-2 py-1 rounded">
                                 {documentDetails.document.complexity}
                               </span>
                             )}

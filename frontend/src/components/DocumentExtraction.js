@@ -304,12 +304,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Required parameters */}
         {typeInfo.required_params && typeInfo.required_params.map(param => (
           <div key={param} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
               {param.replace(/_/g, ' ')} <span className="text-red-500">*</span>
             </label>
             {param === 'target_classes' ? (
               <textarea
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
                 placeholder="Enter class URIs, one per line"
                 value={(extractionParams[param] || []).join('\n')}
                 onChange={(e) => updateExtractionParam(param, e.target.value.split('\n').filter(l => l.trim()))}
@@ -318,7 +318,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             ) : (
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, e.target.value)}
                 placeholder={`Enter ${param.replace(/_/g, ' ')}`}
@@ -330,20 +330,20 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Optional parameters */}
         {typeInfo.optional_params && typeInfo.optional_params.map(param => (
           <div key={param} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
               {param.replace(/_/g, ' ')}
             </label>
             {param.includes('_count') || param.includes('max_') || param.includes('min_') ? (
               <input
                 type="number"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, parseInt(e.target.value) || '')}
                 placeholder={getParameterPlaceholder(param)}
               />
             ) : param.includes('include_') || param.includes('hoist_') || param.includes('synth_') || param.includes('extract_') ? (
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, e.target.value === 'true')}
               >
@@ -353,7 +353,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               </select>
             ) : param.includes('patterns') ? (
               <textarea
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
                 placeholder="Enter patterns, one per line"
                 value={(extractionParams[param] || []).join('\n')}
                 onChange={(e) => updateExtractionParam(param, e.target.value.split('\n').filter(l => l.trim()))}
@@ -362,7 +362,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             ) : (
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, e.target.value)}
                 placeholder={getParameterPlaceholder(param)}
@@ -391,8 +391,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     if (!preview) return null;
 
     return (
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h4 className="font-medium text-gray-900 mb-3">Extraction Preview</h4>
+      <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
+        <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Extraction Preview</h4>
         
         {preview.error ? (
           <div className="text-red-600 text-sm">{preview.error}</div>
@@ -400,8 +400,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           <div className="space-y-2 text-sm">
             {Object.entries(preview).map(([key, value]) => (
               <div key={key} className="flex justify-between">
-                <span className="font-medium text-gray-600">{key.replace(/_/g, ' ')}:</span>
-                <span className="text-gray-900">
+                <span className="font-medium text-neutral-600">{key.replace(/_/g, ' ')}:</span>
+                <span className="text-neutral-900">
                   {Array.isArray(value) ? value.length : typeof value === 'object' ? JSON.stringify(value) : String(value)}
                 </span>
               </div>
@@ -417,15 +417,15 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col">
-          <div className="p-6 border-b border-gray-200 flex-shrink-0">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="p-6 border-b border-neutral-200 flex-shrink-0">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 ">
                 Extracted Item Details #{selectedItem.index + 1}
               </h3>
               <button
                 onClick={() => setShowItemModal(false)}
-                className="text-gray-400 hover:text-gray-600 text-xl"
+                className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 text-xl"
               >
                 ×
               </button>
@@ -436,37 +436,37 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             <div className="space-y-6">
               {/* Basic Information */}
               <div>
-                <h4 className="font-medium text-gray-900 mb-3">Basic Information</h4>
-                <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Basic Information</h4>
+                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg space-y-2">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <span className="text-sm font-medium text-gray-600">Content Type:</span>
-                      <span className="ml-2 text-sm text-gray-900">{selectedItem.content_type || 'Unknown'}</span>
+                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Content Type:</span>
+                      <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.content_type || 'Unknown'}</span>
                     </div>
                     <div>
-                      <span className="text-sm font-medium text-gray-600">Extraction Type:</span>
-                      <span className="ml-2 text-sm text-gray-900">{selectedItem.extraction_type || 'Unknown'}</span>
+                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Extraction Type:</span>
+                      <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.extraction_type || 'Unknown'}</span>
                     </div>
                   </div>
                   
                   {selectedItem.title && (
                     <div>
-                      <span className="text-sm font-medium text-gray-600">Title:</span>
-                      <div className="mt-1 text-sm text-gray-900">{selectedItem.title}</div>
+                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Title:</span>
+                      <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.title}</div>
                     </div>
                   )}
                   
                   {selectedItem.name && (
                     <div>
-                      <span className="text-sm font-medium text-gray-600">Name:</span>
-                      <div className="mt-1 text-sm text-gray-900">{selectedItem.name}</div>
+                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Name:</span>
+                      <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.name}</div>
                     </div>
                   )}
                   
                   {selectedItem.uri && (
                     <div>
-                      <span className="text-sm font-medium text-gray-600">URI:</span>
-                      <div className="mt-1 text-sm font-mono text-gray-900 break-all">{selectedItem.uri}</div>
+                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">URI:</span>
+                      <div className="mt-1 text-sm font-mono text-neutral-900 dark:text-neutral-100 break-all">{selectedItem.uri}</div>
                     </div>
                   )}
                 </div>
@@ -475,18 +475,18 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Notebook-specific metadata */}
               {(selectedItem.cell_index !== undefined || selectedItem.variable_name || selectedItem.extraction_method) && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Notebook Context</h4>
-                  <div className="bg-purple-50 p-4 rounded-lg space-y-2">
+                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Notebook Context</h4>
+                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg space-y-2 border border-purple-200 dark:border-purple-700">
                     {selectedItem.cell_index !== undefined && (
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <span className="text-sm font-medium text-gray-600">Cell Index:</span>
-                          <span className="ml-2 text-sm text-gray-900">{selectedItem.cell_index}</span>
+                          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Cell Index:</span>
+                          <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.cell_index}</span>
                         </div>
                         {selectedItem.execution_count && (
                           <div>
-                            <span className="text-sm font-medium text-gray-600">Execution Count:</span>
-                            <span className="ml-2 text-sm text-gray-900">{selectedItem.execution_count}</span>
+                            <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Execution Count:</span>
+                            <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.execution_count}</span>
                           </div>
                         )}
                       </div>
@@ -494,7 +494,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.variable_name && (
                       <div>
-                        <span className="text-sm font-medium text-gray-600">Variable Name:</span>
+                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Variable Name:</span>
                         <div className="mt-1">
                           <span className="text-sm bg-indigo-100 text-indigo-800 px-2 py-1 rounded font-mono">
                             {selectedItem.variable_name}
@@ -505,7 +505,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.extraction_method && (
                       <div>
-                        <span className="text-sm font-medium text-gray-600">Extraction Method:</span>
+                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Extraction Method:</span>
                         <div className="mt-1">
                           <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
                             {selectedItem.extraction_method.replace(/_/g, ' ')}
@@ -516,8 +516,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
                     {selectedItem.context && (
                       <div>
-                        <span className="text-sm font-medium text-gray-600">Context:</span>
-                        <div className="mt-1 text-sm text-gray-900">{selectedItem.context}</div>
+                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Context:</span>
+                        <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.context}</div>
                       </div>
                     )}
                   </div>
@@ -527,11 +527,11 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Concepts */}
               {selectedItem.concepts && Array.isArray(selectedItem.concepts) && selectedItem.concepts.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Extracted Concepts</h4>
+                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Extracted Concepts</h4>
                   <div className="bg-green-50 p-4 rounded-lg">
                     <div className="flex flex-wrap gap-2">
                       {selectedItem.concepts.map((concept, i) => (
-                        <span key={i} className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+                        <span key={i} className="text-sm bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-1 rounded">
                           {concept}
                         </span>
                       ))}
@@ -543,19 +543,19 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Surrounding Cells Context */}
               {selectedItem.surrounding_cells && Array.isArray(selectedItem.surrounding_cells) && selectedItem.surrounding_cells.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Surrounding Notebook Cells</h4>
+                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Surrounding Notebook Cells</h4>
                   <div className="bg-blue-50 p-4 rounded-lg space-y-3">
                     {selectedItem.surrounding_cells.map((cell, i) => (
-                      <div key={i} className="bg-white p-3 rounded border">
+                      <div key={i} className="bg-white dark:bg-neutral-800 p-3 rounded border text-neutral-900 dark:text-neutral-100">
                         <div className="flex items-center mb-2">
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">
+                          <span className="text-xs bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded mr-2">
                             Cell {cell.index}
                           </span>
-                          <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                          <span className="text-xs bg-neutral-200 text-neutral-700 px-2 py-1 rounded">
                             {cell.type}
                           </span>
                         </div>
-                        <div className="text-sm text-gray-700 whitespace-pre-wrap max-h-20 overflow-y-auto">
+                        <div className="text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap max-h-20 overflow-y-auto">
                           {cell.content}
                         </div>
                       </div>
@@ -567,12 +567,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Content */}
               {(selectedItem.content || selectedItem.description || selectedItem.query) && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Content</h4>
-                  <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Content</h4>
+                  <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
                     {selectedItem.content && (
                       <div className="mb-4">
-                        <span className="text-sm font-medium text-gray-600">Main Content:</span>
-                        <div className="mt-1 text-sm text-gray-900 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white">
+                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Main Content:</span>
+                        <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white dark:bg-neutral-800">
                           {selectedItem.content}
                         </div>
                       </div>
@@ -580,8 +580,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.description && (
                       <div className="mb-4">
-                        <span className="text-sm font-medium text-gray-600">Description:</span>
-                        <div className="mt-1 text-sm text-gray-900 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white">
+                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Description:</span>
+                        <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white dark:bg-neutral-800">
                           {selectedItem.description}
                         </div>
                       </div>
@@ -589,8 +589,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.query && (
                       <div>
-                        <span className="text-sm font-medium text-gray-600">SPARQL Query:</span>
-                        <div className="mt-1 text-sm font-mono text-gray-900 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white">
+                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">SPARQL Query:</span>
+                        <div className="mt-1 text-sm font-mono text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white dark:bg-neutral-800">
                           {selectedItem.query}
                         </div>
                       </div>
@@ -602,10 +602,10 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Method Structure (for method extraction) */}
               {selectedItem.method_structure && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Method Structure</h4>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-900">
-                      <pre className="whitespace-pre-wrap overflow-x-auto text-xs bg-white p-3 rounded border">
+                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Method Structure</h4>
+                  <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
+                    <div className="text-sm text-neutral-900">
+                      <pre className="whitespace-pre-wrap overflow-x-auto text-xs bg-white dark:bg-neutral-800 p-3 rounded border text-neutral-900 dark:text-neutral-100">
                         {JSON.stringify(selectedItem.method_structure, null, 2)}
                       </pre>
                     </div>
@@ -616,9 +616,9 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Code (for code extraction) */}
               {selectedItem.code && (
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Code</h4>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <div className="text-sm font-mono text-gray-900 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white">
+                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Code</h4>
+                  <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
+                    <div className="text-sm font-mono text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white dark:bg-neutral-800">
                       {selectedItem.code}
                     </div>
                   </div>
@@ -627,8 +627,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
               {/* Additional Metadata */}
               <div>
-                <h4 className="font-medium text-gray-900 mb-3">Additional Metadata</h4>
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Additional Metadata</h4>
+                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
                   <div className="space-y-2">
                     {Object.entries(selectedItem).map(([key, value]) => {
                       // Skip already displayed fields
@@ -648,8 +648,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                       
                       return (
                         <div key={key} className="flex flex-wrap">
-                          <span className="text-sm font-medium text-gray-600 min-w-[120px]">{key.replace(/_/g, ' ')}:</span>
-                          <span className="text-sm text-gray-900 flex-1">
+                          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 min-w-[120px]">{key.replace(/_/g, ' ')}:</span>
+                          <span className="text-sm text-neutral-900 dark:text-neutral-100 flex-1">
                             {Array.isArray(value) ? value.join(', ') : 
                              typeof value === 'object' ? JSON.stringify(value) : 
                              String(value)}
@@ -663,33 +663,26 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
               {/* Indexing Preview */}
               <div>
-                <h4 className="font-medium text-gray-900 mb-3">Indexing Preview</h4>
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <div className="text-sm text-blue-800">
-                    <div className="mb-2">
-                      <span className="font-medium">Searchable Text:</span>
-                    </div>
-                    <div className="bg-white p-3 rounded border text-gray-900 max-h-32 overflow-y-auto">
-                      {selectedItem.content || selectedItem.description || selectedItem.query || selectedItem.name || 'No searchable text available'}
-                    </div>
-                    <div className="mt-3 text-xs">
-                      This text will be used for semantic search within the library.
-                    </div>
-                  </div>
+                <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Indexing Preview</h4>
+                <div className="bg-white dark:bg-neutral-800 p-3 rounded border text-neutral-900 dark:text-neutral-100 max-h-32 overflow-y-auto">
+                  {selectedItem.content || selectedItem.description || selectedItem.query || selectedItem.name || 'No searchable text available'}
+                </div>
+                <div className="mt-3 text-xs">
+                  This text will be used for semantic search within the library.
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+          <div className="p-6 border-t border-neutral-200 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-700 flex-shrink-0">
             <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-neutral-600">
                 Item {selectedItem.index + 1} of {extractionResult?.extracted_data?.length || 0}
               </div>
               <div className="flex space-x-3">
                 <button
                   onClick={() => setShowItemModal(false)}
-                  className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                  className="px-4 py-2 text-neutral-700 bg-neutral-200 rounded-md hover:bg-neutral-300 transition-colors"
                 >
                   Close
                 </button>
@@ -718,16 +711,16 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     if (!extractionResult) return null;
 
     return (
-      <div className="bg-white border rounded-lg p-6">
+      <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
-          <h4 className="font-medium text-gray-900">Extraction Results</h4>
+          <h4 className="font-medium text-neutral-900 dark:text-neutral-100">Extraction Results</h4>
           <div className="flex items-center space-x-2">
             <span className={`px-2 py-1 text-xs rounded-full ${
-              extractionResult.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+              extractionResult.success ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
             }`}>
               {extractionResult.success ? 'Success' : 'Failed'}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-neutral-500">
               {extractionResult.extracted_count} items
             </span>
           </div>
@@ -743,46 +736,46 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-gray-600">Document Type:</span>
-                <span className="ml-2 text-gray-900">{extractionResult.document_type}</span>
+                <span className="font-medium text-neutral-600 dark:text-neutral-400">Document Type:</span>
+                <span className="ml-2 text-neutral-900 dark:text-neutral-100">{extractionResult.document_type}</span>
               </div>
               <div>
-                <span className="font-medium text-gray-600">Request ID:</span>
-                <span className="ml-2 font-mono text-gray-900">{extractionResult.request_id}</span>
+                <span className="font-medium text-neutral-600 dark:text-neutral-400">Request ID:</span>
+                <span className="ml-2 font-mono text-neutral-900 dark:text-neutral-100">{extractionResult.request_id}</span>
               </div>
             </div>
 
             {/* Selection Controls */}
             <div className="border-t pt-4">
               <div className="flex items-center justify-between mb-3">
-                <h5 className="font-medium text-gray-900">Select Items for Indexing</h5>
+                <h5 className="font-medium text-neutral-900 dark:text-neutral-100">Select Items for Indexing</h5>
                 <div className="flex space-x-2">
                   <button
                     onClick={selectAllItems}
-                    className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200 transition-colors"
+                    className="text-xs bg-blue-100 dark:bg-blue-800/30 text-blue-800 px-2 py-1 rounded hover:bg-blue-200"
                   >
                     Select All
                   </button>
                   <button
                     onClick={deselectAllItems}
-                    className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
+                    className="text-xs bg-neutral-100 text-neutral-800 px-2 py-1 rounded hover:bg-neutral-200"
                   >
                     Deselect All
                   </button>
                 </div>
               </div>
               
-              <div className="text-sm text-gray-600 mb-3">
+              <div className="text-sm text-neutral-600 mb-3">
                 Selected: {selectedItems.size} of {extractionResult.extracted_data.length} items
               </div>
             </div>
 
             <div className="border-t pt-4">
-              <h5 className="font-medium text-gray-900 mb-3">Extracted Data</h5>
+              <h5 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Extracted Data</h5>
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {extractionResult.extracted_data.map((item, idx) => (
                   <div key={idx} className={`border rounded p-3 transition-colors ${
-                    selectedItems.has(idx) ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'
+                    selectedItems.has(idx) ? 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-700' : 'bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600'
                   }`}>
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center space-x-2 flex-wrap gap-1">
@@ -790,19 +783,19 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                           type="checkbox"
                           checked={selectedItems.has(idx)}
                           onChange={() => toggleItemSelection(idx)}
-                          className="rounded border-gray-300"
+                          className="rounded border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
                         />
-                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                        <span className="text-xs bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
                           {item.content_type}
                         </span>
                         {item.extraction_type && (
-                          <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                          <span className="text-xs bg-neutral-200 text-neutral-700 px-2 py-1 rounded">
                             {item.extraction_type}
                           </span>
                         )}
                         {/* Enhanced notebook metadata badges */}
                         {item.cell_index !== undefined && (
-                          <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-purple-100 dark:bg-purple-800/30 text-purple-800 dark:text-purple-300 px-2 py-1 rounded">
                             Cell {item.cell_index}
                           </span>
                         )}
@@ -838,13 +831,13 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                       {item.query && (
                         <div>
                           <span className="font-medium">Query:</span> 
-                          <code className="bg-gray-200 px-1 rounded ml-1">
+                          <code className="bg-neutral-200 px-1 rounded ml-1">
                             {item.query.substring(0, 100)}...
                           </code>
                         </div>
                       )}
                       {item.uri && (
-                        <div><span className="font-medium">URI:</span> <code className="bg-gray-200 px-1 rounded">{item.uri}</code></div>
+                        <div><span className="font-medium">URI:</span> <code className="bg-neutral-200 px-1 rounded">{item.uri}</code></div>
                       )}
                       {/* Enhanced notebook context */}
                       {item.context && (
@@ -855,12 +848,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                         <div className="flex items-center flex-wrap gap-1 mt-2">
                           <span className="font-medium text-xs">Concepts:</span>
                           {item.concepts.slice(0, 5).map((concept, i) => (
-                            <span key={i} className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                            <span key={i} className="text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-1 py-0.5 rounded">
                               {concept}
                             </span>
                           ))}
                           {item.concepts.length > 5 && (
-                            <span className="text-xs text-gray-500">+{item.concepts.length - 5} more</span>
+                            <span className="text-xs text-neutral-500">+{item.concepts.length - 5} more</span>
                           )}
                         </div>
                       )}
@@ -872,7 +865,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
             <div className="border-t pt-4">
               <button
-                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors disabled:bg-neutral-400"
                 onClick={handleIndexing}
                 disabled={loading || !targetLibrary || selectedItems.size === 0}
               >
@@ -883,12 +876,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                 }
               </button>
               {!targetLibrary && (
-                <p className="text-xs text-gray-500 mt-2 text-center">
+                <p className="text-xs text-neutral-500 mt-2 text-center">
                   No target library specified
                 </p>
               )}
               {targetLibrary && selectedItems.size === 0 && (
-                <p className="text-xs text-gray-500 mt-2 text-center">
+                <p className="text-xs text-neutral-500 mt-2 text-center">
                   Select items above to enable indexing
                 </p>
               )}
@@ -940,7 +933,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     type="file"
                     onChange={handleFileSelect}
                     accept=".ipynb,.pdf,.ttl,.rdf,.owl,.n3,.md,.markdown,.html,.htm"
-                    className="w-full"
+                    className="w-full text-neutral-900 dark:text-neutral-100 file:bg-blue-600 file:dark:bg-blue-600 file:text-white file:rounded-md file:px-3 file:py-2 file:border-0 file:cursor-pointer hover:file:bg-blue-700"
                   />
                   {selectedFile && (
                     <div className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -976,13 +969,13 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             </select>
             
             {supportedTypes[documentType] && (
-              <div className="mt-2 text-xs text-gray-600">
+              <div className="mt-2 text-xs text-neutral-600">
                 {supportedTypes[documentType].description}
               </div>
             )}
 
           {libraryDescription && (
-            <div className="mt-2 text-xs text-blue-600 bg-blue-50 p-2 rounded">
+            <div className="mt-2 text-xs text-blue-600 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 p-2 rounded border border-blue-200 dark:border-blue-700">
               {libraryDescription}
             </div>
           )}
@@ -991,7 +984,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           {((documentType === 'sparql' && selectedFile?.name.endsWith('.ipynb')) || 
             (documentType === 'notebook' && libraryDetails?.library?.type === 'query_library') ||
             (documentType === 'auto' && selectedFile?.name.endsWith('.ipynb') && libraryDetails?.library?.type === 'query_library')) && (
-            <div className="mt-3 text-xs text-purple-700 bg-purple-50 p-3 rounded border border-purple-200">
+            <div className="mt-3 text-xs text-purple-700 dark:text-purple-300 bg-purple-50 p-3 rounded border border-purple-200">
               <div className="font-medium mb-1">Enhanced Notebook SPARQL Extraction</div>
               <ul className="list-disc list-inside space-y-1 text-xs">
                 <li>Extracts SPARQL queries from code cells (variables, strings, f-strings)</li>
@@ -1006,7 +999,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
           {/* Parameters */}
           {documentType !== 'auto' && (
-            <div className="bg-white p-4 rounded-lg border">
+            <div className="bg-white dark:bg-neutral-800 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
               {renderParameterControls()}
             </div>
           )}
@@ -1016,7 +1009,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             <button
               onClick={handlePreview}
               disabled={loading || (!selectedFile && !selectedUrl)}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-neutral-400 transition-colors"
             >
               {loading ? 'Loading...' : 'Preview Extraction'}
             </button>
@@ -1024,7 +1017,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             <button
               onClick={handleExtraction}
               disabled={loading || (!selectedFile && !selectedUrl)}
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-gray-400 transition-colors"
+              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-neutral-400 transition-colors"
             >
               {loading ? 'Extracting...' : 'Extract Data'}
             </button>
@@ -1032,23 +1025,23 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
           {/* Target Library Info */}
           {targetLibrary && libraryDetails && (
-            <div className="bg-green-50 p-4 rounded-lg border">
-              <h3 className="font-semibold text-green-900 mb-3">Target Library</h3>
+            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-700">
+              <h3 className="font-semibold text-green-900 dark:text-green-300 mb-3">Target Library</h3>
               <div className="space-y-2 text-sm">
                 <div>
-                  <span className="font-medium text-green-800">Name:</span> {libraryDetails.library.name}
+                  <span className="font-medium text-green-800 dark:text-green-300">Name:</span> {libraryDetails.library.name}
                 </div>
                 <div>
-                  <span className="font-medium text-green-800">Type:</span> {libraryDetails.library.type?.replace(/_/g, ' ') || 'unknown'}
+                  <span className="font-medium text-green-800 dark:text-green-300">Type:</span> {libraryDetails.library.type?.replace(/_/g, ' ') || 'unknown'}
                 </div>
                 <div>
-                  <span className="font-medium text-green-800">Collections:</span> {libraryDetails.collections?.length || 0}
+                  <span className="font-medium text-green-800 dark:text-green-300">Collections:</span> {libraryDetails.collections?.length || 0}
                 </div>
                 <div>
-                  <span className="font-medium text-green-800">Documents:</span> {(libraryDetails.library.total_documents || 0).toLocaleString()}
+                  <span className="font-medium text-green-800 dark:text-green-300">Documents:</span> {(libraryDetails.library.total_documents || 0).toLocaleString()}
                 </div>
               </div>
-              <p className="text-xs text-green-700 mt-2">
+              <p className="text-xs text-green-700 dark:text-green-300 mt-2">
                 ✓ Extracted documents will be indexed into this library
               </p>
             </div>
@@ -1075,11 +1068,11 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
         {/* Library-Specific Documentation */}
         {libraryDetails && (
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-blue-900 mb-2">
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-700">
+            <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
               Supported Document Types for {libraryDetails.library.name}
             </h3>
-            <div className="space-y-2 text-sm text-blue-800">
+            <div className="space-y-2 text-sm text-blue-800 dark:text-blue-300">
               {supportedDocumentTypes.map(type => {
                 if (type.value === 'auto') return null;
                 
