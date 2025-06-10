@@ -67,7 +67,7 @@ class CodeGenerationAgent(BaseLangGraphAgent):
                         "description": "Responses to clarification questions"
                     }
                 },
-                "required": ["analysis_request"],
+                "required": [],
             },
             output_schema={
                 "type": "object",

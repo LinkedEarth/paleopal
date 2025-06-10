@@ -43,7 +43,7 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
                         "description": "Responses to clarification questions"
                     }
                 },
-                "required": ["user_input"]
+                "required": []
             },
             output_schema={
                 "type": "object",

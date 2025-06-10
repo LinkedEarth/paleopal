@@ -27,7 +27,7 @@ class AgentRequest(BaseModel):
     agent_type: str = Field(..., description="Type of agent to handle this request")
     capability: str = Field(..., description="Specific capability being requested")
     conversation_id: Optional[str] = Field(None, description="ID for conversation tracking")
-    user_input: str = Field(..., description="User's input/request")
+    user_input: str = Field(default="", description="User's input/request (can be empty for clarification submissions)")
     context: Dict[str, Any] = Field(default_factory=dict, description="Shared context from other agents")
     notebook_context: Dict[str, Any] = Field(default_factory=dict, description="Notebook variables and cell context")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")

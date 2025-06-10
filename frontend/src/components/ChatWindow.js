@@ -4,6 +4,7 @@ import { AgentProgressDisplay } from './AgentProgressDisplay';
 import QueryAndResultsMessage from './QueryAndResultsMessage';
 import ClarificationMessage from './ClarificationMessage';
 import ClarificationResponseMessage from './ClarificationResponseMessage';
+import ClarificationDialog from './ClarificationDialog';
 import GeneratedCodeDisplay from './GeneratedCodeDisplay';
 import { buildApiUrl, apiRequest } from '../config/api';
 import API_CONFIG from '../config/api';
@@ -128,6 +129,7 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
       // Clarification
       needsClarification: msg.needs_clarification,
       clarificationQuestions: msg.clarification_questions,
+      clarificationResponses: msg.clarification_responses,
       
       // Check if this is a clarification response message
       isCombinedAnswers: msg.message_type === 'clarification_response',
@@ -178,6 +180,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   const [llmProvider, setLlmProvider] = useState(conversation.llmProvider || 'google');
   const [selectedAgent, setSelectedAgent] = useState(conversation.selectedAgent || 'sparql');
   const [isLoading, setIsLoading] = useState(conversation.isLoading || false);
+  const [messagesLoading, setMessagesLoading] = useState(false);
+  const [deletingMessages, setDeletingMessages] = useState(new Set());
   const [error, setError] = useState(conversation.error || null);
   // Track answers to clarification questions
   const [clarificationAnswers, setClarificationAnswers] = useState(conversation.clarificationAnswers || {});
@@ -191,6 +195,11 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   // Add state to track execution timing
   const [executionStartTime, setExecutionStartTime] = useState(conversation.executionStartTime || null);
   
+  // Clarification dialog state
+  const [showClarificationDialog, setShowClarificationDialog] = useState(false);
+  const [clarificationDialogData, setClarificationDialogData] = useState(null);
+  const [isSubmittingClarification, setIsSubmittingClarification] = useState(false);
+  
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const messagesContainerRef = useRef(null);
@@ -201,6 +210,9 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   
   // Previous conversation ID to detect conversation switches
   const prevConversationIdRef = useRef(null);
+  
+  // Track when conversation updates should be allowed
+
 
   // Add refs for step execution tracking
   const stepCompletionResolver = useRef(null);
@@ -208,43 +220,13 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
   
   // Memoize conversation data to prevent unnecessary updates
   const conversationData = useMemo(() => {
-    // console.log('creating conversation title from messages for conversation', conversation.id)
-    // console.log('current conversation.title', conversation.title)
-    // console.log('local messages state', messages)
-    // console.log('conversation.messages prop', conversation.messages)
-    
-    // Use local messages state for title calculation when we're actively working on this conversation
-    // Use conversation.messages only when switching conversations (to avoid stale local state)
-    // The key insight: if conversation.messages length doesn't match local messages length,
-    // we're likely in the middle of an update and should trust local state
-    const conversationId = conversation.id;
-    const isActivelySameConversation = conversationId === prevConversationIdRef.current;
-    const hasLocalChanges = messages.length !== (conversation.messages?.length || 0);
-    
-    let messagesToUseForTitle;
-    if (isActivelySameConversation && hasLocalChanges) {
-      // We're actively updating this conversation, use local state
-      messagesToUseForTitle = messages;
-      // console.log('Using local messages for title (active conversation with changes)');
-    } else {
-      // We're switching conversations or no local changes, use prop
-      messagesToUseForTitle = conversation.messages?.length ? conversation.messages : [];
-      // console.log('Using conversation.messages prop for title (conversation switch or no changes)');
-    }
-    
-    const firstUserMsg = messagesToUseForTitle.find((m) => m.role === 'user');
-    
-    // Only auto-generate title from first user message if current title is still the default
-    const title = firstUserMsg && conversation.title === 'New Chat' 
-      ? firstUserMsg.content.slice(0, 50) 
-      : conversation.title || 'New Chat';
-
-    // console.log('new title', title)
+    // Simple title logic - just use the conversation title as-is
+    const title = conversation.title || 'New Chat';
 
     return {
       id: conversation.id,
       title,
-      messages, // Still use local messages state for UI rendering (real-time updates)
+      messages: messages, // Use local messages for UI rendering but don't trigger updates on message loading
       waitingForClarification,
       clarificationQuestions,
       clarificationAnswers,
@@ -257,21 +239,16 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       clarificationThreshold,
       executionStartTime,
     };
-  }, [conversation.id, conversation.title, conversation.messages, messages, waitingForClarification, 
+  }, [conversation.id, conversation.title, conversation.messages, waitingForClarification, 
       clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, 
       selectedAgent, isLoading, error, enableClarification, clarificationThreshold, executionStartTime]);
 
-  // Effect to notify parent about conversation updates
-  useEffect(() => {
-    // Only update parent if we're not currently updating from props (avoid circular updates)
-    // AND we're not in the middle of polling updates
-    if (!updatingFromPropRef.current && onConversationUpdate && typeof onConversationUpdate === 'function') {
-      console.log('🔄 Updating parent with conversation data');
-      onConversationUpdate(conversationData);
-    } else if (updatingFromPropRef.current) {
-      console.log('⏸️ Skipping parent update (updating from props or polling)');
+  // Helper function to update parent conversation (only call on user actions)
+  const updateParentConversation = useCallback(() => {
+    if (onConversationUpdate && typeof onConversationUpdate === 'function') {
+      onConversationUpdate({...conversationData, messages});
     }
-  }, [conversationData, onConversationUpdate]);
+  }, [conversationData, messages, onConversationUpdate]);
 
   // Effect to sync with conversation prop changes (when switching conversations)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -287,6 +264,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       
       // Load messages from the new API
       const loadMessages = async () => {
+        setMessagesLoading(true);
         try {
           console.log(`🔍 Loading messages for conversation ${conversation.id}...`);
           const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
@@ -296,7 +274,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
             console.log(`✅ Found ${loadedMessages.length} messages`);
             // Convert backend message format to frontend format
             const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
-            console.log(`�� Converted messages:`, convertedMessages);
+            console.log(` Converted messages:`, convertedMessages);
             setMessages(convertedMessages);
             
             // Check if we need to restore clarification state from messages
@@ -315,10 +293,10 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
                 setClarificationAnswers({});
               }, 100);
             }
-      } else {
+          } else {
             console.log('⚠️ No messages found, using default greeting');
-        setMessages(defaultGreeting);
-      }
+            setMessages(defaultGreeting);
+          }
         } catch (error) {
           console.error('❌ Failed to load messages:', error);
           console.error('❌ Error details:', {
@@ -326,6 +304,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
             conversationId: conversation.id
           });
           setMessages(defaultGreeting);
+        } finally {
+          setMessagesLoading(false);
         }
       };
       
@@ -352,7 +332,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
       // Update ref to track current conversation
       prevConversationIdRef.current = conversation.id;
       
-      // Reset the flag after a brief delay to allow state updates to settle
+      // Reset the flag after state updates complete
       setTimeout(() => {
         updatingFromPropRef.current = false;
       }, 100);
@@ -390,7 +370,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
     // 1. We have new visible (non-progress) messages
     // 2. We're loading (to show loading state)
     // 3. Force scroll on conversation switch
-    if (currentVisibleCount > lastVisibleCount) { // || isLoading || updatingFromPropRef.current) {
+    if (currentVisibleCount > lastVisibleCount || isLoading || updatingFromPropRef.current) {
       scrollToBottomIfNeeded(updatingFromPropRef.current);
     }
     
@@ -408,31 +388,32 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate }) => {
 
   const handleLlmProviderChange = (e) => {
     setLlmProvider(e.target.value);
+    // Update parent after state change
+    setTimeout(() => updateParentConversation(), 0);
   };
 
   const handleEnableClarificationChange = (e) => {
     setEnableClarification(e.target.checked);
+    // Update parent after state change
+    setTimeout(() => updateParentConversation(), 0);
   };
 
   const handleClarificationThresholdChange = (e) => {
     setClarificationThreshold(e.target.value);
+    // Update parent after state change
+    setTimeout(() => updateParentConversation(), 0);
   };
 
   const handleAgentChange = useCallback((e) => {
     const newAgent = e.target.value;
     
-    // Batch state updates to prevent multiple re-renders
-    updatingFromPropRef.current = true;
-    
     setSelectedAgent(newAgent);
     // Reset conversation state when switching agents
     setError(null);
     
-    // Reset the flag after state updates complete
-    setTimeout(() => {
-      updatingFromPropRef.current = false;
-    }, 0);
-  }, []);
+    // Update parent after state change
+    setTimeout(() => updateParentConversation(), 0);
+  }, [updateParentConversation]);
 
   // Update clarification answer for a specific question
   const handleClarificationChoice = (questionId, choice) => {
@@ -582,7 +563,7 @@ ${stepInfo.input}`;
   };
 
   // Update the handleSubmit to also handle clarification responses
-  const submitRequest = async (userInput, conversationId, isClariSubmission = false, overrideAgentType = null) => {
+  const submitRequest = async (userInput, conversationId, isClariSubmission = false, overrideAgentType = null, clarificationResponses = null) => {
     try {
       // Use override agent type if provided, otherwise use current selected agent
       const agentTypeToUse = overrideAgentType || selectedAgent;
@@ -594,14 +575,18 @@ ${stepInfo.input}`;
         clarification_threshold: clarificationThreshold
       };
 
-      if (isClariSubmission && Object.keys(clarificationAnswers).length > 0) {
-        // Convert clarification answers to the format expected by the agent
-        const clarificationResponses = Object.entries(clarificationAnswers).map(([questionId, answer]) => ({
+      if (isClariSubmission && clarificationResponses) {
+        // Use the structured clarification responses passed from the dialog
+        metadata.clarification_responses = clarificationResponses;
+        console.log('Including structured clarification responses:', clarificationResponses);
+      } else if (isClariSubmission && Object.keys(clarificationAnswers).length > 0) {
+        // Fallback: Convert old format clarification answers to the format expected by the agent
+        const legacyClarificationResponses = Object.entries(clarificationAnswers).map(([questionId, answer]) => ({
           id: questionId,
           answer: answer
         }));
-        metadata.clarification_responses = clarificationResponses;
-        console.log('Including clarification responses:', clarificationResponses);
+        metadata.clarification_responses = legacyClarificationResponses;
+        console.log('Including legacy clarification responses:', legacyClarificationResponses);
       } else if (!isClariSubmission) {
         // Store the original query for potential clarification requests
         setOriginalRequestContext({
@@ -616,7 +601,7 @@ ${stepInfo.input}`;
       const agentRequest = {
         agent_type: agentTypeToUse,
         capability: AGENT_TYPES.find(a => a.id === agentTypeToUse)?.capability || 'generate_query',
-        user_input: userInput,
+        user_input: isClariSubmission ? "" : userInput, // For clarification, send empty user_input - backend will retrieve original from conversation history
         conversation_id: conversationId,
         context: {},
         metadata: metadata
@@ -692,7 +677,23 @@ ${stepInfo.input}`;
           
           // Set a flag to prevent conversation updates during polling
           updatingFromPropRef.current = true;
-          setMessages(convertedMessages);
+          
+          // Clean up any temporary loading messages since we got actual responses
+          const cleanedMessages = convertedMessages.filter(msg => !msg.id.startsWith('loading_'));
+          
+          // For user messages that don't have agentType from backend, try to preserve it from our local state
+          const messagesWithAgentType = cleanedMessages.map(msg => {
+            if (msg.role === 'user' && !msg.agentType) {
+              // Find the corresponding temp message in our current state to get the agentType
+              const tempMsg = messages.find(m => m.content === msg.content && m.role === 'user' && m.agentType);
+              if (tempMsg && tempMsg.agentType) {
+                return { ...msg, agentType: tempMsg.agentType };
+              }
+            }
+            return msg;
+          });
+          
+          setMessages(messagesWithAgentType);
           
           // Check if the latest message indicates completion
           const assistantMessages = convertedMessages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
@@ -730,19 +731,87 @@ ${stepInfo.input}`;
             }
           }
           
+          // Check if we have any recent assistant messages with actual results (not just progress)
+          // Only consider messages that come after the current polling session started
+          const currentUserMessageCount = convertedMessages.filter(msg => msg.role === 'user').length;
+          const recentAssistantMessage = assistantMessages
+            .filter(msg => !msg.isNodeProgress && msg.role === 'assistant')
+            .sort((a, b) => new Date(b.timestamp || b.created_at || 0) - new Date(a.timestamp || a.created_at || 0))
+            .find(msg => {
+              // Find this message's position in the convertedMessages array
+              const messageIndex = convertedMessages.findIndex(m => m.id === msg.id);
+              // Only consider messages that come after the latest user message
+              const lastUserMessageIndex = convertedMessages.map((m, i) => m.role === 'user' ? i : -1).filter(i => i >= 0).pop() || -1;
+              return messageIndex > lastUserMessageIndex;
+            });
+          
           // Decision logic based on last message
-          const needsClarification = metadata && metadata.status === 'needs_clarification';
-          const isFinalSuccess = metadata && metadata.final_response === true && (metadata.status === 'success' || metadata.status === 'error');
+          const needsClarification = metadata && metadata.status === 'needs_clarification' && metadata.final_response !== true;
+          
+          // Also check for any assistant message that has needsClarification flag (from message conversion)
+          // But only count clarification messages that don't have subsequent responses
+          const hasClarificationMessage = assistantMessages.some((msg, index) => {
+            // Find the actual index in the full messages array
+            const messageIndex = convertedMessages.findIndex(m => m.id === msg.id);
+            
+            // Check for subsequent clarification responses in the convertedMessages array
+            const hasSubsequent = messageIndex >= 0 ? 
+              convertedMessages.slice(messageIndex + 1).some(m => 
+                m.isCombinedAnswers || m.messageType === 'clarification_response'
+              ) : false;
+            
+            // Debug logging
+            if (msg.needsClarification && msg.clarificationQuestions) {
+              console.log('🔍 Checking clarification message:', {
+                messageId: msg.id,
+                messageIndex,
+                hasSubsequent,
+                needsClarification: msg.needsClarification,
+                hasQuestions: !!msg.clarificationQuestions
+              });
+              
+              // Also log the subsequent messages to see what's there
+              console.log('🔍 Messages after clarification:', 
+                convertedMessages.slice(messageIndex + 1).map(m => ({
+                  id: m.id,
+                  role: m.role,
+                  messageType: m.messageType,
+                  isCombinedAnswers: m.isCombinedAnswers
+                }))
+              );
+            }
+            
+            return msg.needsClarification && 
+                   msg.clarificationQuestions && 
+                   messageIndex >= 0 && 
+                   !hasSubsequent;
+          });
+          
+          // Only check for final success on NON-progress messages (progress messages can have final_response=true but aren't actual completion)
+          const isFinalSuccess = !lastMessage.isNodeProgress && metadata && metadata.final_response === true && (metadata.status === 'success' || metadata.status === 'error');
+          
+          // Also check if we have an assistant message with query results or generated content (indicates completion)
+          const hasCompletionMessage = recentAssistantMessage && (
+            recentAssistantMessage.hasQueryResults || 
+            recentAssistantMessage.hasGeneratedCode || 
+            recentAssistantMessage.hasWorkflowPlan ||
+            recentAssistantMessage.hasWorkflowExecution
+          );
           
           console.log('🔍 Decision factors:', {
             needsClarification,
+            hasClarificationMessage,
             isFinalSuccess,
+            hasCompletionMessage,
             status: metadata?.status,
-            final_response: metadata?.final_response
+            final_response: metadata?.final_response,
+            recentAssistantMessageId: recentAssistantMessage?.id,
+            lastUserMessageIndex: convertedMessages.map((m, i) => m.role === 'user' ? i : -1).filter(i => i >= 0).pop() || -1,
+            totalMessages: convertedMessages.length
           });
           
-          if (isFinalSuccess) {
-            // Final success/error - stop polling
+          if (isFinalSuccess || hasCompletionMessage) {
+            // Final success/error or we have actual results - stop polling
             console.log('🎯 Final completion detected, stopping polling');
             clearInterval(pollInterval);
             setIsLoading(false);
@@ -757,7 +826,7 @@ ${stepInfo.input}`;
               stepCompletionResolver.current();
               stepCompletionResolver.current = null;
             }
-          } else if (needsClarification) {
+          } else if (needsClarification || hasClarificationMessage) {
             // Agent needs clarification - stop polling and show UI
             console.log('🔄 Clarification needed, stopping polling and showing UI');
             clearInterval(pollInterval);
@@ -806,211 +875,7 @@ ${stepInfo.input}`;
   };
 
   // Render the clarification options UI
-  const renderClarificationOptions = () => {
-    if (!waitingForClarification) {
-      return null;
-    }
-
-    // Determine if we should use compact mode (for many questions)
-    const useCompactMode = true; //clarificationQuestions.length > 5;
-    
-    // Calculate progress
-    const answeredCount = Object.keys(clarificationAnswers).filter(
-      key => clarificationAnswers[key] && clarificationAnswers[key].trim() !== ''
-    ).length;
-    
-    // Helper function to check if a question is answered
-    const isQuestionAnswered = (questionId) => {
-      return clarificationAnswers[questionId] && clarificationAnswers[questionId].trim() !== '';
-    };
-    
-    // Helper function to handle choice selection with visual feedback
-    const handleChoiceClick = (questionId, choice, event) => {
-      handleClarificationChoice(questionId, choice);
-      
-      // Add visual feedback
-      const button = event.target;
-      button.classList.add('selected');
-      setTimeout(() => {
-        button.classList.remove('selected');
-      }, 2000);
-      
-      // Auto-advance to next unanswered question
-      const currentIndex = clarificationQuestions.findIndex(q => q.id === questionId);
-      const nextUnansweredIndex = clarificationQuestions.findIndex((q, index) => 
-        index > currentIndex && (!clarificationAnswers[q.id] || clarificationAnswers[q.id].trim() === '')
-      );
-      
-      if (nextUnansweredIndex !== -1) {
-        setTimeout(() => {
-          const nextQuestionElement = document.querySelector(`[data-question-id="${clarificationQuestions[nextUnansweredIndex].id}"]`);
-          if (nextQuestionElement) {
-            nextQuestionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 500);
-      }
-    };
-    
-    const handleKeyDown = (event, questionId) => {
-      // Handle keyboard navigation
-      if (event.key === 'Tab') {
-        // Default tab behavior is fine
-        return;
-      }
-      
-      if (event.ctrlKey && event.key === 'Enter') {
-        // Quick submit on Ctrl+Enter
-        event.preventDefault();
-        document.querySelector('.send-button')?.click();
-      }
-    };
-
-    return (
-      <div className={`p-4 bg-yellow-50 border-t border-yellow-200 ${useCompactMode ? 'text-sm' : ''}`}>
-        <div className="mb-4 text-lg font-medium text-yellow-800">
-          {clarificationQuestions.length > 1 
-            ? `Please answer ${clarificationQuestions.length} questions to help me generate the right response:` 
-            : "Please provide clarification:"}
-        </div>
-        
-        {/* Progress indicator for multiple questions */}
-        {clarificationQuestions.length > 1 && (
-          <div className="mb-4 p-3 bg-white rounded border border-yellow-200">
-            <div className="text-sm font-medium text-yellow-700 mb-2">
-              Progress: {answeredCount} of {clarificationQuestions.length} answered
-            </div>
-            <div className="flex gap-2">
-              {clarificationQuestions.map((question, index) => (
-                <div 
-                  key={question.id} 
-                  className={`w-3 h-3 rounded-full ${
-                    isQuestionAnswered(question.id) ? 'bg-green-500' : 
-                    index === 0 ? 'bg-yellow-500' : 'bg-gray-300'
-                  }`}
-                  title={`Question ${index + 1}: ${isQuestionAnswered(question.id) ? 'Answered' : 'Not answered'}`}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        
-        <div className="space-y-4 max-h-96 overflow-y-auto">
-          {clarificationQuestions.map((question, index) => {
-            const isAnswered = isQuestionAnswered(question.id);
-            
-            return (
-              <div 
-                key={question.id} 
-                className={`border rounded-lg p-4 transition-colors ${isAnswered ? 'bg-green-50 border-green-200' : 'bg-white border-yellow-200'}`}
-                data-question-id={question.id}
-              >
-                <div className="mb-3">
-                  {clarificationQuestions.length > 1 && (
-                    <div className="text-sm font-medium text-yellow-700 mb-2">
-                      Question {index + 1} {isAnswered && '✓'}
-                    </div>
-                  )}
-                  <div className="text-gray-800 font-medium mb-2">{question.question}</div>
-                  {question.context && (
-                    <div className="text-sm text-gray-600 p-2 bg-gray-50 rounded border">{question.context}</div>
-                  )}
-                </div>
-                
-                <div className="space-y-3">
-                  {question.choices && question.choices.length > 0 && (
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-gray-700">Quick options:</div>
-                      <div className="flex flex-wrap gap-2">
-                        {question.choices.map((choice, choiceIndex) => {
-                          // Handle both string choices and object choices
-                          let choiceText;
-                          let choiceValue;
-                          
-                          if (typeof choice === 'string') {
-                            choiceText = choice;
-                            choiceValue = choice;
-                          } else if (choice && typeof choice === 'object') {
-                            // Handle object choices with value/description or similar structure
-                            choiceText = choice.description || choice.text || choice.value || JSON.stringify(choice);
-                            choiceValue = choice.value || choice.description || choice.text || JSON.stringify(choice);
-                          } else {
-                            choiceText = String(choice);
-                            choiceValue = String(choice);
-                          }
-                          
-                          const isSelected = clarificationAnswers[question.id] === choiceValue;
-                          return (
-                            <button
-                              key={`${question.id}-choice-${choiceIndex}`}
-                              className={`px-3 py-1 rounded text-sm border transition-colors ${
-                                isSelected 
-                                  ? 'bg-blue-500 text-white border-blue-500' 
-                                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                              }`}
-                              onClick={(e) => handleChoiceClick(question.id, choiceValue, e)}
-                            >
-                              {choiceText}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="space-y-1">
-                    <input
-                      type="text"
-                      value={clarificationAnswers[question.id] || ''}
-                      onChange={(e) => handleClarificationAnswerChange(question.id, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(e, question.id)}
-                      placeholder={
-                        question.choices && question.choices.length > 0 
-                          ? "Choose from options above or enter custom answer..."
-                          : "Enter your answer..."
-                      }
-                      className={`w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        isAnswered ? 'bg-green-50 border-green-300' : 'border-gray-300'
-                      }`}
-                      title="Use Tab/Shift+Tab to navigate, Ctrl+Enter to submit"
-                    />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        
-        {/* Navigation/summary for many questions */}
-        {clarificationQuestions.length > 3 && (
-          <div className="mt-4 p-3 bg-white rounded border border-yellow-200">
-            <div className="text-sm font-medium text-yellow-700 mb-2">
-              {answeredCount === clarificationQuestions.length 
-                ? "All questions answered! Ready to submit." 
-                : `${clarificationQuestions.length - answeredCount} questions remaining`}
-            </div>
-            <div className="text-xs text-gray-600 mb-2">
-              <small>💡 Tip: Use Tab/Shift+Tab to navigate, Ctrl+Enter to submit</small>
-            </div>
-            {answeredCount === clarificationQuestions.length && (
-              <button 
-                className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors"
-                onClick={() => {
-                  // Scroll to submit button
-                  const submitButton = document.querySelector('.send-button');
-                  if (submitButton) {
-                    submitButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    submitButton.focus();
-                  }
-                }}
-              >
-                Go to Submit →
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
+  // Old clarification UI removed - now using dialog approach
 
   // Handle deleting a specific message
   const handleDeleteMessage = async (messageIndex) => {
@@ -1023,6 +888,9 @@ ${stepInfo.input}`;
     if (!confirmDelete) {
       return;
     }
+
+    // Set loading state for this message
+    setDeletingMessages(prev => new Set([...prev, messageIndex]));
 
     try {
       const deleteUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}/messages/${messageIndex}`);
@@ -1051,6 +919,13 @@ ${stepInfo.input}`;
     } catch (error) {
       console.error('Error deleting message:', error);
       alert('Failed to delete message. Please try again.');
+    } finally {
+      // Remove loading state
+      setDeletingMessages(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(messageIndex);
+        return newSet;
+      });
     }
   };
 
@@ -1065,6 +940,9 @@ ${stepInfo.input}`;
     if (!confirmDelete) {
       return;
     }
+
+    // Set loading state for bulk deletion using a special key
+    setDeletingMessages(prev => new Set([...prev, `bulk_${fromIndex}`]));
 
     try {
       const deleteUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}/messages/from/${fromIndex}`);
@@ -1093,7 +971,85 @@ ${stepInfo.input}`;
     } catch (error) {
       console.error('Error deleting messages:', error);
       alert('Failed to delete messages. Please try again.');
+    } finally {
+      // Remove loading state
+      setDeletingMessages(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(`bulk_${fromIndex}`);
+        return newSet;
+      });
     }
+  };
+
+  // Helper function to check if a clarification message has subsequent responses
+  const hasSubsequentClarificationResponse = (messageIndex) => {
+    // Look for any clarification response message after this one
+    for (let i = messageIndex + 1; i < messages.length; i++) {
+      if (messages[i].isCombinedAnswers || messages[i].messageType === 'clarification_response') {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // Handler to open clarification dialog
+  const handleAnswerQuestions = (message) => {
+    setClarificationDialogData({
+      messageId: message.id,
+      questions: message.clarificationQuestions,
+      originalQuery: message.content
+    });
+    setShowClarificationDialog(true);
+  };
+
+  // Handler to submit clarification answers via dialog
+  const handleClarificationSubmit = async (clarificationResponses) => {
+    if (!clarificationDialogData) return;
+
+    setIsSubmittingClarification(true);
+    
+    try {
+      // Set loading state to show progress during execution
+      setIsLoading(true);
+      
+      // Submit clarification responses using the new structured format
+      // The submitRequest will automatically use the originalRequestContext.originalQuery for clarification submissions
+      const response = await submitRequest(
+        "", // Empty userInput - submitRequest will use originalRequestContext.originalQuery
+        conversation.id,
+        true, // isClariSubmission
+        selectedAgent,
+        clarificationResponses // Pass the structured responses directly
+      );
+
+      // Close dialog on success
+      setShowClarificationDialog(false);
+      setClarificationDialogData(null);
+      setWaitingForClarification(false);
+      setClarificationQuestions([]);
+      setClarificationAnswers({});
+      setOriginalRequestContext(null);
+      
+      // Note: isLoading will be cleared by the polling logic when completion is detected
+      
+    } catch (error) {
+      console.error('❌ Failed to submit clarification:', error);
+      setError(`Failed to submit clarification: ${error.message || 'Unknown error'}`);
+      // Clear loading state on error
+      setIsLoading(false);
+    } finally {
+      setIsSubmittingClarification(false);
+    }
+  };
+
+  // Helper to check if there are unanswered clarification questions in current messages
+  const hasUnansweredClarificationQuestions = () => {
+    return messages.some(msg => 
+      msg.needsClarification && 
+      msg.clarificationQuestions && 
+      msg.clarificationQuestions.length > 0 &&
+      !hasSubsequentClarificationResponse(messages.indexOf(msg))
+    );
   };
 
   // Helper to render individual chat message
@@ -1103,33 +1059,76 @@ ${stepInfo.input}`;
       ? "bg-blue-50 border-blue-200 text-blue-900" 
       : "bg-gray-50 border-gray-200 text-gray-900";
     const errorClasses = message.isError ? "bg-red-50 border-red-200 text-red-900" : "";
-    const clarificationClasses = message.needsClarification ? "bg-yellow-50 border-yellow-200" : "";
-    const responseClasses = message.isCombinedAnswers ? "bg-green-50 border-green-200" : "";
     const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? "bg-white border-gray-300" : "";
     const newConversationClasses = message.isNewConversation ? "bg-purple-50 border-purple-200" : "";
     
-    const allClasses = [baseClasses, roleClasses, errorClasses, clarificationClasses, responseClasses, queryResultsClasses, newConversationClasses]
+    // Check if this message or any subsequent messages are being deleted
+    const isBeingDeleted = deletingMessages.has(`bulk_${messageIndex}`);
+    // Check if this message will be deleted as part of a bulk deletion from an earlier message
+    const willBeDeleted = Array.from(deletingMessages).some(key => {
+      if (key.startsWith('bulk_')) {
+        const deletionStartIndex = parseInt(key.replace('bulk_', ''));
+        return messageIndex >= deletionStartIndex;
+      }
+      return false;
+    });
+    const deletingClasses = (isBeingDeleted || willBeDeleted) ? "opacity-50 pointer-events-none" : "";
+    
+    const allClasses = [baseClasses, roleClasses, errorClasses, queryResultsClasses, newConversationClasses, deletingClasses]
       .filter(Boolean)
       .join(" ");
 
     return (
           <div 
             key={message.id} 
-        className={`${allClasses} relative group`}
+        className={`${allClasses} relative group transition-all duration-300`}
       >
+        {/* Deletion overlay */}
+        {(isBeingDeleted || willBeDeleted) && (
+          <div className="absolute inset-0 bg-red-100 bg-opacity-75 rounded-lg flex items-center justify-center">
+            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md">
+              <svg className="w-4 h-4 animate-spin text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm font-medium text-red-700">
+                {isBeingDeleted ? 'Deleting messages...' : 'Will be deleted...'}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Delete button - only show on hover and for non-loading states */}
         {!isLoading && messageIndex > 0 && message.role === 'user' && messageIndex < messages.length - 1 && (
           <button
-            onClick={() => handleDeleteFromIndex(messageIndex)}
-            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 text-lg font-medium transition-all duration-200"
-            title={`Delete this question and all ${messages.length - messageIndex - 1} messages after it`}
+            onClick={() => !deletingMessages.has(`bulk_${messageIndex}`) && handleDeleteFromIndex(messageIndex)}
+            disabled={deletingMessages.has(`bulk_${messageIndex}`)}
+            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+              deletingMessages.has(`bulk_${messageIndex}`)
+                ? 'opacity-100 bg-red-100 text-red-400 cursor-not-allowed'
+                : 'opacity-0 group-hover:opacity-100 bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 shadow-md hover:shadow-lg'
+            }`}
+            title={deletingMessages.has(`bulk_${messageIndex}`) 
+              ? 'Deleting messages...' 
+              : `Delete this question and all ${messages.length - messageIndex - 1} messages after it`
+            }
           >
-            ×
+            {deletingMessages.has(`bulk_${messageIndex}`) ? (
+              <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            )}
           </button>
         )}
         
             {message.isCombinedAnswers ? (
-              <ClarificationResponseMessage content={message.content} />
+              <ClarificationResponseMessage 
+                content={message.content} 
+                clarificationResponses={message.clarificationResponses}
+              />
       ) : message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution ? (
               <QueryAndResultsMessage 
                 message={message}
@@ -1148,17 +1147,30 @@ ${stepInfo.input}`;
                 messageIndex={messageIndex}
                 allMessages={messages}
               />
-            ) : message.needsClarification && waitingForClarification ? (
-              // When actively waiting for clarification, just show plain text since the interactive UI is shown below
-              <div className="text-gray-800">{message.content}</div>
             ) : message.needsClarification ? (
-              // When not actively waiting, show the full clarification component (historical view)
+              // Show clarification questions - use main form button to answer
               <ClarificationMessage 
                 content={message.content}
                 clarificationQuestions={message.clarificationQuestions}
+                hasSubsequentResponse={hasSubsequentClarificationResponse(messageIndex)}
               />
+            ) : message.isLoading ? (
+              <div className="flex items-center gap-3 text-gray-600">
+                <svg className="w-5 h-5 animate-spin text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm">Sending request...</span>
+              </div>
             ) : (
-          <div className="text-gray-800">{message.content}</div>
+              <div>
+                <div className="text-gray-800">{message.content}</div>
+                {/* Show agent type for user messages */}
+                {message.role === 'user' && message.agentType && (
+                  <div className="mt-2 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md inline-block">
+                    Sent to: {AGENT_TYPES.find(agent => agent.id === message.agentType)?.name || message.agentType}
+                  </div>
+                )}
+              </div>
             )}
           </div>
   );
@@ -1166,6 +1178,22 @@ ${stepInfo.input}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check if there are unanswered clarification questions
+    if (hasUnansweredClarificationQuestions()) {
+      // Find the first unanswered clarification message and open dialog
+      const unansweredMessage = messages.find(msg => 
+        msg.needsClarification && 
+        msg.clarificationQuestions && 
+        msg.clarificationQuestions.length > 0 &&
+        !hasSubsequentClarificationResponse(messages.indexOf(msg))
+      );
+      
+      if (unansweredMessage) {
+        handleAnswerQuestions(unansweredMessage);
+      }
+      return;
+    }
     
     console.log('🔄 Submit button clicked', {
       waitingForClarification,
@@ -1175,16 +1203,11 @@ ${stepInfo.input}`;
       isLoading
     });
     
-    // For clarification submissions, allow empty input since answers come from clarification form
     // For regular submissions, require input
-    if (!waitingForClarification && !inputValue.trim()) return;
+    if (!inputValue.trim()) return;
     if (isLoading) return;
 
-    // If waiting for clarification, ensure we have at least some answers
-    if (waitingForClarification && Object.keys(clarificationAnswers).length === 0) {
-      setError('Please provide answers to the clarification questions before submitting.');
-      return;
-    }
+
 
     const userInput = inputValue.trim();
     setInputValue('');
@@ -1199,9 +1222,20 @@ ${stepInfo.input}`;
           id: `temp_${Date.now()}`,
           role: 'user',
           content: userInput,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          agentType: selectedAgent // Store which agent this message was sent to
         };
-        setMessages(prev => [...prev, tempUserMessage]);
+        
+        // Add a loading indicator message that appears while request is being sent
+        const loadingMessage = {
+          id: `loading_${Date.now()}`,
+          role: 'assistant',
+          content: '',
+          timestamp: new Date().toISOString(),
+          isLoading: true
+        };
+        
+        setMessages(prev => [...prev, tempUserMessage, loadingMessage]);
       }
 
       // Ensure we have a valid conversation ID
@@ -1210,40 +1244,40 @@ ${stepInfo.input}`;
         throw new Error('No conversation ID available. Please create a new conversation first.');
       }
 
-      // Check if this is a clarification submission
-      const isClariSubmission = waitingForClarification && Object.keys(clarificationAnswers).length > 0;
-      
-      // For clarification submissions, use the original query from context
-      // For new queries, use the current input
-      let finalUserInput;
-      if (isClariSubmission && originalRequestContext && originalRequestContext.originalQuery) {
-        finalUserInput = originalRequestContext.originalQuery;
-        console.log('🔄 Using original query for clarification submission:', finalUserInput);
-      } else {
-        finalUserInput = userInput || "No input provided";
-      }
+      // No longer handle clarification submissions here - they go through the dialog
       
       console.log('🔄 Submit request details:', {
         userInput: userInput,
-        finalUserInput: finalUserInput,
-        conversationId,
-        isClariSubmission,
-        waitingForClarification,
-        clarificationAnswersCount: Object.keys(clarificationAnswers).length,
-        hasOriginalContext: !!originalRequestContext,
-        originalQuery: originalRequestContext?.originalQuery
+        conversationId
       });
       
       // Submit the request
-      await submitRequest(finalUserInput, conversationId, isClariSubmission);
+      await submitRequest(userInput, conversationId, false);
+      
+      // Update conversation title if it's still the default and this is a new user message
+      if (userInput && (conversation.title === 'New Chat' || conversation.title === 'Untitled' || !conversation.title)) {
+        // Update the conversation data with the new title
+        const updatedConversationData = {
+          ...conversationData,
+          title: userInput.slice(0, 50) // Limit title length
+        };
+        
+        // Directly call parent update with the new title
+        if (onConversationUpdate && typeof onConversationUpdate === 'function') {
+          onConversationUpdate({...updatedConversationData, messages});
+        }
+      } else {
+        // Regular parent update for message addition
+        setTimeout(() => updateParentConversation(), 0);
+      }
 
     } catch (error) {
       console.error('Error submitting request:', error);
       setError(error.message || 'Failed to send request');
       
-      // Remove the temporary user message on error (only if we created one)
+      // Remove the temporary user message and loading message on error (only if we created one)
       if (userInput) {
-        setMessages(prev => prev.filter(msg => !msg.id.startsWith('temp_')));
+        setMessages(prev => prev.filter(msg => !msg.id.startsWith('temp_') && !msg.id.startsWith('loading_')));
       }
     } finally {
       setIsLoading(false);
@@ -1304,7 +1338,19 @@ ${stepInfo.input}`;
       </div>
       
       {/* Messages area */}
-      {(()=>{
+      {messagesLoading ? (
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-6 h-6 text-blue-500 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-sm font-medium">Loading messages...</p>
+            <p className="text-gray-400 text-xs mt-1">Fetching conversation history</p>
+          </div>
+        </div>
+      ) : (()=>{
         const visibleMessages = messages.filter(m=>!m.isNodeProgress);
         const getProgressForOwner = (ownerId)=>messages.filter(m=>m.isNodeProgress && m.ownerId===ownerId);
         return (
@@ -1318,7 +1364,7 @@ ${stepInfo.input}`;
                 const progressMsgs=getProgressForOwner(msg.id);
                 if(progressMsgs.length>0){
                   components.push(
-                    <div key={`progress-${msg.id}`} className="p-4 mb-4 rounded-lg border bg-blue-50 border-blue-200">
+                    <div key={`progress-${msg.id}`} className="mb-4 rounded-lg border border-gray-300">
                       <AgentProgressDisplay messages={progressMsgs} />
                     </div>
                   );
@@ -1330,8 +1376,6 @@ ${stepInfo.input}`;
           </div>
         );
       })()}
-      
-      {renderClarificationOptions()}
       
       <form className="flex-shrink-0 p-4 bg-gray-50 border-t border-gray-200" onSubmit={handleSubmit}>
         <div className="flex gap-2">
@@ -1352,25 +1396,30 @@ ${stepInfo.input}`;
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          placeholder={waitingForClarification 
-            ? "Additional comments (optional)..." 
-              : messages.length > 1
-              ? "Ask me to refine the result or ask a new question..." 
-              : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
-            className={`flex-1 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
-              waitingForClarification ? 'bg-yellow-50 border-yellow-300' : 'bg-white border-gray-300'
-            }`}
-          disabled={isLoading}
+          placeholder={messages.length > 1
+            ? "Ask me to refine the result or ask a new question..." 
+            : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
+          className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed bg-white"
+          disabled={isLoading || hasUnansweredClarificationQuestions()}
         />
         <button 
           type="submit" 
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : waitingForClarification ? 'Submit Answers' : 'Send'}
+          {isLoading ? 'Generating...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}
         </button>
         </div>
       </form>
+
+      {/* Clarification Dialog */}
+      <ClarificationDialog
+        isOpen={showClarificationDialog}
+        onClose={() => setShowClarificationDialog(false)}
+        clarificationQuestions={clarificationDialogData?.questions || []}
+        onSubmit={handleClarificationSubmit}
+        isSubmitting={isSubmittingClarification}
+      />
     </div>
   );
 };

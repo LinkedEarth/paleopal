@@ -31,6 +31,7 @@ class Message(BaseModel):
     # Clarification state
     needs_clarification: bool = Field(default=False, description="Whether this message needs clarification")
     clarification_questions: Optional[List[Any]] = Field(None, description="Clarification questions for this message")
+    clarification_responses: Optional[List[Dict[str, Any]]] = Field(None, description="Structured clarification responses with question-answer pairs")
     
     # UI display flags (derived from data above, but stored for performance)
     has_query_results: bool = Field(default=False, description="Whether message has query results")
@@ -79,4 +80,5 @@ class MessageUpdate(BaseModel):
     failed_steps: Optional[List[Any]] = None
     needs_clarification: Optional[bool] = None
     clarification_questions: Optional[List[Any]] = None
+    clarification_responses: Optional[List[Dict[str, Any]]] = None
     metadata: Optional[Dict[str, Any]] = None 

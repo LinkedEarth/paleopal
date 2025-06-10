@@ -1,116 +1,72 @@
 import React from 'react';
 
 // Component to render clarification responses in a nice format
-const ClarificationResponseMessage = ({ content }) => {
-    // Parse the clarification response content
-    const parseContent = (text) => {
-        if (!text) return { originalQuery: '', responses: [] };
-        
-        // Look for the pattern "Clarification responses for: "
-        const originalQueryMatch = text.match(/Clarification responses for: "([^"]+)"/);
-        const originalQuery = originalQueryMatch ? originalQueryMatch[1] : '';
-        
-        // Remove the header part to get the Q&A content
-        let qaContent = text;
-        if (originalQueryMatch) {
-            qaContent = text.substring(originalQueryMatch.index + originalQueryMatch[0].length).trim();
-        }
-        
-        // Try to parse question-answer pairs
-        // Look for patterns like "Question text?: Answer text."
-        const responses = [];
-        
-        // Split by sentence-ending punctuation followed by capital letters or common question words
-        const sentences = qaContent.split(/(?<=[.!?])\s+(?=[A-Z]|Regarding|What|How|Which|Should|Do|Can|Will)/);
-        
-        let currentQuestion = '';
-        let currentAnswer = '';
-        
-        for (let sentence of sentences) {
-            sentence = sentence.trim();
-            if (!sentence) continue;
-            
-            // Check if this looks like a question (ends with ?)
-            if (sentence.includes('?')) {
-                // If we have a previous Q&A pair, save it
-                if (currentQuestion && currentAnswer) {
-                    responses.push({
-                        question: currentQuestion,
-                        answer: currentAnswer
-                    });
-                }
-                
-                // Split question and answer if they're in the same sentence
-                const parts = sentence.split('?');
-                if (parts.length >= 2) {
-                    currentQuestion = parts[0] + '?';
-                    currentAnswer = parts.slice(1).join('?').replace(/^:\s*/, '').trim();
-                } else {
-                    currentQuestion = sentence;
-                    currentAnswer = '';
-                }
-            } else if (currentQuestion && !currentAnswer) {
-                // This sentence is likely the answer to the previous question
-                currentAnswer = sentence;
-            } else if (currentAnswer) {
-                // Continue building the answer
-                currentAnswer += ' ' + sentence;
-            } else {
-                // Standalone sentence, treat as both question and answer
-                responses.push({
-                    question: sentence.includes(':') ? sentence.split(':')[0] + '?' : sentence,
-                    answer: sentence.includes(':') ? sentence.split(':').slice(1).join(':').trim() : 'Yes'
-                });
-            }
-        }
-        
-        // Don't forget the last Q&A pair
-        if (currentQuestion && currentAnswer) {
-            responses.push({
-                question: currentQuestion,
-                answer: currentAnswer
-            });
-        }
-        
-        return { originalQuery, responses };
-    };
+const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
+    const [isCollapsed, setIsCollapsed] = React.useState(true); // Collapsed by default
 
-    const { originalQuery, responses } = parseContent(content);
-
-    return (
-        <div className="space-y-4 bg-green-50 border border-green-200 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div className="text-sm font-medium text-green-800">Clarification Responses</div>
+    const renderHeader = () => (
+        <div 
+            className="flex items-center gap-3 text-gray-600 cursor-pointer hover:bg-gray-50 rounded transition-colors p-2 -m-2"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            title={isCollapsed ? 'Expand response' : 'Collapse response'}
+        >
+            <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
             </div>
-            
-            {originalQuery && (
-                <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-1">Original Request:</div>
-                    <div className="text-gray-800 bg-white p-3 rounded border italic">"{originalQuery}"</div>
-                </div>
-            )}
-            
-            {responses.length > 0 ? (
-                <div className="space-y-3">
-                    <div className="text-sm font-medium text-gray-700">Your Answers:</div>
-                    {responses.map((response, index) => (
-                        <div key={index} className="bg-white border border-green-200 rounded-lg p-3">
-                            <div className="text-sm font-medium text-gray-800 mb-2">
-                                Q{responses.length > 1 ? ` ${index + 1}` : ''}: {response.question}
+            <div className="flex-1">
+                <span className="text-sm font-medium text-gray-800">Clarification Response</span>
+                <span className="text-xs text-gray-500 ml-2">Answers to clarification questions</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-600">
+                    {clarificationResponses ? `${clarificationResponses.length} answers provided` : 'Questions answered'}
+                </span>
+                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">Completed</span>
+                <svg 
+                    className={`w-4 h-4 text-gray-600 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+            </div>
+        </div>
+    );
+
+    const renderContent = () => {
+        // If we have structured clarification responses, use those
+        if (clarificationResponses && Array.isArray(clarificationResponses) && clarificationResponses.length > 0) {
+            return (
+                <div className="ml-9 mt-2 space-y-3">
+                    {clarificationResponses.map((response, index) => (
+                        <div key={index} className="text-sm text-gray-700">
+                            <div className="font-medium text-gray-800 mb-1">
+                                {response.question || `Question ${index + 1}`}
                             </div>
-                            <div className="text-sm text-gray-700 bg-green-50 p-2 rounded border-l-3 border-l-green-400">
-                                <strong>A:</strong> {response.answer}
+                            <div className="text-gray-700 pl-3 border-l-2 border-gray-200">
+                                {response.answer || 'No answer provided'}
                             </div>
                         </div>
                     ))}
                 </div>
-            ) : (
-                // Fallback: just display the content with better formatting
-                <div className="text-gray-800 bg-white p-3 rounded border">
-                    {content}
-                </div>
-            )}
+            );
+        }
+
+        // Fallback to plain text content for backward compatibility
+        return (
+            <div className="ml-9 mt-2">
+                <div className="text-sm text-gray-700 whitespace-pre-wrap">{content}</div>
+            </div>
+        );
+    };
+
+    return (
+        <div>
+            {renderHeader()}
+            {!isCollapsed && renderContent()}
         </div>
     );
 };

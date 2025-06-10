@@ -117,14 +117,24 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             # Create a user message in the database to represent the clarification responses
             try:
-                # Format the clarification responses as a readable message
+                # Store structured clarification responses along with a readable message
                 clarification_text_parts = []
                 
-                # Try to get the clarification questions from the previous assistant message to format nicely
+                # Try to get the clarification questions and original user input from conversation history
                 clarification_questions = {}
+                original_user_input = request.user_input  # Fallback to current input
+                
                 if request.conversation_id:
                     try:
                         recent_messages = message_service.get_conversation_messages(request.conversation_id)
+                        
+                        # Look for the original user message (the first user message in the conversation)
+                        for msg in recent_messages:
+                            if msg.role == 'user' and msg.message_type == 'chat':
+                                original_user_input = msg.content
+                                logger.info(f"Found original user input: {original_user_input[:100]}...")
+                                break
+                        
                         # Look for the most recent message with clarification questions
                         for msg in reversed(recent_messages):
                             if (msg.role == 'assistant' and 
@@ -150,26 +160,45 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                                         clarification_questions[q['id']] = q['question']
                                 break
                     except Exception as e:
-                        logger.warning(f"Could not retrieve clarification questions: {e}")
+                        logger.warning(f"Could not retrieve conversation history: {e}")
                 
-                # Format the clarification responses with questions
+                # Format structured responses for storage
+                structured_responses = []
                 for response in clarification_responses:
-                    question_id = response.get('id', '')
-                    answer = response.get('answer', '')
+                    question_id = response.get('id', response.get('question_id', ''))
+                    answer = response.get('answer', response.get('response', ''))
                     question_text = clarification_questions.get(question_id, f"Question {question_id}")
                     
+                    # Store structured data
+                    structured_responses.append({
+                        "question_id": question_id,
+                        "question": question_text,
+                        "answer": answer
+                    })
+                    
+                    # Also create readable text for display
                     clarification_text_parts.append(f"Regarding '{question_text}': {answer}")
                 
-                clarification_message = f"Clarification responses for: \"{request.user_input}\"\n\n" + "\n\n".join(clarification_text_parts)
+                clarification_message = f"Clarification responses for: \"{original_user_input}\"\n\n" + "\n\n".join(clarification_text_parts)
                 
-                # Create the clarification response message in the database
+                # Create the clarification response message in the database with structured data
                 clarification_msg = message_service.create_message(
-                    conversation_id=request.conversation_id,
-                    role="user",
-                    content=clarification_message,
-                    message_type="clarification_response"
+                    MessageCreate(
+                        conversation_id=request.conversation_id,
+                        role="user",
+                        content=clarification_message,
+                        message_type="clarification_response",
+                        agent_type=request.agent_type
+                    )
                 )
-                logger.info(f"Created clarification response message: {clarification_msg.id}")
+                
+                # Update the message with structured clarification responses
+                message_service.update_message(
+                    clarification_msg.id,
+                    MessageUpdate(clarification_responses=structured_responses)
+                )
+                
+                logger.info(f"Created clarification response message: {clarification_msg.id} with {len(structured_responses)} structured responses")
                 
             except Exception as e:
                 logger.error(f"Failed to create clarification response message: {e}")
@@ -177,6 +206,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Set clarification state
             state_data["clarification_responses"] = clarification_responses
             state_data["clarification_processed"] = True
+            state_data["user_input"] = original_user_input  # Use the original user input, not the empty clarification submission
         
         # Extract conversation context from previous messages (simplified approach)
         if request.conversation_id:
@@ -484,16 +514,28 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 raise RuntimeError(f"{self.agent_type} agent graph not available")
             
             # Create initial user message in database if we have a conversation_id
-            if request.conversation_id and request.user_input:
+            user_message_id = None
+            if request.conversation_id:
                 try:
+                    # For clarification submissions, we might not have user_input but we need to create a user message for progress tracking
+                    content = request.user_input
+                    message_type = 'chat'
+                    
+                    # If this is a clarification submission, use a placeholder content since the actual clarification message is created separately
+                    if not content and request.metadata.get('clarification_responses'):
+                        content = "Clarification responses submitted"
+                        message_type = 'clarification_processing'
+                    
                     user_message_data = MessageCreate(
                         conversation_id=request.conversation_id,
                         role='user',
-                        content=request.user_input,
-                        message_type='chat'
+                        content=content,
+                        message_type=message_type,
+                        agent_type=request.agent_type
                     )
                     user_message = message_service.create_message(user_message_data)
-                    logger.info(f"Created user message {user_message.id}")
+                    user_message_id = user_message.id
+                    logger.info(f"Created user message {user_message_id}")
                 except Exception as e:
                     logger.error(f"Failed to create user message: {e}")
             
@@ -554,7 +596,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         try:
             if not self._graph:
                 raise RuntimeError(f"{self.agent_type} agent graph not available")
-            
+
             # Create initial state and config
             initial_state = self._create_initial_state(request)
             config_obj = self._create_agent_config(request)
@@ -568,27 +610,54 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Track the final state
             final_state = None
             
-            # Create initial user message in database if we have a conversation_id
-            user_message_id = None
-            if request.conversation_id and request.user_input:
+            # Determine the owner message ID for progress tracking
+            owner_message_id = None
+            
+            # Check if this is a clarification response submission
+            if request.metadata.get('clarification_responses'):
+                # For clarification responses, find the most recent clarification response message
                 try:
+                    from services.message_service import message_service
+                    recent_messages = message_service.get_conversation_messages(request.conversation_id)
+                    
+                    # Look for the most recent clarification_response message
+                    for msg in reversed(recent_messages):
+                        if msg.role == 'user' and msg.message_type == 'clarification_response':
+                            owner_message_id = msg.id
+                            logger.info(f"Using clarification response message {owner_message_id} for progress tracking")
+                            break
+                    
+                    if not owner_message_id:
+                        logger.warning("No clarification response message found for progress tracking")
+                        
+                except Exception as e:
+                    logger.error(f"Failed to find clarification response message: {e}")
+            
+            # For initial user queries, create a user message
+            elif request.conversation_id and request.user_input:
+                try:
+                    from services.message_service import message_service
+                    from schemas.message import MessageCreate
+                    
                     user_message_data = MessageCreate(
                         conversation_id=request.conversation_id,
                         role='user',
                         content=request.user_input,
-                        message_type='chat'
+                        message_type='chat',
+                        agent_type=request.agent_type
                     )
                     user_message = message_service.create_message(user_message_data)
-                    user_message_id = user_message.id
-                    logger.info(f"Created user message {user_message_id}")
+                    owner_message_id = user_message.id
+                    logger.info(f"Created user message {owner_message_id} for progress tracking")
                 except Exception as e:
                     logger.error(f"Failed to create user message: {e}")
             
-            # Create initial progress message
-            if user_message_id:
+            # Create initial progress message if we have an owner
+            if owner_message_id:
                 try:
+                    from services.message_service import message_service
                     progress_msg = message_service.create_progress_message(
-                        user_message_id,
+                        owner_message_id,
                         "Agent Execution",
                         "start", 
                         f"Starting {self.agent_type} agent execution...",
@@ -608,11 +677,12 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     for node_name, node_state in chunk.items():
                         logger.info(f"Node '{node_name}' executed")
                         
-                        # Create progress message for this node
-                        if user_message_id:
+                        # Create progress message for this node if we have an owner
+                        if owner_message_id:
                             try:
+                                from services.message_service import message_service
                                 progress_msg = message_service.create_progress_message(
-                                    user_message_id,
+                                    owner_message_id,
                                     node_name,
                                     "complete",
                                     f"Completed {node_name}",
@@ -659,11 +729,12 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Create and yield final response
             response = self._create_response_from_state(final_state)
             
-            # Create completion progress message
-            if user_message_id:
+            # Create completion progress message if we have an owner
+            if owner_message_id:
                 try:
+                    from services.message_service import message_service
                     progress_msg = message_service.create_progress_message(
-                        user_message_id,
+                        owner_message_id,
                         "Agent Execution",
                         "complete",
                         f"{self.agent_type} agent execution completed",
@@ -681,11 +752,12 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         except Exception as e:
             logger.error(f"Error in streaming {self.agent_type} agent: %s", e, exc_info=True)
             
-            # Create error progress message if we have user_message_id
-            if 'user_message_id' in locals() and user_message_id:
+            # Create error progress message if we have owner_message_id
+            if 'owner_message_id' in locals() and owner_message_id:
                 try:
+                    from services.message_service import message_service
                     progress_msg = message_service.create_progress_message(
-                        user_message_id,
+                        owner_message_id,
                         "Agent Execution",
                         "error",
                         f"Error in {self.agent_type} agent: {str(e)}",

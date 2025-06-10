@@ -15,6 +15,8 @@ const generateId = () => `c_${Date.now()}_${Math.random().toString(36).slice(2, 
 const ChatApp = () => {
   // Conversations will be loaded from backend; start with empty list
   const [conversations, setConversations] = useState([]);
+  const [conversationsLoading, setConversationsLoading] = useState(true);
+  const [deletingConversations, setDeletingConversations] = useState(new Set());
 
   const [activeId, setActiveId] = useState(conversations[0]?.id || null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,11 +28,14 @@ const ChatApp = () => {
   // Fetch conversations from backend on mount (fallback to a new one on error/empty)
   useEffect(() => {
     const fetchConversations = async () => {
+      setConversationsLoading(true);
+      
       // Test API connectivity first
       console.log('🧪 Testing API connectivity before fetching conversations...');
       const isConnected = await testApiConnectivity();
       if (!isConnected) {
         console.error('❌ Cannot connect to API, skipping conversation fetch');
+        setConversationsLoading(false);
         return;
       }
       
@@ -43,9 +48,12 @@ const ChatApp = () => {
         
         if (Array.isArray(resp.data) && resp.data.length) {
           console.log(`✅ Found ${resp.data.length} conversations`);
-          setConversations(resp.data);
-          setActiveId(resp.data[0].id);
-          return;
+          // Sort conversations by updated_at then created_at in descending order (latest first)
+          const sortedConversations = resp.data.sort((a, b) => 
+            new Date(b.updated_at || b.updatedAt || b.created_at) - new Date(a.updated_at || a.updatedAt || a.created_at)
+          );
+          setConversations(sortedConversations);
+          setActiveId(sortedConversations[0].id);
         } else {
           console.log('⚠️ No conversations found in response');
         }
@@ -56,6 +64,8 @@ const ChatApp = () => {
           config: err.config,
           response: err.response
         });
+      } finally {
+        setConversationsLoading(false);
       }
 
       // // Backend returned no conversations or failed – start a fresh one locally (will POST on first save)
@@ -78,11 +88,18 @@ const ChatApp = () => {
     (updatedConv) => {
       setConversations((prev) => {
         const exists = prev.find((c) => c.id === updatedConv.id);
+        let updatedConversations;
         if (exists) {
-          return prev.map((c) => (c.id === updatedConv.id ? { ...exists, ...updatedConv, updatedAt: new Date().toISOString() } : c));
+          updatedConversations = prev.map((c) => (c.id === updatedConv.id ? { ...exists, ...updatedConv, updatedAt: new Date().toISOString() } : c));
+        } else {
+          // New conversation (should not happen here but fallback)
+          updatedConversations = [...prev, { ...updatedConv, updatedAt: new Date().toISOString() }];
         }
-        // New conversation (should not happen here but fallback)
-        return [...prev, { ...updatedConv, updatedAt: new Date().toISOString() }];
+        
+        // Sort conversations by updated_at then created_at in descending order (latest first)
+        return updatedConversations.sort((a, b) => 
+          new Date(b.updated_at || b.updatedAt || b.created_at) - new Date(a.updated_at || a.updatedAt || a.created_at)
+        );
       });
 
       // Persist to backend only if the conversation is not currently loading
@@ -143,18 +160,30 @@ const ChatApp = () => {
       if (!window.confirm('Delete this conversation? This action cannot be undone.')) return;
     }
     
+    // Set loading state for this conversation
+    setDeletingConversations(prev => new Set([...prev, convId]));
+    
     try {
       await axios.delete(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${convId}`);
+      
+      // Remove from conversations list on success
+      setConversations((prev) => prev.filter((c) => c.id !== convId));
+      
+      // Reset activeId if needed
+      if (activeId === convId) {
+        const remaining = conversations.filter((c) => c.id !== convId);
+        setActiveId(remaining[0]?.id || null);
+      }
     } catch (err) {
       console.error('Failed to delete conversation on backend', err);
-    }
-    
-    setConversations((prev) => prev.filter((c) => c.id !== convId));
-    
-    // Reset activeId if needed
-    if (activeId === convId) {
-      const remaining = conversations.filter((c) => c.id !== convId);
-      setActiveId(remaining[0]?.id || null);
+      // You might want to show an error message to the user here
+    } finally {
+      // Remove loading state
+      setDeletingConversations(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(convId);
+        return newSet;
+      });
     }
   };
 
@@ -289,7 +318,7 @@ const ChatApp = () => {
       {/* Sidebar */}
       <aside className={`fixed left-0 top-0 bottom-0 w-80 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out z-40 shadow-xl md:shadow-none ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50/80 backdrop-blur-sm">
+        <div className="flex-shrink-0 p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -323,7 +352,17 @@ const ChatApp = () => {
 
         {/* Conversations List */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
-          {conversations.length === 0 ? (
+          {conversationsLoading ? (
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-blue-500 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p className="text-gray-600 text-sm font-medium">Loading conversations...</p>
+              <p className="text-gray-400 text-xs mt-1">Fetching your chat history</p>
+            </div>
+          ) : conversations.length === 0 ? (
             <div className="p-6 text-center">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -382,11 +421,23 @@ const ChatApp = () => {
                     </div>
 
                     {/* Conversation Details */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 relative">
+                      {/* Deletion overlay */}
+                      {deletingConversations.has(conv.id) && (
+                        <div className="absolute inset-0 bg-red-50 bg-opacity-90 flex items-center justify-center rounded z-10">
+                          <div className="flex items-center gap-2 text-red-700">
+                            <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-sm font-medium">Deleting conversation...</span>
+                          </div>
+                        </div>
+                      )}
+                      
                       <div className="flex items-center justify-between">
                         <h3 className={`text-sm font-medium truncate ${
                           conv.id === activeId ? 'text-blue-900' : 'text-gray-900'
-                        }`}>
+                        } ${deletingConversations.has(conv.id) ? 'opacity-50' : ''}`}>
                   {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
                         </h3>
                 {conv.isLoading && (
@@ -400,10 +451,12 @@ const ChatApp = () => {
                       <div className="flex items-center justify-between mt-1">
                         <p className={`text-xs truncate ${
                           conv.id === activeId ? 'text-blue-600' : 'text-gray-500'
-                        }`}>
-                          {conv.messages && conv.messages.length > 0 
-                            ? `${conv.messages.length} message${conv.messages.length === 1 ? '' : 's'}`
-                            : 'No messages yet'
+                        } ${deletingConversations.has(conv.id) ? 'opacity-50' : ''}`}>
+                          {conv.updated_at || conv.updatedAt 
+                            ? new Date(conv.updated_at || conv.updatedAt).toLocaleString()
+                            : conv.created_at 
+                            ? new Date(conv.created_at).toLocaleString()
+                            : 'Recently created'
                           }
                         </p>
                         <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -420,23 +473,36 @@ const ChatApp = () => {
                             </svg>
                           </button>
                           <button
-                            className="w-7 h-7 bg-red-100 hover:bg-red-200 text-red-600 hover:text-red-800 rounded-md flex items-center justify-center transition-colors duration-200"
-                            title={conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
+                            className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-200 ${
+                              deletingConversations.has(conv.id)
+                                ? 'bg-red-200 text-red-400 cursor-not-allowed'
+                                : 'bg-red-100 hover:bg-red-200 text-red-600 hover:text-red-800'
+                            }`}
+                            title={deletingConversations.has(conv.id) ? "Deleting..." : conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
+                            disabled={deletingConversations.has(conv.id)}
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleDeleteConversation(conv.id);
+                              if (!deletingConversations.has(conv.id)) {
+                                handleDeleteConversation(conv.id);
+                              }
                             }}
                           >
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                            {deletingConversations.has(conv.id) ? (
+                              <svg className="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            ) : (
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            )}
                           </button>
                         </div>
                       </div>
                     </div>
 
                     {/* Loading indicator with clear button for stuck states */}
-                    {conv.isLoading && conv.updatedAt && (Date.now() - new Date(conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
+                    {conv.isLoading && (conv.updated_at || conv.updatedAt) && (Date.now() - new Date(conv.updated_at || conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
                       <button
                         className="absolute top-2 right-2 w-6 h-6 bg-amber-100 hover:bg-amber-200 text-amber-600 hover:text-amber-800 rounded-full flex items-center justify-center transition-colors duration-200 text-xs"
                         title="Clear stuck loading state"
@@ -458,7 +524,7 @@ const ChatApp = () => {
         </div>
         
         {/* Dashboard Link at bottom */}
-        <div className="border-t border-gray-200 p-4 bg-gray-50/50">
+        <div className="flex-shrink-0 p-4 bg-gray-50 border-t border-gray-200">
           <Link
             to="/dashboard"
             className="flex items-center gap-3 w-full text-left px-4 py-3 rounded-xl text-sm text-gray-700 hover:bg-white hover:text-gray-900 transition-all duration-200 border border-transparent hover:border-gray-200 hover:shadow-sm group"
@@ -482,7 +548,7 @@ const ChatApp = () => {
       {/* Main Chat Window */}
       <main className="ml-0 w-full bg-gray-100 flex flex-col h-screen overflow-hidden md:ml-80 md:w-[calc(100vw-320px)] transition-all duration-300" onClick={() => sidebarOpen && setSidebarOpen(false)}>
         {/* Mobile header with menu button */}
-        <div className="md:hidden bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+        <div className="flex-shrink-0 p-4 bg-white border-b border-gray-200 md:hidden flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center cursor-pointer" onClick={() => setSidebarOpen(true)}>
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

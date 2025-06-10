@@ -28,6 +28,7 @@ class MessageService:
         """Initialize the messages table."""
         try:
             with sqlite3.connect(_DB_PATH) as conn:
+                # Check if clarification_responses column exists, add it if not (migration)
                 conn.execute("""
                     CREATE TABLE IF NOT EXISTS messages (
                         id TEXT PRIMARY KEY,
@@ -58,6 +59,7 @@ class MessageService:
                         -- Clarification
                         needs_clarification BOOLEAN DEFAULT FALSE,
                         clarification_questions TEXT,  -- JSON
+                        clarification_responses TEXT,  -- JSON
                         
                         -- UI flags
                         has_query_results BOOLEAN DEFAULT FALSE,
@@ -120,7 +122,7 @@ class MessageService:
         json_fields = [
             'query_results', 'execution_info', 'similar_results', 'entity_matches',
             'workflow_plan', 'execution_results', 'failed_steps', 
-            'clarification_questions', 'metadata'
+            'clarification_questions', 'clarification_responses', 'metadata'
         ]
         
         for field in json_fields:
@@ -178,10 +180,10 @@ class MessageService:
                         id, conversation_id, sequence_number, role, content,
                         message_type, agent_type, query_generated, query_results, execution_info,
                         similar_results, entity_matches, workflow_plan, workflow_id, execution_results,
-                        failed_steps, needs_clarification, clarification_questions, has_query_results,
-                        has_generated_code, has_workflow_plan, has_workflow_execution, has_error,
-                        is_node_progress, owner_message_id, phase, node_name, created_at, updated_at, metadata
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        failed_steps, needs_clarification, clarification_questions, clarification_responses,
+                        has_query_results, has_generated_code, has_workflow_plan, has_workflow_execution,
+                        has_error, is_node_progress, owner_message_id, phase, node_name, created_at, updated_at, metadata
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     message.id, message.conversation_id, message.sequence_number, 
                     message.role, message.content, message.message_type, message.agent_type,
@@ -190,8 +192,8 @@ class MessageService:
                     self._serialize_json_field(message.entity_matches), self._serialize_json_field(message.workflow_plan),
                     message.workflow_id, self._serialize_json_field(message.execution_results),
                     self._serialize_json_field(message.failed_steps), message.needs_clarification,
-                    self._serialize_json_field(message.clarification_questions), message.has_query_results,
-                    message.has_generated_code, message.has_workflow_plan, message.has_workflow_execution,
+                    self._serialize_json_field(message.clarification_questions), self._serialize_json_field(message.clarification_responses),
+                    message.has_query_results, message.has_generated_code, message.has_workflow_plan, message.has_workflow_execution,
                     message.has_error, message.is_node_progress, message.owner_message_id,
                     message.phase, message.node_name, message.created_at, message.updated_at,
                     self._serialize_json_field(message.metadata)
@@ -227,7 +229,7 @@ class MessageService:
                         query_generated = ?, query_results = ?, execution_info = ?,
                         similar_results = ?, entity_matches = ?, workflow_plan = ?,
                         workflow_id = ?, execution_results = ?, failed_steps = ?,
-                        needs_clarification = ?, clarification_questions = ?,
+                        needs_clarification = ?, clarification_questions = ?, clarification_responses = ?,
                         has_query_results = ?, has_generated_code = ?, has_workflow_plan = ?,
                         has_workflow_execution = ?, has_error = ?, updated_at = ?, metadata = ?
                     WHERE id = ?
@@ -237,8 +239,8 @@ class MessageService:
                     self._serialize_json_field(message.entity_matches), self._serialize_json_field(message.workflow_plan),
                     message.workflow_id, self._serialize_json_field(message.execution_results),
                     self._serialize_json_field(message.failed_steps), message.needs_clarification,
-                    self._serialize_json_field(message.clarification_questions), message.has_query_results,
-                    message.has_generated_code, message.has_workflow_plan, message.has_workflow_execution,
+                    self._serialize_json_field(message.clarification_questions), self._serialize_json_field(message.clarification_responses),
+                    message.has_query_results, message.has_generated_code, message.has_workflow_plan, message.has_workflow_execution,
                     message.has_error, message.updated_at, self._serialize_json_field(message.metadata),
                     message_id
                 ))
