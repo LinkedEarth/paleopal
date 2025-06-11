@@ -253,7 +253,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
       {/* Expanded view - detailed steps */}
       {isExpanded && completedNodes.length > 0 && (
         <div className="mt-4">
-          <div className="p-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg">
+          <div className="p-1">
             <div className="space-y-2">
               {completedNodes
                 .filter(n => n.nodeName !== 'Agent Execution')
@@ -295,7 +295,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                   }
                   
                   return (
-                    <div key={stepId} className="flex items-center gap-3 p-2 bg-neutral-50 dark:bg-neutral-700 rounded">
+                    <div key={stepId} className="flex items-center gap-3 p-1 pl-6">
                       <span className="text-green-500 dark:text-green-400 text-sm">✓</span>
                       <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-200">{node.nodeName}</span>
                       
@@ -390,7 +390,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
             </div>
             
             {currentRunningNode && currentRunningNode.nodeName !== 'Agent Execution' && (
-              <div className="mt-2 flex items-center gap-3 p-2 bg-neutral-100 dark:bg-neutral-600 rounded border border-neutral-200 dark:border-neutral-500">
+              <div className="mt-2 flex items-center gap-3 p-1 pl-6">
                 <div className="w-4 h-4 border-2 border-neutral-500 dark:border-neutral-400 border-t-transparent rounded-full animate-spin"></div>
                 <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-200">{currentRunningNode.nodeName}</span>
                 <span className="text-xs text-neutral-600 dark:text-neutral-400">In progress</span>

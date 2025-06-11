@@ -935,6 +935,16 @@ ${stepInfo.input}`;
       // Set loading state to show progress during execution
       setIsLoading(true);
       
+      // Add a temporary loading indicator assistant message so the user sees immediate feedback
+      const loadingMessage = {
+        id: `loading_${Date.now()}`,
+        role: 'assistant',
+        content: '',
+        isLoading: true,
+        timestamp: new Date().toISOString()
+      };
+      setMessages(prev => [...prev, loadingMessage]);
+      
       // Submit clarification responses using the new structured format
       // The submitRequest will automatically use the originalRequestContext.originalQuery for clarification submissions
       const response = await submitRequest(
@@ -1315,8 +1325,10 @@ ${stepInfo.input}`;
                 const progressMsgs=getProgressForOwner(msg.id);
                 if(progressMsgs.length>0){
                   components.push(
-                    <div key={`progress-${msg.id}`} className="p-4 mb-4 rounded-lg border shadow-sm bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600 text-neutral-900 dark:text-neutral-100">
-                      <AgentProgressDisplay messages={progressMsgs} />
+                    <div key={`progress-${msg.id}`} className="flex justify-start">
+                      <div className="mb-2 max-w-[90%]">
+                        <AgentProgressDisplay messages={progressMsgs} />
+                      </div>
                     </div>
                   );
                 }

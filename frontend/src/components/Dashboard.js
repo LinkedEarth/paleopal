@@ -694,7 +694,7 @@ const Dashboard = () => {
 
   if (loading && Object.keys(libraries).length === 0) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-neutral-50 dark:bg-neutral-900">
         <div className="text-lg">Loading dashboard...</div>
       </div>
     );
