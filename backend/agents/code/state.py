@@ -2,7 +2,7 @@
 State definition for the Code Generation agent.
 Uses the unified BaseAgentState and new libraries.
 """
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Union
 from pydantic import Field
 import pathlib
 
@@ -39,9 +39,9 @@ class CodeAgentState(BaseAgentState):
         default_factory=list,
         description="Required Python libraries"
     )
-    expected_outputs: List[str] = Field(
+    expected_outputs: List[Union[str, Dict[str, Any]]] = Field(
         default_factory=list,
-        description="Expected outputs from the code"
+        description="Expected outputs from the code (string descriptions or structured objects)"
     )
     code_examples_used: List[Dict[str, Any]] = Field(
         default_factory=list,
