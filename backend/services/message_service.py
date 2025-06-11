@@ -16,6 +16,9 @@ _DATA_DIR = Path("data")
 _DATA_DIR.mkdir(parents=True, exist_ok=True)
 _DB_PATH = _DATA_DIR / "conversations.db"
 
+# Maximum number of results to store per message to avoid oversized context
+MAX_STORED_RESULTS = 50
+
 class MessageService:
     """Service for managing individual messages with rich metadata."""
     
@@ -140,6 +143,12 @@ class MessageService:
         
         return Message(**data)
     
+    def _truncate_list(self, data: Any, limit: int = MAX_STORED_RESULTS):
+        """Return at most `limit` items if input is a list, otherwise return as-is."""
+        if isinstance(data, list) and len(data) > limit:
+            return data[:limit]
+        return data
+    
     def create_message(self, message_data: MessageCreate) -> Message:
         """Create a new message in a conversation."""
         now_iso = datetime.utcnow().isoformat()
@@ -187,7 +196,9 @@ class MessageService:
                 """, (
                     message.id, message.conversation_id, message.sequence_number, 
                     message.role, message.content, message.message_type, message.agent_type,
-                    message.query_generated, self._serialize_json_field(message.query_results),
+                    message.query_generated,
+                    # Truncate query_results if too large before serialization
+                    self._serialize_json_field(self._truncate_list(message.query_results)),
                     self._serialize_json_field(message.execution_info), self._serialize_json_field(message.similar_results),
                     self._serialize_json_field(message.entity_matches), self._serialize_json_field(message.workflow_plan),
                     message.workflow_id, self._serialize_json_field(message.execution_results),
@@ -212,6 +223,8 @@ class MessageService:
             setattr(message, field, value)
         
         # Update UI flags based on data
+        # Truncate query_results to avoid excessive size
+        message.query_results = self._truncate_list(message.query_results)
         message.has_query_results = bool(message.query_results)
         message.has_generated_code = bool(message.query_generated)
         message.has_workflow_plan = bool(message.workflow_plan)
@@ -234,7 +247,8 @@ class MessageService:
                         has_workflow_execution = ?, has_error = ?, updated_at = ?, metadata = ?
                     WHERE id = ?
                 """, (
-                    message.query_generated, self._serialize_json_field(message.query_results),
+                    message.query_generated,
+                    self._serialize_json_field(self._truncate_list(message.query_results)),
                     self._serialize_json_field(message.execution_info), self._serialize_json_field(message.similar_results),
                     self._serialize_json_field(message.entity_matches), self._serialize_json_field(message.workflow_plan),
                     message.workflow_id, self._serialize_json_field(message.execution_results),

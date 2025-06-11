@@ -73,29 +73,6 @@ class BaseAgent(ABC):
         """
         pass
     
-    @abstractmethod
-    def get_conversation_state(self, conversation_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Get the current conversation state.
-        
-        Args:
-            conversation_id: ID of the conversation
-            
-        Returns:
-            Conversation state or None if not found
-        """
-        pass
-    
-    @abstractmethod
-    def set_conversation_state(self, conversation_id: str, state: Dict[str, Any]) -> None:
-        """
-        Set the conversation state.
-        
-        Args:
-            conversation_id: ID of the conversation
-            state: State to save
-        """
-        pass
     
     def validate_request(self, request: AgentRequest) -> bool:
         """

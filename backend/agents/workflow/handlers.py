@@ -11,7 +11,7 @@ from typing import Dict, Any, List
 from langchain.schema import HumanMessage, SystemMessage
 
 from .state import WorkflowAgentState, WorkflowAgentConfig
-from agents.base_langgraph_agent import get_config_value, get_message_value
+from agents.base_langgraph_agent import get_config_value, get_message_value, format_clarification_response_for_llm
 from services.search_integration_service import search_service
 from services.service_manager import service_manager
 
@@ -305,57 +305,6 @@ def detect_clarification_node(state: WorkflowAgentState, config: WorkflowAgentCo
         }
 
 
-def process_clarification_response(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
-    """Process clarification responses from the user."""
-    try:
-        clarification_responses = state.clarification_responses or []
-        
-        if not clarification_responses:
-            return {
-                "error_message": "No clarification responses to process",
-                "conversation_id": state.conversation_id
-            }
-        
-        logger.info(f"Processing {len(clarification_responses)} clarification responses")
-        
-        # Extract relevant information from responses
-        analysis_preferences = {}
-        for response in clarification_responses:
-            question = response.get("question", "")
-            answer = response.get("response", "")
-            
-            # Parse common preferences
-            if "aspect" in question.lower() or "type" in question.lower():
-                analysis_preferences["preferred_analysis"] = answer
-            elif "scope" in question.lower() or "focus" in question.lower():
-                analysis_preferences["analysis_scope"] = answer
-            elif "data" in question.lower():
-                analysis_preferences["data_preferences"] = answer
-        
-        # Update user input with clarification context
-        original_request = state.user_input or ""
-        enhanced_request = original_request
-        
-        if analysis_preferences:
-            clarification_text = " ".join([f"{k}: {v}" for k, v in analysis_preferences.items()])
-            enhanced_request = f"{original_request} (Clarifications: {clarification_text})"
-        
-        return {
-            "user_input": enhanced_request,
-            "clarification_processed": True,
-            "analysis_preferences": analysis_preferences,
-            "needs_clarification": False,
-            "conversation_id": state.conversation_id
-        }
-        
-    except Exception as e:
-        logger.error(f"Error processing clarification response: {e}")
-        return {
-            "error_message": str(e),
-            "conversation_id": state.conversation_id
-        }
-
-
 def generate_workflow_plan_node(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
     """Generate a workflow plan using LLM and contextual search."""
     try:
@@ -387,13 +336,7 @@ def generate_workflow_plan_node(state: WorkflowAgentState, config: WorkflowAgent
         logger.info(f"Context text: {context_text}")
         
         # Include clarification context if available
-        clarification_text = ""
-        if state.clarification_processed and state.clarification_responses:
-            clarification_text = "\nUSER CLARIFICATIONS:\n"
-            for resp in state.clarification_responses:
-                question = resp.get("question", "")
-                response = resp.get("response", "")
-                clarification_text += f"Question: {question}\nResponse: {response}\n\n"
+        clarification_text = format_clarification_response_for_llm(state)
         
         # Create planning prompt
         system_prompt = (

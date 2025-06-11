@@ -516,14 +516,14 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       const stepCompletionPromise = new Promise((resolve, reject) => {
         stepCompletionResolver.current = resolve;
         
-        // Set up a timeout
+        // If the step takes too long (default 5 minutes), reject to avoid indefinite hanging
         setTimeout(() => {
           if (stepCompletionResolver.current) {
             stepCompletionResolver.current = null;
             stepExecutionInProgress.current = false;
-            reject(new Error('Step execution timeout - no response received'));
+            reject(new Error('Step execution timeout (5 min) – no response received'));
           }
-        }, 60000); // 60 second timeout
+        }, 300000); // 5-minute timeout
       });
       
       // Create a user message for this step
@@ -655,7 +655,8 @@ ${stepInfo.input}`;
       isLoading
     });
     let pollCount = 0;
-    const maxPolls = 120; // 2 minutes with 1-second intervals
+    const maxPolls = 300; // 5 minutes with 1-second intervals
+    const pollIntervalSeconds = 2; // 2 seconds
     
     const pollInterval = setInterval(async () => {
       try {
@@ -848,62 +849,7 @@ ${stepInfo.input}`;
           setError('Request timeout - agent execution took too long');
         }
       }
-    }, 1000); // Poll every second
-  };
-
-  // Render the clarification options UI
-  // Old clarification UI removed - now using dialog approach
-
-  // Handle deleting a specific message
-  const handleDeleteMessage = async (messageIndex) => {
-    // Show confirmation dialog
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete this message? This action cannot be undone.\n\n` +
-      `Message preview: "${messages[messageIndex]?.content?.substring(0, 100)}..."`
-    );
-    
-    if (!confirmDelete) {
-      return;
-    }
-
-    // Set loading state for this message
-    setDeletingMessages(prev => new Set([...prev, messageIndex]));
-
-    try {
-      const deleteUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}/messages/${messageIndex}`);
-      await apiRequest(deleteUrl, { method: 'DELETE' });
-
-      // Update local state directly by filtering out the deleted message
-      setMessages(prev => prev.filter((_, index) => index !== messageIndex));
-      
-      // Refresh messages from server using proper message service to ensure special UI flags are preserved
-      try {
-        console.log(`🔍 Reloading messages after deletion for conversation ${conversation.id}...`);
-        const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
-        console.log(`📝 Reloaded ${loadedMessages.length} messages after deletion`);
-        
-        if (loadedMessages.length > 0) {
-          // Convert backend message format to frontend format (same as in useEffect)
-          const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
-          setMessages(convertedMessages);
-        } else {
-          setMessages([]);
-        }
-      } catch (reloadError) {
-        console.error('Error reloading messages after deletion:', reloadError);
-        // If reload fails, keep the local deletion
-      }
-    } catch (error) {
-      console.error('Error deleting message:', error);
-      alert('Failed to delete message. Please try again.');
-    } finally {
-      // Remove loading state
-      setDeletingMessages(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(messageIndex);
-        return newSet;
-      });
-    }
+    }, pollIntervalSeconds * 1000); // Poll every second
   };
 
   // Handle deleting messages from a specific index onwards
@@ -1031,7 +977,7 @@ ${stepInfo.input}`;
 
   // Helper to render individual chat message
   const renderChatMessage = (message, messageIndex) => {
-    const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm";
+    const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm max-w-[90%]";
     const roleClasses = message.role === 'user' 
       ? "bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/30 text-neutral-900 dark:text-neutral-100" 
       : "bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600 text-neutral-900 dark:text-neutral-100";
@@ -1055,127 +1001,130 @@ ${stepInfo.input}`;
       .filter(Boolean)
       .join(" ");
 
-    return (
-          <div 
-            key={message.id} 
-        className={`${allClasses} relative group transition-all duration-300`}
-      >
-        {/* Deletion overlay */}
-        {(isBeingDeleted || willBeDeleted) && (
-          <div className="absolute inset-0 bg-red-100 dark:bg-red-900/50 bg-opacity-75 rounded-lg flex items-center justify-center">
-            <div className="flex items-center gap-2 bg-white dark:bg-neutral-800 px-3 py-2 rounded-lg shadow-md">
-              <svg className="w-4 h-4 animate-spin text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-sm font-medium text-red-700 dark:text-red-300">
-                {isBeingDeleted ? 'Deleting messages...' : 'Will be deleted...'}
-              </span>
-            </div>
-          </div>
-        )}
+    const wrapperClass = message.role === 'user' ? 'flex justify-end' : 'flex justify-start';
+    const deleteBtnPos = message.role === 'user' ? 'right-2' : 'left-2';
 
-        {/* Delete button - only show on hover and for non-loading states */}
-        {!isLoading && messageIndex > 0 && message.role === 'user' && messageIndex < messages.length - 1 && (
-          <button
-            onClick={() => !deletingMessages.has(`bulk_${messageIndex}`) && handleDeleteFromIndex(messageIndex)}
-            disabled={deletingMessages.has(`bulk_${messageIndex}`)}
-            className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-              deletingMessages.has(`bulk_${messageIndex}`)
-                ? 'opacity-100 bg-red-100 dark:bg-red-900/30 text-red-400 dark:text-red-500 cursor-not-allowed'
-                : 'opacity-0 group-hover:opacity-100 bg-white dark:bg-neutral-700 hover:bg-red-50 dark:hover:bg-red-900/30 text-neutral-400 dark:text-neutral-500 hover:text-red-500 dark:hover:text-red-400 shadow-md hover:shadow-lg'
-            }`}
-            title={deletingMessages.has(`bulk_${messageIndex}`) 
-              ? 'Deleting messages...' 
-              : `Delete this question and all ${messages.length - messageIndex - 1} messages after it`
-            }
-          >
-            {deletingMessages.has(`bulk_${messageIndex}`) ? (
-              <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            ) : (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            )}
-          </button>
-        )}
-        
-            {message.isCombinedAnswers ? (
-              <ClarificationResponseMessage 
-                content={message.content} 
-                clarificationResponses={message.clarificationResponses}
-              />
-      ) : message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution ? (
-              <QueryAndResultsMessage 
-                message={message}
-                query={message.sparqlQuery}
-                results={message.queryResults}
-                error={message.queryError}
-                generatedCode={message.generatedCode}
-                workflowPlan={message.workflowPlan}
-                workflowId={message.workflowId}
-                executionResults={message.executionResults}
-                failedSteps={message.failedSteps}
-                onExecuteWorkflow={handleExecuteWorkflow}
-                onExecuteStep={handleExecuteStep}
-                agentType={message.agentType}
-                isJsonWorkflow={message.isJsonWorkflow}
-                messageIndex={messageIndex}
-                allMessages={messages}
-                isDarkMode={isDarkMode}
-              />
-            ) : message.needsClarification ? (
-              // Show clarification questions - use main form button to answer
-              <ClarificationMessage 
-                content={message.content}
-                clarificationQuestions={message.clarificationQuestions}
-                hasSubsequentResponse={hasSubsequentClarificationResponse(messageIndex)}
-              />
-            ) : message.isLoading ? (
-              <div className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300">
-                <svg className="w-5 h-5 animate-spin text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    return (
+      <div key={message.id} className={`${wrapperClass} group`}>
+        <div 
+          className={`${allClasses} relative transition-all duration-300`}
+        >
+          {/* Deletion overlay */}
+          {(isBeingDeleted || willBeDeleted) && (
+            <div className="absolute inset-0 bg-red-100 dark:bg-red-900/50 bg-opacity-75 rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-2 bg-white dark:bg-neutral-800 px-3 py-2 rounded-lg shadow-md">
+                <svg className="w-4 h-4 animate-spin text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-sm">Sending request...</span>
+                <span className="text-sm font-medium text-red-700 dark:text-red-300">
+                  {isBeingDeleted ? 'Deleting messages...' : 'Will be deleted...'}
+                </span>
               </div>
-            ) : (
-              <div>
-                {/* Show role indicator and content */}
-                <div className="flex items-start gap-3">
-                  {/* Role indicator */}
-                  <div className="flex-shrink-0 mt-1">
-                    {message.role === 'user' ? (
-                      <div className="w-6 h-6 bg-blue-100 dark:bg-blue-800/30 border border-blue-200 dark:border-blue-700/50 rounded-full flex items-center justify-center">
-                        <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                      </div>
-                    ) : (
-                      <div className="w-6 h-6 bg-neutral-100 dark:bg-neutral-600 border border-neutral-200 dark:border-neutral-500 rounded-full flex items-center justify-center">
-                        <svg className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Content area with agent badge for user messages */}
-                  <div className="flex-1 min-w-0">
-                    {message.role === 'user' && message.agentType && (
-                      <div className="mb-2">
-                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50">
-                          {AGENT_TYPES.find(agent => agent.id === message.agentType)?.name || message.agentType}
-                        </span>
-                      </div>
-                    )}
-                    <div className="text-neutral-800 dark:text-neutral-200">{message.content}</div>
-                  </div>
+            </div>
+          )}
+
+          {/* Delete button - only show on hover and for non-loading states */}
+          {!isLoading && message.role === 'user' && messageIndex < messages.length - 1 && (
+            <button
+              onClick={() => !deletingMessages.has(`bulk_${messageIndex}`) && handleDeleteFromIndex(messageIndex)}
+              disabled={deletingMessages.has(`bulk_${messageIndex}`)}
+              className={`absolute -bottom-5 ${deleteBtnPos} w-7 h-7 rounded-md flex items-center justify-center transition-opacity transition-colors duration-200 ${
+                deletingMessages.has(`bulk_${messageIndex}`)
+                  ? 'opacity-100 bg-red-200 dark:bg-red-900/30 text-red-400 dark:text-red-500 cursor-not-allowed'
+                  : 'opacity-0 group-hover:opacity-100 bg-red-100 dark:bg-red-900/20 hover:bg-red-200 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300'
+              }`}
+              title={deletingMessages.has(`bulk_${messageIndex}`) 
+                ? 'Deleting messages...' 
+                : `Delete this question and all ${messages.length - messageIndex - 1} messages after it`}
+            >
+              {deletingMessages.has(`bulk_${messageIndex}`) ? (
+                <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              )}
+            </button>
+          )}
+          
+          {message.isCombinedAnswers ? (
+            <ClarificationResponseMessage 
+              content={message.content} 
+              clarificationResponses={message.clarificationResponses}
+            />
+          ) : message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution ? (
+            <QueryAndResultsMessage 
+              message={message}
+              query={message.sparqlQuery}
+              results={message.queryResults}
+              error={message.queryError}
+              generatedCode={message.generatedCode}
+              workflowPlan={message.workflowPlan}
+              workflowId={message.workflowId}
+              executionResults={message.executionResults}
+              failedSteps={message.failedSteps}
+              onExecuteWorkflow={handleExecuteWorkflow}
+              onExecuteStep={handleExecuteStep}
+              agentType={message.agentType}
+              isJsonWorkflow={message.isJsonWorkflow}
+              messageIndex={messageIndex}
+              allMessages={messages}
+              isDarkMode={isDarkMode}
+            />
+          ) : message.needsClarification ? (
+            // Show clarification questions - use main form button to answer
+            <ClarificationMessage 
+              content={message.content}
+              clarificationQuestions={message.clarificationQuestions}
+              hasSubsequentResponse={hasSubsequentClarificationResponse(messageIndex)}
+            />
+          ) : message.isLoading ? (
+            <div className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300">
+              <svg className="w-5 h-5 animate-spin text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm">Sending request...</span>
+            </div>
+          ) : (
+            <div>
+              {/* Show role indicator and content */}
+              <div className="flex items-start gap-3">
+                {/* Role indicator */}
+                <div className="flex-shrink-0 mt-1">
+                  {message.role === 'user' ? (
+                    <div className="w-6 h-6 bg-blue-100 dark:bg-blue-800/30 border border-blue-200 dark:border-blue-700/50 rounded-full flex items-center justify-center">
+                      <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className="w-6 h-6 bg-neutral-100 dark:bg-neutral-600 border border-neutral-200 dark:border-neutral-500 rounded-full flex items-center justify-center">
+                      <svg className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Content area with agent badge for user messages */}
+                <div className="flex-1 min-w-0">
+                  {message.role === 'user' && message.agentType && (
+                    <div className="mb-2">
+                      <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50">
+                        {AGENT_TYPES.find(agent => agent.id === message.agentType)?.name || message.agentType}
+                      </span>
+                    </div>
+                  )}
+                  <div className="text-neutral-800 dark:text-neutral-200">{message.content}</div>
                 </div>
               </div>
-            )}
-          </div>
-  );
+            </div>
+          )}
+        </div>
+      </div>
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -1406,7 +1355,7 @@ ${stepInfo.input}`;
         />
         <button 
           type="submit" 
-          className="px-4 py-2 bg-neutral-600 dark:bg-neutral-500 text-white rounded hover:bg-neutral-700 dark:hover:bg-neutral-400 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2"
+          className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           disabled={isLoading}
         >
           {isLoading ? 'Generating...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}

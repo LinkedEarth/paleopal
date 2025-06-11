@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+// Use prism syntax highlighter for code snippets
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Modal component for showing detailed results
 const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
@@ -19,23 +22,41 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                 
         {/* SPARQL Query */}
         {(result.sparql || result.sparql_query || result.query) && (
-                  <div className="mt-2">
+          <div className="mt-2">
             <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">SPARQL Query:</div>
-            <div className="bg-neutral-800 dark:bg-neutral-900 text-green-400 dark:text-green-300 p-2 rounded text-xs font-mono overflow-x-auto">
+            <SyntaxHighlighter
+              language="sparql"
+              style={{
+                ...(document.documentElement.classList.contains('dark') ? oneDark : oneLight),
+                'code[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' },
+                'pre[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' }
+              }}
+              customStyle={{ margin: 0, padding: '1rem', background: 'transparent', fontSize: '13px' }}
+              className="!m-0 rounded border border-neutral-200 dark:border-neutral-600"
+            >
               {result.sparql || result.sparql_query || result.query}
-                    </div>
-                  </div>
-                )}
-                
+            </SyntaxHighlighter>
+          </div>
+        )}
+        
         {/* Python Code */}
         {result.code && (
-                  <div className="mt-2">
+          <div className="mt-2">
             <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Python Code:</div>
-            <div className="bg-neutral-800 dark:bg-neutral-900 text-blue-400 dark:text-blue-300 p-2 rounded text-xs font-mono overflow-x-auto">
+            <SyntaxHighlighter
+              language="python"
+              style={{
+                ...(document.documentElement.classList.contains('dark') ? oneDark : oneLight),
+                'code[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' },
+                'pre[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' }
+              }}
+              customStyle={{ margin: 0, padding: '1rem', background: 'transparent', fontSize: '13px' }}
+              className="!m-0 rounded border border-neutral-200 dark:border-neutral-600"
+            >
               {result.code}
-                    </div>
-                  </div>
-                )}
+            </SyntaxHighlighter>
+          </div>
+        )}
 
         {/* Entity details */}
         {type === 'entity_matches' && (
@@ -60,6 +81,20 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                     </div>
                   </div>
                 )}
+
+        {/* Method steps for literature / notebook methods */}
+        {((result.steps && Array.isArray(result.steps)) || (result.method_steps && Array.isArray(result.method_steps))) && (
+          <div className="mt-2">
+            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Method Steps:</div>
+            <ol className="list-decimal pl-5 space-y-1 text-xs text-neutral-600 dark:text-neutral-400">
+              {(result.steps || result.method_steps).map((step, i) => (
+                <li key={i}>
+                  {typeof step === 'string' ? step : (step.title || step.name || step.description || JSON.stringify(step))}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
 
         {/* Metadata badges */}
         <div className="mt-2 flex flex-wrap gap-1">
@@ -240,6 +275,19 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                   // Steps that should show clickable badges
                   const badgeSteps = ['get_similar_queries', 'get_entity_matches', 'search_examples', 'search_context'];
                   const shouldShowBadges = badgeSteps.includes(node.nodeName);
+                  // Create a suffix for the matches based on the node name
+                  let badgeSuffix = '';
+                  let badgeSuffix2 = ''
+                  if (node.nodeName === 'get_similar_queries') {
+                    badgeSuffix = 'similar queries';
+                  } else if (node.nodeName === 'get_entity_matches') {
+                    badgeSuffix = 'ontology matches';
+                  } else if (node.nodeName === 'search_examples') {
+                    badgeSuffix = 'code examples';
+                  } else if (node.nodeName === 'search_context') {
+                    badgeSuffix = 'notebook methods';
+                    badgeSuffix2 = 'literature methods';
+                  }
                   
                   // Debug logging for search_examples and search_context steps
                   if (node.nodeName === 'search_examples' || node.nodeName === 'search_context') {
@@ -264,28 +312,28 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                             {/* Similar results/queries */}
                             {nodeOutput.similar_results && Array.isArray(nodeOutput.similar_results) && nodeOutput.similar_results.length > 0 && (
                               <button 
-                                className="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors text-xs"
+                                className="px-2 py-0.5 bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-200 rounded hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors text-xs"
                                 onClick={() => openModal(
                                   `Similar Queries (${nodeOutput.similar_results.length})`,
                                   nodeOutput.similar_results,
                                   'query_examples'
                                 )}
                               >
-                                {nodeOutput.similar_results.length} queries
+                                {nodeOutput.similar_results.length} {badgeSuffix}
                               </button>
                             )}
                             
                             {/* Entity matches */}
                             {nodeOutput.entity_matches && Array.isArray(nodeOutput.entity_matches) && nodeOutput.entity_matches.length > 0 && (
                               <button 
-                                className="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors text-xs"
+                                className="px-2 py-0.5 bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-200 rounded hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors text-xs"
                                 onClick={() => openModal(
                                   `Entity Matches (${nodeOutput.entity_matches.length})`,
                                   nodeOutput.entity_matches,
                                   'entity_matches'
                                 )}
                               >
-                                {nodeOutput.entity_matches.length} entities
+                                {nodeOutput.entity_matches.length} {badgeSuffix}
                               </button>
                             )}
                             
@@ -295,14 +343,14 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                                 const examples = nodeOutput.code_examples || nodeOutput.examples || nodeOutput.search_results;
                                 return Array.isArray(examples) && examples.length > 0 && (
                                   <button 
-                                    className="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors text-xs"
+                                    className="px-2 py-0.5 bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-200 rounded hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors text-xs"
                                     onClick={() => openModal(
                                       `Code Examples (${examples.length})`,
                                       examples,
                                       'code_examples'
                                     )}
                                   >
-                                    {examples.length} examples
+                                    {examples.length} {badgeSuffix}
                                   </button>
                                 );
                               })()
@@ -314,14 +362,14 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                                 const contextExamples = nodeOutput.literature_examples || nodeOutput.context_examples || nodeOutput.context_results || nodeOutput.search_results;
                                 return Array.isArray(contextExamples) && contextExamples.length > 0 && (
                                   <button 
-                                    className="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors text-xs"
+                                    className="px-2 py-0.5 bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-200 rounded hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors text-xs"
                                     onClick={() => openModal(
                                       `Context Examples (${contextExamples.length})`,
                                       contextExamples,
                                       'literature_examples'
                                     )}
                                   >
-                                    {contextExamples.length} context
+                                    {contextExamples.length} {badgeSuffix2 ? badgeSuffix2 : badgeSuffix}
                                   </button>
                                 );
                               })()
@@ -330,7 +378,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                             {/* Generic results count - fallback for any step with results */}
                             {nodeOutput.results_count && (
                               <span className="px-2 py-0.5 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded text-xs">
-                                {nodeOutput.results_count} results
+                                {nodeOutput.results_count} {badgeSuffix}
                               </span>
                             )}
                           </div>

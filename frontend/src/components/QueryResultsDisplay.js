@@ -33,7 +33,9 @@ const QueryResultsDisplay = ({ results, error }) => {
   return (
     <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800">
       <div className="flex justify-between items-center p-3 border-b border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-700 rounded-t-lg">
-        <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0">📊 Query Results ({results.length} row{results.length !== 1 ? 's' : ''})</h4>
+        <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0">
+          📊 Query Results ({results.length === 50 ? "limiting to ": ""}{results.length} row{results.length !== 1 ? 's' : ''})
+        </h4>
         <button 
           className="px-3 py-1 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded text-xs hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors border border-neutral-300 dark:border-neutral-500"
           onClick={() => copyToClipboard(JSON.stringify(results, null, 2))}
@@ -68,6 +70,10 @@ const QueryResultsDisplay = ({ results, error }) => {
             </table>
           </div>
         </div>
+        {/* Show a note if results are truncated to the maximum limit */}
+        {results.length === 50 && (
+          <p className="text-xs text-neutral-500 mb-2">Displaying first 50 results (limited).</p>
+        )}
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import logging
 import uuid
 import json
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, Type
+from typing import Dict, Any, Optional, Type, List
 from langgraph.graph import StateGraph, START, END
 from pydantic import BaseModel
 
@@ -173,7 +173,8 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     structured_responses.append({
                         "question_id": question_id,
                         "question": question_text,
-                        "answer": answer
+                        "answer": answer,
+                        "response": answer  # duplicate for backward compatibility
                     })
                     
                     # Also create readable text for display
@@ -223,7 +224,9 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                         # Add this as context for the generation nodes to use
                         context = state_data.get("context", {})
                         context["previous_query"] = msg.query_generated
-                        context["previous_results"] = msg.query_results or []
+                        # Limit the number of previous results passed into context to avoid oversized prompts
+                        TRUNCATED_LIMIT = 50
+                        context["previous_results"] = (msg.query_results or [])[:TRUNCATED_LIMIT]
                         context["previous_agent_type"] = msg.agent_type
                         context["has_previous_context"] = True
                         state_data["context"] = context
@@ -869,16 +872,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             "refinement_count": get_state_value("refinement_count", 0)
         }
     
-    def get_conversation_state(self, conversation_id: str) -> Optional[Dict[str, Any]]:
-        """Get conversation state - deprecated, now handled via messages."""
-        logger.warning("get_conversation_state is deprecated - state now managed via messages")
-        return None
-
-    def set_conversation_state(self, conversation_id: str, state: Dict[str, Any]) -> None:
-        """Set conversation state - deprecated, now handled via messages."""
-        logger.warning("set_conversation_state is deprecated - state now managed via messages")
-
-
 # Common node functions that can be used by all agents
 def process_clarification_response_node(state: BaseAgentState) -> Dict[str, Any]:
     """Process clarification responses."""
@@ -892,6 +885,29 @@ def process_clarification_response_node(state: BaseAgentState) -> Dict[str, Any]
         "needs_clarification": False,
     }
 
+def format_clarification_response_for_llm(state: BaseAgentState) -> str:
+    """Format clarification responses for LLM."""
+
+    # Prepare clarification info if available
+    clarification_info = None
+    if state.clarification_processed:
+        clarification_info = {
+            "clarification_processed": state.clarification_processed,
+            "clarification_questions": state.clarification_questions,
+            "clarification_responses": state.clarification_responses
+        }
+
+    clarification_text = ""
+    if clarification_info and clarification_info.get("clarification_processed"):
+        if clarification_info.get("clarification_responses"):
+            clarification_text = "\nUSER CLARIFICATIONS:\n"
+            for resp in clarification_info.get("clarification_responses", []):
+                question = resp.get("question", "")
+                answer = resp.get("answer", "")
+                clarification_text += f"Question: {question}\nAnswer: {answer}\n\n"
+
+    logger.info(f"Clarification text: {clarification_text}")
+    return clarification_text
 
 def finalize_response_node(state: BaseAgentState) -> Dict[str, Any]:
     """Finalize the response with a summary message."""

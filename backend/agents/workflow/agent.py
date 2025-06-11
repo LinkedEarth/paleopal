@@ -11,7 +11,6 @@ from .handlers import (
     extract_workflow_request_node,
     search_workflow_context_node,
     detect_clarification_node,
-    process_clarification_response,
     generate_workflow_plan_node,
     finalize_workflow_response_node
 )
@@ -69,36 +68,12 @@ def create_agent() -> Graph:
         workflow.add_node("extract_request", extract_workflow_request_node)
         workflow.add_node("search_context", search_workflow_context_node)
         workflow.add_node("detect_clarification", detect_clarification_node)
-        workflow.add_node("process_clarification", process_clarification_response)
         workflow.add_node("generate_plan", generate_workflow_plan_node)
         workflow.add_node("human_clarification_needed", human_clarification_needed_node)
         workflow.add_node("finalize", finalize_workflow_response_node)
         
-        # Enhanced conditional routing from start
-        def route_initial_request(state):
-            clarification_responses = _get(state, "clarification_responses")
-            
-            logger.info(f"=== WORKFLOW ROUTING ===")
-            logger.info(f"clarification_responses: {bool(clarification_responses)}")
-            
-            if clarification_responses:
-                logger.info("Routing to: has_clarification")
-                return "has_clarification"
-            else:
-                logger.info("Routing to: new_request")
-                return "new_request"
-        
-        workflow.add_conditional_edges(
-            START,
-            route_initial_request,
-            {
-                "has_clarification": "process_clarification",
-                "new_request": "extract_request"
-            }
-        )
-        
-        # After processing clarification, continue with context search
-        workflow.add_edge("process_clarification", "search_context")
+        # Direct edge from START to extract_request
+        workflow.add_edge(START, "extract_request")
         
         # Main flow
         workflow.add_edge("extract_request", "search_context")

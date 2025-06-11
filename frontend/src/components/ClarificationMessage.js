@@ -2,7 +2,7 @@ import React from 'react';
 import { parseMessageParts } from '../utils/parse';
 
 // Component to render formatted clarification messages
-const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentResponse = false }) => {
+const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentResponse = false, onAnswerQuestions }) => {
     const [isCollapsed, setIsCollapsed] = React.useState(hasSubsequentResponse); // Collapse by default if answered
 
     // Update collapsed state when hasSubsequentResponse changes
@@ -133,7 +133,22 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
     return (
       <div>
         {renderHeader()}
-        {!isCollapsed && renderContent()}
+        {!isCollapsed && (
+          <>
+            {renderContent()}
+            {/* Answer Questions button */}
+            {!hasSubsequentResponse && onAnswerQuestions && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={onAnswerQuestions}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
+                >
+                  Answer Questions
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     );
 };

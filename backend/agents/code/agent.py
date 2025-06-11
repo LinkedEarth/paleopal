@@ -10,7 +10,6 @@ from .state import CodeAgentState, CodeAgentConfig
 from .handlers import (
     search_code_examples_node,
     detect_clarification_node,
-    process_clarification_response,
     generate_code_node,
     should_refine_code,
     refine_code_node,
@@ -31,27 +30,10 @@ def create_agent() -> Graph:
         workflow.add_node("search_examples", search_code_examples_node)
         workflow.add_node("detect_clarification", detect_clarification_node)
         workflow.add_node("generate_code", generate_code_node)
-        workflow.add_node("process_clarification", process_clarification_response)
         workflow.add_node("refine_code", refine_code_node)
         
-        # Enhanced conditional routing from start
-        def route_initial_request(state):
-            if state.clarification_responses:
-                return "has_clarification"
-            else:
-                return "new_request"
-        
-        workflow.add_conditional_edges(
-            START,
-            route_initial_request,
-            {
-                "has_clarification": "process_clarification",
-                "new_request": "search_examples"  # Start with searching examples and context
-            }
-        )
-        
-        # After processing clarification, continue with code generation  
-        workflow.add_edge("process_clarification", "search_examples")
+        # Direct start edge
+        workflow.add_edge(START, "search_examples")
         
         # Main flow - user_input is used directly, so we start with searching examples  
         workflow.add_edge("search_examples", "detect_clarification")
@@ -79,7 +61,6 @@ def create_agent() -> Graph:
         
         # After human responds, process the clarification and go back to search_examples for context
         workflow.add_edge("human_clarification_needed", END)
-        workflow.add_edge("process_clarification", "search_examples")
         
         # Code generation and refinement flow
         workflow.add_conditional_edges(

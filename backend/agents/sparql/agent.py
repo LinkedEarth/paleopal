@@ -12,7 +12,6 @@ from .handlers import (
     get_similar_queries_node,
     get_entity_matches_node,
     detect_clarification_node,
-    process_clarification_response,
     generate_query_node,
     execute_query_node,
     should_refine_query,
@@ -75,36 +74,16 @@ def create_agent() -> Graph:
         workflow.add_node("get_entity_matches", get_entity_matches_node)
         workflow.add_node("detect_clarification", detect_clarification_node)
         workflow.add_node("generate_query", generate_query_node)
-        workflow.add_node("process_clarification", process_clarification_response)
         workflow.add_node("execute_query", execute_query_node)
         workflow.add_node("refine_query", refine_query_node)
         workflow.add_node("human_clarification_needed", human_clarification_needed_node)
         
-        # Enhanced conditional routing from start
-        def route_initial_request(state):
-            clarification_responses = _get(state, "clarification_responses")
-            
-            logger.info(f"=== WORKFLOW ROUTING ===")
-            logger.info(f"clarification_responses: {bool(clarification_responses)}")
-            
-            if clarification_responses:
-                logger.info("Routing to: has_clarification")
-                return "has_clarification"
-            else:
-                logger.info("Routing to: new_query")
-                return "new_query"
+        # Simplified start routing: always begin with gathering context.
+        def route_initial_request(_state):
+            return "new_query"
         
-        workflow.add_conditional_edges(
-            START,
-            route_initial_request,
-            {
-                "has_clarification": "process_clarification",
-                "new_query": "get_similar_queries"  # Start with getting similar queries and context
-            }
-        )
-        
-        # After processing clarification, continue with query generation
-        workflow.add_edge("process_clarification", "get_similar_queries")
+        # Direct edge from START to get_similar_queries
+        workflow.add_edge(START, "get_similar_queries")
         
         # Main flow - user_input is used directly, so we start with similar queries
         workflow.add_edge("get_similar_queries", "get_entity_matches")
@@ -122,7 +101,6 @@ def create_agent() -> Graph:
         
         # After human responds, process the clarification and go back to get_similar_queries for context
         workflow.add_edge("human_clarification_needed", END)
-        workflow.add_edge("process_clarification", "get_similar_queries")
         
         # Remaining flow
         workflow.add_edge("generate_query", "execute_query")

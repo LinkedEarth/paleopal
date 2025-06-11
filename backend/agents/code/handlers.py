@@ -12,51 +12,10 @@ from langchain.schema import HumanMessage, SystemMessage
 
 from .state import CodeAgentState, CodeAgentConfig
 from agents.base_state import MAX_REFINEMENTS
-from agents.base_langgraph_agent import get_config_value, get_message_value
+from agents.base_langgraph_agent import get_config_value, get_message_value, format_clarification_response_for_llm
 from services.search_integration_service import search_service
 
 logger = logging.getLogger(__name__)
-
-
-def extract_analysis_request_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Extract analysis request from messages."""
-    try:
-        logger.info("=== EXTRACT_ANALYSIS_REQUEST_NODE CALLED ===")
-        
-        messages = state.messages or []
-        user_input = ""
-        
-        if messages:
-            # Get the most recent message
-            last_message = messages[-1]
-            user_input = get_message_value(last_message, 'content', '')
-        else:
-            # Look for user_input if no messages
-            user_input = get_message_value(msg, 'content', '')
-        
-        
-        if not user_input:
-            logger.warning("No user input found in state")
-            return {
-                "error_message": "No analysis request found",
-                "analysis_request": "",
-                "conversation_id": state.conversation_id
-            }
-        
-        logger.info(f"Extracted analysis request: '{user_input[:100]}...'")
-        
-        return {
-            "analysis_request": user_input,
-            "conversation_id": state.conversation_id  # Preserve conversation_id
-        }
-        
-    except Exception as e:
-        logger.error(f"Error extracting analysis request: {e}")
-        return {
-            "error_message": str(e),
-            "conversation_id": state.conversation_id
-        }
-
 
 async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Enhanced search for relevant code examples using comprehensive contextual search."""
@@ -154,7 +113,6 @@ async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConf
             "error_message": str(e),
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
-
 
 def detect_clarification_needs_code(
     llm,
@@ -291,7 +249,6 @@ Only include the JSON object, nothing else."""
         logger.error(f"Error detecting clarification needs: {e}")
         return {"needs_clarification": False}
 
-
 def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Detect if clarification is needed for code generation."""
     try:
@@ -389,58 +346,6 @@ def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) ->
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
-
-def process_clarification_response(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Process clarification responses from the user."""
-    try:
-        clarification_responses = state.clarification_responses or []
-        
-        if not clarification_responses:
-            return {
-                "error_message": "No clarification responses to process",
-                "conversation_id": state.conversation_id  # Preserve conversation_id
-            }
-        
-        logger.info(f"Processing {len(clarification_responses)} clarification responses")
-        
-        # Extract relevant information from responses
-        analysis_preferences = {}
-        for response in clarification_responses:
-            question = response.get("question", "")
-            answer = response.get("response", "")
-            
-            # Parse common preferences
-            if "analysis type" in question.lower():
-                analysis_preferences["preferred_analysis"] = answer
-            elif "data" in question.lower():
-                analysis_preferences["data_info"] = answer
-            elif "output" in question.lower():
-                analysis_preferences["output_preference"] = answer
-        
-        # Update analysis request with clarification context
-        original_request = state.analysis_request or ""
-        enhanced_request = original_request
-        
-        if analysis_preferences:
-            clarification_text = " ".join([f"{k}: {v}" for k, v in analysis_preferences.items()])
-            enhanced_request = f"{original_request} (Clarifications: {clarification_text})"
-        
-        return {
-            "analysis_request": enhanced_request,
-            "clarification_processed": True,
-            "analysis_preferences": analysis_preferences,
-            "needs_clarification": False,
-            "conversation_id": state.conversation_id  # Preserve conversation_id
-        }
-        
-    except Exception as e:
-        logger.error(f"Error processing clarification response: {e}")
-        return {
-            "error_message": str(e),
-            "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
-        }
-
-
 def should_refine_code(state: CodeAgentState) -> str:
     """Determine if code should be refined."""
     try:
@@ -463,7 +368,6 @@ def should_refine_code(state: CodeAgentState) -> str:
     except Exception as e:
         logger.error(f"Error in should_refine_code: {e}")
         return "false"
-
 
 def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Refine the generated code to address issues."""
@@ -571,7 +475,6 @@ Return your response as JSON with keys: code, description, improvements_made.
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
-
 def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Enhanced code generation with comprehensive contextual information."""
     try:
@@ -636,13 +539,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             )
         
         # Include clarification context if available
-        clarification_text = ""
-        if state.clarification_processed and state.clarification_responses:
-            clarification_text = "\nUSER CLARIFICATIONS:\n"
-            for resp in state.clarification_responses:
-                question = resp.get("question", "")
-                response = resp.get("response", "")
-                clarification_text += f"Question: {question}\nResponse: {response}\n\n"
+        clarification_text = format_clarification_response_for_llm(state)
         
         # The previous context is now handled through the unified refinement_context 
         # in contextual_data, which is formatted by the search service
@@ -765,7 +662,6 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "error_message": str(e),
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
-
 
 def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Finalize the code generation response."""
