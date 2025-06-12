@@ -63,6 +63,7 @@ def get_entity_matches_node(state: SparqlAgentState, config: SparqlAgentConfig) 
         import asyncio
         entity_matches = asyncio.run(search_service.search_ontology_entities(
             query=state.user_input or "",
+            llm_provider = state.llm_provider or DEFAULT_LLM_PROVIDER,
             use_term_extraction=True  # Enable LLM-based term extraction
         ))
         

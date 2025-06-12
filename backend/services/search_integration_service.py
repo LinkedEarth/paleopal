@@ -11,6 +11,7 @@ import sys
 import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+from config import DEFAULT_LLM_PROVIDER
 
 # Add the library directories to Python path for imports
 base_dir = Path(__file__).parent.parent.parent
@@ -252,7 +253,10 @@ class SearchIntegrationService:
             logger.error(f"Error searching SPARQL queries: {e}")
             return []
 
-    async def search_ontology_entities(self, query: str, top_k: int = 5, use_term_extraction: bool = True) -> List[Dict[str, Any]]:
+    async def search_ontology_entities(self, query: str, 
+                                       top_k: int = 5, 
+                                       use_term_extraction: bool = True,
+                                       llm_provider: str = DEFAULT_LLM_PROVIDER) -> List[Dict[str, Any]]:
         """
         Search for relevant ontology entities from the ontology library.
         
@@ -278,10 +282,9 @@ class SearchIntegrationService:
                 try:
                     # Import here to avoid circular imports
                     from services.service_manager import service_manager
-                    from config import DEFAULT_LLM_PROVIDER
-                    
+
                     # Get LLM for term extraction
-                    llm = service_manager.get_llm_provider(DEFAULT_LLM_PROVIDER)
+                    llm = service_manager.get_llm_provider(llm_provider)
                     
                     # Extract paleoclimate terms using LLM (similar to extract_paleo_terms)
                     search_terms = self._extract_paleo_terms_for_search(llm, query)
@@ -367,7 +370,7 @@ class SearchIntegrationService:
 Query: "{user_query}"
 
 Extract specialized terms like:
-- Archive types (coral, ice core, speleothem, etc.)
+- Archive types (coral, ice core, marine sediment,speleothem, etc.)
 - Variables (d18O, temperature, precipitation, etc.)  
 - Units (permil, degrees Celsius, etc.)
 - Proxy types (radiocarbon, alkenone, etc.)
