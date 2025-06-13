@@ -615,7 +615,7 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         }
 
 def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
-    """Execute the generated SPARQL query."""
+    """Execute the generated SPARQL query and create Python variables."""
     try:
         if not state.generated_code:
             raise ValueError("No generated query found in state")
@@ -633,10 +633,93 @@ def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
                 sparql_service,
                 query
             )
-            return {
-                "execution_results": results,
-                "conversation_id": state.conversation_id  # Preserve conversation_id
-            }
+            
+            # Create a unique variable name for this query result
+            import uuid
+            import time
+            timestamp = int(time.time())
+            unique_id = str(uuid.uuid4())[:8]
+            variable_name = f"sparql_results_{timestamp}_{unique_id}"
+            
+            # Get SPARQL endpoint URL from config
+            sparql_endpoint = sparql_service.endpoint_url
+            
+            # Create Python code that queries the SPARQL endpoint and stores results as DataFrame
+            python_code = f"""
+import pylipd
+
+sparql_endpoint = "{sparql_endpoint}"
+sparql_query = '''{query}'''
+
+lipd = pylipd.LiPD()
+lipd.set_endpoint(sparql_endpoint)
+_res, {variable_name} = lipd.query(sparql_query, remote=True)
+{variable_name}.head()
+"""
+            
+            # Execute the Python code to create the variable
+            from services.python_execution_service import python_execution_service
+            
+            logger.info(f"Creating DataFrame variable '{variable_name}' from SPARQL results")
+            execution_result = python_execution_service.execute_code(
+                code=python_code,
+                conversation_id=state.conversation_id,
+                timeout=30
+            )
+            
+            if execution_result.success:
+                logger.info(f"Successfully created DataFrame variable '{variable_name}'")
+                
+                # Get variable summary for display (this is JSON-serializable)
+                var_summary = python_execution_service.get_variable_summary(state.conversation_id)
+                
+                # Create unified execution result as dictionary
+                unified_execution_result = {
+                    "type": "execution_success",
+                    "output": execution_result.output,
+                    "execution_time": execution_result.execution_time,
+                    "variable_summary": var_summary,
+                    "plots": execution_result.plots or []
+                }
+                
+                return {
+                    "generated_code": python_code,  # Store the Python code that executes SPARQL
+                    "execution_results": [unified_execution_result],  # Unified structure
+                    "result_variable_names": [variable_name],
+                    # Agent specific metadata
+                    "agent_metadata": {
+                        "generated_sparql": query,
+                        "result_count": len(results),
+                        "endpoint": sparql_endpoint,
+                        "generated_results": results[:50]  # keep first 50 rows for UI
+                    },
+                    "conversation_id": state.conversation_id
+                }
+            else:
+                logger.error(f"Failed to create DataFrame variable: {execution_result.error}")
+                
+                # Create unified error result as dictionary
+                unified_execution_result = {
+                    "type": "execution_error",
+                    "output": execution_result.output,
+                    "execution_time": execution_result.execution_time,
+                    "error": execution_result.error,
+                    "plots": execution_result.plots or []
+                }
+                
+                return {
+                    "generated_code": python_code,
+                    "execution_results": [unified_execution_result],
+                    "error_message": f"SPARQL query succeeded but failed to create DataFrame: {execution_result.error}",
+                    "agent_metadata": {
+                        "generated_sparql": query,
+                        "result_count": len(results),
+                        "endpoint": sparql_endpoint,
+                        "generated_results": results[:50] 
+                    },
+                    "conversation_id": state.conversation_id
+                }
+                
         except Exception as e:
             logger.error(f"Error executing SPARQL query: {e}")
             # Create a friendly error message
@@ -912,6 +995,9 @@ def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         # Gather final artifacts
         final_generated_code = state.generated_code or None
         final_execution_results = state.execution_results or None
+        final_result_variable_names = state.result_variable_names or []
+        final_agent_metadata = state.agent_metadata or {}
+        
         # Determine final message/status
         if refinement_count >= 3 and (has_error or has_error_results):
             message_content = "Query processing completed after maximum refinement attempts."
@@ -931,6 +1017,8 @@ def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
             "final_status": final_status,
             "generated_code": final_generated_code,
             "execution_results": final_execution_results,
+            "result_variable_names": final_result_variable_names,
+            "agent_metadata": final_agent_metadata,
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
     except Exception as e:

@@ -88,7 +88,7 @@ const messageService = {
   }
 };
 
-// Utility function to convert backend message format to frontend format
+// Utility function to convert backend message format to frontend format (unified schema)
 const convertBackendMessagesToFrontend = (backendMessages) => {
   return backendMessages.map(msg => {
     const baseMessage = {
@@ -99,16 +99,19 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
       agentType: msg.agent_type,
       messageType: msg.message_type,
       
-      // Agent results
-      sparqlQuery: msg.query_generated,
-      queryResults: msg.query_results,
-      generatedCode: msg.query_generated,
+      // Unified generation results
+      generatedCode: msg.generated_code,
+      generatedSparql: msg.agent_metadata?.generated_sparql,
       executionResults: msg.execution_results,
+      resultVariableNames: msg.result_variable_names,
       
-      // Workflow data - default mapping
-      workflowPlan: msg.workflow_plan,
-      workflowId: msg.workflow_id,
-      failedSteps: msg.failed_steps,
+      // Agent-specific metadata (unified)
+      agentMetadata: msg.agent_metadata,
+      
+      // Legacy fields for backward compatibility
+      sparqlQuery: msg.agent_metadata?.generated_sparql,
+      queryResults: msg.agent_metadata?.generated_results || null, // Only raw SPARQL results
+      workflowMetadata: msg.agent_metadata, // For workflow agent compatibility
       
       // Progress tracking
       isNodeProgress: msg.is_node_progress,
@@ -116,11 +119,11 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
       phase: msg.phase,
       nodeName: msg.node_name,
       
-      // UI flags - these are crucial for special UIs!
-      hasQueryResults: msg.has_query_results,
+      // UI flags - updated for unified schema
+      hasQueryResults: msg.has_execution_results,
       hasGeneratedCode: msg.has_generated_code,
-      hasWorkflowPlan: msg.has_workflow_plan,
-      hasWorkflowExecution: msg.has_workflow_execution,
+      hasWorkflowPlan: msg.agent_metadata && Object.keys(msg.agent_metadata).length > 0 && msg.agent_type === 'workflow_generation',
+      hasWorkflowExecution: msg.has_execution_results && msg.agent_type === 'workflow_generation',
       
       // Similar results for display
       similarResults: msg.similar_results,
@@ -455,6 +458,9 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       content: `Execute workflow: ${workflowId}`
     };
     setMessages(prev => [...prev, userMessage]);
+    
+    // Scroll down immediately when workflow execution starts
+    setTimeout(() => scrollToBottomIfNeeded(true), 0);
 
     try {
       // Prepare request for workflow execution
@@ -526,11 +532,66 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
         }, 300000); // 5-minute timeout
       });
       
-      // Create a user message for this step
+      // Build context with step input and dependency outputs
+      const stepContext = {
+        workflow_step: {
+          step_id: stepInfo.stepId,
+          step_number: stepInfo.stepNumber,
+          step_name: stepInfo.stepName,
+          step_input: stepInfo.input,
+          expected_output: stepInfo.expectedOutput,
+          dependencies: stepInfo.dependencies || []
+        }
+      };
+      
+      // Add previous result variable information for cross-agent variable sharing
+      const previousMessages = messages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
+      if (previousMessages.length > 0) {
+        const lastMessage = previousMessages[previousMessages.length - 1];
+        
+        if (lastMessage.resultVariableNames && lastMessage.resultVariableNames.length > 0) {
+          if (lastMessage.resultVariableNames.length === 1) {
+            stepContext.previous_result_variable = lastMessage.resultVariableNames[0];
+            console.log(`🔗 Adding previous result variable to context: ${lastMessage.resultVariableNames[0]} from ${lastMessage.agentType} agent`);
+          } else {
+            stepContext.previous_result_variables = lastMessage.resultVariableNames;
+            console.log(`🔗 Adding ${lastMessage.resultVariableNames.length} previous result variables to context: ${lastMessage.resultVariableNames.join(', ')} from ${lastMessage.agentType} agent`);
+          }
+          stepContext.previous_agent_type = lastMessage.agentType;
+        }
+      }
+      
+      // Add dependency outputs to context if available
+      if (stepInfo.dependencies && stepInfo.dependencies.length > 0 && stepInfo.allWorkflowSteps) {
+        stepContext.dependency_outputs = {};
+        
+        // Find completed dependency steps and their outputs from previous messages
+        stepInfo.dependencies.forEach(depId => {
+          const depStep = stepInfo.allWorkflowSteps.find(s => s.id === depId);
+          if (depStep) {
+            // Look for the output of this dependency step in previous messages
+            // This is a simplified approach - in a more sophisticated system,
+            // we would track step outputs more systematically
+            stepContext.dependency_outputs[depId] = {
+              step_name: depStep.name,
+              step_description: depStep.description,
+              expected_output: depStep.expected_output,
+              // Note: Actual output would need to be retrieved from conversation history
+              // For now, we include the expected output as a reference
+              status: 'completed' // Assuming dependency is completed if we're executing this step
+            };
+          }
+        });
+      }
+      
+      // Create a user message for this step - show the description as the main task
       const stepMessage = `Step ${stepInfo.stepNumber}/${stepInfo.totalSteps}: ${stepInfo.stepName}
 
 📋 ${stepInfo.agentType.toUpperCase()} Agent Task:
-${stepInfo.input}`;
+${stepInfo.description || stepInfo.input}
+
+${stepInfo.input !== stepInfo.description ? `🔧 Step Input: ${stepInfo.input}` : ''}
+${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies: ${stepInfo.dependencies.join(', ')}` : ''}`;
       
       const userMessage = {
         id: `step_${Date.now()}`,
@@ -544,9 +605,13 @@ ${stepInfo.input}`;
       // Wait a moment for UI to update
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      // Submit the step input using the existing submit logic (agent type passed directly)
+      // Submit the step description as user_input with step context
       console.log(`Executing step with agent: ${stepInfo.agentType}`);
-      await submitRequest(stepInfo.input, conversation.id, false, stepInfo.agentType);
+      console.log('Step context:', stepContext);
+      
+      // Use description as the main user input, with step details in context
+      const userInputForAgent = stepInfo.description || stepInfo.input;
+      await submitRequest(userInputForAgent, conversation.id, false, stepInfo.agentType, null, stepContext);
       
       // Wait for the step to complete
       await stepCompletionPromise;
@@ -563,7 +628,7 @@ ${stepInfo.input}`;
   };
 
   // Update the handleSubmit to also handle clarification responses
-  const submitRequest = async (userInput, conversationId, isClariSubmission = false, overrideAgentType = null, clarificationResponses = null) => {
+  const submitRequest = async (userInput, conversationId, isClariSubmission = false, overrideAgentType = null, clarificationResponses = null, stepContext = null) => {
     try {
       // Use override agent type if provided, otherwise use current selected agent
       const agentTypeToUse = overrideAgentType || selectedAgent;
@@ -597,13 +662,34 @@ ${stepInfo.input}`;
         console.log('🔄 Stored original query for potential clarification:', userInput);
       }
 
+      // Build context for the request
+      let requestContext = stepContext || {};
+      
+      // If no stepContext provided (regular chat), add previous result variable information
+      if (!stepContext) {
+        const previousMessages = messages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
+        if (previousMessages.length > 0) {
+          const lastMessage = previousMessages[previousMessages.length - 1];
+          if (lastMessage.resultVariableNames && lastMessage.resultVariableNames.length > 0) {
+            if (lastMessage.resultVariableNames.length === 1) {
+              requestContext.previous_result_variable = lastMessage.resultVariableNames[0];
+              console.log(`🔗 Adding previous result variable to regular chat context: ${lastMessage.resultVariableNames[0]} from ${lastMessage.agentType} agent`);
+            } else {
+              requestContext.previous_result_variables = lastMessage.resultVariableNames;
+              console.log(`🔗 Adding ${lastMessage.resultVariableNames.length} previous result variables to regular chat context: ${lastMessage.resultVariableNames.join(', ')} from ${lastMessage.agentType} agent`);
+            }
+            requestContext.previous_agent_type = lastMessage.agentType;
+          }
+        }
+      }
+
       // Prepare agent request
       const agentRequest = {
         agent_type: agentTypeToUse,
         capability: AGENT_TYPES.find(a => a.id === agentTypeToUse)?.capability || 'generate_query',
         user_input: isClariSubmission ? "" : userInput, // For clarification, send empty user_input - backend will retrieve original from conversation history
         conversation_id: conversationId,
-        context: {},
+        context: requestContext,
         metadata: metadata
       };
 
@@ -945,6 +1031,9 @@ ${stepInfo.input}`;
       };
       setMessages(prev => [...prev, loadingMessage]);
       
+      // Scroll down immediately when clarification is submitted
+      setTimeout(() => scrollToBottomIfNeeded(true), 0);
+      
       // Submit clarification responses using the new structured format
       // The submitRequest will automatically use the originalRequestContext.originalQuery for clarification submissions
       const response = await submitRequest(
@@ -952,7 +1041,8 @@ ${stepInfo.input}`;
         conversation.id,
         true, // isClariSubmission
         selectedAgent,
-        clarificationResponses // Pass the structured responses directly
+        clarificationResponses, // Pass the structured responses directly
+        null // No step context for clarification submissions
       );
 
       // Close dialog on success
@@ -983,6 +1073,51 @@ ${stepInfo.input}`;
       msg.clarificationQuestions.length > 0 &&
       !hasSubsequentClarificationResponse(messages.indexOf(msg))
     );
+  };
+
+  // Handle downloading conversation as notebook
+  const handleDownloadNotebook = async () => {
+    if (!conversation.id) {
+      setError('No conversation ID available for export');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      
+      const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}/export/notebook`);
+      const response = await apiRequest(url);
+      
+      if (response.notebook && response.filename) {
+        // Create a blob with the notebook data
+        const notebookJson = JSON.stringify(response.notebook, null, 2);
+        const blob = new Blob([notebookJson], { type: 'application/json' });
+        
+        // Create download link
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = response.filename;
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up
+        window.URL.revokeObjectURL(downloadUrl);
+        
+        console.log(`📓 Downloaded notebook: ${response.filename}`);
+      } else {
+        throw new Error('Invalid response format');
+      }
+      
+    } catch (error) {
+      console.error('Error downloading notebook:', error);
+      setError(`Failed to download notebook: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Helper to render individual chat message
@@ -1197,7 +1332,20 @@ ${stepInfo.input}`;
           isLoading: true
         };
         
-        setMessages(prev => [...prev, tempUserMessage, loadingMessage]);
+        // Remove welcome message if this is the first user message
+        setMessages(prev => {
+          const isFirstUserMessage = prev.length === 1 && prev[0].id === 1 && prev[0].role === 'assistant';
+          if (isFirstUserMessage) {
+            // Replace welcome message with user message and loading indicator
+            return [tempUserMessage, loadingMessage];
+          } else {
+            // Add to existing messages
+            return [...prev, tempUserMessage, loadingMessage];
+          }
+        });
+        
+        // Scroll down immediately when user sends a message
+        setTimeout(() => scrollToBottomIfNeeded(true), 0);
       }
 
       // Ensure we have a valid conversation ID
@@ -1214,7 +1362,7 @@ ${stepInfo.input}`;
       });
       
       // Submit the request
-      await submitRequest(userInput, conversationId, false);
+      await submitRequest(userInput, conversationId, false, null, null, null);
       
       // Update conversation title if it's still the default and this is a new user message
       if (userInput && (conversation.title === 'New Chat' || conversation.title === 'Untitled' || !conversation.title)) {
@@ -1239,7 +1387,16 @@ ${stepInfo.input}`;
       
       // Remove the temporary user message and loading message on error (only if we created one)
       if (userInput) {
-        setMessages(prev => prev.filter(msg => !msg.id.startsWith('temp_') && !msg.id.startsWith('loading_')));
+        setMessages(prev => {
+          const filteredMessages = prev.filter(msg => !msg.id.startsWith('temp_') && !msg.id.startsWith('loading_'));
+          
+          // If we removed the welcome message and now have no messages, restore it
+          if (filteredMessages.length === 0) {
+            return defaultGreeting;
+          }
+          
+          return filteredMessages;
+        });
       }
     } finally {
       setIsLoading(false);
@@ -1249,7 +1406,8 @@ ${stepInfo.input}`;
   return (
     <div className="flex flex-col h-full bg-white dark:bg-neutral-800">
       <div className="flex-shrink-0 p-4 bg-neutral-100 dark:bg-neutral-700 border-b border-neutral-200 dark:border-neutral-600">
-        <div className="flex flex-wrap gap-4 items-center">
+        <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex flex-wrap gap-4 items-center">
           <div className="flex items-center gap-2">
             <label htmlFor="llm-provider" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">LLM Provider:</label>
             <select 
@@ -1296,6 +1454,24 @@ ${stepInfo.input}`;
           </div>
         )}
           </div>
+          </div>
+          
+          {/* Download button */}
+          {conversation.id && messages.length > 1 && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleDownloadNotebook}
+                disabled={isLoading}
+                className="flex items-center gap-2 px-3 py-2 bg-green-600 dark:bg-green-700 text-white rounded hover:bg-green-700 dark:hover:bg-green-600 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors text-sm"
+                title="Download conversation as Jupyter notebook"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                {isLoading ? 'Exporting...' : 'Download Notebook'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
       

@@ -29,6 +29,9 @@ class ServiceManager:
         self._sparql_service: Optional[SPARQLService] = None
         self._llm_cache: Dict[str, BaseLanguageModel] = {}
         
+        # Initialize Python execution service
+        self._python_execution_service = None
+        
         logger.info("ServiceManager initialized")
 
     
@@ -85,6 +88,13 @@ class ServiceManager:
             "llm_providers_cached": list(self._llm_cache.keys()),
             "note": "Vector search now handled by unified Qdrant libraries"
         }
+
+    def get_python_execution_service(self):
+        """Get the Python execution service."""
+        if self._python_execution_service is None:
+            from services.python_execution_service import python_execution_service
+            self._python_execution_service = python_execution_service
+        return self._python_execution_service
 
 
 # Global service manager instance

@@ -217,23 +217,42 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 
                 # Extract the most recent relevant context (last assistant message with generated content)
                 for msg in reversed(previous_messages):
+                    # Determine previous generated content
+                    previous_generated = None
+                    if msg.agent_type == 'sparql' and msg.agent_metadata and isinstance(msg.agent_metadata, dict):
+                        previous_generated = msg.agent_metadata.get('generated_sparql')
+                    else:
+                        previous_generated = msg.generated_code
+
                     if (msg.role == 'assistant' and 
-                        msg.query_generated and 
+                        previous_generated and 
                         not msg.is_node_progress):  # Skip progress messages
                         
                         # Add this as context for the generation nodes to use
                         context = state_data.get("context", {})
-                        context["previous_query"] = msg.query_generated
+                        context["previous_query"] = previous_generated
                         # Limit the number of previous results passed into context to avoid oversized prompts
                         TRUNCATED_LIMIT = 50
-                        context["previous_results"] = (msg.query_results or [])[:TRUNCATED_LIMIT]
+                        context["previous_results"] = (msg.execution_results or [])[:TRUNCATED_LIMIT]
                         context["previous_agent_type"] = msg.agent_type
                         context["has_previous_context"] = True
+                        # Add result variable names if available (only if not already provided by frontend)
+                        if msg.result_variable_names and "previous_result_variables" not in context and "previous_result_variable" not in context:
+                            if len(msg.result_variable_names) == 1:
+                                context["previous_result_variable"] = msg.result_variable_names[0]
+                                logger.info(f"   - Added single result variable from database: {msg.result_variable_names[0]}")
+                            else:
+                                context["previous_result_variables"] = msg.result_variable_names
+                                logger.info(f"   - Added {len(msg.result_variable_names)} result variables from database: {msg.result_variable_names}")
+                        elif "previous_result_variables" in context:
+                            logger.info(f"   - Using result variables from frontend: {context['previous_result_variables']}")
+                        elif "previous_result_variable" in context:
+                            logger.info(f"   - Using result variable from frontend: {context['previous_result_variable']}")
                         state_data["context"] = context
                         
                         logger.info(f"✅ Added previous context from {msg.agent_type} agent")
-                        logger.info(f"   - Previous query length: {len(msg.query_generated)} chars")
-                        logger.info(f"   - Previous results count: {len(msg.query_results) if msg.query_results else 0}")
+                        logger.info(f"   - Previous query length: {len(previous_generated)} chars")
+                        logger.info(f"   - Previous results count: {len(msg.execution_results) if msg.execution_results else 0}")
                         break
                 else:
                     logger.info("No previous assistant messages with generated content found")
@@ -274,9 +293,19 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             message = message_service.create_message(message_data)
             
-            # Update with agent results
-            update_data = MessageUpdate(**agent_results)
-            message_service.update_message(message.id, update_data)
+            # Update with agent results using the correct method
+            message_service.update_message_results(
+                message.id,
+                generated_code=agent_results.get('generated_code'),
+                execution_results=agent_results.get('execution_results'),
+                result_variable_names=agent_results.get('result_variable_names'),
+                agent_metadata=agent_results.get('agent_metadata'),
+                similar_results=agent_results.get('similar_results'),
+                entity_matches=agent_results.get('entity_matches'),
+                needs_clarification=agent_results.get('needs_clarification'),
+                clarification_questions=agent_results.get('clarification_questions'),
+                clarification_responses=agent_results.get('clarification_responses')
+            )
             
             logger.info(f"Created assistant message {message.id} with agent results")
             return message.id
@@ -330,12 +359,12 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     message = message_service.create_message(message_data)
                     
                     # Update with clarification data
-                    update_data = MessageUpdate(
+                    message_service.update_message_results(
+                        message.id,
                         needs_clarification=True,
                         clarification_questions=clarification_questions,
                         metadata={'clarification_type': 'request'}
                     )
-                    message_service.update_message(message.id, update_data)
                     
                     logger.info(f"Created clarification message {message.id}")
                 except Exception as e:
@@ -368,11 +397,10 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     message = message_service.create_message(message_data)
                     
                     # Update with error metadata
-                    update_data = MessageUpdate(
-                        has_error=True,
-                        metadata={'error_type': 'execution_error'}
+                    message_service.update_message_results(
+                        message.id,
+                        metadata={'error_type': 'execution_error', 'has_error': True}
                     )
-                    message_service.update_message(message.id, update_data)
                     
                     logger.info(f"Created error message {message.id}")
                 except Exception as e:
@@ -393,21 +421,60 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             entity_matches = get_state_value('entity_matches', [])
             
             if generated_code:
+                # Create a more informative message that includes execution summary
                 success_message = "Successfully generated and executed code."
-                if execution_results:
-                    result_count = len(execution_results) if isinstance(execution_results, list) else 1
-                    success_message += f" Found {result_count} results."
                 
-                # Prepare agent results for message storage
-                agent_results = {
-                    'query_generated': generated_code,
-                    'query_results': execution_results,
+                # Add execution summary to the message
+                if execution_results and isinstance(execution_results, list) and len(execution_results) > 0:
+                    # Get the first execution result for summary
+                    first_result = execution_results[0]
+                    if first_result.get('type') == 'execution_success':
+                        success_message += f"\n\n✅ **Execution completed successfully"
+                        if first_result.get('execution_time'):
+                            success_message += f" in {first_result['execution_time']:.2f}s"
+                        success_message += "**"
+                        
+                        # Add variable summary if available
+                        if first_result.get('variable_summary'):
+                            var_count = len(first_result['variable_summary'])
+                            if var_count > 0:
+                                success_message += f"\n\n📊 **Created {var_count} variable{'s' if var_count != 1 else ''}:**"
+                                for var_name, var_info in first_result['variable_summary'].items():
+                                    success_message += f"\n- `{var_name}` ({var_info.get('type', 'unknown')})"
+                        
+                        # Add output preview if available
+                        if first_result.get('output'):
+                            output = first_result['output'].strip()
+                            if output:
+                                # Limit output preview to first few lines
+                                output_lines = output.split('\n')
+                                if len(output_lines) > 3:
+                                    preview = '\n'.join(output_lines[:3]) + '\n...'
+                                else:
+                                    preview = output
+                                success_message += f"\n\n📋 **Output:**\n```\n{preview}\n```"
+                    elif first_result.get('type') == 'execution_error':
+                        success_message += f"\n\n❌ **Execution failed"
+                        if first_result.get('execution_time'):
+                            success_message += f" after {first_result['execution_time']:.2f}s"
+                        success_message += "**"
+                        
+                        if first_result.get('error'):
+                            error_msg = first_result['error'].strip()
+                            # Limit error message length
+                            if len(error_msg) > 200:
+                                error_msg = error_msg[:200] + '...'
+                            success_message += f"\n\n🚫 **Error:**\n```\n{error_msg}\n```"
+                
+                # Prepare agent results for message storage using the overridable method
+                agent_results = self._create_result_from_state(state)
+                
+                # Add additional fields that are common to all agents
+                agent_results.update({
                     'execution_info': self._create_execution_info_from_state(state),
                     'similar_results': similar_results,
-                    'entity_matches': entity_matches,
-                    'has_generated_code': True,
-                    'has_query_results': bool(execution_results)
-                }
+                    'entity_matches': entity_matches
+                })
                 
                 # Create the message with agent results
                 try:
@@ -421,9 +488,19 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     
                     message = message_service.create_message(message_data)
                     
-                    # Update with agent results
-                    update_data = MessageUpdate(**agent_results)
-                    message_service.update_message(message.id, update_data)
+                    # Update with agent results using the correct method
+                    message_service.update_message_results(
+                        message.id,
+                        generated_code=agent_results.get('generated_code'),
+                        execution_results=agent_results.get('execution_results'),
+                        result_variable_names=agent_results.get('result_variable_names'),
+                        agent_metadata=agent_results.get('agent_metadata'),
+                        similar_results=agent_results.get('similar_results'),
+                        entity_matches=agent_results.get('entity_matches'),
+                        needs_clarification=agent_results.get('needs_clarification'),
+                        clarification_questions=agent_results.get('clarification_questions'),
+                        clarification_responses=agent_results.get('clarification_responses')
+                    )
                     
                     logger.info(f"Created success message {message.id} with agent results")
                 except Exception as e:
@@ -433,13 +510,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 return AgentResponse(
                     status=AgentStatus.SUCCESS,
                     message=success_message,
-                    result={
-                        "generated_code": generated_code,
-                        "execution_results": execution_results,
-                        "execution_info": self._create_execution_info_from_state(state),
-                        "similar_results": similar_results,
-                        "entity_matches": entity_matches
-                    },
+                    result=agent_results,
                     conversation_id=conversation_id
                 )
             else:
@@ -458,11 +529,10 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     message = message_service.create_message(message_data)
                     
                     # Update with error metadata
-                    update_data = MessageUpdate(
-                        has_error=True,
-                        metadata={'error_type': 'no_code_generated'}
+                    message_service.update_message_results(
+                        message.id,
+                        metadata={'error_type': 'no_code_generated', 'has_error': True}
                     )
-                    message_service.update_message(message.id, update_data)
                     
                     logger.info(f"Created no-code error message {message.id}")
                 except Exception as e:
@@ -813,6 +883,27 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         execution_results = get_state_value("execution_results")
         if execution_results:
             output["execution_results_count"] = len(execution_results) if isinstance(execution_results, list) else 1
+            
+            # Extract detailed execution information for progress display
+            if isinstance(execution_results, list) and len(execution_results) > 0:
+                # Get the first (most recent) execution result
+                first_result = execution_results[0]
+                if isinstance(first_result, dict):
+                    if first_result.get("type") == "execution_success":
+                        output["execution_successful"] = True
+                        output["execution_output"] = first_result.get("output", "")
+                        output["execution_time"] = first_result.get("execution_time", 0.0)
+                        output["variable_state"] = first_result.get("variable_summary", {})
+                    elif first_result.get("type") == "execution_error":
+                        output["execution_successful"] = False
+                        output["execution_error"] = first_result.get("error", "")
+                        output["execution_time"] = first_result.get("execution_time", 0.0)
+                        if first_result.get("output"):
+                            output["execution_output"] = first_result.get("output", "")
+                    else:
+                        # Handle other result types
+                        output["execution_successful"] = False
+                        output["execution_error"] = first_result.get("message", "Unknown execution error")
         
         # Check for search results - return actual matches instead of just counts
         similar_code = get_state_value("similar_code")

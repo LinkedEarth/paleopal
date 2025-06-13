@@ -222,7 +222,16 @@ class ConversationService:
                 conn.commit()
                 
                 if conversation_deleted:
+                    # Clean up execution state for this conversation
+                    try:
+                        from services.python_execution_service import python_execution_service
+                        python_execution_service.clear_conversation_state(conv_id)
+                        logger.info(f"Deleted conversation {conv_id}, {messages_deleted} messages, and execution state")
+                    except Exception as e:
+                        logger.warning(f"Failed to clear execution state for conversation {conv_id}: {e}")
                     logger.info(f"Deleted conversation {conv_id} and {messages_deleted} associated messages")
+                else:
+                    logger.warning(f"Conversation {conv_id} not found for deletion (deleted {messages_deleted} orphaned messages)")
                 
                 return conversation_deleted
     
@@ -244,6 +253,14 @@ class ConversationService:
         
         with self._lock:
             with sqlite3.connect(_DB_PATH) as conn:
+                # Get conversation IDs that will be deleted for execution state cleanup
+                cursor = conn.execute(
+                    "SELECT id FROM conversations WHERE created_at < ?", 
+                    (cutoff_date,)
+                )
+                conversation_ids = [row[0] for row in cursor.fetchall()]
+                
+                # Delete the conversations
                 cursor = conn.execute(
                     "DELETE FROM conversations WHERE created_at < ?", 
                     (cutoff_date,)
@@ -252,6 +269,14 @@ class ConversationService:
                 
                 deleted_count = cursor.rowcount
                 if deleted_count > 0:
+                    # Clean up execution states for deleted conversations
+                    try:
+                        from services.python_execution_service import python_execution_service
+                        for conv_id in conversation_ids:
+                            python_execution_service.clear_conversation_state(conv_id)
+                        logger.info(f"Cleaned up {deleted_count} old conversations and their execution states")
+                    except Exception as e:
+                        logger.warning(f"Failed to clear execution states during cleanup: {e}")
                     logger.info(f"Cleaned up {deleted_count} old conversations")
                 
                 return deleted_count

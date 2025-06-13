@@ -141,7 +141,7 @@ class RTDExtractor:
         for symbol in result.classes + result.functions + result.constants:
             # Build embedding text: identifier + signature + narrative
             embedding_text = f"{symbol.name}\n{symbol.signature}\n{symbol.description}"
-            
+
             meta: Dict[str, Any] = {
                 "symbol": symbol.name,
                 "kind": symbol.kind,
@@ -418,7 +418,7 @@ class RTDExtractor:
             if c in cls._EXCLUDE_CODE_CLASSES:
                 return False
             return True
-        return False
+        return False 
 
 
 # Backward compatibility alias

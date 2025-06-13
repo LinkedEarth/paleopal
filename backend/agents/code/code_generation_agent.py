@@ -119,12 +119,55 @@ class CodeGenerationAgent(BaseLangGraphAgent):
             else:
                 return getattr(state, key, default)
         
-        return {
-            "generated_code": get_state_value("generated_code", ""),
-            "analysis_description": get_state_value("analysis_description", ""),
-            "code_examples_used": get_state_value("code_examples_used", []),
+        execution_results = get_state_value("execution_results", [])
+        
+        # Extract execution information
+        execution_successful = False
+        execution_output = ""
+        execution_error = ""
+        execution_time = 0.0
+        variable_state = {}
+        
+        if execution_results:
+            for result in execution_results:
+                if isinstance(result, dict):
+                    if result.get("type") == "execution_success":
+                        execution_successful = True
+                        execution_output = result.get("output", "")
+                        execution_time = result.get("execution_time", 0.0)
+                        variable_state = result.get("variable_summary", {})
+                    elif result.get("type") == "execution_error":
+                        execution_error = result.get("error", "")
+                        execution_time = result.get("execution_time", 0.0)
+        
+        # Extract created variable names for cross-agent sharing
+        result_variable_names = []
+        if execution_results:
+            for result in execution_results:
+                if isinstance(result, dict) and result.get("type") == "execution_success":
+                    # Get variable names from variable_summary
+                    var_summary = result.get("variable_summary", {})
+                    for var_name in var_summary.keys():
+                        result_variable_names.append(var_name)
+        
+        # Build agent metadata with code-specific data
+        agent_metadata = {
+            # "analysis_description": get_state_value("analysis_description", ""),
+            # "code_examples_used": get_state_value("code_examples_used", []),
             "required_libraries": get_state_value("required_libraries", []),
             "expected_outputs": get_state_value("expected_outputs", []),
+            "execution_successful": execution_successful,
+            "execution_output": execution_output,
+            "execution_error": execution_error,
+            "execution_time": execution_time,
+            "variable_state": variable_state,
+        }
+        
+        return {
+            "generated_code": get_state_value("generated_code", ""),
+            "execution_results": execution_results,
+            "result_variable_names": result_variable_names,
+            "agent_metadata": agent_metadata,
             "needs_clarification": get_state_value("needs_clarification", False),
         }
 

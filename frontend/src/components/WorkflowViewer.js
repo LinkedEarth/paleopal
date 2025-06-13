@@ -232,8 +232,12 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           totalSteps: workflowSteps.length,
           agentType: step.agent,
           input: step.input,
+          description: step.description,
           stepName: step.name,
-          stepId: step.id
+          stepId: step.id,
+          dependencies: step.dependencies || [],
+          expectedOutput: step.expected_output,
+          allWorkflowSteps: workflowSteps
         });
         
         // Mark step as executed (will be re-analyzed from messages)
@@ -295,8 +299,12 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           totalSteps: workflowSteps.length,
           agentType: step.agent,
           input: step.input,
+          description: step.description,
           stepName: step.name,
-          stepId: step.id
+          stepId: step.id,
+          dependencies: step.dependencies || [],
+          expectedOutput: step.expected_output,
+          allWorkflowSteps: workflowSteps
         });
         
         setExecutedSteps(prev => new Set([...prev, step.id]));

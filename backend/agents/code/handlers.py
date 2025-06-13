@@ -477,11 +477,35 @@ def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) ->
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
+def should_execute_code(state: CodeAgentState) -> str:
+    """Determine if the generated code should be executed."""
+    generated_code = state.generated_code or ""
+    
+    # Don't execute if no code was generated
+    if not generated_code.strip():
+        logger.info("No code to execute")
+        return "false"
+    
+    # Don't execute if there are validation errors
+    validation_errors = getattr(state, 'validation_errors', []) or []
+    if validation_errors:
+        logger.info("Validation errors present, skipping execution")
+        return "false"
+    
+    # Don't execute if there's already an error message
+    if state.error_message:
+        logger.info("Error message present, skipping execution")
+        return "false"
+    
+    logger.info("Code ready for execution")
+    return "true"
+
 def should_refine_code(state: CodeAgentState) -> str:
-    """Determine if code should be refined based on various criteria including validation errors."""
+    """Determine if code should be refined based on various criteria including execution errors."""
     generated_code = state.generated_code or ""
     error_message = state.error_message or ""
     validation_errors = getattr(state, 'validation_errors', []) or []
+    execution_results = state.execution_results or []
     refinement_count = state.refinement_count or 0
         
     # Check if we've reached max refinements
@@ -498,6 +522,13 @@ def should_refine_code(state: CodeAgentState) -> str:
     if error_message:
         logger.info("Error message present, should refine")
         return "true"
+    
+    # Check for execution errors
+    if execution_results:
+        for result in execution_results:
+            if isinstance(result, dict) and result.get("type") == "execution_error":
+                logger.info("Execution error found, should refine")
+                return "true"
         
     # Check if code is too short (likely incomplete)
     if len(generated_code.strip()) < 50:
@@ -533,6 +564,8 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
         
         # Build issues description based on what problems we found
         issues_detected = []
+        execution_results = state.execution_results or []
+        
         if validation_errors:
             validation_issue = (
                 "**PyLiPD/Pyleoclim Validation Errors**: The code contains invalid function calls:\n"
@@ -542,6 +575,16 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
                 "Use the correct alternatives like get(), get_datasets(), or get_lipd() instead."
             )
             issues_detected.append(validation_issue)
+        
+        # Check for execution errors
+        for result in execution_results:
+            if isinstance(result, dict) and result.get("type") == "execution_error":
+                execution_issue = (
+                    f"**Execution Error**: The code failed to execute:\n"
+                    f"• {result.get('error', 'Unknown execution error')}\n\n"
+                    f"Please fix the code to resolve this execution error."
+                )
+                issues_detected.append(execution_issue)
         
         if error_message:
             issues_detected.append(f"**General Error**: {error_message}")
@@ -651,22 +694,45 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         
         # Add previous context if available (replaces refinement-specific logic)
         context = state.context or {}
-        if context.get("has_previous_context"):
+        previous_variable_info = ""
+        
+        # Check for previous context either from database (has_previous_context) or frontend (previous_result_variable/variables)
+        has_database_context = context.get("has_previous_context")
+        has_frontend_context = context.get("previous_result_variable") or context.get("previous_result_variables")
+        
+        if has_database_context or has_frontend_context:
             logger.info("=== ADDING PREVIOUS CONTEXT TO CODE GENERATION ===")
-            # Add previous context to contextual_data for proper formatting
-            contextual_data["refinement_context"] = {
-                "is_refinement": True,
-                "previous_query": context.get("previous_query"),
-                "previous_results": context.get("previous_results"),
-                "refinement_request": analysis_request,
-                "previous_agent_type": context.get("previous_agent_type")
-            }
+            
+            # Add previous context to contextual_data for proper formatting (only if from database)
+            if has_database_context:
+                contextual_data["refinement_context"] = {
+                    "is_refinement": True,
+                    "previous_query": context.get("previous_query"),
+                    "previous_results": context.get("previous_results"),
+                    "refinement_request": analysis_request,
+                    "previous_agent_type": context.get("previous_agent_type")
+                }
+                logger.info(f"Previous query/code length: {len(context.get('previous_query', ''))}")
+                logger.info(f"Previous results count: {len(context.get('previous_results', []))}")
+            
+            # Add information about available variables (handle both single and multiple)
+            previous_result_variables = context.get("previous_result_variables")
+            previous_result_variable = context.get("previous_result_variable")
+            
+            if previous_result_variables and len(previous_result_variables) > 1:
+                var_list = "', '".join(previous_result_variables)
+                previous_variable_info = f"\n\n**IMPORTANT**: A previous {context.get('previous_agent_type', 'agent')} agent has created {len(previous_result_variables)} variables named '{var_list}' containing the execution results. You can use these variables directly in your code instead of creating new variables."
+                logger.info(f"Multiple previous result variables available: {previous_result_variables}")
+            elif previous_result_variable:
+                previous_variable_info = f"\n\n**IMPORTANT**: A previous {context.get('previous_agent_type', 'agent')} agent has created a variable named '{previous_result_variable}' containing the query results. You can use this variable directly in your code instead of creating new variables."
+                logger.info(f"Single previous result variable available: {previous_result_variable}")
+            elif previous_result_variables and len(previous_result_variables) == 1:
+                previous_variable_info = f"\n\n**IMPORTANT**: A previous {context.get('previous_agent_type', 'agent')} agent has created a variable named '{previous_result_variables[0]}' containing the query results. You can use this variable directly in your code instead of creating new variables."
+                logger.info(f"Single previous result variable available: {previous_result_variables[0]}")
             
             # Update the context prompt to include previous context
             context_prompt = search_service.format_code_context_for_llm(contextual_data)
             
-            logger.info(f"Previous query/code length: {len(context.get('previous_query', ''))}")
-            logger.info(f"Previous results count: {len(context.get('previous_results', []))}")
             logger.info(f"Previous agent type: {context.get('previous_agent_type')}")
         
         # Build examples section for prompt
@@ -698,6 +764,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             f"OUTPUT FORMAT: {output_format}\n\n"
             f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
             f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
+            f"{previous_variable_info}\n\n"
             "INSTRUCTIONS:\n"
             "1. Use variables from previous code when applicable\n"
             "2. Follow patterns from the code snippets and examples\n"
@@ -747,10 +814,8 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 "If you need functionality that is not in the approved signatures, use alternative approaches "
                 "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim function names."
             )
-
-        logger.info(f"System content: {system_content}")
-        logger.info(f"User prompt: {user_prompt}")
         
+        logger.info(f"User prompt: {user_prompt}")
         messages = [
             # SystemMessage(content=system_content),
             HumanMessage(content=system_content + "\n\n" + user_prompt)
@@ -983,4 +1048,108 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         return {
             "error_message": str(e),
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
+        }
+
+def execute_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+    """Execute the generated code and capture results."""
+    try:
+        logger.info("=== EXECUTE_CODE_NODE CALLED ===")
+        
+        generated_code = state.generated_code or ""
+        conversation_id = state.conversation_id or ""
+        
+        if not generated_code:
+            logger.warning("No generated code to execute")
+            return {
+                "execution_results": [{"type": "no_code", "message": "No code was generated to execute"}],
+                "conversation_id": conversation_id
+            }
+        
+        if not conversation_id:
+            logger.warning("No conversation ID for state management")
+            return {
+                "execution_results": [{"type": "error", "message": "No conversation ID for execution state"}],
+                "conversation_id": conversation_id
+            }
+        
+        # Import the execution service
+        from services.python_execution_service import python_execution_service
+        
+        # Check if we have a previous result variable to reference
+        context = state.context or {}
+        previous_result_variable = context.get("previous_result_variable")
+        
+        if previous_result_variable:
+            logger.info(f"Previous agent created variable '{previous_result_variable}' - code can reference this variable")
+        else:
+            logger.info("No previous result variable found - code will execute in fresh context")
+        
+        logger.info(f"Executing code for conversation {conversation_id}")
+        logger.info(f"Code to execute (first 200 chars): {generated_code[:200]}...")
+        
+        # Prepend matplotlib backend configuration to avoid GUI issues
+        matplotlib_config = """
+# Configure matplotlib for non-interactive use
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
+import warnings
+warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
+"""
+        
+        # Combine matplotlib config with the generated code
+        final_code = matplotlib_config + "\n" + generated_code
+        
+        # Execute the main generated code
+        execution_result = python_execution_service.execute_code(
+            code=final_code,
+            conversation_id=conversation_id,
+            timeout=30
+        )
+        
+        logger.info(f"Execution completed. Success: {execution_result.success}")
+        
+        # Prepare execution results for state
+        execution_results = []
+        
+        if execution_result.success:
+            # Get variable summary for display (this is JSON-serializable)
+            var_summary = python_execution_service.get_variable_summary(conversation_id)
+            
+            # Add successful execution result
+            result_entry = {
+                "type": "execution_success",
+                "output": execution_result.output,
+                "execution_time": execution_result.execution_time,
+                "variable_summary": var_summary,
+                "plots": execution_result.plots or []
+            }
+            # Note: Don't include raw variables as they contain non-serializable objects
+            
+            execution_results.append(result_entry)
+            
+            logger.info(f"Execution successful. Output length: {len(execution_result.output)}")
+            logger.info(f"Variables created: {list(execution_result.variables.keys())}")
+            
+        else:
+            # Add error result
+            execution_results.append({
+                "type": "execution_error",
+                "error": execution_result.error,
+                "output": execution_result.output,
+                "execution_time": execution_result.execution_time,
+                "plots": execution_result.plots or []
+            })
+            
+            logger.warning(f"Execution failed: {execution_result.error}")
+        
+        return {
+            "execution_results": execution_results,
+            "conversation_id": conversation_id
+        }
+        
+    except Exception as e:
+        logger.error(f"Error in execute_code_node: {e}")
+        return {
+            "execution_results": [{"type": "error", "message": f"Execution node error: {str(e)}"}],
+            "conversation_id": state.conversation_id
         } 

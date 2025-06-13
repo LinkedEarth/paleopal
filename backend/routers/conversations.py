@@ -69,6 +69,54 @@ def get_database_state():
     """Debug endpoint to examine database state."""
     return conversation_service.debug_database_state()
 
+@router.get("/debug/execution-states")
+def get_execution_state_statistics():
+    """Debug endpoint to examine Python execution state statistics."""
+    from services.python_execution_service import python_execution_service
+    return python_execution_service.get_state_statistics()
+
+@router.delete("/debug/execution-states/{conversation_id}")
+def clear_execution_state(conversation_id: str):
+    """Debug endpoint to clear execution state for a specific conversation."""
+    from services.python_execution_service import python_execution_service
+    python_execution_service.clear_conversation_state(conversation_id)
+    return {"message": f"Cleared execution state for conversation {conversation_id}"}
+
+@router.post("/debug/execution-states/{conversation_id}/reset")
+def reset_execution_state(conversation_id: str):
+    """Debug endpoint to reset execution state for a specific conversation."""
+    from services.python_execution_service import python_execution_service
+    python_execution_service.reset_conversation_state(conversation_id)
+    return {"message": f"Reset execution state for conversation {conversation_id}"}
+
+@router.get("/{conversation_id}/export/notebook")
+def export_conversation_as_notebook(conversation_id: str):
+    """Export a conversation as a Jupyter notebook."""
+    from services.notebook_export_service import notebook_export_service
+    from fastapi.responses import JSONResponse
+    
+    try:
+        # Export conversation to notebook format
+        notebook_data = notebook_export_service.export_conversation_to_notebook(conversation_id)
+        filename = notebook_export_service.get_notebook_filename(conversation_id)
+        
+        # Return notebook data with filename
+        return JSONResponse(
+            content={
+                "notebook": notebook_data,
+                "filename": filename,
+                "conversation_id": conversation_id
+            },
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}"
+            }
+        )
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to export notebook: {str(e)}")
+
 @router.get("/stats/count")
 def get_conversation_stats():
     """Get conversation statistics."""

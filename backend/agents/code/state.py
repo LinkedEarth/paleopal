@@ -51,6 +51,28 @@ class CodeAgentState(BaseAgentState):
         default_factory=list,
         description="PyLiPD/Pyleoclim validation errors found in generated code"
     )
+    
+    # Execution-related fields
+    execution_output: str = Field(
+        default="",
+        description="Output from code execution"
+    )
+    execution_error: str = Field(
+        default="",
+        description="Error from code execution"
+    )
+    execution_time: float = Field(
+        default=0.0,
+        description="Time taken for code execution in seconds"
+    )
+    variable_state: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Current variable state in the conversation"
+    )
+    execution_successful: bool = Field(
+        default=False,
+        description="Whether the last code execution was successful"
+    )
 
     class Config:
         """Pydantic configuration."""

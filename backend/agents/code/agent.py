@@ -11,6 +11,8 @@ from .handlers import (
     search_code_examples_node,
     detect_clarification_node,
     generate_code_node,
+    execute_code_node,
+    should_execute_code,
     should_refine_code,
     refine_code_node,
     finalize_code_response_node
@@ -30,6 +32,7 @@ def create_agent() -> Graph:
         workflow.add_node("search_examples", search_code_examples_node)
         workflow.add_node("detect_clarification", detect_clarification_node)
         workflow.add_node("generate_code", generate_code_node)
+        workflow.add_node("execute_code", execute_code_node)
         workflow.add_node("refine_code", refine_code_node)
         
         # Direct start edge
@@ -62,16 +65,28 @@ def create_agent() -> Graph:
         # After human responds, process the clarification and go back to search_examples for context
         workflow.add_edge("human_clarification_needed", END)
         
-        # Code generation and refinement flow (now includes validation error handling)
+        # Code generation, execution, and refinement flow
         workflow.add_conditional_edges(
             "generate_code",
+            should_execute_code,
+            {
+                "true": "execute_code",
+                "false": "finalize"  # Skip execution if code has issues
+            }
+        )
+        
+        # After execution, check if refinement is needed
+        workflow.add_conditional_edges(
+            "execute_code",
             should_refine_code,
             {
                 "true": "refine_code",
                 "false": "finalize"
             }
         )
-        workflow.add_edge("refine_code", "finalize")
+        
+        # After refinement, go back to generation
+        workflow.add_edge("refine_code", "generate_code")
         
         # Add finalize node that returns the final state
         workflow.add_node("finalize", finalize_code_response_node)

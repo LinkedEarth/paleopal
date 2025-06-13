@@ -74,10 +74,15 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
         )
 
     def _create_result_from_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
-        """Create SPARQL-specific result from state."""
+        """Create SPARQL-specific result from state using unified schema."""
+        # Use the agent_metadata that was set by the execute_query_node
+        agent_metadata = state.get("agent_metadata", {})
+        
         return {
-            "sparql_query": state.get("generated_query", ""),
-            "results": state.get("query_results", []),
+            "generated_code": state.get("generated_code", ""),
+            "execution_results": state.get("execution_results", []),
+            "result_variable_names": state.get("result_variable_names", []),
+            "agent_metadata": agent_metadata,
             "needs_clarification": False,
         }
 

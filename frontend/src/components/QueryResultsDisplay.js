@@ -61,7 +61,16 @@ const QueryResultsDisplay = ({ results, error }) => {
                   <tr key={i} className="hover:bg-neutral-50 dark:hover:bg-neutral-700">
                     {headers.map(h => (
                       <td key={`${i}-${h}`} className="border-b border-neutral-100 dark:border-neutral-700 px-3 py-2 text-neutral-800 dark:text-neutral-200">
-                        {row[h]}
+                        {(() => {
+                          const v = row[h];
+                          if (v === null || v === undefined) return '';
+                          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
+                          try {
+                            return JSON.stringify(v);
+                          } catch (e) {
+                            return String(v);
+                          }
+                        })()}
                       </td>
                     ))}
                   </tr>

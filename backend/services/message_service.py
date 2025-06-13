@@ -7,7 +7,7 @@ from threading import Lock
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 
-from schemas.message import Message, MessageCreate, MessageUpdate
+from schemas.message import Message, MessageCreate, MessageUpdate, ExecutionResult
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ _DB_PATH = _DATA_DIR / "conversations.db"
 MAX_STORED_RESULTS = 50
 
 class MessageService:
-    """Service for managing individual messages with rich metadata."""
+    """Service for managing individual messages with unified schema across all agents."""
     
     _lock = Lock()
     
@@ -28,10 +28,9 @@ class MessageService:
         self._init_db()
     
     def _init_db(self):
-        """Initialize the messages table."""
+        """Initialize the messages table with unified schema."""
         try:
             with sqlite3.connect(_DB_PATH) as conn:
-                # Check if clarification_responses column exists, add it if not (migration)
                 conn.execute("""
                     CREATE TABLE IF NOT EXISTS messages (
                         id TEXT PRIMARY KEY,
@@ -46,18 +45,19 @@ class MessageService:
                         message_type TEXT DEFAULT 'chat',
                         agent_type TEXT,
                         
-                        -- Agent execution results
-                        query_generated TEXT,
-                        query_results TEXT,  -- JSON
-                        execution_info TEXT,  -- JSON
+                        -- Generation results (unified)
+                        generated_code TEXT,
+                        
+                        -- Execution results (unified structure)
+                        execution_results TEXT,  -- JSON array of ExecutionResult objects
+                        result_variable_names TEXT,  -- JSON array
+                        
+                        -- Agent-specific metadata
+                        agent_metadata TEXT,  -- JSON
+                        
+                        -- Search and context results
                         similar_results TEXT,  -- JSON
                         entity_matches TEXT,  -- JSON
-                        
-                        -- Workflow data
-                        workflow_plan TEXT,  -- JSON
-                        workflow_id TEXT,
-                        execution_results TEXT,  -- JSON (note: same name but different from query_results)
-                        failed_steps TEXT,  -- JSON
                         
                         -- Clarification
                         needs_clarification BOOLEAN DEFAULT FALSE,
@@ -65,10 +65,8 @@ class MessageService:
                         clarification_responses TEXT,  -- JSON
                         
                         -- UI flags
-                        has_query_results BOOLEAN DEFAULT FALSE,
+                        has_execution_results BOOLEAN DEFAULT FALSE,
                         has_generated_code BOOLEAN DEFAULT FALSE,
-                        has_workflow_plan BOOLEAN DEFAULT FALSE,
-                        has_workflow_execution BOOLEAN DEFAULT FALSE,
                         has_error BOOLEAN DEFAULT FALSE,
                         
                         -- Progress tracking
@@ -96,7 +94,7 @@ class MessageService:
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_messages_owner ON messages(owner_message_id)")
                 
                 conn.commit()
-                logger.info("Messages table initialized successfully")
+                logger.info("Messages table initialized successfully with unified schema")
         except Exception as e:
             logger.error(f"Error initializing messages table: {e}")
             raise
@@ -117,31 +115,93 @@ class MessageService:
             logger.warning(f"Failed to deserialize JSON: {json_str}")
             return None
     
+    def _serialize_execution_results(self, execution_results: Optional[List[Any]]) -> Optional[str]:
+        """Serialize execution results to JSON (handles both ExecutionResult objects and dicts)."""
+        if not execution_results:
+            return None
+        try:
+            serialized_results = []
+            for result in execution_results:
+                if hasattr(result, 'dict'):
+                    # It's a Pydantic model
+                    serialized_results.append(result.dict())
+                elif isinstance(result, dict):
+                    # It's already a dictionary
+                    serialized_results.append(result)
+                else:
+                    # Convert to dict if possible
+                    serialized_results.append(dict(result))
+            return json.dumps(serialized_results, ensure_ascii=False)
+        except Exception as e:
+            logger.warning(f"Failed to serialize execution results: {e}")
+            return None
+    
+    def _deserialize_execution_results(self, json_str: Optional[str]) -> Optional[List[ExecutionResult]]:
+        """Deserialize JSON to ExecutionResult objects."""
+        if not json_str:
+            return None
+        try:
+            data = json.loads(json_str)
+            return [ExecutionResult(**item) for item in data]
+        except Exception as e:
+            logger.warning(f"Failed to deserialize execution results: {e}")
+            return None
+    
     def _row_to_message(self, row: sqlite3.Row) -> Message:
         """Convert database row to Message object."""
-        data = dict(row)
-        
-        # Deserialize JSON fields
-        json_fields = [
-            'query_results', 'execution_info', 'similar_results', 'entity_matches',
-            'workflow_plan', 'execution_results', 'failed_steps', 
-            'clarification_questions', 'clarification_responses', 'metadata'
-        ]
-        
-        for field in json_fields:
-            if field in data:
-                data[field] = self._deserialize_json_field(data[field])
-        
-        # Convert boolean fields
-        bool_fields = [
-            'needs_clarification', 'has_query_results', 'has_generated_code', 
-            'has_workflow_plan', 'has_workflow_execution', 'has_error', 'is_node_progress'
-        ]
-        for field in bool_fields:
-            if field in data:
-                data[field] = bool(data[field])
-        
-        return Message(**data)
+        try:
+            # Parse JSON fields safely
+            def safe_json_loads(value, default=None):
+                if value is None:
+                    return default
+                try:
+                    return json.loads(value) if isinstance(value, str) else value
+                except (json.JSONDecodeError, TypeError):
+                    return default
+            
+            # Parse execution results and convert back to ExecutionResult objects
+            execution_results_data = safe_json_loads(row[8], [])  # execution_results is now at index 8
+            execution_results = []
+            if execution_results_data:
+                for result_data in execution_results_data:
+                    try:
+                        execution_results.append(ExecutionResult(**result_data))
+                    except Exception as e:
+                        logger.warning(f"Failed to parse execution result: {e}")
+                        continue
+            
+            return Message(
+                id=row[0],
+                conversation_id=row[1],
+                sequence_number=row[2],
+                role=row[3],
+                content=row[4],
+                message_type=row[5],
+                agent_type=row[6],
+                generated_code=row[7],
+                execution_results=execution_results,
+                result_variable_names=safe_json_loads(row[9], []),  # adjusted index
+                agent_metadata=safe_json_loads(row[10]),  # adjusted index
+                similar_results=safe_json_loads(row[11], []),  # adjusted index
+                entity_matches=safe_json_loads(row[12], []),  # adjusted index
+                needs_clarification=bool(row[13]) if row[13] is not None else False,  # adjusted index
+                clarification_questions=safe_json_loads(row[14], []),  # adjusted index
+                clarification_responses=safe_json_loads(row[15], []),  # adjusted index
+                has_execution_results=bool(row[16]) if row[16] is not None else False,  # adjusted index
+                has_generated_code=bool(row[17]) if row[17] is not None else False,  # adjusted index
+                has_error=bool(row[18]) if row[18] is not None else False,  # adjusted index
+                is_node_progress=bool(row[19]) if row[19] is not None else False,  # adjusted index
+                owner_message_id=row[20],  # adjusted index
+                phase=row[21],  # adjusted index
+                node_name=row[22],  # adjusted index
+                created_at=row[23],  # adjusted index
+                updated_at=row[24],  # adjusted index
+                metadata=safe_json_loads(row[25])  # adjusted index
+            )
+        except Exception as e:
+            logger.error(f"Error converting row to message: {e}")
+            logger.error(f"Row data: {row}")
+            raise
     
     def _truncate_list(self, data: Any, limit: int = MAX_STORED_RESULTS):
         """Return at most `limit` items if input is a list, otherwise return as-is."""
@@ -187,81 +247,123 @@ class MessageService:
                 conn.execute("""
                     INSERT INTO messages (
                         id, conversation_id, sequence_number, role, content,
-                        message_type, agent_type, query_generated, query_results, execution_info,
-                        similar_results, entity_matches, workflow_plan, workflow_id, execution_results,
-                        failed_steps, needs_clarification, clarification_questions, clarification_responses,
-                        has_query_results, has_generated_code, has_workflow_plan, has_workflow_execution,
-                        has_error, is_node_progress, owner_message_id, phase, node_name, created_at, updated_at, metadata
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        message_type, agent_type, generated_code,
+                        execution_results, result_variable_names, agent_metadata,
+                        similar_results, entity_matches, needs_clarification, clarification_questions, clarification_responses,
+                        has_execution_results, has_generated_code, has_error,
+                        is_node_progress, owner_message_id, phase, node_name, created_at, updated_at, metadata
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     message.id, message.conversation_id, message.sequence_number, 
                     message.role, message.content, message.message_type, message.agent_type,
-                    message.query_generated,
-                    # Truncate query_results if too large before serialization
-                    self._serialize_json_field(self._truncate_list(message.query_results)),
-                    self._serialize_json_field(message.execution_info), self._serialize_json_field(message.similar_results),
-                    self._serialize_json_field(message.entity_matches), self._serialize_json_field(message.workflow_plan),
-                    message.workflow_id, self._serialize_json_field(message.execution_results),
-                    self._serialize_json_field(message.failed_steps), message.needs_clarification,
-                    self._serialize_json_field(message.clarification_questions), self._serialize_json_field(message.clarification_responses),
-                    message.has_query_results, message.has_generated_code, message.has_workflow_plan, message.has_workflow_execution,
-                    message.has_error, message.is_node_progress, message.owner_message_id,
+                    message.generated_code,
+                    self._serialize_execution_results(message.execution_results),
+                    self._serialize_json_field(message.result_variable_names),
+                    self._serialize_json_field(message.agent_metadata),
+                    self._serialize_json_field(self._truncate_list(message.similar_results)),
+                    self._serialize_json_field(message.entity_matches),
+                    message.needs_clarification,
+                    self._serialize_json_field(message.clarification_questions),
+                    self._serialize_json_field(message.clarification_responses),
+                    message.has_execution_results, message.has_generated_code, message.has_error,
+                    message.is_node_progress, message.owner_message_id,
                     message.phase, message.node_name, message.created_at, message.updated_at,
                     self._serialize_json_field(message.metadata)
                 ))
                 conn.commit()
     
-    def update_message(self, message_id: str, update_data: MessageUpdate) -> Optional[Message]:
-        """Update a message with new results and metadata."""
-        message = self.get_message(message_id)
-        if not message:
+    def update_message_results(
+        self,
+        message_id: str,
+        generated_code: Optional[str] = None,
+        execution_results: Optional[List[ExecutionResult]] = None,
+        result_variable_names: Optional[List[str]] = None,
+        agent_metadata: Optional[Dict[str, Any]] = None,
+        similar_results: Optional[List[Any]] = None,
+        entity_matches: Optional[List[Any]] = None,
+        needs_clarification: Optional[bool] = None,
+        clarification_questions: Optional[List[Any]] = None,
+        clarification_responses: Optional[List[Dict[str, Any]]] = None,
+        metadata: Optional[Dict[str, Any]] = None
+    ) -> Optional[Message]:
+        """Update message with execution results and metadata."""
+        try:
+            # Build update data
+            update_data = {}
+            
+            if generated_code is not None:
+                update_data["generated_code"] = generated_code
+                update_data["has_generated_code"] = bool(generated_code)
+            
+            if execution_results is not None:
+                # Handle mixed ExecutionResult objects and dictionaries
+                serialized_results = []
+                for result in execution_results:
+                    if isinstance(result, ExecutionResult):
+                        serialized_results.append(result.model_dump())
+                    elif isinstance(result, dict):
+                        serialized_results.append(result)
+                    else:
+                        logger.warning(f"Unexpected execution result type: {type(result)}")
+                        continue
+                
+                update_data["execution_results"] = json.dumps(serialized_results)
+                update_data["has_execution_results"] = len(serialized_results) > 0
+                
+                # Check for errors in execution results
+                has_error = any(
+                    result.get("type") == "execution_error" or result.get("error")
+                    for result in serialized_results
+                )
+                update_data["has_error"] = has_error
+            
+            if result_variable_names is not None:
+                update_data["result_variable_names"] = json.dumps(result_variable_names)
+            
+            if agent_metadata is not None:
+                update_data["agent_metadata"] = json.dumps(agent_metadata)
+            
+            if similar_results is not None:
+                update_data["similar_results"] = json.dumps(similar_results)
+            
+            if entity_matches is not None:
+                update_data["entity_matches"] = json.dumps(entity_matches)
+            
+            if needs_clarification is not None:
+                update_data["needs_clarification"] = needs_clarification
+            
+            if clarification_questions is not None:
+                update_data["clarification_questions"] = json.dumps(clarification_questions)
+            
+            if clarification_responses is not None:
+                update_data["clarification_responses"] = json.dumps(clarification_responses)
+            
+            if metadata is not None:
+                update_data["metadata"] = json.dumps(metadata)
+            
+            # Add timestamp
+            update_data["updated_at"] = datetime.utcnow().isoformat()
+            
+            # Execute update
+            query = """
+                UPDATE messages 
+                SET """ + ", ".join([f"{k} = ?" for k in update_data.keys()]) + """
+                WHERE id = ?
+            """
+            
+            values = list(update_data.values()) + [message_id]
+            
+            with self._lock:
+                with sqlite3.connect(_DB_PATH) as conn:
+                    conn.execute(query, values)
+                    conn.commit()
+            
+            # Return updated message
+            return self.get_message(message_id)
+            
+        except Exception as e:
+            logger.error(f"Error updating message results: {e}")
             return None
-        
-        # Update fields from update_data
-        update_dict = update_data.dict(exclude_unset=True)
-        for field, value in update_dict.items():
-            setattr(message, field, value)
-        
-        # Update UI flags based on data
-        # Truncate query_results to avoid excessive size
-        message.query_results = self._truncate_list(message.query_results)
-        message.has_query_results = bool(message.query_results)
-        message.has_generated_code = bool(message.query_generated)
-        message.has_workflow_plan = bool(message.workflow_plan)
-        message.has_workflow_execution = bool(message.execution_results)
-        message.has_error = message.message_type == 'error' or (message.metadata and message.metadata.get('is_error'))
-        
-        # Update timestamp
-        message.updated_at = datetime.utcnow().isoformat()
-        
-        # Save to database
-        with self._lock:
-            with sqlite3.connect(_DB_PATH) as conn:
-                conn.execute("""
-                    UPDATE messages SET
-                        query_generated = ?, query_results = ?, execution_info = ?,
-                        similar_results = ?, entity_matches = ?, workflow_plan = ?,
-                        workflow_id = ?, execution_results = ?, failed_steps = ?,
-                        needs_clarification = ?, clarification_questions = ?, clarification_responses = ?,
-                        has_query_results = ?, has_generated_code = ?, has_workflow_plan = ?,
-                        has_workflow_execution = ?, has_error = ?, updated_at = ?, metadata = ?
-                    WHERE id = ?
-                """, (
-                    message.query_generated,
-                    self._serialize_json_field(self._truncate_list(message.query_results)),
-                    self._serialize_json_field(message.execution_info), self._serialize_json_field(message.similar_results),
-                    self._serialize_json_field(message.entity_matches), self._serialize_json_field(message.workflow_plan),
-                    message.workflow_id, self._serialize_json_field(message.execution_results),
-                    self._serialize_json_field(message.failed_steps), message.needs_clarification,
-                    self._serialize_json_field(message.clarification_questions), self._serialize_json_field(message.clarification_responses),
-                    message.has_query_results, message.has_generated_code, message.has_workflow_plan, message.has_workflow_execution,
-                    message.has_error, message.updated_at, self._serialize_json_field(message.metadata),
-                    message_id
-                ))
-                conn.commit()
-        
-        logger.info(f"Updated message {message_id}")
-        return message
     
     def get_message(self, message_id: str) -> Optional[Message]:
         """Get a single message by ID."""
@@ -309,6 +411,11 @@ class MessageService:
         """Delete a message and all its progress messages."""
         with self._lock:
             with sqlite3.connect(_DB_PATH) as conn:
+                # Get conversation_id before deletion for state restoration
+                cursor = conn.execute("SELECT conversation_id FROM messages WHERE id = ?", (message_id,))
+                row = cursor.fetchone()
+                conversation_id = row[0] if row else None
+                
                 # Delete progress messages first
                 conn.execute("DELETE FROM messages WHERE owner_message_id = ?", (message_id,))
                 
@@ -319,6 +426,20 @@ class MessageService:
                 deleted = cursor.rowcount > 0
                 if deleted:
                     logger.info(f"Deleted message {message_id} and its progress messages")
+                    
+                    # Restore execution state based on remaining messages
+                    if conversation_id:
+                        try:
+                            remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
+                            
+                            from services.python_execution_service import python_execution_service
+                            python_execution_service.restore_conversation_state_from_messages(
+                                conversation_id, remaining_messages
+                            )
+                            logger.info(f"Restored execution state after message deletion for conversation {conversation_id}")
+                        except Exception as e:
+                            logger.warning(f"Failed to restore execution state after message deletion: {e}")
+                
                 return deleted
     
     def delete_messages_from_sequence(self, conversation_id: str, from_sequence: int) -> int:
@@ -347,6 +468,18 @@ class MessageService:
                 
                 if deleted_count > 0:
                     logger.info(f"Deleted {deleted_count} messages from sequence {from_sequence} in conversation {conversation_id}")
+                    
+                    # Restore execution state based on remaining messages
+                    try:
+                        remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
+                        
+                        from services.python_execution_service import python_execution_service
+                        python_execution_service.restore_conversation_state_from_messages(
+                            conversation_id, remaining_messages
+                        )
+                        logger.info(f"Restored execution state after message deletion for conversation {conversation_id}")
+                    except Exception as e:
+                        logger.warning(f"Failed to restore execution state after message deletion: {e}")
                 
                 return deleted_count
     
@@ -374,7 +507,7 @@ class MessageService:
             conversation_id=owner_message.conversation_id,
             sequence_number=sequence_number,
             role="assistant",
-            content=content or f"Processing: {node_name} ({phase})",
+            content=content,
             message_type="progress",
             is_node_progress=True,
             owner_message_id=owner_message_id,
@@ -386,7 +519,7 @@ class MessageService:
         )
         
         self._insert_message(progress_message)
-        logger.info(f"Created progress message {progress_id} for {owner_message_id}: {node_name} ({phase})")
+        logger.info(f"Created progress message {progress_id} for owner {owner_message_id}")
         return progress_message
 
 # Global instance

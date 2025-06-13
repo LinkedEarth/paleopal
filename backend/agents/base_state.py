@@ -85,6 +85,14 @@ class BaseAgentState(BaseModel):
         default_factory=list,
         description="Results from code execution"
     )
+    result_variable_names: Optional[List[str]] = Field(
+        None,
+        description="Names of variables created to store execution results (for cross-agent sharing)"
+    )
+    agent_metadata: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Agent-specific metadata (unified schema)"
+    )
     
     # Error handling
     error_message: Optional[str] = Field(
