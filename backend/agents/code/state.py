@@ -47,6 +47,10 @@ class CodeAgentState(BaseAgentState):
         default_factory=list,
         description="Metadata about code examples used"
     )
+    validation_errors: List[str] = Field(
+        default_factory=list,
+        description="PyLiPD/Pyleoclim validation errors found in generated code"
+    )
 
     class Config:
         """Pydantic configuration."""

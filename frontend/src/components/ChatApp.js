@@ -75,7 +75,7 @@ const ChatApp = () => {
       setConversationsLoading(true);
       
       // Test API connectivity first
-      console.log('🧪 Testing API connectivity before fetching conversations...');
+      // console.log('🧪 Testing API connectivity before fetching conversations...');
       const isConnected = await testApiConnectivity();
       if (!isConnected) {
         console.error('❌ Cannot connect to API, skipping conversation fetch');
@@ -84,14 +84,14 @@ const ChatApp = () => {
       }
       
       try {
-        console.log('🔍 Fetching conversations from backend...');
-        console.log('📍 Axios base URL:', axios.defaults.baseURL);
+        // console.log('🔍 Fetching conversations from backend...');
+        // console.log('📍 Axios base URL:', axios.defaults.baseURL);
         const resp = await axios.get(API_CONFIG.ENDPOINTS.CONVERSATIONS);
-        console.log('✅ Conversations response:', resp);
-        console.log('📝 Conversations data:', resp.data);
+        // console.log('✅ Conversations response:', resp);
+        // console.log('📝 Conversations data:', resp.data);
         
         if (Array.isArray(resp.data) && resp.data.length) {
-          console.log(`✅ Found ${resp.data.length} conversations`);
+          // console.log(`✅ Found ${resp.data.length} conversations`);
           // Sort conversations by updated_at then created_at in descending order (latest first)
           const sortedConversations = resp.data.sort((a, b) => 
             new Date(b.updated_at || b.updatedAt || b.created_at) - new Date(a.updated_at || a.updatedAt || a.created_at)
@@ -176,7 +176,7 @@ const ChatApp = () => {
       selectedAgent: 'sparql',
       isLoading: false,
       error: null,
-      enableClarification: false,
+      enableClarification: true,
       clarificationThreshold: 'conservative',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
@@ -305,41 +305,44 @@ const ChatApp = () => {
       savingIdsRef.current.add(conv.id);
       // Try PUT first; if 404 then POST
       const filteredMessages = (conv.messages || []).filter(m => !m.isNodeProgress);
-      const clean = {
-        id: conv.id,
+      // For PUT requests, only send ConversationUpdate fields
+      const updateData = {
         title: conv.title,
-        agent_type: conv.agent_type || conv.selectedAgent || 'unknown',
-        messages: filteredMessages,
-        created_at: conv.createdAt || conv.created_at || new Date().toISOString(),
-        updated_at: conv.updatedAt || conv.updated_at || new Date().toISOString(),
-        status: conv.status || 'active',
-        context: conv.context || {}
+        llm_provider: conv.llmProvider || conv.llm_provider || 'google',
+        selected_agent: conv.selectedAgent || conv.selected_agent || 'sparql',
+        enable_clarification: conv.enableClarification !== undefined ? conv.enableClarification : (conv.enable_clarification !== undefined ? conv.enable_clarification : true),
+        clarification_threshold: conv.clarificationThreshold || conv.clarification_threshold || 'conservative',
+        waiting_for_clarification: conv.waitingForClarification || conv.waiting_for_clarification || false,
+        clarification_questions: conv.clarificationQuestions || conv.clarification_questions || [],
+        clarification_answers: conv.clarificationAnswers || conv.clarification_answers || {},
+        original_request: conv.originalRequestContext || conv.original_request || null,
+        metadata: conv.metadata || null
       };
 
       // If we've already POSTed this conversation before, skip straight to PUT
       if (persistedIdsRef.current.has(conv.id)) {
-        await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, clean);
+        await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, updateData);
         return;
       }
 
-      await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, clean);
+      await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, updateData);
     } catch (err) {
       if (err.response && (err.response.status === 404 || err.response.status === 422)) {
         try {
           const filteredMessages = (conv.messages || []).filter(m => !m.isNodeProgress);
-          const clean = {
+          // For POST requests, use ConversationCreate schema
+          const createData = {
             id: conv.id,
             title: conv.title,
-            agent_type: conv.agent_type || conv.selectedAgent || 'unknown',
-            messages: filteredMessages,
-            created_at: conv.createdAt || conv.created_at || new Date().toISOString(),
-            updated_at: conv.updatedAt || conv.updated_at || new Date().toISOString(),
-            status: conv.status || 'active',
-            context: conv.context || {}
+            llm_provider: conv.llmProvider || conv.llm_provider || 'google',
+            selected_agent: conv.selectedAgent || conv.selected_agent || 'sparql',
+            enable_clarification: conv.enableClarification !== undefined ? conv.enableClarification : (conv.enable_clarification !== undefined ? conv.enable_clarification : true),
+            clarification_threshold: conv.clarificationThreshold || conv.clarification_threshold || 'conservative',
+            metadata: conv.metadata || null
           };
 
           if (!persistedIdsRef.current.has(conv.id)) {
-            await axios.post(API_CONFIG.ENDPOINTS.CONVERSATIONS, clean);
+            await axios.post(API_CONFIG.ENDPOINTS.CONVERSATIONS, createData);
             // Mark as persisted to prevent future duplicate POSTs
             persistedIdsRef.current.add(conv.id);
           }

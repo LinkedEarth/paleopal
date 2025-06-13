@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DocumentExtraction from './DocumentExtraction';
 import API_CONFIG from '../config/api';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Configure axios defaults - use same logic as API_CONFIG
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
@@ -17,6 +19,9 @@ const styles = `
     overflow: hidden;
   }
 `;
+
+// Helper function to detect dark mode
+const isDarkMode = () => document.documentElement.classList.contains('dark');
 
 // Metadata Viewer Component
 const MetadataViewer = ({ metadata }) => {
@@ -210,7 +215,8 @@ const AdditionalFieldsViewer = ({ document }) => {
   };
 
   const fieldsToShow = Object.entries(document).filter(([key, value]) => 
-    !['text', 'content', 'id'].includes(key) && value !== null && value !== undefined
+    !['text', 'content', 'id', 'description', 'code', 'signature', 'entity_id', 'uri', 'sparql', 'query'].includes(key) && 
+    value !== null && value !== undefined
   );
 
   if (fieldsToShow.length === 0) {
@@ -1621,50 +1627,8 @@ const Dashboard = () => {
             
             <div className="flex-1 overflow-y-auto">
               <div className="p-6">
-                <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-                  {/* Source Information - Sidebar */}
-                  <div className="xl:col-span-1">
-                    <h4 className="text-md font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Source Information</h4>
-                    <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded border border-neutral-200 dark:border-neutral-600 space-y-3">
-                      <div>
-                        <dt className="text-xs font-medium text-neutral-600 dark:text-neutral-400 uppercase">Document ID</dt>
-                        <dd className="text-sm text-neutral-900 dark:text-neutral-100 font-mono break-all">{documentDetails.id}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-xs font-medium text-neutral-600 dark:text-neutral-400 uppercase">Collection</dt>
-                        <dd className="text-sm text-neutral-900 dark:text-neutral-100">{documentDetails.collection}</dd>
-                      </div>
-                      {documentDetails.source_info.source_file && (
-                        <div>
-                          <dt className="text-xs font-medium text-neutral-600 dark:text-neutral-400 uppercase">Source File</dt>
-                          <dd className="text-sm text-neutral-900 dark:text-neutral-100 break-all">{documentDetails.source_info.source_file}</dd>
-                        </div>
-                      )}
-                      {documentDetails.source_info.content_type && (
-                        <div>
-                          <dt className="text-xs font-medium text-neutral-600 dark:text-neutral-400 uppercase">Content Type</dt>
-                          <dd className="text-sm text-neutral-900 dark:text-neutral-100">{documentDetails.source_info.content_type}</dd>
-                        </div>
-                      )}
-                      {documentDetails.source_info.indexed_at && (
-                        <div>
-                          <dt className="text-xs font-medium text-neutral-600 dark:text-neutral-400 uppercase">Indexed At</dt>
-                          <dd className="text-sm text-neutral-900 dark:text-neutral-100">{new Date(documentDetails.source_info.indexed_at).toLocaleString()}</dd>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Metadata */}
-                    {Object.keys(documentDetails.source_info.metadata || {}).length > 0 && (
-                      <div className="mt-4">
-                        <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Metadata</h5>
-                        <MetadataViewer metadata={documentDetails.source_info.metadata} />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Document Content - Main area */}
-                  <div className="xl:col-span-3">
+                {/* Document Content - Full width */}
+                <div>
                     <h4 className="text-md font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Full Document Content</h4>
                     
                     {/* Special handling for complete methods */}
@@ -1793,28 +1757,135 @@ const Dashboard = () => {
                         </div>
                       </div>
                     ) : (
-                      /* Default content display */
-                      <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded border border-neutral-200 dark:border-neutral-600 max-h-96 overflow-y-auto">
-                        <pre className="text-sm whitespace-pre-wrap font-mono text-neutral-900 dark:text-neutral-100">
-                          {documentDetails.document.text || documentDetails.document.content || 'No content available'}
-                        </pre>
+                      /* Collection-specific content display */
+                      <div className="space-y-4">
+                        {/* Debug info - remove this later */}
+                        {process.env.NODE_ENV === 'development' && (
+                          <div className="text-xs text-neutral-500 dark:text-neutral-400 bg-yellow-50 dark:bg-yellow-900/20 p-2 rounded">
+                            Collection: {documentDetails.collection} | 
+                            Has code: {!!documentDetails.document.code} | 
+                            Has signature: {!!documentDetails.document.signature} | 
+                            Has sparql: {!!documentDetails.document.sparql} | 
+                            Has query: {!!documentDetails.document.query} | 
+                            Has entity_id: {!!documentDetails.document.entity_id} | 
+                            Has uri: {!!documentDetails.document.uri}
+                          </div>
+                        )}
+                        
+                        {/* Description - Always show first */}
+                        {(documentDetails.document.description || documentDetails.document.text || documentDetails.document.content) && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Description</h5>
+                            <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded border border-neutral-200 dark:border-neutral-600">
+                              <div className="text-sm text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap">
+                                {documentDetails.document.description || documentDetails.document.text || documentDetails.document.content || 'No description available'}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Collection-specific content */}
+                        {documentDetails.collection === 'readthedocs_code' && documentDetails.document.code && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Code</h5>
+                            <div className="bg-neutral-50 dark:bg-neutral-700 rounded border border-neutral-200 dark:border-neutral-600 overflow-hidden">
+                              <SyntaxHighlighter
+                                language="python"
+                                style={isDarkMode() ? oneDark : oneLight}
+                                customStyle={{
+                                  margin: 0,
+                                  padding: '1rem',
+                                  background: 'transparent',
+                                  fontSize: '13px',
+                                  fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                                }}
+                              >
+                                {documentDetails.document.code}
+                              </SyntaxHighlighter>
+                            </div>
+                          </div>
+                        )}
+
+                        {documentDetails.collection === 'readthedocs_symbols' && documentDetails.document.signature && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Signature</h5>
+                            <div className="bg-neutral-50 dark:bg-neutral-700 rounded border border-neutral-200 dark:border-neutral-600 overflow-hidden">
+                              <SyntaxHighlighter
+                                language="python"
+                                style={isDarkMode() ? oneDark : oneLight}
+                                customStyle={{
+                                  margin: 0,
+                                  padding: '1rem',
+                                  background: 'transparent',
+                                  fontSize: '13px',
+                                  fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                                }}
+                              >
+                                {documentDetails.document.signature}
+                              </SyntaxHighlighter>
+                            </div>
+                          </div>
+                        )}
+
+                        {documentDetails.collection === 'ontology_entities' && (documentDetails.document.entity_id || documentDetails.document.uri) && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Entity ID</h5>
+                            <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded border border-neutral-200 dark:border-neutral-600">
+                              <code className="text-sm font-mono text-neutral-900 dark:text-neutral-100 break-all">
+                                {documentDetails.document.entity_id || documentDetails.document.uri}
+                              </code>
+                            </div>
+                          </div>
+                        )}
+
+                        {(documentDetails.document.sparql || documentDetails.document.query) && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">SPARQL Query</h5>
+                            <div className="bg-neutral-50 dark:bg-neutral-700 rounded border border-neutral-200 dark:border-neutral-600 overflow-hidden">
+                              <SyntaxHighlighter
+                                language="sparql"
+                                style={isDarkMode() ? oneDark : oneLight}
+                                customStyle={{
+                                  margin: 0,
+                                  padding: '1rem',
+                                  background: 'transparent',
+                                  fontSize: '13px',
+                                  fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                                }}
+                              >
+                                {documentDetails.document.sparql || documentDetails.document.query || ''}
+                              </SyntaxHighlighter>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Fallback for other content types */}
+                        {!documentDetails.document.code && 
+                         !documentDetails.document.signature && 
+                         !(documentDetails.document.entity_id || documentDetails.document.uri) && 
+                         !(documentDetails.document.sparql || documentDetails.document.query) && (
+                          <div>
+                            <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Content</h5>
+                            <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded border border-neutral-200 dark:border-neutral-600 max-h-96 overflow-y-auto">
+                              <pre className="text-sm whitespace-pre-wrap font-mono text-neutral-900 dark:text-neutral-100">
+                                {documentDetails.document.text || documentDetails.document.content || 'No content available'}
+                              </pre>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                     
-                    {/* Additional Fields - only show for non-structured documents */}
-                    {documentDetails.document.content_type !== 'complete_method' && 
-                     documentDetails.document.content_type !== 'complete_workflow' && (
-                      <div className="mt-4">
-                        <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Additional Document Fields</h5>
-                        <AdditionalFieldsViewer document={documentDetails.document} />
-                      </div>
-                    )}
+                    {/* Additional Fields - always show */}
+                    <div className="mt-4">
+                      <h5 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Additional Document Fields</h5>
+                      <AdditionalFieldsViewer document={documentDetails.document} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       )}
 
       {/* Add Document Modal */}

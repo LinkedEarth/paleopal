@@ -1,0 +1,1638 @@
+class pyleoclim.core.coherences.Coherence(title: str, figsize: list, overlap: bool, phase_style: dict, unit: See Matplotlib.Pyplot.Quiver, units: See Matplotlib.Pyplot.Quiver, line_colors: list, savefig_settings: dict, ts_plot_kwargs: dict, wavelet_plot_kwargs: dict)
+class pyleoclim.core.coherences.GlobalCoherence(global_coh: Numpy Array, scale: Numpy Array, frequency: Numpy Array, coi: Numpy Array, coh: Coherence, figsize: tuple, xlim: tuple, label: str = 'Coherence', xlabel: str, psd_y_label: str, coh_y_label: str, coh_line_color: str, coh_ylim: tuple, fill_alpha: float, fill_color: str, coh_plot_kwargs: dict, savefig_settings: dict, spectral_kwargs: dict, spec1_plot_kwargs: dict, spec2_plot_kwargs: dict, legend: bool, legend_kwargs: dict, ax: Matplotlib Axis)
+class pyleoclim.core.corr.Corr(r: float, p: float, r_crit: float, p_fmt_td: float = 0.01, p_fmt_style: str = 'exp', signif: bool, alpha: float)
+class pyleoclim.core.correns.CorrEns(r: list, p: list, p_fmt_td: float = 0.01, p_fmt_style: str = 'exp', signif: list, signif_fdr: list, alpha: float, figsize: list, title: str, multiple: str, alpha: float, savefig_settings: dict, hist_kwargs: dict, title_kwargs: dict, ax: Matplotlib.Axis , Optional, xlim: list)
+class pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries(series_list: list, lat: float = None, lon: float = None, elevation: float = None, label: str = None, log: dict, keep_log: bool, importedFrom: str, archiveType: str = None, control_archiveType: [ True , False ] = False, sensorType: str = None, observationType: str = None, depth: Array = None, depth_name: str = None, depth_unit: str = None, figsize: list, gs: Matplotlib.Gridspec Object , Optional)
+class pyleoclim.core.ensembleseries.EnsembleSeries(target: Series Or Ensembleseries, timespan: tuple, alpha: float, method: str, statistic: str, settings: dict, number: int, fdr_kwargs: dict, common_time_kwargs: dict, mute_pbar: bool, seed: int)
+class pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp(index: int, flip: bool, plot_envelope_kwargs: dict, figsize: list, savefig_settings: dict, title: str, title_kwargs: dict, gs: Matplotlib.Gridspec Object , Optional, gridspec_kwargs: dict, columns: Default: Wspace=0.05, rows: Default: Hspace=0.03, column: Default: Width_Ratios=[5,1,3] Where Middle Column Serves As A Spacer, spec_method: str, cmap: str, map_kwargs: dict, scatter_kwargs: dict, hue: str, marker: str, quantiles: list)
+class pyleoclim.core.geoseries.GeoSeries(time: list, value: list, lat: float, lon: float, elevation: float = None, time_unit: str = None, time_name: str = None, value_name: str = None, value_unit: str = None, label: str = None, log: dict = None, keep_log: bool = False, importedFrom: str = None, archiveType: str = None, control_archiveType: [ True , False ] = False, sensorType: str = None, observationType: str = None, depth: Array = None, depth_name: str = None, depth_unit: str = None, dropna: bool = True, sort_ts: str = 'ascending', verbose: bool = True, clean_ts: bool = False, auto_time_params: bool = None, figsize: list, gs: Matplotlib.Gridspec Object , Optional, plt_kwargs: dict, histplt_kwargs: dict, spectral_kwargs: dict, spectralsignif_kwargs: dict, spectralfig_kwargs: dict, map_kwargs: dict, hue: str, size: str, marker: str, scatter_kwargs: dict, gridspec_kwargs: dict, savefig_settings: dict)
+class pyleoclim.core.mulensgeoseries.MulEnsGeoSeries(nsim: int, seed: int, common_time_kwargs: dict, pca_kwargs: dict, align_method: str, delta: float, phase_max: float)
+class pyleoclim.core.multiplegeoseries.MultipleGeoSeries(series_list: list, time_unit: str = None, label: str = None)
+class pyleoclim.core.multipleseries.MultipleSeries(series_list: list, time_unit: str = None, label: str = None, ts: Pyleoclim.Series)
+class pyleoclim.core.multivardecomp.MultivariateDecomp(time: float, name: str, eigvals: 1D Array, eigvecs: 2D Array, pcs: 1D Array, pctvar: float, orig: Multipleseries , Or Multiplegeoseries Object, neff: float, columns: Default: Wspace=0.05, rows: Default: Hspace=0.03, column: Default: Width_Ratios=[5,1,3] Where Middle Column Serves As A Spacer)
+class pyleoclim.core.psds.MultiplePSD(avgs: int, mute_pbar: bool)
+class pyleoclim.core.psds.PSD(frequency: float, amplitude: float, label: Optional[str] = None, timeseries: Optional[Pyleoclim.Series , Optional] = None, plot_kwargs: Optional[dict] = None, spec_method: Optional[str] = None, spec_args: Optional[dict] = None, signif_qs: Optional[Pyleoclim.Multiplescalogram , Optional] = None, signif_method: Optional[str] = None, period_unit: Optional[str] = None, beta_est_res: Optional[list] = None, avgs: int)
+class pyleoclim.core.resolutions.MultipleResolution(resolution_list: list, time_unit: str)
+class pyleoclim.core.resolutions.Resolution(resolution: list, time: list = None, resolution_unit: str = None, label: str = None, timeseries: Pyleoclim.Series = None, figsize: list, title: str, plot_kwargs: dict, histplot_kwargs: dict, savefig_settings: dict)
+class pyleoclim.core.scalograms.MultipleScalogram(qs: list)
+class pyleoclim.core.scalograms.Scalogram(in_scale: bool, variable: {'Amplitude' , 'Power'}, xlabel: str, ylabel: str, title: str, ylim: list, xlim: list, yticks: list, figsize: list, signif_clr: str, signif_thresh: float, signif_linestyles: str, signif_linewidths: float, contourf_style: dict, cbar_style: dict, savefig_settings: dict, ax: Ax , Optional)
+class pyleoclim.core.series.Series(time: list, value: list, time_unit: str = None, time_name: str = None, value_name: str = None, value_unit: str = None, label: str = None, log: dict = None, keep_log: bool = False, importedFrom: str = None, archiveType: str = None, control_archiveType: [ True , False ] = False, dropna: bool = True, sort_ts: str = 'ascending', verbose: bool = True, clean_ts: bool = False, auto_time_params: bool = None, keep_log: bool = False)
+class pyleoclim.core.ssares.SsaRes(orig: Series, eigvals: float, pctvar: float, eigvals_q: float = None, eigvecs: float, PC: float, RCmat: float, mode_idx: list, RCseries: float)
+class pyleoclim.core.surrogateseries.SurrogateSeries(param: list = None, length: int, time_pattern: str, seed: int = None, settings: dict)
+class pyleoclim.utils.lipdutils.CaseInsensitiveDict
+class pyleoclim.utils.tsutils.EmpiricalModeDecomposition(m: Sequence[float])
+class pyleoclim.utils.wavelet.AliasFilter
+class pylipd.classes.archivetype.ArchiveType(synonym: str)
+class pylipd.classes.calibration.Calibration
+class pylipd.classes.changelog.ChangeLog
+class pylipd.classes.chrondata.ChronData
+class pylipd.classes.dataset.Dataset
+class pylipd.classes.datatable.DataTable
+class pylipd.classes.funding.Funding
+class pylipd.classes.interpretation.Interpretation
+class pylipd.classes.interpretationseasonality.InterpretationSeasonality(synonym: str)
+class pylipd.classes.interpretationvariable.InterpretationVariable(synonym: str)
+class pylipd.classes.location.Location
+class pylipd.classes.model.Model
+class pylipd.classes.paleodata.PaleoData
+class pylipd.classes.paleoproxy.PaleoProxy(synonym: str)
+class pylipd.classes.paleoproxygeneral.PaleoProxyGeneral(synonym: str)
+class pylipd.classes.paleovariable.PaleoVariable(synonym: str)
+class pylipd.classes.physicalsample.PhysicalSample
+class pylipd.classes.publication.Person
+class pylipd.classes.publication.Publication
+class pylipd.classes.resolution.Resolution
+class pylipd.classes.uncertainty.Uncertainty
+class pylipd.classes.variable.Variable
+class pylipd.lipd.LiPD(lipd_dir: str, rdf_file: str, dsname: str, lipdfile: str)
+class pylipd.lipd.LiPD(lipd_dir: str, rdf_file: str, dsname: str, lipdfile: str)
+class pylipd.lipd_series.LiPDSeries(name: str)
+class pylipd.rdf_graph.RDFGraph(ids: str)
+class pylipd.utils.legacy_utils.LiPD_Legacy
+class pylipd.utils.lipd_to_rdf.LipdToRDF(lipdpath: str, topath: str, type: str)
+class pylipd.utils.rdf_graph.RDFGraph(ids: str)
+class pylipd.utils.rdf_to_lipd.RDFToLiPD(graph: Rdflib.Conjunctivegraph, graph: Rdflib.Conjunctivegraph)
+constant pyleoclim.core.series.Series.datetime_index
+constant pyleoclim.utils.lipdutils.PLOT_DEFAULT
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Borehole
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Coral
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Documents
+constant pylipd.classes.archivetype.ArchiveTypeConstants.FluvialSediment
+constant pylipd.classes.archivetype.ArchiveTypeConstants.GlacierIce
+constant pylipd.classes.archivetype.ArchiveTypeConstants.GroundIce
+constant pylipd.classes.archivetype.ArchiveTypeConstants.LakeSediment
+constant pylipd.classes.archivetype.ArchiveTypeConstants.MarineSediment
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Midden
+constant pylipd.classes.archivetype.ArchiveTypeConstants.MolluskShell
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Other
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Peat
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Sclerosponge
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Shoreline
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Speleothem
+constant pylipd.classes.archivetype.ArchiveTypeConstants.TerrestrialSediment
+constant pylipd.classes.archivetype.ArchiveTypeConstants.Wood
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Annual
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Apr_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Aug_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Coldest_Month
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Dec_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Fall
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Feb_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Growing_Season
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jan_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jul_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Jun_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Mar_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.May_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Nov_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Oct_Sep
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Apr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Aug
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Dec
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Feb
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Jan
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Jul
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Jun
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Mar
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_May
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Nov
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Sep_Oct
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Spr_Sum
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Spring
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Summer
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Warmest_Month
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Wet_Season
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Win_Spr
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.Winter
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.needsToBeChanged
+constant pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants.subannual
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.C3C4Ratio
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.ELA
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.P_E
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.circulationIndex
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.circulationVariable
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.dissolvedOxygen
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.dust
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.evaporation
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.fire
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.growingDegreeDays
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.hydrologicBalance
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.lakeWaterIsotope
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.meltwater
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.needsToBeReplaced
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.precipitation
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.precipitationDeuteriumExcess
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.precipitationIsotope
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.productivity
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.relativeHumidity
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.salinity
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.seaIce
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.seasonality
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.seawaterIsotope
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.streamflow
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.sunlight
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.surfacePressure
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.temperature
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.upwelling
+constant pylipd.classes.interpretationvariable.InterpretationVariableConstants.windSpeed
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.ACL
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Al2O3
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.BIT
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.BSi
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ba_Al
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ba_Ca
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.C_N
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.CaCO3
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ca_K
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ca_Ti
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Eu_Zr
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Fe
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Fe_Al
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.GDGT
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.HBI
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.IP25
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.LDI
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Mg
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Mg_Ca
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.P_aqueous
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Rb
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Rb_Sr
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Sr
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Sr_Ca
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.TEX86
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.TOC
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ti
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ti_Al
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.Ti_Ca
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.accumulation_rate
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.alkenone
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.amoeba
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.biomarker
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.borehole
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.bubble_frequency
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.bulk_density
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.bulk_sediment
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.calcification_rate
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.calcite
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.carbonate
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.cellulose
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.charcoal
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.chironomid
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.chlorophyll
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.chrysophyte_assemblage
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.cladoceran
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.coccolithophore
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.d13C
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.d15N
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.d15N_d40Ar
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.d18O
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.dD
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.deuterium_excess
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.diatom
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.dinocyst
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.dry_bulk_density
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.foraminifera
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.grain_size
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.historical
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.humification
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.ice_accumulation
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.ice_melt
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.inorganic_carbon
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.lake_level
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.latewood_cellulose
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.macrofossils
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.magnetic
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.magnetic_susceptibility
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.mass_accumulation_rate
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.maximum_latewood_density
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.multiproxy
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.needsToBeChanged
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.needs_to_be_changed
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.ostracod
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.pH
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.peat_ash
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.pollen
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.radiolaria
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.reflectance
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.ring_width
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.stratigraphy
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.sulfur
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.total_nitrogen
+constant pylipd.classes.paleoproxy.PaleoProxyConstants.varve_thickness
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.biogenic
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.cryophysical
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.dendrophysical
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.elemental
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.faunal_assemblage
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.floral_assemblage
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.isotopic
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.mineral
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.pyrogenic
+constant pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants.sedimentology
+constant pylipd.classes.paleounit.PaleoUnitConstants.SI
+constant pylipd.classes.paleounit.PaleoUnitConstants.atomic_ratio
+constant pylipd.classes.paleounit.PaleoUnitConstants.cgs
+constant pylipd.classes.paleounit.PaleoUnitConstants.cm
+constant pylipd.classes.paleounit.PaleoUnitConstants.cm3
+constant pylipd.classes.paleounit.PaleoUnitConstants.cm_kyr
+constant pylipd.classes.paleounit.PaleoUnitConstants.cm_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.count
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_century
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_cm2
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_cm2_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_cm3
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_g
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_kyr
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_mL
+constant pylipd.classes.paleounit.PaleoUnitConstants.count_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.cps
+constant pylipd.classes.paleounit.PaleoUnitConstants.day
+constant pylipd.classes.paleounit.PaleoUnitConstants.degC
+constant pylipd.classes.paleounit.PaleoUnitConstants.degree
+constant pylipd.classes.paleounit.PaleoUnitConstants.fraction
+constant pylipd.classes.paleounit.PaleoUnitConstants.g
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_L
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_cm2
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_cm2_kyr
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_cm2_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_cm3
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_cm_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_m2
+constant pylipd.classes.paleounit.PaleoUnitConstants.g_m2_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.grayscale
+constant pylipd.classes.paleounit.PaleoUnitConstants.kg_m2_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.kg_m3
+constant pylipd.classes.paleounit.PaleoUnitConstants.km2
+constant pylipd.classes.paleounit.PaleoUnitConstants.km3
+constant pylipd.classes.paleounit.PaleoUnitConstants.log_mg_L_
+constant pylipd.classes.paleounit.PaleoUnitConstants.m
+constant pylipd.classes.paleounit.PaleoUnitConstants.m3_kg
+constant pylipd.classes.paleounit.PaleoUnitConstants.mg
+constant pylipd.classes.paleounit.PaleoUnitConstants.mg_L
+constant pylipd.classes.paleounit.PaleoUnitConstants.mg_cm2_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.mg_g
+constant pylipd.classes.paleounit.PaleoUnitConstants.mg_kg
+constant pylipd.classes.paleounit.PaleoUnitConstants.mm
+constant pylipd.classes.paleounit.PaleoUnitConstants.mm_day
+constant pylipd.classes.paleounit.PaleoUnitConstants.mm_season
+constant pylipd.classes.paleounit.PaleoUnitConstants.mm_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.mmol_mol
+constant pylipd.classes.paleounit.PaleoUnitConstants.months_year
+constant pylipd.classes.paleounit.PaleoUnitConstants.needsToBeChanged
+constant pylipd.classes.paleounit.PaleoUnitConstants.ng
+constant pylipd.classes.paleounit.PaleoUnitConstants.ng_g
+constant pylipd.classes.paleounit.PaleoUnitConstants.pH
+constant pylipd.classes.paleounit.PaleoUnitConstants.peak_area
+constant pylipd.classes.paleounit.PaleoUnitConstants.percent
+constant pylipd.classes.paleounit.PaleoUnitConstants.permil
+constant pylipd.classes.paleounit.PaleoUnitConstants.ppb
+constant pylipd.classes.paleounit.PaleoUnitConstants.ppm
+constant pylipd.classes.paleounit.PaleoUnitConstants.practical_salinity_unit
+constant pylipd.classes.paleounit.PaleoUnitConstants.ratio
+constant pylipd.classes.paleounit.PaleoUnitConstants.ug_cm2_yr
+constant pylipd.classes.paleounit.PaleoUnitConstants.ug_g
+constant pylipd.classes.paleounit.PaleoUnitConstants.um
+constant pylipd.classes.paleounit.PaleoUnitConstants.umol_mol
+constant pylipd.classes.paleounit.PaleoUnitConstants.unitless
+constant pylipd.classes.paleounit.PaleoUnitConstants.yr_14C_BP
+constant pylipd.classes.paleounit.PaleoUnitConstants.yr_AD
+constant pylipd.classes.paleounit.PaleoUnitConstants.yr_BP
+constant pylipd.classes.paleounit.PaleoUnitConstants.yr_b2k
+constant pylipd.classes.paleounit.PaleoUnitConstants.yr_ka
+constant pylipd.classes.paleounit.PaleoUnitConstants.z_score
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ACL
+constant pylipd.classes.paleovariable.PaleoVariableConstants.AET_PET
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ARM_IRM
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ARSTAN
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Al2O3
+constant pylipd.classes.paleovariable.PaleoVariableConstants.As
+constant pylipd.classes.paleovariable.PaleoVariableConstants.BIT
+constant pylipd.classes.paleovariable.PaleoVariableConstants.BSi
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ba
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ba_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ba_Ca
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Be
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Br
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C20n_alkenoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C21n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C22n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C23n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C24n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C25_2n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C25n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C26n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C27n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C28n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C29n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C30n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C31n_alkanoicAcid
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C37Alkenone
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C37_2Alkenone
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C37_3aAlkenone
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C37_3bAlkenone
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C37_4Alkenone
+constant pylipd.classes.paleovariable.PaleoVariableConstants.CBT
+constant pylipd.classes.paleovariable.PaleoVariableConstants.CCA1
+constant pylipd.classes.paleovariable.PaleoVariableConstants.CCA2
+constant pylipd.classes.paleovariable.PaleoVariableConstants.CPI
+constant pylipd.classes.paleovariable.PaleoVariableConstants.C_N
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ca
+constant pylipd.classes.paleovariable.PaleoVariableConstants.CaCO3
+constant pylipd.classes.paleovariable.PaleoVariableConstants.CaO
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ca_K
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ca_Sr
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ca_Ti
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Cd
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Cd_Mn
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Cl
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Co
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Cr
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Cu
+constant pylipd.classes.paleovariable.PaleoVariableConstants.DWHI
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Dd2H
+constant pylipd.classes.paleovariable.PaleoVariableConstants.EPS
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ElNinoEvent
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Eu_Zr
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Fe
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Fe2O3
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Fe_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Fe_Ca
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Fe_K
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Fe_Mn
+constant pylipd.classes.paleovariable.PaleoVariableConstants.GDGT
+constant pylipd.classes.paleovariable.PaleoVariableConstants.GDGT_0_Cren
+constant pylipd.classes.paleovariable.PaleoVariableConstants.IP25
+constant pylipd.classes.paleovariable.PaleoVariableConstants.IRM
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ITCZ
+constant pylipd.classes.paleovariable.PaleoVariableConstants.JulianDay
+constant pylipd.classes.paleovariable.PaleoVariableConstants.K2O
+constant pylipd.classes.paleovariable.PaleoVariableConstants.K37
+constant pylipd.classes.paleovariable.PaleoVariableConstants.K_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.LDI
+constant pylipd.classes.paleovariable.PaleoVariableConstants.LOI
+constant pylipd.classes.paleovariable.PaleoVariableConstants.La
+constant pylipd.classes.paleovariable.PaleoVariableConstants.MAR
+constant pylipd.classes.paleovariable.PaleoVariableConstants.MBT
+constant pylipd.classes.paleovariable.PaleoVariableConstants.MS
+constant pylipd.classes.paleovariable.PaleoVariableConstants.MXD
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Mg
+constant pylipd.classes.paleovariable.PaleoVariableConstants.MgO
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Mg_Ca
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Mn
+constant pylipd.classes.paleovariable.PaleoVariableConstants.MnO
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Mn_Fe
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Mn_Mo
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Mo
+constant pylipd.classes.paleovariable.PaleoVariableConstants.NO3
+constant pylipd.classes.paleovariable.PaleoVariableConstants.N_C
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Na2O
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ni
+constant pylipd.classes.paleovariable.PaleoVariableConstants.PC1
+constant pylipd.classes.paleovariable.PaleoVariableConstants.PC2
+constant pylipd.classes.paleovariable.PaleoVariableConstants.PC3
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Paq
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Pb
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Picea_Artemisia
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Picea_Pinus
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Pinus_Artemisia
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Poaceae_Ephedra
+constant pylipd.classes.paleovariable.PaleoVariableConstants.R570_R630
+constant pylipd.classes.paleovariable.PaleoVariableConstants.R650_R700
+constant pylipd.classes.paleovariable.PaleoVariableConstants.RABD660670
+constant pylipd.classes.paleovariable.PaleoVariableConstants.RAN15
+constant pylipd.classes.paleovariable.PaleoVariableConstants.RBAR
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Rb
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Rb87_Sr86
+constant pylipd.classes.paleovariable.PaleoVariableConstants.SO4
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Sc
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Si
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Si_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Si_Ti
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Sr
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Sr_Ca
+constant pylipd.classes.paleovariable.PaleoVariableConstants.TDS
+constant pylipd.classes.paleovariable.PaleoVariableConstants.TEX86
+constant pylipd.classes.paleovariable.PaleoVariableConstants.TIC
+constant pylipd.classes.paleovariable.PaleoVariableConstants.TOC
+constant pylipd.classes.paleovariable.PaleoVariableConstants.TOC_TN
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ti
+constant pylipd.classes.paleovariable.PaleoVariableConstants.TiO2
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ti_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Ti_Ca
+constant pylipd.classes.paleovariable.PaleoVariableConstants.UK37
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Uk37
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Uk37_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.V
+constant pylipd.classes.paleovariable.PaleoVariableConstants.V_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Y
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Zn
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Zr
+constant pylipd.classes.paleovariable.PaleoVariableConstants.Zr_Al
+constant pylipd.classes.paleovariable.PaleoVariableConstants.accumulation
+constant pylipd.classes.paleovariable.PaleoVariableConstants.age
+constant pylipd.classes.paleovariable.PaleoVariableConstants.age14C
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ammonium
+constant pylipd.classes.paleovariable.PaleoVariableConstants.amps
+constant pylipd.classes.paleovariable.PaleoVariableConstants.aragonite
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ash
+constant pylipd.classes.paleovariable.PaleoVariableConstants.boron
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIIa
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIIa_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIIb
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIIb_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIIc
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIIc_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIa
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIa_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIb
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIb_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIc
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_IIc_
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_Ia
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_Ib
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_Ic
+constant pylipd.classes.paleovariable.PaleoVariableConstants.brGDGT_Id
+constant pylipd.classes.paleovariable.PaleoVariableConstants.bubbleNumberDensity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.bulkDensity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.calcificationRate
+constant pylipd.classes.paleovariable.PaleoVariableConstants.calcite
+constant pylipd.classes.paleovariable.PaleoVariableConstants.carbon
+constant pylipd.classes.paleovariable.PaleoVariableConstants.carbonate
+constant pylipd.classes.paleovariable.PaleoVariableConstants.charcoal
+constant pylipd.classes.paleovariable.PaleoVariableConstants.chloride
+constant pylipd.classes.paleovariable.PaleoVariableConstants.circulationIndex
+constant pylipd.classes.paleovariable.PaleoVariableConstants.clay
+constant pylipd.classes.paleovariable.PaleoVariableConstants.cluster
+constant pylipd.classes.paleovariable.PaleoVariableConstants.composite
+constant pylipd.classes.paleovariable.PaleoVariableConstants.concentration
+constant pylipd.classes.paleovariable.PaleoVariableConstants.core
+constant pylipd.classes.paleovariable.PaleoVariableConstants.correction
+constant pylipd.classes.paleovariable.PaleoVariableConstants.correlationCoefficient
+constant pylipd.classes.paleovariable.PaleoVariableConstants.count
+constant pylipd.classes.paleovariable.PaleoVariableConstants.d13C
+constant pylipd.classes.paleovariable.PaleoVariableConstants.d15N
+constant pylipd.classes.paleovariable.PaleoVariableConstants.d18O
+constant pylipd.classes.paleovariable.PaleoVariableConstants.d2H
+constant pylipd.classes.paleovariable.PaleoVariableConstants.d2HUncertaintyHigh80
+constant pylipd.classes.paleovariable.PaleoVariableConstants.d2HUncertaintyLow80
+constant pylipd.classes.paleovariable.PaleoVariableConstants.deleteMe
+constant pylipd.classes.paleovariable.PaleoVariableConstants.deltaRelativeHumidity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.deltaTemperature
+constant pylipd.classes.paleovariable.PaleoVariableConstants.density
+constant pylipd.classes.paleovariable.PaleoVariableConstants.depth
+constant pylipd.classes.paleovariable.PaleoVariableConstants.depthBottom
+constant pylipd.classes.paleovariable.PaleoVariableConstants.depthTop
+constant pylipd.classes.paleovariable.PaleoVariableConstants.deuteriumExcess
+constant pylipd.classes.paleovariable.PaleoVariableConstants.diatom
+constant pylipd.classes.paleovariable.PaleoVariableConstants.diatomCount
+constant pylipd.classes.paleovariable.PaleoVariableConstants.dinocyst
+constant pylipd.classes.paleovariable.PaleoVariableConstants.dolomite
+constant pylipd.classes.paleovariable.PaleoVariableConstants.dryBulkDensity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.duration
+constant pylipd.classes.paleovariable.PaleoVariableConstants.dust
+constant pylipd.classes.paleovariable.PaleoVariableConstants.effectivePrecipitation
+constant pylipd.classes.paleovariable.PaleoVariableConstants.elevation
+constant pylipd.classes.paleovariable.PaleoVariableConstants.epsilonC28C22
+constant pylipd.classes.paleovariable.PaleoVariableConstants.epsilonC28C24
+constant pylipd.classes.paleovariable.PaleoVariableConstants.epsilonC29C23
+constant pylipd.classes.paleovariable.PaleoVariableConstants.equilibriumLineAltitude
+constant pylipd.classes.paleovariable.PaleoVariableConstants.event
+constant pylipd.classes.paleovariable.PaleoVariableConstants.eventLayer
+constant pylipd.classes.paleovariable.PaleoVariableConstants.facies
+constant pylipd.classes.paleovariable.PaleoVariableConstants.feldspar
+constant pylipd.classes.paleovariable.PaleoVariableConstants.flood
+constant pylipd.classes.paleovariable.PaleoVariableConstants.fluorine
+constant pylipd.classes.paleovariable.PaleoVariableConstants.foraminifera
+constant pylipd.classes.paleovariable.PaleoVariableConstants.gamma
+constant pylipd.classes.paleovariable.PaleoVariableConstants.glacierCoverage
+constant pylipd.classes.paleovariable.PaleoVariableConstants.globigerinoidesRuber
+constant pylipd.classes.paleovariable.PaleoVariableConstants.grainSize
+constant pylipd.classes.paleovariable.PaleoVariableConstants.grayscale
+constant pylipd.classes.paleovariable.PaleoVariableConstants.growing_degree_days
+constant pylipd.classes.paleovariable.PaleoVariableConstants.growthRate
+constant pylipd.classes.paleovariable.PaleoVariableConstants.hasGap
+constant pylipd.classes.paleovariable.PaleoVariableConstants.hasHiatus
+constant pylipd.classes.paleovariable.PaleoVariableConstants.hole
+constant pylipd.classes.paleovariable.PaleoVariableConstants.humidificationIndex
+constant pylipd.classes.paleovariable.PaleoVariableConstants.iceMelt
+constant pylipd.classes.paleovariable.PaleoVariableConstants.iceRaftedDebris
+constant pylipd.classes.paleovariable.PaleoVariableConstants.inc_coh
+constant pylipd.classes.paleovariable.PaleoVariableConstants.index
+constant pylipd.classes.paleovariable.PaleoVariableConstants.isReliable
+constant pylipd.classes.paleovariable.PaleoVariableConstants.lakeArea
+constant pylipd.classes.paleovariable.PaleoVariableConstants.lakeLevel
+constant pylipd.classes.paleovariable.PaleoVariableConstants.lakeTrend
+constant pylipd.classes.paleovariable.PaleoVariableConstants.lakeVolume
+constant pylipd.classes.paleovariable.PaleoVariableConstants.landscapeCover
+constant pylipd.classes.paleovariable.PaleoVariableConstants.latitude
+constant pylipd.classes.paleovariable.PaleoVariableConstants.layerThickness
+constant pylipd.classes.paleovariable.PaleoVariableConstants.lithics
+constant pylipd.classes.paleovariable.PaleoVariableConstants.longitude
+constant pylipd.classes.paleovariable.PaleoVariableConstants.material
+constant pylipd.classes.paleovariable.PaleoVariableConstants.mineralogy
+constant pylipd.classes.paleovariable.PaleoVariableConstants.needsToBeChanged
+constant pylipd.classes.paleovariable.PaleoVariableConstants.needsToBeSplitIntoMultipleColumns
+constant pylipd.classes.paleovariable.PaleoVariableConstants.nitrate
+constant pylipd.classes.paleovariable.PaleoVariableConstants.nitrogen
+constant pylipd.classes.paleovariable.PaleoVariableConstants.notes
+constant pylipd.classes.paleovariable.PaleoVariableConstants.organicCarbon
+constant pylipd.classes.paleovariable.PaleoVariableConstants.organicMatter
+constant pylipd.classes.paleovariable.PaleoVariableConstants.organicNitrogen
+constant pylipd.classes.paleovariable.PaleoVariableConstants.oxygen
+constant pylipd.classes.paleovariable.PaleoVariableConstants.pH
+constant pylipd.classes.paleovariable.PaleoVariableConstants.peat
+constant pylipd.classes.paleovariable.PaleoVariableConstants.percent
+constant pylipd.classes.paleovariable.PaleoVariableConstants.phosphorus
+constant pylipd.classes.paleovariable.PaleoVariableConstants.potassium
+constant pylipd.classes.paleovariable.PaleoVariableConstants.precipitation
+constant pylipd.classes.paleovariable.PaleoVariableConstants.productivity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.pyrite
+constant pylipd.classes.paleovariable.PaleoVariableConstants.quartz
+constant pylipd.classes.paleovariable.PaleoVariableConstants.reflectance
+constant pylipd.classes.paleovariable.PaleoVariableConstants.relativeHumidity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.residualChronology
+constant pylipd.classes.paleovariable.PaleoVariableConstants.ringWidth
+constant pylipd.classes.paleovariable.PaleoVariableConstants.salinity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sampleCount
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sampleID
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sand
+constant pylipd.classes.paleovariable.PaleoVariableConstants.seaIce
+constant pylipd.classes.paleovariable.PaleoVariableConstants.section
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sedimentDry
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sedimentationRate
+constant pylipd.classes.paleovariable.PaleoVariableConstants.segmentLength
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sequence
+constant pylipd.classes.paleovariable.PaleoVariableConstants.silt
+constant pylipd.classes.paleovariable.PaleoVariableConstants.site
+constant pylipd.classes.paleovariable.PaleoVariableConstants.siteCount
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sodium
+constant pylipd.classes.paleovariable.PaleoVariableConstants.solarIrradiance
+constant pylipd.classes.paleovariable.PaleoVariableConstants.streamflow
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sulfate
+constant pylipd.classes.paleovariable.PaleoVariableConstants.sulfur
+constant pylipd.classes.paleovariable.PaleoVariableConstants.temperature
+constant pylipd.classes.paleovariable.PaleoVariableConstants.thickness
+constant pylipd.classes.paleovariable.PaleoVariableConstants.totalCarbon
+constant pylipd.classes.paleovariable.PaleoVariableConstants.totalNitrogen
+constant pylipd.classes.paleovariable.PaleoVariableConstants.totalPollen
+constant pylipd.classes.paleovariable.PaleoVariableConstants.treeCover
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertainty
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertainty1s
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertainty2s
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyHigh
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyHigh1s
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyHigh50
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyHigh90
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyHigh95
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyLow
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyLow1s
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyLow90
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uncertaintyLow95
+constant pylipd.classes.paleovariable.PaleoVariableConstants.upwelling
+constant pylipd.classes.paleovariable.PaleoVariableConstants.uranium
+constant pylipd.classes.paleovariable.PaleoVariableConstants.varveThickness
+constant pylipd.classes.paleovariable.PaleoVariableConstants.volume
+constant pylipd.classes.paleovariable.PaleoVariableConstants.waterContent
+constant pylipd.classes.paleovariable.PaleoVariableConstants.waterTableDepth
+constant pylipd.classes.paleovariable.PaleoVariableConstants.wetBulkDensity
+constant pylipd.classes.paleovariable.PaleoVariableConstants.year
+constant pylipd.classes.paleovariable.PaleoVariableConstants.zscore
+function pyleoclim.core.coherences.Coherence.copy()
+function pyleoclim.core.coherences.Coherence.dashboard(title: Optional[str] = None, figsize: list = [9, 12], overlap: bool = True, phase_style: dict = {}, unit: See Matplotlib.Pyplot.Quiver, units: See Matplotlib.Pyplot.Quiver, line_colors: list = ['tab:blue', 'tab:orange'], savefig_settings: dict = {}, ts_plot_kwargs: dict = None, wavelet_plot_kwargs: dict = None) -> Fig, Ax See Also Pyleoclim.Core.Coherence.Coherence.Plot Creates A Coherence Plot Pyleoclim.Core.Series.Series.Wavelet_Coherence Computes The Coherence Between Two Timeseries. Pyleoclim.Core.Series.Series.Plot Plots A Timeseries Matplotlib.Pyplot.Quiver Makes A Quiver Plot Examples Calculate The Coherence Of Nino3 And All India Rainfall And Plot It As A Dashboard: (<Figure Size 900X1200 With 6 Axes>,
+ {'Ts1': <Axes: Ylabel='Air [Mm/Month]'>,
+  'Ts2': <Axes: Xlabel='Time [Year C.E.]', Ylabel='Nino3 [$^{\\Circ}$C]'>,
+  'Wtc': <Axes: Ylabel='Scale [Yrs]'>,
+  'Xwt': <Axes: Xlabel='Time [Year C.E.]', Ylabel='Scale [Yrs]'>}) You May Customize Colors Like So: (<Figure Size 900X1200 With 6 Axes>,
+ {'Ts1': <Axes: Ylabel='Air [Mm/Month]'>,
+  'Ts2': <Axes: Xlabel='Time [Year C.E.]', Ylabel='Nino3 [$^{\\Circ}$C]'>,
+  'Wtc': <Axes: Ylabel='Scale [Yrs]'>,
+  'Xwt': <Axes: Xlabel='Time [Year C.E.]', Ylabel='Scale [Yrs]'>}) To Export The Figure, Use Savefig_Settings : Figure Saved At: "Coh_Dash.Png" (<Figure Size 900X1200 With 6 Axes>,
+ {'Ts1': <Axes: Ylabel='Air [Mm/Month]'>,
+  'Ts2': <Axes: Xlabel='Time [Year C.E.]', Ylabel='Nino3 [$^{\\Circ}$C]'>,
+  'Wtc': <Axes: Ylabel='Scale [Yrs]'>,
+  'Xwt': <Axes: Xlabel='Time [Year C.E.]', Ylabel='Scale [Yrs]'>})
+function pyleoclim.core.coherences.Coherence.phase_stats(scales: float, number: int = 1000, level: float = 0.05) -> Result
+function pyleoclim.core.coherences.Coherence.plot(var: str = 'wtc', xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: str = 'auto', figsize: list = [10, 8], ylim: Optional[list] = None, xlim: Optional[list] = None, in_scale: bool = True, yticks: Optional[list] = None, contourf_style: dict = {}, phase_style: dict = {}, unit: See Matplotlib.Pyplot.Quiver, units: See Matplotlib.Pyplot.Quiver, cbar_style: dict = {}, savefig_settings: dict = {}, ax: Optional[Ax , Optional] = None, signif_thresh: float = 0.95, signif_clr: str = 'white', signif_linestyles: str = '-', signif_linewidths: float = 1, under_clr: str = 'ivory', over_clr: str = 'black', bad_clr: str = 'dimgray') -> Fig, Ax See Also Pyleoclim.Core.Coherence.Coherence.Dashboard Plots A A Dashboard Showing The Coherence And The Cross-Wavelet Transform. Pyleoclim.Core.Series.Series.Wavelet_Coherence Computes The Coherence From Two Timeseries. Matplotlib.Pyplot.Quiver Quiver Plot Examples Calculate The Wavelet Coherence Of Nino3 And All India Rainfall And Plot It:
+.. Jupyter-Execute: Import Pyleoclim As Pyleo Ts_Air = Pyleo . Utils . Load_Dataset ( 'Air' ) Ts_Nino = Pyleo . Utils . Load_Dataset ( 'Nino3' ) Coh = Ts_Air . Wavelet_Coherence ( Ts_Nino ) Coh . Plot () Establish Significance Against An Ar(1) Benchmark: (<Figure Size 1000X800 With 2 Axes>,
+ <Axes: Title={'Center': 'Lines:95% Threshold'}, Xlabel='Time [Year C.E.]', Ylabel='Scale [Yrs]'>) Note That Specifiying 3 Significance Thresholds Does Not Take Any More Time As The Quantiles Are
+function pyleoclim.core.coherences.Coherence.signif_test(number: int = 200, method: {'Ar1Sim' , 'Phaseran' , 'Cn'} , Optional = 'ar1sim', seed: Optional[int] = None, qs: list = [0.95], settings: Optional[dict] = None, mute_pbar: bool = False) -> list
+function pyleoclim.core.coherences.GlobalCoherence.copy()
+function pyleoclim.core.coherences.GlobalCoherence.plot(figsize: tuple = (8, 8), xlim: tuple = None, label: str = None, xlabel: str = None, psd_y_label: str = 'PSD', coh_y_label: str = 'Coherence', coh_line_color: str = 'grey', coh_ylim: tuple = (0.4, 1), fill_alpha: float = 0.3, fill_color: str = 'grey', coh_plot_kwargs: dict = None, savefig_settings: dict = None, spectral_kwargs: dict = None, spec1_plot_kwargs: dict = None, spec2_plot_kwargs: dict = None, legend: bool = True, legend_kwargs: dict = None, ax: Matplotlib Axis = None) -> Ax
+function pyleoclim.core.coherences.GlobalCoherence.signif_test(method: str = 'ar1sim', number: int = 200, qs: list = [0.95]) -> Global_Coh
+function pyleoclim.core.corr.Corr.copy()
+function pyleoclim.core.correns.CorrEns.copy()
+function pyleoclim.core.correns.CorrEns.plot(figsize: list = [4, 4], title: Optional[str] = None, multiple: str = 'layer', alpha: float = 0.8, savefig_settings: dict = None, hist_kwargs: dict = None, title_kwargs: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None, xlim: Optional[list] = None)
+function pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries.dashboard(figsize: list = [11, 8], gs: Optional[Matplotlib.Gridspec Object , Optional] = None) -> dict
+function pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries.from_AgeEnsembleArray(geo_series: Pyleoclim.Core.Geoseries.Geoseries, age_array: Np.Array, value_depth: Vector = None, age_depth: Vector = None, extrapolate: bool = True, verbose: bool = True) -> np.ndarray
+function pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries.from_PaleoEnsembleArray(geo_series: Pyleoclim.Core.Series.Series, paleo_array: Np.Array, paleo_depth: Vector = None, age_depth: Vector = None, extrapolate: bool = True, verbose: bool = True) -> np.ndarray
+function pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries.make_labels() -> str
+function pyleoclim.core.ensembleseries.EnsembleSeries.correlation(target: Series Or Ensembleseries = None, timespan: tuple = None, alpha: float = 0.05, method: str = 'ttest', statistic: str = 'pearsonr', settings: dict = None, number: int = 1000, fdr_kwargs: dict = None, common_time_kwargs: dict = None, mute_pbar: bool = False, seed: int = None) -> Corr_Ens
+function pyleoclim.core.ensembleseries.EnsembleSeries.from_AgeEnsembleArray(series: Pyleoclim.Core.Series.Series, age_array: Np.Array, value_depth: Vector = None, age_depth: Vector = None, extrapolate: bool = True, verbose: bool = True) -> np.ndarray
+function pyleoclim.core.ensembleseries.EnsembleSeries.from_PaleoEnsembleArray(series: Pyleoclim.Core.Series.Series, paleo_array: Np.Array, paleo_depth: Vector = None, age_depth: Vector = None, extrapolate: bool = True, verbose: bool = True) -> np.ndarray
+function pyleoclim.core.ensembleseries.EnsembleSeries.histplot(figsize: list = [10, 4], title: Optional[str] = None, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Axis , Optional] = None, ylabel: str = 'KDE', vertical: bool = False, edgecolor: Matplotlib.Color , Optional = 'w', plot_kwargs: dict)
+function pyleoclim.core.ensembleseries.EnsembleSeries.make_labels() -> str
+function pyleoclim.core.ensembleseries.EnsembleSeries.plot_envelope(figsize: list = [10, 4], qs: list = [0.025, 0.25, 0.5, 0.75, 0.975], xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, xlim: Optional[list] = None, ylim: Optional[list] = None, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, plot_legend: bool = True, curve_clr: str = '#d9544d', curve_lw: str = 2, shade_clr: str = '#d9544d', shade_alpha: float = 0.2, inner_shade_label: str = 'IQR', outer_shade_label: str = '95% CI', lgd_kwargs: Optional[dict] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.ensembleseries.EnsembleSeries.plot_traces(figsize: list = [10, 4], xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, xlim: Optional[list] = None, ylim: Optional[list] = None, color: str = '#d9544d', alpha: float = 0.3, linestyle: {'-' , '--' , '-.' , ':' , '' , ( Offset , On-Off-Seq ) , ... } = '-', lw: float = 0.5, num_traces: int = 10, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, legend: bool = True, lgd_kwargs: Optional[dict] = None, seed: Optional[int] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.ensembleseries.EnsembleSeries.quantiles(qs: list = [0.05, 0.5, 0.95], axis: [ 'Time' , 'Value' ] = 'value') -> Ens_Qs
+function pyleoclim.core.ensembleseries.EnsembleSeries.slice(timespan: list) -> New
+function pyleoclim.core.ensembleseries.EnsembleSeries.stackplot(figsize: list = [5, 15], colors: list = None, cmap: str = 'tab10', norm: Matplotlib.Colors.Normalize Like = None, savefig_settings: dict = None, xlim: list = None, fill_between_alpha: float = 0.2, spine_lw: float = 1.5, grid_lw: float = 0.5, linewidth: float = 1.5, font_scale: float = 0.8, label_x_loc: float = -0.15, v_shift_factor: float = 0.75) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.ensembleseries.EnsembleSeries.to_array(axis: str = 'value', labels: bool = True) -> np.ndarray
+function pyleoclim.core.ensembleseries.EnsembleSeries.to_dataframe(axis: str = 'value') -> list
+function pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp.modeplot(index: int = 0, flip: bool = False, plot_envelope_kwargs: dict = None, figsize: list = [8, 8], savefig_settings: dict = None, title: Optional[str] = None, title_kwargs: dict = None, gs: Optional[Matplotlib.Gridspec Object , Optional] = None, gridspec_kwargs: Optional[dict] = None, columns: Default: Wspace=0.05, rows: Default: Hspace=0.03, column: Default: Width_Ratios=[5,1,3] Where Middle Column Serves As A Spacer, spec_method: str = 'mtm', cmap: str = 'coolwarm', map_kwargs: Optional[dict] = None, scatter_kwargs: Optional[dict] = None, hue: str, marker: Optional[str] = None, quantiles: list = [0.25, 0.5, 0.75]) -> dict
+function pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp.screeplot(quantiles: list, clr_eig: str = 'C0', linewidth: float = 0.3, violin_kwargs: dict = None, figsize: list = [8, 8], savefig_settings: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None) -> dict
+function pyleoclim.core.geoseries.GeoSeries.dashboard(figsize: list = [11, 8], gs: Optional[Matplotlib.Gridspec Object , Optional] = None, plt_kwargs: Optional[dict] = None, histplt_kwargs: Optional[dict] = None, spectral_kwargs: Optional[dict] = None, spectralsignif_kwargs: Optional[dict] = None, spectralfig_kwargs: Optional[dict] = None, map_kwargs: Optional[dict] = None, hue: str = 'archiveType', size: Optional[str] = None, marker: str = 'archiveType', scatter_kwargs: Optional[dict] = None, gridspec_kwargs: Optional[dict] = None, savefig_settings: Optional[dict] = None) -> dict
+function pyleoclim.core.geoseries.GeoSeries.from_json(path: str) -> Ts
+function pyleoclim.core.geoseries.GeoSeries.map(projection: str = 'Orthographic', proj_default: bool = True, background: bool = True, borders: bool = False, coastline: bool = True, land: bool = True, ocean: bool = True, rivers: bool = False, lakes: bool = False, fig: Optional[Matplotlib.Pyplot.Figure , Optional] = None, gridspec_slot: Optional[Gridspec Slot , Optional] = None, title: str = None, size: Optional[str] = None, edgecolor: str = 'w', figsize: Optional[list] = None, marker: str = 'archiveType', hue: str = 'archiveType', markersize: Optional[float] = None, scatter_kwargs: Optional[dict] = None, cmap: Optional[str] = None, colorbar: bool = False, gridspec_kwargs: Optional[dict] = None, legend: bool = True, lgd_kwargs: Optional[dict] = None, savefig_settings: Optional[dict] = None) -> Res
+function pyleoclim.core.geoseries.GeoSeries.map_neighbors(mgs: Multiplegeoseries, radius: float = 3000, projection: str = 'Orthographic', proj_default: bool = True, background: bool = True, borders: bool = False, rivers: bool = False, lakes: bool = False, figsize: Optional[list] = None, marker: str = 'archiveType', hue: str = 'archiveType', markersize: Optional[float] = None, scatter_kwargs: Optional[dict] = None, legend: bool = True, lgd_kwargs: Optional[dict] = None, savefig_settings: Optional[dict] = None, title: str = None) -> Res
+function pyleoclim.core.geoseries.GeoSeries.resample(rule: str, kwargs: dict) -> Resampler Object, Not Meant To Be Used To Directly. Instead,
+function pyleoclim.core.geoseries.GeoSeries.segment(factor: float = 10, verbose: bool = False) -> Res
+function pyleoclim.core.mulensgeoseries.MulEnsGeoSeries.mcpca(nsim: int = 1000, seed: int = None, common_time_kwargs: dict = None, pca_kwargs: dict = None, align_method: str = 'dot', delta: float = 0, phase_max: float = 0.5) -> Ensemblemvd
+function pyleoclim.core.mulensgeoseries.MulEnsGeoSeries.stackplot(figsize: list = None, savefig_settings: dict = None, time_unit: str = None, xlim: list = None, colors: str = None, cmap: str = 'tab10', plot_style: str = 'envelope', norm: Matplotlib.Colors.Normalize Like = None, labels: list = 'auto', spine_lw: float = 1.5, grid_lw: float = 0.5, label_x_loc: float = -0.15, v_shift_factor: float = 0.75, ylabel_fontsize: int = 8, yticks_minor: bool = False, xticks_minor: bool = False, ylims: str = 'auto', plot_kwargs: dict = None, common_time_kwargs: dict = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.multiplegeoseries.MultipleGeoSeries.map(marker = 'archiveType', hue = 'archiveType', size = None, cmap = None, edgecolor = 'k', projection = 'auto', proj_default = True, crit_dist = 5000, colorbar = True, color_scale_type = None, background = True, borders = False, coastline = True, rivers = False, lakes = False, land = True, ocean = True, figsize = None, fig = None, scatter_kwargs = None, gridspec_kwargs = None, legend = True, gridspec_slot = None, lgd_kwargs = None, savefig_settings = None, ** kwargs) -> dict
+function pyleoclim.core.multiplegeoseries.MultipleGeoSeries.pca(weights: Optional[Ndarray , Optional] = None, missing: str = 'fill-em', tol_em: float = 0.005, max_em_iter: int = 100) -> Res
+function pyleoclim.core.multiplegeoseries.MultipleGeoSeries.time_geo_plot(figsize: list = [10, 3], marker: Optional[str] = None, markersize: Optional[float] = None, alpha: float = 0.8, y_criteria: str = 'lat', linestyle: Optional[str] = None, linewidth: float = 10, colors: str = None, cmap: str = 'turbo', norm: Matplotlib.Colors.Normalize = None, xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, time_unit: str = None, legend: bool = True, inline_legend: bool = False, plot_kwargs: Optional[dict] = None, lgd_kwargs: Optional[dict] = None, label_x_offset: float = 200, label_y_offset: float = 0, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, invert_xaxis: bool = False, invert_yaxis: bool = False) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.multipleseries.MultipleSeries.append(ts: Pyleoclim.Series) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.bin(kwargs: dict) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.common_time(method: int = 'interp', step: float = None, start: float = None, stop: float = None, step_style: str = None, time_axis: Array = None, kwargs: dict) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.convert_time_unit(time_unit: str = None)
+function pyleoclim.core.multipleseries.MultipleSeries.copy() -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.correlation(target: Optional[Pyleoclim.Series , Optional] = None, timespan: Optional[tuple] = None, alpha: float = 0.05, statistic: str = 'pearsonr', method: str = 'phaseran', settings: dict = None, number: int = 1000, fdr_kwargs: dict = None, common_time_kwargs: dict = None, mute_pbar: bool = False, seed: int = None) -> np.ndarray
+function pyleoclim.core.multipleseries.MultipleSeries.detrend(method: str = 'emd', kwargs: dict) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.equal_lengths() -> list
+function pyleoclim.core.multipleseries.MultipleSeries.filter(method: str = 'butterworth', method: Default = 'butterworth', cutoff_freq: float = None, cutoff_scale: float = None, kwargs: dict) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.flip(axis: str = 'value') -> Ms ( Multipleseries )
+function pyleoclim.core.multipleseries.MultipleSeries.from_json(path: str) -> Ts
+function pyleoclim.core.multipleseries.MultipleSeries.gkernel(kwargs: dict) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.increments(step_style: str = 'median', verbose: bool = False) -> np.ndarray
+function pyleoclim.core.multipleseries.MultipleSeries.interp(kwargs: int) -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.pca(weights: Optional[Ndarray , Optional] = None, missing: str = 'fill-em', tol_em: float = 0.005, max_em_iter: int = 100) -> Res
+function pyleoclim.core.multipleseries.MultipleSeries.plot(figsize: list = [10, 4], marker: Optional[str] = None, markersize: Optional[float] = None, linestyle: Optional[str] = None, linewidth: Optional[float] = None, colors: str = None, cmap: str = 'tab10', norm: Matplotlib.Colors.Normalize = None, xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, time_unit: str = None, legend: bool = True, plot_kwargs: Optional[dict] = None, lgd_kwargs: Optional[dict] = None, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, invert_xaxis: bool = False) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.multipleseries.MultipleSeries.remove(label)
+function pyleoclim.core.multipleseries.MultipleSeries.resolution(time_unit = None, verbose = True, statistic = 'median') -> Multipleresolution ( Pyleoclim.Multipleresolution )
+function pyleoclim.core.multipleseries.MultipleSeries.sel(value: int = None, time: int = None, tolerance: int = 0) -> Ms_New
+function pyleoclim.core.multipleseries.MultipleSeries.spectral(method: str = 'lomb_scargle', freq: Optional[str] = None, freq_kwargs: dict = None, settings: dict = None, label: str = None, verbose: bool = False, mute_pbar: bool = False, scalogram_list: Pyleoclim.Multiplescalogram = None) -> Psd
+function pyleoclim.core.multipleseries.MultipleSeries.stackplot(figsize: list = None, savefig_settings: dict = None, time_unit: str = None, xlim: list = None, fill_between_alpha: float = 0.2, colors: str = None, cmap: str = 'tab10', norm: Matplotlib.Colors.Normalize Like = None, labels: list = 'auto', spine_lw: float = 1.5, grid_lw: float = 0.5, label_x_loc: float = -0.15, v_shift_factor: float = 0.75, linewidth: float = 1.5, ylabel_fontsize: int = 8, yticks_minor: bool = False, xticks_minor: bool = False, ylims: str = 'auto', plot_kwargs: dict = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.multipleseries.MultipleSeries.standardize() -> Ms
+function pyleoclim.core.multipleseries.MultipleSeries.stripes(cmap: str = 'RdBu_r', ref_period: Optional[Type , Optional] = None, figsize: list = None, sat: float = 1.0, show_xaxis: bool = False, savefig_settings: dict = None, time_unit: str = None, xlim: list = None, x_offset: float = 0.05, labels: list = 'auto', common_time_kwargs: dict = None, font_scale: float = 0.8) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.multipleseries.MultipleSeries.time_coverage_plot(figsize: list = [10, 3], marker: Optional[str] = None, markersize: Optional[float] = None, alpha: float = 0.8, linestyle: Optional[str] = None, linewidth: float = 10, colors: str = None, cmap: str = 'turbo', norm: Matplotlib.Colors.Normalize = None, xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, time_unit: str = None, legend: bool = True, inline_legend: bool = True, plot_kwargs: Optional[dict] = None, lgd_kwargs: Optional[dict] = None, label_x_offset: float = 200, label_y_offset: float = 0, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, invert_xaxis: bool = False, invert_yaxis: bool = False) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.multipleseries.MultipleSeries.to_csv(path: Optional[str] = None) -> int
+function pyleoclim.core.multipleseries.MultipleSeries.to_json(path: Optional[str] = None) -> None.
+function pyleoclim.core.multipleseries.MultipleSeries.to_pandas(paleo_style: bool = False) -> Pandas.Dataframe
+function pyleoclim.core.multipleseries.MultipleSeries.view() -> Pd.Dataframe Examples Southern Oscillation Index Nino3 Sst Time 1871.000000 Nan -0.358250 1871.083333 Nan -0.292458 1871.166667 Nan -0.143583 1871.250000 Nan -0.149625 1871.333333 Nan -0.274250 ... ... ... 2019.583333 -0.1 Nan 2019.666667 -1.2 Nan 2019.750000 -0.4 Nan 2019.833333 -0.8 Nan 2019.916667 -0.6 Nan 1788 Rows × 2 Columns
+function pyleoclim.core.multipleseries.MultipleSeries.wavelet(method: str = 'cwt', settings: dict = {}, freq: Optional[str] = None, freq_kwargs: dict = None, verbose: bool = False, mute_pbar: bool = False) -> Scals
+function pyleoclim.core.multivardecomp.MultivariateDecomp.modeplot(columns: Default: Wspace=0.05, rows: Default: Hspace=0.03, column: Default: Width_Ratios=[5,1,3] Where Middle Column Serves As A Spacer) -> dict
+function pyleoclim.core.multivardecomp.MultivariateDecomp.screeplot(figsize: list = [6, 4], title: Optional[str] = None, savefig_settings: dict = None, title_kwargs: Optional[dict] = None, ax: Optional[Matplotlib.Axis , Optional] = None, xlim: list = [0, 10], uq: str = 'N82', clr_eig: str = 'C0')
+function pyleoclim.core.psds.MultiplePSD.anti_alias(avgs: int = 2, mute_pbar: bool = False) -> New
+function pyleoclim.core.psds.MultiplePSD.beta_est(fmin: float = None, fmax: float = None, logf_binning_step: str = 'max', verbose: bool = False) -> dict
+function pyleoclim.core.psds.MultiplePSD.copy()
+function pyleoclim.core.psds.MultiplePSD.plot(figsize: list = [10, 4], in_loglog: bool = True, in_period: bool = True, xlabel: Optional[str] = None, ylabel: str = 'PSD', title: Optional[str] = None, xlim: Optional[list] = None, ylim: Optional[list] = None, colors: str = None, cmap: str = None, norm: Matplotlib.Colors.Normalize Like = None, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib Axis , Optional] = None, xticks: Optional[list] = None, yticks: Optional[list] = None, legend: bool = True, plot_kwargs: Optional[dict] = None, lgd_kwargs: Optional[dict] = None) -> Fig ( Matplotlib.Pyplot.Figure ) Ax ( Matplotlib.Pyplot.Axis ) See Also Pyleoclim.Core.Psds.Psd.Plot Plotting Method For Psd Objects
+function pyleoclim.core.psds.MultiplePSD.plot_envelope(figsize: list = [10, 4], qs: list = [0.025, 0.5, 0.975], in_loglog: bool = True, in_period: bool = True, xlabel: Optional[str] = None, ylabel: str = 'PSD', title: Optional[str] = None, xlim: Optional[list] = None, ylim: Optional[list] = None, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, xticks: Optional[list] = None, yticks: Optional[list] = None, plot_legend: bool = True, curve_clr: str = '#d9544d', curve_lw: str = 3, shade_clr: str = '#d9544d', shade_alpha: float = 0.3, shade_label: Optional[str] = None, lgd_kwargs: Optional[dict] = None, members_plot_num: int = 10, members_alpha: float = 0.3, members_lw: float = 1, seed: Optional[int] = None) -> Fig ( Matplotlib.Pyplot.Figure ) Ax ( Matplotlib.Pyplot.Axis ) See Also Pyleoclim.Core.Psds.Psd.Plot Plotting Method For Psd Objects Pyleoclim.Core.Ensembleseries.Ensembleseries.Plot_Envelope Envelope Plot For Ensembles
+function pyleoclim.core.psds.MultiplePSD.plot_traces(figsize: list = [10, 4], in_loglog: bool = True, in_period: bool = True, xlabel: Optional[str] = None, ylabel: str = 'PSD', title: Optional[str] = None, xticks: Optional[list] = None, yticks: Optional[list] = None, xlim: Optional[list] = None, ylim: Optional[list] = None, color: str = '#d9544d', alpha: float = 0.3, linestyle: {'-' , '--' , '-.' , ':' , '' , ( Offset , On-Off-Seq ) , ... } = '-', lw: float = 0.5, num_traces: int = 10, savefig_settings: Optional[dict] = None, ax: Optional[Matplotlib.Ax , Optional] = None, legend: bool = True, lgd_kwargs: Optional[dict] = None, seed: Optional[int] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.psds.MultiplePSD.quantiles(qs: list = [0.05, 0.5, 0.95], lw: list = [0.5, 1.5, 0.5]) -> Psds
+function pyleoclim.core.psds.PSD.anti_alias(avgs: int = 2) -> New
+function pyleoclim.core.psds.PSD.beta_est(fmin: Optional[float] = None, fmax: Optional[float] = None, logf_binning_step: str = 'max', verbose: bool = False) -> dict
+function pyleoclim.core.psds.PSD.copy()
+function pyleoclim.core.psds.PSD.plot(in_loglog: bool = True, in_period: bool = True, label: Optional[str] = None, xlabel: Optional[str] = None, ylabel: str = 'PSD', title: Optional[str] = None, marker: Optional[str] = None, markersize: Optional[int] = None, color: Optional[str] = None, linestyle: Optional[str] = None, linewidth: Optional[float] = None, transpose: bool = False, xlim: Optional[list] = None, ylim: Optional[list] = None, figsize: list = [10, 4], savefig_settings: Optional[dict] = None, ax: Optional[Ax , Optional] = None, legend: bool = True, lgd_kwargs: Optional[dict] = None, xticks: Optional[list] = None, yticks: Optional[list] = None, alpha: Optional[float] = None, zorder: Optional[int] = None, plot_kwargs: Optional[dict] = None, signif_clr: str = 'red', signif_linestyles: str = ['--', '-.', ':'], signif_linewidth: float = 1, plot_beta: bool = True, beta_kwargs: Optional[dict] = None) -> Fig, Ax Examples Generate Fractal Noise, Assess Significance Against An Ar(1) Benchmark, And Plot: (<Figure Size 1000X400 With 1 Axes>,
+ <Axes: Xlabel='Period [Years]', Ylabel='Psd'>) If You Add The Estimate Of The Scaling Exponent, The Line Of Best Fit
+function pyleoclim.core.psds.PSD.signif_test(number: Optional[int] = None, method: str = 'ar1sim', seed: Optional[int] = None, qs: list = [0.95], settings: Optional[dict] = None, scalogram: Optional[Pyleoclim.Scalogram Object , Optional] = None) -> New
+function pyleoclim.core.resolutions.MultipleResolution.describe() -> dict
+function pyleoclim.core.resolutions.MultipleResolution.summary_plot(figsize: list = (10, 8), xlabel: str = None, ylabel: str = None, legend: bool = False, ax: Matplotlib.Ax = None, log_scale: bool = None, boxplot_whis: float = [0, 100], boxplot_width: float = 0.6, boxplot_dodge: bool = False, boxplot_palette: dict = 'viridis', stripplot_size: float = 2, stripplot_color: str = '.3', stripplot_alpha: float = 0.8, stripplot_dodge: bool = False, boxplot_kwargs: dict = None, stripplot_kwargs: dict = None, savefig_settings: Optional[dict] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.resolutions.Resolution.dashboard(figsize: list = [11, 8], title: str = None, plot_kwargs: dict = None, histplot_kwargs: Optional[dict] = None, savefig_settings: Optional[dict] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.resolutions.Resolution.describe() -> dict
+function pyleoclim.core.resolutions.Resolution.histplot(figsize: list = [10, 4], title: str = None, savefig_settings: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None, ylabel: str = 'KDE', vertical: {True , False} = False, edgecolor: Matplotlib.Color = 'w', plot_kwargs: dict)
+function pyleoclim.core.resolutions.Resolution.make_labels() -> str
+function pyleoclim.core.resolutions.Resolution.plot(figsize: list = [10, 4], marker: str = None, markersize: float = None, color: str = None, linestyle: str = None, linewidth: float = None, label: str = None, xlabel: str = None, ylabel: str = None, title: str = None, zorder: int = None, legend: {True , False} = True, invert_xaxis: bool = False, invert_yaxis: bool = False, plot_kwargs: dict = None, lgd_kwargs: dict = None, alpha: float = None, savefig_settings: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.scalograms.MultipleScalogram.copy()
+function pyleoclim.core.scalograms.MultipleScalogram.quantiles(qs: list = [0.05, 0.5, 0.95]) -> Scals
+function pyleoclim.core.scalograms.Scalogram.copy() -> Scal
+function pyleoclim.core.scalograms.Scalogram.plot(in_scale: bool = True, variable: {'Amplitude' , 'Power'} = 'amplitude', xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, ylim: Optional[list] = None, xlim: Optional[list] = None, yticks: Optional[list] = None, figsize: list = [10, 8], signif_clr: str = 'white', signif_thresh: float = 0.95, signif_linestyles: str = '-', signif_linewidths: float = 1, contourf_style: dict = {}, cbar_style: dict = {}, savefig_settings: dict = {}, ax: Optional[Ax , Optional] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.scalograms.Scalogram.signif_test(method: {'Ar1Asym' , 'Ar1Sim' , 'Uar1' , 'Cn'} = 'ar1sim', number: int = None, seed: Optional[int] = None, qs: list = [0.95], settings: Optional[dict] = None, export_scal: bool = False) -> New
+function pyleoclim.core.series.Series.bin(keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.causality(target_series: Series, method: {'Liang' , 'Granger'} = 'liang', timespan: tuple = None, settings: dict = None, common_time_kwargs: dict = None) -> dict
+function pyleoclim.core.series.Series.center(timespan: list = None, keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.clean(verbose: bool = False, keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.compare(ts: Pyleo.Series) -> Fig ( Matplotlib Figure ) Df ( Pandas Dataframe )
+function pyleoclim.core.series.Series.convert_time_unit(time_unit: str = 'ky BP', keep_log: bool = False)
+function pyleoclim.core.series.Series.copy() -> Series
+function pyleoclim.core.series.Series.correlation(target_series: Series, alpha: float = 0.05, statistic: str = 'pearsonr', method: str = 'phaseran', number: int = 1000, timespan: tuple = None, settings: dict = None, common_time_kwargs: dict = None, seed: int = None, mute_pbar: bool = False) -> Corr
+function pyleoclim.core.series.Series.detrend(method: str = 'emd', keep_log: bool = False, preserve_mean: bool = False, kwargs: dict) -> New
+function pyleoclim.core.series.Series.equals(ts: Series Object, index_tol: int = 5, value_tol: float = 1e-05) -> bool
+function pyleoclim.core.series.Series.fill_na(timespan: list = None, dt: float = 1, keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.filter(method: str = 'butterworth', filter: Default = 3Rd Order, cutoff_freq: float = None, cutoff_scale: float = None, keep_log: bool = False, kwargs: dict) -> New
+function pyleoclim.core.series.Series.flip(axis: str = 'value', keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.from_csv(filename: str, path: str) -> Pyleoclim Series Object Containing Data And Metadata.
+function pyleoclim.core.series.Series.from_json(path: str) -> Ts
+function pyleoclim.core.series.Series.from_pandas(ser: Pandas.Series, metadata: dict, verbose: bool = True) -> The Created Series Object.
+function pyleoclim.core.series.Series.gaussianize(keep_log = False) -> New ( Series )
+function pyleoclim.core.series.Series.gkernel(step_style: str = 'max', keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.global_coherence(target_series: Pyleo.Series = None, coh: Pyleo.Core.Coherence.Coherence = None, method: str = 'cwt', wavelet_kwargs: dict = None) -> Coh
+function pyleoclim.core.series.Series.histplot(figsize: list = [10, 4], title: str = None, savefig_settings: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None, ylabel: str = 'KDE', vertical: {True , False} = False, edgecolor: Matplotlib.Color = 'w', plot_kwargs: dict)
+function pyleoclim.core.series.Series.interp(method: {‘Linear’ , ‘Nearest’ , ‘Zero’ , ‘Slinear’ , ‘Quadratic’ , ‘Cubic’ , ‘Previous’ , ‘Next’} = 'linear', keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.is_evenly_spaced(tol: float = 0.001) -> Res
+function pyleoclim.core.series.Series.make_labels() -> str
+function pyleoclim.core.series.Series.outliers(method: str = 'kmeans', remove: bool = True, settings: Optional[dict] = None, fig_outliers: bool = True, figsize_outliers: list = [10, 4], plotoutliers_kwargs: Optional[dict] = None, savefigoutliers_settings: Optional[dict] = None, fig_clusters: bool = True, figsize_clusters: list = [10, 4], plotclusters_kwargs: Optional[dict] = None, savefigclusters_settings: Optional[dict] = None, keep_log: bool = False) -> Ts
+function pyleoclim.core.series.Series.overlap(ts: Pyleo.Series) -> Ovrlp
+function pyleoclim.core.series.Series.pandas_method(method: str) -> A New Series Object With The Result Of The Method Applied To The Original Series Object
+function pyleoclim.core.series.Series.plot(figsize: list = [10, 4], marker: str = None, markersize: float = None, color: str = None, linestyle: str = None, linewidth: float = None, label: str = None, xlabel: str = None, ylabel: str = None, title: str = None, zorder: int = None, legend: {True , False} = True, invert_xaxis: bool = False, invert_yaxis: bool = False, plot_kwargs: dict = None, lgd_kwargs: dict = None, alpha: float = None, savefig_settings: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.series.Series.resample(rule: str, kwargs: dict) -> Resampler Object, Not Meant To Be Used To Directly. Instead,
+function pyleoclim.core.series.Series.resolution() -> Resolution
+function pyleoclim.core.series.Series.segment(factor: float = 10, verbose: bool = False) -> Res
+function pyleoclim.core.series.Series.sel(value: int = None, time: int = None, tolerance: int = 0) -> Copy Of Self , Sliced According To Value And Time . Examples >>> Ts = Pyleo . Series ( ... Time = Np . Array ([ 1 , 1.1 , 2 , 3 ]), Value = Np . Array ([ 4 , .9 , 6 , 1 ]), Time_Unit = 'Years Bp' ... ) >>> Ts . Sel ( Value = 1 ) {'Log': ({0: 'Clean_Ts', 'Applied': True, 'Verbose': False}, {2: 'Clean_Ts', 'Applied': True, 'Verbose': False})} None
+function pyleoclim.core.series.Series.slice(timespan: list) -> New
+function pyleoclim.core.series.Series.sort(verbose: bool = False, keep_log: bool = False) -> New
+function pyleoclim.core.series.Series.spectral(method: str = 'lomb_scargle', freq: Optional[str] = None, freq_kwargs: dict = None, settings: dict = None, label: str = None, scalogram: Pyleoclim.Core.Series.Series.Scalogram = None, verbose: bool = False) -> Psd
+function pyleoclim.core.series.Series.ssa(M: Optional[int] = None, MC: int, f: float = 0.3, trunc: str = None, var_thresh: float = 80, online: bool = True) -> np.ndarray
+function pyleoclim.core.series.Series.standardize(keep_log = False, scale = 1) -> New ( Series )
+function pyleoclim.core.series.Series.stats() -> Res
+function pyleoclim.core.series.Series.stripes(ref_period: ArrayLike = None, figsize: list = [8, 1], cmap: str = 'RdBu_r', sat: float = 1.0, xlim: list = None, top_label: str = None, bottom_label: str = None, invert_xaxis: bool = False, x_offset: float = 0.03, show_xaxis: bool = False, savefig_settings: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None) -> Fig ( Matplotlib.Figure )
+function pyleoclim.core.series.Series.summary_plot(psd: Psd, scalogram: Scalogram, figsize: list = [8, 10], title: str = None, time_lim: list = None, value_lim: list = None, period_lim: list = None, psd_lim: list = None, time_label: str = None, value_label: str = None, period_label: str = None, psd_label: str = None, legend: bool = None, ts_plot_kwargs: dict = None, wavelet_plot_kwargs: dict = None, psd_plot_kwargs: dict = None, gridspec_kwargs: dict = None, y_label_loc: float = None, savefig_settings: dict = None)
+function pyleoclim.core.series.Series.to_csv(metadata_header: bool = True, path: Optional[str] = None) -> None See Also Pyleoclim.Series.From_Csv Examples Series Exported To Lr04_Benthic_Stack.Csv
+function pyleoclim.core.series.Series.to_json(path: Optional[str] = None) -> None. Examples
+function pyleoclim.core.series.Series.to_pandas(paleo_style: bool = False) -> Ser
+function pyleoclim.core.series.Series.view() -> Pd.Dataframe Examples Plot The Hadcrut5 Global Mean Surface Temperature Gmst [$^{\Circ}$C] Time [Year C.E.] 1850.0 -0.417659 1851.0 -0.233350 1852.0 -0.229399 1853.0 -0.270354 1854.0 -0.291630 ... ... 2018.0 0.762654 2019.0 0.891073 2020.0 0.922794 2021.0 0.761856 2022.0 0.801242 173 Rows × 1 Columns
+function pyleoclim.core.series.Series.wavelet(method: str = 'cwt', freq: Optional[str] = None, freq_kwargs: dict = None, settings: dict = None, verbose: bool = False) -> Scal
+function pyleoclim.core.series.Series.wavelet_coherence(target_series: Series, method: str = 'cwt', freq: Optional[str] = None, freq_kwargs: dict = None, common_time_kwargs: dict = None, settings: dict = None, verbose: bool = False) -> Coh
+function pyleoclim.core.ssares.SsaRes.copy() -> Ssares
+function pyleoclim.core.ssares.SsaRes.modeplot(index: int = 0, figsize: list = [10, 5], savefig_settings: dict = None, title_kwargs: dict = None, spec_method: str = 'mtm')
+function pyleoclim.core.ssares.SsaRes.screeplot(figsize: list = [6, 4], title: str = 'SSA scree plot', savefig_settings: dict = None, title_kwargs: dict = None, ax: Optional[Matplotlib.Axis , Optional] = None, xlim: Optional[list] = None, clr_mcssa: str = '#e50000', clr_eig: str = 'black', clr_signif: str = '#029386')
+function pyleoclim.core.surrogateseries.SurrogateSeries.from_param(param: list, length: int = 50, time_pattern: str = 'even', seed: int, settings: dict = None) -> Surr
+function pyleoclim.core.surrogateseries.SurrogateSeries.from_series(target_series: Series Object, seed: int) -> Surr
+function pyleoclim.utils.causality.granger_causality(y1: Array, y2: Array, maxlag: int = 1, addconst: bool = True, verbose: bool = True) -> tuple
+function pyleoclim.utils.causality.liang(y1: Array, y2: Array, npt: int = 1) -> dict
+function pyleoclim.utils.causality.liang_causality(y1: Array, y2: Array, npt: int = 1, signif_test: str = 'isospec', nsim: int = 1000, qs: list = [0.005, 0.025, 0.05, 0.95, 0.975, 0.995]) -> dict
+function pyleoclim.utils.causality.signif_isopersist(y1: Array, y2: Array, method: str, nsim: int = 1000, qs: list = [0.005, 0.025, 0.05, 0.95, 0.975, 0.995]) -> dict
+function pyleoclim.utils.causality.signif_isospec(y1: Array, y2: Array, method: str, nsim: int = 1000, qs: list = [0.005, 0.025, 0.05, 0.95, 0.975, 0.995], kwargs: dict) -> dict
+function pyleoclim.utils.correlation.association(y1: Array , Length N, y2: Array , Length N, statistic: str = 'pearsonr', settings: Optional[dict] = None) -> Res
+function pyleoclim.utils.correlation.corr_isopersist(y1: Array, y2: Array, alpha: float = 0.05, nsim: int = 1000) -> float
+function pyleoclim.utils.correlation.corr_isospec(y1: Array, y2: Array, alpha: float = 0.05, nsim: int = 1000) -> float
+function pyleoclim.utils.correlation.corr_sig(y1: Array, y2: Array, nsim: int = 1000, method: str = 'isospectral', alpha: float = 0.05) -> dict
+function pyleoclim.utils.correlation.corr_ttest(y1: Array, y2: Array, alpha: float = 0.05, df_min: float = 10) -> float
+function pyleoclim.utils.correlation.cov_shrink_rblw(S: Array , Shape= ( N , N ), n: int) -> np.ndarray
+function pyleoclim.utils.correlation.fdr(pvals: list, qlevel: float = 0.05, method: {'Original' , 'General'} = 'original', adj_method: {'Mean' , 'Storey' , 'Two-Stage'} = None, adj_args: dict = {}) -> Fdr_Res
+function pyleoclim.utils.correlation.fdr_basic(pvals: list, qlevel: float = 0.05) -> Fdr_Res
+function pyleoclim.utils.correlation.fdr_master(pvals: list, qlevel: float = 0.05, method: {'Original' , 'General'} = 'original') -> Fdr_Res
+function pyleoclim.utils.correlation.prop_alt(pvals: list, Storey: 2002) -> A
+function pyleoclim.utils.correlation.storey(edf_quantile: float, pvals: list) -> A
+function pyleoclim.utils.decomposition.ssa(y: Array Of Length N, M: int = None, nMC: int = 0, f: float = 0.5, trunc: str = None, var_thresh: float = 80, online: bool = True) -> np.ndarray
+function pyleoclim.utils.emd_utils.boundary_conditions(signal: Sequence[float], time_samples: Sequence[float], z: Optional[Sequence[float]] = None, nbsym: int = 2) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
+function pyleoclim.utils.emd_utils.extr(x: Sequence[float]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]
+function pyleoclim.utils.emd_utils.get_envelops(x: Sequence[float], t: Optional[Sequence[float]] = None) -> tuple
+function pyleoclim.utils.emd_utils.inst_freq(x: Sequence[float], t: Optional[Sequence[float]] = None) -> Normalized Instantaneous Frequencies Of The Input Signal
+function pyleoclim.utils.filter.butterworth(ys: Numpy Array, fc: float, fs: float = 1, filter_order: int = 3, pad: str = 'reflect', params: tuple = (1, 0, 0), padFrac: float = 0.1) -> np.ndarray
+function pyleoclim.utils.filter.firwin(ys: Numpy Array, fc: float, numptaps: int, fs: float = 1, window: str = 'hamming', pad: str = 'reflect', params: tuple = (1, 0, 0), padFrac: float = 0.1, kwargs: dict) -> np.ndarray
+function pyleoclim.utils.filter.lanczos(ys: Numpy Array, fc: float, fs: float = 1, pad: str = 'reflect', params: tuple = (1, 0, 0), padFrac: float = 0.1) -> np.ndarray
+function pyleoclim.utils.filter.savitzky_golay(ys: Array, window_length: int = None, polyorder: int = 2, deriv: int = 0, delta: float = 1, axis: int = -1, mode: str = 'mirror', cval: Scalar = 0) -> np.ndarray
+function pyleoclim.utils.filter.ts_pad(ys: Numpy Array, ts: Numpy Array, method: str = 'reflect', params: tuple = (1, 0, 0), reflect_type: str = 'odd', padFrac: float = 0.1) -> np.ndarray
+function pyleoclim.utils.jsonutils.PyleoObj_to_dict(obj: Pyleoclim.Core.Io) -> dict
+function pyleoclim.utils.jsonutils.PyleoObj_to_json(obj: Pyleoclim.Core.Ui, filename: str) -> int
+function pyleoclim.utils.jsonutils.isPyleoclim(obj: Pyleoclim.Core.Ui) -> bool
+function pyleoclim.utils.jsonutils.iterate_through_dict(dictionary: dict, objname: str) -> dict
+function pyleoclim.utils.jsonutils.json_to_PyleoObj(filename: str, objname: str) -> Pyleoobj
+function pyleoclim.utils.jsonutils.objname_to_obj(objname: str) -> Obj
+function pyleoclim.utils.jsonutils.open_json(filename: str) -> dict
+function pyleoclim.utils.lipdutils.LipdToOntology(archiveType: str) -> Archivetype
+function pyleoclim.utils.lipdutils.checkTimeAxis(timeseries: dict) -> np.ndarray
+function pyleoclim.utils.lipdutils.checkXaxis(timeseries: dict, x_axis: str = None) -> np.ndarray
+function pyleoclim.utils.lipdutils.enumerateLipds(lipds: dict)
+function pyleoclim.utils.lipdutils.enumerateTs(timeseries_list: list)
+function pyleoclim.utils.lipdutils.gen_dict_extract(key: str, var: dict)
+function pyleoclim.utils.lipdutils.getEnsemble(csv_dict: dict, csvName: str) -> np.ndarray
+function pyleoclim.utils.lipdutils.getLipd(lipds: dict) -> Select_Lipd
+function pyleoclim.utils.lipdutils.getMeasurement(csvName: str, lipd: dict) -> dict
+function pyleoclim.utils.lipdutils.get_archive_type() -> Res
+function pyleoclim.utils.lipdutils.isEnsemble(csv_dict: dict) -> list
+function pyleoclim.utils.lipdutils.isMeasurement(csv_dict: dict) -> list
+function pyleoclim.utils.lipdutils.isModel(csvName: str, lipd: dict) -> list
+function pyleoclim.utils.lipdutils.mapAgeEnsembleToPaleoData(ensembleValues: Array, depthEnsemble: Array, depthMapping: Array, extrapolate: bool = True) -> Ensemblevaluestopaleo
+function pyleoclim.utils.lipdutils.modelNumber(model: list) -> Modelnum
+function pyleoclim.utils.lipdutils.pre_process_list(list_str: list) -> list
+function pyleoclim.utils.lipdutils.pre_process_str(string: str) -> Res
+function pyleoclim.utils.lipdutils.promptForVariable() -> Select_Var
+function pyleoclim.utils.lipdutils.searchVar(timeseries_list: list, key: list, exact: bool = True, override: bool = True) -> list
+function pyleoclim.utils.lipdutils.similar_string(list_str: list, search: str) -> list
+function pyleoclim.utils.lipdutils.timeUnitsCheck(units: str) -> Unit_Group
+function pyleoclim.utils.lipdutils.whatArchives(print_response: bool = True) -> Res
+function pyleoclim.utils.lipdutils.whatInferredVariables(print_response: bool = True) -> Res
+function pyleoclim.utils.lipdutils.whatInterpretations(print_response: bool = True) -> Res
+function pyleoclim.utils.lipdutils.whatProxyObservations(print_response: bool = True) -> Res
+function pyleoclim.utils.lipdutils.whatProxySensors(print_response: bool = True) -> Res
+function pyleoclim.utils.lipdutils.whichEnsemble(measurementTableList: list, csv_list: list) -> Csvname
+function pyleoclim.utils.lipdutils.whichMeasurement(measurementTableList: list) -> Csvname
+function pyleoclim.utils.lipdutils.xAxisTs(timeseries: dict) -> np.ndarray
+function pyleoclim.utils.mapping.compute_dist(lat_r: float, lon_r: float, lat_c: list, lon_c: list) -> list
+function pyleoclim.utils.mapping.dist_sphere(lat1: float, lon1: float, lat2: float, lon2: float) -> Dist
+function pyleoclim.utils.mapping.map(lat: list, lon: list, criteria: list, marker: list = None, color: list = None, projection: str = 'auto', proj_default: bool = True, crit_dist: float = 5000, background: bool = True, borders: bool = False, rivers: bool = False, lakes: bool = False, figsize: list = None, ax: Optional[Axis , Optional] = None, scatter_kwargs: dict = None, legend: bool = True, legend_title: str = None, lgd_kwargs: dict = None, savefig_settings: dict = None) -> Ax
+function pyleoclim.utils.mapping.pick_proj(lat: 1D Array, lon: 1D Array, in: float) -> Proj
+function pyleoclim.utils.mapping.scatter_map(geos, hue = 'archiveType', size = None, marker = 'archiveType', edgecolor = 'k', proj_default = True, projection = 'auto', crit_dist = 5000, title = None, background = True, borders = False, coastline = True, rivers = False, lakes = False, ocean = True, land = True, figsize = None, scatter_kwargs = None, gridspec_kwargs = None, extent = 'global', edgecolor_var = None, lgd_kwargs = None, legend = True, colorbar = True, cmap = None, color_scale_type = None, fig = None, gs_slot = None, ** kwargs) -> dict
+function pyleoclim.utils.mapping.set_proj(projection: str = 'Robinson', proj_default: bool = True) -> Proj
+function pyleoclim.utils.mapping.within_distance(distance: list, radius: float) -> list
+function pyleoclim.utils.plotting.calculate_overlapping_sets(ax: Matplotlib.Axes.Axes, labels: str, x_locs: float, fontsize: int, buffer: float = 0.1) -> list
+function pyleoclim.utils.plotting.closefig(fig: Matplotlib.Pyplot.Figure = None)
+function pyleoclim.utils.plotting.get_label_width(ax, label, buffer = 0.0, fontsize = 10)
+function pyleoclim.utils.plotting.hightlight_intervals(ax: Matplotlib.Axes.Axes Object, intervals: list, color: str = 'g', alpha: float = 0.3) -> Ax
+function pyleoclim.utils.plotting.infer_period_unit_from_time_unit(time_unit)
+function pyleoclim.utils.plotting.keep_center_colormap(cmap: str, vmin: float, vmax: float, center: float = 0) -> Newmap
+function pyleoclim.utils.plotting.label_intervals(ax: Matplotlib.Axes.Axes, labels: str, x_locs: float, orientation: str = 'north', overlapping_sets: Optional[int] = None, baseline: float = 0.5, height: float = 0.5, buffer: float = 0.1, fontsize: int = 10, linewidth: Optional[float] = None, linestyle_kwargs: Optional[dict] = None, text_kwargs: Optional[dict] = None) -> Matplotlib.Axes.Axes
+function pyleoclim.utils.plotting.make_annotation_ax(ax: dict, loc: str = 'overlay', ax_name: str = 'highlighted_intervals', height: float = None, v_offset: float = 0, width: float = None, b: float = None, h_offset: float = 0, l: float = None, zorder: Numeric = -1) -> Ax_D
+function pyleoclim.utils.plotting.make_phantom_ax(ax: Matplotlib.Axes.Axes Object) -> Ax
+function pyleoclim.utils.plotting.make_scalar_mappable(cmap: Optional[str] = None, hue_vect: Optional[list] = None, n: Optional[int] = None, norm_kwargs: Optional[dict] = None) -> Ax_Sm
+function pyleoclim.utils.plotting.plot_scatter_xy(x1: Array, y1: Array, x2: Array, y2: Array, figsize: list = None, xlabel: str = None, ylabel: str = None, title: str = None, xlim: list = None, ylim: list = None, ax: Pyplot.Axis = None, legend: bool = True, lgd_kwargs: dict = None, plot_kwargs: dict = None, savefig_settings: dict = None) -> Ax
+function pyleoclim.utils.plotting.plot_xy(x: Array, y: Array, figsize: list = None, xlabel: str = None, ylabel: str = None, title: str = None, xlim: list = None, ylim: list = None, ax: Pyplot.Axis = None, legend: bool = True, lgd_kwargs: dict = None, plot_kwargs: dict = None, mute: bool, savefig_settings: dict = None, invert_xaxis: bool = False, invert_yaxis: bool = False) -> Ax
+function pyleoclim.utils.plotting.savefig(fig: Matplotlib.Pyplot.Figure, path: str = None, dpi: int = 300, settings: dict = {}, verbose: bool = True)
+function pyleoclim.utils.plotting.scatter_xy(x: Numpy.Array, y: Numpy.Array, c: Optional[ArrayLike] = None, figsize: Optional[list] = None, xlabel: Optional[str] = None, ylabel: Optional[str] = None, title: Optional[str] = None, xlim: Optional[list] = None, ylim: Optional[list] = None, savefig_settings: Optional[dict] = None, ax: Optional[Pyplot.Axis , Optional] = None, legend: bool = True, plot_kwargs: Optional[dict] = None, lgd_kwargs: Optional[dict] = None) -> Ax
+function pyleoclim.utils.plotting.set_style(style: {Journal , Web , Matplotlib , _Spines , _Nospines , _Grid , _Nogrid} = 'journal', font_scale: float = 1.0)
+function pyleoclim.utils.plotting.tidy_labels(label)
+function pyleoclim.utils.spectral.beta2Hurst(beta: float) -> H
+function pyleoclim.utils.spectral.beta_estimation(psd: Array, freq: Array, fmin: float = None, fmax: float = None, verbose: bool = False) -> np.ndarray
+function pyleoclim.utils.spectral.cwt_psd(ys: Numpy.Array, ts: Numpy.Array, freq: Optional[Numpy.Array , Optional] = None, freq_method: str = 'log', freq_kwargs: Optional[dict] = None, scale: Numpy.Array = None, detrend: str = False, sg_kwargs: dict = {}, gaussianize: bool = False, standardize: bool = True, pad: bool = False, mother: str = 'MORLET', param: Flaot , Option = None, cwt_res: dict = None) -> dict
+function pyleoclim.utils.spectral.lomb_scargle(ys: Array, ts: Array, freq: str = None, freq_method: str = 'lomb_scargle', freq_kwargs: dict = None, n50: int = 3, window: str = 'hann') -> np.ndarray
+function pyleoclim.utils.spectral.mtm(ys: Array, ts: Array, NW: float = None, BW: float = None, detrend: str = None) -> np.ndarray
+function pyleoclim.utils.spectral.periodogram(ys: Array, ts: Array, window: str = 'hann', nfft: int = None, return_onesided: bool = True, detrend: str = None, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = True, scaling: {"Density , "Spectrum} = 'density') -> np.ndarray
+function pyleoclim.utils.spectral.psd_ar(var_noise: float, freq: Array, ar_params: Array, f_sampling: float) -> Psd
+function pyleoclim.utils.spectral.psd_fBM(freq: Array, ts: Array, H: float) -> Psd
+function pyleoclim.utils.spectral.welch(ys: Array, ts: Array, window: str = 'hann', nperseg: int = None, noverlap: int = None, nfft: int = None, return_onesided: bool = True, detrend: str = None, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = True, scaling: {"Density , "Spectrum} = 'density', average: {'Mean' , 'Median'} = 'mean') -> np.ndarray
+function pyleoclim.utils.spectral.wwz_psd(ys: Array, ts: Array, freq: Array = None, freq_method: str = 'log', freq_kwargs: dict = None, tau: Array = None, c: float = 0.001, nproc: int = 8, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = True, method: str = 'Kirchner_numba', Neff_threshold: int = 3, anti_alias: bool = False, avgs: int = 2, wwa: Array = None, wwz_Neffs: Array = None, wwz_freq: Array = None) -> tuple
+function pyleoclim.utils.tsbase.clean_ts(ys: Array, ts: Array, verbose: bool = False) -> np.ndarray
+function pyleoclim.utils.tsbase.convert_datetime_index_to_time(datetime_index: Pd.Datetimeindex, time_unit: str) -> float
+function pyleoclim.utils.tsbase.disambiguate_time_metadata(time_unit: str) -> str
+function pyleoclim.utils.tsbase.is_evenly_spaced(x: Array, tol: float = 0.0001) -> Check
+function pyleoclim.utils.tsbase.overlap(t1: Array, t2: Array) -> L
+function pyleoclim.utils.tsbase.reduce_duplicated_timestamps(ys: Array, ts: Array, verbose: bool = False) -> np.ndarray
+function pyleoclim.utils.tsbase.sort_ts(ys: Array, ts: Array, verbose: bool = False) -> np.ndarray
+function pyleoclim.utils.tsbase.time_to_datetime(time: ArrayLike, datum: int = 0, exponent: int = 0, direction: str = 'prograde', unit: str = 's') -> Index, A Datetime64[Unit] Object
+function pyleoclim.utils.tsbase.time_unit_to_datum_exp_dir(time_unit: str) -> int
+function pyleoclim.utils.tsmodel.ar1_fit(y: Array, t: Array = None) -> G
+function pyleoclim.utils.tsmodel.ar1_fit_evenly(y: Array) -> G
+function pyleoclim.utils.tsmodel.ar1_model(t: Array, tau: float) -> Y
+function pyleoclim.utils.tsmodel.ar1_sim(y: Array, p: int, t: Array = None) -> Ysim
+function pyleoclim.utils.tsmodel.colored_noise(alpha: float, t: float, std: float = 1.0, f0: float = None, m: int = None, seed: int = None) -> Y
+function pyleoclim.utils.tsmodel.colored_noise_2regimes(alpha1: float, alpha2: float, f_break: float, t: float, f0: float = None, m: int = None) -> Y
+function pyleoclim.utils.tsmodel.gen_ar1_evenly(t: Array, g: float, scale: float = 1, burnin: int = 50) -> Y
+function pyleoclim.utils.tsmodel.gen_ts(model: str, t: Array = None, nt: int = 1000, kwargs: dict) -> T, V
+function pyleoclim.utils.tsmodel.isopersistent_rn(X: Array, p: int) -> np.ndarray
+function pyleoclim.utils.tsmodel.n_ll_unevenly_spaced_ar1(theta: Array , Length 2, y: Array , Length N, t: Array , Length N ,) -> float
+function pyleoclim.utils.tsmodel.random_time_axis(n: int, delta_t_dist: str = 'exponential') -> T
+function pyleoclim.utils.tsmodel.sm_ar1_sim(n: int, p: int, g: float, sig: float) -> Red
+function pyleoclim.utils.tsmodel.tau_estimation(y: Array, t: Array) -> Tau_Est
+function pyleoclim.utils.tsmodel.uar1_fit(y: An Array Of The Values Of The Time Series, t: An Array Of The Time Index Values Of The Time Series) -> Theta_Hat
+function pyleoclim.utils.tsmodel.uar1_sim(t: Array, tau: float, sigma_2: float = 1) -> Ys
+function pyleoclim.utils.tsutils.EmpiricalModeDecomposition.decompose() -> Imfs
+function pyleoclim.utils.tsutils.EmpiricalModeDecomposition.io() -> Index Of Orthogonality. Lower Values Are Better.
+function pyleoclim.utils.tsutils.EmpiricalModeDecomposition.keep_decomposing()
+function pyleoclim.utils.tsutils.EmpiricalModeDecomposition.mean_and_amplitude(m: Sequence[float]) -> tuple
+function pyleoclim.utils.tsutils.EmpiricalModeDecomposition.stop_EMD() -> int
+function pyleoclim.utils.tsutils.EmpiricalModeDecomposition.stop_sifting(m: Sequence[float]) -> Whether To Stop Sifting. If This Evaluates To True, The Current
+function pyleoclim.utils.tsutils.annualize(ys: Array, ts: Array) -> np.ndarray
+function pyleoclim.utils.tsutils.calculate_distances(ys: Numpy.Array, n_neighbors: Optional[int] = None, NN_kwargs: Optional[dict] = None) -> int
+function pyleoclim.utils.tsutils.center(y: Array, axis: int = 0) -> np.ndarray
+function pyleoclim.utils.tsutils.detect_outliers_DBSCAN(ys: Numpy.Array, nbr_clusters: Optional[int] = None, eps: Optional[float] = None, min_samples: Optional[int] = None, n_neighbors: Optional[int] = None, metric: str = 'euclidean', NN_kwargs: Optional[dict] = None, DBSCAN_kwargs: Optional[dict] = None) -> list
+function pyleoclim.utils.tsutils.detect_outliers_kmeans(ys: Numpy.Array, nbr_clusters: Optional[int] = None, max_cluster: int = 10, threshold: int = 3, LOF: bool = False, n_frac: float = 0.9, contamination: float = 'auto', kmeans_kwargs: Optional[dict] = None) -> list
+function pyleoclim.utils.tsutils.detrend(y: Array, x: Array = None, method: str = 'emd', n: int = 1, preserve_mean: bool = False, sg_kwargs: dict = None) -> np.ndarray
+function pyleoclim.utils.tsutils.eff_sample_size(y: float, detrend_flag: bool = False) -> Neff
+function pyleoclim.utils.tsutils.gauss(ys: 1D Array) -> Yg
+function pyleoclim.utils.tsutils.gaussianize(ys: 1D Array) -> Yg
+function pyleoclim.utils.tsutils.gkernel(t: 1D Array, y: 1D Array, h: float = None, step: float = None, start: float = None, stop: float = None, step_style: str = None, evenly_spaced: {True , False} = False, bin_edges: Array = None, time_axis: Np.Ndarray = None, no_nans: bool = True) -> np.ndarray
+function pyleoclim.utils.tsutils.increments(x: Array, step_style: str = 'median') -> float
+function pyleoclim.utils.tsutils.interp(x: Array, y: Array, interp_type: str = 'linear', step: float = None, start: float = None, stop: float = None, step_style: str = None, time_axis: Np.Ndarray = None, kwargs: Kwargs) -> np.ndarray
+function pyleoclim.utils.tsutils.make_even_axis(x: Np.Ndarray = None, start: float = None, stop: float = None, step: float = None, step_style: str = None, no_nans: bool = False, time_axis: Np.Ndarray)
+function pyleoclim.utils.tsutils.phaseran(recblk: Numpy Array, nsurr: int) -> np.ndarray
+function pyleoclim.utils.tsutils.phaseran2(y: Array , Length Nt, nsurr: int) -> np.ndarray
+function pyleoclim.utils.tsutils.preprocess(ys: Array, ts: Array, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = True) -> Res
+function pyleoclim.utils.tsutils.remove_outliers(ts: Numpy.Array, ys: Numpy.Array, indices: Numpy.Array) -> np.ndarray
+function pyleoclim.utils.tsutils.simple_stats(y: Array, axis: int = None) -> float
+function pyleoclim.utils.tsutils.standardize(x: Array, scale: Real = 1, axis: int = 0, ddof: int = 0, eps: Real = 0.001) -> np.ndarray
+function pyleoclim.utils.tsutils.std(x: Array, scale: Real = 1, axis: int = 0, ddof: int = 0, eps: Real = 0.001) -> np.ndarray
+function pyleoclim.utils.tsutils.ts2segments(ys: Array, ts: Array, factor: float = 10) -> list
+function pyleoclim.utils.wavelet.AliasFilter.alias_filter(freq: Array, pwr: Array, fs: float, fc: float, f_limit: float, avgs: int) -> np.ndarray
+function pyleoclim.utils.wavelet.angle_sig(theta: Numpy.Array, nMC: int = 1000, level: float = 0.05) -> float
+function pyleoclim.utils.wavelet.angle_stats(theta: Numpy.Array) -> float
+function pyleoclim.utils.wavelet.assertPositiveInt(* args)
+function pyleoclim.utils.wavelet.chisquare_inv(P: float, V: float) -> X
+function pyleoclim.utils.wavelet.chisquare_solve(XGUESS: float, P: float, V: float) -> Pdiff
+function pyleoclim.utils.wavelet.cwt(ys: Numpy.Array, ts: Numpy.Array, freq: Optional[Numpy.Array , Optional] = None, freq_method: str = 'log', freq_kwargs: dict = {}, scale: Numpy.Array = None, detrend: str = False, sg_kwargs: dict = {}, gaussianize: bool = False, standardize: bool = True, pad: bool = False, mother: str = 'MORLET', param: Optional[Flaot , Optional] = None) -> dict
+function pyleoclim.utils.wavelet.cwt_coherence(y1: Array, y2: Array, t1: Array, t2: Array, tau: Array = None, freq: Array = None, freq_method: str = 'log', freq_kwargs: dict = {}, scale: Numpy.Array = None, detrend: str = False, sg_kwargs: dict = {}, gaussianize: bool = False, standardize: bool = True, pad: bool = False, mother: str = 'MORLET', param: Optional[float] = None, smooth_factor: float = 0.25, Neff_threshold: int = 3) -> Res
+function pyleoclim.utils.wavelet.freq_vector_log(ts: Array, fmin: float = None, fmax: float = None, nf: int = None) -> Freq
+function pyleoclim.utils.wavelet.freq_vector_lomb_scargle(ts: Array, dt: float = None, nf: int = None, ofac: float = 4, hifac: float = 0.95) -> Freq
+function pyleoclim.utils.wavelet.freq_vector_nfft(ts: Array) -> Freq
+function pyleoclim.utils.wavelet.freq_vector_scale(ts: Numpy.Array, dj: float = 0.25, s0: Optional[float] = None, j1: Optional[float] = None, mother: str = 'MORLET', param: Optional[Flaot , Optional] = None) -> Freq
+function pyleoclim.utils.wavelet.freq_vector_welch(ts: Array) -> Freq
+function pyleoclim.utils.wavelet.get_wwz_func(nproc: int, method: str) -> Wwz_Func
+function pyleoclim.utils.wavelet.kirchner_basic(ys: Array, ts: Array, freq: Array, tau: Array, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 1, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = False) -> np.ndarray
+function pyleoclim.utils.wavelet.kirchner_f2py(ys: Array, ts: Array, freq: Array, tau: Array, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 8, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = False) -> np.ndarray
+function pyleoclim.utils.wavelet.kirchner_nproc(ys: Array, ts: Array, freq: Array, tau: Array, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 8, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = False) -> np.ndarray
+function pyleoclim.utils.wavelet.kirchner_numba(ys: Array, ts: Array, freq: Array, tau: Array, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 1, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = False) -> np.ndarray
+function pyleoclim.utils.wavelet.make_coi(tau: Array, Neff_threshold: int = 3) -> Coi
+function pyleoclim.utils.wavelet.make_freq_vector(ts: Array, method: str = 'log', rayleigh_bound: bool = True, kwargs: dict) -> Freq
+function pyleoclim.utils.wavelet.make_omega(ys: Array, ts: Array, freq: Array) -> Omega
+function pyleoclim.utils.wavelet.prepare_wwz(ys: Array, ts: Array, freq: Array = None, freq_method: str = 'log', freq_kwargs: str = None, tau: Array = None, len_bd: int = 0, bc_mode: str = 'reflect', reflect_type: str = 'odd') -> np.ndarray
+function pyleoclim.utils.wavelet.tc_wave_bases(mother: str, k: Numpy.Array, scale: float, param: float) -> np.ndarray
+function pyleoclim.utils.wavelet.tc_wave_signif(ys: Numpy.Array, ts: Numpy.Array, scale: Numpy.Array, mother: str, param: int, sigtest: {'Chi-Square' , 'Time-Average' , 'Scale-Average'} , Optional = 'chi-square', qs: list = [0.95], dof: Optional[None , Optional] = None, gws: Optional[Np.Array , Optional] = None) -> np.ndarray
+function pyleoclim.utils.wavelet.tc_wavelet(Y: Numpy.Array, dt: float, mother: str, param: Flaot , Optional, pad: {True , False} , Optional = False) -> np.ndarray
+function pyleoclim.utils.wavelet.wtc(coeff1: Array, coeff2: Array, scales: Array, tau: Array') -> Xw_Coherence
+function pyleoclim.utils.wavelet.wwa2psd(wwa: Array, ts: Array, Neffs: Array, freq: Array = None, Neff_threshold: int = 3, anti_alias: bool = False, avgs: int = 2) -> Psd
+function pyleoclim.utils.wavelet.wwz(ys: Array, ts: Array, tau: Array = None, freq: Array = None, freq_method: str = 'log', freq_kwargs: str = {}, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 8, detrend: str = False, sg_kwargs: dict = None, method: str = 'Kirchner_numba', len_bd: int = 0, bc_mode: str = 'reflect', reflect_type: str = 'odd') -> tuple
+function pyleoclim.utils.wavelet.wwz_basic(ys: Array, ts: Array, freq: Array, tau: Array, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 1, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = False) -> np.ndarray
+function pyleoclim.utils.wavelet.wwz_coherence(y1: Array, y2: Array, t1: Array, t2: Array, tau: Array = None, freq: Array = None, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 8, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = True, method: str = 'Kirchner_numba', verbose: bool = False, smooth_factor: float = 0.25) -> Res
+function pyleoclim.utils.wavelet.wwz_nproc(ys: Array, ts: Array, freq: Array, tau: Array, c: float = 0.012665147955292222, Neff_threshold: int = 3, nproc: int = 8, detrend: str = False, sg_kwargs: dict = None, gaussianize: bool = False, standardize: bool = False) -> np.ndarray
+function pyleoclim.utils.wavelet.xwt(coeff1: Array, coeff2: Array, freq: Array, tau: Array) -> np.ndarray
+function pylipd.classes.archivetype.ArchiveType.from_synonym(synonym: str) -> The Archivetype Instance If Found, None Otherwise.
+function pylipd.classes.archivetype.ArchiveType.getId() -> The Uri Identifier For This Term.
+function pylipd.classes.archivetype.ArchiveType.getLabel() -> The Label For This Term.
+function pylipd.classes.archivetype.ArchiveType.to_data(data: dict = {}) -> dict
+function pylipd.classes.archivetype.ArchiveType.to_json() -> The Label For This Term.
+function pylipd.classes.calibration.Calibration.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.calibration.Calibration.from_data(id: str, data: dict) -> The Populated Calibration Instance.
+function pylipd.classes.calibration.Calibration.from_json(data: dict) -> The Populated Calibration Instance.
+function pylipd.classes.calibration.Calibration.getDOI() -> The Current Value Of Doi.
+function pylipd.classes.calibration.Calibration.getDatasetRange() -> The Current Value Of Datasetrange.
+function pylipd.classes.calibration.Calibration.getEquation() -> The Current Value Of Equation.
+function pylipd.classes.calibration.Calibration.getEquationIntercept() -> int
+function pylipd.classes.calibration.Calibration.getEquationR2() -> The Current Value Of Equationr2.
+function pylipd.classes.calibration.Calibration.getEquationSlope() -> The Current Value Of Equationslope.
+function pylipd.classes.calibration.Calibration.getEquationSlopeUncertainty() -> int
+function pylipd.classes.calibration.Calibration.getMethod() -> The Current Value Of Method.
+function pylipd.classes.calibration.Calibration.getMethodDetail() -> The Current Value Of Methoddetail.
+function pylipd.classes.calibration.Calibration.getNotes() -> The Current Value Of Notes.
+function pylipd.classes.calibration.Calibration.getProxyDataset() -> The Current Value Of Proxydataset.
+function pylipd.classes.calibration.Calibration.getSeasonality() -> The Current Value Of Seasonality.
+function pylipd.classes.calibration.Calibration.getTargetDataset() -> The Current Value Of Targetdataset.
+function pylipd.classes.calibration.Calibration.getUncertainty() -> int
+function pylipd.classes.calibration.Calibration.get_all_non_standard_properties() -> dict
+function pylipd.classes.calibration.Calibration.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.calibration.Calibration.setDOI(dOI: str)
+function pylipd.classes.calibration.Calibration.setDatasetRange(datasetRange: str)
+function pylipd.classes.calibration.Calibration.setEquation(equation: str)
+function pylipd.classes.calibration.Calibration.setEquationIntercept(equationIntercept: str)
+function pylipd.classes.calibration.Calibration.setEquationR2(equationR2: str)
+function pylipd.classes.calibration.Calibration.setEquationSlope(equationSlope: str)
+function pylipd.classes.calibration.Calibration.setEquationSlopeUncertainty(equationSlopeUncertainty: str)
+function pylipd.classes.calibration.Calibration.setMethod(method: str)
+function pylipd.classes.calibration.Calibration.setMethodDetail(methodDetail: str)
+function pylipd.classes.calibration.Calibration.setNotes(notes: str)
+function pylipd.classes.calibration.Calibration.setProxyDataset(proxyDataset: str)
+function pylipd.classes.calibration.Calibration.setSeasonality(seasonality: str)
+function pylipd.classes.calibration.Calibration.setTargetDataset(targetDataset: str)
+function pylipd.classes.calibration.Calibration.setUncertainty(uncertainty: str)
+function pylipd.classes.calibration.Calibration.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.calibration.Calibration.to_data(data: dict = {}) -> dict
+function pylipd.classes.calibration.Calibration.to_json() -> dict
+function pylipd.classes.changelog.ChangeLog.addChanges(changess: Change)
+function pylipd.classes.changelog.ChangeLog.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.changelog.ChangeLog.from_data(id: str, data: dict) -> The Populated Changelog Instance.
+function pylipd.classes.changelog.ChangeLog.from_json(data: dict) -> The Populated Changelog Instance.
+function pylipd.classes.changelog.ChangeLog.getChangess() -> list
+function pylipd.classes.changelog.ChangeLog.getCurator() -> The Current Value Of Curator.
+function pylipd.classes.changelog.ChangeLog.getLastVersion() -> The Current Value Of Lastversion.
+function pylipd.classes.changelog.ChangeLog.getNotes() -> The Current Value Of Notes.
+function pylipd.classes.changelog.ChangeLog.getTimestamp() -> The Current Value Of Timestamp.
+function pylipd.classes.changelog.ChangeLog.getVersion() -> The Current Value Of Version.
+function pylipd.classes.changelog.ChangeLog.get_all_non_standard_properties() -> dict
+function pylipd.classes.changelog.ChangeLog.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.changelog.ChangeLog.setChangess(changess: list)
+function pylipd.classes.changelog.ChangeLog.setCurator(curator: str)
+function pylipd.classes.changelog.ChangeLog.setLastVersion(lastVersion: str)
+function pylipd.classes.changelog.ChangeLog.setNotes(notes: str)
+function pylipd.classes.changelog.ChangeLog.setTimestamp(timestamp: str)
+function pylipd.classes.changelog.ChangeLog.setVersion(version: str)
+function pylipd.classes.changelog.ChangeLog.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.changelog.ChangeLog.to_data(data: dict = {}) -> dict
+function pylipd.classes.changelog.ChangeLog.to_json() -> dict
+function pylipd.classes.chrondata.ChronData.addMeasurementTable(measurementTables: Datatable)
+function pylipd.classes.chrondata.ChronData.addModeledBy(modeledBy: Model)
+function pylipd.classes.chrondata.ChronData.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.chrondata.ChronData.from_data(id: str, data: dict) -> The Populated Chrondata Instance.
+function pylipd.classes.chrondata.ChronData.from_json(data: dict) -> The Populated Chrondata Instance.
+function pylipd.classes.chrondata.ChronData.getMeasurementTables() -> list
+function pylipd.classes.chrondata.ChronData.getModeledBy() -> list
+function pylipd.classes.chrondata.ChronData.get_all_non_standard_properties() -> dict
+function pylipd.classes.chrondata.ChronData.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.chrondata.ChronData.setMeasurementTables(measurementTables: list)
+function pylipd.classes.chrondata.ChronData.setModeledBy(modeledBy: list)
+function pylipd.classes.chrondata.ChronData.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.chrondata.ChronData.to_data(data: dict = {}) -> dict
+function pylipd.classes.chrondata.ChronData.to_json() -> dict
+function pylipd.classes.dataset.Dataset.addChangeLog(changeLogs: Changelog)
+function pylipd.classes.dataset.Dataset.addChronData(chronData: Chrondata)
+function pylipd.classes.dataset.Dataset.addCreator(creators: Person)
+function pylipd.classes.dataset.Dataset.addFunding(fundings: Funding)
+function pylipd.classes.dataset.Dataset.addInvestigator(investigators: Person)
+function pylipd.classes.dataset.Dataset.addPaleoData(paleoData: Paleodata)
+function pylipd.classes.dataset.Dataset.addPublication(publications: Publication)
+function pylipd.classes.dataset.Dataset.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.dataset.Dataset.from_data(id: str, data: dict) -> The Populated Dataset Instance.
+function pylipd.classes.dataset.Dataset.from_json(data: dict) -> The Populated Dataset Instance.
+function pylipd.classes.dataset.Dataset.getArchiveType() -> The Current Value Of Archivetype.
+function pylipd.classes.dataset.Dataset.getChangeLogs() -> list
+function pylipd.classes.dataset.Dataset.getChronData() -> list
+function pylipd.classes.dataset.Dataset.getCollectionName() -> The Current Value Of Collectionname.
+function pylipd.classes.dataset.Dataset.getCollectionYear() -> The Current Value Of Collectionyear.
+function pylipd.classes.dataset.Dataset.getCompilationNest() -> The Current Value Of Compilationnest.
+function pylipd.classes.dataset.Dataset.getContributor() -> The Current Value Of Contributor.
+function pylipd.classes.dataset.Dataset.getCreators() -> list
+function pylipd.classes.dataset.Dataset.getDataSource() -> The Current Value Of Datasource.
+function pylipd.classes.dataset.Dataset.getDatasetId() -> The Current Value Of Datasetid.
+function pylipd.classes.dataset.Dataset.getFundings() -> list
+function pylipd.classes.dataset.Dataset.getInvestigators() -> list
+function pylipd.classes.dataset.Dataset.getLocation() -> The Current Value Of Location.
+function pylipd.classes.dataset.Dataset.getName() -> The Current Value Of Name.
+function pylipd.classes.dataset.Dataset.getNotes() -> The Current Value Of Notes.
+function pylipd.classes.dataset.Dataset.getOriginalDataUrl() -> The Current Value Of Originaldataurl.
+function pylipd.classes.dataset.Dataset.getPaleoData() -> list
+function pylipd.classes.dataset.Dataset.getPublications() -> list
+function pylipd.classes.dataset.Dataset.getSpreadsheetLink() -> The Current Value Of Spreadsheetlink.
+function pylipd.classes.dataset.Dataset.getVersion() -> The Current Value Of Version.
+function pylipd.classes.dataset.Dataset.get_all_non_standard_properties() -> dict
+function pylipd.classes.dataset.Dataset.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.dataset.Dataset.setArchiveType(archiveType: Archivetype)
+function pylipd.classes.dataset.Dataset.setChangeLogs(changeLogs: list)
+function pylipd.classes.dataset.Dataset.setChronData(chronData: list)
+function pylipd.classes.dataset.Dataset.setCollectionName(collectionName: str)
+function pylipd.classes.dataset.Dataset.setCollectionYear(collectionYear: str)
+function pylipd.classes.dataset.Dataset.setCompilationNest(compilationNest: str)
+function pylipd.classes.dataset.Dataset.setContributor(contributor: Person)
+function pylipd.classes.dataset.Dataset.setCreators(creators: list)
+function pylipd.classes.dataset.Dataset.setDataSource(dataSource: str)
+function pylipd.classes.dataset.Dataset.setDatasetId(datasetId: str)
+function pylipd.classes.dataset.Dataset.setFundings(fundings: list)
+function pylipd.classes.dataset.Dataset.setInvestigators(investigators: list)
+function pylipd.classes.dataset.Dataset.setLocation(location: Location)
+function pylipd.classes.dataset.Dataset.setName(name: str)
+function pylipd.classes.dataset.Dataset.setNotes(notes: str)
+function pylipd.classes.dataset.Dataset.setOriginalDataUrl(originalDataUrl: str)
+function pylipd.classes.dataset.Dataset.setPaleoData(paleoData: list)
+function pylipd.classes.dataset.Dataset.setPublications(publications: list)
+function pylipd.classes.dataset.Dataset.setSpreadsheetLink(spreadsheetLink: str)
+function pylipd.classes.dataset.Dataset.setVersion(version: str)
+function pylipd.classes.dataset.Dataset.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.dataset.Dataset.to_data(data: dict = {}) -> dict
+function pylipd.classes.dataset.Dataset.to_json() -> dict
+function pylipd.classes.datatable.DataTable.addVariable(variables: Variable)
+function pylipd.classes.datatable.DataTable.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.datatable.DataTable.from_data(id: str, data: dict) -> The Populated Datatable Instance.
+function pylipd.classes.datatable.DataTable.from_json(data: dict) -> The Populated Datatable Instance.
+function pylipd.classes.datatable.DataTable.getDataFrame(use_standard_names = False)
+function pylipd.classes.datatable.DataTable.getFileName() -> The Current Value Of Filename.
+function pylipd.classes.datatable.DataTable.getMissingValue() -> The Current Value Of Missingvalue.
+function pylipd.classes.datatable.DataTable.getVariables() -> list
+function pylipd.classes.datatable.DataTable.get_all_non_standard_properties() -> dict
+function pylipd.classes.datatable.DataTable.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.datatable.DataTable.setDataFrame(df : DataFrame)
+function pylipd.classes.datatable.DataTable.setFileName(fileName: str)
+function pylipd.classes.datatable.DataTable.setMissingValue(missingValue: str)
+function pylipd.classes.datatable.DataTable.setVariables(variables: list)
+function pylipd.classes.datatable.DataTable.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.datatable.DataTable.to_data(data: dict = {}) -> dict
+function pylipd.classes.datatable.DataTable.to_json() -> dict
+function pylipd.classes.funding.Funding.addGrant(grants: str)
+function pylipd.classes.funding.Funding.addInvestigator(investigators: Person)
+function pylipd.classes.funding.Funding.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.funding.Funding.from_data(id: str, data: dict) -> The Populated Funding Instance.
+function pylipd.classes.funding.Funding.from_json(data: dict) -> The Populated Funding Instance.
+function pylipd.classes.funding.Funding.getFundingAgency() -> The Current Value Of Fundingagency.
+function pylipd.classes.funding.Funding.getFundingCountry() -> The Current Value Of Fundingcountry.
+function pylipd.classes.funding.Funding.getGrants() -> list
+function pylipd.classes.funding.Funding.getInvestigators() -> list
+function pylipd.classes.funding.Funding.get_all_non_standard_properties() -> dict
+function pylipd.classes.funding.Funding.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.funding.Funding.setFundingAgency(fundingAgency: str)
+function pylipd.classes.funding.Funding.setFundingCountry(fundingCountry: str)
+function pylipd.classes.funding.Funding.setGrants(grants: str)
+function pylipd.classes.funding.Funding.setInvestigators(investigators: list)
+function pylipd.classes.funding.Funding.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.funding.Funding.to_data(data: dict = {}) -> dict
+function pylipd.classes.funding.Funding.to_json() -> dict
+function pylipd.classes.interpretation.Interpretation.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.interpretation.Interpretation.from_data(id: str, data: dict) -> int
+function pylipd.classes.interpretation.Interpretation.from_json(data: dict) -> int
+function pylipd.classes.interpretation.Interpretation.getBasis() -> The Current Value Of Basis.
+function pylipd.classes.interpretation.Interpretation.getDirection() -> The Current Value Of Direction.
+function pylipd.classes.interpretation.Interpretation.getMathematicalRelation() -> The Current Value Of Mathematicalrelation.
+function pylipd.classes.interpretation.Interpretation.getNotes() -> The Current Value Of Notes.
+function pylipd.classes.interpretation.Interpretation.getRank() -> The Current Value Of Rank.
+function pylipd.classes.interpretation.Interpretation.getScope() -> The Current Value Of Scope.
+function pylipd.classes.interpretation.Interpretation.getSeasonality() -> The Current Value Of Seasonality.
+function pylipd.classes.interpretation.Interpretation.getSeasonalityGeneral() -> The Current Value Of Seasonalitygeneral.
+function pylipd.classes.interpretation.Interpretation.getSeasonalityOriginal() -> The Current Value Of Seasonalityoriginal.
+function pylipd.classes.interpretation.Interpretation.getVariable() -> The Current Value Of Variable.
+function pylipd.classes.interpretation.Interpretation.getVariableDetail() -> The Current Value Of Variabledetail.
+function pylipd.classes.interpretation.Interpretation.getVariableGeneral() -> The Current Value Of Variablegeneral.
+function pylipd.classes.interpretation.Interpretation.getVariableGeneralDirection() -> The Current Value Of Variablegeneraldirection.
+function pylipd.classes.interpretation.Interpretation.get_all_non_standard_properties() -> dict
+function pylipd.classes.interpretation.Interpretation.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.interpretation.Interpretation.isLocal() -> The Current Value Of Local.
+function pylipd.classes.interpretation.Interpretation.setBasis(basis: str)
+function pylipd.classes.interpretation.Interpretation.setDirection(direction: str)
+function pylipd.classes.interpretation.Interpretation.setLocal(local: str)
+function pylipd.classes.interpretation.Interpretation.setMathematicalRelation(mathematicalRelation: str)
+function pylipd.classes.interpretation.Interpretation.setNotes(notes: str)
+function pylipd.classes.interpretation.Interpretation.setRank(rank: str)
+function pylipd.classes.interpretation.Interpretation.setScope(scope: str)
+function pylipd.classes.interpretation.Interpretation.setSeasonality(seasonality: int)
+function pylipd.classes.interpretation.Interpretation.setSeasonalityGeneral(seasonalityGeneral: int)
+function pylipd.classes.interpretation.Interpretation.setSeasonalityOriginal(seasonalityOriginal: int)
+function pylipd.classes.interpretation.Interpretation.setVariable(variable: int)
+function pylipd.classes.interpretation.Interpretation.setVariableDetail(variableDetail: str)
+function pylipd.classes.interpretation.Interpretation.setVariableGeneral(variableGeneral: str)
+function pylipd.classes.interpretation.Interpretation.setVariableGeneralDirection(variableGeneralDirection: str)
+function pylipd.classes.interpretation.Interpretation.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.interpretation.Interpretation.to_data(data: dict = {}) -> dict
+function pylipd.classes.interpretation.Interpretation.to_json() -> dict
+function pylipd.classes.interpretationseasonality.InterpretationSeasonality.from_synonym(synonym: str) -> int
+function pylipd.classes.interpretationseasonality.InterpretationSeasonality.getId() -> The Uri Identifier For This Term.
+function pylipd.classes.interpretationseasonality.InterpretationSeasonality.getLabel() -> The Label For This Term.
+function pylipd.classes.interpretationseasonality.InterpretationSeasonality.to_data(data: dict = {}) -> dict
+function pylipd.classes.interpretationseasonality.InterpretationSeasonality.to_json() -> The Label For This Term.
+function pylipd.classes.interpretationvariable.InterpretationVariable.from_synonym(synonym: str) -> int
+function pylipd.classes.interpretationvariable.InterpretationVariable.getId() -> The Uri Identifier For This Term.
+function pylipd.classes.interpretationvariable.InterpretationVariable.getLabel() -> The Label For This Term.
+function pylipd.classes.interpretationvariable.InterpretationVariable.to_data(data: dict = {}) -> dict
+function pylipd.classes.interpretationvariable.InterpretationVariable.to_json() -> The Label For This Term.
+function pylipd.classes.location.Location.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.location.Location.from_data(id: str, data: dict) -> The Populated Location Instance.
+function pylipd.classes.location.Location.from_json(data: dict) -> The Populated Location Instance.
+function pylipd.classes.location.Location.getContinent() -> The Current Value Of Continent.
+function pylipd.classes.location.Location.getCoordinates() -> The Current Value Of Coordinates.
+function pylipd.classes.location.Location.getCoordinatesFor() -> The Current Value Of Coordinatesfor.
+function pylipd.classes.location.Location.getCountry() -> The Current Value Of Country.
+function pylipd.classes.location.Location.getCountryOcean() -> The Current Value Of Countryocean.
+function pylipd.classes.location.Location.getDescription() -> The Current Value Of Description.
+function pylipd.classes.location.Location.getElevation() -> The Current Value Of Elevation.
+function pylipd.classes.location.Location.getGeometryType() -> The Current Value Of Geometrytype.
+function pylipd.classes.location.Location.getLatitude() -> The Current Value Of Latitude.
+function pylipd.classes.location.Location.getLocationName() -> The Current Value Of Locationname.
+function pylipd.classes.location.Location.getLocationType() -> The Current Value Of Locationtype.
+function pylipd.classes.location.Location.getLongitude() -> The Current Value Of Longitude.
+function pylipd.classes.location.Location.getNotes() -> The Current Value Of Notes.
+function pylipd.classes.location.Location.getOcean() -> The Current Value Of Ocean.
+function pylipd.classes.location.Location.getSiteName() -> The Current Value Of Sitename.
+function pylipd.classes.location.Location.get_all_non_standard_properties() -> dict
+function pylipd.classes.location.Location.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.location.Location.setContinent(continent: str)
+function pylipd.classes.location.Location.setCoordinates(coordinates: str)
+function pylipd.classes.location.Location.setCoordinatesFor(coordinatesFor: Object)
+function pylipd.classes.location.Location.setCountry(country: str)
+function pylipd.classes.location.Location.setCountryOcean(countryOcean: str)
+function pylipd.classes.location.Location.setDescription(description: str)
+function pylipd.classes.location.Location.setElevation(elevation: str)
+function pylipd.classes.location.Location.setGeometryType(geometryType: str)
+function pylipd.classes.location.Location.setLatitude(latitude: str)
+function pylipd.classes.location.Location.setLocationName(locationName: str)
+function pylipd.classes.location.Location.setLocationType(locationType: str)
+function pylipd.classes.location.Location.setLongitude(longitude: str)
+function pylipd.classes.location.Location.setNotes(notes: str)
+function pylipd.classes.location.Location.setOcean(ocean: str)
+function pylipd.classes.location.Location.setSiteName(siteName: str)
+function pylipd.classes.location.Location.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.location.Location.to_data(data: dict = {}) -> dict
+function pylipd.classes.location.Location.to_json() -> dict
+function pylipd.classes.model.Model.addDistributionTable(distributionTables: Datatable)
+function pylipd.classes.model.Model.addEnsembleTable(ensembleTables: Datatable)
+function pylipd.classes.model.Model.addSummaryTable(summaryTables: Datatable)
+function pylipd.classes.model.Model.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.model.Model.from_data(id: str, data: dict) -> The Populated Model Instance.
+function pylipd.classes.model.Model.from_json(data: dict) -> The Populated Model Instance.
+function pylipd.classes.model.Model.getCode() -> The Current Value Of Code.
+function pylipd.classes.model.Model.getDistributionTables() -> list
+function pylipd.classes.model.Model.getEnsembleTables() -> list
+function pylipd.classes.model.Model.getSummaryTables() -> list
+function pylipd.classes.model.Model.get_all_non_standard_properties() -> dict
+function pylipd.classes.model.Model.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.model.Model.setCode(code: str)
+function pylipd.classes.model.Model.setDistributionTables(distributionTables: list)
+function pylipd.classes.model.Model.setEnsembleTables(ensembleTables: list)
+function pylipd.classes.model.Model.setSummaryTables(summaryTables: list)
+function pylipd.classes.model.Model.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.model.Model.to_data(data: dict = {}) -> dict
+function pylipd.classes.model.Model.to_json() -> dict
+function pylipd.classes.paleodata.PaleoData.addMeasurementTable(measurementTables: Datatable)
+function pylipd.classes.paleodata.PaleoData.addModeledBy(modeledBy: Model)
+function pylipd.classes.paleodata.PaleoData.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.paleodata.PaleoData.from_data(id: str, data: dict) -> The Populated Paleodata Instance.
+function pylipd.classes.paleodata.PaleoData.from_json(data: dict) -> The Populated Paleodata Instance.
+function pylipd.classes.paleodata.PaleoData.getMeasurementTables() -> list
+function pylipd.classes.paleodata.PaleoData.getModeledBy() -> list
+function pylipd.classes.paleodata.PaleoData.getName() -> The Current Value Of Name.
+function pylipd.classes.paleodata.PaleoData.get_all_non_standard_properties() -> dict
+function pylipd.classes.paleodata.PaleoData.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.paleodata.PaleoData.setMeasurementTables(measurementTables: list)
+function pylipd.classes.paleodata.PaleoData.setModeledBy(modeledBy: list)
+function pylipd.classes.paleodata.PaleoData.setName(name: str)
+function pylipd.classes.paleodata.PaleoData.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.paleodata.PaleoData.to_data(data: dict = {}) -> dict
+function pylipd.classes.paleodata.PaleoData.to_json() -> dict
+function pylipd.classes.paleoproxy.PaleoProxy.from_synonym(synonym: str) -> The Paleoproxy Instance If Found, None Otherwise.
+function pylipd.classes.paleoproxy.PaleoProxy.getId() -> The Uri Identifier For This Term.
+function pylipd.classes.paleoproxy.PaleoProxy.getLabel() -> The Label For This Term.
+function pylipd.classes.paleoproxy.PaleoProxy.to_data(data: dict = {}) -> dict
+function pylipd.classes.paleoproxy.PaleoProxy.to_json() -> The Label For This Term.
+function pylipd.classes.paleoproxygeneral.PaleoProxyGeneral.from_synonym(synonym: str) -> The Paleoproxygeneral Instance If Found, None Otherwise.
+function pylipd.classes.paleoproxygeneral.PaleoProxyGeneral.getId() -> The Uri Identifier For This Term.
+function pylipd.classes.paleoproxygeneral.PaleoProxyGeneral.getLabel() -> The Label For This Term.
+function pylipd.classes.paleoproxygeneral.PaleoProxyGeneral.to_data(data: dict = {}) -> dict
+function pylipd.classes.paleoproxygeneral.PaleoProxyGeneral.to_json() -> The Label For This Term.
+function pylipd.classes.paleovariable.PaleoVariable.from_synonym(synonym: str) -> The Paleovariable Instance If Found, None Otherwise.
+function pylipd.classes.paleovariable.PaleoVariable.getId() -> The Uri Identifier For This Term.
+function pylipd.classes.paleovariable.PaleoVariable.getLabel() -> The Label For This Term.
+function pylipd.classes.paleovariable.PaleoVariable.to_data(data: dict = {}) -> dict
+function pylipd.classes.paleovariable.PaleoVariable.to_json() -> The Label For This Term.
+function pylipd.classes.physicalsample.PhysicalSample.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.physicalsample.PhysicalSample.from_data(id: str, data: dict) -> The Populated Physicalsample Instance.
+function pylipd.classes.physicalsample.PhysicalSample.from_json(data: dict) -> The Populated Physicalsample Instance.
+function pylipd.classes.physicalsample.PhysicalSample.getHousedAt() -> The Current Value Of Housedat.
+function pylipd.classes.physicalsample.PhysicalSample.getIGSN() -> The Current Value Of Igsn.
+function pylipd.classes.physicalsample.PhysicalSample.getName() -> The Current Value Of Name.
+function pylipd.classes.physicalsample.PhysicalSample.get_all_non_standard_properties() -> dict
+function pylipd.classes.physicalsample.PhysicalSample.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.physicalsample.PhysicalSample.setHousedAt(housedAt: str)
+function pylipd.classes.physicalsample.PhysicalSample.setIGSN(iGSN: str)
+function pylipd.classes.physicalsample.PhysicalSample.setName(name: str)
+function pylipd.classes.physicalsample.PhysicalSample.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.physicalsample.PhysicalSample.to_data(data: dict = {}) -> dict
+function pylipd.classes.physicalsample.PhysicalSample.to_json() -> dict
+function pylipd.classes.publication.Person.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.publication.Person.from_data(id: str, data: dict) -> The Populated Person Instance.
+function pylipd.classes.publication.Person.from_json(data: dict) -> The Populated Person Instance.
+function pylipd.classes.publication.Person.getName() -> The Current Value Of Name.
+function pylipd.classes.publication.Person.get_all_non_standard_properties() -> dict
+function pylipd.classes.publication.Person.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.publication.Person.setName(name: str)
+function pylipd.classes.publication.Person.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.publication.Person.to_data(data: dict = {}) -> dict
+function pylipd.classes.publication.Person.to_json() -> dict
+function pylipd.classes.publication.Publication.addAuthor(authors: Person)
+function pylipd.classes.publication.Publication.addDataUrl(dataUrls: str)
+function pylipd.classes.publication.Publication.addUrl(urls: str)
+function pylipd.classes.publication.Publication.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.publication.Publication.from_data(id: str, data: dict) -> The Populated Publication Instance.
+function pylipd.classes.publication.Publication.from_json(data: dict) -> The Populated Publication Instance.
+function pylipd.classes.publication.Publication.getAbstract() -> str
+function pylipd.classes.publication.Publication.getAuthors() -> list
+function pylipd.classes.publication.Publication.getCitation() -> The Current Value Of Citation.
+function pylipd.classes.publication.Publication.getCiteKey() -> The Current Value Of Citekey.
+function pylipd.classes.publication.Publication.getDOI() -> The Current Value Of Doi.
+function pylipd.classes.publication.Publication.getDataUrls() -> list
+function pylipd.classes.publication.Publication.getFirstAuthor() -> The Current Value Of Firstauthor.
+function pylipd.classes.publication.Publication.getInstitution() -> The Current Value Of Institution.
+function pylipd.classes.publication.Publication.getIssue() -> The Current Value Of Issue.
+function pylipd.classes.publication.Publication.getJournal() -> The Current Value Of Journal.
+function pylipd.classes.publication.Publication.getPages() -> The Current Value Of Pages.
+function pylipd.classes.publication.Publication.getPublicationType() -> The Current Value Of Publicationtype.
+function pylipd.classes.publication.Publication.getPublisher() -> The Current Value Of Publisher.
+function pylipd.classes.publication.Publication.getReport() -> The Current Value Of Report.
+function pylipd.classes.publication.Publication.getTitle() -> The Current Value Of Title.
+function pylipd.classes.publication.Publication.getUrls() -> list
+function pylipd.classes.publication.Publication.getVolume() -> The Current Value Of Volume.
+function pylipd.classes.publication.Publication.getYear() -> The Current Value Of Year.
+function pylipd.classes.publication.Publication.get_all_non_standard_properties() -> dict
+function pylipd.classes.publication.Publication.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.publication.Publication.setAbstract(abstract: str)
+function pylipd.classes.publication.Publication.setAuthors(authors: list)
+function pylipd.classes.publication.Publication.setCitation(citation: str)
+function pylipd.classes.publication.Publication.setCiteKey(citeKey: str)
+function pylipd.classes.publication.Publication.setDOI(dOI: str)
+function pylipd.classes.publication.Publication.setDataUrls(dataUrls: str)
+function pylipd.classes.publication.Publication.setFirstAuthor(firstAuthor: Person)
+function pylipd.classes.publication.Publication.setInstitution(institution: str)
+function pylipd.classes.publication.Publication.setIssue(issue: str)
+function pylipd.classes.publication.Publication.setJournal(journal: str)
+function pylipd.classes.publication.Publication.setPages(pages: str)
+function pylipd.classes.publication.Publication.setPublicationType(publicationType: str)
+function pylipd.classes.publication.Publication.setPublisher(publisher: str)
+function pylipd.classes.publication.Publication.setReport(report: str)
+function pylipd.classes.publication.Publication.setTitle(title: str)
+function pylipd.classes.publication.Publication.setUrls(urls: str)
+function pylipd.classes.publication.Publication.setVolume(volume: str)
+function pylipd.classes.publication.Publication.setYear(year: int)
+function pylipd.classes.publication.Publication.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.publication.Publication.to_data(data: dict = {}) -> dict
+function pylipd.classes.publication.Publication.to_json() -> dict
+function pylipd.classes.resolution.Resolution.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.resolution.Resolution.from_data(id: str, data: dict) -> The Populated Resolution Instance.
+function pylipd.classes.resolution.Resolution.from_json(data: dict) -> The Populated Resolution Instance.
+function pylipd.classes.resolution.Resolution.getMaxValue() -> The Current Value Of Maxvalue.
+function pylipd.classes.resolution.Resolution.getMeanValue() -> The Current Value Of Meanvalue.
+function pylipd.classes.resolution.Resolution.getMedianValue() -> The Current Value Of Medianvalue.
+function pylipd.classes.resolution.Resolution.getMinValue() -> The Current Value Of Minvalue.
+function pylipd.classes.resolution.Resolution.getUnits() -> The Current Value Of Units.
+function pylipd.classes.resolution.Resolution.get_all_non_standard_properties() -> dict
+function pylipd.classes.resolution.Resolution.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.resolution.Resolution.setMaxValue(maxValue: float)
+function pylipd.classes.resolution.Resolution.setMeanValue(meanValue: float)
+function pylipd.classes.resolution.Resolution.setMedianValue(medianValue: float)
+function pylipd.classes.resolution.Resolution.setMinValue(minValue: float)
+function pylipd.classes.resolution.Resolution.setUnits(units: Paleounit)
+function pylipd.classes.resolution.Resolution.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.resolution.Resolution.to_data(data: dict = {}) -> dict
+function pylipd.classes.resolution.Resolution.to_json() -> dict
+function pylipd.classes.uncertainty.Uncertainty.add_non_standard_property(key, value)
+function pylipd.classes.uncertainty.Uncertainty.from_data(id, data)
+function pylipd.classes.uncertainty.Uncertainty.from_json(data)
+function pylipd.classes.uncertainty.Uncertainty.getUncertaintyType()
+function pylipd.classes.uncertainty.Uncertainty.get_all_non_standard_properties()
+function pylipd.classes.uncertainty.Uncertainty.get_non_standard_property(key)
+function pylipd.classes.uncertainty.Uncertainty.setUncertaintyType(uncertaintyType : str)
+function pylipd.classes.uncertainty.Uncertainty.set_non_standard_property(key, value)
+function pylipd.classes.uncertainty.Uncertainty.to_data(data = {})
+function pylipd.classes.uncertainty.Uncertainty.to_json()
+function pylipd.classes.variable.Variable.addCalibratedVia(calibratedVias: Calibration)
+function pylipd.classes.variable.Variable.addInterpretation(interpretations: int)
+function pylipd.classes.variable.Variable.addPhysicalSample(physicalSamples: Physicalsample)
+function pylipd.classes.variable.Variable.add_non_standard_property(key: str, value: Any)
+function pylipd.classes.variable.Variable.from_data(id: str, data: dict) -> The Populated Variable Instance.
+function pylipd.classes.variable.Variable.from_json(data: dict) -> The Populated Variable Instance.
+function pylipd.classes.variable.Variable.getArchiveType() -> The Current Value Of Archivetype.
+function pylipd.classes.variable.Variable.getCalibratedVias() -> list
+function pylipd.classes.variable.Variable.getColumnNumber() -> The Current Value Of Columnnumber.
+function pylipd.classes.variable.Variable.getDescription() -> The Current Value Of Description.
+function pylipd.classes.variable.Variable.getFoundInDataset() -> The Current Value Of Foundindataset.
+function pylipd.classes.variable.Variable.getFoundInTable() -> int
+function pylipd.classes.variable.Variable.getInstrument() -> str
+function pylipd.classes.variable.Variable.getInterpretations() -> list
+function pylipd.classes.variable.Variable.getMaxValue() -> The Current Value Of Maxvalue.
+function pylipd.classes.variable.Variable.getMeanValue() -> The Current Value Of Meanvalue.
+function pylipd.classes.variable.Variable.getMedianValue() -> The Current Value Of Medianvalue.
+function pylipd.classes.variable.Variable.getMinValue() -> The Current Value Of Minvalue.
+function pylipd.classes.variable.Variable.getMissingValue() -> The Current Value Of Missingvalue.
+function pylipd.classes.variable.Variable.getName() -> The Current Value Of Name.
+function pylipd.classes.variable.Variable.getNotes() -> The Current Value Of Notes.
+function pylipd.classes.variable.Variable.getPartOfCompilation() -> The Current Value Of Partofcompilation.
+function pylipd.classes.variable.Variable.getPhysicalSamples() -> list
+function pylipd.classes.variable.Variable.getProxy() -> The Current Value Of Proxy.
+function pylipd.classes.variable.Variable.getProxyGeneral() -> The Current Value Of Proxygeneral.
+function pylipd.classes.variable.Variable.getResolution() -> The Current Value Of Resolution.
+function pylipd.classes.variable.Variable.getStandardVariable() -> The Current Value Of Standardvariable.
+function pylipd.classes.variable.Variable.getUncertainty() -> int
+function pylipd.classes.variable.Variable.getUncertaintyAnalytical() -> int
+function pylipd.classes.variable.Variable.getUncertaintyReproducibility() -> int
+function pylipd.classes.variable.Variable.getUnits() -> The Current Value Of Units.
+function pylipd.classes.variable.Variable.getValues() -> The Current Value Of Values.
+function pylipd.classes.variable.Variable.getVariableId() -> The Current Value Of Variableid.
+function pylipd.classes.variable.Variable.getVariableType() -> The Current Value Of Variabletype.
+function pylipd.classes.variable.Variable.get_all_non_standard_properties() -> dict
+function pylipd.classes.variable.Variable.get_non_standard_property(key: str) -> The Property Value.
+function pylipd.classes.variable.Variable.isComposite() -> The Current Value Of Composite.
+function pylipd.classes.variable.Variable.isPrimary() -> The Current Value Of Primary.
+function pylipd.classes.variable.Variable.setArchiveType(archiveType: Archivetype)
+function pylipd.classes.variable.Variable.setCalibratedVias(calibratedVias: list)
+function pylipd.classes.variable.Variable.setColumnNumber(columnNumber: int)
+function pylipd.classes.variable.Variable.setComposite(composite: bool)
+function pylipd.classes.variable.Variable.setDescription(description: str)
+function pylipd.classes.variable.Variable.setFoundInDataset(foundInDataset: Object)
+function pylipd.classes.variable.Variable.setFoundInTable(foundInTable: Object)
+function pylipd.classes.variable.Variable.setInstrument(instrument: Object)
+function pylipd.classes.variable.Variable.setInterpretations(interpretations: int)
+function pylipd.classes.variable.Variable.setMaxValue(maxValue: float)
+function pylipd.classes.variable.Variable.setMeanValue(meanValue: float)
+function pylipd.classes.variable.Variable.setMedianValue(medianValue: float)
+function pylipd.classes.variable.Variable.setMinValue(minValue: float)
+function pylipd.classes.variable.Variable.setMissingValue(missingValue: str)
+function pylipd.classes.variable.Variable.setName(name: str)
+function pylipd.classes.variable.Variable.setNotes(notes: str)
+function pylipd.classes.variable.Variable.setPartOfCompilation(partOfCompilation: Compilation)
+function pylipd.classes.variable.Variable.setPhysicalSamples(physicalSamples: list)
+function pylipd.classes.variable.Variable.setPrimary(primary: bool)
+function pylipd.classes.variable.Variable.setProxy(proxy: Paleoproxy)
+function pylipd.classes.variable.Variable.setProxyGeneral(proxyGeneral: Paleoproxygeneral)
+function pylipd.classes.variable.Variable.setResolution(resolution: Resolution)
+function pylipd.classes.variable.Variable.setStandardVariable(standardVariable: Paleovariable)
+function pylipd.classes.variable.Variable.setUncertainty(uncertainty: str)
+function pylipd.classes.variable.Variable.setUncertaintyAnalytical(uncertaintyAnalytical: str)
+function pylipd.classes.variable.Variable.setUncertaintyReproducibility(uncertaintyReproducibility: str)
+function pylipd.classes.variable.Variable.setUnits(units: Paleounit)
+function pylipd.classes.variable.Variable.setValues(values: str)
+function pylipd.classes.variable.Variable.setVariableId(variableId: str)
+function pylipd.classes.variable.Variable.setVariableType(variableType: str)
+function pylipd.classes.variable.Variable.set_non_standard_property(key: str, value: Any)
+function pylipd.classes.variable.Variable.to_data(data: dict = {}) -> dict
+function pylipd.classes.variable.Variable.to_json() -> dict
+function pylipd.lipd.LiPD.convert_lipd_dir_to_rdf(lipd_dir: str, rdf_file: str)
+function pylipd.lipd.LiPD.convert_lipd_dir_to_rdf(lipd_dir: str, rdf_file: str)
+function pylipd.lipd.LiPD.create_lipd(dsname: str, lipdfile: str) -> Lipdjson
+function pylipd.lipd.LiPD.create_lipd(dsname: str, lipdfile: str) -> Lipdjson
+function pylipd.lipd.LiPD.filter_by_archive_type(archiveType: str) -> A New Lipd Object That Only Contains Datasets That Have The Specified Archive Type (Regex)
+function pylipd.lipd.LiPD.filter_by_archive_type(archiveType: str) -> A New Lipd Object That Only Contains Datasets That Have The Specified Archive Type (Regex)
+function pylipd.lipd.LiPD.filter_by_compilationName(compilationName: str) -> A New Lipd Object That Only Contains Datasets That Have The Specified Archive Type (Regex)
+function pylipd.lipd.LiPD.filter_by_compilationName(compilationName: str) -> A New Lipd Object That Only Contains Datasets That Have The Specified Archive Type (Regex)
+function pylipd.lipd.LiPD.filter_by_datasetName(datasetName: str) -> A New Lipd Object That Only Contains Datasets That Have The Specified Archive Type (Regex)
+function pylipd.lipd.LiPD.filter_by_datasetName(datasetName: str) -> A New Lipd Object That Only Contains Datasets That Have The Specified Archive Type (Regex)
+function pylipd.lipd.LiPD.filter_by_geo_bbox(lonMin: float, latMin: float, lonMax: float, latMax: float) -> A New Lipd Object That Only Contains Datasets That Fall Within The Bounding Box
+function pylipd.lipd.LiPD.filter_by_geo_bbox(lonMin: float, latMin: float, lonMax: float, latMax: float) -> A New Lipd Object That Only Contains Datasets That Fall Within The Bounding Box
+function pylipd.lipd.LiPD.filter_by_time(timeBound: list, timeBoundType: str = 'any', datasets: Default, recordLength: Optional[float] = None) -> int
+function pylipd.lipd.LiPD.filter_by_time(timeBound: list, timeBoundType: str = 'any', datasets: Default, recordLength: Optional[float] = None) -> int
+function pylipd.lipd.LiPD.get(dsnames: str) -> Lipd Object With The Retrieved Dataset(S)
+function pylipd.lipd.LiPD.get(dsnames: str) -> Lipd Object With The Retrieved Dataset(S)
+function pylipd.lipd.LiPD.get_all_archiveTypes() -> list
+function pylipd.lipd.LiPD.get_all_archiveTypes() -> list
+function pylipd.lipd.LiPD.get_all_compilation_names() -> list
+function pylipd.lipd.LiPD.get_all_compilation_names() -> list
+function pylipd.lipd.LiPD.get_all_dataset_ids() -> list
+function pylipd.lipd.LiPD.get_all_dataset_ids() -> list
+function pylipd.lipd.LiPD.get_all_dataset_names() -> list
+function pylipd.lipd.LiPD.get_all_dataset_names() -> list
+function pylipd.lipd.LiPD.get_all_locations(dsname: Optional[str] = None) -> Df
+function pylipd.lipd.LiPD.get_all_locations(dsname: Optional[str] = None) -> Df
+function pylipd.lipd.LiPD.get_all_variable_names() -> list
+function pylipd.lipd.LiPD.get_all_variable_names() -> list
+function pylipd.lipd.LiPD.get_all_variables() -> A Dataframe Of All Variables In The Graph With Columns Uri, Varid, Varname
+function pylipd.lipd.LiPD.get_all_variables() -> A Dataframe Of All Variables In The Graph With Columns Uri, Varid, Varname
+function pylipd.lipd.LiPD.get_bibtex(remote: bool = True, save: bool = True, path: str = 'mybiblio.bib', verbose: bool = False) -> list
+function pylipd.lipd.LiPD.get_bibtex(remote: bool = True, save: bool = True, path: str = 'mybiblio.bib', verbose: bool = False) -> list
+function pylipd.lipd.LiPD.get_dataset_properties() -> list
+function pylipd.lipd.LiPD.get_dataset_properties() -> list
+function pylipd.lipd.LiPD.get_datasets() -> list
+function pylipd.lipd.LiPD.get_datasets() -> list
+function pylipd.lipd.LiPD.get_ensemble_tables(dsname: str = None, ensembleVarName: str = None, ensembleDepthVarName: str = 'depth') -> Ensemble_Tables
+function pylipd.lipd.LiPD.get_ensemble_tables(dsname: str = None, ensembleVarName: str = None, ensembleDepthVarName: str = 'depth') -> Ensemble_Tables
+function pylipd.lipd.LiPD.get_lipd(dsname: str) -> Lipdjson
+function pylipd.lipd.LiPD.get_lipd(dsname: str) -> Lipdjson
+function pylipd.lipd.LiPD.get_model_properties() -> list
+function pylipd.lipd.LiPD.get_model_properties() -> list
+function pylipd.lipd.LiPD.get_timeseries(dsnames: list, to_dataframe: bool = False) -> dict
+function pylipd.lipd.LiPD.get_timeseries(dsnames: list, to_dataframe: bool = False) -> dict
+function pylipd.lipd.LiPD.get_timeseries_essentials(dsnames: list = None, mode: Paleo , Chron = 'paleo') -> Qres_Df
+function pylipd.lipd.LiPD.get_timeseries_essentials(dsnames: list = None, mode: Paleo , Chron = 'paleo') -> Qres_Df
+function pylipd.lipd.LiPD.get_variable_properties() -> list
+function pylipd.lipd.LiPD.get_variable_properties() -> list
+function pylipd.lipd.LiPD.load(lipdfiles: str, parallel: bool = False)
+function pylipd.lipd.LiPD.load(lipdfiles: str, parallel: bool = False)
+function pylipd.lipd.LiPD.load_datasets(Dataset: list)
+function pylipd.lipd.LiPD.load_datasets(Dataset: list)
+function pylipd.lipd.LiPD.load_from_dir(dir_path: str, parallel: bool = False, cutoff: int = None)
+function pylipd.lipd.LiPD.load_from_dir(dir_path: str, parallel: bool = False, cutoff: int = None)
+function pylipd.lipd.LiPD.load_remote_datasets(dsnames: Array)
+function pylipd.lipd.LiPD.load_remote_datasets(dsnames: Array)
+function pylipd.lipd.LiPD.pop(dsnames: str) -> Lipd Object With The Popped Dataset(S)
+function pylipd.lipd.LiPD.pop(dsnames: str) -> Lipd Object With The Popped Dataset(S)
+function pylipd.lipd.LiPD.remove(dsnames: str)
+function pylipd.lipd.LiPD.remove(dsnames: str)
+function pylipd.lipd.LiPD.to_lipd_series(parallel: bool = False) -> A Lipdseries Object
+function pylipd.lipd.LiPD.to_lipd_series(parallel: bool = False) -> A Lipdseries Object
+function pylipd.lipd.LiPD.update_remote_datasets(dsnames)
+function pylipd.lipd.LiPD.update_remote_datasets(dsnames)
+function pylipd.lipd_series.LiPDSeries.filter_by_name(name: str) -> A New Lipdseries Object That Only Contains Variables That Have The Specified Name (Regex)
+function pylipd.lipd_series.LiPDSeries.filter_by_proxy(proxy: str) -> A New Lipdseries Object That Only Contains Variables That Have The Specified Name (Regex)
+function pylipd.lipd_series.LiPDSeries.filter_by_resolution(threshold: float, stats: str = 'Mean') -> S
+function pylipd.lipd_series.LiPDSeries.get_all_proxy() -> list
+function pylipd.lipd_series.LiPDSeries.get_all_variable_names() -> list
+function pylipd.lipd_series.LiPDSeries.get_all_variables() -> A Dataframe Of All Variables In The Graph With Columns Uri, Varid, Varname
+function pylipd.lipd_series.LiPDSeries.get_timeseries_essentials() -> Qres_Df
+function pylipd.lipd_series.LiPDSeries.get_variable_properties() -> list
+function pylipd.lipd_series.LiPDSeries.load(lipd: Lipd)
+function pylipd.rdf_graph.RDFGraph.clear()
+function pylipd.rdf_graph.RDFGraph.copy() -> A Copy Of The Original Object
+function pylipd.rdf_graph.RDFGraph.get(ids: str) -> Rdfgraph Object With The Retrieved Graph(S)
+function pylipd.rdf_graph.RDFGraph.get_all_graph_ids() -> list
+function pylipd.rdf_graph.RDFGraph.load(rdf_file: str)
+function pylipd.rdf_graph.RDFGraph.merge(rdf: Pylipd.Rdf_Graph.Rdfgraph) -> Merged Rdfgraph Object
+function pylipd.rdf_graph.RDFGraph.pop(ids: str) -> Rdfgraph Object With The Popped Graph(S)
+function pylipd.rdf_graph.RDFGraph.query(query: str, remote: bool = False, result: str = 'sparql') -> dict
+function pylipd.rdf_graph.RDFGraph.remove(ids: str)
+function pylipd.rdf_graph.RDFGraph.serialize()
+function pylipd.rdf_graph.RDFGraph.set_endpoint(endpoint: str)
+function pylipd.utils.legacy_utils.LiPD_Legacy.extract(d: dict, whichtables: str = 'meas', mode: str = 'paleo')
+function pylipd.utils.lipd_to_rdf.LipdToRDF.convert(lipdpath: str)
+function pylipd.utils.lipd_to_rdf.LipdToRDF.serialize(topath: str, type: str = 'rdf')
+function pylipd.utils.multi_processing.convert_lipd_to_graph(arg)
+function pylipd.utils.multi_processing.convert_to_rdf(files)
+function pylipd.utils.multi_processing.extract_variables_graph(arg)
+function pylipd.utils.multi_processing.multi_convert_to_rdf(filemap, parallel = True, standardize = True, add_labels = True)
+function pylipd.utils.multi_processing.multi_load_lipd(graph, lipdfiles, parallel = True, standardize = True, add_labels = True)
+function pylipd.utils.multi_processing.multi_load_lipd_series(graph, single_dataset_lipds, parallel = True)
+function pylipd.utils.rdf_graph.RDFGraph.clear()
+function pylipd.utils.rdf_graph.RDFGraph.copy() -> A Copy Of The Original Object
+function pylipd.utils.rdf_graph.RDFGraph.get(ids: str) -> Rdfgraph Object With The Retrieved Graph(S)
+function pylipd.utils.rdf_graph.RDFGraph.get_all_graph_ids() -> list
+function pylipd.utils.rdf_graph.RDFGraph.load(rdf_file: str)
+function pylipd.utils.rdf_graph.RDFGraph.merge(rdf: Pylipd.Rdf_Graph.Rdfgraph) -> Merged Rdfgraph Object
+function pylipd.utils.rdf_graph.RDFGraph.pop(ids: str) -> Rdfgraph Object With The Popped Graph(S)
+function pylipd.utils.rdf_graph.RDFGraph.query(query: str, remote: bool = False, result: str = 'sparql') -> dict
+function pylipd.utils.rdf_graph.RDFGraph.remove(ids: str)
+function pylipd.utils.rdf_graph.RDFGraph.serialize()
+function pylipd.utils.rdf_graph.RDFGraph.set_endpoint(endpoint: str)
+function pylipd.utils.rdf_to_lipd.RDFToLiPD.convert(graph: Rdflib.Conjunctivegraph)
+function pylipd.utils.rdf_to_lipd.RDFToLiPD.convert_to_json(graph: Rdflib.Conjunctivegraph)
+function pylipd.utils.utils.camelCase(id)
+function pylipd.utils.utils.escape(str)
+function pylipd.utils.utils.expand_schema(schema)
+function pylipd.utils.utils.fromCamelCase(str)
+function pylipd.utils.utils.lcfirst(s)
+function pylipd.utils.utils.sanitizeId(id)
+function pylipd.utils.utils.sparql_results_to_df(results : SPARQLResult)
+function pylipd.utils.utils.ucfirst(s)
+function pylipd.utils.utils.unCamelCase(id)
+function pylipd.utils.utils.uniqid(prefix = '', more_entropy = False)
+function pylipd.utils.utils.unzip_string(string)
+function pylipd.utils.utils.zip_string(string)
+✅ ReadTheDocs symbols shown successfully

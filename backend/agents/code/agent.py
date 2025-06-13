@@ -62,7 +62,7 @@ def create_agent() -> Graph:
         # After human responds, process the clarification and go back to search_examples for context
         workflow.add_edge("human_clarification_needed", END)
         
-        # Code generation and refinement flow
+        # Code generation and refinement flow (now includes validation error handling)
         workflow.add_conditional_edges(
             "generate_code",
             should_refine_code,

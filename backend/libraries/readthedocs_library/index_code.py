@@ -33,9 +33,9 @@ DEFAULT_MODEL = "microsoft/codebert-base"
 
 # Local import that works both as package and as script
 try:
-    from .symbol_loader import SymbolExtractor
+    from .rtd_loader import RTDExtractor
 except ImportError:  # pragma: no cover
-    from symbol_loader import SymbolExtractor  # type: ignore
+    from rtd_loader import RTDExtractor  # type: ignore
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("rtd-code-index")
@@ -77,30 +77,32 @@ def build_code_index(
             logger.warning("Cannot read %s: %s", html_path, exc)
             continue
 
-        extractor = SymbolExtractor(html_text, html_path)
-        for doc in extractor.extract():
-            code = doc.metadata.get("code", "") if isinstance(doc.metadata, dict) else ""
-            if not code:
+        extractor = RTDExtractor(html_text, html_path)
+        result = extractor.extract()
+        
+        # Process all symbols (classes, functions, constants) that have example code
+        for symbol in result.classes + result.functions + result.constants:
+            if not symbol.example_code:
                 continue  # skip symbols without example code
             
-            # Create Qdrant document
+            # Create Qdrant document using description and example code for indexing
+            index_text = f"{symbol.description}\n\n{symbol.example_code}"
+            
             qdrant_doc = {
                 "id": str(uuid.uuid4()),
-                "text": code,  # Use code as the main searchable text
-                "code": code,  # Also store as separate field
-                "content": code,  # Alias for compatibility
+                "text": index_text,  # Use description + code as the main searchable text
+                "code": symbol.example_code,  # Store code separately
+                "content": index_text,  # Alias for compatibility
+                "symbol": symbol.name,
+                "kind": symbol.kind,
+                "signature": symbol.signature,
+                "description": symbol.description,
+                "narrative": symbol.full_narrative,
+                "source": str(html_path),
             }
             
-            # Add metadata, ensuring all values are JSON-serializable
-            if isinstance(doc.metadata, dict):
-                for k, v in doc.metadata.items():
-                    if not isinstance(v, (str, int, float, bool, list)):
-                        qdrant_doc[k] = str(v)
-                    else:
-                        qdrant_doc[k] = v
-            
             # Add code classification
-            code_lower = code.lower()
+            code_lower = symbol.example_code.lower()
             if "class " in code_lower:
                 qdrant_doc["code_type"] = "class_definition"
             elif "def " in code_lower:
@@ -113,11 +115,11 @@ def build_code_index(
                 qdrant_doc["code_type"] = "general_example"
             
             # Extract library information from symbol or source
-            symbol = qdrant_doc.get("symbol", "")
-            source = qdrant_doc.get("source", "")
+            symbol_name = symbol.name.lower()
+            source = str(html_path).lower()
             
             for lib in ["numpy", "pandas", "matplotlib", "scipy", "sklearn", "pyleoclim", "pylipd"]:
-                if lib in symbol.lower() or lib in source.lower():
+                if lib in symbol_name or lib in source:
                     qdrant_doc["library"] = lib
                     break
             else:

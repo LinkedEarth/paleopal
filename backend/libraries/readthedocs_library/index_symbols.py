@@ -34,9 +34,9 @@ from bs4 import BeautifulSoup  # noqa: F401 – required by symbol_loader at run
 
 # Local import that works both as package and as script
 try:
-    from .symbol_loader import SymbolExtractor
+    from .rtd_loader import RTDExtractor
 except ImportError:  # pragma: no cover
-    from symbol_loader import SymbolExtractor  # type: ignore
+    from rtd_loader import RTDExtractor  # type: ignore
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("rtd-symbol-index")
@@ -78,44 +78,43 @@ def build_symbol_index(
             logger.warning("Cannot read %s: %s", html_path, exc)
             continue
 
-        extractor = SymbolExtractor(html_text, html_path)
-        for doc in extractor.extract():
-            # Create Qdrant document
+        extractor = RTDExtractor(html_text, html_path)
+        result = extractor.extract()
+        
+        # Process all symbols (classes, functions, constants)
+        for symbol in result.classes + result.functions + result.constants:
+            # Create Qdrant document using description and signature for indexing
+            index_text = f"{symbol.description}\n\n{symbol.signature}"
+            
             qdrant_doc = {
                 "id": str(uuid.uuid4()),
-                "text": doc.page_content,  # Use page_content as searchable text
-                "content": doc.page_content,  # Alias for compatibility
-                "narrative": doc.page_content  # Legacy alias
+                "text": index_text,  # Use description + signature as searchable text
+                "content": index_text,  # Alias for compatibility
+                "narrative": symbol.full_narrative,  # Store full narrative separately
+                "symbol": symbol.name,
+                "kind": symbol.kind,
+                "signature": symbol.signature,
+                "description": symbol.description,
+                "code": symbol.example_code,
+                "source": str(html_path),
             }
             
-            # Add metadata, ensuring all values are JSON-serializable
-            if isinstance(doc.metadata, dict):
-                for k, v in doc.metadata.items():
-                    if not isinstance(v, (str, int, float, bool, list)):
-                        qdrant_doc[k] = str(v)
-                    else:
-                        qdrant_doc[k] = v
-            
             # Add symbol classification
-            symbol = qdrant_doc.get("symbol", "")
-            kind = qdrant_doc.get("kind", "")
-            
-            if "class" in kind.lower() or "Class" in symbol:
+            if symbol.kind == "class":
                 qdrant_doc["symbol_type"] = "class"
-            elif "function" in kind.lower() or "method" in kind.lower():
+            elif symbol.kind == "function":
                 qdrant_doc["symbol_type"] = "function"
-            elif "attribute" in kind.lower() or "property" in kind.lower():
-                qdrant_doc["symbol_type"] = "attribute"
-            elif "module" in kind.lower():
-                qdrant_doc["symbol_type"] = "module"
+            elif symbol.kind == "constant":
+                qdrant_doc["symbol_type"] = "constant"
             else:
                 qdrant_doc["symbol_type"] = "other"
             
             # Extract library information from symbol or source
-            source = qdrant_doc.get("source", "")
+            symbol_name = symbol.name.lower()
+            source = str(html_path).lower()
             
             for lib in ["numpy", "pandas", "matplotlib", "scipy", "sklearn", "pyleoclim", "pylipd"]:
-                if lib in symbol.lower() or lib in source.lower():
+                if lib in symbol_name or lib in source:
                     qdrant_doc["library"] = lib
                     break
             else:

@@ -1,6 +1,7 @@
 """readthedocs_library.index_docs
 
 Build a Qdrant vector store from one or more Read-the-Docs HTML directories.
+Uses RTDExtractor to extract structured documentation and indexes the full narrative.
 
 Usage:
     python -m readthedocs_library.index_docs my_docs/pyleoclim/docs my_docs/pylipd/docs --collection rtd_docs
@@ -23,14 +24,22 @@ if str(parent_dir) not in sys.path:
 
 from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
 
+# Local import that works both as package and as script
 try:
-    from langchain_community.document_loaders import ReadTheDocsLoader
-    from langchain.text_splitter import RecursiveCharacterTextSplitter
-except ImportError as e:  # pragma: no cover
-    raise ImportError("langchain and langchain_community are required: pip install langchain langchain_community") from e
+    from .rtd_loader import RTDExtractor
+except ImportError:  # pragma: no cover
+    from rtd_loader import RTDExtractor  # type: ignore
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("rtd-index")
+logger = logging.getLogger("rtd-docs-index")
+
+
+def _html_files_in(paths: List[pathlib.Path]):
+    for root in paths:
+        if root.is_dir():
+            yield from root.rglob("*.html")
+        elif root.suffix == ".html":
+            yield root
 
 
 def build_index(
@@ -42,12 +51,12 @@ def build_index(
     force_recreate: bool = False
 ) -> str:
     """
-    Build Qdrant index from ReadTheDocs HTML directories.
+    Build Qdrant index from ReadTheDocs HTML directories using RTDExtractor.
     
     Args:
         doc_paths: List of paths to ReadTheDocs HTML directories
         collection_name: Qdrant collection name (defaults to readthedocs_docs)
-        chunk_size: Size of text chunks
+        chunk_size: Size of text chunks (used for splitting long narratives)
         chunk_overlap: Overlap between chunks
         force_recreate: Whether to recreate the collection if it exists
         
@@ -57,73 +66,75 @@ def build_index(
     if collection_name is None:
         collection_name = COLLECTION_NAMES["readthedocs_docs"]
     
-    # Use separators that respect fenced code blocks so examples are not split mid-block
-    code_aware_separators = [
-        "\n```",   # split just before a fenced code block
-        "```",      # fallback fence separator
-        "\n\n",   # paragraph boundary
-        "\n",      # line boundary
-        " ",        # space
-        ""          # fallback char-level
-    ]
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        separators=code_aware_separators,
-    )
-    
-    # Load and split documents
-    docs = []
-    for p in doc_paths:
-        logger.info(f"Loading documents from {p}")
-        loader = ReadTheDocsLoader(str(p))
-        docs.extend(loader.load_and_split(text_splitter=text_splitter))
+    documents = []
+    for html_path in _html_files_in(doc_paths):
+        try:
+            html_text = html_path.read_text(encoding="utf-8", errors="ignore")
+        except Exception as exc:
+            logger.warning("Cannot read %s: %s", html_path, exc)
+            continue
 
-    if not docs:
-        raise RuntimeError("No docs found to index")
-
-    logger.info(f"Loaded {len(docs)} document chunks")
-    
-    # Convert LangChain documents to Qdrant format
-    qdrant_docs = []
-    for doc in docs:
-        doc_dict = {
-            "id": str(uuid.uuid4()),
-            "text": doc.page_content,
-            "content": doc.page_content,  # Alias for compatibility
-            **doc.metadata  # Include all metadata fields
-        }
+        extractor = RTDExtractor(html_text, html_path)
+        result = extractor.extract()
         
-        # Add document type classification
-        content = doc.page_content.lower()
-        if "```" in content or "def " in content or "class " in content:
-            doc_dict["doc_type"] = "code_example"
-        elif "api" in content or "function" in content or "method" in content:
-            doc_dict["doc_type"] = "api_reference"
-        elif "tutorial" in content or "example" in content or "how to" in content:
-            doc_dict["doc_type"] = "tutorial"
-        else:
-            doc_dict["doc_type"] = "general"
-        
-        # Extract source information for better filtering
-        source = doc.metadata.get("source", "")
-        if source:
-            # Extract library name from path (e.g., pyleoclim, pylipd)
-            path_parts = pathlib.Path(source).parts
-            for part in path_parts:
-                if part in ["pyleoclim", "pylipd", "numpy", "pandas", "matplotlib"]:
-                    doc_dict["library"] = part
-                    break
-            else:
-                doc_dict["library"] = "unknown"
+        # Process all symbols (classes, functions, constants) using full narrative
+        for symbol in result.classes + result.functions + result.constants:
+            if not symbol.full_narrative.strip():
+                continue  # skip symbols without narrative content
             
-            # Extract section from URL/path
-            if "#" in source:
-                doc_dict["section"] = source.split("#")[-1]
-            else:
-                doc_dict["section"] = ""
-        
-        qdrant_docs.append(doc_dict)
+            # Split long narratives into chunks if needed
+            narrative_chunks = _split_text_into_chunks(
+                symbol.full_narrative, 
+                chunk_size, 
+                chunk_overlap
+            )
+            
+            for i, chunk in enumerate(narrative_chunks):
+                qdrant_doc = {
+                    "id": str(uuid.uuid4()),
+                    "text": chunk,  # Use full narrative chunk as searchable text
+                    "content": chunk,  # Alias for compatibility
+                    "symbol": symbol.name,
+                    "kind": symbol.kind,
+                    "signature": symbol.signature,
+                    "description": symbol.description,
+                    "code": symbol.example_code,
+                    "source": str(html_path),
+                    "chunk_index": i,
+                    "total_chunks": len(narrative_chunks),
+                }
+                
+                # Add document type classification based on content
+                content_lower = chunk.lower()
+                if "```" in chunk or "def " in content_lower or "class " in content_lower:
+                    qdrant_doc["doc_type"] = "code_example"
+                elif "api" in content_lower or "function" in content_lower or "method" in content_lower:
+                    qdrant_doc["doc_type"] = "api_reference"
+                elif "tutorial" in content_lower or "example" in content_lower or "how to" in content_lower:
+                    qdrant_doc["doc_type"] = "tutorial"
+                else:
+                    qdrant_doc["doc_type"] = "general"
+                
+                # Extract library information from symbol or source
+                symbol_name = symbol.name.lower()
+                source = str(html_path).lower()
+                
+                for lib in ["pyleoclim", "pylipd", "numpy", "pandas", "matplotlib"]:
+                    if lib in symbol_name or lib in source:
+                        qdrant_doc["library"] = lib
+                        break
+                else:
+                    qdrant_doc["library"] = "unknown"
+                
+                # Add section information if available
+                qdrant_doc["section"] = symbol.name.split(".")[-1] if "." in symbol.name else symbol.name
+                
+                documents.append(qdrant_doc)
+
+    if not documents:
+        raise RuntimeError("No documentation found to index")
+
+    logger.info(f"Extracted {len(documents)} document chunks")
     
     # Get Qdrant manager
     qdrant_manager = get_qdrant_manager()
@@ -135,12 +146,49 @@ def build_index(
     # Index documents
     indexed_count = qdrant_manager.index_documents(
         collection_name=collection_name,
-        documents=qdrant_docs,
+        documents=documents,
         text_field="text"
     )
     
     logger.info(f"Indexed {indexed_count} document chunks → {collection_name}")
     return collection_name
+
+
+def _split_text_into_chunks(text: str, chunk_size: int, chunk_overlap: int) -> List[str]:
+    """Split text into overlapping chunks."""
+    if len(text) <= chunk_size:
+        return [text]
+    
+    chunks = []
+    start = 0
+    
+    while start < len(text):
+        end = start + chunk_size
+        
+        # Try to break at sentence boundaries
+        if end < len(text):
+            # Look for sentence endings within the last 100 characters
+            search_start = max(start + chunk_size - 100, start)
+            sentence_end = -1
+            
+            for i in range(end - 1, search_start - 1, -1):
+                if text[i] in '.!?':
+                    sentence_end = i + 1
+                    break
+            
+            if sentence_end > start:
+                end = sentence_end
+        
+        chunk = text[start:end].strip()
+        if chunk:
+            chunks.append(chunk)
+        
+        # Move start position with overlap
+        start = end - chunk_overlap
+        if start >= len(text):
+            break
+    
+    return chunks
 
 
 if __name__ == "__main__":

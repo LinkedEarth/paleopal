@@ -1,6 +1,6 @@
 """
 ReadTheDocs extractor for documentation sites.
-Extracts documentation pages and code examples that can be indexed.
+Extracts documentation pages and code examples using the RTDExtractor.
 """
 
 import re
@@ -12,6 +12,11 @@ import aiohttp
 from bs4 import BeautifulSoup, Comment
 
 from .base_extractor import BaseExtractor
+
+# Import the RTDExtractor
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent / "libraries" / "readthedocs_library"))
+from rtd_loader import RTDExtractor
 
 class ReadTheDocsExtractor(BaseExtractor):
     """
@@ -28,7 +33,7 @@ class ReadTheDocsExtractor(BaseExtractor):
         params: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
         """
-        Extract documentation from a single HTML file.
+        Extract documentation from a single HTML file using RTDExtractor.
         
         Args:
             file_path: Path to .html file
@@ -42,7 +47,7 @@ class ReadTheDocsExtractor(BaseExtractor):
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        return self._extract_from_html(content, str(file_path), params)
+        return self._extract_using_rtd_extractor(content, str(file_path), params)
     
     async def extract_from_url(
         self, 
@@ -104,8 +109,8 @@ class ReadTheDocsExtractor(BaseExtractor):
                         content = await response.text()
                         visited_urls.add(current_url)
                         
-                        # Extract documentation from this page
-                        page_data = self._extract_from_html(content, current_url, params)
+                        # Extract documentation from this page using RTDExtractor
+                        page_data = self._extract_using_rtd_extractor(content, current_url, params)
                         extracted_data.extend(page_data)
                         
                         # Find links to follow
@@ -124,7 +129,56 @@ class ReadTheDocsExtractor(BaseExtractor):
         self.logger.info(f"Crawled {len(visited_urls)} pages, extracted {len(extracted_data)} items")
         return self._clean_extracted_data(extracted_data)
     
-    def _extract_from_html(self, content: str, source_url: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _extract_using_rtd_extractor(self, content: str, source_url: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Extract structured data using RTDExtractor."""
+        try:
+            extractor = RTDExtractor(content, source_url)
+            result = extractor.extract()
+            
+            extracted_data = []
+            
+            # Process all symbols (classes, functions, constants)
+            for symbol in result.classes + result.functions + result.constants:
+                # Create documentation entry
+                doc_data = {
+                    'content_type': 'symbol_documentation',
+                    'source_url': source_url,
+                    'symbol_name': symbol.name,
+                    'symbol_kind': symbol.kind,
+                    'signature': symbol.signature,
+                    'description': symbol.description,
+                    'full_narrative': symbol.full_narrative,
+                    'example_code': symbol.example_code,
+                    'extraction_type': 'rtd_symbol'
+                }
+                
+                # Add library classification
+                symbol_name_lower = symbol.name.lower()
+                for lib in ["pyleoclim", "pylipd", "numpy", "pandas", "matplotlib", "scipy", "sklearn"]:
+                    if lib in symbol_name_lower or lib in source_url.lower():
+                        doc_data['library'] = lib
+                        break
+                else:
+                    doc_data['library'] = 'unknown'
+                
+                # Add symbol type classification
+                doc_data['symbol_type'] = symbol.kind
+                
+                # Add content for different indexing approaches
+                doc_data['index_code_content'] = f"{symbol.description}\n\n{symbol.example_code}" if symbol.example_code else ""
+                doc_data['index_symbols_content'] = f"{symbol.description}\n\n{symbol.signature}"
+                doc_data['index_docs_content'] = symbol.full_narrative
+                
+                extracted_data.append(doc_data)
+            
+            return extracted_data
+            
+        except Exception as e:
+            self.logger.warning(f"RTDExtractor failed for {source_url}: {e}")
+            # Fallback to legacy extraction if RTDExtractor fails
+            return self._extract_from_html_legacy(content, source_url, params)
+    
+    def _extract_from_html_legacy(self, content: str, source_url: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Extract structured data from HTML content."""
         soup = BeautifulSoup(content, 'html.parser')
         extracted_data = []

@@ -67,9 +67,9 @@ const messageService = {
 
   async getConversationMessages(conversationId, includeProgress = false) {
     const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/conversation/${conversationId}?include_progress=${includeProgress}`);
-    console.log(`🔍 Fetching messages from: ${url}`);
+    // console.log(`🔍 Fetching messages from: ${url}`);
     const result = await apiRequest(url);
-    console.log(`📝 Messages API response:`, result);
+    // console.log(`📝 Messages API response:`, result);
     return result;
   },
 
@@ -259,22 +259,22 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     
     // Only sync when the conversation ID actually changes (conversation switch)
     if (conversation.id && conversation.id !== prevConversationIdRef.current) {
-      console.log('✅ Conversation ID changed, loading messages...');
+      // console.log('✅ Conversation ID changed, loading messages...');
       updatingFromPropRef.current = true;
       
       // Load messages from the new API
       const loadMessages = async () => {
         setMessagesLoading(true);
         try {
-          console.log(`🔍 Loading messages for conversation ${conversation.id}...`);
+          // console.log(`🔍 Loading messages for conversation ${conversation.id}...`);
           const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
-          console.log(`📝 Raw messages from API:`, loadedMessages);
+          // console.log(`📝 Raw messages from API:`, loadedMessages);
           
           if (loadedMessages.length > 0) {
-            console.log(`✅ Found ${loadedMessages.length} messages`);
+            // console.log(`✅ Found ${loadedMessages.length} messages`);
             // Convert backend message format to frontend format
             const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
-            console.log(` Converted messages:`, convertedMessages);
+            // console.log(` Converted messages:`, convertedMessages);
             setMessages(convertedMessages);
             
             // Check if we need to restore clarification state from messages
@@ -1089,6 +1089,7 @@ ${stepInfo.input}`;
               content={message.content}
               clarificationQuestions={message.clarificationQuestions}
               hasSubsequentResponse={hasSubsequentClarificationResponse(messageIndex)}
+              onAnswerQuestions={() => handleAnswerQuestions(message)}
             />
           ) : message.isLoading ? (
             <div className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300">

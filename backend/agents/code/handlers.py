@@ -7,6 +7,7 @@ import logging
 import json
 import re
 import uuid
+import pathlib
 from typing import Dict, Any, List
 from langchain.schema import HumanMessage, SystemMessage
 
@@ -16,6 +17,136 @@ from agents.base_langgraph_agent import get_config_value, get_message_value, for
 from services.search_integration_service import search_service
 
 logger = logging.getLogger(__name__)
+
+def _fix_json_escapes(json_str: str) -> str:
+    """
+    Fix invalid escape sequences in JSON strings while preserving valid ones.
+    
+    This function handles common issues where LLMs generate JSON with unescaped backslashes
+    in code strings, which breaks JSON parsing.
+    """
+    import re
+    
+    try:
+        # First, try to handle common problematic patterns
+        
+        # 1. Fix unescaped backslashes in string values (but not in escape sequences)
+        # This pattern matches backslashes that are NOT followed by valid JSON escape characters
+        # Valid JSON escapes: \" \\ \/ \b \f \n \r \t \uXXXX
+        invalid_escape_pattern = r'\\(?!["\\/bfnrtu])'
+        fixed_json = re.sub(invalid_escape_pattern, r'\\\\', json_str)
+        
+        # 2. Handle cases where there might be unescaped quotes in string values
+        # This is more complex and risky, so we'll be conservative
+        
+        # 3. Remove any trailing commas before closing braces/brackets (common LLM mistake)
+        fixed_json = re.sub(r',(\s*[}\]])', r'\1', fixed_json)
+        
+        # 4. Fix missing commas between JSON properties (common in multi-line JSON)
+        # This pattern looks for a quote followed by whitespace and another quote (missing comma)
+        fixed_json = re.sub(r'"\s*\n\s*"', '",\n  "', fixed_json)
+        
+        # 5. Fix missing commas after closing braces/brackets
+        fixed_json = re.sub(r'([}\]])\s*\n\s*"', r'\1,\n  "', fixed_json)
+        
+        # 6. Ensure proper spacing around colons and commas
+        fixed_json = re.sub(r':\s*(["\d\[\{])', r': \1', fixed_json)
+        
+        return fixed_json
+        
+    except Exception as e:
+        logger.warning(f"Error in _fix_json_escapes: {e}, returning original string")
+        return json_str
+
+def load_library_symbols() -> str:
+    """Load the all_symbols.txt file containing PyLiPD and Pyleoclim function signatures."""
+    try:
+        # Look for all_symbols.txt in the backend directory
+        backend_dir = pathlib.Path(__file__).parent.parent.parent
+        symbols_file = backend_dir / "all_symbols.txt"
+        
+        if symbols_file.exists():
+            with open(symbols_file, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+            logger.info(f"Loaded {len(content.splitlines())} function signatures from all_symbols.txt")
+            return content
+        else:
+            logger.warning(f"all_symbols.txt not found at {symbols_file}")
+            return ""
+    except Exception as e:
+        logger.error(f"Error loading all_symbols.txt: {e}")
+        return ""
+
+def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str]:
+    """
+    Validate that the generated code only uses approved PyLiPD/Pyleoclim functions.
+    
+    Returns a list of validation errors (empty if valid).
+    """
+    if not library_symbols:
+        return []
+    
+    errors = []
+    
+    # Extract all approved function names from the symbols
+    approved_functions = set()
+    for line in library_symbols.split('\n'):
+        if line.startswith('function ') or line.startswith('class '):
+            # Extract function/class name
+            # Format: "function pylipd.lipd.LiPD.get_dataset(...)" or "class pylipd.lipd.LiPD(...)"
+            parts = line.split('(')[0].split()
+            if len(parts) >= 2:
+                full_name = parts[1]
+                # Extract just the method name (last part after the last dot)
+                method_name = full_name.split('.')[-1]
+                approved_functions.add(method_name)
+                # Also add the full qualified name
+                approved_functions.add(full_name)
+    
+    # Common invalid patterns that LLMs often use
+    invalid_patterns = [
+        r'\.get_dataset\s*\(',
+        r'\.load_dataset\s*\(',
+        r'\.find_dataset\s*\(',
+        r'\.select_dataset\s*\(',
+        r'\.fetch_dataset\s*\(',
+        r'\.retrieve_dataset\s*\(',
+    ]
+    
+    # Check for invalid patterns
+    for pattern in invalid_patterns:
+        matches = re.finditer(pattern, code, re.IGNORECASE)
+        for match in matches:
+            errors.append(f"Invalid function call found: '{match.group()}' - this function does not exist in PyLiPD/Pyleoclim")
+    
+    # Check for pylipd/pyleoclim method calls that aren't in approved list
+    pylipd_pattern = r'(pylipd|pyleoclim)\.[\w\.]+\.(\w+)\s*\('
+    matches = re.finditer(pylipd_pattern, code)
+    for match in matches:
+        method_name = match.group(2)
+        full_match = match.group(0)
+        if method_name not in approved_functions:
+            errors.append(f"Unapproved PyLiPD/Pyleoclim function: '{full_match}' - not found in approved signatures")
+    
+    # Check for object method calls (e.g., lipd_obj.method())
+    obj_pattern = r'(\w+)\.(\w+)\s*\('
+    matches = re.finditer(obj_pattern, code)
+    for match in matches:
+        obj_name = match.group(1)
+        method_name = match.group(2)
+        full_match = match.group(0)
+        
+        # Skip standard library and common objects
+        if obj_name.lower() in ['pd', 'np', 'plt', 'df', 'fig', 'ax', 'os', 'sys', 'json', 'datetime']:
+            continue
+            
+        # Check if this looks like a PyLiPD object call
+        if ('lipd' in obj_name.lower() or 'series' in obj_name.lower()) and method_name not in approved_functions:
+            # Check if it's one of the known invalid methods
+            if method_name in ['get_dataset', 'load_dataset', 'find_dataset', 'select_dataset', 'fetch_dataset']:
+                errors.append(f"Invalid PyLiPD method: '{full_match}' - use approved alternatives like .get(), .get_datasets(), or .get_lipd()")
+    
+    return errors
 
 async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Enhanced search for relevant code examples using comprehensive contextual search."""
@@ -347,33 +478,41 @@ def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) ->
         }
 
 def should_refine_code(state: CodeAgentState) -> str:
-    """Determine if code should be refined."""
-    try:
-        generated_code = state.generated_code or ""
-        error_message = state.error_message or ""
-        refinement_count = state.refinement_count or 0
+    """Determine if code should be refined based on various criteria including validation errors."""
+    generated_code = state.generated_code or ""
+    error_message = state.error_message or ""
+    validation_errors = getattr(state, 'validation_errors', []) or []
+    refinement_count = state.refinement_count or 0
         
-        # Check if we have errors and haven't exceeded max refinements
-        if error_message and refinement_count < MAX_REFINEMENTS:
-            logger.info(f"Code has errors, attempting refinement {refinement_count + 1}")
-            return "true"
-        
-        # Check if code is too short (might indicate incomplete generation)
-        if generated_code and len(generated_code.strip()) < 50 and refinement_count < MAX_REFINEMENTS:
-            logger.info("Generated code seems too short, attempting refinement")
-            return "true"
-        
+    # Check if we've reached max refinements
+    if refinement_count >= MAX_REFINEMENTS:
+        logger.info("Maximum refinements reached, not refining further")
         return "false"
+    
+    # Check if there are validation errors
+    if validation_errors:
+        logger.info(f"Found {len(validation_errors)} validation errors, should refine")
+        return "true"
         
-    except Exception as e:
-        logger.error(f"Error in should_refine_code: {e}")
-        return "false"
+    # Check if there's an explicit error message
+    if error_message:
+        logger.info("Error message present, should refine")
+        return "true"
+        
+    # Check if code is too short (likely incomplete)
+    if len(generated_code.strip()) < 50:
+        logger.info("Generated code too short, should refine")
+        return "true"
+        
+    logger.info("No refinement needed")
+    return "false"
 
 def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
-    """Refine the generated code to address issues."""
+    """Refine the generated code to address issues including validation errors."""
     try:
         generated_code = state.generated_code or ""
         error_message = state.error_message or ""
+        validation_errors = getattr(state, 'validation_errors', []) or []
         analysis_request = state.analysis_request or ""
         refinement_count = state.refinement_count or 0
         
@@ -392,6 +531,29 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
                 "conversation_id": state.conversation_id  # Preserve conversation_id
             }
         
+        # Build issues description based on what problems we found
+        issues_detected = []
+        if validation_errors:
+            validation_issue = (
+                "**PyLiPD/Pyleoclim Validation Errors**: The code contains invalid function calls:\n"
+                + "\n".join(f"• {error}" for error in validation_errors) +
+                "\n\nPlease use only the approved PyLiPD/Pyleoclim functions from the provided signatures. "
+                "Do not use functions like get_dataset(), load_dataset(), or find_dataset() as they do not exist. "
+                "Use the correct alternatives like get(), get_datasets(), or get_lipd() instead."
+            )
+            issues_detected.append(validation_issue)
+        
+        if error_message:
+            issues_detected.append(f"**General Error**: {error_message}")
+        
+        if not issues_detected and len(generated_code.strip()) < 50:
+            issues_detected.append("**Code Length**: Code seems incomplete or too short")
+        
+        if not issues_detected:
+            issues_detected.append("Code needs general improvement")
+        
+        issues_text = "\n\n".join(issues_detected)
+        
         # Create refinement prompt
         refinement_prompt = f"""
 The following Python code was generated but has issues that need to be addressed:
@@ -404,57 +566,37 @@ GENERATED CODE:
 ```
 
 ISSUES DETECTED:
-{error_message or "Code seems incomplete or too short"}
+{issues_text}
 
 Please provide an improved version of the code that:
-1. Addresses the identified issues
-2. Maintains the original functionality
-3. Follows best practices for paleoclimate data analysis
-4. Uses appropriate libraries (PyLiPD, Pyleoclim, pandas, numpy)
+1. Addresses all the identified issues
+2. Uses only valid PyLiPD/Pyleoclim functions from the approved signatures
+3. Maintains the original functionality
+4. Follows best practices for paleoclimate data analysis
+5. Uses appropriate libraries (PyLiPD, Pyleoclim, pandas, numpy)
 
 Return your response as JSON with keys: code, description, improvements_made.
 """
         
         messages = [
-            SystemMessage(content="You are an expert Python developer specializing in paleoclimate data analysis."),
+            SystemMessage(content="You are an expert Python developer specializing in paleoclimate data analysis. "
+                                "You must only use valid PyLiPD/Pyleoclim functions that exist in the approved signatures."),
             HumanMessage(content=refinement_prompt)
         ]
         
         raw_response = llm._call(messages)
         
-        # Parse refinement response
+        # Parse response
         try:
-            json_match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
-            if json_match:
-                raw_json = json_match.group(1)
-                try:
-                    parsed = json.loads(raw_json)
-                except json.JSONDecodeError as je:
-                    # Minimal fix: escape single backslashes that are not part of valid escapes
-                    logger.warning(f"Primary JSON parse failed ({je}), applying backslash-escape fix and retrying")
-                    safe_raw_json = raw_json.replace("\\", "\\\\")
-                    try:
-                        parsed = json.loads(safe_raw_json)
-                    except json.JSONDecodeError as je2:
-                        logger.error(f"Secondary JSON parse failed ({je2}), falling back to regex code extraction")
-                        raise
-            else:
-                # Fallback: extract code block
+            parsed = json.loads(raw_response)
+        except json.JSONDecodeError:
+            # Fallback parsing
                 code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
                 refined_code = code_match.group(1) if code_match else generated_code
                 parsed = {
                     "code": refined_code,
-                    "description": "Refined code",
-                    "improvements_made": ["General improvements applied"]
-                }
-        except (json.JSONDecodeError, AttributeError):
-            # Fallback: extract code block
-            code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
-            refined_code = code_match.group(1) if code_match else generated_code
-            parsed = {
-                "code": refined_code,
-                "description": "Refined code",
-                "improvements_made": ["General improvements applied"]
+                "description": "Code refined to address issues",
+                "improvements_made": ["Fixed validation errors", "General improvements"]
             }
         
         refined_code = parsed.get("code", generated_code)
@@ -463,6 +605,7 @@ Return your response as JSON with keys: code, description, improvements_made.
             "generated_code": refined_code,
             "refinement_count": refinement_count + 1,
             "error_message": "",  # Clear previous error
+            "validation_errors": [],  # Clear validation errors - they'll be re-checked
             "refinement_description": parsed.get("description", "Code refined"),
             "improvements_made": parsed.get("improvements_made", []),
             "conversation_id": state.conversation_id  # Preserve conversation_id
@@ -541,8 +684,12 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         # Include clarification context if available
         clarification_text = format_clarification_response_for_llm(state)
         
+        # Load library function signatures
+        library_symbols = load_library_symbols()
+        symbols_count = len(library_symbols.splitlines()) if library_symbols else 0
+        logger.info(f"Loaded {symbols_count} library function signatures for code generation")
+        
         # The previous context is now handled through the unified refinement_context 
-        # in contextual_data, which is formatted by the search service
         
         user_prompt = (
             f"ANALYSIS REQUEST: {analysis_request}{clarification_text}\n\n"
@@ -571,58 +718,165 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             }
         
         logger.info("Calling LLM to generate enhanced code...")
-        messages = [
-            SystemMessage(content="You are an expert Python data-analysis assistant specializing in paleoclimate data. "
+        
+        # Build system message with library constraints
+        system_content = ("You are an expert Python data-analysis assistant specializing in paleoclimate data. "
                                  "You have access to comprehensive context including code snippets, documentation, "
                                  "and previous code. Generate complete, executable code that integrates seamlessly "
                                  "with existing variables and follows established patterns. "
                                  "Use PyLiPD, Pyleoclim, pandas, numpy, and matplotlib as appropriate. "
-                                 "Return your response as JSON with keys: code, description, libraries, outputs."
-                                 "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible."),
-            HumanMessage(content=user_prompt)
+                         "Return your response as valid JSON with keys: code, description, libraries, outputs. "
+                         "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible. "
+                         "*CRITICAL*: When including code in JSON, properly escape all backslashes (use \\\\ for \\) "
+                         "and quotes (use \\\" for \") to ensure valid JSON format.")
+        
+        if library_symbols:
+            system_content += (
+                "\n\n**CRITICAL CONSTRAINT - READ CAREFULLY**: When using PyLiPD or Pyleoclim libraries, you MUST ONLY use "
+                "functions, classes, and constants from the following approved signatures. Do NOT invent, assume, or use any "
+                "PyLiPD or Pyleoclim functions that are not explicitly listed below. If a function is not in this list, IT DOES NOT EXIST.\n\n"
+                f"APPROVED PYLIPD/PYLEOCLIM SIGNATURES:\n{library_symbols}\n\n"
+                "**EXAMPLES OF WHAT NOT TO DO**:\n"
+                "- lipd_obj.get_dataset(name) ❌ (does not exist)\n"
+                "- lipd_obj.load_dataset(name) ❌ (does not exist)\n"
+                "- lipd_obj.find_dataset(name) ❌ (does not exist)\n\n"
+                "**CORRECT ALTERNATIVES**:\n"
+                "- lipd_obj.get(dsnames) ✅ (gets dataset(s) from graph)\n"
+                "- lipd_obj.get_datasets() ✅ (returns list of Dataset objects)\n"
+                "- lipd_obj.get_lipd(dsname) ✅ (gets LiPD json for dataset)\n\n"
+                "If you need functionality that is not in the approved signatures, use alternative approaches "
+                "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim function names."
+            )
+
+        logger.info(f"System content: {system_content}")
+        logger.info(f"User prompt: {user_prompt}")
+        
+        messages = [
+            # SystemMessage(content=system_content),
+            HumanMessage(content=system_content + "\n\n" + user_prompt)
         ]
         
         raw_response = llm._call(messages)
         logger.info(f"LLM raw response length: {len(raw_response)}")
         logger.info(f"LLM raw response preview: {raw_response[:200]}...")
         
+        # Log the full response for debugging if it's not too long
+        if len(raw_response) < 2000:
+            logger.debug(f"Full LLM response: {raw_response}")
+        else:
+            logger.debug(f"LLM response too long for full logging ({len(raw_response)} chars)")
+        
         # Parse response
         try:
             # Try to extract JSON from response
+            # First try to find complete JSON blocks
             json_match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
+            if not json_match:
+                # If no complete JSON block, try to find JSON-like content
+                json_match = re.search(r"```json\s*(\{.*)", raw_response, re.DOTALL)
+                if json_match:
+                    # Try to complete the JSON if it seems truncated
+                    json_content = json_match.group(1)
+                    # Count braces to see if we need to close them
+                    open_braces = json_content.count('{') - json_content.count('}')
+                    if open_braces > 0:
+                        json_content += '}' * open_braces
+                        logger.info(f"Attempted to complete truncated JSON by adding {open_braces} closing braces")
+                    json_match = type('Match', (), {'group': lambda self, n: json_content})()
+            
             if json_match:
                 logger.info("Found JSON in code block")
                 raw_json = json_match.group(1)
                 try:
                     parsed = json.loads(raw_json)
                 except json.JSONDecodeError as je:
-                    # Minimal fix: escape single backslashes that are not part of valid escapes
-                    logger.warning(f"Primary JSON parse failed ({je}), applying backslash-escape fix and retrying")
-                    safe_raw_json = raw_json.replace("\\", "\\\\")
+                    # Smart fix: only escape backslashes that are not part of valid escape sequences
+                    logger.warning(f"Primary JSON parse failed ({je}), applying smart backslash-escape fix and retrying")
+                    logger.debug(f"Original JSON snippet around error: {raw_json[max(0, je.pos-50):je.pos+50]}")
+                    safe_raw_json = _fix_json_escapes(raw_json)
                     try:
                         parsed = json.loads(safe_raw_json)
+                        logger.info("JSON parsing succeeded after escape fix")
+                        # Validate the parsed JSON has expected structure
+                        if not isinstance(parsed, dict):
+                            logger.warning(f"Parsed JSON is not a dict: {type(parsed)}")
+                        elif 'code' not in parsed:
+                            logger.warning("Parsed JSON missing 'code' field")
+                        else:
+                            logger.debug(f"Parsed JSON has {len(parsed)} fields: {list(parsed.keys())}")
                     except json.JSONDecodeError as je2:
                         logger.error(f"Secondary JSON parse failed ({je2}), falling back to regex code extraction")
+                        logger.debug(f"Fixed JSON snippet around error: {safe_raw_json[max(0, je2.pos-50):je2.pos+50]}")
+                        # Log the problematic character and context
+                        if je2.pos < len(safe_raw_json):
+                            problem_char = safe_raw_json[je2.pos]
+                            logger.debug(f"Problematic character at position {je2.pos}: '{problem_char}' (ord: {ord(problem_char)})")
                         raise
             else:
                 logger.info("Trying to parse entire response as JSON")
                 parsed = json.loads(raw_response)
         except (json.JSONDecodeError, AttributeError) as e:
             logger.warning(f"JSON parsing failed: {e}, using fallback")
-            # Fallback: extract code block
+            # Enhanced fallback: try to extract structured information
+            
+            # Try to extract code block
             code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
-            code_block = code_match.group(1) if code_match else raw_response
+            code_block = code_match.group(1) if code_match else ""
+            
+            # If no code block found, try to extract from JSON-like structure
+            if not code_block:
+                # Look for "code": "..." pattern
+                code_pattern = r'"code"\s*:\s*"([^"]*(?:\\.[^"]*)*)"'
+                code_match = re.search(code_pattern, raw_response, re.DOTALL)
+                if code_match:
+                    code_block = code_match.group(1).replace('\\"', '"').replace('\\\\', '\\')
+                else:
+                    # Last resort: use the entire response
+                    code_block = raw_response
+            
+            # Try to extract description
+            desc_pattern = r'"description"\s*:\s*"([^"]*(?:\\.[^"]*)*)"'
+            desc_match = re.search(desc_pattern, raw_response)
+            description = desc_match.group(1).replace('\\"', '"') if desc_match else f"Generated code for: {analysis_request}"
+            
+            # Try to extract libraries
+            lib_pattern = r'"libraries"\s*:\s*\[(.*?)\]'
+            lib_match = re.search(lib_pattern, raw_response, re.DOTALL)
+            libraries = ["pyleoclim", "pandas", "numpy"]  # default
+            if lib_match:
+                lib_content = lib_match.group(1)
+                # Extract quoted strings
+                lib_strings = re.findall(r'"([^"]*)"', lib_content)
+                if lib_strings:
+                    libraries = lib_strings
+            
             parsed = {
                 "code": code_block,
-                "description": f"Generated code for: {analysis_request}",
-                "libraries": ["pyleoclim", "pandas", "numpy"],
+                "description": description,
+                "libraries": libraries,
                 "outputs": ["results"],
             }
+            logger.info(f"Fallback parsing extracted {len(code_block)} chars of code")
         
         # Format code based on output format
         generated_code = parsed.get("code", "")
         logger.info(f"Generated code length: {len(generated_code)}")
         logger.info(f"Generated code preview: {generated_code[:200]}...")
+        
+        # Validate PyLiPD/Pyleoclim function usage
+        validation_errors = []
+        if library_symbols and generated_code:
+            validation_errors = validate_pylipd_pyleoclim_usage(generated_code, library_symbols)
+            if validation_errors:
+                logger.warning(f"Generated code contains {len(validation_errors)} PyLiPD/Pyleoclim validation errors:")
+                for error in validation_errors:
+                    logger.warning(f"  - {error}")
+                
+                # Store validation errors in state for potential retry
+                # Don't add to description yet - let the retry logic handle it
+                logger.info("Validation errors detected - code may need regeneration")
+            else:
+                logger.info("✅ Generated code passed PyLiPD/Pyleoclim validation")
         
         if output_format == "notebook":
             header = (
@@ -650,6 +904,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "messages": messages,
             "execution_results": [{"type": "code_generated", "status": "success"}],
             "context_used": context_summary,
+            "validation_errors": validation_errors,  # Add validation errors to state
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
@@ -670,6 +925,7 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         analysis_description = state.analysis_description or ""
         refinement_count = state.refinement_count or 0
         has_error = bool(state.error_message)
+        validation_errors = getattr(state, 'validation_errors', []) or []
         
         if not generated_code:
             return {
@@ -680,10 +936,21 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         # Add final message if not already present
         messages = state.messages or []
         
-        if refinement_count >= MAX_REFINEMENTS and has_error:
+        # Handle different completion scenarios
+        if validation_errors and refinement_count >= MAX_REFINEMENTS:
+            # Add validation warnings to the description since we couldn't fix them
+            validation_warning = (
+                f"\n\n⚠️ **VALIDATION WARNINGS**: The generated code contains PyLiPD/Pyleoclim function calls that may not work:\n"
+                + "\n".join(f"• {error}" for error in validation_errors) +
+                "\n\nPlease review and correct these function calls manually using the approved PyLiPD/Pyleoclim API."
+            )
+            analysis_description += validation_warning
+            message_content = "Code generation completed with validation warnings after maximum attempts."
+            final_status = "completed_with_warnings"
+        elif refinement_count >= MAX_REFINEMENTS and has_error:
             message_content = "Code generation completed after maximum refinement attempts."
             final_status = "refinement_exhausted"
-        elif generated_code and not has_error:
+        elif generated_code and not has_error and not validation_errors:
             message_content = f"Code generation completed successfully. {analysis_description}"
             final_status = "success"
         else:
@@ -705,6 +972,7 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
             "messages": messages,
             "execution_results": execution_results,
             "generated_code": generated_code,
+            "analysis_description": analysis_description,  # Include updated description with warnings
             "needs_clarification": False,
             "final_status": final_status,
             "conversation_id": state.conversation_id  # Preserve conversation_id

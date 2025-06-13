@@ -89,6 +89,17 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
                 )}
               </div>
             ))}
+            {/* Answer Questions button - positioned right after questions */}
+            {!hasSubsequentResponse && onAnswerQuestions && (
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={onAnswerQuestions}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm"
+                >
+                  Answer Questions
+                </button>
+              </div>
+            )}
           </div>
         );
       }
@@ -126,17 +137,7 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
               </ul>
             </div>
           )}
-        </div>
-      );
-    };
-
-    return (
-      <div>
-        {renderHeader()}
-        {!isCollapsed && (
-          <>
-            {renderContent()}
-            {/* Answer Questions button */}
+          {/* Answer Questions button - positioned right after parsed content */}
             {!hasSubsequentResponse && onAnswerQuestions && (
               <div className="mt-4 flex justify-end">
                 <button
@@ -147,7 +148,15 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
                 </button>
               </div>
             )}
-          </>
+        </div>
+      );
+    };
+
+    return (
+      <div>
+        {renderHeader()}
+        {!isCollapsed && (
+          renderContent()
         )}
       </div>
     );
