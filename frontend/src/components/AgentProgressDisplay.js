@@ -350,61 +350,6 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
           )}
         </div>
 
-        {/* Execution Results for Code Agent */}
-        {result.execution_successful !== undefined && (
-          <div className="mt-2">
-            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-              Code Execution: 
-              <span className={`ml-1 ${result.execution_successful ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                {result.execution_successful ? '✓ Success' : '✗ Failed'}
-              </span>
-              {result.execution_time && (
-                <span className="ml-2 text-neutral-500 dark:text-neutral-400">
-                  ({result.execution_time.toFixed(2)}s)
-                </span>
-              )}
-            </div>
-            
-            {/* Execution Output */}
-            {result.execution_output && (
-              <div className="mt-1">
-                <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Output:</div>
-                <pre className="text-xs bg-neutral-50 dark:bg-neutral-800 p-2 rounded border overflow-x-auto whitespace-pre-wrap">
-                  {result.execution_output}
-                </pre>
-              </div>
-            )}
-            
-            {/* Execution Error */}
-            {result.execution_error && (
-              <div className="mt-1">
-                <div className="text-xs font-medium text-red-700 dark:text-red-300 mb-1">Error:</div>
-                <pre className="text-xs bg-red-50 dark:bg-red-900/20 p-2 rounded border border-red-200 dark:border-red-800 overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-200">
-                  {result.execution_error}
-                </pre>
-              </div>
-            )}
-            
-            {/* Variable State */}
-            {result.variable_state && Object.keys(result.variable_state).length > 0 && (
-              <div className="mt-1">
-                <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Variables:</div>
-                <div className="space-y-1">
-                  {Object.entries(result.variable_state).map(([name, info]) => (
-                    <div key={name} className="text-xs bg-blue-50 dark:bg-blue-900/20 p-2 rounded border border-blue-200 dark:border-blue-800">
-                      <div className="font-medium text-blue-800 dark:text-blue-200">
-                        {name} <span className="font-normal text-blue-600 dark:text-blue-300">({info.type})</span>
-                      </div>
-                      <div className="text-blue-700 dark:text-blue-300 mt-1 font-mono text-xs">
-                        {info.value}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
       </div>
     );
   };
