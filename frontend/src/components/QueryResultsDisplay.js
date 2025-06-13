@@ -37,7 +37,7 @@ const QueryResultsDisplay = ({ results, error }) => {
           📊 Query Results ({results.length === 50 ? "limiting to ": ""}{results.length} row{results.length !== 1 ? 's' : ''})
         </h4>
         <button 
-          className="px-3 py-1 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded text-xs hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors border border-neutral-300 dark:border-neutral-500"
+          className="px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 rounded text-xs hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors border border-blue-300 dark:border-blue-600"
           onClick={() => copyToClipboard(JSON.stringify(results, null, 2))}
         >
           📋 Copy

@@ -128,7 +128,7 @@ def build_query_constraints_prompt() -> str:
     return """CONSTRAINTS:
 1. ONLY use properties from the PROPERTIES list, and use the correct domain and range
 2. Standard rdf/rdfs properties are allowed
-3. For locations, use geo:lat/geo:long with bounds
+3. For locations, use le:hasLatitude/le:hasLongitude with bounds
 4. For variables/archives/proxies/units, use direct entity URIs
 5. For temporal resolution, filter on time variable resolution
 6. For temporal resolution, use the units of the time variable
@@ -654,9 +654,36 @@ sparql_query = '''{query}'''
 lipd = pylipd.LiPD()
 lipd.set_endpoint(sparql_endpoint)
 _res, {variable_name} = lipd.query(sparql_query, remote=True)
-{variable_name}.head()
+print({variable_name}.head())
 """
             
+            # Check enable_execution flag from request metadata (default True)
+            enable_exec = False
+            try:
+                # Metadata can come from state.metadata (initial request metadata)
+                if isinstance(state, dict):
+                    enable_exec = state.get('metadata', {}).get('enable_execution', True)
+                else:
+                    enable_exec = getattr(state, 'metadata', {}).get('enable_execution', True)
+            except Exception:
+                enable_exec = True
+
+            if not enable_exec:
+                logger.info("Execution disabled by frontend flag – skipping python execution step")
+                # Return metadata with raw results only
+                return {
+                    "generated_code": python_code,
+                    "execution_results": [],
+                    "result_variable_names": [],
+                    "agent_metadata": {
+                        "generated_sparql": query,
+                        "result_count": len(results),
+                        "endpoint": "triplestore",
+                        "generated_results": results[:50]
+                    },
+                    "conversation_id": state.conversation_id
+                }
+
             # Execute the Python code to create the variable
             from services.python_execution_service import python_execution_service
             

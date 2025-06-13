@@ -815,7 +815,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim function names."
             )
         
-        logger.info(f"User prompt: {user_prompt}")
+        # logger.info(f"User prompt: {user_prompt}")
         messages = [
             # SystemMessage(content=system_content),
             HumanMessage(content=system_content + "\n\n" + user_prompt)

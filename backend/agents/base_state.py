@@ -81,7 +81,7 @@ class BaseAgentState(BaseModel):
         default="",
         description="Generated code (SPARQL, Python, etc.)"
     )
-    execution_results: List[Dict[str, Any]] = Field(
+    execution_results: Optional[List[Dict[str, Any]]] = Field(
         default_factory=list,
         description="Results from code execution"
     )

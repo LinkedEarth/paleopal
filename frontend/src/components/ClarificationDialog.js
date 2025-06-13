@@ -169,7 +169,7 @@ const ClarificationDialog = ({
             <button
               onClick={handleSubmit}
               disabled={!canSubmit || isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-white bg-neutral-600 dark:bg-neutral-500 rounded-lg hover:bg-neutral-700 dark:hover:bg-neutral-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-600 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isSubmitting && (
                 <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">

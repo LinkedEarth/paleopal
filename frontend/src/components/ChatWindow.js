@@ -109,9 +109,9 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
       agentMetadata: msg.agent_metadata,
       
       // Legacy fields for backward compatibility
-      sparqlQuery: msg.agent_metadata?.generated_sparql,
-      queryResults: msg.agent_metadata?.generated_results || null, // Only raw SPARQL results
-      workflowMetadata: msg.agent_metadata, // For workflow agent compatibility
+      sparqlQuery: msg.agent_metadata?.generated_sparql || null,
+      queryResults: msg.agent_metadata?.generated_results || null,
+      sparqlMetadata: msg.agent_metadata?.sparql_stats,
       
       // Progress tracking
       isNodeProgress: msg.is_node_progress,
@@ -202,6 +202,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [showClarificationDialog, setShowClarificationDialog] = useState(false);
   const [clarificationDialogData, setClarificationDialogData] = useState(null);
   const [isSubmittingClarification, setIsSubmittingClarification] = useState(false);
+  
+  const [enableExecution, setEnableExecution] = useState(true);
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -474,7 +476,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           llm_provider: llmProvider,
           workflow_id: workflowId,
           enable_clarification: enableClarification,
-          clarification_threshold: clarificationThreshold
+          clarification_threshold: clarificationThreshold,
+          enable_execution: enableExecution,
         }
       };
 
@@ -637,7 +640,8 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
       const metadata = {
         llm_provider: llmProvider,
         enable_clarification: enableClarification,
-        clarification_threshold: clarificationThreshold
+        clarification_threshold: clarificationThreshold,
+        enable_execution: enableExecution,
       };
 
       if (isClariSubmission && clarificationResponses) {
@@ -1124,7 +1128,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
   const renderChatMessage = (message, messageIndex) => {
     const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm max-w-[90%]";
     const roleClasses = message.role === 'user' 
-      ? "bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/30 text-neutral-900 dark:text-neutral-100" 
+      ? "bg-blue-50 dark:bg-blue-900/40 border-blue-200 dark:border-blue-800/50 text-neutral-900 dark:text-neutral-100" 
       : "bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600 text-neutral-900 dark:text-neutral-100";
     const errorClasses = message.isError ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700 text-red-900 dark:text-red-100" : "";
     const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? "bg-white dark:bg-neutral-800 border-neutral-300 dark:border-neutral-600" : "";
@@ -1273,6 +1277,44 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     );
   };
 
+  // Check if any agent is currently busy processing
+  const isAgentBusy = () => {
+    // Get all progress messages
+    const progressMessages = messages.filter(m => m.isNodeProgress);
+    
+    if (progressMessages.length === 0) {
+      return false;
+    }
+    
+    // Group progress messages by owner (user message that triggered them)
+    const progressByOwner = {};
+    progressMessages.forEach(msg => {
+      if (!progressByOwner[msg.ownerId]) {
+        progressByOwner[msg.ownerId] = [];
+      }
+      progressByOwner[msg.ownerId].push(msg);
+    });
+    
+    // Check if any owner has incomplete execution
+    for (const ownerId in progressByOwner) {
+      const ownerProgress = progressByOwner[ownerId];
+      const lastProgress = ownerProgress[ownerProgress.length - 1];
+      
+      // If the last progress message is not a complete "Agent Execution", the agent is still busy
+      const executionDone = lastProgress && 
+                           lastProgress.phase === 'complete' && 
+                           lastProgress.nodeName === 'Agent Execution';
+      
+      if (!executionDone) {
+        return true;
+      }
+    }
+    
+    return false;
+  };
+
+  const agentBusy = isAgentBusy();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -1409,7 +1451,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
         <div className="flex flex-wrap gap-4 items-center justify-between">
           <div className="flex flex-wrap gap-4 items-center">
           <div className="flex items-center gap-2">
-            <label htmlFor="llm-provider" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">LLM Provider:</label>
+            <label htmlFor="llm-provider" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">LLM:</label>
             <select 
               id="llm-provider" 
               value={llmProvider} 
@@ -1438,21 +1480,19 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               </label>
             </div>
       
-            {enableClarification && (
-              <div className="flex items-center gap-2">
-                <label htmlFor="clarification-threshold" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">Threshold:</label>
-                <select 
-                  id="clarification-threshold" 
-                  value={clarificationThreshold} 
-                  onChange={handleClarificationThresholdChange}
-                  className="px-3 py-1 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500"
-                >
-                  <option value="permissive">Permissive</option>
-                  <option value="conservative">Conservative</option>
-                  <option value="strict">Strict</option>
-                </select>
-          </div>
-        )}
+            {/* Enable execution toggle */}
+            <div className="flex items-center gap-2">
+              <label htmlFor="enable-execution" className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-200">
+                <input
+                  id="enable-execution"
+                  type="checkbox"
+                  checked={enableExecution}
+                  onChange={(e)=>setEnableExecution(e.target.checked)}
+                  className="rounded border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 focus:ring-neutral-500 dark:bg-neutral-600"
+                />
+                Enable Execution
+              </label>
+            </div>
           </div>
           </div>
           
@@ -1461,7 +1501,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
             <div className="flex items-center gap-2">
               <button
                 onClick={handleDownloadNotebook}
-                disabled={isLoading}
+                disabled={isLoading || agentBusy}
                 className="flex items-center gap-2 px-3 py-2 bg-green-600 dark:bg-green-700 text-white rounded hover:bg-green-700 dark:hover:bg-green-600 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors text-sm"
                 title="Download conversation as Jupyter notebook"
               >
@@ -1523,7 +1563,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
             value={selectedAgent} 
             onChange={handleAgentChange}
             className="px-3 py-2 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 disabled:bg-neutral-100 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed"
-            disabled={isLoading}
+            disabled={isLoading || agentBusy}
           >
             {AGENT_TYPES.map(agent => (
               <option key={agent.id} value={agent.id}>
@@ -1540,14 +1580,14 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
             ? "Ask me to refine the result or ask a new question..." 
             : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
           className="flex-1 px-3 py-2 border border-neutral-300 dark:border-neutral-500 rounded focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 disabled:bg-neutral-100 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed bg-white dark:bg-neutral-600 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
-          disabled={isLoading || hasUnansweredClarificationQuestions()}
+          disabled={isLoading || agentBusy || hasUnansweredClarificationQuestions()}
         />
         <button 
           type="submit" 
-          className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          disabled={isLoading}
+          className="px-4 py-2 bg-blue-600 dark:bg-blue-600 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-700 disabled:bg-blue-400 dark:disabled:bg-blue-500 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          disabled={isLoading || agentBusy}
         >
-          {isLoading ? 'Generating...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}
+          {isLoading ? 'Generating...' : agentBusy ? 'Agent Busy...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}
         </button>
         </div>
       </form>

@@ -349,14 +349,14 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
         <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0">📋 Workflow Plan</h4>
         <div className="flex gap-2">
           <button 
-            className="px-3 py-1 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded text-xs hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors border border-neutral-300 dark:border-neutral-500"
+            className="px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 rounded text-xs hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors border border-blue-300 dark:border-blue-600"
             onClick={copyWorkflowData}
             title="Copy workflow data to clipboard"
           >
             📋 Copy
           </button>
           <button 
-            className="px-3 py-1 bg-neutral-100 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300 rounded text-xs hover:bg-neutral-200 dark:hover:bg-neutral-500 transition-colors border border-neutral-300 dark:border-neutral-500"
+            className="px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 rounded text-xs hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors border border-blue-300 dark:border-blue-600"
             onClick={downloadWorkflow}
             title="Download workflow file"
           >
@@ -364,7 +364,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           </button>
           {onExecuteStep && !allCompleted && (
             <button 
-              className="px-3 py-1 bg-neutral-600 dark:bg-neutral-500 text-white rounded text-xs hover:bg-neutral-700 dark:hover:bg-neutral-400 transition-colors border border-neutral-500 dark:border-neutral-400"
+                                className="px-3 py-1 bg-blue-600 dark:bg-blue-600 text-white rounded text-xs hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors border border-blue-600 dark:border-blue-600"
               onClick={handleExecuteStepByStep}
               title={hasStarted ? "Continue execution from next step" : "Execute workflow step by step"}
               disabled={isExecuting}
