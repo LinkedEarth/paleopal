@@ -112,7 +112,7 @@ class PythonExecutionService:
         'numpy', 'np', 'pandas', 'pd', 'matplotlib', 'plt', 'seaborn', 'sns',
         'pylipd', 'pyleoclim', 'pyleo', 'datetime', 'os', 'sys', 'json',
         'math', 'statistics', 'collections', 're', 'itertools', 'functools',
-        'pathlib', 'warnings'
+        'pathlib', 'warnings', 'SPARQLWrapper', 'JSON'
     }
     
     # Restricted builtins for security
@@ -430,6 +430,15 @@ class PythonExecutionService:
                 state['pyleo'] = pyleo
             except ImportError:
                 logger.warning("Pyleoclim not available in execution environment")
+            
+            # Try to import SPARQLWrapper for SPARQL agent
+            try:
+                import SPARQLWrapper
+                from SPARQLWrapper import SPARQLWrapper as SPARQLWrapperClass, JSON
+                state['SPARQLWrapper'] = SPARQLWrapperClass
+                state['JSON'] = JSON
+            except ImportError:
+                logger.warning("SPARQLWrapper not available in execution environment")
                 
         except ImportError as e:
             logger.error(f"Failed to import basic libraries: {e}")
@@ -602,12 +611,14 @@ class PythonExecutionService:
             
             # Check for dangerous operations
             for node in ast.walk(tree):
-                # Block file operations
+                # Block dangerous function calls (but only actual calls, not strings)
                 if isinstance(node, ast.Call):
                     if isinstance(node.func, ast.Name):
+                        # Only block if it's an actual function call, not a string containing these words
                         if node.func.id in ['open', 'exec', 'eval', '__import__']:
                             return False
                     elif isinstance(node.func, ast.Attribute):
+                        # Block dangerous method calls
                         if node.func.attr in ['system', 'popen', 'spawn']:
                             return False
                 
@@ -620,11 +631,19 @@ class PythonExecutionService:
                 if isinstance(node, ast.ImportFrom):
                     if node.module in ['subprocess', 'commands']:
                         return False
+                
+                # Block direct access to dangerous builtins
+                if isinstance(node, ast.Name):
+                    if node.id in ['__builtins__', '__globals__', '__locals__']:
+                        return False
             
             return True
             
         except SyntaxError:
+            logger.warning(f"Syntax error in code safety check: {code[:100]}...")
             return False
+
+
     
     def _execute_with_timeout(
         self, 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // Use prism syntax highlighter for code snippets
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import THEME from '../styles/colorTheme';
 
 // Modal component for showing detailed results
 const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
@@ -22,13 +23,13 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
 
   const renderResult = (result, index) => {
     return (
-      <div key={index} className="mb-4 pb-4 border-b border-neutral-200 dark:border-neutral-600 last:border-b-0">
-        <div className="font-medium text-sm text-neutral-800 dark:text-neutral-200 mb-2">
+      <div key={index} className={`mb-4 pb-4 border-b ${THEME.borders.default} last:border-b-0`}>
+        <div className={`font-medium text-sm ${THEME.text.primary} mb-2`}>
           {result.name || result.title || result.query || `${type} ${index + 1}`}
         </div>
         
         {result.description && (
-          <div className="mb-2 text-xs text-neutral-600 dark:text-neutral-400">
+          <div className={`mb-2 text-xs ${THEME.text.secondary}`}>
             {result.description}
           </div>
         )}
@@ -36,7 +37,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
         {/* SPARQL Query */}
         {(result.sparql || result.sparql_query || result.query) && (
           <div className="mt-2">
-            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">SPARQL Query:</div>
+            <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>SPARQL Query:</div>
             <SyntaxHighlighter
               language="sparql"
               style={{
@@ -45,7 +46,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                 'pre[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' }
               }}
               customStyle={{ margin: 0, padding: '1rem', background: 'transparent', fontSize: '13px' }}
-              className="!m-0 rounded border border-neutral-200 dark:border-neutral-600"
+              className={`!m-0 rounded border ${THEME.borders.default}`}
             >
               {result.sparql || result.sparql_query || result.query}
             </SyntaxHighlighter>
@@ -55,7 +56,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
         {/* Python Code */}
         {result.code && (
           <div className="mt-2">
-            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Python Code:</div>
+            <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>Python Code:</div>
             <SyntaxHighlighter
               language="python"
               style={{
@@ -64,7 +65,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                 'pre[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' }
               }}
               customStyle={{ margin: 0, padding: '1rem', background: 'transparent', fontSize: '13px' }}
-              className="!m-0 rounded border border-neutral-200 dark:border-neutral-600"
+              className={`!m-0 rounded border ${THEME.borders.default}`}
             >
               {result.code}
             </SyntaxHighlighter>
@@ -73,10 +74,10 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
 
         {/* Entity details */}
         {type === 'entity_matches' && (
-          <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400">
+          <div className={`mt-2 text-xs ${THEME.text.secondary}`}>
             {result.type && <div><span className="font-medium">Type:</span> {result.type}</div>}
             {result.similarity && <div><span className="font-medium">Similarity:</span> {(result.similarity * 100).toFixed(1)}%</div>}
-            {result.uri && <div className="mt-1 text-neutral-600 dark:text-neutral-400 font-mono break-all">{result.uri}</div>}
+            {result.uri && <div className={`mt-1 ${THEME.text.secondary} font-mono break-all`}>{result.uri}</div>}
             {result.synonyms && result.synonyms.length > 0 && (
               <div className="mt-1"><span className="font-medium">Synonyms:</span> {result.synonyms.join(', ')}</div>
             )}
@@ -90,13 +91,13 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
             <div className="flex items-center gap-2">
               <span className={`text-sm font-medium ${
                 result.execution_successful 
-                  ? 'text-green-600 dark:text-green-400' 
-                  : 'text-red-600 dark:text-red-400'
+                  ? THEME.status.success.text
+                  : THEME.status.error.text
               }`}>
                 {result.execution_successful ? '✓ Execution Successful' : '✗ Execution Failed'}
               </span>
               {result.execution_time && (
-                <span className="text-neutral-500 dark:text-neutral-400 text-xs">
+                <span className={`${THEME.text.muted} text-xs`}>
                   ({result.execution_time.toFixed(2)}s)
                 </span>
               )}
@@ -105,8 +106,8 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
             {/* Execution Output */}
             {result.execution_output && (
               <div>
-                <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">Output:</div>
-                <pre className="text-xs bg-neutral-100 dark:bg-neutral-700 p-3 rounded border overflow-x-auto whitespace-pre-wrap text-neutral-800 dark:text-neutral-200 max-h-64">
+                <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>Output:</div>
+                <pre className={`text-xs ${THEME.containers.secondary} p-3 rounded border ${THEME.borders.default} overflow-x-auto whitespace-pre-wrap ${THEME.text.primary} max-h-64`}>
                   {result.execution_output}
                 </pre>
               </div>
@@ -115,8 +116,8 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
             {/* Execution Error */}
             {result.execution_error && (
               <div>
-                <div className="text-xs font-medium text-red-700 dark:text-red-300 mb-1">Error:</div>
-                <pre className="text-xs bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-200 dark:border-red-800 overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-200 max-h-64">
+                <div className={`text-xs font-medium ${THEME.status.error.text} mb-1`}>Error:</div>
+                <pre className={`text-xs ${THEME.status.error.background} p-3 rounded border ${THEME.status.error.border} overflow-x-auto whitespace-pre-wrap ${THEME.status.error.text} max-h-64`}>
                   {result.execution_error}
                 </pre>
               </div>
@@ -125,7 +126,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
             {/* Variable State */}
             {result.variable_state && Object.keys(result.variable_state).length > 0 && (
               <div>
-                <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-2">Variables Available in State:</div>
+                <div className={`text-xs font-medium ${THEME.text.primary} mb-2`}>Variables Available in State:</div>
                 <div className="space-y-2 max-h-64 overflow-y-auto">
                   {Object.entries(result.variable_state)
                     .filter(([name, info]) => {
@@ -135,11 +136,11 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                              (!info.value || !info.value.includes('(module)'));
                     })
                     .map(([name, info]) => (
-                    <div key={name} className="text-xs bg-blue-50 dark:bg-blue-900/20 p-3 rounded border border-blue-200 dark:border-blue-800">
-                      <div className="font-medium text-blue-800 dark:text-blue-200">
-                        {name} <span className="font-normal text-blue-600 dark:text-blue-300">({info.type})</span>
+                    <div key={name} className={`text-xs ${THEME.status.info.background} p-3 rounded border ${THEME.status.info.border}`}>
+                      <div className={`font-medium ${THEME.status.info.text}`}>
+                        {name} <span className={`font-normal ${THEME.status.info.text}`}>({info.type})</span>
                       </div>
-                      <div className="text-blue-700 dark:text-blue-300 mt-1 font-mono text-xs break-all">
+                      <div className={`${THEME.status.info.text} mt-1 font-mono text-xs break-all`}>
                         {info.value}
                       </div>
                     </div>
@@ -153,10 +154,10 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
         {/* Literature content */}
         {(result.content || result.abstract || result.summary) && (
           <div className="mt-2">
-            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>
               {result.content ? 'Content:' : result.abstract ? 'Abstract:' : 'Summary:'}
             </div>
-            <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-700 p-2 rounded max-h-32 overflow-y-auto">
+            <div className={`text-xs ${THEME.text.secondary} ${THEME.containers.secondary} p-2 rounded max-h-32 overflow-y-auto`}>
               {result.content || result.abstract || result.summary}
             </div>
           </div>
@@ -166,7 +167,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
         {((result.steps && Array.isArray(result.steps)) || (result.method_steps && Array.isArray(result.method_steps))) && (
           <div className="mt-3">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300">
+              <div className={`text-xs font-medium ${THEME.text.primary}`}>
                 Method Steps ({(result.steps || result.method_steps).length})
               </div>
               {(result.steps || result.method_steps).length > 3 && (
@@ -195,7 +196,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                       setExpandedSteps(newExpanded);
                     }
                   }}
-                  className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+                  className={`text-xs ${THEME.status.info.text} hover:opacity-80`}
                 >
                   {(() => {
                     const currentResultSteps = [];
@@ -237,32 +238,32 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                 const hasDetails = stepCode || stepParams || stepOutput;
                 
                 return (
-                  <div key={i} className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-700/50">
+                  <div key={i} className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.secondary}`}>
                     {/* Step Header - Always Visible */}
                     <div 
-                      className={`flex items-center justify-between p-3 ${hasDetails ? 'cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-600/50' : ''}`}
+                      className={`flex items-center justify-between p-3 ${hasDetails ? `cursor-pointer ${THEME.interactive.hover}` : ''}`}
                       onClick={() => hasDetails && toggleStep(index, i)}
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+                          <h4 className={`text-sm font-medium ${THEME.text.primary}`}>
                             {stepTitle}
                           </h4>
-                          <span className="text-xs text-neutral-500 dark:text-neutral-400 bg-neutral-200 dark:bg-neutral-600 px-2 py-0.5 rounded">
+                          <span className={`text-xs ${THEME.text.muted} ${THEME.containers.secondary} px-2 py-0.5 rounded`}>
                             {i + 1}
                           </span>
                         </div>
                         
                         {/* Step Description/Content - Always visible */}
                         {(stepDescription || stepContent) && (
-                          <div className="mt-1 text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                          <div className={`mt-1 text-xs ${THEME.text.secondary} line-clamp-2`}>
                             {stepDescription || stepContent}
                           </div>
                         )}
                       </div>
                       
                       {hasDetails && (
-                        <button className="ml-2 text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300">
+                        <button className={`ml-2 ${THEME.text.muted} hover:${THEME.text.secondary}`}>
                           <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -273,12 +274,12 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                     
                     {/* Expandable Details */}
                     {isExpanded && hasDetails && (
-                      <div className="px-3 pb-3 border-t border-neutral-200 dark:border-neutral-600">
+                      <div className={`px-3 pb-3 border-t ${THEME.borders.default}`}>
                         {/* Parameters */}
                         {stepParams && (
                           <div className="mt-3">
-                            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-2">Parameters:</div>
-                            <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-600 p-2 rounded font-mono">
+                            <div className={`text-xs font-medium ${THEME.text.primary} mb-2`}>Parameters:</div>
+                            <div className={`text-xs ${THEME.text.secondary} ${THEME.containers.secondary} p-2 rounded font-mono`}>
                               {typeof stepParams === 'string' ? stepParams : JSON.stringify(stepParams, null, 2)}
                             </div>
                           </div>
@@ -287,7 +288,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                         {/* Code Implementation */}
                         {stepCode && (
                           <div className="mt-3">
-                            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-2">Implementation:</div>
+                            <div className={`text-xs font-medium ${THEME.text.primary} mb-2`}>Implementation:</div>
                             <SyntaxHighlighter
                               language="python"
                               style={{
@@ -296,7 +297,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                                 'pre[class*="language-"]': { background: 'transparent', backgroundColor: 'transparent' }
                               }}
                               customStyle={{ margin: 0, padding: '0.75rem', background: 'transparent', fontSize: '11px' }}
-                              className="!m-0 rounded border border-neutral-200 dark:border-neutral-500"
+                              className={`!m-0 rounded border ${THEME.borders.default}`}
                             >
                               {stepCode}
                             </SyntaxHighlighter>
@@ -306,8 +307,8 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                         {/* Expected Output */}
                         {stepOutput && (
                           <div className="mt-3">
-                            <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-2">Expected Output:</div>
-                            <div className="text-xs text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-600 p-2 rounded font-mono">
+                            <div className={`text-xs font-medium ${THEME.text.primary} mb-2`}>Expected Output:</div>
+                            <div className={`text-xs ${THEME.text.secondary} ${THEME.containers.secondary} p-2 rounded font-mono`}>
                               {typeof stepOutput === 'string' ? stepOutput : JSON.stringify(stepOutput, null, 2)}
                             </div>
                           </div>
@@ -324,27 +325,27 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
         {/* Metadata badges */}
         <div className="mt-2 flex flex-wrap gap-1">
           {result.similarity_score && (
-            <span className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 px-2 py-0.5 rounded text-xs">
+            <span className={`${THEME.containers.secondary} ${THEME.text.primary} px-2 py-0.5 rounded text-xs`}>
               Similarity: {(result.similarity_score * 100).toFixed(1)}%
             </span>
           )}
           {result.relevance_score && (
-            <span className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 px-2 py-0.5 rounded text-xs">
+            <span className={`${THEME.containers.secondary} ${THEME.text.primary} px-2 py-0.5 rounded text-xs`}>
               Relevance: {(result.relevance_score * 100).toFixed(1)}%
             </span>
           )}
           {result.source_type && (
-            <span className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 px-2 py-0.5 rounded text-xs">
+            <span className={`${THEME.containers.secondary} ${THEME.text.primary} px-2 py-0.5 rounded text-xs`}>
               {result.source_type}
             </span>
           )}
           {result.author && (
-            <span className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 px-2 py-0.5 rounded text-xs">
+            <span className={`${THEME.containers.secondary} ${THEME.text.primary} px-2 py-0.5 rounded text-xs`}>
               {result.author}
             </span>
           )}
           {result.year && (
-            <span className="bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 px-2 py-0.5 rounded text-xs">
+            <span className={`${THEME.containers.secondary} ${THEME.text.primary} px-2 py-0.5 rounded text-xs`}>
               {result.year}
             </span>
           )}
@@ -355,13 +356,13 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-neutral-900 bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-neutral-800 rounded-lg max-w-4xl w-full max-h-[80vh] flex flex-col">
-        <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-600">
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{title}</h3>
+    <div className="fixed inset-0 bg-slate-900 bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className={`${THEME.containers.card} rounded-lg max-w-4xl w-full max-h-[80vh] flex flex-col`}>
+        <div className={`flex items-center justify-between p-4 border-b ${THEME.borders.default}`}>
+          <h3 className={`text-lg font-semibold ${THEME.text.primary}`}>{title}</h3>
           <button
             onClick={onClose}
-            className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+            className={`${THEME.text.muted} hover:${THEME.text.secondary} transition-colors`}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -373,7 +374,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
           {results && results.length > 0 ? (
             results.map((result, index) => renderResult(result, index))
           ) : (
-            <div className="text-center text-neutral-500 dark:text-neutral-400 py-8">No results to display</div>
+            <div className={`text-center ${THEME.text.muted} py-8`}>No results to display</div>
           )}
         </div>
       </div>

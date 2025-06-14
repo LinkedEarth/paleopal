@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import API_CONFIG from '../config/api';
+import { THEME } from '../styles/colorTheme';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
@@ -299,17 +300,17 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
     return (
       <div className="space-y-4">
-        <h4 className="font-medium text-neutral-900 dark:text-neutral-100">Extraction Parameters</h4>
+        <h4 className={`font-medium ${THEME.text.primary}`}>Extraction Parameters</h4>
         
         {/* Required parameters */}
         {typeInfo.required_params && typeInfo.required_params.map(param => (
           <div key={param} className="space-y-2">
-            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-              {param.replace(/_/g, ' ')} <span className="text-red-500">*</span>
+            <label className={`block text-sm font-medium ${THEME.text.secondary}`}>
+              {param.replace(/_/g, ' ')} <span className={THEME.status.error.text}>*</span>
             </label>
             {param === 'target_classes' ? (
               <textarea
-                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
+                className={`w-full px-3 py-2 border rounded-md text-sm ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                 placeholder="Enter class URIs, one per line"
                 value={(extractionParams[param] || []).join('\n')}
                 onChange={(e) => updateExtractionParam(param, e.target.value.split('\n').filter(l => l.trim()))}
@@ -318,7 +319,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             ) : (
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
+                className={`w-full px-3 py-2 border rounded-md text-sm ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, e.target.value)}
                 placeholder={`Enter ${param.replace(/_/g, ' ')}`}
@@ -330,20 +331,20 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Optional parameters */}
         {typeInfo.optional_params && typeInfo.optional_params.map(param => (
           <div key={param} className="space-y-2">
-            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <label className={`block text-sm font-medium ${THEME.text.secondary}`}>
               {param.replace(/_/g, ' ')}
             </label>
             {param.includes('_count') || param.includes('max_') || param.includes('min_') ? (
               <input
                 type="number"
-                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
+                className={`w-full px-3 py-2 border rounded-md text-sm ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, parseInt(e.target.value) || '')}
                 placeholder={getParameterPlaceholder(param)}
               />
             ) : param.includes('include_') || param.includes('hoist_') || param.includes('synth_') || param.includes('extract_') ? (
               <select
-                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
+                className={`w-full px-3 py-2 border rounded-md text-sm ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, e.target.value === 'true')}
               >
@@ -353,7 +354,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               </select>
             ) : param.includes('patterns') ? (
               <textarea
-                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
+                className={`w-full px-3 py-2 border rounded-md text-sm ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                 placeholder="Enter patterns, one per line"
                 value={(extractionParams[param] || []).join('\n')}
                 onChange={(e) => updateExtractionParam(param, e.target.value.split('\n').filter(l => l.trim()))}
@@ -362,7 +363,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             ) : (
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md text-sm"
+                className={`w-full px-3 py-2 border rounded-md text-sm ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                 value={extractionParams[param] || ''}
                 onChange={(e) => updateExtractionParam(param, e.target.value)}
                 placeholder={getParameterPlaceholder(param)}
@@ -391,17 +392,17 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     if (!preview) return null;
 
     return (
-      <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
-        <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Extraction Preview</h4>
+      <div className={`p-4 rounded-lg ${THEME.containers.secondary}`}>
+        <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Extraction Preview</h4>
         
         {preview.error ? (
-          <div className="text-red-600 text-sm">{preview.error}</div>
+          <div className={`${THEME.status.error.text} text-sm`}>{preview.error}</div>
         ) : (
           <div className="space-y-2 text-sm">
             {Object.entries(preview).map(([key, value]) => (
               <div key={key} className="flex justify-between">
-                <span className="font-medium text-neutral-600">{key.replace(/_/g, ' ')}:</span>
-                <span className="text-neutral-900">
+                <span className={`font-medium ${THEME.text.secondary}`}>{key.replace(/_/g, ' ')}:</span>
+                <span className={THEME.text.primary}>
                   {Array.isArray(value) ? value.length : typeof value === 'object' ? JSON.stringify(value) : String(value)}
                 </span>
               </div>
@@ -417,15 +418,15 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 max-w-4xl w-full max-h-[90vh] flex flex-col">
-          <div className="p-6 border-b border-neutral-200 flex-shrink-0">
+        <div className={`rounded-lg border max-w-4xl w-full max-h-[90vh] flex flex-col ${THEME.containers.card} ${THEME.borders.default}`}>
+          <div className={`p-6 border-b flex-shrink-0 ${THEME.borders.default}`}>
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 ">
+              <h3 className={`text-lg font-semibold ${THEME.text.primary}`}>
                 Extracted Item Details #{selectedItem.index + 1}
               </h3>
               <button
                 onClick={() => setShowItemModal(false)}
-                className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 text-xl"
+                className={`${THEME.text.muted} hover:${THEME.text.secondary} text-xl`}
               >
                 ×
               </button>
@@ -436,37 +437,37 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             <div className="space-y-6">
               {/* Basic Information */}
               <div>
-                <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Basic Information</h4>
-                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg space-y-2">
+                <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Basic Information</h4>
+                <div className={`p-4 rounded-lg space-y-2 ${THEME.containers.secondary}`}>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Content Type:</span>
-                      <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.content_type || 'Unknown'}</span>
+                      <span className={`text-sm font-medium ${THEME.text.secondary}`}>Content Type:</span>
+                      <span className={`ml-2 text-sm ${THEME.text.primary}`}>{selectedItem.content_type || 'Unknown'}</span>
                     </div>
                     <div>
-                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Extraction Type:</span>
-                      <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.extraction_type || 'Unknown'}</span>
+                      <span className={`text-sm font-medium ${THEME.text.secondary}`}>Extraction Type:</span>
+                      <span className={`ml-2 text-sm ${THEME.text.primary}`}>{selectedItem.extraction_type || 'Unknown'}</span>
                     </div>
                   </div>
                   
                   {selectedItem.title && (
                     <div>
-                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Title:</span>
-                      <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.title}</div>
+                      <span className={`text-sm font-medium ${THEME.text.secondary}`}>Title:</span>
+                      <div className={`mt-1 text-sm ${THEME.text.primary}`}>{selectedItem.title}</div>
                     </div>
                   )}
                   
                   {selectedItem.name && (
                     <div>
-                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Name:</span>
-                      <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.name}</div>
+                      <span className={`text-sm font-medium ${THEME.text.secondary}`}>Name:</span>
+                      <div className={`mt-1 text-sm ${THEME.text.primary}`}>{selectedItem.name}</div>
                     </div>
                   )}
                   
                   {selectedItem.uri && (
                     <div>
-                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">URI:</span>
-                      <div className="mt-1 text-sm font-mono text-neutral-900 dark:text-neutral-100 break-all">{selectedItem.uri}</div>
+                      <span className={`text-sm font-medium ${THEME.text.secondary}`}>URI:</span>
+                      <div className={`mt-1 text-sm font-mono ${THEME.text.primary} break-all`}>{selectedItem.uri}</div>
                     </div>
                   )}
                 </div>
@@ -475,18 +476,18 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Notebook-specific metadata */}
               {(selectedItem.cell_index !== undefined || selectedItem.variable_name || selectedItem.extraction_method) && (
                 <div>
-                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Notebook Context</h4>
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg space-y-2 border border-purple-200 dark:border-purple-700">
+                  <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Notebook Context</h4>
+                  <div className={`p-4 rounded-lg space-y-2 border ${THEME.agents.sparql.background} ${THEME.agents.sparql.border}`}>
                     {selectedItem.cell_index !== undefined && (
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Cell Index:</span>
-                          <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.cell_index}</span>
+                          <span className={`text-sm font-medium ${THEME.text.secondary}`}>Cell Index:</span>
+                          <span className={`ml-2 text-sm ${THEME.text.primary}`}>{selectedItem.cell_index}</span>
                         </div>
                         {selectedItem.execution_count && (
                           <div>
-                            <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Execution Count:</span>
-                            <span className="ml-2 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.execution_count}</span>
+                            <span className={`text-sm font-medium ${THEME.text.secondary}`}>Execution Count:</span>
+                            <span className={`ml-2 text-sm ${THEME.text.primary}`}>{selectedItem.execution_count}</span>
                           </div>
                         )}
                       </div>
@@ -494,9 +495,9 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.variable_name && (
                       <div>
-                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Variable Name:</span>
+                        <span className={`text-sm font-medium ${THEME.text.secondary}`}>Variable Name:</span>
                         <div className="mt-1">
-                          <span className="text-sm bg-indigo-100 text-indigo-800 px-2 py-1 rounded font-mono">
+                          <span className={`text-sm px-2 py-1 rounded font-mono ${THEME.agents.code.background} ${THEME.agents.code.text}`}>
                             {selectedItem.variable_name}
                           </span>
                         </div>
@@ -505,9 +506,9 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.extraction_method && (
                       <div>
-                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Extraction Method:</span>
+                        <span className={`text-sm font-medium ${THEME.text.secondary}`}>Extraction Method:</span>
                         <div className="mt-1">
-                          <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                          <span className={`text-sm px-2 py-1 rounded ${THEME.status.warning.background} ${THEME.status.warning.text}`}>
                             {selectedItem.extraction_method.replace(/_/g, ' ')}
                           </span>
                         </div>
@@ -516,8 +517,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
                     {selectedItem.context && (
                       <div>
-                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Context:</span>
-                        <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100">{selectedItem.context}</div>
+                        <span className={`text-sm font-medium ${THEME.text.secondary}`}>Context:</span>
+                        <div className={`mt-1 text-sm ${THEME.text.primary}`}>{selectedItem.context}</div>
                       </div>
                     )}
                   </div>
@@ -527,11 +528,11 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Concepts */}
               {selectedItem.concepts && Array.isArray(selectedItem.concepts) && selectedItem.concepts.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Extracted Concepts</h4>
-                  <div className="bg-green-50 p-4 rounded-lg">
+                  <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Extracted Concepts</h4>
+                  <div className={`p-4 rounded-lg ${THEME.status.success.background}`}>
                     <div className="flex flex-wrap gap-2">
                       {selectedItem.concepts.map((concept, i) => (
-                        <span key={i} className="text-sm bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-1 rounded">
+                        <span key={i} className={`text-sm px-2 py-1 rounded ${THEME.status.success.text} ${THEME.containers.secondary}`}>
                           {concept}
                         </span>
                       ))}
@@ -543,19 +544,19 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Surrounding Cells Context */}
               {selectedItem.surrounding_cells && Array.isArray(selectedItem.surrounding_cells) && selectedItem.surrounding_cells.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Surrounding Notebook Cells</h4>
-                  <div className="bg-blue-50 p-4 rounded-lg space-y-3">
+                  <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Surrounding Notebook Cells</h4>
+                  <div className={`p-4 rounded-lg space-y-3 ${THEME.status.info.background}`}>
                     {selectedItem.surrounding_cells.map((cell, i) => (
-                      <div key={i} className="bg-white dark:bg-neutral-800 p-3 rounded border text-neutral-900 dark:text-neutral-100">
+                      <div key={i} className={`p-3 rounded border ${THEME.containers.card} ${THEME.borders.default} ${THEME.text.primary}`}>
                         <div className="flex items-center mb-2">
-                          <span className="text-xs bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded mr-2">
+                          <span className={`text-xs px-2 py-1 rounded mr-2 ${THEME.status.info.background} ${THEME.status.info.text}`}>
                             Cell {cell.index}
                           </span>
-                          <span className="text-xs bg-neutral-200 text-neutral-700 px-2 py-1 rounded">
+                          <span className={`text-xs px-2 py-1 rounded ${THEME.containers.secondary} ${THEME.text.primary}`}>
                             {cell.type}
                           </span>
                         </div>
-                        <div className="text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap max-h-20 overflow-y-auto">
+                        <div className={`text-sm ${THEME.text.secondary} whitespace-pre-wrap max-h-20 overflow-y-auto`}>
                           {cell.content}
                         </div>
                       </div>
@@ -567,12 +568,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Content */}
               {(selectedItem.content || selectedItem.description || selectedItem.query) && (
                 <div>
-                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Content</h4>
-                  <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
+                  <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Content</h4>
+                  <div className={`p-4 rounded-lg ${THEME.containers.secondary}`}>
                     {selectedItem.content && (
                       <div className="mb-4">
-                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Main Content:</span>
-                        <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white dark:bg-neutral-800">
+                        <span className={`text-sm font-medium ${THEME.text.secondary}`}>Main Content:</span>
+                        <div className={`mt-1 text-sm ${THEME.text.primary} whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 ${THEME.containers.card} ${THEME.borders.default}`}>
                           {selectedItem.content}
                         </div>
                       </div>
@@ -580,8 +581,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.description && (
                       <div className="mb-4">
-                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Description:</span>
-                        <div className="mt-1 text-sm text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 bg-white dark:bg-neutral-800">
+                        <span className={`text-sm font-medium ${THEME.text.secondary}`}>Description:</span>
+                        <div className={`mt-1 text-sm ${THEME.text.primary} whitespace-pre-wrap max-h-40 overflow-y-auto border rounded p-2 ${THEME.containers.card} ${THEME.borders.default}`}>
                           {selectedItem.description}
                         </div>
                       </div>
@@ -589,8 +590,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     {selectedItem.query && (
                       <div>
-                        <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">SPARQL Query:</span>
-                        <div className="mt-1 text-sm font-mono text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white dark:bg-neutral-800">
+                        <span className={`text-sm font-medium ${THEME.text.secondary}`}>SPARQL Query:</span>
+                        <div className={`mt-1 text-sm font-mono ${THEME.text.primary} whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 ${THEME.containers.card} ${THEME.borders.default}`}>
                           {selectedItem.query}
                         </div>
                       </div>
@@ -602,10 +603,10 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Method Structure (for method extraction) */}
               {selectedItem.method_structure && (
                 <div>
-                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Method Structure</h4>
-                  <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
-                    <div className="text-sm text-neutral-900">
-                      <pre className="whitespace-pre-wrap overflow-x-auto text-xs bg-white dark:bg-neutral-800 p-3 rounded border text-neutral-900 dark:text-neutral-100">
+                  <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Method Structure</h4>
+                  <div className={`p-4 rounded-lg ${THEME.containers.secondary}`}>
+                    <div className={`text-sm ${THEME.text.primary}`}>
+                      <pre className={`whitespace-pre-wrap overflow-x-auto text-xs p-3 rounded border ${THEME.containers.card} ${THEME.borders.default} ${THEME.text.primary}`}>
                         {JSON.stringify(selectedItem.method_structure, null, 2)}
                       </pre>
                     </div>
@@ -616,9 +617,9 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               {/* Code (for code extraction) */}
               {selectedItem.code && (
                 <div>
-                  <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Code</h4>
-                  <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
-                    <div className="text-sm font-mono text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 bg-white dark:bg-neutral-800">
+                  <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Code</h4>
+                  <div className={`p-4 rounded-lg ${THEME.containers.secondary}`}>
+                    <div className={`text-sm font-mono ${THEME.text.primary} whitespace-pre-wrap max-h-60 overflow-y-auto border rounded p-3 ${THEME.containers.card} ${THEME.borders.default}`}>
                       {selectedItem.code}
                     </div>
                   </div>
@@ -627,8 +628,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
               {/* Additional Metadata */}
               <div>
-                <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Additional Metadata</h4>
-                <div className="bg-neutral-50 dark:bg-neutral-700 p-4 rounded-lg">
+                <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Additional Metadata</h4>
+                <div className={`p-4 rounded-lg ${THEME.containers.secondary}`}>
                   <div className="space-y-2">
                     {Object.entries(selectedItem).map(([key, value]) => {
                       // Skip already displayed fields
@@ -648,8 +649,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                       
                       return (
                         <div key={key} className="flex flex-wrap">
-                          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 min-w-[120px]">{key.replace(/_/g, ' ')}:</span>
-                          <span className="text-sm text-neutral-900 dark:text-neutral-100 flex-1">
+                          <span className={`text-sm font-medium ${THEME.text.secondary} min-w-[120px]`}>{key.replace(/_/g, ' ')}:</span>
+                          <span className={`text-sm ${THEME.text.primary} flex-1`}>
                             {Array.isArray(value) ? value.join(', ') : 
                              typeof value === 'object' ? JSON.stringify(value) : 
                              String(value)}
@@ -663,26 +664,26 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
               {/* Indexing Preview */}
               <div>
-                <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Indexing Preview</h4>
-                <div className="bg-white dark:bg-neutral-800 p-3 rounded border text-neutral-900 dark:text-neutral-100 max-h-32 overflow-y-auto">
+                <h4 className={`font-medium ${THEME.text.primary} mb-3`}>Indexing Preview</h4>
+                <div className={`p-3 rounded border ${THEME.containers.card} ${THEME.borders.default} ${THEME.text.primary} max-h-32 overflow-y-auto`}>
                   {selectedItem.content || selectedItem.description || selectedItem.query || selectedItem.name || 'No searchable text available'}
                 </div>
-                <div className="mt-3 text-xs">
+                <div className={`mt-3 text-xs ${THEME.text.secondary}`}>
                   This text will be used for semantic search within the library.
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="p-6 border-t border-neutral-200 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-700 flex-shrink-0">
+          <div className={`p-6 border-t flex-shrink-0 ${THEME.borders.default} ${THEME.containers.secondary}`}>
             <div className="flex justify-between items-center">
-              <div className="text-sm text-neutral-600">
+              <div className={`text-sm ${THEME.text.secondary}`}>
                 Item {selectedItem.index + 1} of {extractionResult?.extracted_data?.length || 0}
               </div>
               <div className="flex space-x-3">
                 <button
                   onClick={() => setShowItemModal(false)}
-                  className="px-4 py-2 text-neutral-700 bg-neutral-200 rounded-md hover:bg-neutral-300 transition-colors"
+                  className={`px-4 py-2 rounded-md transition-colors ${THEME.buttons.secondary}`}
                 >
                   Close
                 </button>
@@ -693,8 +694,8 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                   }}
                   className={`px-4 py-2 rounded-md transition-colors ${
                     selectedItems.has(selectedItem.index)
-                      ? 'bg-red-600 text-white hover:bg-red-700'
-                      : 'bg-green-600 text-white hover:bg-green-700'
+                      ? `${THEME.status.error.text} ${THEME.status.error.background}`
+                      : `${THEME.status.success.text} ${THEME.status.success.background}`
                   }`}
                 >
                   {selectedItems.has(selectedItem.index) ? 'Remove from Selection' : 'Add to Selection'}
@@ -711,24 +712,24 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
     if (!extractionResult) return null;
 
     return (
-      <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6">
+      <div className={`border rounded-lg p-6 ${THEME.containers.card} ${THEME.borders.default}`}>
         <div className="flex items-center justify-between mb-4">
-          <h4 className="font-medium text-neutral-900 dark:text-neutral-100">Extraction Results</h4>
+          <h4 className={`font-medium ${THEME.text.primary}`}>Extraction Results</h4>
           <div className="flex items-center space-x-2">
             <span className={`px-2 py-1 text-xs rounded-full ${
-              extractionResult.success ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
+              extractionResult.success ? `${THEME.status.success.background} ${THEME.status.success.text}` : `${THEME.status.error.background} ${THEME.status.error.text}`
             }`}>
               {extractionResult.success ? 'Success' : 'Failed'}
             </span>
-            <span className="text-sm text-neutral-500">
+            <span className={`text-sm ${THEME.text.muted}`}>
               {extractionResult.extracted_count} items
             </span>
           </div>
         </div>
 
         {extractionResult.error_message && (
-          <div className="bg-red-50 p-3 rounded-md mb-4">
-            <div className="text-red-700 text-sm">{extractionResult.error_message}</div>
+          <div className={`p-3 rounded-md mb-4 ${THEME.status.error.background}`}>
+            <div className={`${THEME.status.error.text} text-sm`}>{extractionResult.error_message}</div>
           </div>
         )}
 
@@ -736,46 +737,46 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-neutral-600 dark:text-neutral-400">Document Type:</span>
-                <span className="ml-2 text-neutral-900 dark:text-neutral-100">{extractionResult.document_type}</span>
+                <span className={`font-medium ${THEME.text.secondary}`}>Document Type:</span>
+                <span className={`ml-2 ${THEME.text.primary}`}>{extractionResult.document_type}</span>
               </div>
               <div>
-                <span className="font-medium text-neutral-600 dark:text-neutral-400">Request ID:</span>
-                <span className="ml-2 font-mono text-neutral-900 dark:text-neutral-100">{extractionResult.request_id}</span>
+                <span className={`font-medium ${THEME.text.secondary}`}>Request ID:</span>
+                <span className={`ml-2 font-mono ${THEME.text.primary}`}>{extractionResult.request_id}</span>
               </div>
             </div>
 
             {/* Selection Controls */}
-            <div className="border-t pt-4">
+            <div className={`border-t pt-4 ${THEME.borders.default}`}>
               <div className="flex items-center justify-between mb-3">
-                <h5 className="font-medium text-neutral-900 dark:text-neutral-100">Select Items for Indexing</h5>
+                <h5 className={`font-medium ${THEME.text.primary}`}>Select Items for Indexing</h5>
                 <div className="flex space-x-2">
                   <button
                     onClick={selectAllItems}
-                    className="text-xs bg-blue-100 dark:bg-blue-800/30 text-blue-800 px-2 py-1 rounded hover:bg-blue-200"
+                    className={`text-xs px-2 py-1 rounded transition-colors ${THEME.status.info.text} ${THEME.status.info.background}`}
                   >
                     Select All
                   </button>
                   <button
                     onClick={deselectAllItems}
-                    className="text-xs bg-neutral-100 text-neutral-800 px-2 py-1 rounded hover:bg-neutral-200"
+                    className={`text-xs px-2 py-1 rounded transition-colors ${THEME.buttons.secondary}`}
                   >
                     Deselect All
                   </button>
                 </div>
               </div>
               
-              <div className="text-sm text-neutral-600 mb-3">
+              <div className={`text-sm ${THEME.text.secondary} mb-3`}>
                 Selected: {selectedItems.size} of {extractionResult.extracted_data.length} items
               </div>
             </div>
 
-            <div className="border-t pt-4">
-              <h5 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3">Extracted Data</h5>
+            <div className={`border-t pt-4 ${THEME.borders.default}`}>
+              <h5 className={`font-medium ${THEME.text.primary} mb-3`}>Extracted Data</h5>
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {extractionResult.extracted_data.map((item, idx) => (
                   <div key={idx} className={`border rounded p-3 transition-colors ${
-                    selectedItems.has(idx) ? 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-700' : 'bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600'
+                    selectedItems.has(idx) ? `${THEME.status.success.background} ${THEME.status.success.border}` : `${THEME.containers.secondary} ${THEME.borders.default}`
                   }`}>
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center space-x-2 flex-wrap gap-1">
@@ -783,36 +784,36 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                           type="checkbox"
                           checked={selectedItems.has(idx)}
                           onChange={() => toggleItemSelection(idx)}
-                          className="rounded border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
+                          className={`rounded ${THEME.borders.default} ${THEME.containers.card} text-blue-600 focus:ring-blue-500 focus:ring-2`}
                         />
-                        <span className="text-xs bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
+                        <span className={`text-xs px-2 py-1 rounded ${THEME.status.info.background} ${THEME.status.info.text}`}>
                           {item.content_type}
                         </span>
                         {item.extraction_type && (
-                          <span className="text-xs bg-neutral-200 text-neutral-700 px-2 py-1 rounded">
+                          <span className={`text-xs px-2 py-1 rounded ${THEME.containers.secondary} ${THEME.text.primary}`}>
                             {item.extraction_type}
                           </span>
                         )}
                         {/* Enhanced notebook metadata badges */}
                         {item.cell_index !== undefined && (
-                          <span className="text-xs bg-purple-100 dark:bg-purple-800/30 text-purple-800 dark:text-purple-300 px-2 py-1 rounded">
+                          <span className={`text-xs px-2 py-1 rounded ${THEME.agents.sparql.background} ${THEME.agents.sparql.text}`}>
                             Cell {item.cell_index}
                           </span>
                         )}
                         {item.variable_name && item.variable_name !== 'anonymous' && (
-                          <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">
+                          <span className={`text-xs px-2 py-1 rounded ${THEME.agents.code.background} ${THEME.agents.code.text}`}>
                             {item.variable_name}
                           </span>
                         )}
                         {item.extraction_method && (
-                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                          <span className={`text-xs px-2 py-1 rounded ${THEME.status.warning.background} ${THEME.status.warning.text}`}>
                             {item.extraction_method.replace(/_/g, ' ')}
                           </span>
                         )}
                       </div>
                       <button
                         onClick={() => viewItemDetails(item, idx)}
-                        className="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 transition-colors"
+                        className={`text-xs px-2 py-1 rounded transition-colors ${THEME.buttons.primary}`}
                       >
                         View Details
                       </button>
@@ -820,40 +821,40 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     
                     <div className="text-sm space-y-1">
                       {item.title && (
-                        <div><span className="font-medium">Title:</span> {item.title}</div>
+                        <div><span className={`font-medium ${THEME.text.primary}`}>Title:</span> {item.title}</div>
                       )}
                       {item.name && (
-                        <div><span className="font-medium">Name:</span> {item.name}</div>
+                        <div><span className={`font-medium ${THEME.text.primary}`}>Name:</span> {item.name}</div>
                       )}
                       {item.description && (
-                        <div><span className="font-medium">Description:</span> {item.description.substring(0, 200)}...</div>
+                        <div><span className={`font-medium ${THEME.text.primary}`}>Description:</span> {item.description.substring(0, 200)}...</div>
                       )}
                       {item.query && (
                         <div>
-                          <span className="font-medium">Query:</span> 
-                          <code className="bg-neutral-200 px-1 rounded ml-1">
+                          <span className={`font-medium ${THEME.text.primary}`}>Query:</span> 
+                          <code className={`px-1 rounded ml-1 ${THEME.containers.secondary}`}>
                             {item.query.substring(0, 100)}...
                           </code>
                         </div>
                       )}
                       {item.uri && (
-                        <div><span className="font-medium">URI:</span> <code className="bg-neutral-200 px-1 rounded">{item.uri}</code></div>
+                        <div><span className={`font-medium ${THEME.text.primary}`}>URI:</span> <code className={`px-1 rounded ${THEME.containers.secondary}`}>{item.uri}</code></div>
                       )}
                       {/* Enhanced notebook context */}
                       {item.context && (
-                        <div><span className="font-medium">Context:</span> {item.context}</div>
+                        <div><span className={`font-medium ${THEME.text.primary}`}>Context:</span> {item.context}</div>
                       )}
                       {/* Display concepts if available */}
                       {item.concepts && Array.isArray(item.concepts) && item.concepts.length > 0 && (
                         <div className="flex items-center flex-wrap gap-1 mt-2">
-                          <span className="font-medium text-xs">Concepts:</span>
+                          <span className={`font-medium text-xs ${THEME.text.primary}`}>Concepts:</span>
                           {item.concepts.slice(0, 5).map((concept, i) => (
-                            <span key={i} className="text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-1 py-0.5 rounded">
+                            <span key={i} className={`text-xs px-1 py-0.5 rounded ${THEME.status.success.background} ${THEME.status.success.text}`}>
                               {concept}
                             </span>
                           ))}
                           {item.concepts.length > 5 && (
-                            <span className="text-xs text-neutral-500">+{item.concepts.length - 5} more</span>
+                            <span className={`text-xs ${THEME.text.muted}`}>+{item.concepts.length - 5} more</span>
                           )}
                         </div>
                       )}
@@ -863,9 +864,9 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
               </div>
             </div>
 
-            <div className="border-t pt-4">
+            <div className={`border-t pt-4 ${THEME.borders.default}`}>
               <button
-                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors disabled:bg-neutral-400"
+                className={`w-full py-2 px-4 rounded-md transition-colors disabled:opacity-50 ${THEME.status.success.text} ${THEME.status.success.background}`}
                 onClick={handleIndexing}
                 disabled={loading || !targetLibrary || selectedItems.size === 0}
               >
@@ -876,12 +877,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                 }
               </button>
               {!targetLibrary && (
-                <p className="text-xs text-neutral-500 mt-2 text-center">
+                <p className={`text-xs ${THEME.text.muted} mt-2 text-center`}>
                   No target library specified
                 </p>
               )}
               {targetLibrary && selectedItems.size === 0 && (
-                <p className="text-xs text-neutral-500 mt-2 text-center">
+                <p className={`text-xs ${THEME.text.muted} mt-2 text-center`}>
                   Select items above to enable indexing
                 </p>
               )}
@@ -900,11 +901,11 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Input Section */}
         <div className="lg:col-span-1 space-y-6">
           {/* Mode Selection */}
-          <div className="bg-white dark:bg-neutral-800 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
-            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Input Source</h3>
+          <div className={`p-4 rounded-lg border ${THEME.containers.card} ${THEME.borders.default}`}>
+            <h3 className={`font-semibold ${THEME.text.primary} mb-3`}>Input Source</h3>
             <div className="space-y-3">
               <div className="flex space-x-4">
-                <label className="flex items-center">
+                <label className={`flex items-center ${THEME.text.primary}`}>
                   <input
                     type="radio"
                     value="file"
@@ -914,7 +915,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                   />
                   Upload File
                 </label>
-                <label className="flex items-center">
+                <label className={`flex items-center ${THEME.text.primary}`}>
                   <input
                     type="radio"
                     value="url"
@@ -933,10 +934,10 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     type="file"
                     onChange={handleFileSelect}
                     accept=".ipynb,.pdf,.ttl,.rdf,.owl,.n3,.md,.markdown,.html,.htm"
-                    className="w-full text-neutral-900 dark:text-neutral-100 file:bg-blue-600 file:dark:bg-blue-600 file:text-white file:rounded-md file:px-3 file:py-2 file:border-0 file:cursor-pointer hover:file:bg-blue-700"
+                    className={`w-full ${THEME.text.primary} file:${THEME.buttons.primary.replace('hover:', '')} file:rounded-md file:px-3 file:py-2 file:border-0 file:cursor-pointer`}
                   />
                   {selectedFile && (
-                    <div className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                    <div className={`mt-2 text-sm ${THEME.text.secondary}`}>
                       Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
                     </div>
                   )}
@@ -948,7 +949,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
                     value={selectedUrl}
                     onChange={(e) => setSelectedUrl(e.target.value)}
                     placeholder="https://example.com/document.pdf"
-                    className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md"
+                    className={`w-full px-3 py-2 border rounded-md ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
                   />
                 </div>
               )}
@@ -956,12 +957,12 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           </div>
 
           {/* Document Type Selection */}
-          <div className="bg-white dark:bg-neutral-800 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
-            <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Document Type</h3>
+          <div className={`p-4 rounded-lg border ${THEME.containers.card} ${THEME.borders.default}`}>
+            <h3 className={`font-semibold ${THEME.text.primary} mb-3`}>Document Type</h3>
             <select
               value={documentType}
               onChange={(e) => setDocumentType(e.target.value)}
-              className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 rounded-md"
+              className={`w-full px-3 py-2 border rounded-md ${THEME.borders.default} ${THEME.containers.card} ${THEME.text.primary}`}
             >
             {supportedDocumentTypes.map(type => (
               <option key={type.value} value={type.value}>{type.label}</option>
@@ -969,13 +970,13 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             </select>
             
             {supportedTypes[documentType] && (
-              <div className="mt-2 text-xs text-neutral-600">
+              <div className={`mt-2 text-xs ${THEME.text.secondary}`}>
                 {supportedTypes[documentType].description}
               </div>
             )}
 
           {libraryDescription && (
-            <div className="mt-2 text-xs text-blue-600 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/20 p-2 rounded border border-blue-200 dark:border-blue-700">
+            <div className={`mt-2 text-xs p-2 rounded border ${THEME.status.info.text} ${THEME.status.info.background} ${THEME.status.info.border}`}>
               {libraryDescription}
             </div>
           )}
@@ -984,7 +985,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
           {((documentType === 'sparql' && selectedFile?.name.endsWith('.ipynb')) || 
             (documentType === 'notebook' && libraryDetails?.library?.type === 'query_library') ||
             (documentType === 'auto' && selectedFile?.name.endsWith('.ipynb') && libraryDetails?.library?.type === 'query_library')) && (
-            <div className="mt-3 text-xs text-purple-700 dark:text-purple-300 bg-purple-50 p-3 rounded border border-purple-200">
+            <div className={`mt-3 text-xs p-3 rounded border ${THEME.agents.sparql.background} ${THEME.agents.sparql.text} ${THEME.agents.sparql.border}`}>
               <div className="font-medium mb-1">Enhanced Notebook SPARQL Extraction</div>
               <ul className="list-disc list-inside space-y-1 text-xs">
                 <li>Extracts SPARQL queries from code cells (variables, strings, f-strings)</li>
@@ -999,7 +1000,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
           {/* Parameters */}
           {documentType !== 'auto' && (
-            <div className="bg-white dark:bg-neutral-800 p-4 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <div className={`p-4 rounded-lg border ${THEME.containers.card} ${THEME.borders.default}`}>
               {renderParameterControls()}
             </div>
           )}
@@ -1009,7 +1010,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             <button
               onClick={handlePreview}
               disabled={loading || (!selectedFile && !selectedUrl)}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-neutral-400 transition-colors"
+              className={`w-full py-2 px-4 rounded-md disabled:opacity-50 transition-colors ${THEME.buttons.primary}`}
             >
               {loading ? 'Loading...' : 'Preview Extraction'}
             </button>
@@ -1017,7 +1018,7 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
             <button
               onClick={handleExtraction}
               disabled={loading || (!selectedFile && !selectedUrl)}
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-neutral-400 transition-colors"
+              className={`w-full py-2 px-4 rounded-md disabled:opacity-50 transition-colors ${THEME.status.success.text} ${THEME.status.success.background}`}
             >
               {loading ? 'Extracting...' : 'Extract Data'}
             </button>
@@ -1025,23 +1026,23 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
           {/* Target Library Info */}
           {targetLibrary && libraryDetails && (
-            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-700">
-              <h3 className="font-semibold text-green-900 dark:text-green-300 mb-3">Target Library</h3>
+            <div className={`p-4 rounded-lg border ${THEME.status.success.background} ${THEME.status.success.border}`}>
+              <h3 className={`font-semibold ${THEME.status.success.text} mb-3`}>Target Library</h3>
               <div className="space-y-2 text-sm">
                 <div>
-                  <span className="font-medium text-green-800 dark:text-green-300">Name:</span> {libraryDetails.library.name}
+                  <span className={`font-medium ${THEME.status.success.text}`}>Name:</span> {libraryDetails.library.name}
                 </div>
                 <div>
-                  <span className="font-medium text-green-800 dark:text-green-300">Type:</span> {libraryDetails.library.type?.replace(/_/g, ' ') || 'unknown'}
+                  <span className={`font-medium ${THEME.status.success.text}`}>Type:</span> {libraryDetails.library.type?.replace(/_/g, ' ') || 'unknown'}
                 </div>
                 <div>
-                  <span className="font-medium text-green-800 dark:text-green-300">Collections:</span> {libraryDetails.collections?.length || 0}
+                  <span className={`font-medium ${THEME.status.success.text}`}>Collections:</span> {libraryDetails.collections?.length || 0}
                 </div>
                 <div>
-                  <span className="font-medium text-green-800 dark:text-green-300">Documents:</span> {(libraryDetails.library.total_documents || 0).toLocaleString()}
+                  <span className={`font-medium ${THEME.status.success.text}`}>Documents:</span> {(libraryDetails.library.total_documents || 0).toLocaleString()}
                 </div>
               </div>
-              <p className="text-xs text-green-700 dark:text-green-300 mt-2">
+              <p className={`text-xs ${THEME.status.success.text} mt-2`}>
                 ✓ Extracted documents will be indexed into this library
               </p>
             </div>
@@ -1051,15 +1052,15 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
         {/* Results Section */}
         <div className="lg:col-span-2 space-y-6">
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 p-4 rounded-lg">
-              <div className="text-red-700 dark:text-red-300 font-medium">Error</div>
-              <div className="text-red-600 dark:text-red-400 text-sm mt-1">{error}</div>
+            <div className={`border p-4 rounded-lg ${THEME.status.error.background} ${THEME.status.error.border}`}>
+              <div className={`${THEME.status.error.text} font-medium`}>Error</div>
+              <div className={`${THEME.status.error.text} text-sm mt-1`}>{error}</div>
             </div>
           )}
 
           {preview && (
-            <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6">
-              <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-4">Preview</h3>
+            <div className={`border rounded-lg p-6 ${THEME.containers.card} ${THEME.borders.default}`}>
+              <h3 className={`font-semibold ${THEME.text.primary} mb-4`}>Preview</h3>
               {renderPreview()}
             </div>
           )}
@@ -1068,11 +1069,11 @@ const DocumentExtraction = ({ targetLibrary, libraryDetails, onIndexComplete }) 
 
         {/* Library-Specific Documentation */}
         {libraryDetails && (
-          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-700">
-            <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
+          <div className={`p-4 rounded-lg border ${THEME.status.info.background} ${THEME.status.info.border}`}>
+            <h3 className={`font-semibold ${THEME.status.info.text} mb-2`}>
               Supported Document Types for {libraryDetails.library.name}
             </h3>
-            <div className="space-y-2 text-sm text-blue-800 dark:text-blue-300">
+            <div className={`space-y-2 text-sm ${THEME.status.info.text}`}>
               {supportedDocumentTypes.map(type => {
                 if (type.value === 'auto') return null;
                 

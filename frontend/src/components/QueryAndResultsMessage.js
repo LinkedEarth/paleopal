@@ -4,6 +4,7 @@ import GeneratedCodeDisplay from './GeneratedCodeDisplay';
 import QueryResultsDisplay from './QueryResultsDisplay';
 import WorkflowViewer from './WorkflowViewer';
 import ExecutionResultsDisplay from './ExecutionResultsDisplay';
+import THEME from '../styles/colorTheme';
 
 // Component to render combined query and results with unified schema
 const QueryAndResultsMessage = ({ 
@@ -21,6 +22,7 @@ const QueryAndResultsMessage = ({
   isJsonWorkflow,
   messageIndex,
   allMessages,
+  enableExecution = true,
   isDarkMode = false
 }) => {
   // Default states: code agent has sections open, others collapsed
@@ -29,18 +31,18 @@ const QueryAndResultsMessage = ({
   const [isExecutionExpanded, setIsExecutionExpanded] = useState(defaultOpen);
 
   // Collapsible section component
-  const CollapsibleSection = ({ title, isExpanded, onToggle, children, icon = "💻" }) => (
-    <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg overflow-hidden">
+  const CollapsibleSection = ({ title, isExpanded, onToggle, children, icon }) => (
+    <div className={`border ${THEME.borders.default} rounded-lg overflow-hidden`}>
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-600 transition-colors text-left"
+        className={`w-full flex items-center justify-between p-3 ${THEME.containers.secondary} ${THEME.interactive.hover} transition-colors text-left`}
       >
         <div className="flex items-center gap-2">
-          <span className="text-sm">{icon}</span>
-          <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">{title}</span>
+          {icon}
+          <span className={`text-sm font-medium ${THEME.text.primary}`}>{title}</span>
         </div>
         <svg 
-          className={`w-4 h-4 text-neutral-600 dark:text-neutral-400 transition-transform duration-200 ${
+          className={`w-4 h-4 ${THEME.text.secondary} transition-transform duration-200 ${
             isExpanded ? 'rotate-180' : ''
           }`} 
           fill="none" 
@@ -51,7 +53,7 @@ const QueryAndResultsMessage = ({
         </svg>
       </button>
       {isExpanded && (
-        <div className="p-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-600">
+        <div className={`p-3 ${THEME.containers.card} border-t ${THEME.borders.default}`}>
           {children}
         </div>
       )}
@@ -78,11 +80,30 @@ const QueryAndResultsMessage = ({
         />       
       )}
 
+      {/* Workflow display for JSON workflows */}
+      {workflowPlan && isJsonWorkflow && (
+        <WorkflowViewer
+          workflowData={workflowPlan}
+          workflowId={workflowId || 'unknown'}
+          onExecuteWorkflow={onExecuteWorkflow}
+          onExecuteStep={onExecuteStep}
+          messageIndex={messageIndex}
+          allMessages={allMessages}
+          enableExecution={enableExecution}
+        />
+      )}
+
       {/* Display generated code if available (all agents) */}
       {message.generatedCode && (
         <CollapsibleSection
           title="Generated Code"
-          icon="💻"
+          icon={
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="m7 8-4 4 4 4"></path>
+              <path d="m17 8 4 4-4 4"></path>
+              <path d="m14 4-4 16"></path>
+            </svg>
+          }
           isExpanded={isCodeExpanded}
           onToggle={() => setIsCodeExpanded(!isCodeExpanded)}
         >
@@ -96,10 +117,14 @@ const QueryAndResultsMessage = ({
       )}
 
       {/* Display execution results (unified for all agents) */}
-      {executionResults && executionResults.length > 0 && (
+      {agentType !== 'workflow_generation' && executionResults && executionResults.length > 0 && (
         <CollapsibleSection
           title="Execution Results"
-          icon="⚡"
+          icon={
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+            </svg>
+          }
           isExpanded={isExecutionExpanded}
           onToggle={() => setIsExecutionExpanded(!isExecutionExpanded)}
         >
@@ -109,18 +134,6 @@ const QueryAndResultsMessage = ({
             hideHeader={true}
           />
         </CollapsibleSection>
-      )}
-
-      {/* Workflow display for JSON workflows */}
-      {workflowPlan && isJsonWorkflow && (
-        <WorkflowViewer
-          workflowData={workflowPlan}
-          workflowId={workflowId || 'unknown'}
-          onExecuteWorkflow={onExecuteWorkflow}
-          onExecuteStep={onExecuteStep}
-          messageIndex={messageIndex}
-          allMessages={allMessages}
-        />
       )}
     </div>
   );

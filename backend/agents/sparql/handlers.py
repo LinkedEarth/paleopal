@@ -646,17 +646,38 @@ def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
             
             # Create Python code that queries the SPARQL endpoint and stores results as DataFrame
             python_code = f"""
-import pylipd
+import pandas as pd
+from SPARQLWrapper import SPARQLWrapper, JSON
 
-sparql_endpoint = "{sparql_endpoint}"
-sparql_query = '''{query}'''
+def fetch_sparql(endpoint_url: str, query: str) -> pd.DataFrame:
+    sparql = SPARQLWrapper(endpoint_url)
+    sparql.setQuery(query)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
 
-lipd = pylipd.LiPD()
-lipd.set_endpoint(sparql_endpoint)
-_res, {variable_name} = lipd.query(sparql_query, remote=True)
+    # Get variable names (column names)
+    cols = results["head"]["vars"]
+
+    # Build rows
+    rows = []
+    for result in results["results"]["bindings"]:
+        row = {{}}
+        for col in cols:
+            if col in result:
+                row[col] = result[col]["value"]
+            else:
+                row[col] = None
+        rows.append(row)
+
+    return pd.DataFrame(rows)
+
+endpoint = "{sparql_endpoint}"
+query = \"\"\"{query}\"\"\"
+{variable_name} = fetch_sparql(endpoint, query)
 print({variable_name}.head())
 """
             
+            # logger.info(f"Python code: {python_code}")
             # Check enable_execution flag from request metadata (default True)
             enable_exec = False
             try:
@@ -786,6 +807,21 @@ def should_refine_query(state: SparqlAgentState) -> str:
         logger.info(f"Error message found, triggering refinement (attempt {refinement_count + 1})")
         return "true"
     
+    # Check if execution is disabled - if so, don't refine based on execution results
+    enable_exec = False
+    try:
+        if isinstance(state, dict):
+            enable_exec = state.get('metadata', {}).get('enable_execution', True)
+        else:
+            enable_exec = getattr(state, 'metadata', {}).get('enable_execution', True)
+    except Exception:
+        enable_exec = True
+    
+    if not enable_exec:
+        logger.info("Execution disabled - skipping execution-based refinement checks")
+        # Only refine if there's an explicit error, not based on execution results
+        return "false"
+    
     # Check if execution_results contains error indicators
     execution_results = state.execution_results or []
     if execution_results and isinstance(execution_results, list) and len(execution_results) > 0:
@@ -795,6 +831,7 @@ def should_refine_query(state: SparqlAgentState) -> str:
             return "true"
     
     # Check if we have no execution results at all (could indicate an error)
+    # Only check this if execution is enabled
     if not execution_results:
         logger.info(f"No execution results found, triggering refinement (attempt {refinement_count + 1})")
         return "true"

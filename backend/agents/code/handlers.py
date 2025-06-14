@@ -486,6 +486,20 @@ def should_execute_code(state: CodeAgentState) -> str:
         logger.info("No code to execute")
         return "false"
     
+    # Check if execution is disabled
+    enable_exec = True
+    try:
+        if isinstance(state, dict):
+            enable_exec = state.get('metadata', {}).get('enable_execution', True)
+        else:
+            enable_exec = getattr(state, 'metadata', {}).get('enable_execution', True)
+    except Exception:
+        enable_exec = True
+    
+    if not enable_exec:
+        logger.info("Execution disabled by frontend flag – skipping code execution")
+        return "false"
+    
     # Don't execute if there are validation errors
     validation_errors = getattr(state, 'validation_errors', []) or []
     if validation_errors:

@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import THEME from '../styles/colorTheme';
 
 const GeneratedCodeDisplay = ({ code, agentType = 'code', isDarkMode = false, hideHeader = false }) => {
-  const copyToClipboard = (text) => navigator.clipboard.writeText(text).catch(() => {});
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
+  
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setShowCopyNotification(true);
+      setTimeout(() => setShowCopyNotification(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   // Determine syntax language based on agent type
   const getSyntaxLanguage = () => {
@@ -35,17 +46,27 @@ const GeneratedCodeDisplay = ({ code, agentType = 'code', isDarkMode = false, hi
 
   // If hideHeader is true, render just the code content
   if (hideHeader) {
-    return (
-      <div className="space-y-3">
-        <div className="flex justify-end">
-          <button 
-            className="px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 rounded text-xs hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors border border-blue-300 dark:border-blue-600"
-            onClick={() => copyToClipboard(code)}
-          >
-            📋 Copy
-          </button>
-        </div>
-        <div className="bg-white dark:bg-neutral-800 rounded border border-neutral-200 dark:border-neutral-600 overflow-hidden max-h-96 overflow-y-auto">
+  return (
+      <div className="relative group">
+        {/* Copy notification */}
+        {showCopyNotification && (
+          <div className={`absolute top-2 left-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>
+            ✓ Copied!
+          </div>
+        )}
+        
+        {/* Copy icon overlay */}
+        <button 
+          className={`absolute top-2 right-2 z-10 p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${THEME.interactive.hover}`}
+          onClick={() => copyToClipboard(code)}
+          title="Copy code to clipboard"
+        >
+          <svg className={`w-4 h-4 ${THEME.text.secondary}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
+        
+        <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden max-h-96 overflow-y-auto`}>
           <SyntaxHighlighter 
             language={getSyntaxLanguage()}
             style={{
@@ -80,18 +101,30 @@ const GeneratedCodeDisplay = ({ code, agentType = 'code', isDarkMode = false, hi
 
   // Default rendering with header
   return (
-    <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800">
-      <div className="flex justify-between items-center p-3 border-b border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-700 rounded-t-lg">
-        <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0">{getDisplayTitle()}</h4>
-        <button 
-          className="px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 rounded text-xs hover:bg-blue-200 dark:hover:bg-blue-700/50 transition-colors border border-blue-300 dark:border-blue-600"
-          onClick={() => copyToClipboard(code)}
-        >
-          📋 Copy
-        </button>
+    <div className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.panel} relative group`}>
+      {/* Copy notification */}
+      {showCopyNotification && (
+        <div className={`absolute top-2 left-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>
+          ✓ Copied!
+        </div>
+      )}
+      
+      {/* Copy icon overlay */}
+      <button
+        className={`absolute top-2 right-2 z-10 p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${THEME.interactive.hover}`}
+        onClick={() => copyToClipboard(code)}
+        title="Copy code to clipboard"
+      >
+        <svg className={`w-4 h-4 ${THEME.text.secondary}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+      </button>
+      
+      <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} ${THEME.containers.card} rounded-t-lg`}>
+        <h4 className={`${THEME.text.primary} font-medium text-sm m-0`}>{getDisplayTitle()}</h4>
       </div>
       <div className="p-3">
-        <div className="bg-white dark:bg-neutral-800 rounded border border-neutral-200 dark:border-neutral-600 overflow-hidden max-h-96 overflow-y-auto">
+        <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden max-h-96 overflow-y-auto`}>
           <SyntaxHighlighter 
             language={getSyntaxLanguage()}
             style={{

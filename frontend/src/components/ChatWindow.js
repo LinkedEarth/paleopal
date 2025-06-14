@@ -8,6 +8,8 @@ import ClarificationDialog from './ClarificationDialog';
 import GeneratedCodeDisplay from './GeneratedCodeDisplay';
 import { buildApiUrl, apiRequest } from '../config/api';
 import API_CONFIG from '../config/api';
+import AgentIcon from './AgentIcon';
+import THEME, { getAgentTheme } from '../styles/colorTheme';
 
 const LLM_PROVIDERS = [
   { id: 'openai', name: 'OpenAI' },  
@@ -40,6 +42,32 @@ const AGENT_TYPES = [
     placeholder: 'Describe the analysis workflow you want to plan...'
   }
 ];
+
+// Agent styles using centralized theme
+const AGENT_STYLES = {
+  sparql: {
+    badgeBg: getAgentTheme('sparql').badge,
+    accent: getAgentTheme('sparql').accent,
+    iconColor: getAgentTheme('sparql').icon,
+  },
+  code: {
+    badgeBg: getAgentTheme('code').badge,
+    accent: getAgentTheme('code').accent,
+    iconColor: getAgentTheme('code').icon,
+  },
+  workflow_generation: {
+    badgeBg: getAgentTheme('workflow_generation').badge,
+    accent: getAgentTheme('workflow_generation').accent,
+    iconColor: getAgentTheme('workflow_generation').icon,
+  },
+};
+
+// Agent border classes using new theme
+const AGENT_BORDER_CLASSES = {
+  sparql: getAgentTheme('sparql').focus,
+  code: getAgentTheme('code').focus,
+  workflow_generation: getAgentTheme('workflow_generation').focus,
+};
 
 // Message service utility for new API
 const messageService = {
@@ -141,20 +169,21 @@ const convertBackendMessagesToFrontend = (backendMessages) => {
       metadata: msg.metadata
     };
 
-    // Special handling for workflow agent: JSON workflow is stored in query_generated
-    if (msg.agent_type === 'workflow_generation' && msg.query_generated) {
-      try {
-        // Try to parse as JSON workflow
-        const workflowData = JSON.parse(msg.query_generated);
-        if (workflowData && workflowData.steps && Array.isArray(workflowData.steps)) {
-          baseMessage.workflowPlan = msg.query_generated; // This is the JSON workflow
-          baseMessage.isJsonWorkflow = true; // Flag to indicate this is JSON format
-        }
-      } catch (e) {
-        // If not valid JSON, check if it's a Mermaid flowchart (backward compatibility)
-        if (msg.query_generated.includes('flowchart')) {
-          baseMessage.workflowPlan = msg.query_generated; // This is the Mermaid code
-          baseMessage.isJsonWorkflow = false; // Flag to indicate this is legacy Mermaid format
+    // Special handling for workflow agent: JSON workflow is stored in generated_code
+    if (msg.agent_type === 'workflow_generation') {
+      // First check generated_code (current format)
+      if (msg.generated_code) {
+        try {
+          // Try to parse as JSON workflow
+          const workflowData = JSON.parse(msg.generated_code);
+          if (workflowData && workflowData.steps && Array.isArray(workflowData.steps)) {
+            baseMessage.workflowPlan = msg.generated_code; // This is the JSON workflow
+            baseMessage.isJsonWorkflow = true; // Flag to indicate this is JSON format
+          }
+        } catch (e) {
+          // If not valid JSON, treat as legacy format
+          baseMessage.workflowPlan = msg.generated_code;
+          baseMessage.isJsonWorkflow = false;
         }
       }
     }
@@ -204,6 +233,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [isSubmittingClarification, setIsSubmittingClarification] = useState(false);
   
   const [enableExecution, setEnableExecution] = useState(true);
+  const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -360,6 +390,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
 
   // Smart scroll to bottom - only when appropriate
   const scrollToBottomIfNeeded = (force = false) => {
+    if (!autoScrollEnabled && !force) return;
     if (force || !isUserScrolledUp()) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -1128,11 +1159,11 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
   const renderChatMessage = (message, messageIndex) => {
     const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm max-w-[90%]";
     const roleClasses = message.role === 'user' 
-      ? "bg-blue-50 dark:bg-blue-900/40 border-blue-200 dark:border-blue-800/50 text-neutral-900 dark:text-neutral-100" 
-      : "bg-neutral-50 dark:bg-neutral-700 border-neutral-200 dark:border-neutral-600 text-neutral-900 dark:text-neutral-100";
-    const errorClasses = message.isError ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700 text-red-900 dark:text-red-100" : "";
-    const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? "bg-white dark:bg-neutral-800 border-neutral-300 dark:border-neutral-600" : "";
-    const newConversationClasses = message.isNewConversation ? "bg-neutral-100 dark:bg-neutral-600 border-neutral-200 dark:border-neutral-500" : "";
+      ? `${THEME.messages.user.bg} ${THEME.messages.user.border} ${THEME.messages.user.text}` 
+      : `${THEME.messages.assistant.bg} ${THEME.messages.assistant.border} ${THEME.messages.assistant.text}`;
+    const errorClasses = message.isError ? `bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800/30 ${THEME.status.error}` : "";
+    const queryResultsClasses = (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) ? `${THEME.containers.card}` : "";
+    const newConversationClasses = message.isNewConversation ? `${THEME.containers.panel}` : "";
     
     // Check if this message or any subsequent messages are being deleted
     const isBeingDeleted = deletingMessages.has(`bulk_${messageIndex}`);
@@ -1146,7 +1177,8 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     });
     const deletingClasses = (isBeingDeleted || willBeDeleted) ? "opacity-50 pointer-events-none" : "";
     
-    const allClasses = [baseClasses, roleClasses, errorClasses, queryResultsClasses, newConversationClasses, deletingClasses]
+    const accentClass = message.agentType ? AGENT_STYLES[message.agentType]?.accent : '';
+    const allClasses = [baseClasses, roleClasses, errorClasses, queryResultsClasses, newConversationClasses, deletingClasses, accentClass]
       .filter(Boolean)
       .join(" ");
 
@@ -1220,6 +1252,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               isJsonWorkflow={message.isJsonWorkflow}
               messageIndex={messageIndex}
               allMessages={messages}
+              enableExecution={enableExecution}
               isDarkMode={isDarkMode}
             />
           ) : message.needsClarification ? (
@@ -1231,8 +1264,8 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               onAnswerQuestions={() => handleAnswerQuestions(message)}
             />
           ) : message.isLoading ? (
-            <div className="flex items-center gap-3 text-neutral-600 dark:text-neutral-300">
-              <svg className="w-5 h-5 animate-spin text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className={`flex items-center gap-3 ${THEME.text.secondary}`}>
+              <svg className={`w-5 h-5 animate-spin ${THEME.text.muted}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-sm">Sending request...</span>
@@ -1262,12 +1295,20 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
                 <div className="flex-1 min-w-0">
                   {message.role === 'user' && message.agentType && (
                     <div className="mb-2">
-                      <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50">
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border ${
+                          AGENT_STYLES[message.agentType]?.badgeBg || 'bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700/50'
+                        }`}
+                      >
+                        <AgentIcon
+                          agentType={message.agentType}
+                          className={`w-3.5 h-3.5 ${AGENT_STYLES[message.agentType]?.iconColor || 'text-blue-600 dark:text-blue-400'}`}
+                        />
                         {AGENT_TYPES.find(agent => agent.id === message.agentType)?.name || message.agentType}
                       </span>
                     </div>
                   )}
-                  <div className="text-neutral-800 dark:text-neutral-200">{message.content}</div>
+                  <div className={THEME.text.primary}>{message.content}</div>
                 </div>
               </div>
             </div>
@@ -1446,17 +1487,16 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-neutral-800">
-      <div className="flex-shrink-0 p-4 bg-neutral-100 dark:bg-neutral-700 border-b border-neutral-200 dark:border-neutral-600">
+    <div className={`flex flex-col h-full ${THEME.containers.main}`}>
+      <div className={`flex-shrink-0 p-2 ${THEME.containers.header}`}>
         <div className="flex flex-wrap gap-4 items-center justify-between">
           <div className="flex flex-wrap gap-4 items-center">
           <div className="flex items-center gap-2">
-            <label htmlFor="llm-provider" className="text-sm font-medium text-neutral-700 dark:text-neutral-200">LLM:</label>
             <select 
               id="llm-provider" 
               value={llmProvider} 
               onChange={handleLlmProviderChange}
-              className="px-3 py-1 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500"
+              className={`px-3 py-1 rounded text-sm ${THEME.forms.select}`}
             >
               {LLM_PROVIDERS.map(provider => (
                 <option key={provider.id} value={provider.id}>
@@ -1468,13 +1508,13 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
       
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <label htmlFor="enable-clarification" className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-200">
+              <label htmlFor="enable-clarification" className={`flex items-center gap-2 text-sm ${THEME.text.primary}`}>
                 <input
                   id="enable-clarification"
                   type="checkbox"
                   checked={enableClarification}
                   onChange={handleEnableClarificationChange}
-                  className="rounded border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 focus:ring-neutral-500 dark:bg-neutral-600"
+                  className={`rounded ${THEME.forms.input}`}
                 />
                 Enable Clarifications
               </label>
@@ -1482,15 +1522,29 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
       
             {/* Enable execution toggle */}
             <div className="flex items-center gap-2">
-              <label htmlFor="enable-execution" className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-200">
+              <label htmlFor="enable-execution" className={`flex items-center gap-2 text-sm ${THEME.text.primary}`}>
                 <input
                   id="enable-execution"
                   type="checkbox"
                   checked={enableExecution}
                   onChange={(e)=>setEnableExecution(e.target.checked)}
-                  className="rounded border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 focus:ring-neutral-500 dark:bg-neutral-600"
+                  className={`rounded ${THEME.forms.input}`}
                 />
                 Enable Execution
+              </label>
+            </div>
+
+            {/* Auto-scroll toggle */}
+            <div className="flex items-center gap-2">
+              <label htmlFor="enable-autoscroll" className={`flex items-center gap-2 text-sm ${THEME.text.primary}`}>
+                <input
+                  id="enable-autoscroll"
+                  type="checkbox"
+                  checked={autoScrollEnabled}
+                  onChange={(e)=>setAutoScrollEnabled(e.target.checked)}
+                  className={`rounded ${THEME.forms.input}`}
+                />
+                Auto-scroll
               </label>
             </div>
           </div>
@@ -1502,7 +1556,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               <button
                 onClick={handleDownloadNotebook}
                 disabled={isLoading || agentBusy}
-                className="flex items-center gap-2 px-3 py-2 bg-green-600 dark:bg-green-700 text-white rounded hover:bg-green-700 dark:hover:bg-green-600 disabled:bg-neutral-400 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed transition-colors text-sm"
+                className={`flex items-center gap-2 px-3 py-2 rounded transition-colors text-sm disabled:cursor-not-allowed ${THEME.buttons.primary} disabled:bg-slate-400 dark:disabled:bg-slate-600`}
                 title="Download conversation as Jupyter notebook"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1519,13 +1573,13 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
       {messagesLoading ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 bg-neutral-100 dark:bg-neutral-600 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg className="w-6 h-6 text-neutral-500 dark:text-neutral-300 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className={`w-12 h-12 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-3`}>
+              <svg className={`w-6 h-6 ${THEME.text.secondary} animate-spin`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <p className="text-neutral-600 dark:text-neutral-300 text-sm font-medium">Loading messages...</p>
-            <p className="text-neutral-400 dark:text-neutral-500 text-xs mt-1">Fetching conversation history</p>
+            <p className={`text-sm font-medium ${THEME.text.primary}`}>Loading messages...</p>
+            <p className={`text-xs mt-1 ${THEME.text.muted}`}>Fetching conversation history</p>
           </div>
         </div>
       ) : (()=>{
@@ -1557,20 +1611,30 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
         );
       })()}
       
-      <form className="flex-shrink-0 p-4 bg-neutral-100 dark:bg-neutral-700 border-t border-neutral-200 dark:border-neutral-600" onSubmit={handleSubmit}>
+      <form className={`flex-shrink-0 p-2 ${THEME.containers.footer}`} onSubmit={handleSubmit}>
         <div className="flex gap-2">
-          <select 
-            value={selectedAgent} 
-            onChange={handleAgentChange}
-            className="px-3 py-2 bg-white dark:bg-neutral-600 border border-neutral-300 dark:border-neutral-500 rounded text-sm text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 disabled:bg-neutral-100 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed"
-            disabled={isLoading || agentBusy}
-          >
-            {AGENT_TYPES.map(agent => (
-              <option key={agent.id} value={agent.id}>
-                {agent.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={selectedAgent}
+              onChange={handleAgentChange}
+              className={`pl-8 pr-3 py-2 rounded text-sm disabled:cursor-not-allowed appearance-none ${THEME.agentBadges[selectedAgent]} border ${AGENT_BORDER_CLASSES[selectedAgent] || ''}`}
+              disabled={isLoading || agentBusy}
+            >
+              {AGENT_TYPES.map(agent => (
+                <option key={agent.id} value={agent.id}>
+                  {agent.name}&nbsp;&nbsp;&nbsp;
+                </option>
+              ))}
+            </select>
+            <div className={`absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 ${getAgentTheme(selectedAgent).icon}`}>
+              <AgentIcon agentType={selectedAgent} className="w-full h-full" />
+            </div>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         <input
           ref={inputRef}
           type="text"
@@ -1579,12 +1643,12 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
           placeholder={messages.length > 1
             ? "Ask me to refine the result or ask a new question..." 
             : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
-          className="flex-1 px-3 py-2 border border-neutral-300 dark:border-neutral-500 rounded focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 disabled:bg-neutral-100 dark:disabled:bg-neutral-600 disabled:cursor-not-allowed bg-white dark:bg-neutral-600 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
+          className={`flex-1 px-3 py-2 rounded disabled:cursor-not-allowed ${THEME.forms.input}`}
           disabled={isLoading || agentBusy || hasUnansweredClarificationQuestions()}
         />
         <button 
           type="submit" 
-          className="px-4 py-2 bg-blue-600 dark:bg-blue-600 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-700 disabled:bg-blue-400 dark:disabled:bg-blue-500 disabled:cursor-not-allowed transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className={`px-4 py-2 rounded transition-colors disabled:cursor-not-allowed ${THEME.buttons.primary} disabled:bg-slate-400 dark:disabled:bg-slate-600`}
           disabled={isLoading || agentBusy}
         >
           {isLoading ? 'Generating...' : agentBusy ? 'Agent Busy...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}

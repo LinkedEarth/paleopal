@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ChatWindow from './ChatWindow';
+import ServerStatus from './ServerStatus';
 import { testApiConnectivity } from '../config/api';
 import API_CONFIG from '../config/api';
+import THEME from '../styles/colorTheme';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
@@ -358,31 +360,31 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="flex h-screen bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
+    <div className={`flex h-screen ${THEME.containers.background} ${THEME.text.primary}`}>
       {/* Mobile overlay */}
       {sidebarOpen && isMobile && (
         <div 
-          className="fixed inset-0 bg-neutral-900 bg-opacity-50 z-20 lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-slate-900 bg-opacity-50 z-20 lg:hidden transition-opacity duration-300"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed lg:relative w-64 lg:w-72 h-full bg-white dark:bg-neutral-800 border-r border-neutral-200 dark:border-neutral-700 flex flex-col transition-transform duration-300 z-30 shadow-md ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+              <aside className={`fixed lg:relative w-64 lg:w-72 h-full ${THEME.containers.card} border-r ${THEME.borders.default} flex flex-col transition-transform duration-300 z-30 shadow-md ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
         {/* Sidebar Header */}
-        <div className="flex-shrink-0 p-4 border-b border-neutral-200 dark:border-neutral-600">
+        <div className="flex-shrink-0 p-4 border-b border-slate-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-800 dark:from-blue-500 dark:to-blue-700 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-800 dark:from-emerald-500 dark:to-emerald-700 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">PaleoPal</h2>
+              <h2 className={`text-lg font-semibold ${THEME.text.primary}`}>PaleoPal</h2>
             </div>
             {/* Close button for mobile */}
             <button
-              className="w-8 h-8 rounded-lg lg:hidden flex items-center justify-center text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-200"
+              className={`w-8 h-8 rounded-lg lg:hidden flex items-center justify-center ${THEME.text.secondary} ${THEME.interactive.hover} transition-colors duration-200`}
               onClick={() => setSidebarOpen(false)}
               title="Close sidebar"
             >
@@ -394,7 +396,7 @@ const ChatApp = () => {
           
           {/* New Chat Button */}
           <button 
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 border border-blue-600 dark:border-blue-600 group"
+            className={`w-full flex items-center justify-center gap-2 px-4 py-3 ${THEME.buttons.primary} rounded-lg transition-colors duration-200 group`}
             onClick={handleNewChat}
           >
             <svg className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -407,29 +409,29 @@ const ChatApp = () => {
         {/* Conversations Section */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden">
           <div className="px-4 py-3">
-            <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
+            <h3 className={`text-xs font-semibold ${THEME.text.tertiary} uppercase tracking-wider mb-3`}>
               Recent Conversations
             </h3>
           </div>
           {conversationsLoading ? (
             <div className="p-6 text-center">
-              <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-neutral-500 dark:text-neutral-300 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className={`w-16 h-16 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                <svg className={`w-8 h-8 ${THEME.text.secondary} animate-spin`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm font-medium">Loading conversations...</p>
-              <p className="text-neutral-400 dark:text-neutral-500 text-xs mt-1">Fetching your chat history</p>
+              <p className={`${THEME.text.primary} text-sm font-medium`}>Loading conversations...</p>
+              <p className={`${THEME.text.tertiary} text-xs mt-1`}>Fetching your chat history</p>
             </div>
           ) : conversations.length === 0 ? (
             <div className="p-6 text-center">
-              <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-neutral-400 dark:text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className={`w-16 h-16 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                <svg className={`w-8 h-8 ${THEME.text.tertiary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <p className="text-neutral-500 dark:text-neutral-400 text-sm">No conversations yet</p>
-              <p className="text-neutral-400 dark:text-neutral-500 text-xs mt-1">Click the + button to start a new chat</p>
+              <p className={`${THEME.text.secondary} text-sm`}>No conversations yet</p>
+              <p className={`${THEME.text.tertiary} text-xs mt-1`}>Click the + button to start a new chat</p>
             </div>
           ) : (
             <div className="px-4 pb-4">
@@ -439,11 +441,11 @@ const ChatApp = () => {
                   <div
                     className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 ${
                       conv.id === activeId 
-                        ? 'bg-blue-50 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700/70 shadow-sm' 
-                        : 'hover:bg-neutral-50 dark:hover:bg-neutral-700 border border-transparent'
+                        ? `${THEME.status.info.background} border ${THEME.status.info.border} shadow-sm` 
+                        : `${THEME.interactive.hover} border border-transparent`
                     } ${
                       conv.isLoading 
-                        ? 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-200 dark:border-amber-700' 
+                        ? `${THEME.status.warning.background} border ${THEME.status.warning.border}` 
                         : ''
                     }`}
                     onClick={() => {
@@ -459,10 +461,10 @@ const ChatApp = () => {
                     {/* Conversation Icon */}
                     <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
                       conv.id === activeId 
-                        ? 'bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300' 
+                        ? `${THEME.status.info.background} ${THEME.status.info.text}` 
                         : conv.isLoading 
-                        ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' 
-                        : 'bg-neutral-100 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400'
+                        ? `${THEME.status.warning.background} ${THEME.status.warning.text}` 
+                        : `${THEME.containers.secondary} ${THEME.text.tertiary}`
                     }`}>
                       {conv.isLoading ? (
                         <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -479,8 +481,8 @@ const ChatApp = () => {
                     <div className="flex-1 min-w-0 relative">
                       {/* Deletion overlay */}
                       {deletingConversations.has(conv.id) && (
-                        <div className="absolute inset-0 bg-red-50 dark:bg-red-900/50 bg-opacity-90 flex items-center justify-center rounded z-10">
-                          <div className="flex items-center gap-2 text-red-700 dark:text-red-300">
+                        <div className={`absolute inset-0 ${THEME.status.error.background} bg-opacity-90 flex items-center justify-center rounded z-10`}>
+                          <div className={`flex items-center gap-2 ${THEME.status.error.text}`}>
                             <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -491,7 +493,7 @@ const ChatApp = () => {
                       
                       <div className="flex items-center justify-between">
                         <h3 className={`text-sm font-medium truncate ${
-                          conv.id === activeId ? 'text-blue-900 dark:text-blue-100' : 'text-neutral-700 dark:text-neutral-200'
+                          conv.id === activeId ? THEME.status.info.text : THEME.text.primary
                         } ${deletingConversations.has(conv.id) ? 'opacity-50' : ''}`}>
                   {conv.title && conv.title !== 'New Chat' ? conv.title : 'Untitled'}
                         </h3>
@@ -505,7 +507,7 @@ const ChatApp = () => {
                       </div>
                       <div className="flex items-center justify-between mt-1">
                         <p className={`text-xs truncate ${
-                          conv.id === activeId ? 'text-blue-700 dark:text-blue-300' : 'text-neutral-500 dark:text-neutral-400'
+                          conv.id === activeId ? THEME.status.info.text : THEME.text.secondary
                         } ${deletingConversations.has(conv.id) ? 'opacity-50' : ''}`}>
                           {conv.updated_at || conv.updatedAt 
                             ? new Date(conv.updated_at || conv.updatedAt).toLocaleString()
@@ -516,7 +518,7 @@ const ChatApp = () => {
                         </p>
                         <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                           <button
-                            className="w-7 h-7 bg-neutral-100 dark:bg-neutral-600 hover:bg-neutral-200 dark:hover:bg-neutral-500 text-neutral-600 dark:text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-100 rounded-md flex items-center justify-center transition-colors duration-200"
+                            className={`w-7 h-7 ${THEME.buttons.secondary} rounded-md flex items-center justify-center transition-colors duration-200`}
                             title="Rename"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -530,8 +532,8 @@ const ChatApp = () => {
                           <button
                             className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-200 ${
                               deletingConversations.has(conv.id)
-                                ? 'bg-red-200 dark:bg-red-900/30 text-red-400 dark:text-red-500 cursor-not-allowed'
-                                : 'bg-red-100 dark:bg-red-900/20 hover:bg-red-200 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300'
+                                ? `${THEME.status.error.background} ${THEME.status.error.text} cursor-not-allowed`
+                                : THEME.buttons.danger
                             }`}
                             title={deletingConversations.has(conv.id) ? "Deleting..." : conv.isLoading ? "Force delete (cancels current request)" : "Delete"}
                             disabled={deletingConversations.has(conv.id)}
@@ -559,7 +561,7 @@ const ChatApp = () => {
                     {/* Loading indicator with clear button for stuck states */}
                     {conv.isLoading && (conv.updated_at || conv.updatedAt) && (Date.now() - new Date(conv.updated_at || conv.updatedAt).getTime()) > 2 * 60 * 1000 && (
                       <button
-                        className="absolute top-2 right-2 w-6 h-6 bg-amber-100 hover:bg-amber-200 text-amber-600 hover:text-amber-800 rounded-full flex items-center justify-center transition-colors duration-200 text-xs"
+                        className={`absolute top-2 right-2 w-6 h-6 ${THEME.status.warning.background} ${THEME.status.warning.text} hover:bg-amber-200 hover:text-amber-800 rounded-full flex items-center justify-center transition-colors duration-200 text-xs`}
                         title="Clear stuck loading state"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -580,12 +582,12 @@ const ChatApp = () => {
         </div>
 
         {/* Footer Section */}
-        <div className="flex-shrink-0 px-4 py-3 border-t border-neutral-200 dark:border-neutral-600">
+        <div className="flex-shrink-0 px-4 py-3 border-t border-slate-200 dark:border-slate-700">
           <div className="space-y-2">
             {/* Dark/Light Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors duration-200"
+              className={`w-full flex items-center gap-3 px-3 py-2 text-sm ${THEME.text.primary} ${THEME.interactive.hover} rounded-lg transition-colors duration-200`}
             >
               <div className="w-5 h-5">
                 {isDarkMode ? (
@@ -604,7 +606,7 @@ const ChatApp = () => {
             {/* Dashboard Link */}
             <Link
               to="/dashboard"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors duration-200"
+              className={`w-full flex items-center gap-3 px-3 py-2 text-sm ${THEME.text.primary} ${THEME.interactive.hover} rounded-lg transition-colors duration-200`}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -616,13 +618,13 @@ const ChatApp = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col overflow-hidden bg-neutral-50 dark:bg-neutral-900">
+      <main className={`flex-1 flex flex-col overflow-hidden ${THEME.containers.background}`}>
         {/* Header Component */}
-        <header className="sticky top-0 z-10 bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between px-4 py-3">
+        <header className={`sticky top-0 z-10 ${THEME.containers.card} border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-4 py-3`}>
           {/* Mobile: Hamburger menu + title */}
           <div className="flex items-center gap-3 lg:hidden">
             <button
-              className="w-9 h-9 bg-neutral-600 hover:bg-neutral-700 dark:bg-neutral-500 dark:hover:bg-neutral-400 text-white rounded-lg flex items-center justify-center transition-colors duration-200"
+              className={`w-9 h-9 ${THEME.buttons.secondary} rounded-lg flex items-center justify-center transition-colors duration-200`}
               onClick={() => setSidebarOpen(true)}
               title="Open sidebar"
             >
@@ -630,22 +632,25 @@ const ChatApp = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <h1 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">PaleoPal</h1>
+            <h1 className={`text-lg font-semibold ${THEME.text.primary}`}>PaleoPal</h1>
           </div>
 
           {/* Desktop: Title + search bar */}
           <div className="hidden lg:flex items-center gap-4">
-            <h1 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+            <h1 className={`text-lg font-semibold ${THEME.text.primary}`}>
               {activeConversation?.title || 'PaleoPal Chat'}
             </h1>
           </div>
 
           {/* User actions */}
           <div className="flex items-center gap-2">
+            {/* Server Status */}
+            <ServerStatus />
+            
             {/* Theme toggle for mobile */}
             <button
               onClick={toggleDarkMode}
-              className="w-9 h-9 bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-neutral-600 dark:text-neutral-300 rounded-lg flex items-center justify-center transition-colors duration-200 lg:hidden"
+              className={`w-9 h-9 ${THEME.buttons.secondary} rounded-lg flex items-center justify-center transition-colors duration-200 lg:hidden`}
               title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {isDarkMode ? (
@@ -669,13 +674,13 @@ const ChatApp = () => {
         {conversationsLoading ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-16 h-16 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 animate-spin text-neutral-500 dark:text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className={`w-16 h-16 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                <svg className={`w-8 h-8 animate-spin ${THEME.text.secondary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">Loading conversations...</h3>
-              <p className="text-neutral-600 dark:text-neutral-400">Please wait while we fetch your chat history</p>
+              <h3 className={`text-lg font-medium ${THEME.text.primary} mb-2`}>Loading conversations...</h3>
+              <p className={THEME.text.secondary}>Please wait while we fetch your chat history</p>
             </div>
           </div>
         ) : activeConversation ? (
@@ -687,16 +692,16 @@ const ChatApp = () => {
         ) : (
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <div className="w-24 h-24 bg-neutral-200 dark:bg-neutral-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-12 h-12 text-neutral-400 dark:text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className={`w-24 h-24 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                  <svg className={`w-12 h-12 ${THEME.text.tertiary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Welcome to PaleoPal</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 mb-6">Select a conversation or start a new chat to begin</p>
+                <h3 className={`text-xl font-semibold ${THEME.text.primary} mb-2`}>Welcome to PaleoPal</h3>
+                <p className={`${THEME.text.secondary} mb-6`}>Select a conversation or start a new chat to begin</p>
                 <button
                   onClick={handleNewChat}
-                  className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
+                  className={`inline-flex items-center px-6 py-3 ${THEME.buttons.primary} font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md`}
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
