@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import THEME from '../styles/colorTheme';
+import Icon from './Icon';
 
 const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecuteStep, messageIndex, allMessages, enableExecution = true }) => {
   const [error, setError] = useState(null);
@@ -446,66 +447,27 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
 
   const getStepIcon = (step) => {
     if (step.status === 'completed') {
-      return (
-        <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22,4 12,14.01 9,11.01"></polyline>
-        </svg>
-      );
-    } else if (step.status === 'error') {
-      return (
-        <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="m21 21-6-6m0 0a7 7 0 1 1 1.41-1.41L21 21z"></path>
-          <circle cx="10" cy="10" r="7"></circle>
-          <path d="M10 7v6l4-2"></path>
-        </svg>
-      );
-    } else if (step.status === 'running') {
-      return (
-        <svg className="w-4 h-4 text-blue-600 animate-spin" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-        </svg>
-      );
-    } else {
-      return (
-        <svg className="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10"></circle>
-        </svg>
-      );
+      return <Icon name="check" className="w-4 h-4 text-green-600" />;
     }
+    if (step.status === 'error') {
+      return <Icon name="error" className="w-4 h-4 text-red-600" />;
+    }
+    if (step.status === 'running') {
+      return <Icon name="spinner" className="w-4 h-4 text-blue-600 animate-spin" />;
+    }
+    return <Icon name="circle" className="w-4 h-4 text-neutral-400" />;
   };
 
   const getActionIcon = (action) => {
     switch (action.type) {
       case 'sparql_query':
-        return (
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-            <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"></path>
-            <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"></path>
-          </svg>
-        );
+        return <Icon name="database" className="w-3 h-3" />;
       case 'code_execution':
-        return (
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <path d="m7 8-4 4 4 4"></path>
-            <path d="m17 8 4 4-4 4"></path>
-            <path d="m14 4-4 16"></path>
-          </svg>
-        );
+        return <Icon name="code" className="w-3 h-3" />;
       case 'data_analysis':
-        return (
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
-          </svg>
-        );
+        return <Icon name="activity" className="w-3 h-3" />;
       default:
-        return (
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-        );
+        return <Icon name="settings" className="w-3 h-3" />;
     }
   };
 
@@ -514,11 +476,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
       <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800">
         <div className="flex justify-between items-center p-3 border-b border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-700 rounded-t-lg">
           <h4 className="text-neutral-800 dark:text-neutral-200 font-medium text-sm m-0 flex items-center gap-2">
-            <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <path d="m21 21-6-6m0 0a7 7 0 1 1 1.41-1.41L21 21z"></path>
-              <circle cx="10" cy="10" r="7"></circle>
-              <path d="M10 7v6l4-2"></path>
-            </svg>
+            <Icon name="error" className="w-4 h-4 text-red-500" />
             Workflow Error
           </h4>
         </div>
@@ -539,9 +497,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           <div className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.secondary}`}>
         <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} ${THEME.containers.card} rounded-t-lg`}>
         <h4 className={`${THEME.text.primary} font-medium text-sm m-0 flex items-center gap-2`}>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <polygon points="5,3 19,12 5,21"></polygon>
-          </svg>
+          <Icon name="play" className="w-4 h-4" />
           Workflow Plan
         </h4>
         <div className="flex gap-2">
@@ -554,25 +510,17 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
             >
               {isExecuting ? (
                 <span className="flex items-center gap-1">
-                  <svg className="w-3 h-3 animate-spin" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-                  </svg>
+                  <Icon name="spinner" className="w-3 h-3 animate-spin" />
                   Running...
                 </span>
               ) : hasStarted ? (
                 <span className="flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
-                    <path d="M8 12l4 4 4-4"></path>
-                  </svg>
+                  <Icon name="play" className="w-3 h-3" />
                   Continue
                 </span>
               ) : (
                 <span className="flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <polygon points="5,3 19,12 5,21"></polygon>
-                  </svg>
+                  <Icon name="play" className="w-3 h-3" />
                   Execute
                 </span>
               )}
@@ -581,10 +529,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
           {allCompleted && (
             <span className={`px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} rounded text-xs font-medium border ${THEME.status.success.border}`}>
               <span className="flex items-center gap-1">
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22,4 12,14.01 9,11.01"></polyline>
-                </svg>
+                <Icon name="check" className="w-3 h-3" />
                 Completed
               </span>
             </span>
@@ -605,20 +550,11 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
             <div className={`text-sm font-medium ${allCompleted ? THEME.status.success.text : hasStarted ? THEME.status.warning.text : THEME.text.primary}`}>
               <span className="flex items-center gap-2">
                 {allCompleted ? (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22,4 12,14.01 9,11.01"></polyline>
-                  </svg>
+                  <Icon name="check" className="w-4 h-4" />
                 ) : hasStarted ? (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
-                  </svg>
+                  <Icon name="activity" className="w-4 h-4" />
                 ) : (
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <rect width="8" height="8" x="3" y="3" rx="2"></rect>
-                    <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
-                    <rect width="8" height="8" x="13" y="13" rx="2"></rect>
-                  </svg>
+                  <Icon name="square" className="w-4 h-4" />
                 )}
                 {completedCount}/{totalSteps} steps completed
               </span>
@@ -693,25 +629,19 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
                       </span>
                       {isCompleted && (
                         <span className={`text-xs ${THEME.status.success.text} font-medium flex items-center gap-1`}>
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
+                          <Icon name="check" className="w-3 h-3" />
                           Completed
                         </span>
                       )}
                       {isInProgress && (
                         <span className={`text-xs ${THEME.status.warning.text} font-medium flex items-center gap-1`}>
-                          <svg className="w-3 h-3 animate-spin" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
+                          <Icon name="spinner" className="w-3 h-3 animate-spin" />
                           In Progress
                         </span>
                       )}
                       {isCurrent && (
                         <span className={`text-xs ${THEME.status.warning.text} font-medium flex items-center gap-1`}>
-                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
+                          <Icon name="play" className="w-3 h-3" />
                           Executing...
                         </span>
                       )}
@@ -722,9 +652,7 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
                           title={`Execute workflow starting from step ${index + 1}`}
                         >
                           <span className="flex items-center gap-1">
-                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
+                            <Icon name="play" className="w-3 h-3" />
                             Resume from here
                           </span>
                         </button>

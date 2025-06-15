@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { buildApiUrl } from '../config/api';
 import { THEME } from '../styles/colorTheme';
+import Icon from './Icon';
 
 const ServerStatus = () => {
   const [status, setStatus] = useState(null);
@@ -84,14 +85,10 @@ const ServerStatus = () => {
         </div>
 
         {/* Expand/Collapse Icon */}
-        <svg 
-          className={`w-3 h-3 ${THEME.text.muted} transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <Icon 
+          name="chevronDown" 
+          className={`w-3 h-3 ${THEME.text.muted} transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
+        />
       </div>
 
       {/* Expanded Details */}

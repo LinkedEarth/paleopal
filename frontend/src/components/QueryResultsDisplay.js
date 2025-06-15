@@ -1,5 +1,6 @@
 import React from 'react';
 import THEME from '../styles/colorTheme';
+import Icon from './Icon';
 
 const QueryResultsDisplay = ({ results, error }) => {
   const copyToClipboard = (text) => navigator.clipboard.writeText(text).catch(() => {});
@@ -9,11 +10,7 @@ const QueryResultsDisplay = ({ results, error }) => {
       <div className={`rounded-lg ${THEME.containers.panel}`}>
         <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
           <h4 className={`font-medium text-sm m-0 flex items-center gap-2 ${THEME.text.primary}`}>
-            <svg className={`w-4 h-4 ${THEME.status.error.text}`} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <path d="m21 21-6.05-6.05a7 7 0 1 1 1.41-1.41L21 21z"></path>
-              <circle cx="10" cy="10" r="7"></circle>
-              <path d="M10 6v8l4-4-4-4"></path>
-            </svg>
+            <Icon name="search" className={`w-4 h-4 ${THEME.status.error.text}`} />
             Query Error
           </h4>
         </div>
@@ -29,11 +26,7 @@ const QueryResultsDisplay = ({ results, error }) => {
       <div className={`rounded-lg ${THEME.containers.panel}`}>
         <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
           <h4 className={`font-medium text-sm m-0 flex items-center gap-2 ${THEME.text.primary}`}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <path d="M3 6h18"></path>
-              <path d="M3 12h18"></path>
-              <path d="M3 18h18"></path>
-            </svg>
+            <Icon name="list" className="w-4 h-4" />
             Query Results
           </h4>
         </div>
@@ -49,11 +42,7 @@ const QueryResultsDisplay = ({ results, error }) => {
     <div className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.panel} relative group`}>
       <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
         <h4 className={`font-medium text-sm m-0 flex items-center gap-2 ${THEME.text.primary}`}>
-                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-             <path d="M3 6h18"></path>
-             <path d="M3 12h18"></path>
-             <path d="M3 18h18"></path>
-           </svg>
+          <Icon name="list" className="w-4 h-4" />
           Query Results ({results.length === 50 ? "limiting to ": ""}{results.length} row{results.length !== 1 ? 's' : ''})
         </h4>
         <button 
@@ -61,9 +50,7 @@ const QueryResultsDisplay = ({ results, error }) => {
           onClick={() => copyToClipboard(JSON.stringify(results, null, 2))}
         >
           <span className="flex items-center gap-1">
-            <svg className={`w-4 h-4 ${THEME.text.secondary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
+            <Icon name="copy" className={`w-4 h-4 ${THEME.text.secondary}`} />
           </span>
         </button>
       </div>

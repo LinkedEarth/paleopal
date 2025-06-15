@@ -133,6 +133,33 @@ LIBRARY_CONFIGS = {
             "complexity": ["simple", "medium", "complex"],
             "language": ["python", "r"]
         }
+    },
+    "learned_sparql": {
+        "name": "Learned SPARQL",
+        "type": "learned_library",
+        "description": "User-curated SPARQL queries from successful interactions",
+        "collections": ["learned_sparql"],
+        "search_function": search_queries,  # Reuse SPARQL search function
+        "filters": {
+            "query_type": ["learned"],
+            "agent_type": ["sparql"],
+            "tags": [],  # Will be populated dynamically
+            "library": ["sparql"]
+        }
+    },
+    "learned_code": {
+        "name": "Learned Code",
+        "type": "learned_library", 
+        "description": "User-curated Python code from successful interactions",
+        "collections": ["learned_code"],
+        "search_function": search_docs,  # Reuse general search function
+        "filters": {
+            "code_type": ["learned"],
+            "agent_type": ["code", "sparql"],
+            "library": ["matplotlib", "pandas", "sparql", "general"],
+            "code_category": ["visualization", "data_analysis", "data_retrieval", "general"],
+            "tags": []  # Will be populated dynamically
+        }
     }
 }
 

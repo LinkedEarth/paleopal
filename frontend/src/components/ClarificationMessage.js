@@ -1,6 +1,7 @@
 import React from 'react';
 import { parseMessageParts } from '../utils/parse';
 import { THEME } from '../styles/colorTheme';
+import Icon from './Icon';
 
 // Component to render formatted clarification messages
 const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentResponse = false, onAnswerQuestions }) => {
@@ -22,9 +23,7 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
         title={isCollapsed ? 'Expand questions' : 'Collapse questions'}
       >
         <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-          <svg className={`w-5 h-5 ${THEME.text.muted}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <Icon name="question" className={`w-5 h-5 ${THEME.text.muted}`} />
         </div>
         <div className="flex-1">
           <span className={`text-sm font-medium ${THEME.text.primary}`}>Clarification Questions</span>
@@ -37,14 +36,10 @@ const ClarificationMessage = ({ content, clarificationQuestions, hasSubsequentRe
           {hasSubsequentResponse && (
             <span className={`text-xs px-2 py-1 rounded-full ${THEME.status.success.text} ${THEME.status.success.background}`}>Answered</span>
           )}
-          <svg 
+          <Icon 
+            name="chevronDown" 
             className={`w-4 h-4 ${THEME.text.secondary} transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-          </svg>
+          />
         </div>
       </div>
     );

@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import axios from 'axios';
 import { AgentProgressDisplay } from './AgentProgressDisplay';
 import QueryAndResultsMessage from './QueryAndResultsMessage';
 import ClarificationMessage from './ClarificationMessage';
 import ClarificationResponseMessage from './ClarificationResponseMessage';
 import ClarificationDialog from './ClarificationDialog';
-import GeneratedCodeDisplay from './GeneratedCodeDisplay';
 import { buildApiUrl, apiRequest } from '../config/api';
 import API_CONFIG from '../config/api';
 import AgentIcon from './AgentIcon';
 import THEME, { getAgentTheme } from '../styles/colorTheme';
+import Icon from './Icon';
 
 const LLM_PROVIDERS = [
   { id: 'openai', name: 'OpenAI' },  
@@ -561,9 +560,9 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           if (stepCompletionResolver.current) {
             stepCompletionResolver.current = null;
             stepExecutionInProgress.current = false;
-            reject(new Error('Step execution timeout (5 min) – no response received'));
+            reject(new Error('Step execution timeout (10 min) – no response received'));
           }
-        }, 300000); // 5-minute timeout
+        }, 600000); // 10-minute timeout
       });
       
       // Build context with step input and dependency outputs
@@ -776,7 +775,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
       isLoading
     });
     let pollCount = 0;
-    const maxPolls = 300; // 5 minutes with 1-second intervals
+    const maxPolls = 300; // 10 minutes with 2-second intervals
     const pollIntervalSeconds = 2; // 2 seconds
     
     const pollInterval = setInterval(async () => {
@@ -1157,7 +1156,10 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
 
   // Helper to render individual chat message
   const renderChatMessage = (message, messageIndex) => {
-    const baseClasses = "p-4 mb-4 rounded-lg border shadow-sm max-w-[90%]";
+    let baseClasses = "p-4 mb-4 rounded-lg border shadow-sm";
+    if (message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution) {
+      baseClasses += " w-full sm:w-[90%]";
+    }
     const roleClasses = message.role === 'user' 
       ? `${THEME.messages.user.bg} ${THEME.messages.user.border} ${THEME.messages.user.text}` 
       : `${THEME.messages.assistant.bg} ${THEME.messages.assistant.border} ${THEME.messages.assistant.text}`;
@@ -1194,9 +1196,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
           {(isBeingDeleted || willBeDeleted) && (
             <div className="absolute inset-0 bg-red-100 dark:bg-red-900/50 bg-opacity-75 rounded-lg flex items-center justify-center">
               <div className="flex items-center gap-2 bg-white dark:bg-neutral-800 px-3 py-2 rounded-lg shadow-md">
-                <svg className="w-4 h-4 animate-spin text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Icon name="spinner" className="w-4 h-4 animate-spin text-red-500 dark:text-red-400" />
                 <span className="text-sm font-medium text-red-700 dark:text-red-300">
                   {isBeingDeleted ? 'Deleting messages...' : 'Will be deleted...'}
                 </span>
@@ -1219,13 +1219,9 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
                 : `Delete this question and all ${messages.length - messageIndex - 1} messages after it`}
             >
               {deletingMessages.has(`bulk_${messageIndex}`) ? (
-                <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Icon name="spinner" className="w-4 h-4 animate-spin" />
               ) : (
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
+                <Icon name="delete" className="w-4 h-4" />
               )}
             </button>
           )}
@@ -1254,6 +1250,21 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               allMessages={messages}
               enableExecution={enableExecution}
               isDarkMode={isDarkMode}
+              onMessageUpdate={(updatedMessage) => {
+                // Convert backend message format to frontend format
+                const convertedMessage = convertBackendMessagesToFrontend([updatedMessage])[0];
+                
+                // Update the message in the messages array
+                setMessages(prevMessages => 
+                  prevMessages.map(msg => 
+                    msg.id === updatedMessage.id ? { ...msg, ...convertedMessage } : msg
+                  )
+                );
+              }}
+              onError={(error) => {
+                setError(error);
+                setTimeout(() => setError(''), 5000);
+              }}
             />
           ) : message.needsClarification ? (
             // Show clarification questions - use main form button to answer
@@ -1265,9 +1276,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
             />
           ) : message.isLoading ? (
             <div className={`flex items-center gap-3 ${THEME.text.secondary}`}>
-              <svg className={`w-5 h-5 animate-spin ${THEME.text.muted}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <Icon name="spinner" className={`w-5 h-5 animate-spin ${THEME.text.muted}`} />
               <span className="text-sm">Sending request...</span>
             </div>
           ) : (
@@ -1278,15 +1287,11 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
                 <div className="flex-shrink-0 mt-1">
                   {message.role === 'user' ? (
                     <div className="w-6 h-6 bg-blue-100 dark:bg-blue-800/30 border border-blue-200 dark:border-blue-700/50 rounded-full flex items-center justify-center">
-                      <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
+                      <Icon name="user" className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                     </div>
                   ) : (
                     <div className="w-6 h-6 bg-neutral-100 dark:bg-neutral-600 border border-neutral-200 dark:border-neutral-500 rounded-full flex items-center justify-center">
-                      <svg className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
+                      <Icon name="computer" className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-400" />
                     </div>
                   )}
                 </div>
@@ -1559,9 +1564,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
                 className={`flex items-center gap-2 px-3 py-2 rounded transition-colors text-sm disabled:cursor-not-allowed ${THEME.buttons.primary} disabled:bg-slate-400 dark:disabled:bg-slate-600`}
                 title="Download conversation as Jupyter notebook"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+                <Icon name="download" className="w-4 h-4" />
                 {isLoading ? 'Exporting...' : 'Download Notebook'}
               </button>
             </div>
@@ -1574,9 +1577,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className={`w-12 h-12 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-3`}>
-              <svg className={`w-6 h-6 ${THEME.text.secondary} animate-spin`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <Icon name="spinner" className={`w-6 h-6 ${THEME.text.secondary} animate-spin`} />
             </div>
             <p className={`text-sm font-medium ${THEME.text.primary}`}>Loading messages...</p>
             <p className={`text-xs mt-1 ${THEME.text.muted}`}>Fetching conversation history</p>
@@ -1630,9 +1631,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               <AgentIcon agentType={selectedAgent} className="w-full h-full" />
             </div>
             <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+              <Icon name="chevronDown" className="w-4 h-4 text-slate-400" />
             </div>
           </div>
         <input

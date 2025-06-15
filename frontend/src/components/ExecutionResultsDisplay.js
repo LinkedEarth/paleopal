@@ -1,5 +1,6 @@
 import VariableStateDisplay from './VariableStateDisplay';
 import THEME from '../styles/colorTheme';
+import Icon from './Icon';
 
 // Helper function to render unified execution results
 const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = false }) => {
@@ -18,10 +19,7 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                   {/* Success indicator */}
                   <div className="flex items-center gap-2">
                     <span className={`${THEME.status.success.text} text-sm flex items-center gap-1`}>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22,4 12,14.01 9,11.01"></polyline>
-                      </svg>
+                      <Icon name="success" />
                       Execution Successful
                     </span>
                     {result.execution_time && (
@@ -53,19 +51,18 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                   {result.plots && result.plots.length > 0 && (
                     <div>
                       <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>Generated Plots:</div>
-                      <div className="space-y-2">
-                        {result.plots.map((plotPath, plotIndex) => (
-                          <div key={plotIndex} className={`text-xs ${THEME.text.secondary}`}>
-                            <span className="flex items-center gap-1">
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                                <line x1="18" y1="20" x2="18" y2="10"></line>
-                                <line x1="12" y1="20" x2="12" y2="4"></line>
-                                <line x1="6" y1="20" x2="6" y2="14"></line>
-                              </svg>
-                              {plotPath}
-                            </span>
-                          </div>
-                        ))}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {result.plots.map((plotPath, plotIndex) => {
+                          // Extract filename
+                          const parts = plotPath.split(/[/\\]/);
+                          const filename = parts[parts.length - 1];
+                          const imgSrc = `${window.location.origin}/plots/${filename}`;
+                          return (
+                            <div key={plotIndex} className="border rounded-lg overflow-hidden">
+                              <img src={imgSrc} alt={`Plot ${plotIndex + 1}`} className="w-full h-auto" />
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -77,11 +74,7 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                   {/* Error indicator */}
                   <div className="flex items-center gap-2">
                     <span className={`${THEME.status.error.text} text-sm flex items-center gap-1`}>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="15" y1="9" x2="9" y2="15"></line>
-                        <line x1="9" y1="9" x2="15" y2="15"></line>
-                      </svg>
+                      <Icon name="error" />
                       Execution Failed
                     </span>
                     {result.execution_time && (
@@ -134,9 +127,7 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
       <div className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.panel}`}>
         <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} ${THEME.containers.card} rounded-t-lg`}>
           <h4 className={`${THEME.text.primary} font-medium text-sm m-0 flex items-center gap-2`}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
-            </svg>
+            <Icon name="chevronDown" />
             Execution Results
           </h4>
         </div>

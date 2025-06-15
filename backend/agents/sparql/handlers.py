@@ -635,11 +635,27 @@ def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Di
             )
             
             # Create a unique variable name for this query result
-            import uuid
-            import time
+            import uuid, time
             timestamp = int(time.time())
             unique_id = str(uuid.uuid4())[:8]
-            variable_name = f"sparql_results_{timestamp}_{unique_id}"
+
+            # Reuse existing variable name if provided (for re-execution)
+            variable_name = None
+            try:
+                existing_vars = []
+                if isinstance(state, dict):
+                    existing_vars = state.get("result_variable_names", []) or []
+                else:
+                    existing_vars = getattr(state, "result_variable_names", []) or []
+
+                if existing_vars:
+                    variable_name = existing_vars[0]
+                    logger.info(f"Reusing existing variable name '{variable_name}' for SPARQL results")
+            except Exception:
+                variable_name = None
+
+            if not variable_name:
+                variable_name = f"sparql_results_{timestamp}_{unique_id}"
             
             # Get SPARQL endpoint URL from config
             sparql_endpoint = sparql_service.endpoint_url

@@ -6,6 +6,7 @@ import API_CONFIG from '../config/api';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import THEME from '../styles/colorTheme';
+import Icon from './Icon';
 
 // Configure axios defaults - use same logic as API_CONFIG
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
@@ -768,9 +769,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-800 dark:from-emerald-500 dark:to-emerald-700 rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+                <Icon name="list" className="w-5 h-5 text-white" />
               </div>
               <span className={`font-bold ${THEME.text.primary} text-lg`}>PaleoPal</span>
             </div>
@@ -780,9 +779,7 @@ const Dashboard = () => {
                 onClick={() => setSidebarOpen(false)}
                 className={`lg:hidden p-1 rounded-lg ${THEME.text.secondary} ${THEME.interactive.hover}`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <Icon name="close" className="w-5 h-5" />
               </button>
             )}
           </div>
@@ -861,18 +858,14 @@ const Dashboard = () => {
                   onClick={() => setSidebarOpen(true)}
                   className={`lg:hidden p-2 rounded-lg ${THEME.text.secondary} ${THEME.interactive.hover}`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
+                  <Icon name="menu" className="w-5 h-5" />
                 </button>
               )}
               
               <div className="flex items-center space-x-3">
                 {!isMobile && (
                   <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-800 dark:from-emerald-500 dark:to-emerald-700 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
+                    <Icon name="list" className="w-5 h-5 text-white" />
                   </div>
                 )}
                 <div>

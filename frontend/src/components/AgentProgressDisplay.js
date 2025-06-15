@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Icon from './Icon';
 // Use prism syntax highlighter for code snippets
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -264,10 +265,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                       
                       {hasDetails && (
                         <button className={`ml-2 ${THEME.text.muted} hover:${THEME.text.secondary}`}>
-                          <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-                               fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
+                          <Icon name="chevronDown" className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                         </button>
                       )}
                     </div>
@@ -364,9 +362,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
             onClick={onClose}
             className={`${THEME.text.muted} hover:${THEME.text.secondary} transition-colors`}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <Icon name="close" className="w-6 h-6" />
           </button>
         </div>
         
@@ -435,15 +431,11 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
   const renderStatusIcon = () => {
     if (executionDone) {
       return (
-        <svg className="w-5 h-5 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
+        <Icon name="check" className="w-5 h-5 text-green-500 dark:text-green-400" />
       );
     } else {
       return (
-        <svg className="w-5 h-5 text-neutral-500 dark:text-neutral-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+        <Icon name="spinner" />
       );
     }
   };
@@ -468,10 +460,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
         
         {completedNodes.length > 0 && (
           <button className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
-            <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <Icon name="chevronDown" className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
           </button>
         )}
       </div>

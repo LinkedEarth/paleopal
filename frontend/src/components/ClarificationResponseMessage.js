@@ -1,4 +1,5 @@
 import React from 'react';
+import Icon from './Icon';
 
 // Component to render clarification responses in a nice format
 const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
@@ -11,9 +12,7 @@ const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
             title={isCollapsed ? 'Expand response' : 'Collapse response'}
         >
             <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Icon name="check" className="w-5 h-5 text-green-500 dark:text-green-400" />
             </div>
             <div className="flex-1">
                 <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">Clarification Response</span>
@@ -24,14 +23,7 @@ const ClarificationResponseMessage = ({ content, clarificationResponses }) => {
                     {clarificationResponses ? `${clarificationResponses.length} answers provided` : 'Questions answered'}
                 </span>
                 <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">Completed</span>
-                <svg 
-                    className={`w-4 h-4 text-neutral-600 dark:text-neutral-400 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                </svg>
+                <Icon name="chevronDown" className={`w-4 h-4 text-neutral-600 dark:text-neutral-400 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} />
             </div>
         </div>
     );

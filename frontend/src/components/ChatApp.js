@@ -6,6 +6,7 @@ import ServerStatus from './ServerStatus';
 import { testApiConnectivity } from '../config/api';
 import API_CONFIG from '../config/api';
 import THEME from '../styles/colorTheme';
+import Icon from './Icon';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
@@ -376,9 +377,7 @@ const ChatApp = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-800 dark:from-emerald-500 dark:to-emerald-700 rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
+                <Icon name="message" className="w-5 h-5 text-white" />
               </div>
               <h2 className={`text-lg font-semibold ${THEME.text.primary}`}>PaleoPal</h2>
             </div>
@@ -388,9 +387,7 @@ const ChatApp = () => {
               onClick={() => setSidebarOpen(false)}
               title="Close sidebar"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <Icon name="close" className="w-5 h-5" />
             </button>
           </div>
           
@@ -399,9 +396,7 @@ const ChatApp = () => {
             className={`w-full flex items-center justify-center gap-2 px-4 py-3 ${THEME.buttons.primary} rounded-lg transition-colors duration-200 group`}
             onClick={handleNewChat}
           >
-            <svg className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
+            <Icon name="add" className="w-5 h-5 transition-transform duration-200 group-hover:scale-110" />
             <span className="font-medium">New Chat</span>
           </button>
         </div>
@@ -416,9 +411,7 @@ const ChatApp = () => {
           {conversationsLoading ? (
             <div className="p-6 text-center">
               <div className={`w-16 h-16 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                <svg className={`w-8 h-8 ${THEME.text.secondary} animate-spin`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Icon name="spinner" className={`w-8 h-8 ${THEME.text.secondary} animate-spin`} />
               </div>
               <p className={`${THEME.text.primary} text-sm font-medium`}>Loading conversations...</p>
               <p className={`${THEME.text.tertiary} text-xs mt-1`}>Fetching your chat history</p>
@@ -426,9 +419,7 @@ const ChatApp = () => {
           ) : conversations.length === 0 ? (
             <div className="p-6 text-center">
               <div className={`w-16 h-16 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                <svg className={`w-8 h-8 ${THEME.text.tertiary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
+                <Icon name="message" className={`w-8 h-8 ${THEME.text.tertiary}`} />
               </div>
               <p className={`${THEME.text.secondary} text-sm`}>No conversations yet</p>
               <p className={`${THEME.text.tertiary} text-xs mt-1`}>Click the + button to start a new chat</p>
@@ -467,13 +458,9 @@ const ChatApp = () => {
                         : `${THEME.containers.secondary} ${THEME.text.tertiary}`
                     }`}>
                       {conv.isLoading ? (
-                        <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        <Icon name="spinner" className="w-5 h-5 animate-spin" />
                       ) : (
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
+                        <Icon name="message" className="w-5 h-5" />
                       )}
                     </div>
 
@@ -483,9 +470,7 @@ const ChatApp = () => {
                       {deletingConversations.has(conv.id) && (
                         <div className={`absolute inset-0 ${THEME.status.error.background} bg-opacity-90 flex items-center justify-center rounded z-10`}>
                           <div className={`flex items-center gap-2 ${THEME.status.error.text}`}>
-                            <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                            <Icon name="spinner" className="w-4 h-4 animate-spin" />
                             <span className="text-sm font-medium">Deleting conversation...</span>
                           </div>
                         </div>
@@ -525,9 +510,7 @@ const ChatApp = () => {
                               handleRenameConversation(conv.id);
                             }}
                           >
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                            </svg>
+                            <Icon name="edit" className="w-3.5 h-3.5" />
                           </button>
                           <button
                             className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-200 ${
@@ -545,13 +528,9 @@ const ChatApp = () => {
                             }}
                           >
                             {deletingConversations.has(conv.id) ? (
-                              <svg className="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
+                              <Icon name="spinner" className="w-3.5 h-3.5 animate-spin" />
                             ) : (
-                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
+                              <Icon name="delete" className="w-3.5 h-3.5" />
                             )}
                           </button>
                         </div>
@@ -568,9 +547,7 @@ const ChatApp = () => {
                           handleClearStuckLoading(conv.id);
                         }}
                       >
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <Icon name="close" className="w-3 h-3" />
                       </button>
                     )}
                   </div>
@@ -591,13 +568,9 @@ const ChatApp = () => {
             >
               <div className="w-5 h-5">
                 {isDarkMode ? (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
+                  <Icon name="sun" className="w-5 h-5" />
                 ) : (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
+                  <Icon name="moon" className="w-5 h-5" />
                 )}
               </div>
               <span className="flex-1 text-left">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
@@ -608,9 +581,7 @@ const ChatApp = () => {
               to="/dashboard"
               className={`w-full flex items-center gap-3 px-3 py-2 text-sm ${THEME.text.primary} ${THEME.interactive.hover} rounded-lg transition-colors duration-200`}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
+              <Icon name="dashboard" className="w-5 h-5" />
               <span className="flex-1 text-left">Libraries Dashboard</span>
             </Link>
           </div>
@@ -628,9 +599,7 @@ const ChatApp = () => {
               onClick={() => setSidebarOpen(true)}
               title="Open sidebar"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              <Icon name="menu" className="w-5 h-5" />
             </button>
             <h1 className={`text-lg font-semibold ${THEME.text.primary}`}>PaleoPal</h1>
           </div>
@@ -654,13 +623,9 @@ const ChatApp = () => {
               title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {isDarkMode ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
+                <Icon name="sun" className="w-5 h-5" />
               ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
+                <Icon name="moon" className="w-5 h-5" />
               )}
             </button>
           </div>
@@ -675,9 +640,7 @@ const ChatApp = () => {
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <div className={`w-16 h-16 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                <svg className={`w-8 h-8 animate-spin ${THEME.text.secondary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Icon name="spinner" className={`w-8 h-8 animate-spin ${THEME.text.secondary}`} />
               </div>
               <h3 className={`text-lg font-medium ${THEME.text.primary} mb-2`}>Loading conversations...</h3>
               <p className={THEME.text.secondary}>Please wait while we fetch your chat history</p>
@@ -693,9 +656,7 @@ const ChatApp = () => {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <div className={`w-24 h-24 ${THEME.containers.secondary} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                  <svg className={`w-12 h-12 ${THEME.text.tertiary}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
+                  <Icon name="message" className={`w-12 h-12 ${THEME.text.tertiary}`} />
                 </div>
                 <h3 className={`text-xl font-semibold ${THEME.text.primary} mb-2`}>Welcome to PaleoPal</h3>
                 <p className={`${THEME.text.secondary} mb-6`}>Select a conversation or start a new chat to begin</p>
@@ -703,9 +664,7 @@ const ChatApp = () => {
                   onClick={handleNewChat}
                   className={`inline-flex items-center px-6 py-3 ${THEME.buttons.primary} font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md`}
                 >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
+                  <Icon name="add" className="w-5 h-5 mr-2" />
                   Start New Conversation
                 </button>
               </div>

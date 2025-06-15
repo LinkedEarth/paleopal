@@ -180,23 +180,22 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     # Also create readable text for display
                     clarification_text_parts.append(f"Regarding '{question_text}': {answer}")
                 
-                clarification_message = f"Clarification responses for: \"{original_user_input}\"\n\n" + "\n\n".join(clarification_text_parts)
                 
                 # Create the clarification response message in the database with structured data
                 clarification_msg = message_service.create_message(
                     MessageCreate(
                         conversation_id=request.conversation_id,
                         role="user",
-                        content=clarification_message,
+                        content="Clarification responses submitted",
                         message_type="clarification_response",
                         agent_type=request.agent_type
                     )
                 )
                 
                 # Update the message with structured clarification responses
-                message_service.update_message(
+                message_service.update_message_results(
                     clarification_msg.id,
-                    MessageUpdate(clarification_responses=structured_responses)
+                    clarification_responses=structured_responses
                 )
                 
                 logger.info(f"Created clarification response message: {clarification_msg.id} with {len(structured_responses)} structured responses")
