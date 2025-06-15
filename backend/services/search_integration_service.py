@@ -452,19 +452,26 @@ Return ONLY a JSON array of the extracted terms:
         """
         # Search code snippets (high weight)
         snippets = await self.search_snippets(user_query, top_k=2)
-        
+
+        # Search learned code examples from Qdrant (user-learned collection)
+        learned_code = await self.search_learned_code(user_query, top_k=3)
+
         # Search documentation (important for API usage)
         # documentation = await self.search_documentation(user_query, top_k=1)
-        
+
         # Search code examples (important for patterns)
         code_examples = await self.search_code_examples(user_query, top_k=5)
-        
+
+        # Combine learned_code with other examples for downstream compatibility
+        combined_examples = code_examples + learned_code
+
         return {
             "snippets": snippets,
             # "documentation": documentation,
-            "code_examples": code_examples,
+            "code_examples": combined_examples,
             "previous_code": previous_code,
-            "query": user_query
+            "query": user_query,
+            "learned_code": learned_code  # Keep separately if caller needs
         }
     
     async def get_context_for_sparql_generation(self, user_query: str) -> Dict[str, Any]:
@@ -478,18 +485,75 @@ Return ONLY a JSON array of the extracted terms:
         Returns:
             Dictionary containing SPARQL generation context
         """
-        # Search similar SPARQL queries (high weight)
-        similar_queries = await self.search_sparql_queries(user_query, top_k=3)
-        
+        # Search similar SPARQL queries from curated library
+        curated_queries = await self.search_sparql_queries(user_query, top_k=3)
+
+        # Search learned SPARQL queries created by users
+        learned_queries = await self.search_learned_sparql(user_query, top_k=3)
+
+        # Merge and deduplicate by SPARQL text
+        all_queries = {q.get("sparql") or q.get("sparql_query") or q.get("query"): q for q in (curated_queries + learned_queries) if q}
+
         # Search ontology entities (important for entity matching)
         entities = await self.search_ontology_entities(user_query, top_k=5)
-        
+
         return {
-            "similar_queries": similar_queries,
+            "similar_queries": list(all_queries.values()),
             "entities": entities,
-            "query": user_query
+            "query": user_query,
+            "learned_queries": learned_queries  # expose if needed
         }
-    
+
+    async def search_learned_code(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        """Search the user-learned_code Qdrant collection for relevant code."""
+        try:
+            from libraries.qdrant_config import search_documents, ensure_collection
+
+            collection_name = "learned_code"
+            # Ensure collection exists; if not, return empty
+            ensure_collection(collection_name)
+
+            results = search_documents(collection_name, query, limit=top_k)
+
+            # Standardize and annotate results
+            enhanced_results = []
+            for item in results:
+                code_text = item.get("code", "") or item.get("text", "")
+                enhanced_results.append({
+                    **item,
+                    "result_type": "learned_code",
+                    "code": code_text,
+                    "similarity_score": item.get("score", 0.0)
+                })
+            return enhanced_results
+        except Exception as e:
+            logger.warning(f"Learned code search failed: {e}")
+            return []
+
+    async def search_learned_sparql(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        """Search the user-learned_sparql Qdrant collection for relevant queries."""
+        try:
+            from libraries.qdrant_config import search_documents, ensure_collection
+
+            collection_name = "learned_sparql"
+            ensure_collection(collection_name)
+
+            results = search_documents(collection_name, query, limit=top_k)
+
+            enhanced_results = []
+            for item in results:
+                sparql_txt = item.get("sparql_query") or item.get("sparql") or item.get("text", "")
+                enhanced_results.append({
+                    **item,
+                    "result_type": "learned_sparql",
+                    "sparql": sparql_txt,
+                    "similarity_score": item.get("score", 0.0)
+                })
+            return enhanced_results
+        except Exception as e:
+            logger.warning(f"Learned SPARQL search failed: {e}")
+            return []
+
     def format_workflow_context_for_llm(self, context: Dict[str, Any]) -> str:
         """
         Format the search context into a text prompt for the LLM.
