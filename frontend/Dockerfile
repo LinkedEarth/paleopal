@@ -23,7 +23,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy custom nginx config
-COPY <<EOF /etc/nginx/conf.d/default.conf
+COPY <<'EOF' /etc/nginx/conf.d/default.conf
 server {
     listen 80;
     server_name localhost;
@@ -32,7 +32,22 @@ server {
 
     # Handle React Router
     location / {
-        try_files \$uri \$uri/ /index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Plot files proxy to backend (must come before static assets)
+    location /plots/ {
+        proxy_pass http://backend:8000/plots/;
+        
+        # Headers for static content
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Cache plot images
+        proxy_cache_valid 200 1h;
+        add_header Cache-Control "public, max-age=3600";
     }
 
     # API proxy to backend
@@ -40,35 +55,26 @@ server {
         proxy_pass http://backend:8000/api/;
         
         # Enhanced proxy headers to preserve original request context
-        proxy_set_header Host \$http_host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_set_header X-Forwarded-Host \$host;
-        proxy_set_header X-Forwarded-Port \$server_port;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
         
         # Handle redirects properly
         proxy_redirect off;
         proxy_buffering off;
     }
 
-    # Plot files proxy to backend
-    location /plots/ {
-        proxy_pass http://backend:8000/plots/;
-        
-        # Headers for static content
-        proxy_set_header Host \$http_host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        
-        # Cache plot images
-        proxy_cache_valid 200 1h;
-        add_header Cache-Control "public, max-age=3600";
+    # Static assets caching (but not for plots)
+    location ~* \\.(js|css|ico|svg)\\$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
     }
-
-    # Static assets caching
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+    
+    # Static image assets (but not plots)
+    location ~* ^/static/.*\\.(png|jpg|jpeg|gif)\\$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
     }

@@ -495,7 +495,7 @@ class PythonExecutionService:
                         fig.savefig(filepath, dpi=150, bbox_inches='tight', 
                                    facecolor='white', edgecolor='none')
                         
-                        saved_plots.append(str(filepath))
+                        saved_plots.append(filename)
                         logger.info(f"Saved plot to {filepath}")
                         
                         # Close the figure to free memory
