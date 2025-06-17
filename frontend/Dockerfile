@@ -52,6 +52,21 @@ server {
         proxy_buffering off;
     }
 
+    # Plot files proxy to backend
+    location /plots/ {
+        proxy_pass http://backend:8000/plots/;
+        
+        # Headers for static content
+        proxy_set_header Host \$http_host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        
+        # Cache plot images
+        proxy_cache_valid 200 1h;
+        add_header Cache-Control "public, max-age=3600";
+    }
+
     # Static assets caching
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
         expires 1y;
