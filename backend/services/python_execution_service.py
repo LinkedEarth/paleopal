@@ -110,7 +110,7 @@ class PythonExecutionService:
     # Allowed imports for security
     ALLOWED_MODULES = {
         'numpy', 'np', 'pandas', 'pd', 'matplotlib', 'plt', 'seaborn', 'sns',
-        'pylipd', 'pyleoclim', 'pyleo', 'datetime', 'os', 'sys', 'json',
+        'pylipd', 'pyleoclim', 'pyleo', 'datetime', 'os', 'sys', 'json', 'ast',
         'math', 'statistics', 'collections', 're', 'itertools', 'functools',
         'pathlib', 'warnings', 'SPARQLWrapper', 'JSON'
     }

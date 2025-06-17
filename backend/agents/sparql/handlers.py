@@ -38,7 +38,8 @@ def get_similar_queries_node(state: SparqlAgentState, config: SparqlAgentConfig)
         
         logger.info(f"Found {len(similar_queries)} similar SPARQL queries")
         return {
-            "similar_code": similar_queries,
+            "similar_code": similar_queries,  # Keep for internal state
+            "similar_results": similar_queries,  # Add for frontend display
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
     except Exception as e:

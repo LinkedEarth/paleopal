@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
 # Import routers
-from routers import conversations, agents, messages, libraries, document_extraction
+from routers import conversations, agents, messages, libraries, document_extraction, jobs, ws as ws_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -44,6 +44,8 @@ app.include_router(agents.router, prefix="/api")
 app.include_router(messages.router, prefix="/api")
 app.include_router(libraries.router, prefix="/api")
 app.include_router(document_extraction.router, prefix="/api")
+app.include_router(jobs.router, prefix="/api")
+app.include_router(ws_router.router)
 
 # Serve generated plots
 PLOTS_DIR = Path(__file__).resolve().parent / "data" / "plots"

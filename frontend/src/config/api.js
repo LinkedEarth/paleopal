@@ -12,7 +12,8 @@ const API_CONFIG = {
     AGENTS: '/api/agents',
     HEALTH: '/api/health',
     LIBRARIES: '/api/libraries',
-    EXTRACT: '/api/extract'
+    EXTRACT: '/api/extract',
+    JOBS: '/api/jobs'
   }
 };
 

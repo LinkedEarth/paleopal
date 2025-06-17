@@ -9,6 +9,10 @@ import API_CONFIG from '../config/api';
 import AgentIcon from './AgentIcon';
 import THEME, { getAgentTheme } from '../styles/colorTheme';
 import Icon from './Icon';
+// React-Query hooks
+import { useConversationMessages } from '../hooks/useConversationMessages';
+import { useActiveJob } from '../hooks/useActiveJob';
+import { useConversationSocket } from '../hooks/useConversationSocket';
 
 const LLM_PROVIDERS = [
   { id: 'openai', name: 'OpenAI' },  
@@ -245,12 +249,13 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   // Previous conversation ID to detect conversation switches
   const prevConversationIdRef = useRef(null);
   
-  // Track when conversation updates should be allowed
-
-
   // Add refs for step execution tracking
   const stepCompletionResolver = useRef(null);
   const stepExecutionInProgress = useRef(false);
+  
+  // Legacy polling refs (no longer used after React-Query refactor)
+  const currentPollingInterval = useRef(null);
+  const currentPollingConversationId = useRef(null);
   
   // Memoize conversation data to prevent unnecessary updates
   const conversationData = useMemo(() => {
@@ -287,18 +292,46 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   // Effect to sync with conversation prop changes (when switching conversations)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    // console.log('🔄 ChatWindow useEffect triggered!');
-    // console.log('🔄 Current conversation.id:', conversation.id);
-    // console.log('🔄 Previous conversation ID:', prevConversationIdRef.current);
-    
     // Only sync when the conversation ID actually changes (conversation switch)
-    if (conversation.id && conversation.id !== prevConversationIdRef.current) {
+    if (conversation.id && conversation.id !== prevConversationIdRef.current && !updatingFromPropRef.current) {
       // console.log('✅ Conversation ID changed, loading messages...');
       updatingFromPropRef.current = true;
+      
+      // Stop any existing polling from the previous conversation
+      stopPolling();
+      
+      // Immediately clear messages to prevent showing old conversation data
+      setMessages([]);
+      
+      // Also immediately clear conversation-specific state to prevent bleeding
+      setWaitingForClarification(false);
+      setClarificationQuestions([]);
+      setClarificationAnswers({});
+      setOriginalRequestContext(null);
+      setIsLoading(false);
+      setError(null);
+      setInputValue('');
       
       // Load messages from the new API
       const loadMessages = async () => {
         setMessagesLoading(true);
+        
+        // Restore conversation state from the conversation object first
+        setWaitingForClarification(conversation.waiting_for_clarification || false);
+        setClarificationQuestions(conversation.clarification_questions || []);
+        setClarificationAnswers(conversation.clarification_answers || {});
+        setOriginalRequestContext(conversation.original_request || null);
+        setLlmProvider(conversation.llm_provider || 'google');
+        setSelectedAgent(conversation.selected_agent || 'sparql');
+        setEnableClarification(conversation.enable_clarification ?? true);
+        setClarificationThreshold(conversation.clarification_threshold || 'conservative');
+        setExecutionStartTime(null); // Reset execution time
+        
+        // Reset UI state for new conversation (before loading messages)
+        setIsLoading(false);
+        setError(null);
+        setInputValue('');
+        
         try {
           // console.log(`🔍 Loading messages for conversation ${conversation.id}...`);
           const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
@@ -310,6 +343,44 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
             const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
             // console.log(` Converted messages:`, convertedMessages);
             setMessages(convertedMessages);
+            
+            // Check if the conversation has a pending request that needs polling
+            // Look for the last user message and check if there's a corresponding completed assistant response
+            const userMessages = convertedMessages.filter(msg => msg.role === 'user' && !msg.isNodeProgress);
+            const assistantMessages = convertedMessages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
+            
+            if (userMessages.length > 0) {
+              const lastUserMessage = userMessages[userMessages.length - 1];
+              const lastUserMessageTime = new Date(lastUserMessage.timestamp || lastUserMessage.created_at || 0);
+              
+              // Check if there's a completed assistant response after the last user message
+              const hasCompletedResponse = assistantMessages.some(msg => {
+                const msgTime = new Date(msg.timestamp || msg.created_at || 0);
+                const isAfterUserMessage = msgTime > lastUserMessageTime;
+                const hasResults = msg.hasQueryResults || 
+                  msg.hasGeneratedCode || 
+                  msg.hasWorkflowPlan ||
+                  msg.hasWorkflowExecution ||
+                  msg.needsClarification;
+                
+                return isAfterUserMessage && hasResults;
+              });
+              
+              // Check if request is too old (more than 5 minutes)
+              const timeSinceLastUserMessage = Date.now() - lastUserMessageTime.getTime();
+              const fiveMinutes = 5 * 60 * 1000;
+              
+              if (!hasCompletedResponse) {
+                if (timeSinceLastUserMessage > fiveMinutes) {
+                  console.log('⏰ Request is older than 5 minutes, marking as timed out');
+                  setError('Request timed out - the agent took too long to respond');
+                  setIsLoading(false);
+                } else {
+                  console.log('🔄 Pending request detected – relying on React-Query polling');
+                  setIsLoading(true);
+                }
+              }
+            }
             
             // Check if we need to restore clarification state from messages
             // This handles cases where the last message is asking for clarification
@@ -329,7 +400,12 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
             }
           } else {
             console.log('⚠️ No messages found, using default greeting');
-            setMessages(defaultGreeting);
+            const greeting = [{
+              id: 1,
+              role: 'assistant',
+              content: 'Hi! I can help you with paleoclimate data analysis. Choose an agent and let me know what you need!'
+            }];
+            setMessages(greeting);
           }
         } catch (error) {
           console.error('❌ Failed to load messages:', error);
@@ -337,31 +413,18 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
             message: error.message,
             conversationId: conversation.id
           });
-          setMessages(defaultGreeting);
+          const greeting = [{
+            id: 1,
+            role: 'assistant',
+            content: 'Hi! I can help you with paleoclimate data analysis. Choose an agent and let me know what you need!'
+          }];
+          setMessages(greeting);
         } finally {
           setMessagesLoading(false);
         }
       };
       
       loadMessages();
-      
-      // Restore conversation state from the conversation object
-      setWaitingForClarification(conversation.waiting_for_clarification || false);
-      setClarificationQuestions(conversation.clarification_questions || []);
-      setClarificationAnswers(conversation.clarification_answers || {});
-      setOriginalRequestContext(conversation.original_request || null);
-      setLlmProvider(conversation.llm_provider || 'google');
-      setSelectedAgent(conversation.selected_agent || 'sparql');
-      setEnableClarification(conversation.enable_clarification ?? true);
-      setClarificationThreshold(conversation.clarification_threshold || 'conservative');
-      setExecutionStartTime(null); // Reset execution time
-      
-      // Reset UI state for new conversation
-      setIsLoading(false);
-      setError(null);
-      
-      // Clear input value when switching conversations
-      setInputValue('');
       
       // Update ref to track current conversation
       prevConversationIdRef.current = conversation.id;
@@ -377,7 +440,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       // console.log('  - Same as before?', conversation.id === prevConversationIdRef.current);
       // console.log('  - prevConversationIdRef.current:', prevConversationIdRef.current);
     }
-  }, [conversation.id, defaultGreeting]);
+  }, [conversation.id]);
 
   // Helper function to check if user has scrolled up
   const isUserScrolledUp = () => {
@@ -416,6 +479,12 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  // Cleanup effect placeholder (legacy polling removed)
+  useEffect(() => { /* no polling to clean up */ }, []);
+
+  // Legacy polling stubs – kept for backward-compat references
+  const stopPolling = () => {};
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -526,8 +595,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
 
       console.log('Workflow execution request queued:', result);
 
-      // Start polling for new messages (same as other requests)
-      startPollingForMessages(conversation.id);
+      // React-Query hooks will pick up new messages automatically
 
     } catch (error) {
       console.error('Error executing workflow:', error);
@@ -743,21 +811,23 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
 
       console.log('Agent request queued:', result);
 
-      // Start polling for new messages using the correct conversation ID
-      startPollingForMessages(conversationId);
+      // React-Query will stream new messages – no manual polling
       
-      // If this was a clarification submission, update clarification state
-      if (isClariSubmission) {
-        console.log('🔄 Clearing clarification state after submission');
-        setWaitingForClarification(false);
-        setClarificationQuestions([]);
-        setClarificationAnswers({});
-        // Keep originalRequestContext until we get the final response
-        // It will be cleared by the polling logic when final success is detected
+      // Update conversation title if it's still the default and this is a new user message
+      if (userInput && (conversation.title === 'New Chat' || conversation.title === 'Untitled' || !conversation.title)) {
+        // Update the conversation data with the new title
+        const updatedConversationData = {
+          ...conversationData,
+          title: userInput.slice(0, 50) // Limit title length
+        };
         
-        // Note: We no longer create a temporary clarification message here since
-        // the backend now creates proper clarification response messages that will
-        // appear through polling
+        // Directly call parent update with the new title
+        if (onConversationUpdate && typeof onConversationUpdate === 'function') {
+          onConversationUpdate({...updatedConversationData, messages});
+        }
+      } else {
+        // Regular parent update for message addition
+        setTimeout(() => updateParentConversation(), 0);
       }
 
     } catch (error) {
@@ -767,210 +837,8 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     }
   };
 
-  // Polling function to check for new messages
-  const startPollingForMessages = (conversationId) => {
-    console.log('🔄 Starting polling for conversation:', conversationId);
-    console.log('🔄 Current state when polling starts:', {
-      waitingForClarification,
-      isLoading
-    });
-    let pollCount = 0;
-    const maxPolls = 300; // 10 minutes with 2-second intervals
-    const pollIntervalSeconds = 2; // 2 seconds
-    
-    const pollInterval = setInterval(async () => {
-      try {
-        console.log(`Polling attempt ${pollCount + 1} for conversation ${conversationId}`);
-        const pollUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/conversation/${conversationId}?include_progress=true`);
-        const newMessages = await apiRequest(pollUrl);
-        console.log(`Received ${newMessages.length} messages from polling`);
-        
-        // Convert backend message format to frontend format
-        const convertedMessages = convertBackendMessagesToFrontend(newMessages);
-
-        // Update messages if we got new ones
-        if (convertedMessages.length > messages.length) {
-          console.log('Updating messages with new data', {
-            oldCount: messages.length,
-            newCount: convertedMessages.length,
-            newMessages: convertedMessages.slice(messages.length)
-          });
-          
-          // Set a flag to prevent conversation updates during polling
-          updatingFromPropRef.current = true;
-          
-          // Clean up any temporary loading messages since we got actual responses
-          const cleanedMessages = convertedMessages.filter(msg => !msg.id.startsWith('loading_'));
-          
-          // For user messages that don't have agentType from backend, try to preserve it from our local state
-          const messagesWithAgentType = cleanedMessages.map(msg => {
-            if (msg.role === 'user' && !msg.agentType) {
-              // Find the corresponding temp message in our current state to get the agentType
-              const tempMsg = messages.find(m => m.content === msg.content && m.role === 'user' && m.agentType);
-              if (tempMsg && tempMsg.agentType) {
-                return { ...msg, agentType: tempMsg.agentType };
-              }
-            }
-            return msg;
-          });
-          
-          setMessages(messagesWithAgentType);
-          
-          // Check if the latest message indicates completion
-          const assistantMessages = convertedMessages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
-          const progressMessages = convertedMessages.filter(msg => msg.role === 'assistant' && msg.isNodeProgress);
-          
-          // Simple approach: Just check the LAST message to determine what to do
-          const allMessages = [...assistantMessages, ...progressMessages];
-          if (allMessages.length === 0) {
-            console.log('🔍 No assistant messages found, continuing to poll...');
-            return; // Continue polling
-          }
-          
-          // Get the most recent message (by timestamp)
-          const lastMessage = allMessages.reduce((latest, current) => {
-            const latestTime = new Date(latest.timestamp || latest.created_at || 0);
-            const currentTime = new Date(current.timestamp || current.created_at || 0);
-            return currentTime > latestTime ? current : latest;
-          });
-          
-          console.log('🔍 Checking last message for UI decisions:', {
-            messageId: lastMessage.id,
-            isProgress: lastMessage.isNodeProgress,
-            metadata: lastMessage.metadata,
-            timestamp: lastMessage.timestamp || lastMessage.created_at
-          });
-          
-          // Parse metadata
-          let metadata = lastMessage.metadata;
-          if (typeof metadata === 'string') {
-            try {
-              metadata = JSON.parse(metadata);
-            } catch (e) {
-              console.warn('Failed to parse metadata for message', lastMessage.id, ':', metadata);
-              metadata = {};
-            }
-          }
-          
-          // Check if we have any recent assistant messages with actual results (not just progress)
-          // Only consider messages that come after the current polling session started
-          const currentUserMessageCount = convertedMessages.filter(msg => msg.role === 'user').length;
-          const recentAssistantMessage = assistantMessages
-            .filter(msg => !msg.isNodeProgress && msg.role === 'assistant')
-            .sort((a, b) => new Date(b.timestamp || b.created_at || 0) - new Date(a.timestamp || a.created_at || 0))
-            .find(msg => {
-              // Find this message's position in the convertedMessages array
-              const messageIndex = convertedMessages.findIndex(m => m.id === msg.id);
-              // Only consider messages that come after the latest user message
-              const lastUserMessageIndex = convertedMessages.map((m, i) => m.role === 'user' ? i : -1).filter(i => i >= 0).pop() || -1;
-              return messageIndex > lastUserMessageIndex;
-            });
-          
-          // Decision logic based on last message
-          const needsClarification = metadata && metadata.status === 'needs_clarification' && metadata.final_response !== true;
-          
-          // Also check for any assistant message that has needsClarification flag (from message conversion)
-          // But only count clarification messages that don't have subsequent responses
-          const hasClarificationMessage = assistantMessages.some((msg, index) => {
-            // Find the actual index in the full messages array
-            const messageIndex = convertedMessages.findIndex(m => m.id === msg.id);
-            
-            // Check for subsequent clarification responses in the convertedMessages array
-            const hasSubsequent = messageIndex >= 0 ? 
-              convertedMessages.slice(messageIndex + 1).some(m => 
-                m.isCombinedAnswers || m.messageType === 'clarification_response'
-              ) : false;
-            
-            return msg.needsClarification && 
-                   msg.clarificationQuestions && 
-                   messageIndex >= 0 && 
-                   !hasSubsequent;
-          });
-          
-          // Only check for final success on NON-progress messages (progress messages can have final_response=true but aren't actual completion)
-          const isFinalSuccess = !lastMessage.isNodeProgress && metadata && metadata.final_response === true && (metadata.status === 'success' || metadata.status === 'error');
-          
-          // Also check if we have an assistant message with query results or generated content (indicates completion)
-          const hasCompletionMessage = recentAssistantMessage && (
-            recentAssistantMessage.hasQueryResults || 
-            recentAssistantMessage.hasGeneratedCode || 
-            recentAssistantMessage.hasWorkflowPlan ||
-            recentAssistantMessage.hasWorkflowExecution
-          );
-          
-          console.log('🔍 Decision factors:', {
-            needsClarification,
-            hasClarificationMessage,
-            isFinalSuccess,
-            hasCompletionMessage,
-            status: metadata?.status,
-            final_response: metadata?.final_response,
-            recentAssistantMessageId: recentAssistantMessage?.id
-          });
-          
-          if (isFinalSuccess || hasCompletionMessage) {
-            // Final success/error or we have actual results - stop polling
-            console.log('🎯 Final completion detected, stopping polling');
-            clearInterval(pollInterval);
-            setIsLoading(false);
-            setWaitingForClarification(false);
-            setClarificationQuestions([]);
-            setClarificationAnswers({});
-            setOriginalRequestContext(null);
-            
-            // Resolve step completion if we're in step execution mode
-            if (stepExecutionInProgress.current && stepCompletionResolver.current) {
-              console.log('🎯 Resolving step completion');
-              stepCompletionResolver.current();
-              stepCompletionResolver.current = null;
-            }
-          } else if (needsClarification || hasClarificationMessage) {
-            // Agent needs clarification - stop polling and show UI
-            console.log('🔄 Clarification needed, stopping polling and showing UI');
-            clearInterval(pollInterval);
-            setIsLoading(false);
-            
-            // Find the actual clarification message (non-progress)
-            const clarificationMessage = assistantMessages.find(msg => msg.needsClarification && msg.clarificationQuestions);
-            if (clarificationMessage) {
-              console.log('🔄 Setting up clarification UI from message:', clarificationMessage.id);
-              setWaitingForClarification(true);
-              setClarificationQuestions(clarificationMessage.clarificationQuestions);
-              setClarificationAnswers({});
-            } else {
-              console.warn('⚠️ Clarification needed but no clarification message found');
-            }
-          } else {
-            // Still processing - continue polling
-            console.log('🔍 Agent still processing, continuing to poll...');
-          }
-          
-          // Reset the flag after a brief delay
-          setTimeout(() => {
-            updatingFromPropRef.current = false;
-          }, 100);
-        }
-        
-        pollCount++;
-        if (pollCount >= maxPolls) {
-          console.log('Polling timeout reached');
-          clearInterval(pollInterval);
-          setIsLoading(false);
-          setError('Request timeout - agent execution took too long');
-        }
-      } catch (error) {
-        console.error('Polling request failed:', error);
-        
-        pollCount++;
-        if (pollCount >= maxPolls) {
-          console.log('Polling timeout reached');
-          clearInterval(pollInterval);
-          setIsLoading(false);
-          setError('Request timeout - agent execution took too long');
-        }
-      }
-    }, pollIntervalSeconds * 1000); // Poll every second
-  };
+  // Legacy polling stub (no longer needed)
+  const startPollingForMessages = () => {};
 
   // Handle deleting messages from a specific index onwards
   const handleDeleteFromIndex = async (fromIndex) => {
@@ -1359,7 +1227,107 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     return false;
   };
 
-  const agentBusy = isAgentBusy();
+  // ---------------------------------------------------------------------------
+  // React-Query hooks: messages & jobs for this conversation
+  // ---------------------------------------------------------------------------
+  const conversationIdForJobPolling = isLoading ? conversation.id : null;
+  const { data: activeJob } = useActiveJob(conversationIdForJobPolling);
+
+  const shouldPollMessages = isLoading || waitingForClarification || Boolean(activeJob);
+  const { data: backendMessages = [], isFetching: messagesFetching } = useConversationMessages(
+    conversation.id,
+    true,
+    shouldPollMessages,
+  );
+
+  // Sync backend messages into local UI state (only when actually changed)
+  useEffect(() => {
+    if (!backendMessages) return;
+    const converted = backendMessages.length > 0
+      ? convertBackendMessagesToFrontend(backendMessages)
+      : defaultGreeting;
+
+    setMessages((prev) => {
+      // quick length / id check to avoid redundant updates that can create loops
+      if (prev.length === converted.length) {
+        const same = prev.every((m, i) => m.id === converted[i].id && m.updated_at === converted[i].updated_at);
+        if (same) return prev; // no change
+      }
+      return converted;
+    });
+  }, [backendMessages]);
+
+  // Reflect running job status into loading indicator
+  useEffect(() => {
+    if (activeJob) {
+      setIsLoading(true);
+    } else if (!messagesFetching) {
+      setIsLoading(false);
+    }
+  }, [activeJob, messagesFetching]);
+
+  // ---------------------------------------------------------------------------
+  // Derived UI state: whether any agent is currently busy
+  // ---------------------------------------------------------------------------
+  const agentBusy = Boolean(activeJob) || isAgentBusy();
+
+  // ---------------------------------------------------------------------------
+  // WebSocket: live updates for this conversation
+  // ---------------------------------------------------------------------------
+  useConversationSocket(conversation.id, (evt) => {
+    if (!evt || !evt.type) return;
+    switch (evt.type) {
+      case 'message_created': {
+        const incoming = convertBackendMessagesToFrontend([evt.message])[0];
+        setMessages((prev) => {
+          let next = [...prev];
+
+          // 1. If we previously added a temporary user message or loading stub, replace/remove them.
+          if (incoming.role === 'user') {
+            // Remove any temp user message that matches content
+            next = next.filter(
+              (m) => !(m.id.startsWith('temp_') && m.content === incoming.content)
+            );
+          } else {
+            // For assistant/progress etc. remove the loading spinner placeholder
+            next = next.filter((m) => !m.isLoading);
+          }
+
+          return [...next, incoming];
+        });
+        break;
+      }
+      case 'progress': {
+        const newMsg = convertBackendMessagesToFrontend([evt.message])[0];
+        setMessages((prev) => {
+          const withoutSpinner = prev.filter((m) => !m.isLoading);
+          return [...withoutSpinner, newMsg];
+        });
+        break;
+      }
+      case 'job_updated': {
+        if (evt.job.state === 'running') setIsLoading(true);
+        else setIsLoading(false);
+        break;
+      }
+      case 'message_updated': {
+        const updated = convertBackendMessagesToFrontend([evt.message])[0];
+        setMessages((prev) => {
+          // Replace existing message with same id (if present) else append
+          const exists = prev.findIndex((m) => m.id === updated.id);
+          if (exists !== -1) {
+            const copy = [...prev];
+            copy[exists] = { ...copy[exists], ...updated };
+            return copy;
+          }
+          return [...prev, updated];
+        });
+        break;
+      }
+      default:
+        break;
+    }
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1391,8 +1359,6 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     // For regular submissions, require input
     if (!inputValue.trim()) return;
     if (isLoading) return;
-
-
 
     const userInput = inputValue.trim();
     setInputValue('');

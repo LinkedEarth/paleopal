@@ -587,6 +587,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             # Create initial user message in database if we have a conversation_id
             user_message_id = None
+            job_id = None
             if request.conversation_id:
                 try:
                     # For clarification submissions, we might not have user_input but we need to create a user message for progress tracking
@@ -608,21 +609,30 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     user_message = message_service.create_message(user_message_data)
                     user_message_id = user_message.id
                     logger.info(f"Created user message {user_message_id}")
+                    # Create Job row representing this agent run
+                    try:
+                        from schemas.job import JobCreate
+                        from services.job_service import job_service
+                        job = job_service.create_job(JobCreate(
+                            conversation_id=request.conversation_id,
+                            owner_message_id=user_message_id,
+                            state="running"
+                        ))
+                        job_id = job.id
+                    except Exception as e:
+                        logger.error(f"Failed to create job row: {e}")
                 except Exception as e:
                     logger.error(f"Failed to create user message: {e}")
             
             # Create initial state and config
             initial_state = self._create_initial_state(request)
             config_obj = self._create_agent_config(request)
-            
-            # Convert config to dict format that LangGraph expects
-            # Don't serialize the config object - pass it directly so LLM objects remain intact
-            if hasattr(config_obj, '__dict__'):
-                # It's a Pydantic model or object with attributes
-                config_dict = {"configurable": config_obj.__dict__}
-            else:
-                # It's already a dict
-                config_dict = {"configurable": config_obj}
+            # Expose owner_message_id to node functions via config
+            if user_message_id:
+                try:
+                    setattr(config_obj, "owner_message_id", user_message_id)
+                except Exception:
+                    pass
             
             # Execute the graph asynchronously to support async nodes
             result_state = await self._graph.ainvoke(initial_state, config_dict)
@@ -643,10 +653,26 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             if hasattr(result_state, 'conversation_id') and not result_state.conversation_id:
                 result_state.conversation_id = conversation_id
             
+            # Mark job completion
+            if job_id:
+                try:
+                    from services.job_service import job_service
+                    job_service.update_job_state(job_id, "done")
+                except Exception as e:
+                    logger.warning(f"Failed to mark job done: {e}")
+
             # Create response from final state
             return self._create_response_from_state(result_state)
             
         except Exception as e:
+            # mark job error
+            if 'job_id' in locals() and job_id:
+                try:
+                    from services.job_service import job_service
+                    job_service.update_job_state(job_id, "error", str(e))
+                except Exception:
+                    pass
+
             logger.error(f"Error in {self.agent_type} agent: %s", e, exc_info=True)
             return AgentResponse(
                 status=AgentStatus.ERROR,
@@ -669,15 +695,12 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             if not self._graph:
                 raise RuntimeError(f"{self.agent_type} agent graph not available")
 
+            from typing import Optional
+            job_id: Optional[str] = None  # Track job id for this run
+
             # Create initial state and config
             initial_state = self._create_initial_state(request)
             config_obj = self._create_agent_config(request)
-            
-            # Convert config to dict format that LangGraph expects
-            if hasattr(config_obj, '__dict__'):
-                config_dict = {"configurable": config_obj.__dict__}
-            else:
-                config_dict = {"configurable": config_obj}
             
             # Track the final state
             final_state = None
@@ -721,8 +744,30 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     user_message = message_service.create_message(user_message_data)
                     owner_message_id = user_message.id
                     logger.info(f"Created user message {owner_message_id} for progress tracking")
+                    # Create job row for this agent run
+                    try:
+                        from schemas.job import JobCreate
+                        from services.job_service import job_service
+                        job = job_service.create_job(JobCreate(
+                            conversation_id=request.conversation_id,
+                            owner_message_id=owner_message_id,
+                            state="running"
+                        ))
+                        job_id = job.id
+                    except Exception as je:
+                        logger.error(f"Failed to create job row: {je}")
                 except Exception as e:
                     logger.error(f"Failed to create user message: {e}")
+            
+            # Build config_dict for LangGraph
+            if hasattr(config_obj, '__dict__'):
+                config_dict = {"configurable": config_obj.__dict__}
+            else:
+                config_dict = {"configurable": config_obj}
+            
+            # Add owner_message_id directly to the configurable dict (after config_dict creation)
+            if owner_message_id:
+                config_dict["configurable"]["owner_message_id"] = owner_message_id            
             
             # Create initial progress message if we have an owner
             if owner_message_id:
@@ -738,7 +783,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     logger.info(f"Created start progress message {progress_msg.id}")
                 except Exception as e:
                     logger.error(f"Failed to create start progress message: {e}")
-            
+
             # Stream through graph execution
             logger.info(f"Starting streaming execution for {self.agent_type} agent")
             async for chunk in self._graph.astream(initial_state, config_dict):
@@ -748,24 +793,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 if isinstance(chunk, dict):
                     for node_name, node_state in chunk.items():
                         logger.info(f"Node '{node_name}' executed")
-                        
-                        # Create progress message for this node if we have an owner
-                        if owner_message_id:
-                            try:
-                                from services.message_service import message_service
-                                progress_msg = message_service.create_progress_message(
-                                    owner_message_id,
-                                    node_name,
-                                    "complete",
-                                    f"Completed {node_name}",
-                                    {
-                                        "node_output": self._extract_node_output(node_state),
-                                        "current_state": self._safe_state_summary(node_state)
-                                    }
-                                )
-                                logger.info(f"Created node progress message {progress_msg.id} for {node_name}")
-                            except Exception as e:
-                                logger.error(f"Failed to create node progress message for {node_name}: {e}")
                         
                         # Send progress update if callback provided
                         if progress_callback:
@@ -816,12 +843,28 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 except Exception as e:
                     logger.error(f"Failed to create completion progress message: {e}")
             
+            # Mark job done
+            if 'job_id' in locals() and job_id:
+                try:
+                    from services.job_service import job_service
+                    job_service.update_job_state(job_id, "done")
+                except Exception:
+                    pass
+            
             yield {
                 "type": "complete",
                 "response": response
             }
             
         except Exception as e:
+            # mark job error
+            if 'job_id' in locals() and job_id:
+                try:
+                    from services.job_service import job_service
+                    job_service.update_job_state(job_id, "error", str(e))
+                except Exception:
+                    pass
+
             logger.error(f"Error in streaming {self.agent_type} agent: %s", e, exc_info=True)
             
             # Create error progress message if we have owner_message_id

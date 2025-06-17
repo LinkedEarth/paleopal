@@ -5,6 +5,8 @@ Workflow Manager agent using LangGraph.
 import logging
 from langgraph.graph import Graph, StateGraph, START, END
 from typing import Dict, Any
+import asyncio
+from services.message_service import message_service
 
 from .state import WorkflowAgentState, WorkflowAgentConfig
 from .handlers import (
@@ -58,6 +60,50 @@ def human_clarification_needed_node(state: WorkflowAgentState) -> Dict[str, Any]
             "needs_clarification": True
         }
 
+def add_hooks(fn, label):
+    async def _wrapped(state, config):
+        # Get owner_message_id from config
+        owner_id = None
+        if isinstance(config, dict) and 'configurable' in config and 'owner_message_id' in config['configurable']:
+            owner_id = config['configurable']['owner_message_id']
+        
+        if owner_id:
+            try:
+                message_service.create_progress_message(owner_id, label, 'start', f'Running {label}...')
+            except Exception as e:
+                logger.error(f"Failed to send START progress for {label}: {e}")
+
+        if asyncio.iscoroutinefunction(fn):
+            result = await fn(state, config)
+        else:
+            result = await asyncio.to_thread(fn, state, config)
+
+        if owner_id:
+            try:
+                # Extract safe, serializable data from result
+                def make_serializable(obj):
+                    """Recursively make an object JSON serializable"""
+                    if obj is None or isinstance(obj, (str, int, float, bool)):
+                        return obj
+                    elif isinstance(obj, (list, tuple)):
+                        return [make_serializable(item) for item in obj]
+                    elif isinstance(obj, dict):
+                        return {key: make_serializable(value) for key, value in obj.items()}
+                    else:
+                        # For non-serializable objects (like HumanMessage), convert to string
+                        obj_str = str(obj)
+                        return obj_str[:200] + "..." if len(obj_str) > 200 else obj_str
+                
+                safe_output = make_serializable(result) if isinstance(result, dict) else {"result": make_serializable(result)}
+                
+                message_service.create_progress_message(owner_id, label, 'complete', f'Completed {label}', {
+                    'node_output': safe_output
+                })
+            except Exception as e:
+                logger.error(f"Failed to send COMPLETE progress for {label}: {e}")
+        return result
+    return _wrapped
+
 def create_agent() -> Graph:
     """Create a workflow planning agent."""
     try:
@@ -65,10 +111,10 @@ def create_agent() -> Graph:
         workflow = StateGraph(WorkflowAgentState, config_schema=WorkflowAgentConfig)
         
         # Add nodes
-        workflow.add_node("extract_request", extract_workflow_request_node)
-        workflow.add_node("search_context", search_workflow_context_node)
-        workflow.add_node("detect_clarification", detect_clarification_node)
-        workflow.add_node("generate_plan", generate_workflow_plan_node)
+        workflow.add_node("extract_request", add_hooks(extract_workflow_request_node, "extract_request"))
+        workflow.add_node("search_context", add_hooks(search_workflow_context_node, "search_context"))
+        workflow.add_node("detect_clarification", add_hooks(detect_clarification_node, "detect_clarification"))
+        workflow.add_node("generate_plan", add_hooks(generate_workflow_plan_node, "generate_plan"))
         workflow.add_node("human_clarification_needed", human_clarification_needed_node)
         workflow.add_node("finalize", finalize_workflow_response_node)
         

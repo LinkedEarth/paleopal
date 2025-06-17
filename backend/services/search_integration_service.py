@@ -455,16 +455,16 @@ Return ONLY a JSON array of the extracted terms:
 
         # Search learned code examples from Qdrant (user-learned collection)
         learned_code = await self.search_learned_code(user_query, top_k=3)
-
+        
         # Search documentation (important for API usage)
         # documentation = await self.search_documentation(user_query, top_k=1)
-
+        
         # Search code examples (important for patterns)
         code_examples = await self.search_code_examples(user_query, top_k=5)
 
         # Combine learned_code with other examples for downstream compatibility
         combined_examples = code_examples + learned_code
-
+        
         return {
             "snippets": snippets,
             # "documentation": documentation,
@@ -493,10 +493,10 @@ Return ONLY a JSON array of the extracted terms:
 
         # Merge and deduplicate by SPARQL text
         all_queries = {q.get("sparql") or q.get("sparql_query") or q.get("query"): q for q in (curated_queries + learned_queries) if q}
-
+        
         # Search ontology entities (important for entity matching)
         entities = await self.search_ontology_entities(user_query, top_k=5)
-
+        
         return {
             "similar_queries": list(all_queries.values()),
             "entities": entities,
@@ -553,7 +553,7 @@ Return ONLY a JSON array of the extracted terms:
         except Exception as e:
             logger.warning(f"Learned SPARQL search failed: {e}")
             return []
-
+    
     def format_workflow_context_for_llm(self, context: Dict[str, Any]) -> str:
         """
         Format the search context into a text prompt for the LLM.

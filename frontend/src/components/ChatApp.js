@@ -7,6 +7,7 @@ import { testApiConnectivity } from '../config/api';
 import API_CONFIG from '../config/api';
 import THEME from '../styles/colorTheme';
 import Icon from './Icon';
+import { buildApiUrl } from '../config/api';
 
 // Configure axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 
@@ -216,7 +217,7 @@ const ChatApp = () => {
     setDeletingConversations(prev => new Set([...prev, convId]));
     
     try {
-      await axios.delete(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${convId}`);
+      await axios.delete(buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${convId}`));
       
       // Remove from conversations list on success
       setConversations((prev) => prev.filter((c) => c.id !== convId));
@@ -324,11 +325,13 @@ const ChatApp = () => {
 
       // If we've already POSTed this conversation before, skip straight to PUT
       if (persistedIdsRef.current.has(conv.id)) {
-        await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, updateData);
+        const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`);
+        await axios.put(url, updateData);
         return;
       }
 
-      await axios.put(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`, updateData);
+      const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conv.id}`);
+      await axios.put(url, updateData);
     } catch (err) {
       if (err.response && (err.response.status === 404 || err.response.status === 422)) {
         try {
@@ -345,7 +348,7 @@ const ChatApp = () => {
           };
 
           if (!persistedIdsRef.current.has(conv.id)) {
-            await axios.post(API_CONFIG.ENDPOINTS.CONVERSATIONS, createData);
+            await axios.post(buildApiUrl(API_CONFIG.ENDPOINTS.CONVERSATIONS), createData);
             // Mark as persisted to prevent future duplicate POSTs
             persistedIdsRef.current.add(conv.id);
           }

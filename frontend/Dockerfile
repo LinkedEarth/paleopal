@@ -50,6 +50,25 @@ server {
         add_header Cache-Control "public, max-age=3600";
     }
 
+    # WebSocket proxy to backend (must come before generic /api to ensure upgrade headers)
+    location /ws/ {
+        proxy_pass http://backend:8000/ws/;
+
+        # WebSocket specific headers
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+
+        # Preserve client details
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_redirect off;
+        proxy_buffering off;
+    }
+
     # API proxy to backend
     location /api/ {
         proxy_pass http://backend:8000/api/;

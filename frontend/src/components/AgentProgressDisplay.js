@@ -386,10 +386,37 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
   const progressMessages = messages.filter(m => m.isNodeProgress);
   const completedNodes = progressMessages.filter(m => m.phase === 'complete');
   
-  // Get the current running node
-  const currentRunningNode = progressMessages.find(
-    m => m.phase === 'start' && !completedNodes.some(c => c.nodeName === m.nodeName)
-  );
+  // Determine currently running node - has 'start' but no corresponding 'complete'
+  const currentRunningNode = (() => {
+    // Group messages by nodeName
+    const nodeMessages = {};
+    progressMessages.forEach(msg => {
+      if (!nodeMessages[msg.nodeName]) {
+        nodeMessages[msg.nodeName] = { start: null, complete: null };
+      }
+      if (msg.phase === 'start') {
+        nodeMessages[msg.nodeName].start = msg;
+      } else if (msg.phase === 'complete') {
+        nodeMessages[msg.nodeName].complete = msg;
+      }
+    });
+    
+    // Find a node that has start but no complete (most recent start time)
+    let runningNode = null;
+    let latestStartTime = 0;
+    
+    for (const [nodeName, messages] of Object.entries(nodeMessages)) {
+      if (messages.start && !messages.complete) {
+        const startTime = new Date(messages.start.timestamp || messages.start.created_at || 0).getTime();
+        if (startTime > latestStartTime) {
+          latestStartTime = startTime;
+          runningNode = messages.start;
+        }
+      }
+    }
+    
+    return runningNode;
+  })();
 
   // Get execution status
   const lastProgress = progressMessages[progressMessages.length - 1];
@@ -517,7 +544,11 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                   return (
                     <div key={stepId} className="space-y-2">
                       <div className="flex items-center gap-3 p-1 pl-6">
-                        <span className="text-green-500 dark:text-green-400 text-sm">✓</span>
+                        {currentRunningNode && currentRunningNode.nodeName === node.nodeName ? (
+                          <Icon name="spinner" className="w-4 h-4 text-amber-500 dark:text-amber-300 animate-spin" />
+                        ) : (
+                          <span className="text-green-500 dark:text-green-400 text-sm">✓</span>
+                        )}
                         <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-200">{node.nodeName}</span>
                         
                         <div className="flex items-center gap-2">

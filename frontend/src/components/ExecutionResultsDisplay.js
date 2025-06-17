@@ -59,7 +59,9 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                           const imgSrc = `${window.location.origin}/plots/${filename}`;
                           return (
                             <div key={plotIndex} className="border rounded-lg overflow-hidden">
-                              <img src={imgSrc} alt={`Plot ${plotIndex + 1}`} className="w-full h-auto" />
+                              <a href={imgSrc} target="_blank" rel="noopener noreferrer">
+                                <img src={imgSrc} alt={`Plot ${plotIndex + 1}`} className="w-full h-auto" />
+                              </a>
                             </div>
                           );
                         })}

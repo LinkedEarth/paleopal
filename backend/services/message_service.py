@@ -237,6 +237,17 @@ class MessageService:
         )
         
         self._insert_message(message)
+        
+        # Broadcast to WebSocket listeners
+        try:
+            from websocket_manager import ws_manager
+            ws_manager.broadcast(message.conversation_id, {
+                "type": "message_created",
+                "message": message.dict()
+            })
+        except Exception as e:
+            logger.warning(f"Websocket broadcast failed: {e}")
+        
         logger.info(f"Created message {message_id} in conversation {message_data.conversation_id}")
         return message
     
@@ -358,8 +369,21 @@ class MessageService:
                     conn.execute(query, values)
                     conn.commit()
             
-            # Return updated message
-            return self.get_message(message_id)
+            # Retrieve updated message to broadcast
+            updated_msg = self.get_message(message_id)
+
+            # Broadcast the update so clients refresh their copy
+            try:
+                from websocket_manager import ws_manager
+                if updated_msg:
+                    ws_manager.broadcast(updated_msg.conversation_id, {
+                        "type": "message_updated",
+                        "message": updated_msg.dict()
+                    })
+            except Exception as e:
+                logger.warning(f"Websocket broadcast (message_updated) failed: {e}")
+
+            return updated_msg
             
         except Exception as e:
             logger.error(f"Error updating message results: {e}")
@@ -519,6 +543,17 @@ class MessageService:
         )
         
         self._insert_message(progress_message)
+        
+        # Broadcast progress update
+        try:
+            from websocket_manager import ws_manager
+            ws_manager.broadcast(progress_message.conversation_id, {
+                "type": "progress",
+                "message": progress_message.dict()
+            })
+        except Exception:
+            pass
+        
         logger.info(f"Created progress message {progress_id} for owner {owner_message_id}")
         return progress_message
 

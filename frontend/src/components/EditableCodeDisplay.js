@@ -47,6 +47,9 @@ const EditableCodeDisplay = ({
     }
   }, [onExecuteRef, editedCode, editedSparql, clearVariables]);
 
+  // Ensure SPARQL language is registered only once per page
+  const sparqlRegisteredRef = useRef(false);
+
   // Monaco Editor configuration
 
 
@@ -91,14 +94,17 @@ const EditableCodeDisplay = ({
 
   const handleEditorDidMount = (editor, monaco) => {
     editorRef.current = editor;
-    
-    // Register SPARQL language if needed
-    if (agentType === 'sparql') {
+
+    if (agentType === 'sparql' && !sparqlRegisteredRef.current) {
+      try {
         registerSparqlLanguage(monaco);
-        console.log('registered sparql language');
+        sparqlRegisteredRef.current = true;
+      } catch (err) {
+        console.warn('SPARQL language registration failed:', err);
+      }
     }
 
-    // Register custom themes
+    // Register custom themes (idempotent inside util)
     createPrismLightTheme(monaco);
     createPrismDarkTheme(monaco);
     
@@ -318,8 +324,8 @@ const EditableCodeDisplay = ({
                     onMount={handleEditorDidMount}
                     options={getEditorOptions()}
                     loading={
-                      <div className={`flex items-center justify-center h-full ${THEME.containers.card}`}>
-                        <div className={`text-sm ${THEME.text.secondary}`}>Loading editor...</div>
+                      <div className="flex items-center justify-center h-full">
+                        <Icon name="spinner" className={`${THEME.text.secondary} w-5 h-5`} />
                       </div>
                     }
                   />
@@ -341,8 +347,8 @@ const EditableCodeDisplay = ({
                     onMount={handleEditorDidMount}
                     options={getEditorOptions()}
                     loading={
-                      <div className={`flex items-center justify-center h-full ${THEME.containers.card}`}>
-                        <div className={`text-sm ${THEME.text.secondary}`}>Loading editor...</div>
+                      <div className="flex items-center justify-center h-full">
+                        <Icon name="spinner" className={`${THEME.text.secondary} w-5 h-5`} />
                       </div>
                     }
                   />

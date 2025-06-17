@@ -8,8 +8,9 @@ import json
 import re
 import uuid
 import pathlib
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from langchain.schema import HumanMessage, SystemMessage
+from datetime import datetime
 
 from .state import CodeAgentState, CodeAgentConfig
 from agents.base_state import MAX_REFINEMENTS
@@ -232,7 +233,8 @@ async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConf
             })
         
         return {
-            "similar_code": examples,  # Use generalized field
+            "similar_code": examples,  # Keep for internal state
+            "similar_results": examples,  # Add for frontend display
             "code_examples_used": used_examples_meta,
             "contextual_search_data": context_data,  # Store for code generation
             "conversation_id": state.conversation_id  # Preserve conversation_id
@@ -675,6 +677,188 @@ Return your response as JSON with keys: code, description, improvements_made.
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
+def _create_comprehensive_variable_context(conversation_id: str) -> str:
+    """Create comprehensive variable context with IDs, types, and smart value previews."""
+    try:
+        from services.python_execution_service import python_execution_service
+        
+        # Get the current conversation state (all variables)
+        state = python_execution_service.get_conversation_state(conversation_id)
+        
+        if not state:
+            return ""
+        
+        # Filter out private variables and functions
+        user_variables = {
+            name: value for name, value in state.items() 
+            if not name.startswith('_') and not callable(value)
+        }
+        
+        if not user_variables:
+            return ""
+        
+        variable_context = "**CURRENT VARIABLE STATE:**\n\n"
+        
+        # Check if we have string data that might need parsing
+        has_string_data = any(
+            isinstance(var_value, str) and (
+                var_value.strip().startswith('[') or 
+                var_value.strip().startswith('{') or
+                'values' in str(var_value).lower()
+            )
+            for var_value in user_variables.values()
+        )
+        
+        for var_name, var_value in user_variables.items():
+            try:
+                # Get variable ID (memory address as unique identifier)
+                var_id = f"var_{id(var_value)}"
+                
+                # Get fully qualified type name
+                var_type = type(var_value)
+                fully_qualified_type = f"{var_type.__module__}.{var_type.__name__}" if var_type.__module__ != 'builtins' else var_type.__name__
+                
+                # Get smart value preview based on type
+                value_preview = _get_smart_value_preview(var_value)
+                
+                # Add variable information to context
+                variable_context += f"• **{var_name}** (ID: {var_id})\n"
+                variable_context += f"  - Type: `{fully_qualified_type}`\n"
+                variable_context += f"  - Value Preview: {value_preview}\n\n"
+                
+            except Exception as e:
+                logger.warning(f"Error processing variable '{var_name}': {e}")
+                # Fallback for problematic variables
+                variable_context += f"• **{var_name}** (ID: unknown)\n"
+                variable_context += f"  - Type: `{type(var_value).__name__}`\n"
+                variable_context += f"  - Value Preview: <Error displaying value>\n\n"
+        
+        # Add safe parsing guidance if we detected string data
+        if has_string_data:
+            variable_context += "\n**SAFE STRING PARSING EXAMPLES:**\n"
+            variable_context += "```python\n"
+            variable_context += "import ast\n"
+            variable_context += "import json\n"
+            variable_context += "import numpy as np\n\n"
+            variable_context += "# Safe way to convert string representations to data:\n"
+            variable_context += "# For list/array strings like '[1, 2, 3]':\n"
+            variable_context += "values = ast.literal_eval(string_data)  # Safe alternative to eval()\n"
+            variable_context += "array_data = np.array(values)\n\n"
+            variable_context += "# For JSON strings:\n"
+            variable_context += "data = json.loads(json_string)\n\n"
+            variable_context += "# Never use eval() - it's unsafe!\n"
+            variable_context += "```\n\n"
+        
+        return variable_context
+        
+    except Exception as e:
+        logger.warning(f"Error creating comprehensive variable context: {e}")
+        return ""
+
+def _get_smart_value_preview(value) -> str:
+    """Get smart value preview based on variable type."""
+    try:
+        var_type = type(value).__name__
+        
+        # Handle pandas DataFrames
+        if hasattr(value, 'head') and hasattr(value, 'shape'):
+            try:
+                shape_str = f"Shape: {value.shape}"
+                if hasattr(value, 'columns'):
+                    cols_str = f"Columns: {list(value.columns)[:5]}" + ("..." if len(value.columns) > 5 else "")
+                    head_str = f"Head:\n{value.head().to_string()}"
+                    return f"`{shape_str}, {cols_str}`\n```\n{head_str}\n```"
+                else:
+                    head_str = f"Head:\n{value.head().to_string()}"
+                    return f"`{shape_str}`\n```\n{head_str}\n```"
+            except Exception:
+                return f"`DataFrame with shape {getattr(value, 'shape', 'unknown')}`"
+        
+        # Handle pandas Series
+        elif hasattr(value, 'head') and hasattr(value, 'name'):
+            try:
+                shape_str = f"Length: {len(value)}"
+                head_str = f"Head:\n{value.head().to_string()}"
+                return f"`{shape_str}, Name: {value.name}`\n```\n{head_str}\n```"
+            except Exception:
+                return f"`Series with length {len(value) if hasattr(value, '__len__') else 'unknown'}`"
+        
+        # Handle numpy arrays
+        elif hasattr(value, 'shape') and hasattr(value, 'dtype'):
+            try:
+                shape_str = f"Shape: {value.shape}, dtype: {value.dtype}"
+                if value.size <= 20:  # Small arrays - show all values
+                    return f"`{shape_str}`\n```\n{value}\n```"
+                else:  # Large arrays - show first few values
+                    preview = str(value.flat[:10]).replace('\n', ' ')
+                    return f"`{shape_str}`\n```\n[{preview}...]\n```"
+            except Exception:
+                return f"`Array with shape {getattr(value, 'shape', 'unknown')}`"
+        
+        # Handle lists and tuples
+        elif isinstance(value, (list, tuple)):
+            length = len(value)
+            if length == 0:
+                return f"`Empty {var_type}`"
+            elif length <= 5:
+                return f"`{var_type} of length {length}: {value}`"
+            else:
+                preview = f"{value[:3]}...{value[-1:]}"
+                return f"`{var_type} of length {length}: {preview}`"
+        
+        # Handle dictionaries
+        elif isinstance(value, dict):
+            length = len(value)
+            if length == 0:
+                return "`Empty dict`"
+            elif length <= 3:
+                return f"`Dict with {length} keys: {dict(list(value.items())[:3])}`"
+            else:
+                preview_keys = list(value.keys())[:3]
+                return f"`Dict with {length} keys: {preview_keys}...`"
+        
+        # Handle strings
+        elif isinstance(value, str):
+            if len(value) <= 50:
+                return f"`'{value}'`"
+            else:
+                return f"`'{value[:47]}...'` (length: {len(value)})"
+        
+        # Handle numbers
+        elif isinstance(value, (int, float, complex)):
+            return f"`{value}`"
+        
+        # Handle boolean
+        elif isinstance(value, bool):
+            return f"`{value}`"
+        
+        # Handle PyLiPD/Pyleoclim objects
+        elif hasattr(value, '__class__') and ('pylipd' in str(type(value)).lower() or 'pyleoclim' in str(type(value)).lower()):
+            try:
+                # Try to get useful info about the object
+                if hasattr(value, '__str__'):
+                    str_repr = str(value)
+                    if len(str_repr) <= 100:
+                        return f"`{str_repr}`"
+                    else:
+                        return f"`{str_repr[:97]}...`"
+                else:
+                    return f"`{type(value).__name__} object`"
+            except Exception:
+                return f"`{type(value).__name__} object`"
+        
+        # Generic fallback
+        else:
+            str_repr = str(value)
+            if len(str_repr) <= 100:
+                return f"`{str_repr}`"
+            else:
+                return f"`{str_repr[:97]}...`"
+                
+    except Exception as e:
+        logger.debug(f"Error getting smart preview for value: {e}")
+        return "`<Error displaying value>`"
+
 def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Enhanced code generation with comprehensive contextual information."""
     try:
@@ -769,6 +953,10 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         symbols_count = len(library_symbols.splitlines()) if library_symbols else 0
         logger.info(f"Loaded {symbols_count} library function signatures for code generation")
         
+        # Get comprehensive variable context with IDs, types, and smart previews
+        variable_context = _create_comprehensive_variable_context(state.conversation_id)
+        logger.info(f"Generated variable context length: {len(variable_context)} characters")
+        
         # The previous context is now handled through the unified refinement_context 
         
         user_prompt = (
@@ -778,14 +966,19 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             f"OUTPUT FORMAT: {output_format}\n\n"
             f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
             f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
+            f"{variable_context}\n\n"
             f"{previous_variable_info}\n\n"
             "INSTRUCTIONS:\n"
-            "1. Use variables from previous code when applicable\n"
-            "2. Follow patterns from the code snippets and examples\n"
-            "3. Use correct API calls based on documentation\n"
-            "4. Generate complete, executable code\n"
-            "5. Include necessary imports\n"
-            "6. Add helpful comments\n\n"
+            "1. Use existing variables from the current variable state when applicable\n"
+            "2. Reference variables by their exact names as shown in the variable state\n"
+            "3. Consider variable types and values when generating code\n"
+            "4. Follow patterns from the code snippets and examples\n"
+            "5. Use correct API calls based on documentation\n"
+            "6. Generate complete, executable code\n"
+            "7. Include necessary imports\n"
+            "8. Add helpful comments\n"
+            "9. **SECURITY**: Use ast.literal_eval() instead of eval() for safe string parsing\n"
+            "10. When converting string representations to data, use json.loads() or ast.literal_eval()\n\n"
             "Return JSON with keys: code, description, libraries, outputs."
         )
         
@@ -809,7 +1002,9 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                          "Return your response as valid JSON with keys: code, description, libraries, outputs. "
                          "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible. "
                          "*CRITICAL*: When including code in JSON, properly escape all backslashes (use \\\\ for \\) "
-                         "and quotes (use \\\" for \") to ensure valid JSON format.")
+                         "and quotes (use \\\" for \") to ensure valid JSON format. "
+                         "*SECURITY*: Never use eval() for parsing strings - use ast.literal_eval() or json.loads() instead. "
+                         "When converting string representations of lists/arrays to actual data structures, use safe parsing methods.")
         
         if library_symbols:
             system_content += (
@@ -1156,14 +1351,38 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
             
             logger.warning(f"Execution failed: {execution_result.error}")
         
-        return {
+        # Also extract execution details for frontend display
+        result = {
             "execution_results": execution_results,
             "conversation_id": conversation_id
         }
+        
+        # Add execution details in the format expected by frontend
+        if execution_results:
+            latest_result = execution_results[-1]  # Get the most recent execution result
+            if latest_result.get("type") == "execution_success":
+                result.update({
+                    "execution_successful": True,
+                    "execution_output": latest_result.get("output", ""),
+                    "execution_time": latest_result.get("execution_time", 0.0),
+                    "variable_state": latest_result.get("variable_summary", {})
+                })
+            elif latest_result.get("type") == "execution_error":
+                result.update({
+                    "execution_successful": False,
+                    "execution_error": latest_result.get("error", ""),
+                    "execution_output": latest_result.get("output", ""),
+                    "execution_time": latest_result.get("execution_time", 0.0)
+                })
+        
+        return result
         
     except Exception as e:
         logger.error(f"Error in execute_code_node: {e}")
         return {
             "execution_results": [{"type": "error", "message": f"Execution node error: {str(e)}"}],
+            "execution_successful": False,
+            "execution_error": f"Execution node error: {str(e)}",
+            "execution_time": 0.0,
             "conversation_id": state.conversation_id
         } 
