@@ -150,10 +150,10 @@ const ChatApp = () => {
         );
       });
 
-      // Persist to backend only if the conversation is not currently loading
-      if (!updatedConv.isLoading) {
-        saveConversationToBackend(updatedConv);
-      }
+      // Not Persisting to backend from the UI, as all conversation updates are happenning at the backend now
+      // if (!updatedConv.isLoading) {
+      //   saveConversationToBackend(updatedConv);
+      // }
     },
     []
   );
