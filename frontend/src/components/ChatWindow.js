@@ -1481,7 +1481,9 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
                 title="Download conversation as Jupyter notebook"
               >
                 <Icon name="download" className="w-4 h-4" />
-                {isLoading ? 'Exporting...' : 'Download Notebook'}
+                <span className="hidden sm:inline">
+                  {isLoading ? 'Exporting...' : 'Download Notebook'}
+                </span>
               </button>
             </div>
           )}

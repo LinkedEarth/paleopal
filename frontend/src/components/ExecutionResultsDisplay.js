@@ -34,7 +34,7 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                   {result.output && (
                     <div>
                       <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>Output:</div>
-                      <pre className={`text-xs ${THEME.containers.secondary} p-2 rounded border ${THEME.borders.default} overflow-x-auto whitespace-pre-wrap ${THEME.text.primary}`}>
+                      <pre className={`text-xs ${THEME.containers.secondary} p-2 rounded border ${THEME.borders.default} overflow-x-auto whitespace-pre ${THEME.text.primary} max-h-64 overflow-y-auto`}>
                         {result.output}
                       </pre>
                     </div>
@@ -91,7 +91,7 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                   {result.error && (
                     <div>
                       <div className={`text-xs font-medium ${THEME.status.error.text} mb-1`}>Error:</div>
-                      <pre className={`text-xs ${THEME.status.error.background} p-2 rounded border ${THEME.status.error.border} overflow-x-auto whitespace-pre-wrap ${THEME.status.error.text}`}>
+                      <pre className={`text-xs ${THEME.status.error.background} p-2 rounded border ${THEME.status.error.border} overflow-x-auto whitespace-pre ${THEME.status.error.text}`}>
                         {result.error}
                       </pre>
                     </div>
@@ -101,7 +101,7 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
                   {result.output && (
                     <div>
                       <div className={`text-xs font-medium ${THEME.text.primary} mb-1`}>Partial Output:</div>
-                      <pre className={`text-xs ${THEME.containers.secondary} p-2 rounded border ${THEME.borders.default} overflow-x-auto whitespace-pre-wrap ${THEME.text.primary}`}>
+                      <pre className={`text-xs ${THEME.containers.secondary} p-2 rounded border ${THEME.borders.default} overflow-x-auto whitespace-pre ${THEME.text.primary} max-h-64 overflow-y-auto`}>
                         {result.output}
                       </pre>
                     </div>

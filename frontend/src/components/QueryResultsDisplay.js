@@ -54,10 +54,10 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
   // Render table content
   const renderTable = () => (
     <div className="space-y-2">
-      <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden max-h-96 overflow-y-auto`}>
-        <div className="overflow-x-auto">
+      <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden`}>
+        <div className="max-h-80 overflow-y-auto overflow-x-auto">
           <table className="w-full border-collapse text-sm">
-            <thead className={`sticky top-0 ${THEME.containers.secondary}`}>
+            <thead className={`sticky top-0 z-10 ${THEME.containers.secondary}`}>
               <tr>
                 {headers.map(h => (
                   <th key={h} className={`border-b ${THEME.borders.default} px-3 py-2 text-left font-medium ${THEME.text.primary} ${THEME.containers.secondary}`}>
