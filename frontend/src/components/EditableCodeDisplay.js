@@ -84,12 +84,18 @@ const EditableCodeDisplay = ({
   };
 
   const getEditorOptions = () => {
+    const isMobile = window.innerWidth < 640; // Tailwind's sm breakpoint
+    
     return {
       minimap: { enabled: false },
       scrollBeyondLastLine: false,
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontFamily: '"Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace',
-      lineNumbers: 'on',
+      lineNumbers: isMobile ? 'off' : 'on',
+      lineDecorationsWidth: isMobile ? 0 : undefined,
+      lineNumbersMinChars: isMobile ? 0 : undefined,
+      glyphMargin: false,
+      folding: false,
       roundedSelection: false,
       automaticLayout: true,
       wordWrap: 'off',
@@ -109,6 +115,21 @@ const EditableCodeDisplay = ({
         horizontal: 'hidden',
       },
       overviewRulerLanes: 0,
+      // Mobile-specific optimizations
+      links: !isMobile,
+      contextmenu: !isMobile,
+      // Disable hover widgets on mobile to prevent keyboard overlay
+      hover: {
+        enabled: !isMobile
+      },
+      // Disable parameter hints on mobile
+      parameterHints: {
+        enabled: !isMobile
+      },
+      // Disable suggestions widget on mobile to prevent keyboard overlay
+      suggest: {
+        enabled: !isMobile
+      },
       // Disable editor when operation is in progress
       readOnly: isOperationInProgress(),
     };
@@ -168,6 +189,18 @@ const EditableCodeDisplay = ({
       editorRef.current.updateOptions({ readOnly: isOperationInProgress() });
     }
   }, [isSaving, isExecuting]);
+
+  // Update editor options on window resize for mobile optimization
+  useEffect(() => {
+    const handleResize = () => {
+      if (editorRef.current) {
+        editorRef.current.updateOptions(getEditorOptions());
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const copyToClipboard = async (text) => {
     try {
@@ -383,7 +416,7 @@ const EditableCodeDisplay = ({
           </div>
         )}
         
-        <div className={`border ${THEME.borders.default} rounded overflow-hidden ${isOperationInProgress() ? 'opacity-60' : ''}`}>
+        <div className={`overflow-hidden ${isOperationInProgress() ? 'opacity-60' : ''}`}>
           <Editor
             language={getEditorLanguage()}
             theme={getEditorTheme()}

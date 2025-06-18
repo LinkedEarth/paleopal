@@ -57,6 +57,11 @@ const ServerStatus = () => {
 
   const totalLLMs = Object.keys(status.llm_providers || {}).length;
 
+  // Check if all services are healthy
+  const allServicesHealthy = status.backend?.status === 'healthy' && 
+                            status.qdrant?.status === 'connected' && 
+                            connectedLLMs.length > 0;
+
   return (
     <div className="relative">
       <div 
@@ -64,24 +69,35 @@ const ServerStatus = () => {
         onClick={() => setIsExpanded(!isExpanded)}
         title="Click to view detailed status"
       >
-        {/* Backend Status */}
-        <div className="flex items-center gap-1">
-          <div className={`w-2 h-2 rounded-full ${getStatusColor(status.backend?.status)}`}></div>
-          <span className={THEME.text.secondary}>API</span>
-        </div>
-
-        {/* Qdrant Status */}
-        <div className="flex items-center gap-1">
-          <div className={`w-2 h-2 rounded-full ${getStatusColor(status.qdrant?.status)}`}></div>
-          <span className={THEME.text.secondary}>DB</span>
-        </div>
-
-        {/* LLM Status */}
-        <div className="flex items-center gap-1">
-          <div className={`w-2 h-2 rounded-full ${connectedLLMs.length > 0 ? 'bg-green-500' : 'bg-red-500'}`}></div>
+        {/* Mobile: Simple status */}
+        <div className="sm:hidden flex items-center gap-1">
+          <div className={`w-2 h-2 rounded-full ${allServicesHealthy ? 'bg-green-500' : 'bg-red-500'}`}></div>
           <span className={THEME.text.secondary}>
-            LLM ({connectedLLMs.length}/{totalLLMs})
+            {allServicesHealthy ? 'Server OK' : 'Server Issues'}
           </span>
+        </div>
+
+        {/* Desktop: Detailed status */}
+        <div className="hidden sm:flex items-center gap-2">
+          {/* Backend Status */}
+          <div className="flex items-center gap-1">
+            <div className={`w-2 h-2 rounded-full ${getStatusColor(status.backend?.status)}`}></div>
+            <span className={THEME.text.secondary}>API</span>
+          </div>
+
+          {/* Qdrant Status */}
+          <div className="flex items-center gap-1">
+            <div className={`w-2 h-2 rounded-full ${getStatusColor(status.qdrant?.status)}`}></div>
+            <span className={THEME.text.secondary}>DB</span>
+          </div>
+
+          {/* LLM Status */}
+          <div className="flex items-center gap-1">
+            <div className={`w-2 h-2 rounded-full ${connectedLLMs.length > 0 ? 'bg-green-500' : 'bg-red-500'}`}></div>
+            <span className={THEME.text.secondary}>
+              LLM ({connectedLLMs.length}/{totalLLMs})
+            </span>
+          </div>
         </div>
 
         {/* Expand/Collapse Icon */}

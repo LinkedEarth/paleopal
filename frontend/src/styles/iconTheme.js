@@ -189,6 +189,12 @@ const ICONS = {
       <path d="M8 20h8" />
       <path d="M12 16v4" />
     </svg>
+  ),
+  scroll: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <path d="M12 5v14" />
+      <path d="M19 12l-7 7-7-7" />
+    </svg>
   )
 };
 

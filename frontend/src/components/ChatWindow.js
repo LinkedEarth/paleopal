@@ -22,6 +22,24 @@ const LLM_PROVIDERS = [
   { id: 'ollama', name: 'Ollama' }
 ];
 
+// LLM Provider badge styles - consistent with agent styling
+const LLM_PROVIDER_BADGES = {
+  openai: 'bg-green-50 dark:bg-green-950/30 border border-green-200/60 dark:border-green-800/40 text-green-700 dark:text-green-300 shadow-sm',
+  google: 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-800/40 text-blue-700 dark:text-blue-300 shadow-sm',
+  anthropic: 'bg-purple-50 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-purple-700 dark:text-purple-300 shadow-sm',
+  grok: 'bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200/60 dark:border-yellow-800/40 text-yellow-700 dark:text-yellow-300 shadow-sm',
+  ollama: 'bg-gray-50 dark:bg-gray-950/30 border border-gray-200/60 dark:border-gray-800/40 text-gray-700 dark:text-gray-300 shadow-sm'
+};
+
+// LLM Provider focus states - consistent with agent focus styling
+const LLM_PROVIDER_FOCUS = {
+  openai: 'focus:border-green-500 focus:ring-2 focus:ring-green-500/20 dark:focus:border-green-400 dark:focus:ring-green-400/20',
+  google: 'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:focus:border-blue-400 dark:focus:ring-blue-400/20',
+  anthropic: 'focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 dark:focus:border-purple-400 dark:focus:ring-purple-400/20',
+  grok: 'focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 dark:focus:border-yellow-400 dark:focus:ring-yellow-400/20',
+  ollama: 'focus:border-gray-500 focus:ring-2 focus:ring-gray-500/20 dark:focus:border-gray-400 dark:focus:ring-gray-400/20'
+};
+
 const AGENT_TYPES = [
   { 
     id: 'sparql', 
@@ -1363,34 +1381,19 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     }
   };
 
-  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
-  const settingsMenuRef = useRef(null);
 
-  // Close settings menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (settingsMenuRef.current && !settingsMenuRef.current.contains(event.target)) {
-        setShowSettingsMenu(false);
-      }
-    };
-
-    if (showSettingsMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [showSettingsMenu]);
 
   return (
     <div className={`flex flex-col h-full ${THEME.containers.main}`}>
       <div className={`flex-shrink-0 p-2 ${THEME.containers.header}`}>
-        <div className="flex flex-wrap gap-4 items-center justify-between">
-          <div className="flex flex-wrap gap-4 items-center">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap gap-2 sm:gap-4 items-center justify-between">
+          <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
+          <div className="relative flex-shrink-0">
             <select 
               id="llm-provider" 
               value={llmProvider} 
               onChange={handleLlmProviderChange}
-              className={`px-3 py-1 rounded text-sm ${THEME.forms.select}`}
+              className={`px-3 sm:px-4 py-2 rounded text-sm disabled:cursor-not-allowed appearance-none ${LLM_PROVIDER_BADGES[llmProvider]} border ${LLM_PROVIDER_FOCUS[llmProvider] || ''} pr-8 transition-all duration-200`}
             >
               {LLM_PROVIDERS.map(provider => (
                 <option key={provider.id} value={provider.id}>
@@ -1398,76 +1401,64 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
                 </option>
               ))}
             </select>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <Icon name="chevronDown" className="w-4 h-4 text-slate-400" />
+            </div>
           </div>
       
-          <div className="flex items-center gap-4">
-            {/* WebSocket connection status indicator */}
-            <div className="flex items-center gap-1" title={`WebSocket: ${connectionState}`}>
-              <div className={`w-2 h-2 rounded-full ${
-                isWebSocketConnected ? 'bg-green-500' : 
-                connectionState === 'connecting' ? 'bg-yellow-500 animate-pulse' : 
-                'bg-red-500'
-              }`}></div>
-              <span className={`text-xs ${THEME.text.muted}`}>
-                {isWebSocketConnected ? 'Live' : connectionState === 'connecting' ? 'Connecting...' : 'Offline'}
-              </span>
-            </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            {/* Toggle Buttons */}
             
-            {/* Settings Menu */}
-            <div className="relative" ref={settingsMenuRef}>
-              <button
-                onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-                className={`p-2 rounded-md ${THEME.interactive.hover} ${THEME.containers.card} border ${THEME.borders.default} transition-colors`}
-                title="Chat Settings"
-              >
-                <Icon name="settings" className={`w-4 h-4 ${THEME.text.secondary}`} />
-              </button>
-              
-              {showSettingsMenu && (
-                <div className={`absolute right-0 top-full mt-1 w-56 ${THEME.containers.card} border ${THEME.borders.default} rounded-lg shadow-lg z-50`}>
-                  <div className="p-3 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="enable-clarification" className={`text-sm ${THEME.text.primary} cursor-pointer`}>
-                        Enable Clarifications
-                      </label>
-                      <input
-                        id="enable-clarification"
-                        type="checkbox"
-                        checked={enableClarification}
-                        onChange={handleEnableClarificationChange}
-                        className={`rounded ${THEME.forms.input}`}
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="enable-execution" className={`text-sm ${THEME.text.primary} cursor-pointer`}>
-                        Enable Execution
-                      </label>
-                      <input
-                        id="enable-execution"
-                        type="checkbox"
-                        checked={enableExecution}
-                        onChange={(e)=>setEnableExecution(e.target.checked)}
-                        className={`rounded ${THEME.forms.input}`}
-                      />
-                    </div>
+            {/* Clarifications Toggle */}
+            <button
+              onClick={() => {
+                setEnableClarification(!enableClarification);
+                updateParentConversation();
+              }}
+              className={`p-2 rounded-md transition-colors border flex items-center gap-2 ${
+                enableClarification 
+                  ? `${THEME.status.success.background} ${THEME.status.success.border} ${THEME.status.success.text}` 
+                  : `${THEME.containers.card} ${THEME.borders.default} ${THEME.text.secondary} ${THEME.interactive.hover}`
+              }`}
+              title="Toggle Clarifications"
+            >
+              <Icon name="question" className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs font-medium">
+                {enableClarification ? 'Clarifications On' : 'Clarifications Off'}
+              </span>
+            </button>
 
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="enable-autoscroll" className={`text-sm ${THEME.text.primary} cursor-pointer`}>
-                        Auto-scroll
-                      </label>
-                      <input
-                        id="enable-autoscroll"
-                        type="checkbox"
-                        checked={autoScrollEnabled}
-                        onChange={(e)=>setAutoScrollEnabled(e.target.checked)}
-                        className={`rounded ${THEME.forms.input}`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            {/* Execution Toggle */}
+            <button
+              onClick={(e) => setEnableExecution(!enableExecution)}
+              className={`p-2 rounded-md transition-colors border flex items-center gap-2 ${
+                enableExecution 
+                  ? `${THEME.status.success.background} ${THEME.status.success.border} ${THEME.status.success.text}` 
+                  : `${THEME.containers.card} ${THEME.borders.default} ${THEME.text.secondary} ${THEME.interactive.hover}`
+              }`}
+              title="Toggle Code Execution"
+            >
+              <Icon name="play" className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs font-medium">
+                {enableExecution ? 'Execution On' : 'Execution Off'}
+              </span>
+            </button>
+
+            {/* Auto-scroll Toggle */}
+            <button
+              onClick={(e) => setAutoScrollEnabled(!autoScrollEnabled)}
+              className={`p-2 rounded-md transition-colors border flex items-center gap-2 ${
+                autoScrollEnabled 
+                  ? `${THEME.status.success.background} ${THEME.status.success.border} ${THEME.status.success.text}` 
+                  : `${THEME.containers.card} ${THEME.borders.default} ${THEME.text.secondary} ${THEME.interactive.hover}`
+              }`}
+              title="Toggle Auto-scroll"
+            >
+              <Icon name="scroll" className="w-4 h-4" />
+              <span className="hidden sm:inline text-xs font-medium">
+                {autoScrollEnabled ? 'Auto-scroll On' : 'Auto-scroll Off'}
+              </span>
+            </button>
           </div>
           </div>
           
@@ -1530,46 +1521,55 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
         );
       })()}
       
-      <form className={`flex-shrink-0 p-2 ${THEME.containers.footer}`} onSubmit={handleSubmit}>
-        <div className="flex gap-2">
-          <div className="relative">
+      <form className={`flex-shrink-0 w-full p-2 ${THEME.containers.footer}`} onSubmit={handleSubmit}>
+        <div className="flex gap-2 w-full">
+          <div className="relative flex-shrink-0">
             <select
               value={selectedAgent}
               onChange={handleAgentChange}
-              className={`pl-8 pr-3 py-2 rounded text-sm disabled:cursor-not-allowed appearance-none ${THEME.agentBadges[selectedAgent]} border ${AGENT_BORDER_CLASSES[selectedAgent] || ''}`}
+              className={`pl-8 pr-3 sm:pr-8 py-2 rounded text-sm disabled:cursor-not-allowed appearance-none ${THEME.agentBadges[selectedAgent]} border ${AGENT_BORDER_CLASSES[selectedAgent] || ''} w-10 sm:w-auto`}
               disabled={isLoading || agentBusy}
             >
               {AGENT_TYPES.map(agent => (
                 <option key={agent.id} value={agent.id}>
-                  {agent.name}&nbsp;&nbsp;&nbsp;
+                  <span className="hidden sm:inline">{agent.name}</span>
+                  <span className="sm:hidden">&nbsp;</span>
                 </option>
               ))}
             </select>
             <div className={`absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 ${getAgentTheme(selectedAgent).icon}`}>
               <AgentIcon agentType={selectedAgent} className="w-full h-full" />
             </div>
-            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none hidden sm:block">
               <Icon name="chevronDown" className="w-4 h-4 text-slate-400" />
             </div>
           </div>
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder={messages.length > 1
-            ? "Ask me to refine the result or ask a new question..." 
-            : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
-          className={`flex-1 px-3 py-2 rounded disabled:cursor-not-allowed ${THEME.forms.input}`}
-          disabled={isLoading || agentBusy || hasUnansweredClarificationQuestions()}
-        />
-        <button 
-          type="submit" 
-          className={`px-4 py-2 rounded transition-colors disabled:cursor-not-allowed ${THEME.buttons.primary} disabled:bg-slate-400 dark:disabled:bg-slate-600`}
-          disabled={isLoading || agentBusy}
-        >
-          {isLoading ? 'Generating...' : agentBusy ? 'Agent Busy...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}
-        </button>
+          <input
+            ref={inputRef}
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder={messages.length > 1
+              ? "Ask me to refine the result or ask a new question..." 
+              : AGENT_TYPES.find(agent => agent.id === selectedAgent)?.placeholder || "Enter your request..."}
+            className={`flex-1 px-3 py-2 rounded disabled:cursor-not-allowed ${THEME.forms.input} min-w-0`}
+            disabled={isLoading || agentBusy || hasUnansweredClarificationQuestions()}
+          />
+          <button 
+            type="submit" 
+            className={`px-3 sm:px-4 py-2 rounded transition-colors disabled:cursor-not-allowed ${THEME.buttons.primary} disabled:bg-slate-400 dark:disabled:bg-slate-600 flex-shrink-0 flex items-center gap-2`}
+            disabled={isLoading || agentBusy}
+          >
+            <Icon name={
+              isLoading ? 'spinner' : 
+              agentBusy ? 'circle' : 
+              hasUnansweredClarificationQuestions() ? 'question' : 
+              'send'
+            } className="w-4 h-4" />
+            <span className="hidden sm:inline">
+              {isLoading ? 'Generating...' : agentBusy ? 'Agent Busy...' : hasUnansweredClarificationQuestions() ? 'Answer Questions' : 'Send'}
+            </span>
+          </button>
         </div>
       </form>
 
