@@ -1007,11 +1007,22 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                          "When converting string representations of lists/arrays to actual data structures, use safe parsing methods.")
         
         if library_symbols:
-            system_content += (
-                "\n\n**CRITICAL CONSTRAINT - READ CAREFULLY**: When using PyLiPD or Pyleoclim libraries, you MUST ONLY use "
-                "functions, classes, and constants from the following approved signatures. Do NOT invent, assume, or use any "
-                "PyLiPD or Pyleoclim functions that are not explicitly listed below. If a function is not in this list, IT DOES NOT EXIST.\n\n"
-                f"APPROVED PYLIPD/PYLEOCLIM SIGNATURES:\n{library_symbols}\n\n"
+            system_content += (f"""
+                **CRITICAL CONSTRAINT - READ CAREFULLY**
+                ### Approved pylipd / pyleoclim signatures
+                The file `backend/all_symbols.txt` is already loaded into context.  
+                Format:
+                • First line:  “p:” legend – symbol-kind prefixes (`c=class`, `f=function`).  
+                • Second line: “t:” legend – 1-letter type codes (`S=str`, …, `C:custom`, `X=unknown`).  
+                • A class line begins with `c:` followed by its fully-qualified name and constructor sig.  
+                • All indented lines beneath that class are its public methods, written as
+                    <2 spaces><methodName>(param:type,…)->ReturnTypeCode
+                • A free function line begins with `f:`.  
+                • `N` means the call returns `None`.  
+                • `O` / `X` mean “any / unknown”.
+                Generate code **only** with symbols that appear in this list, 
+                respecting parameter order and type hints.\n
+                {library_symbols}\n"""
                 "**EXAMPLES OF WHAT NOT TO DO**:\n"
                 "- lipd_obj.get_dataset(name) ❌ (does not exist)\n"
                 "- lipd_obj.load_dataset(name) ❌ (does not exist)\n"
