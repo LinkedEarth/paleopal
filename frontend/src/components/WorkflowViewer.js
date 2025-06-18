@@ -2,15 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import THEME from '../styles/colorTheme';
 import Icon from './Icon';
 
-const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecuteStep, messageIndex, allMessages, enableExecution = true }) => {
+const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages, enableExecution = true }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [workflowSteps, setWorkflowSteps] = useState([]);
-  const [isExecuting, setIsExecuting] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
   const [executedSteps, setExecutedSteps] = useState(new Set());
   const [startedSteps, setStartedSteps] = useState(new Set());
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExecuting, setIsExecuting] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
 
   // Analyze messages after this workflow to determine started and completed steps
   const analyzeWorkflowExecution = () => {
@@ -80,20 +79,6 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
       }
     });
 
-    console.log('🔍 Workflow execution analysis:', {
-      workflowSteps: workflowSteps.map(s => ({ 
-        id: s.id, 
-        name: s.name, 
-        agent: s.agent,
-        input: s.input.substring(0, 50) + '...'
-      })),
-      subsequentMessages: subsequentMessages.length,
-      userMessages: subsequentMessages.filter(m => m.role === 'user').length,
-      assistantMessages: subsequentMessages.filter(m => m.role === 'assistant').length,
-      startedSteps: Array.from(started),
-      completedSteps: Array.from(completed)
-    });
-
     return { started, completed };
   };
 
@@ -160,28 +145,6 @@ const WorkflowViewer = ({ workflowData, workflowId, onExecuteWorkflow, onExecute
       setExecutedSteps(completed);
     }
   }, [allMessages, workflowSteps, messageIndex]);
-
-  const copyWorkflowData = () => {
-    const dataToDownload = typeof workflowData === 'string' ? workflowData : JSON.stringify(workflowData, null, 2);
-    navigator.clipboard.writeText(dataToDownload).then(() => {
-      console.log('Workflow data copied to clipboard');
-    }).catch(err => {
-      console.error('Failed to copy workflow data:', err);
-    });
-  };
-
-  const downloadWorkflow = () => {
-    const dataToDownload = typeof workflowData === 'string' ? workflowData : JSON.stringify(workflowData, null, 2);
-    const blob = new Blob([dataToDownload], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `workflow-${workflowId || 'unknown'}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
 
   // Function to check if a step completed successfully
   const checkStepSuccess = async (stepId, stepNumber) => {

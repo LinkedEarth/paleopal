@@ -180,7 +180,7 @@ const IndexAsLearnedModal = ({
           {/* User Prompt */}
           <div>
             <label className={`block text-sm font-medium ${THEME.text.primary} mb-2`}>
-              Original User Prompt *
+              User Prompt *
             </label>
             <textarea
               value={userPrompt}

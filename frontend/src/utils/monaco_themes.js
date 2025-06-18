@@ -1,70 +1,98 @@
-// Custom Monaco themes that match Prism's oneLight and oneDark themes exactly
+// Custom Monaco themes that match PaleoPal's professional UI design system
 
 export const createPrismLightTheme = (monaco) => {
   monaco.editor.defineTheme('prism-light', {
     base: 'vs',
     inherit: true,
     rules: [
-      // Comments - hsl(230, 4%, 64%) - italic
-      { token: 'comment', foreground: '9ca3af', fontStyle: 'italic' },
+      // Comments - gray-500 - subtle and professional
+      { token: 'comment', foreground: '6b7280', fontStyle: 'italic' },
       
-      // Keywords - hsl(301, 63%, 40%) - purple
-      { token: 'keyword', foreground: '9333ea' },
+      // Keywords - blue-600 - matching primary theme
+      { token: 'keyword', foreground: '2563eb' },
       
-      // Strings - hsl(119, 34%, 47%) - green
+      // Import keywords - purple-600 - distinct for imports
+      { token: 'keyword.import', foreground: '9333ea' },
+      { token: 'keyword.from', foreground: '9333ea' },
+      { token: 'keyword.as', foreground: '9333ea' },
+      
+      // Strings - emerald-600 - professional green
       { token: 'string', foreground: '059669' },
       { token: 'string.uri', foreground: '059669' },
       
-      // Numbers - hsl(35, 99%, 36%) - orange
+      // Numbers - orange-600 - warm accent
       { token: 'number', foreground: 'ea580c' },
       
-      // Functions - hsl(221, 87%, 60%) - blue
-      { token: 'keyword.function', foreground: '3b82f6' },
-      { token: 'function', foreground: '3b82f6' },
+      // Functions - indigo-600 - matching code agent theme
+      { token: 'keyword.function', foreground: '4f46e5' },
+      { token: 'function', foreground: '4f46e5' },
+      { token: 'entity.name.function', foreground: '4f46e5' },
+      { token: 'support.function', foreground: '4f46e5' },
       
-      // Variables - hsl(221, 87%, 60%) - blue
-      { token: 'variable', foreground: '3b82f6' },
+      // Variables - slate-600 - distinct from functions
+      { token: 'variable', foreground: '475569' },
+      { token: 'variable.name', foreground: '475569' },
+      { token: 'variable.other', foreground: '475569' },
+      { token: 'variable.parameter', foreground: '64748b' }, // slightly lighter for parameters
       
-      // Operators - hsl(221, 87%, 60%) - blue
-      { token: 'operator', foreground: '3b82f6' },
+      // Package/Module names - rose-600 - distinct for imports
+      { token: 'entity.name.namespace', foreground: 'e11d48' },
+      { token: 'entity.name.module', foreground: 'e11d48' },
+      { token: 'support.module', foreground: 'e11d48' },
+      { token: 'meta.import', foreground: 'e11d48' },
       
-      // Properties/Tags - hsl(5, 74%, 59%) - red
+      // Operators - gray-600 - subtle
+      { token: 'operator', foreground: '4b5563' },
+      
+      // Properties/Tags - red-600 - clean accent
       { token: 'property', foreground: 'dc2626' },
       { token: 'tag', foreground: 'dc2626' },
       
-      // Types/Classes - hsl(35, 99%, 36%) - orange
-      { token: 'type', foreground: 'ea580c' },
-      { token: 'type.identifier', foreground: 'ea580c' },
-      { token: 'class-name', foreground: 'ea580c' },
+      // Types/Classes - teal-600 - matching SPARQL agent theme
+      { token: 'type', foreground: '0d9488' },
+      { token: 'type.identifier', foreground: '0d9488' },
+      { token: 'class-name', foreground: '0d9488' },
+      { token: 'entity.name.type', foreground: '0d9488' },
+      { token: 'entity.name.class', foreground: '0d9488' },
       
-      // Punctuation - hsl(230, 8%, 24%) - dark gray
-      { token: 'punctuation', foreground: '374151' },
-      { token: 'delimiter', foreground: '374151' },
+      // Punctuation - gray-600 - professional
+      { token: 'punctuation', foreground: '4b5563' },
+      { token: 'delimiter', foreground: '4b5563' },
       
-      // Built-ins - hsl(119, 34%, 47%) - green
-      { token: 'builtin', foreground: '059669' },
+      // Built-ins - emerald-700 - slightly darker green
+      { token: 'builtin', foreground: '047857' },
+      { token: 'support.type', foreground: '047857' },
       
-      // Constants - hsl(35, 99%, 36%) - orange
-      { token: 'constant', foreground: 'ea580c' },
+      // Constants - amber-600 - warm accent
+      { token: 'constant', foreground: 'd97706' },
+      { token: 'constant.language', foreground: 'd97706' },
+      { token: 'constant.numeric', foreground: 'ea580c' }, // same as numbers
       
-      // Regex - hsl(119, 34%, 47%) - green
+      // Regex - emerald-600 - consistent with strings
       { token: 'regexp', foreground: '059669' },
       
-      // URLs - hsl(198, 99%, 37%) - cyan
-      { token: 'url', foreground: '0891b2' },
+      // URLs - blue-500 - consistent with links
+      { token: 'url', foreground: '3b82f6' },
+      
+      // SPARQL specific tokens
+      { token: 'namespace', foreground: '7c3aed' }, // violet-600 for prefixed names
+      { token: 'string.uri', foreground: '3b82f6' }, // blue for IRIs
     ],
     colors: {
-      'editor.background': '#fafafa', // hsl(230, 1%, 98%)
-      'editor.foreground': '#383a42', // hsl(230, 8%, 24%)
-      'editor.selectionBackground': '#e5e5e6', // hsl(230, 1%, 90%)
-      'editor.lineHighlightBackground': '#fafafa',
-      'editorLineNumber.foreground': '#9ca3af',
-      'editorLineNumber.activeForeground': '#374151',
-      'editor.selectionHighlightBackground': '#e5e5e620',
-      'editor.wordHighlightBackground': '#e5e5e620',
-      'editor.wordHighlightStrongBackground': '#e5e5e640',
-      'editorBracketMatch.background': '#e5e5e640',
-      'editorBracketMatch.border': '#9ca3af',
+      'editor.background': '#ffffff', // Pure white - matching UI cards
+      'editor.foreground': '#111827', // gray-900 - primary text
+      'editor.selectionBackground': '#dbeafe', // blue-100 - professional selection
+      'editor.lineHighlightBackground': '#f8fafc', // slate-50 - very subtle
+      'editorLineNumber.foreground': '#9ca3af', // gray-400 - subtle line numbers
+      'editorLineNumber.activeForeground': '#6b7280', // gray-500 - active line number
+      'editor.selectionHighlightBackground': '#dbeafe40', // blue-100 with opacity
+      'editor.wordHighlightBackground': '#f3f4f620', // gray-100 with opacity
+      'editor.wordHighlightStrongBackground': '#e5e7eb40', // gray-200 with opacity
+      'editorBracketMatch.background': '#e5e7eb40', // gray-200 with opacity
+      'editorBracketMatch.border': '#9ca3af', // gray-400 - subtle bracket match
+      'editorCursor.foreground': '#2563eb', // blue-600 - matching primary
+      'editor.findMatchBackground': '#fbbf2440', // amber highlight
+      'editor.findMatchHighlightBackground': '#fbbf2420', // amber highlight subtle
     }
   });
 };
@@ -74,66 +102,94 @@ export const createPrismDarkTheme = (monaco) => {
     base: 'vs-dark',
     inherit: true,
     rules: [
-      // Comments - hsl(220, 10%, 40%) - gray, italic
-      { token: 'comment', foreground: '6b7280', fontStyle: 'italic' },
+      // Comments - gray-400 - readable but subtle
+      { token: 'comment', foreground: '9ca3af', fontStyle: 'italic' },
       
-      // Keywords - hsl(286, 60%, 67%) - purple
-      { token: 'keyword', foreground: 'c084fc' },
+      // Keywords - blue-400 - bright primary in dark mode
+      { token: 'keyword', foreground: '60a5fa' },
       
-      // Strings - hsl(95, 38%, 62%) - green
-      { token: 'string', foreground: '84cc16' },
-      { token: 'string.uri', foreground: '84cc16' },
+      // Import keywords - purple-400 - distinct for imports in dark
+      { token: 'keyword.import', foreground: 'c084fc' },
+      { token: 'keyword.from', foreground: 'c084fc' },
+      { token: 'keyword.as', foreground: 'c084fc' },
       
-      // Numbers - hsl(29, 54%, 61%) - orange
-      { token: 'number', foreground: 'f59e0b' },
+      // Strings - emerald-400 - bright green for dark mode
+      { token: 'string', foreground: '34d399' },
+      { token: 'string.uri', foreground: '34d399' },
       
-      // Functions - hsl(207, 82%, 66%) - blue
-      { token: 'keyword.function', foreground: '60a5fa' },
-      { token: 'function', foreground: '60a5fa' },
+      // Numbers - orange-400 - warm accent for dark mode
+      { token: 'number', foreground: 'fb923c' },
       
-      // Variables - hsl(207, 82%, 66%) - blue
-      { token: 'variable', foreground: '60a5fa' },
+      // Functions - indigo-400 - matching code agent theme in dark
+      { token: 'keyword.function', foreground: '818cf8' },
+      { token: 'function', foreground: '818cf8' },
+      { token: 'entity.name.function', foreground: '818cf8' },
+      { token: 'support.function', foreground: '818cf8' },
       
-      // Operators - hsl(207, 82%, 66%) - blue
-      { token: 'operator', foreground: '60a5fa' },
+      // Variables - slate-300 - distinct from functions in dark mode
+      { token: 'variable', foreground: 'cbd5e1' },
+      { token: 'variable.name', foreground: 'cbd5e1' },
+      { token: 'variable.other', foreground: 'cbd5e1' },
+      { token: 'variable.parameter', foreground: 'e2e8f0' }, // slightly lighter for parameters
       
-      // Properties/Tags - hsl(355, 65%, 65%) - red/pink
+      // Package/Module names - rose-400 - distinct for imports in dark
+      { token: 'entity.name.namespace', foreground: 'fb7185' },
+      { token: 'entity.name.module', foreground: 'fb7185' },
+      { token: 'support.module', foreground: 'fb7185' },
+      { token: 'meta.import', foreground: 'fb7185' },
+      
+      // Operators - gray-300 - visible but not prominent
+      { token: 'operator', foreground: 'd1d5db' },
+      
+      // Properties/Tags - red-400 - bright accent for dark
       { token: 'property', foreground: 'f87171' },
       { token: 'tag', foreground: 'f87171' },
       
-      // Types/Classes - hsl(29, 54%, 61%) - orange
-      { token: 'type', foreground: 'f59e0b' },
-      { token: 'type.identifier', foreground: 'f59e0b' },
-      { token: 'class-name', foreground: 'f59e0b' },
+      // Types/Classes - teal-400 - matching SPARQL agent in dark
+      { token: 'type', foreground: '2dd4bf' },
+      { token: 'type.identifier', foreground: '2dd4bf' },
+      { token: 'class-name', foreground: '2dd4bf' },
+      { token: 'entity.name.type', foreground: '2dd4bf' },
+      { token: 'entity.name.class', foreground: '2dd4bf' },
       
-      // Punctuation - hsl(220, 14%, 71%) - light gray
-      { token: 'punctuation', foreground: 'a1a1aa' },
-      { token: 'delimiter', foreground: 'a1a1aa' },
+      // Punctuation - gray-300 - professional visibility
+      { token: 'punctuation', foreground: 'd1d5db' },
+      { token: 'delimiter', foreground: 'd1d5db' },
       
-      // Built-ins - hsl(95, 38%, 62%) - green
-      { token: 'builtin', foreground: '84cc16' },
+      // Built-ins - emerald-300 - bright green for dark
+      { token: 'builtin', foreground: '6ee7b7' },
+      { token: 'support.type', foreground: '6ee7b7' },
       
-      // Constants - hsl(29, 54%, 61%) - orange
-      { token: 'constant', foreground: 'f59e0b' },
+      // Constants - amber-400 - warm accent for dark
+      { token: 'constant', foreground: 'fbbf24' },
+      { token: 'constant.language', foreground: 'fbbf24' },
+      { token: 'constant.numeric', foreground: 'fb923c' }, // same as numbers
       
-      // Regex - hsl(95, 38%, 62%) - green
-      { token: 'regexp', foreground: '84cc16' },
+      // Regex - emerald-400 - consistent with strings
+      { token: 'regexp', foreground: '34d399' },
       
-      // URLs - hsl(187, 47%, 55%) - cyan
-      { token: 'url', foreground: '06b6d4' },
+      // URLs - blue-400 - consistent with links in dark
+      { token: 'url', foreground: '60a5fa' },
+      
+      // SPARQL specific tokens
+      { token: 'namespace', foreground: 'a78bfa' }, // violet-400 for prefixed names in dark
+      { token: 'string.uri', foreground: '60a5fa' }, // blue for IRIs in dark
     ],
     colors: {
-      'editor.background': '#282c34', // hsl(220, 13%, 18%)
-      'editor.foreground': '#abb2bf', // hsl(220, 14%, 71%)
-      'editor.selectionBackground': '#3e4451', // hsl(220, 13%, 28%)
-      'editor.lineHighlightBackground': '#2c313c',
-      'editorLineNumber.foreground': '#6b7280',
-      'editorLineNumber.activeForeground': '#abb2bf',
-      'editor.selectionHighlightBackground': '#3e445120',
-      'editor.wordHighlightBackground': '#3e445120',
-      'editor.wordHighlightStrongBackground': '#3e445140',
-      'editorBracketMatch.background': '#3e445140',
-      'editorBracketMatch.border': '#6b7280',
+      'editor.background': '#1f2937', // gray-800 - matching UI panels
+      'editor.foreground': '#f9fafb', // gray-50 - primary text in dark
+      'editor.selectionBackground': '#1e3a8a', // blue-800 - professional selection
+      'editor.lineHighlightBackground': '#111827', // gray-900 - subtle highlight
+      'editorLineNumber.foreground': '#6b7280', // gray-500 - subtle line numbers
+      'editorLineNumber.activeForeground': '#9ca3af', // gray-400 - active line number
+      'editor.selectionHighlightBackground': '#1e3a8a40', // blue-800 with opacity
+      'editor.wordHighlightBackground': '#37415120', // gray-700 with opacity
+      'editor.wordHighlightStrongBackground': '#4b556340', // gray-600 with opacity
+      'editorBracketMatch.background': '#4b556340', // gray-600 with opacity
+      'editorBracketMatch.border': '#6b7280', // gray-500 - visible bracket match
+      'editorCursor.foreground': '#60a5fa', // blue-400 - bright cursor
+      'editor.findMatchBackground': '#f59e0b40', // amber highlight for dark
+      'editor.findMatchHighlightBackground': '#f59e0b20', // amber highlight subtle
     }
   });
 }; 

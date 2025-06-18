@@ -86,6 +86,71 @@ async def delete_messages_from_sequence(conversation_id: str, from_sequence: int
     return {"deleted_count": deleted_count} 
 
 # New endpoints for editing and re-executing code/SPARQL
+@router.post("/{message_id}/save-edits")
+async def save_edits(message_id: str, request_data: dict):
+    """
+    Save edited code/SPARQL without executing it.
+    
+    Request body:
+    {
+        "generated_code": "edited Python code",  // for code agents
+        "generated_sparql": "edited SPARQL query"  // for SPARQL agents
+    }
+    """
+    try:
+        # Get the message
+        message = message_service.get_message(message_id)
+        if not message:
+            raise HTTPException(status_code=404, detail="Message not found")
+        
+        # Extract request data
+        new_generated_code = request_data.get("generated_code")
+        new_generated_sparql = request_data.get("generated_sparql")
+        
+        # Validate that we have something to save
+        if not new_generated_code and not new_generated_sparql:
+            raise HTTPException(status_code=400, detail="No code or SPARQL provided to save")
+        
+        # Prepare update data
+        update_data = {}
+        
+        # Handle SPARQL agent editing
+        if message.agent_type == "sparql" and new_generated_sparql:
+            logger.info("Saving edited SPARQL query")
+            # For SPARQL agents, update the agent_metadata with the new query
+            existing_metadata = message.agent_metadata or {}
+            existing_metadata["generated_sparql"] = new_generated_sparql
+            update_data["agent_metadata"] = existing_metadata
+            
+        # Handle Code agent editing
+        elif message.agent_type == "code" and new_generated_code:
+            logger.info("Saving edited code")
+            update_data["generated_code"] = new_generated_code
+            
+        else:
+            raise HTTPException(status_code=400, detail="Invalid agent type or content for saving")
+        
+        # Update the message using the message service
+        updated_message = message_service.update_message_results(
+            message_id=message_id,
+            **update_data
+        )
+        
+        if not updated_message:
+            raise HTTPException(status_code=500, detail="Failed to save edits")
+        
+        return {
+            "success": True,
+            "message": updated_message,
+            "saved_content": new_generated_code or new_generated_sparql
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error saving edits: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.post("/{message_id}/edit-and-execute")
 async def edit_and_execute_code(message_id: str, request_data: dict):
     """

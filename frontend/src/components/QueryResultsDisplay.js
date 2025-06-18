@@ -2,10 +2,17 @@ import React from 'react';
 import THEME from '../styles/colorTheme';
 import Icon from './Icon';
 
-const QueryResultsDisplay = ({ results, error }) => {
+const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
   const copyToClipboard = (text) => navigator.clipboard.writeText(text).catch(() => {});
 
   if (error) {
+    if (hideHeader) {
+      return (
+        <div className={`p-3 rounded border text-sm ${THEME.status.error.text} ${THEME.status.error.background} ${THEME.status.error.border}`}>
+          {error}
+        </div>
+      );
+    }
     return (
       <div className={`rounded-lg ${THEME.containers.panel}`}>
         <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
@@ -22,6 +29,11 @@ const QueryResultsDisplay = ({ results, error }) => {
   }
 
   if (!results || results.length === 0) {
+    if (hideHeader) {
+      return (
+        <p className={`text-sm ${THEME.text.secondary}`}>No results found.</p>
+      );
+    }
     return (
       <div className={`rounded-lg ${THEME.containers.panel}`}>
         <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
@@ -38,6 +50,58 @@ const QueryResultsDisplay = ({ results, error }) => {
   }
 
   const headers = Object.keys(results[0]);
+  
+  // Render table content
+  const renderTable = () => (
+    <div className="space-y-2">
+      <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden max-h-96 overflow-y-auto`}>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <thead className={`sticky top-0 ${THEME.containers.secondary}`}>
+              <tr>
+                {headers.map(h => (
+                  <th key={h} className={`border-b ${THEME.borders.default} px-3 py-2 text-left font-medium ${THEME.text.primary} ${THEME.containers.secondary}`}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className={THEME.containers.card}>
+              {results.map((row, i) => (
+                <tr key={i} className={THEME.interactive.hover}>
+                  {headers.map(h => (
+                    <td key={`${i}-${h}`} className={`border-b ${THEME.borders.table} px-3 py-2 ${THEME.text.primary}`}>
+                      {(() => {
+                        const v = row[h];
+                        if (v === null || v === undefined) return '';
+                        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
+                        try {
+                          return JSON.stringify(v);
+                        } catch (e) {
+                          return String(v);
+                        }
+                      })()}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {/* Show a note if results are truncated to the maximum limit */}
+      {results.length === 50 && (
+        <p className={`text-xs ${THEME.text.muted}`}>Displaying first 50 results (limited).</p>
+      )}
+    </div>
+  );
+
+  // If hideHeader is true, render just the table
+  if (hideHeader) {
+    return renderTable();
+  }
+
+  // Default rendering with header
   return (
     <div className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.panel} relative group`}>
       <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
@@ -55,45 +119,7 @@ const QueryResultsDisplay = ({ results, error }) => {
         </button>
       </div>
       <div className="p-3">
-        <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden max-h-96 overflow-y-auto`}>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead className={`sticky top-0 ${THEME.containers.secondary}`}>
-                <tr>
-                  {headers.map(h => (
-                    <th key={h} className={`border-b ${THEME.borders.default} px-3 py-2 text-left font-medium ${THEME.text.primary} ${THEME.containers.secondary}`}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className={THEME.containers.card}>
-                {results.map((row, i) => (
-                  <tr key={i} className={THEME.interactive.hover}>
-                    {headers.map(h => (
-                      <td key={`${i}-${h}`} className={`border-b ${THEME.borders.table} px-3 py-2 ${THEME.text.primary}`}>
-                        {(() => {
-                          const v = row[h];
-                          if (v === null || v === undefined) return '';
-                          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
-                          try {
-                            return JSON.stringify(v);
-                          } catch (e) {
-                            return String(v);
-                          }
-                        })()}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        {/* Show a note if results are truncated to the maximum limit */}
-        {results.length === 50 && (
-          <p className={`text-xs ${THEME.text.muted} mb-2`}>Displaying first 50 results (limited).</p>
-        )}
+        {renderTable()}
       </div>
     </div>
   );

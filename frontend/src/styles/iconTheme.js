@@ -61,8 +61,10 @@ const ICONS = {
   delete: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
       <path d="M3 6h18" />
-      <path d="M8 6v12c0 1.104.896 2 2 2h4c1.104 0 2-.896 2-2V6M10 11v6M14 11v6" />
-      <path d="M5 6l1-2h12l1 2" />
+      <path d="M19 6v14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V6" />
+      <path d="M8 6V4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v2" />
+      <line x1="10" y1="11" x2="10" y2="17" />
+      <line x1="14" y1="11" x2="14" y2="17" />
     </svg>
   ),
   database: (
@@ -98,6 +100,13 @@ const ICONS = {
   play: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
       <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  ),
+  save: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+      <polyline points="17 21 17 13 7 13 7 21" />
+      <polyline points="7 3 7 8 15 8" />
     </svg>
   ),
   send: (
@@ -162,7 +171,10 @@ const ICONS = {
   ),
   dashboard: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-      <path d="M3 13h8V3H3v10zM13 21h8v-8h-8v8zM13 3v8h8V3h-8zM3 21h8v-8H3v8z" />
+      <path d="M2 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2z" />
+      <path d="M22 3h-6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6z" />
+      <path d="M10 3v18" />
+      <path d="M14 3v18" />
     </svg>
   ),
   user: (

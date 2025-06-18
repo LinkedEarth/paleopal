@@ -16,15 +16,12 @@ except ImportError:
     pass  # matplotlib not available
 
 import logging
-import sys
 import io
 import traceback
 import pickle
-import base64
-import json
 import sqlite3
 import uuid
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional
 from contextlib import redirect_stdout, redirect_stderr
 import threading
 import time
@@ -33,7 +30,6 @@ from datetime import datetime
 
 # For secure execution
 import ast
-import builtins
 
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,7 @@ import API_CONFIG from '../config/api';
 
 /**
  * Hook that returns the currently running job (if any) for a conversation.
- * It polls until no running job is returned (i.e., job finished).
+ * It polls less frequently since WebSocket provides real-time updates.
  *
  * Backend endpoint supports filtering by conversation_id and state.
  */
@@ -16,11 +16,16 @@ const fetchActiveJob = async (conversationId) => {
   return null;
 };
 
-export const useActiveJob = (conversationId) => {
+export const useActiveJob = (conversationId, isWebSocketConnected = false) => {
   return useQuery({
     queryKey: ['activeJob', conversationId],
     queryFn: () => fetchActiveJob(conversationId),
     enabled: Boolean(conversationId),
-    refetchInterval: 2_000,
+    // Reduce polling frequency when WebSocket is connected, increase when it's not
+    refetchInterval: isWebSocketConnected ? 10_000 : 5_000, // 10s with WS, 5s without
+    // Reduce background refetching to prevent conflicts
+    refetchIntervalInBackground: false,
+    // Don't refetch on window focus to reduce noise
+    refetchOnWindowFocus: false,
   });
 }; 

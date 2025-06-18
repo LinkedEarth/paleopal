@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Editor from '@monaco-editor/react';
 import THEME from '../styles/colorTheme';
 import { buildApiUrl, apiRequest } from '../config/api';
@@ -15,46 +13,74 @@ const EditableCodeDisplay = ({
   agentType = 'code', 
   messageId,
   isDarkMode = false,
-  hideHeader = false,
-  isEditingExternal = null,
-  clearVariablesExternal = null,
   onExecutionComplete,
   onError,
-  onEdit,
-  onCopy,
-  onCancel,
-  onExecuteRef
+  onSave,
+  onIndex,
+  allMessages = [],
+  hasCode = false,
+  hasSparql = false
 }) => {
-  const [isEditingInternal, setIsEditingInternal] = useState(false);
   const [editedCode, setEditedCode] = useState(code || '');
   const [editedSparql, setEditedSparql] = useState(sparqlQuery || '');
   const [isExecuting, setIsExecuting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [showCopyNotification, setShowCopyNotification] = useState(false);
-  const [clearVariablesInternal, setClearVariablesInternal] = useState(true);
+  const [showSaveNotification, setShowSaveNotification] = useState(false);
+  const [showIndexModal, setShowIndexModal] = useState(false);
   
   const editorRef = useRef(null);
-
-  // Use external editing state if provided, otherwise use internal state
-  const isEditing = isEditingExternal !== null ? isEditingExternal : isEditingInternal;
-  
-  // Use external clear variables state if provided, otherwise use internal state
-  const clearVariables = clearVariablesExternal !== null ? clearVariablesExternal : clearVariablesInternal;
-
-  // Pass execute function to parent via ref callback
-  useEffect(() => {
-    if (onExecuteRef) {
-      onExecuteRef(() => handleExecute()); // always pass a fresh function referencing latest state
-    }
-  }, [onExecuteRef, editedCode, editedSparql, clearVariables]);
-
-  // Ensure SPARQL language is registered only once per page
   const sparqlRegisteredRef = useRef(false);
 
+  // Get initial content based on agent type
+  const getInitialContent = () => {
+    if (agentType === 'sparql' && sparqlQuery) {
+      return sparqlQuery;
+    }
+    return code || '';
+  };
+
+  // Get current edited content
+  const getCurrentContent = () => {
+    if (agentType === 'sparql' && sparqlQuery) {
+      return editedSparql;
+    }
+    return editedCode;
+  };
+
+  // Track original content for dirty state detection
+  const originalContent = getInitialContent();
+
+  // Check if content has been modified (dirty state)
+  const isDirty = () => {
+    const currentContent = getCurrentContent();
+    return currentContent !== originalContent;
+  };
+
+  // Update original content when props change
+  useEffect(() => {
+    if (agentType === 'sparql' && sparqlQuery) {
+      setEditedSparql(sparqlQuery);
+    } else if (code) {
+      setEditedCode(code);
+    }
+  }, [code, sparqlQuery, agentType]);
+
+  // Get editor language
+  const getEditorLanguage = () => {
+    return agentType === 'sparql' ? 'sparql' : 'python';
+  };
+
+  // Check if any operation is in progress
+  const isOperationInProgress = () => {
+    return isSaving || isExecuting;
+  };
+
   // Monaco Editor configuration
-
-
   const getEditorTheme = () => {
-    return isDarkMode ? 'prism-dark' : 'prism-light';
+    // Use default themes initially to avoid race condition
+    // Custom themes will be applied after registration in handleEditorDidMount
+    return isDarkMode ? 'vs-dark' : 'vs';
   };
 
   const getEditorOptions = () => {
@@ -65,12 +91,6 @@ const EditableCodeDisplay = ({
       fontFamily: '"Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace',
       lineNumbers: 'on',
       roundedSelection: false,
-      scrollbar: {
-        vertical: 'auto',
-        horizontal: 'auto',
-        verticalScrollbarSize: 8,
-        horizontalScrollbarSize: 8,
-      },
       automaticLayout: true,
       wordWrap: 'off',
       tabSize: 2,
@@ -79,16 +99,18 @@ const EditableCodeDisplay = ({
       selectionHighlight: false,
       occurrencesHighlight: false,
       renderWhitespace: 'none',
-    //   folding: false,
-    //   glyphMargin: false,
-    //   lineDecorationsWidth: 0,
-    //   lineNumbersMinChars: 0,
-    //   foldingHighlight: false,
-    //   showFoldingControls: false,
       matchBrackets: 'always',
       autoIndent: 'full',
       formatOnPaste: true,
       formatOnType: true,
+      // Remove scrollbars by setting overflow to hidden
+      scrollbar: {
+        vertical: 'hidden',
+        horizontal: 'hidden',
+      },
+      overviewRulerLanes: 0,
+      // Disable editor when operation is in progress
+      readOnly: isOperationInProgress(),
     };
   };
 
@@ -104,22 +126,50 @@ const EditableCodeDisplay = ({
       }
     }
 
-    // Register custom themes (idempotent inside util)
+    // Register custom themes
     createPrismLightTheme(monaco);
     createPrismDarkTheme(monaco);
     
-    // Focus the editor when it mounts during editing
-    if (isEditing) {
-      editor.focus();
-    }
+    // Apply the custom theme after registration
+    const customTheme = isDarkMode ? 'prism-dark' : 'prism-light';
+    monaco.editor.setTheme(customTheme);
+    
+    // Auto-resize editor to content
+    const updateHeight = () => {
+      const contentHeight = Math.max(200, Math.min(800, editor.getContentHeight()));
+      const container = editor.getContainerDomNode();
+      if (container) {
+        container.style.height = contentHeight + 'px';
+        editor.layout();
+      }
+    };
+
+    editor.onDidContentSizeChange(updateHeight);
+    setTimeout(updateHeight, 100);
   };
 
-  const copyToClipboard = async (text) => {
-    if (onCopy) {
-      onCopy(text);
-      return;
+  // Update theme when dark mode changes
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.getModel()) {
+      const customTheme = isDarkMode ? 'prism-dark' : 'prism-light';
+      // Apply theme directly to the editor instance
+      try {
+        editorRef.current.updateOptions({ theme: customTheme });
+      } catch (err) {
+        // If custom themes aren't registered yet, ignore
+        console.warn('Custom theme not available yet');
+      }
     }
-    
+  }, [isDarkMode]);
+
+  // Update editor read-only state when operation status changes
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.updateOptions({ readOnly: isOperationInProgress() });
+    }
+  }, [isSaving, isExecuting]);
+
+  const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
       setShowCopyNotification(true);
@@ -129,23 +179,43 @@ const EditableCodeDisplay = ({
     }
   };
 
-  const handleEdit = () => {
-    if (onEdit) {
-      onEdit();
+  const handleSave = async () => {
+    if (!messageId) {
+      onError?.('No message ID provided for save');
       return;
     }
-    
-    setIsEditingInternal(true);
-  };
 
-  const handleCancel = () => {
-    if (onCancel) {
-      onCancel();
-    } else {
-      setIsEditingInternal(false);
+    setIsSaving(true);
+    try {
+      const requestData = {};
+
+      // Add the appropriate content based on agent type
+      if (agentType === 'sparql' && editedSparql) {
+        requestData.generated_sparql = editedSparql;
+      }
+      if (editedCode) {
+        requestData.generated_code = editedCode;
+      }
+
+      const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/${messageId}/save-edits`);
+      const response = await apiRequest(url, {
+        method: 'POST',
+        body: JSON.stringify(requestData)
+      });
+
+      if (response.success) {
+        setShowSaveNotification(true);
+        setTimeout(() => setShowSaveNotification(false), 2000);
+        onSave?.(getCurrentContent());
+      } else {
+        onError?.('Save failed');
+      }
+    } catch (error) {
+      console.error('Error saving code:', error);
+      onError?.(error.message || 'Failed to save code');
+    } finally {
+      setIsSaving(false);
     }
-    setEditedCode(code || '');
-    setEditedSparql(sparqlQuery || '');
   };
 
   const handleExecute = async () => {
@@ -157,7 +227,7 @@ const EditableCodeDisplay = ({
     setIsExecuting(true);
     try {
       const requestData = {
-        clear_variables: clearVariables
+        clear_variables: true // Always clear variables for now
       };
 
       // Add the appropriate content based on agent type
@@ -175,7 +245,6 @@ const EditableCodeDisplay = ({
       });
 
       if (response.success) {
-        setIsEditingInternal(false);
         onExecutionComplete?.(response);
       } else {
         onError?.('Execution failed');
@@ -188,206 +257,188 @@ const EditableCodeDisplay = ({
     }
   };
 
-  const getSyntaxLanguage = () => {
-    return agentType === 'sparql' ? 'sparql' : 'python';
+  const handleIndex = () => {
+    if (onIndex) {
+      onIndex();
+    } else {
+      setShowIndexModal(true);
+    }
   };
 
-  const getDisplayContent = () => {
-    if (isEditing) {
-      if (agentType === 'sparql' && editedSparql) {
-        return editedSparql;
-      }
-      return editedCode;
-    }
-    
-    if (agentType === 'sparql' && sparqlQuery) {
-      return sparqlQuery;
-    }
-    return code || '';
-  };
-
-  const getIcon = () => {
-    if (agentType === 'sparql' && sparqlQuery) {
-      return <Icon name="database" className="w-4 h-4" />;
-    }
-    return <Icon name="code" className="w-4 h-4" />;
-  };
-
-  const displayContent = getDisplayContent();
+  const displayContent = getInitialContent();
 
   if (!displayContent) {
     return null;
   }
 
   return (
-    <div className={hideHeader ? '' : `border ${THEME.borders.default} rounded-lg ${THEME.containers.panel} relative group`}>
+    <div className="space-y-4">
       {/* Copy notification */}
-      {!hideHeader && showCopyNotification && (
-        <div className={`absolute top-2 left-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>
+      {showCopyNotification && (
+        <div className={`absolute top-2 right-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>
           ✓ Copied!
         </div>
       )}
       
-      {/* Header with actions */}
-      {!hideHeader && (
-        <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} ${THEME.containers.card} rounded-t-lg`}>
-          <h4 className={`${THEME.text.primary} font-medium text-sm m-0 flex items-center gap-2`}>
-            {isEditing && (
-              <span className={`text-xs px-2 py-1 rounded ${THEME.status.info.background} ${THEME.status.info.text}`}>
-                Editing
+      {/* Save notification */}
+      {showSaveNotification && (
+        <div className={`absolute top-2 right-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>
+          ✓ Saved!
+        </div>
+      )}
+      
+      {/* Header with title and action buttons */}
+      <div className="space-y-2">
+        <div className={`flex justify-between items-center ${isOperationInProgress() ? 'opacity-75' : ''}`}>
+          <div className={`flex items-center gap-2 ${THEME.text.primary}`}>
+            {agentType === 'sparql' ? (
+              <>
+                <Icon name="database" className="w-4 h-4" />
+                <span className="font-medium">Generated SPARQL</span>
+              </>
+            ) : (
+              <>
+                <Icon name="code" className="w-4 h-4" />
+                <span className="font-medium">Generated Code</span>
+              </>
+            )}
+            {/* Dirty state indicator */}
+            {isDirty() && !isOperationInProgress() && (
+              <span className={`text-xs px-2 py-1 rounded ${THEME.status.warning.background} ${THEME.status.warning.text} flex items-center gap-1`}>
+                <div className="w-2 h-2 bg-current rounded-full"></div>
+                Modified
               </span>
             )}
-          </h4>
+            {/* Operation status indicator */}
+            {isSaving && (
+              <span className={`text-xs px-2 py-1 rounded ${THEME.status.info.background} ${THEME.status.info.text} flex items-center gap-1`}>
+                <Icon name="spinner" className="w-3 h-3 animate-spin" />
+                Saving...
+              </span>
+            )}
+            {isExecuting && (
+              <span className={`text-xs px-2 py-1 rounded ${THEME.status.warning.background} ${THEME.status.warning.text} flex items-center gap-1`}>
+                <Icon name="spinner" className="w-3 h-3 animate-spin" />
+                Executing...
+              </span>
+            )}
+          </div>
           
           <div className="flex items-center gap-2">
-            {!isEditing && (
-              <>
-                <button 
-                  className={`p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${THEME.interactive.hover}`}
-                  onClick={() => copyToClipboard(displayContent)}
-                  title="Copy to clipboard"
-                >
-                  <Icon name="copy" className={`w-4 h-4 ${THEME.text.secondary}`} />
-                </button>
-                
-                <button 
-                  className={`p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${THEME.interactive.hover}`}
-                  onClick={handleEdit}
-                  title="Edit and re-execute"
-                >
-                  <Icon name="edit" className={`w-4 h-4 ${THEME.text.secondary}`} />
-                </button>
-              </>
-            )}
-            
-            {isEditing && (
-              <>
-                <button 
-                  className={`px-3 py-1.5 text-sm ${THEME.buttons.secondary} rounded transition-colors duration-200`}
-                  onClick={handleCancel}
-                  disabled={isExecuting}
-                >
-                  Cancel
-                </button>
-                
-                <button 
-                  className={`px-3 py-1.5 text-sm ${THEME.buttons.primary} rounded transition-colors duration-200 flex items-center gap-2`}
-                  onClick={handleExecute}
-                  disabled={isExecuting}
-                >
-                  {isExecuting ? (
-                    <>
-                      <Icon name="spinner" />
-                      Executing...
-                    </>
-                  ) : (
-                    "Save and Execute"
-                  )}
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-      
-      {/* Options for editing */}
-      {isEditing && !hideHeader && (
-        <div className={`p-3 border-b ${THEME.borders.default} ${THEME.containers.secondary}`}>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={clearVariables}
-              onChange={(e) => setClearVariablesInternal(e.target.checked)}
-              className={`rounded border ${THEME.borders.default} ${THEME.forms.checkbox}`}
-            />
-            <span className={THEME.text.secondary}>
-              Clear previous variables before execution
-            </span>
-          </label>
-        </div>
-      )}
-      
-      {/* Content area */}
-      <div className={hideHeader ? '' : 'p-3'}>
-        {isEditing ? (
-          <div className="space-y-3">
-            {/* SPARQL editing for SPARQL agents */}
-            {agentType === 'sparql' && sparqlQuery ? (
-              <div>
-                <div className={`border ${THEME.borders.default} rounded overflow-hidden`} style={{ height: '380px' }}>
-                  <Editor
-                    height="380px"
-                    language="sparql"
-                    theme={getEditorTheme()}
-                    value={editedSparql}
-                    onChange={(value) => setEditedSparql(value || '')}
-                    onMount={handleEditorDidMount}
-                    options={getEditorOptions()}
-                    loading={
-                      <div className="flex items-center justify-center h-full">
-                        <Icon name="spinner" className={`${THEME.text.secondary} w-5 h-5`} />
-                      </div>
-                    }
-                  />
-                </div>
-                <p className={`text-xs ${THEME.text.muted} mt-2`}>
-                  Python code will be automatically generated to execute this SPARQL query.
-                </p>
-              </div>
-            ) : (
-              /* Python code editing for non-SPARQL agents */
-              <div>
-                <div className={`border ${THEME.borders.default} rounded overflow-hidden`} style={{ height: '380px' }}>
-                  <Editor
-                    height="380px"
-                    language="python"
-                    theme={getEditorTheme()}
-                    value={editedCode}
-                    onChange={(value) => {console.log(value); setEditedCode(value || '')}}
-                    onMount={handleEditorDidMount}
-                    options={getEditorOptions()}
-                    loading={
-                      <div className="flex items-center justify-center h-full">
-                        <Icon name="spinner" className={`${THEME.text.secondary} w-5 h-5`} />
-                      </div>
-                    }
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden max-h-96 overflow-y-auto`}>
-            <SyntaxHighlighter 
-              language={getSyntaxLanguage()}
-              style={{
-                ...(isDarkMode ? oneDark : oneLight),
-                'code[class*="language-"]': {
-                  ...(isDarkMode ? oneDark : oneLight)['code[class*="language-"]'],
-                  background: 'transparent',
-                  backgroundColor: 'transparent'
-                },
-                'pre[class*="language-"]': {
-                  ...(isDarkMode ? oneDark : oneLight)['pre[class*="language-"]'],
-                  background: 'transparent',
-                  backgroundColor: 'transparent'
-                }
-              }}
-              className="!m-0"
-              customStyle={{ 
-                margin: 0, 
-                padding: '1rem', 
-                background: 'transparent',
-                backgroundColor: 'transparent', 
-                fontSize: '13px',
-                fontFamily: '"Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace'
-              }}
+            {/* Copy button */}
+            <button 
+              className={`p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded ${THEME.interactive.hover} transition-colors duration-200 ${isOperationInProgress() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={() => copyToClipboard(getCurrentContent())}
+              disabled={isOperationInProgress()}
+              title="Copy to clipboard"
             >
-              {displayContent}
-            </SyntaxHighlighter>
+              <Icon name="copy" className={`w-4 h-4 ${THEME.text.secondary}`} />
+            </button>
+            
+            {/* Save button - icon only */}
+            <button 
+              className={`p-1.5 ${isDirty() ? THEME.buttons.primary : THEME.containers.card} border ${isDirty() ? 'border-transparent' : THEME.borders.default} rounded transition-colors duration-200 ${isSaving ? 'opacity-75' : ''} ${isExecuting ? 'opacity-50 cursor-not-allowed' : ''} ${isDirty() ? 'hover:opacity-90' : THEME.interactive.hover}`}
+              onClick={handleSave}
+              disabled={isOperationInProgress()}
+              title={isDirty() ? "Save changes" : "No changes to save"}
+            >
+              <Icon name={isSaving ? "spinner" : "save"} className={`w-4 h-4 ${isDirty() ? 'text-white' : THEME.text.secondary} ${isSaving ? 'animate-spin' : ''}`} />
+            </button>
+            
+            {/* Execute button - icon only */}
+            <button 
+              className={`p-1.5 ${THEME.buttons.primary} rounded transition-colors duration-200 ${isExecuting ? 'opacity-75' : ''} ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={handleExecute}
+              disabled={isOperationInProgress()}
+              title="Execute code"
+            >
+              <Icon name={isExecuting ? "spinner" : "play"} className={`w-4 h-4 text-white ${isExecuting ? 'animate-spin' : ''}`} />
+            </button>
+            
+            {/* Index button */}
+            <button 
+              className={`p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded ${THEME.interactive.hover} transition-colors duration-200 ${isOperationInProgress() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={handleIndex}
+              disabled={isOperationInProgress()}
+              title="Index as learned content"
+            >
+              <Icon name="index" className={`w-4 h-4 ${THEME.text.secondary}`} />
+            </button>
+          </div>
+        </div>
+        <hr className={`border-t ${THEME.borders.default}`} />
+      </div>
+      
+      {/* Editor - always visible, no viewer mode */}
+      <div className="relative">
+        {/* Loading overlay */}
+        {isOperationInProgress() && (
+          <div className="absolute inset-0 bg-black bg-opacity-10 z-10 flex items-center justify-center rounded">
+            <div className={`${THEME.containers.card} px-4 py-2 rounded-lg shadow-lg border ${THEME.borders.default} flex items-center gap-2`}>
+              <Icon name="spinner" className={`w-4 h-4 ${THEME.text.primary} animate-spin`} />
+              <span className={`text-sm ${THEME.text.primary}`}>
+                {isSaving ? 'Saving changes...' : 'Executing code...'}
+              </span>
+            </div>
           </div>
         )}
+        
+        <div className={`border ${THEME.borders.default} rounded overflow-hidden ${isOperationInProgress() ? 'opacity-60' : ''}`}>
+          <Editor
+            language={getEditorLanguage()}
+            theme={getEditorTheme()}
+            value={getCurrentContent()}
+            onChange={(value) => {
+              if (agentType === 'sparql' && sparqlQuery) {
+                setEditedSparql(value || '');
+              } else {
+                setEditedCode(value || '');
+              }
+            }}
+            onMount={handleEditorDidMount}
+            options={getEditorOptions()}
+            loading={
+              <div className="flex items-center justify-center h-48">
+                <Icon name="spinner" className={`${THEME.text.secondary} w-5 h-5 animate-spin`} />
+              </div>
+            }
+          />
+        </div>
+        {agentType === 'sparql' && sparqlQuery && (
+          <p className={`text-xs ${THEME.text.muted} pt-2 ${isOperationInProgress() ? 'opacity-60' : ''}`}>
+            Python code will be automatically generated to execute this SPARQL query.
+          </p>
+        )}
       </div>
+      
+      {/* Index Modal - if not handled externally */}
+      {showIndexModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className={`${THEME.containers.card} rounded-lg p-6 max-w-md w-full mx-4`}>
+            <h3 className={`text-lg font-medium ${THEME.text.primary} mb-4`}>Index as Learned Content</h3>
+            <p className={`text-sm ${THEME.text.secondary} mb-4`}>
+              This will save the code/query as learned content for future reference.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowIndexModal(false)}
+                className={`px-3 py-2 text-sm ${THEME.buttons.secondary} rounded`}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowIndexModal(false);
+                  // Implement indexing logic here
+                }}
+                className={`px-3 py-2 text-sm ${THEME.buttons.primary} rounded`}
+              >
+                Index
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

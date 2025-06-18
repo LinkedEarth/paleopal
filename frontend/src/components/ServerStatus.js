@@ -26,7 +26,7 @@ const ServerStatus = () => {
 
   useEffect(() => {
     fetchStatus();
-    const interval = setInterval(fetchStatus, 30000); // Update every 30 seconds
+    const interval = setInterval(fetchStatus, 60000); // Update every 60 seconds
     return () => clearInterval(interval);
   }, []);
 

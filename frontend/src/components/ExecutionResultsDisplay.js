@@ -1,3 +1,4 @@
+import React from 'react';
 import VariableStateDisplay from './VariableStateDisplay';
 import THEME from '../styles/colorTheme';
 import Icon from './Icon';
@@ -140,5 +141,4 @@ const ExecutionResultsDisplay = ({ executionResults, isDarkMode, hideHeader = fa
     );
 };
 
-
-export default ExecutionResultsDisplay; 
+export default React.memo(ExecutionResultsDisplay); 

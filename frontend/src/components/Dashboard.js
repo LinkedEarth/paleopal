@@ -769,9 +769,9 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-800 dark:from-emerald-500 dark:to-emerald-700 rounded-lg flex items-center justify-center">
-                <Icon name="list" className="w-5 h-5 text-white" />
+                <Icon name="dashboard" className="w-5 h-5 text-white" />
               </div>
-              <span className={`font-bold ${THEME.text.primary} text-lg`}>PaleoPal</span>
+              <span className={`font-bold ${THEME.text.primary} text-lg`}>PaleoPal Libraries</span>
             </div>
             {/* Close button for mobile */}
             {isMobile && (
@@ -863,11 +863,6 @@ const Dashboard = () => {
               )}
               
               <div className="flex items-center space-x-3">
-                {!isMobile && (
-                  <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-800 dark:from-emerald-500 dark:to-emerald-700 rounded-lg flex items-center justify-center">
-                    <Icon name="list" className="w-5 h-5 text-white" />
-                  </div>
-                )}
                 <div>
                   <h1 className={`font-bold ${THEME.text.primary} ${isMobile ? 'text-lg' : 'text-2xl'}`}>
                     {isMobile ? 'Libraries' : 'Libraries Dashboard'}

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { AgentProgressDisplay } from './AgentProgressDisplay';
-import QueryAndResultsMessage from './QueryAndResultsMessage';
+import AgentResultsDisplay from './AgentResultsDisplay';
 import ClarificationMessage from './ClarificationMessage';
 import ClarificationResponseMessage from './ClarificationResponseMessage';
 import ClarificationDialog from './ClarificationDialog';
@@ -333,15 +333,11 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
         setInputValue('');
         
         try {
-          // console.log(`🔍 Loading messages for conversation ${conversation.id}...`);
           const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
-          // console.log(`📝 Raw messages from API:`, loadedMessages);
           
           if (loadedMessages.length > 0) {
-            // console.log(`✅ Found ${loadedMessages.length} messages`);
             // Convert backend message format to frontend format
             const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
-            // console.log(` Converted messages:`, convertedMessages);
             setMessages(convertedMessages);
             
             // Check if the conversation has a pending request that needs polling
@@ -372,11 +368,9 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               
               if (!hasCompletedResponse) {
                 if (timeSinceLastUserMessage > fiveMinutes) {
-                  console.log('⏰ Request is older than 5 minutes, marking as timed out');
                   setError('Request timed out - the agent took too long to respond');
                   setIsLoading(false);
                 } else {
-                  console.log('🔄 Pending request detected – relying on React-Query polling');
                   setIsLoading(true);
                 }
               }
@@ -389,7 +383,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               .pop(); // Get the most recent assistant message
               
             if (lastAssistantMessage && lastAssistantMessage.needsClarification && lastAssistantMessage.clarificationQuestions) {
-              console.log('🔄 Detected clarification state from messages, will restore UI');
               // Set clarification state after a brief delay to ensure other state is set
               setTimeout(() => {
                 setWaitingForClarification(true);
@@ -399,7 +392,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               }, 100);
             }
           } else {
-            console.log('⚠️ No messages found, using default greeting');
             const greeting = [{
               id: 1,
               role: 'assistant',
@@ -433,13 +425,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       setTimeout(() => {
         updatingFromPropRef.current = false;
       }, 100);
-    } else {
-      // console.log('❌ Not loading messages because:');
-      // console.log('  - Has conversation.id?', !!conversation.id);
-      // console.log('  - ID changed?', conversation.id !== prevConversationIdRef.current);
-      // console.log('  - Same as before?', conversation.id === prevConversationIdRef.current);
-      // console.log('  - prevConversationIdRef.current:', prevConversationIdRef.current);
-    }
+    } 
   }, [conversation.id]);
 
   // Helper function to check if user has scrolled up
@@ -492,20 +478,20 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
 
   const handleLlmProviderChange = (e) => {
     setLlmProvider(e.target.value);
-    // Update parent after state change
-    setTimeout(() => updateParentConversation(), 0);
+    // Update parent immediately instead of using setTimeout
+    updateParentConversation();
   };
 
   const handleEnableClarificationChange = (e) => {
     setEnableClarification(e.target.checked);
-    // Update parent after state change
-    setTimeout(() => updateParentConversation(), 0);
+    // Update parent immediately instead of using setTimeout
+    updateParentConversation();
   };
 
   const handleClarificationThresholdChange = (e) => {
     setClarificationThreshold(e.target.value);
-    // Update parent after state change
-    setTimeout(() => updateParentConversation(), 0);
+    // Update parent immediately instead of using setTimeout
+    updateParentConversation();
   };
 
   const handleAgentChange = useCallback((e) => {
@@ -515,101 +501,10 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     // Reset conversation state when switching agents
     setError(null);
     
-    // Update parent after state change
-    setTimeout(() => updateParentConversation(), 0);
+    // Update parent immediately instead of using setTimeout
+    updateParentConversation();
   }, [updateParentConversation]);
-
-  // Update clarification answer for a specific question
-  const handleClarificationChoice = (questionId, choice) => {
-    console.log('🔄 User selected choice for question', questionId, ':', choice);
-    
-    // Update the local state only - do NOT update the conversation
-    setClarificationAnswers(prev => ({
-      ...prev,
-      [questionId]: choice
-    }));
-    
-    // Note: We no longer update the conversation here. The conversation will only
-    // be updated when all answers are submitted and the backend processes them.
-  };
-
-  // Update clarification answer input
-  const handleClarificationAnswerChange = (questionId, value) => {
-    console.log('🔄 User entered answer for question', questionId, ':', value);
-    
-    // Update the local state only - do NOT update the conversation
-    setClarificationAnswers(prev => ({
-      ...prev,
-      [questionId]: value
-    }));
-    
-    // Note: We no longer update the conversation here. The conversation will only
-    // be updated when all answers are submitted and the backend processes them.
-  };
   
-  // Handle workflow execution
-  const handleExecuteWorkflow = async (workflowId) => {
-    setIsLoading(true);
-    setError(null);
-
-    // Add user message to show workflow execution request
-    const userMessage = {
-      id: Date.now(),
-      role: 'user',
-      content: `Execute workflow: ${workflowId}`
-    };
-    setMessages(prev => [...prev, userMessage]);
-    
-    // Scroll down immediately when workflow execution starts
-    setTimeout(() => scrollToBottomIfNeeded(true), 0);
-
-    try {
-      // Prepare request for workflow execution
-      const agentRequest = {
-        agent_type: 'workflow_generation',
-        capability: 'execute_workflow',
-        user_input: workflowId,
-        conversation_id: conversation.id,
-        context: { workflow_id: workflowId },
-        metadata: {
-          llm_provider: llmProvider,
-          workflow_id: workflowId,
-          enable_clarification: enableClarification,
-          clarification_threshold: clarificationThreshold,
-          enable_execution: enableExecution,
-        }
-      };
-
-      // console.log('Executing workflow:', agentRequest);
-
-      // Send request to execute workflow via async endpoint (same as other requests)
-      const requestUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.AGENTS}/request/async`);
-      const result = await apiRequest(requestUrl, {
-        method: 'POST',
-        body: JSON.stringify(agentRequest)
-      });
-        
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      console.log('Workflow execution request queued:', result);
-
-      // React-Query hooks will pick up new messages automatically
-
-    } catch (error) {
-      console.error('Error executing workflow:', error);
-      setError(error.response?.data?.detail || error.message || 'Error executing workflow');
-      
-      // Reset clarification state on error but keep conversation state
-      setWaitingForClarification(false);
-      setClarificationQuestions([]);
-      setClarificationAnswers({});
-      setOriginalRequestContext(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // Handle step-by-step workflow execution
   const handleExecuteStep = async (stepInfo) => {
@@ -1100,7 +995,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               clarificationResponses={message.clarificationResponses}
             />
           ) : message.hasQueryResults || message.hasGeneratedCode || message.hasWorkflowPlan || message.hasWorkflowExecution ? (
-            <QueryAndResultsMessage 
+            <AgentResultsDisplay 
               message={message}
               query={message.sparqlQuery}
               results={message.queryResults}
@@ -1110,7 +1005,6 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               workflowId={message.workflowId}
               executionResults={message.executionResults}
               failedSteps={message.failedSteps}
-              onExecuteWorkflow={handleExecuteWorkflow}
               onExecuteStep={handleExecuteStep}
               agentType={message.agentType}
               isJsonWorkflow={message.isJsonWorkflow}
@@ -1228,53 +1122,9 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
   };
 
   // ---------------------------------------------------------------------------
-  // React-Query hooks: messages & jobs for this conversation
-  // ---------------------------------------------------------------------------
-  const conversationIdForJobPolling = isLoading ? conversation.id : null;
-  const { data: activeJob } = useActiveJob(conversationIdForJobPolling);
-
-  const shouldPollMessages = isLoading || waitingForClarification || Boolean(activeJob);
-  const { data: backendMessages = [], isFetching: messagesFetching } = useConversationMessages(
-    conversation.id,
-    true,
-    shouldPollMessages,
-  );
-
-  // Sync backend messages into local UI state (only when actually changed)
-  useEffect(() => {
-    if (!backendMessages) return;
-    const converted = backendMessages.length > 0
-      ? convertBackendMessagesToFrontend(backendMessages)
-      : defaultGreeting;
-
-    setMessages((prev) => {
-      // quick length / id check to avoid redundant updates that can create loops
-      if (prev.length === converted.length) {
-        const same = prev.every((m, i) => m.id === converted[i].id && m.updated_at === converted[i].updated_at);
-        if (same) return prev; // no change
-      }
-      return converted;
-    });
-  }, [backendMessages]);
-
-  // Reflect running job status into loading indicator
-  useEffect(() => {
-    if (activeJob) {
-      setIsLoading(true);
-    } else if (!messagesFetching) {
-      setIsLoading(false);
-    }
-  }, [activeJob, messagesFetching]);
-
-  // ---------------------------------------------------------------------------
-  // Derived UI state: whether any agent is currently busy
-  // ---------------------------------------------------------------------------
-  const agentBusy = Boolean(activeJob) || isAgentBusy();
-
-  // ---------------------------------------------------------------------------
   // WebSocket: live updates for this conversation
   // ---------------------------------------------------------------------------
-  useConversationSocket(conversation.id, (evt) => {
+  const { isConnected: isWebSocketConnected, connectionState } = useConversationSocket(conversation.id, (evt) => {
     if (!evt || !evt.type) return;
     switch (evt.type) {
       case 'message_created': {
@@ -1328,6 +1178,62 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
         break;
     }
   });
+
+  // ---------------------------------------------------------------------------
+  // React-Query hooks: messages & jobs for this conversation
+  // ---------------------------------------------------------------------------
+  const conversationIdForJobPolling = isLoading ? conversation.id : null;
+  const { data: activeJob } = useActiveJob(conversationIdForJobPolling, isWebSocketConnected);
+
+  // Poll messages as fallback when WebSocket is not connected OR when loading/waiting for responses
+  const shouldPollMessages = !isWebSocketConnected || isLoading || waitingForClarification || Boolean(activeJob);
+  const { data: backendMessages = [], isFetching: messagesFetching } = useConversationMessages(
+    conversation.id,
+    true,
+    shouldPollMessages,
+    isWebSocketConnected,
+  );
+
+  // Sync backend messages into local UI state (with fallback when WebSocket fails)
+  useEffect(() => {
+    if (!backendMessages) return;
+    
+    const converted = backendMessages.length > 0
+      ? convertBackendMessagesToFrontend(backendMessages)
+      : defaultGreeting;
+
+    setMessages((prev) => {
+      // Enhanced comparison to avoid redundant updates
+      if (prev.length === converted.length) {
+        const same = prev.every((m, i) => {
+          const convertedMsg = converted[i];
+          return m.id === convertedMsg.id && 
+                 m.updated_at === convertedMsg.updated_at &&
+                 m.content === convertedMsg.content;
+        });
+        if (same) return prev; // no change
+      }
+      
+      // Update if there are meaningful differences
+      const source = isWebSocketConnected ? 'WebSocket backup' : 'polling fallback';
+      console.debug(`📝 Syncing backend messages to local state (${source})`);
+      return converted;
+    });
+  }, [backendMessages, isWebSocketConnected]);
+
+  // Reflect running job status into loading indicator
+  useEffect(() => {
+    if (activeJob) {
+      setIsLoading(true);
+    } else if (!messagesFetching) {
+      setIsLoading(false);
+    }
+  }, [activeJob, messagesFetching]);
+
+  // ---------------------------------------------------------------------------
+  // Derived UI state: whether any agent is currently busy
+  // ---------------------------------------------------------------------------
+  const agentBusy = Boolean(activeJob) || isAgentBusy();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1457,6 +1363,23 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     }
   };
 
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const settingsMenuRef = useRef(null);
+
+  // Close settings menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (settingsMenuRef.current && !settingsMenuRef.current.contains(event.target)) {
+        setShowSettingsMenu(false);
+      }
+    };
+
+    if (showSettingsMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showSettingsMenu]);
+
   return (
     <div className={`flex flex-col h-full ${THEME.containers.main}`}>
       <div className={`flex-shrink-0 p-2 ${THEME.containers.header}`}>
@@ -1478,45 +1401,72 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
           </div>
       
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <label htmlFor="enable-clarification" className={`flex items-center gap-2 text-sm ${THEME.text.primary}`}>
-                <input
-                  id="enable-clarification"
-                  type="checkbox"
-                  checked={enableClarification}
-                  onChange={handleEnableClarificationChange}
-                  className={`rounded ${THEME.forms.input}`}
-                />
-                Enable Clarifications
-              </label>
+            {/* WebSocket connection status indicator */}
+            <div className="flex items-center gap-1" title={`WebSocket: ${connectionState}`}>
+              <div className={`w-2 h-2 rounded-full ${
+                isWebSocketConnected ? 'bg-green-500' : 
+                connectionState === 'connecting' ? 'bg-yellow-500 animate-pulse' : 
+                'bg-red-500'
+              }`}></div>
+              <span className={`text-xs ${THEME.text.muted}`}>
+                {isWebSocketConnected ? 'Live' : connectionState === 'connecting' ? 'Connecting...' : 'Offline'}
+              </span>
             </div>
-      
-            {/* Enable execution toggle */}
-            <div className="flex items-center gap-2">
-              <label htmlFor="enable-execution" className={`flex items-center gap-2 text-sm ${THEME.text.primary}`}>
-                <input
-                  id="enable-execution"
-                  type="checkbox"
-                  checked={enableExecution}
-                  onChange={(e)=>setEnableExecution(e.target.checked)}
-                  className={`rounded ${THEME.forms.input}`}
-                />
-                Enable Execution
-              </label>
-            </div>
+            
+            {/* Settings Menu */}
+            <div className="relative" ref={settingsMenuRef}>
+              <button
+                onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+                className={`p-2 rounded-md ${THEME.interactive.hover} ${THEME.containers.card} border ${THEME.borders.default} transition-colors`}
+                title="Chat Settings"
+              >
+                <Icon name="settings" className={`w-4 h-4 ${THEME.text.secondary}`} />
+              </button>
+              
+              {showSettingsMenu && (
+                <div className={`absolute right-0 top-full mt-1 w-56 ${THEME.containers.card} border ${THEME.borders.default} rounded-lg shadow-lg z-50`}>
+                  <div className="p-3 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="enable-clarification" className={`text-sm ${THEME.text.primary} cursor-pointer`}>
+                        Enable Clarifications
+                      </label>
+                      <input
+                        id="enable-clarification"
+                        type="checkbox"
+                        checked={enableClarification}
+                        onChange={handleEnableClarificationChange}
+                        className={`rounded ${THEME.forms.input}`}
+                      />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="enable-execution" className={`text-sm ${THEME.text.primary} cursor-pointer`}>
+                        Enable Execution
+                      </label>
+                      <input
+                        id="enable-execution"
+                        type="checkbox"
+                        checked={enableExecution}
+                        onChange={(e)=>setEnableExecution(e.target.checked)}
+                        className={`rounded ${THEME.forms.input}`}
+                      />
+                    </div>
 
-            {/* Auto-scroll toggle */}
-            <div className="flex items-center gap-2">
-              <label htmlFor="enable-autoscroll" className={`flex items-center gap-2 text-sm ${THEME.text.primary}`}>
-                <input
-                  id="enable-autoscroll"
-                  type="checkbox"
-                  checked={autoScrollEnabled}
-                  onChange={(e)=>setAutoScrollEnabled(e.target.checked)}
-                  className={`rounded ${THEME.forms.input}`}
-                />
-                Auto-scroll
-              </label>
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="enable-autoscroll" className={`text-sm ${THEME.text.primary} cursor-pointer`}>
+                        Auto-scroll
+                      </label>
+                      <input
+                        id="enable-autoscroll"
+                        type="checkbox"
+                        checked={autoScrollEnabled}
+                        onChange={(e)=>setAutoScrollEnabled(e.target.checked)}
+                        className={`rounded ${THEME.forms.input}`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           </div>

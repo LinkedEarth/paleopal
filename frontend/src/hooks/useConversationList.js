@@ -9,13 +9,17 @@ const fetchConversations = async () => {
 
 /**
  * React-Query hook that returns the list of conversations.
- * Automatically refetches every 10 s so the UI stays fresh.
+ * Polls less frequently since conversation list changes are not time-critical.
  */
 export const useConversationList = () => {
   return useQuery({
     queryKey: ['conversations'],
     queryFn: fetchConversations,
-    staleTime: 30_000,   // data considered fresh for 30 s
-    refetchInterval: 10_000,
+    staleTime: 60_000,   // data considered fresh for 60 s (increased from 30s)
+    refetchInterval: 30_000, // Poll every 30s instead of 10s
+    // Don't refetch in background to reduce noise
+    refetchIntervalInBackground: false,
+    // Don't refetch on window focus
+    refetchOnWindowFocus: false,
   });
 }; 
