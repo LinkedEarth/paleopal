@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import ChatWindow from './ChatWindow';
 import ServerStatus from './ServerStatus';
 import { testApiConnectivity } from '../config/api';
@@ -17,12 +17,15 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL ||
 const generateId = () => `c_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 
 const ChatApp = () => {
+  const { conversationId } = useParams();
+  const navigate = useNavigate();
+  
   // Conversations will be loaded from backend; start with empty list
   const [conversations, setConversations] = useState([]);
   const [conversationsLoading, setConversationsLoading] = useState(true);
   const [deletingConversations, setDeletingConversations] = useState(new Set());
 
-  const [activeId, setActiveId] = useState(conversations[0]?.id || null);
+  const [activeId, setActiveId] = useState(null);
   
   // Responsive sidebar state management
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -55,6 +58,42 @@ const ChatApp = () => {
   // Track which conversations have been persisted to backend to avoid duplicate POSTs
   const persistedIdsRef = React.useRef(new Set());
   const savingIdsRef = React.useRef(new Set());
+
+  // Helper function to set active conversation and update URL
+  const setActiveConversation = useCallback((convId) => {
+    setActiveId(convId);
+    if (convId) {
+      navigate(`/chat/${convId}`, { replace: true });
+    } else {
+      navigate('/', { replace: true });
+    }
+  }, [navigate]);
+
+  // Sync activeId with URL parameter
+  useEffect(() => {
+    if (conversationId && conversations.length > 0) {
+      // Check if the conversation from URL exists
+      const exists = conversations.find(c => c.id === conversationId);
+      if (exists) {
+        setActiveId(conversationId);
+      } else {
+        // Conversation doesn't exist, redirect to latest conversation or home
+        const latest = conversations[0];
+        if (latest) {
+          navigate(`/chat/${latest.id}`, { replace: true });
+          setActiveId(latest.id);
+        } else {
+          navigate('/', { replace: true });
+          setActiveId(null);
+        }
+      }
+    } else if (!conversationId && conversations.length > 0) {
+      // No conversation in URL, redirect to latest
+      const latest = conversations[0];
+      navigate(`/chat/${latest.id}`, { replace: true });
+      setActiveId(latest.id);
+    }
+  }, [conversationId, conversations, navigate]);
 
   // Auto-close sidebar on mobile and detect screen size changes
   useEffect(() => {
@@ -101,7 +140,7 @@ const ChatApp = () => {
             new Date(b.updated_at || b.updatedAt || b.created_at) - new Date(a.updated_at || a.updatedAt || a.created_at)
           );
           setConversations(sortedConversations);
-          setActiveId(sortedConversations[0].id);
+          // URL synchronization effect will handle setting activeId
         } else {
           console.log('⚠️ No conversations found in response');
         }
@@ -186,7 +225,7 @@ const ChatApp = () => {
       updatedAt: new Date().toISOString()
     };
     setConversations((prev) => [newConv, ...prev]);
-    setActiveId(newConv.id);
+    setActiveConversation(newConv.id);
 
     // Auto-close sidebar on mobile when creating new chat
     if (isMobile) {
@@ -220,12 +259,13 @@ const ChatApp = () => {
       await axios.delete(buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${convId}`));
       
       // Remove from conversations list on success
-      setConversations((prev) => prev.filter((c) => c.id !== convId));
+      const remaining = conversations.filter((c) => c.id !== convId);
+      setConversations(remaining);
       
-      // Reset activeId if needed
-      if (activeId === convId) {
-        const remaining = conversations.filter((c) => c.id !== convId);
-        setActiveId(remaining[0]?.id || null);
+      if (remaining.length > 0) {
+        setActiveConversation(remaining[0].id);
+      } else {
+        setActiveConversation(null);
       }
     } catch (err) {
       console.error('Failed to delete conversation on backend', err);
@@ -443,7 +483,7 @@ const ChatApp = () => {
                         : ''
                     }`}
                     onClick={() => {
-                      setActiveId(conv.id);
+                      setActiveConversation(conv.id);
                       // Auto-close sidebar on mobile when selecting conversation
                       if (isMobile) {
                         setSidebarOpen(false);

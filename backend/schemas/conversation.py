@@ -15,6 +15,9 @@ class Conversation(BaseModel):
     enable_clarification: bool = Field(default=False, description="Whether clarification is enabled")
     clarification_threshold: str = Field(default="conservative", description="Clarification threshold")
     
+    # Execution settings
+    enable_execution: bool = Field(default=True, description="Whether code execution is enabled")
+    
     # Current conversation state
     waiting_for_clarification: bool = Field(default=False, description="Whether waiting for user clarification")
     clarification_questions: Optional[List[Any]] = Field(None, description="Active clarification questions")
@@ -44,6 +47,7 @@ class ConversationCreate(BaseModel):
     selected_agent: str = "sparql"
     enable_clarification: bool = False
     clarification_threshold: str = "conservative"
+    enable_execution: bool = True
     metadata: Optional[Dict[str, Any]] = None
 
 class ConversationUpdate(BaseModel):
@@ -53,6 +57,7 @@ class ConversationUpdate(BaseModel):
     selected_agent: Optional[str] = None
     enable_clarification: Optional[bool] = None
     clarification_threshold: Optional[str] = None
+    enable_execution: Optional[bool] = None
     waiting_for_clarification: Optional[bool] = None
     clarification_questions: Optional[List[Any]] = None
     clarification_answers: Optional[Dict[str, Any]] = None

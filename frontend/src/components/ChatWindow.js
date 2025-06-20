@@ -137,6 +137,17 @@ const messageService = {
   }
 };
 
+// Conversation service utility for updating conversation settings
+const conversationService = {
+  async updateConversation(conversationId, updateData) {
+    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversationId}`);
+    return await apiRequest(url, {
+      method: 'PUT',
+      body: JSON.stringify(updateData)
+    });
+  }
+};
+
 // Utility function to convert backend message format to frontend format (unified schema)
 const convertBackendMessagesToFrontend = (backendMessages) => {
   return backendMessages.map(msg => {
@@ -228,25 +239,25 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
 
   const [messages, setMessages] = useState(conversation.messages?.length ? conversation.messages : defaultGreeting);
   const [inputValue, setInputValue] = useState('');
-  const [waitingForClarification, setWaitingForClarification] = useState(conversation.waitingForClarification || false);
-  const [clarificationQuestions, setClarificationQuestions] = useState(conversation.clarificationQuestions || []);
-  const [llmProvider, setLlmProvider] = useState(conversation.llmProvider || 'google');
-  const [selectedAgent, setSelectedAgent] = useState(conversation.selectedAgent || 'sparql');
-  const [isLoading, setIsLoading] = useState(conversation.isLoading || false);
+  const [waitingForClarification, setWaitingForClarification] = useState(false);
+  const [clarificationQuestions, setClarificationQuestions] = useState([]);
+  const [llmProvider, setLlmProvider] = useState('google');
+  const [selectedAgent, setSelectedAgent] = useState('sparql');
+  const [isLoading, setIsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [deletingMessages, setDeletingMessages] = useState(new Set());
-  const [error, setError] = useState(conversation.error || null);
+  const [error, setError] = useState(null);
   // Track answers to clarification questions
-  const [clarificationAnswers, setClarificationAnswers] = useState(conversation.clarificationAnswers || {});
+  const [clarificationAnswers, setClarificationAnswers] = useState({});
   // Track the original request context when clarification is needed
-  const [originalRequestContext, setOriginalRequestContext] = useState(conversation.originalRequestContext || null);
+  const [originalRequestContext, setOriginalRequestContext] = useState(null);
   
-  // Clarification settings
-  const [enableClarification, setEnableClarification] = useState(conversation.enableClarification ?? false);
-  const [clarificationThreshold, setClarificationThreshold] = useState(conversation.clarificationThreshold || 'conservative');
+  // Clarification settings - use defaults instead of conversation prop
+  const [enableClarification, setEnableClarification] = useState(true);
+  const [clarificationThreshold, setClarificationThreshold] = useState('conservative');
   
   // Add state to track execution timing
-  const [executionStartTime, setExecutionStartTime] = useState(conversation.executionStartTime || null);
+  const [executionStartTime, setExecutionStartTime] = useState(null);
   
   // Clarification dialog state
   const [showClarificationDialog, setShowClarificationDialog] = useState(false);
@@ -334,23 +345,44 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       const loadMessages = async () => {
         setMessagesLoading(true);
         
-        // Restore conversation state from the conversation object first
-        setWaitingForClarification(conversation.waiting_for_clarification || false);
-        setClarificationQuestions(conversation.clarification_questions || []);
-        setClarificationAnswers(conversation.clarification_answers || {});
-        setOriginalRequestContext(conversation.original_request || null);
-        setLlmProvider(conversation.llm_provider || 'google');
-        setSelectedAgent(conversation.selected_agent || 'sparql');
-        setEnableClarification(conversation.enable_clarification ?? true);
-        setClarificationThreshold(conversation.clarification_threshold || 'conservative');
-        setExecutionStartTime(null); // Reset execution time
-        
-        // Reset UI state for new conversation (before loading messages)
+        // First, reset all settings to defaults to prevent cross-conversation bleeding
+        setWaitingForClarification(false);
+        setClarificationQuestions([]);
+        setClarificationAnswers({});
+        setOriginalRequestContext(null);
+        setLlmProvider('google');
+        setSelectedAgent('sparql');
+        setEnableClarification(true);
+        setClarificationThreshold('conservative');
+        setEnableExecution(true);
+        setExecutionStartTime(null);
         setIsLoading(false);
         setError(null);
         setInputValue('');
         
         try {
+          // Load conversation settings from backend first
+          try {
+            const conversationUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}`);
+            const conversationDetails = await apiRequest(conversationUrl);
+            
+            // Apply conversation-specific settings if they exist
+            if (conversationDetails) {
+              setLlmProvider(conversationDetails.llm_provider || 'google');
+              setSelectedAgent(conversationDetails.selected_agent || 'sparql');
+              setEnableClarification(conversationDetails.enable_clarification ?? true);
+              setClarificationThreshold(conversationDetails.clarification_threshold || 'conservative');
+              setEnableExecution(conversationDetails.enable_execution ?? true);
+              setWaitingForClarification(conversationDetails.waiting_for_clarification || false);
+              setClarificationQuestions(conversationDetails.clarification_questions || []);
+              setClarificationAnswers(conversationDetails.clarification_answers || {});
+              setOriginalRequestContext(conversationDetails.original_request || null);
+            }
+          } catch (settingsError) {
+            console.warn('Failed to load conversation settings, using defaults:', settingsError);
+            // Continue with defaults - don't fail the entire loading process
+          }
+          
           const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
           
           if (loadedMessages.length > 0) {
@@ -495,20 +527,71 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   };
 
   const handleLlmProviderChange = (e) => {
-    setLlmProvider(e.target.value);
-    // Update parent immediately instead of using setTimeout
+    const newProvider = e.target.value;
+    setLlmProvider(newProvider);
+    
+    // Persist to backend
+    if (conversation.id) {
+      conversationService.updateConversation(conversation.id, {
+        llm_provider: newProvider
+      }).catch(error => {
+        console.error('Failed to update LLM provider:', error);
+        setError('Failed to save LLM provider setting');
+      });
+    }
+    
+    // Update parent immediately
     updateParentConversation();
   };
 
-  const handleEnableClarificationChange = (e) => {
-    setEnableClarification(e.target.checked);
-    // Update parent immediately instead of using setTimeout
+  const handleEnableClarificationChange = (checked) => {
+    setEnableClarification(checked);
+    
+    // Persist to backend
+    if (conversation.id) {
+      conversationService.updateConversation(conversation.id, {
+        enable_clarification: checked
+      }).catch(error => {
+        console.error('Failed to update clarification setting:', error);
+        setError('Failed to save clarification setting');
+      });
+    }
+    
+    // Update parent immediately
+    updateParentConversation();
+  };
+
+  const handleExecutionToggle = (checked) => {
+    setEnableExecution(checked);
+    
+    // Persist to backend
+    if (conversation.id) {
+      conversationService.updateConversation(conversation.id, {
+        enable_execution: checked
+      }).catch(error => {
+        console.error('Failed to update execution setting:', error);
+        setError('Failed to save execution setting');
+      });
+    }
+    
+    // Update parent immediately
     updateParentConversation();
   };
 
   const handleClarificationThresholdChange = (e) => {
-    setClarificationThreshold(e.target.value);
-    // Update parent immediately instead of using setTimeout
+    const newThreshold = e.target.value;
+    setClarificationThreshold(newThreshold);
+    
+    // Persist to backend
+    if (conversation.id) {
+      conversationService.updateConversation(conversation.id, {
+        clarification_threshold: newThreshold
+      }).catch(error => {
+        console.error('Failed to update clarification threshold:', error);
+        setError('Failed to save clarification threshold');
+      });
+    }
+    
     updateParentConversation();
   };
 
@@ -519,9 +602,19 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     // Reset conversation state when switching agents
     setError(null);
     
-    // Update parent immediately instead of using setTimeout
+    // Persist to backend
+    if (conversation.id) {
+      conversationService.updateConversation(conversation.id, {
+        selected_agent: newAgent
+      }).catch(error => {
+        console.error('Failed to update selected agent:', error);
+        setError('Failed to save agent selection');
+      });
+    }
+    
+    // Update parent immediately
     updateParentConversation();
-  }, [updateParentConversation]);
+  }, [updateParentConversation, conversation.id]);
   
 
   // Handle step-by-step workflow execution
@@ -1152,13 +1245,19 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
 
           // 1. If we previously added a temporary user message or loading stub, replace/remove them.
           if (incoming.role === 'user') {
-            // Remove any temp user message that matches content
-            next = next.filter(
-              (m) => !(m.id.startsWith('temp_') && m.content === incoming.content)
-            );
+            // Remove ALL temp user messages when receiving a real user message (more robust)
+            next = next.filter((m) => !(m.id.startsWith('temp_') && m.role === 'user'));
           } else {
             // For assistant/progress etc. remove the loading spinner placeholder
             next = next.filter((m) => !m.isLoading);
+          }
+
+          // 2. Check if this message already exists to prevent duplicates
+          const existingIndex = next.findIndex(m => m.id === incoming.id);
+          if (existingIndex !== -1) {
+            // Replace existing message
+            next[existingIndex] = incoming;
+            return next;
           }
 
           return [...next, incoming];
@@ -1344,10 +1443,22 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
       
       // Update conversation title if it's still the default and this is a new user message
       if (userInput && (conversation.title === 'New Chat' || conversation.title === 'Untitled' || !conversation.title)) {
+        const newTitle = userInput.slice(0, 50); // Limit title length
+        
+        // Persist title change to backend
+        if (conversation.id) {
+          conversationService.updateConversation(conversation.id, {
+            title: newTitle
+          }).catch(error => {
+            console.error('Failed to update conversation title:', error);
+            setError('Failed to save conversation title');
+          });
+        }
+        
         // Update the conversation data with the new title
         const updatedConversationData = {
           ...conversationData,
-          title: userInput.slice(0, 50) // Limit title length
+          title: newTitle
         };
         
         // Directly call parent update with the new title
@@ -1411,10 +1522,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
             
             {/* Clarifications Toggle */}
             <button
-              onClick={() => {
-                setEnableClarification(!enableClarification);
-                updateParentConversation();
-              }}
+              onClick={() => handleEnableClarificationChange(!enableClarification)}
               className={`p-2 rounded-md transition-colors border flex items-center gap-2 ${
                 enableClarification 
                   ? `${THEME.status.success.background} ${THEME.status.success.border} ${THEME.status.success.text}` 
@@ -1430,7 +1538,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
 
             {/* Execution Toggle */}
             <button
-              onClick={(e) => setEnableExecution(!enableExecution)}
+              onClick={() => handleExecutionToggle(!enableExecution)}
               className={`p-2 rounded-md transition-colors border flex items-center gap-2 ${
                 enableExecution 
                   ? `${THEME.status.success.background} ${THEME.status.success.border} ${THEME.status.success.text}` 

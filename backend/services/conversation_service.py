@@ -6,6 +6,7 @@ from threading import Lock
 from typing import List, Optional, Any, Dict
 from datetime import datetime, timedelta
 import uuid
+import os
 
 from schemas.conversation import Conversation, ConversationCreate, ConversationUpdate
 from services.message_service import message_service
@@ -37,6 +38,7 @@ class ConversationService:
                         selected_agent TEXT DEFAULT 'sparql',
                         enable_clarification BOOLEAN DEFAULT FALSE,
                         clarification_threshold TEXT DEFAULT 'conservative',
+                        enable_execution BOOLEAN DEFAULT TRUE,
                         waiting_for_clarification BOOLEAN DEFAULT FALSE,
                         clarification_questions TEXT,  -- JSON
                         clarification_answers TEXT,    -- JSON
@@ -50,10 +52,32 @@ class ConversationService:
                 # Create index
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_conversations_created_at ON conversations(created_at)")
                 
+                # Run migrations for existing databases
+                self._run_migrations(conn)
+                
                 conn.commit()
                 logger.info("Conversations table initialized successfully")
         except Exception as e:
             logger.error(f"Error initializing conversations table: {e}")
+            raise
+
+    def _run_migrations(self, conn):
+        """Run database migrations for existing tables."""
+        try:
+            # Check if enable_execution column exists
+            cursor = conn.execute("PRAGMA table_info(conversations)")
+            columns = [row[1] for row in cursor.fetchall()]
+            
+            if 'enable_execution' not in columns:
+                logger.info("Adding enable_execution column to conversations table")
+                conn.execute("""
+                    ALTER TABLE conversations 
+                    ADD COLUMN enable_execution BOOLEAN DEFAULT TRUE
+                """)
+                logger.info("Successfully added enable_execution column")
+                
+        except Exception as e:
+            logger.error(f"Error running conversations table migrations: {e}")
             raise
 
     def _serialize_json_field(self, data: Any) -> Optional[str]:
@@ -82,7 +106,7 @@ class ConversationService:
         conv_data['metadata'] = self._deserialize_json_field(conv_data['metadata'])
         
         # Convert boolean fields (SQLite stores as 0/1)
-        bool_fields = ['waiting_for_clarification', 'enable_clarification']
+        bool_fields = ['waiting_for_clarification', 'enable_clarification', 'enable_execution']
         for field in bool_fields:
             if field in conv_data:
                 conv_data[field] = bool(conv_data[field])
@@ -173,12 +197,12 @@ class ConversationService:
                 conn.execute("""
                     INSERT INTO conversations (
                         id, title, llm_provider, selected_agent, enable_clarification,
-                        clarification_threshold, waiting_for_clarification, clarification_questions,
+                        clarification_threshold, enable_execution, waiting_for_clarification, clarification_questions,
                         clarification_answers, original_request, created_at, updated_at, metadata
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     conversation.id, conversation.title, conversation.llm_provider, conversation.selected_agent,
-                    conversation.enable_clarification, conversation.clarification_threshold,
+                    conversation.enable_clarification, conversation.clarification_threshold, conversation.enable_execution,
                     conversation.waiting_for_clarification, self._serialize_json_field(conversation.clarification_questions),
                     self._serialize_json_field(conversation.clarification_answers), conversation.original_request,
                     conversation.created_at, conversation.updated_at, self._serialize_json_field(conversation.metadata)
@@ -192,12 +216,12 @@ class ConversationService:
                 conn.execute("""
                     UPDATE conversations SET
                         title = ?, llm_provider = ?, selected_agent = ?, enable_clarification = ?,
-                        clarification_threshold = ?, waiting_for_clarification = ?, clarification_questions = ?,
+                        clarification_threshold = ?, enable_execution = ?, waiting_for_clarification = ?, clarification_questions = ?,
                         clarification_answers = ?, original_request = ?, updated_at = ?, metadata = ?
                     WHERE id = ?
                 """, (
                     conversation.title, conversation.llm_provider, conversation.selected_agent,
-                    conversation.enable_clarification, conversation.clarification_threshold,
+                    conversation.enable_clarification, conversation.clarification_threshold, conversation.enable_execution,
                     conversation.waiting_for_clarification, self._serialize_json_field(conversation.clarification_questions),
                     self._serialize_json_field(conversation.clarification_answers), conversation.original_request,
                     conversation.updated_at, self._serialize_json_field(conversation.metadata), conversation.id
@@ -210,6 +234,9 @@ class ConversationService:
             with sqlite3.connect(_DB_PATH) as conn:
                 # Enable foreign keys for this connection
                 conn.execute("PRAGMA foreign_keys = ON")
+                
+                # Clean up plots for this conversation before deleting
+                self._cleanup_plots_for_conversation(conv_id)
                 
                 # First delete all messages for this conversation
                 cursor = conn.execute("DELETE FROM messages WHERE conversation_id = ?", (conv_id,))
@@ -259,6 +286,10 @@ class ConversationService:
                     (cutoff_date,)
                 )
                 conversation_ids = [row[0] for row in cursor.fetchall()]
+                
+                # Clean up plots for each conversation being deleted
+                for conv_id in conversation_ids:
+                    self._cleanup_plots_for_conversation(conv_id)
                 
                 # Delete the conversations
                 cursor = conn.execute(
@@ -338,6 +369,36 @@ class ConversationService:
         except Exception as e:
             logger.error(f"Error deleting messages from index: {e}")
             return False
+
+    def _cleanup_plots_for_conversation(self, conversation_id: str) -> None:
+        """Clean up all plot files for a conversation by filename pattern."""
+        try:
+            plots_dir = Path(__file__).resolve().parent.parent / "data" / "plots"
+            if not plots_dir.exists():
+                return
+                
+            # Find all plot files for this conversation
+            pattern = f"plot_{conversation_id}_*"
+            plots_to_delete = []
+            
+            for plot_file in plots_dir.glob(pattern):
+                plots_to_delete.append(plot_file)
+            
+            # Delete the plot files
+            deleted_count = 0
+            for plot_path in plots_to_delete:
+                try:
+                    os.remove(plot_path)
+                    deleted_count += 1
+                    logger.debug(f"Deleted plot file: {plot_path.name}")
+                except Exception as e:
+                    logger.warning(f"Failed to delete plot file {plot_path.name}: {e}")
+            
+            if deleted_count > 0:
+                logger.info(f"Cleaned up {deleted_count} plot files for conversation {conversation_id}")
+                
+        except Exception as e:
+            logger.warning(f"Failed to clean up plots for conversation {conversation_id}: {e}")
 
 # Global instance
 conversation_service = ConversationService() 

@@ -192,9 +192,17 @@ class PythonExecutionService:
                         pickle.dumps(value)
                         picklable_state[name] = value
                         
-                    except (TypeError, AttributeError, pickle.PicklingError):
-                        # Skip non-picklable objects but log them
-                        logger.debug(f"Skipping non-picklable object '{name}' of type {type(value).__name__}")
+                    except (TypeError, AttributeError, pickle.PicklingError) as e:
+                        # Track non-picklable objects for better debugging
+                        logger.debug(f"Skipping non-picklable object '{name}' of type {type(value).__name__}: {str(e)[:100]}")
+                        # Store metadata about non-picklable objects for restoration hints
+                        if hasattr(value, '__class__') and hasattr(value.__class__, '__module__'):
+                            module_imports.append({
+                                'name': name,
+                                'module': value.__class__.__module__,
+                                'type': type(value).__name__,
+                                'non_picklable': True
+                            })
                         continue
                 
                 # Create the state package with both data and metadata
@@ -657,7 +665,8 @@ class PythonExecutionService:
         def target():
             try:
                 with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
-                    exec(code, globals_dict, locals_dict)
+                    # Use the same dictionary for globals and locals to ensure imports are accessible
+                    exec(code, globals_dict)
                 result["success"] = True
             except Exception as e:
                 result["error"] = f"{type(e).__name__}: {str(e)}\n{traceback.format_exc()}"
@@ -688,9 +697,10 @@ class PythonExecutionService:
             if not name.startswith('_'):  # Skip private variables
                 current_state[name] = value
         
-        # Update with modified globals
+        # Update with modified globals (including non-picklable objects)
         for name, value in globals_dict.items():
-            if name in current_state or not name.startswith('_'):
+            # Include ALL user variables, not just those already in state
+            if not name.startswith('_') and name not in self.SAFE_BUILTINS:
                 current_state[name] = value
         
         # Persist the updated state to database
@@ -706,7 +716,16 @@ class PythonExecutionService:
         
         # Get variables from locals (newly defined)
         for name, value in locals_dict.items():
-            if not name.startswith('_') and not callable(value):
+            if not name.startswith('_'):  # Include ALL user variables, not just non-callable ones
+                user_vars[name] = value
+        
+        # Also get important variables from globals that might have been modified
+        for name, value in globals_dict.items():
+            if (not name.startswith('_') and 
+                name not in self.SAFE_BUILTINS and 
+                name not in ['__builtins__', '__file__', '__name__'] and
+                not hasattr(value, '__module__') or 
+                (hasattr(value, '__module__') and value.__module__ not in ['builtins', 'numpy', 'pandas', 'matplotlib.pyplot'])):
                 user_vars[name] = value
         
         return user_vars
@@ -717,24 +736,43 @@ class PythonExecutionService:
         
         summary = {}
         for name, value in state.items():
-            if not name.startswith('_') and not callable(value):
+            if not name.startswith('_') and name not in self.SAFE_BUILTINS:
                 try:
                     var_type = type(value).__name__
-                    var_str = str(value)
+                    var_module = getattr(type(value), "__module__", "builtins")
                     
-                    # Truncate long outputs
-                    if len(var_str) > 200:
-                        var_str = var_str[:200] + "..."
+                    # Special handling for different types of objects
+                    if callable(value) and hasattr(value, '__self__'):
+                        # Method or bound function
+                        var_str = f"<bound method of {type(value.__self__).__name__}>"
+                    elif hasattr(value, '__class__') and hasattr(value.__class__, '__module__'):
+                        # Complex object - show type and module
+                        if hasattr(value, '__dict__'):
+                            # Object with attributes
+                            attr_count = len([k for k in dir(value) if not k.startswith('_')])
+                            var_str = f"<{var_type} object with {attr_count} public attributes>"
+                        else:
+                            var_str = f"<{var_type} object>"
+                    elif callable(value):
+                        # Function
+                        var_str = f"<function {getattr(value, '__name__', 'unknown')}>"
+                    else:
+                        # Regular value
+                        var_str = str(value)
+                        
+                        # Truncate long outputs
+                        if len(var_str) > 200:
+                            var_str = var_str[:200] + "..."
                     
                     summary[name] = {
                         "type": var_type,
                         "value": var_str,
-                        "module": getattr(type(value), "__module__", "builtins")
+                        "module": var_module
                     }
                 except Exception:
                     summary[name] = {
                         "type": type(value).__name__,
-                        "value": "<Error displaying value>",
+                        "value": f"<{type(value).__name__} object>",
                         "module": "unknown"
                     }
         
@@ -761,76 +799,27 @@ class PythonExecutionService:
         self._save_state(conversation_id, initial_state)
     
     def restore_conversation_state_from_messages(self, conversation_id: str, remaining_messages: List[Any]):
-        """Restore conversation state to match the last execution result from remaining messages.
-        
-        Args:
-            conversation_id: The conversation ID
-            remaining_messages: List of remaining messages after deletion (in chronological order)
-        """
+        """Rebuild conversation state by re-executing code from remaining messages in order."""
         try:
-            # Find the last message with execution results (working backwards)
-            last_execution_state = None
-            last_message_with_execution = None
-            
-            for message in reversed(remaining_messages):
-                if (hasattr(message, 'execution_results') and 
-                    message.execution_results and 
-                    len(message.execution_results) > 0):
-                    
-                    # Look for a successful execution result with variable_summary
-                    for result in message.execution_results:
-                        if (hasattr(result, 'type') and result.type == 'execution_success' and
-                            hasattr(result, 'variable_summary') and result.variable_summary):
-                            last_execution_state = result.variable_summary
-                            last_message_with_execution = message
-                            break
-                        elif (isinstance(result, dict) and result.get('type') == 'execution_success' and
-                              result.get('variable_summary')):
-                            last_execution_state = result['variable_summary']
-                            last_message_with_execution = message
-                            break
-                    
-                    if last_execution_state:
-                        break
-            
-            if last_execution_state:
-                logger.info(f"Restoring execution state for conversation {conversation_id} from message {last_message_with_execution.id}")
-                logger.info(f"Restoring {len(last_execution_state)} variables: {list(last_execution_state.keys())}")
-                
-                # Reset to initial state first
-                self.reset_conversation_state(conversation_id)
-                
-                # Re-execute all code from remaining messages to rebuild the state properly
-                # This ensures all variables and their dependencies are correctly restored
-                for message in remaining_messages:
-                    if hasattr(message, 'generated_code') and message.generated_code:
-                        try:
-                            # Execute the code to rebuild variables
-                            self.execute_code(
-                                code=message.generated_code,
-                                conversation_id=conversation_id,
-                                timeout=30
-                            )
-                            logger.debug(f"Re-executed code from message {message.id} during state restoration")
-                        except Exception as e:
-                            logger.warning(f"Failed to re-execute code from message {message.id} during restoration: {e}")
-                            # Continue with other messages even if one fails
-                            continue
-                    
-                    # Stop when we reach the message we're restoring from
-                    if message.id == last_message_with_execution.id:
-                        break
-                
-                logger.info(f"Successfully restored execution state for conversation {conversation_id}")
-                
-            else:
-                # No execution results found, reset to initial state
-                logger.info(f"No execution results found in remaining messages, resetting to initial state for conversation {conversation_id}")
-                self.reset_conversation_state(conversation_id)
-            
+            # 1. Start fresh
+            self.reset_conversation_state(conversation_id)
+
+            # 2. Replay every remaining message in chronological order
+            for message in remaining_messages:
+                if getattr(message, "generated_code", None):
+                    try:
+                        self.execute_code(
+                            code=message.generated_code,
+                            conversation_id=conversation_id,
+                            timeout=30
+                        )
+                    except Exception as e:
+                        logger.warning(f"Failed to re-execute code from message {message.id}: {e}")
+                        # Continue replaying even if one snippet fails
+                        continue
+            logger.info(f"Successfully rebuilt execution state for conversation {conversation_id}. Variables: {len(self.get_conversation_state(conversation_id))}")
         except Exception as e:
-            logger.error(f"Error restoring conversation state for {conversation_id}: {e}")
-            # If restoration fails, at least ensure we have a clean initial state
+            logger.error(f"Error rebuilding execution state for {conversation_id}: {e}")
             self.reset_conversation_state(conversation_id)
     
     def get_state_statistics(self) -> Dict[str, Any]:
@@ -862,6 +851,19 @@ class PythonExecutionService:
                 "error": str(e),
                 "in_memory_conversations": len(self.conversation_states)
             }
+
+    def remove_variables(self, conversation_id: str, var_names: List[str]):
+        """Remove specific variables from a conversation state and persist."""
+        if not var_names:
+            return
+        state = self.get_conversation_state(conversation_id)
+        changed = False
+        for name in var_names:
+            if name in state:
+                state.pop(name, None)
+                changed = True
+        if changed:
+            self._save_state(conversation_id, state)
 
 
 # Global service instance

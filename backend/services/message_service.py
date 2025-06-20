@@ -6,6 +6,7 @@ from datetime import datetime
 from threading import Lock
 from typing import List, Optional, Dict, Any
 from pathlib import Path
+import os
 
 from schemas.message import Message, MessageCreate, MessageUpdate, ExecutionResult
 
@@ -15,6 +16,7 @@ logger = logging.getLogger(__name__)
 _DATA_DIR = Path("data")
 _DATA_DIR.mkdir(parents=True, exist_ok=True)
 _DB_PATH = _DATA_DIR / "conversations.db"
+_PLOTS_DIR = _DATA_DIR / "plots"
 
 # Maximum number of results to store per message to avoid oversized context
 MAX_STORED_RESULTS = 50
@@ -435,10 +437,27 @@ class MessageService:
         """Delete a message and all its progress messages."""
         with self._lock:
             with sqlite3.connect(_DB_PATH) as conn:
-                # Get conversation_id before deletion for state restoration
-                cursor = conn.execute("SELECT conversation_id FROM messages WHERE id = ?", (message_id,))
+                # Get the message before deletion for plot cleanup
+                cursor = conn.execute("SELECT * FROM messages WHERE id = ?", (message_id,))
                 row = cursor.fetchone()
-                conversation_id = row[0] if row else None
+                if not row:
+                    return False
+                
+                conn.row_factory = sqlite3.Row
+                cursor = conn.execute("SELECT * FROM messages WHERE id = ?", (message_id,))
+                message_row = cursor.fetchone()
+                message = self._row_to_message(message_row)
+                conversation_id = message.conversation_id
+                
+                # Clean up plots for this message
+                self._cleanup_plots_for_message(message)
+                
+                # Get and clean up plots for progress messages
+                progress_cursor = conn.execute("SELECT * FROM messages WHERE owner_message_id = ?", (message_id,))
+                progress_rows = progress_cursor.fetchall()
+                for progress_row in progress_rows:
+                    progress_message = self._row_to_message(progress_row)
+                    self._cleanup_plots_for_message(progress_message)
                 
                 # Delete progress messages first
                 conn.execute("DELETE FROM messages WHERE owner_message_id = ?", (message_id,))
@@ -451,18 +470,19 @@ class MessageService:
                 if deleted:
                     logger.info(f"Deleted message {message_id} and its progress messages")
                     
-                    # Restore execution state based on remaining messages
-                    if conversation_id:
-                        try:
-                            remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
-                            
-                            from services.python_execution_service import python_execution_service
-                            python_execution_service.restore_conversation_state_from_messages(
-                                conversation_id, remaining_messages
-                            )
-                            logger.info(f"Restored execution state after message deletion for conversation {conversation_id}")
-                        except Exception as e:
-                            logger.warning(f"Failed to restore execution state after message deletion: {e}")
+                    # Remove variables introduced by the deleted message
+                    try:
+                        from services.python_execution_service import python_execution_service
+                        vars_to_remove = []
+                        for res in (message.execution_results or []):
+                            if getattr(res, 'variable_summary', None):
+                                vars_to_remove.extend(list(res.variable_summary.keys()))
+                            elif isinstance(res, dict) and res.get('variable_summary'):
+                                vars_to_remove.extend(list(res['variable_summary'].keys()))
+                        if vars_to_remove:
+                            python_execution_service.remove_variables(conversation_id, vars_to_remove)
+                    except Exception as e:
+                        logger.warning(f"Failed to trim variables for conversation {conversation_id}: {e}")
                 
                 return deleted
     
@@ -470,12 +490,27 @@ class MessageService:
         """Delete messages from a specific sequence number onwards."""
         with self._lock:
             with sqlite3.connect(_DB_PATH) as conn:
-                # Get message IDs that will be deleted to clean up progress messages
+                conn.row_factory = sqlite3.Row
+                
+                # Get all messages that will be deleted for plot cleanup
                 cursor = conn.execute(
-                    "SELECT id FROM messages WHERE conversation_id = ? AND sequence_number >= ?",
+                    "SELECT * FROM messages WHERE conversation_id = ? AND sequence_number >= ?",
                     (conversation_id, from_sequence)
                 )
-                message_ids = [row[0] for row in cursor.fetchall()]
+                messages_to_delete = [self._row_to_message(row) for row in cursor.fetchall()]
+                
+                # Clean up plots for all messages being deleted
+                for message in messages_to_delete:
+                    self._cleanup_plots_for_message(message)
+                
+                # Get progress messages for these messages and clean up their plots too
+                message_ids = [msg.id for msg in messages_to_delete]
+                for msg_id in message_ids:
+                    progress_cursor = conn.execute("SELECT * FROM messages WHERE owner_message_id = ?", (msg_id,))
+                    progress_rows = progress_cursor.fetchall()
+                    for progress_row in progress_rows:
+                        progress_message = self._row_to_message(progress_row)
+                        self._cleanup_plots_for_message(progress_message)
                 
                 # Delete progress messages for these messages
                 for msg_id in message_ids:
@@ -493,17 +528,21 @@ class MessageService:
                 if deleted_count > 0:
                     logger.info(f"Deleted {deleted_count} messages from sequence {from_sequence} in conversation {conversation_id}")
                     
-                    # Restore execution state based on remaining messages
+                    # Remove variables introduced by the deleted messages
                     try:
-                        remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
-                        
                         from services.python_execution_service import python_execution_service
-                        python_execution_service.restore_conversation_state_from_messages(
-                            conversation_id, remaining_messages
-                        )
-                        logger.info(f"Restored execution state after message deletion for conversation {conversation_id}")
+                        vars_to_remove = []
+                        for msg in messages_to_delete:
+                            if msg.execution_results:
+                                for res in msg.execution_results:
+                                    if getattr(res, 'variable_summary', None):
+                                        vars_to_remove.extend(list(res.variable_summary.keys()))
+                                    elif isinstance(res, dict) and res.get('variable_summary'):
+                                        vars_to_remove.extend(list(res['variable_summary'].keys()))
+                        if vars_to_remove:
+                            python_execution_service.remove_variables(conversation_id, vars_to_remove)
                     except Exception as e:
-                        logger.warning(f"Failed to restore execution state after message deletion: {e}")
+                        logger.warning(f"Failed to trim variables for conversation {conversation_id}: {e}")
                 
                 return deleted_count
     
@@ -556,6 +595,56 @@ class MessageService:
         
         logger.info(f"Created progress message {progress_id} for owner {owner_message_id}")
         return progress_message
+    
+    def _cleanup_plots_for_message(self, message: Message) -> None:
+        """Clean up plot files associated with a message."""
+        if not message.execution_results:
+            return
+            
+        plots_to_delete = []
+        for result in message.execution_results:
+            if result.plots:
+                plots_to_delete.extend(result.plots)
+        
+        self._delete_plot_files(plots_to_delete)
+    
+    def _cleanup_plots_for_conversation(self, conversation_id: str) -> None:
+        """Clean up all plot files for a conversation by filename pattern."""
+        try:
+            if not _PLOTS_DIR.exists():
+                return
+                
+            # Find all plot files for this conversation
+            pattern = f"plot_{conversation_id}_*"
+            plots_to_delete = []
+            
+            for plot_file in _PLOTS_DIR.glob(pattern):
+                plots_to_delete.append(plot_file.name)
+            
+            self._delete_plot_files(plots_to_delete)
+            logger.info(f"Cleaned up {len(plots_to_delete)} plot files for conversation {conversation_id}")
+            
+        except Exception as e:
+            logger.warning(f"Failed to clean up plots for conversation {conversation_id}: {e}")
+    
+    def _delete_plot_files(self, plot_filenames: List[str]) -> None:
+        """Delete specific plot files from disk."""
+        if not plot_filenames:
+            return
+            
+        deleted_count = 0
+        for filename in plot_filenames:
+            try:
+                plot_path = _PLOTS_DIR / filename
+                if plot_path.exists():
+                    os.remove(plot_path)
+                    deleted_count += 1
+                    logger.debug(f"Deleted plot file: {filename}")
+            except Exception as e:
+                logger.warning(f"Failed to delete plot file {filename}: {e}")
+        
+        if deleted_count > 0:
+            logger.info(f"Deleted {deleted_count} plot files from disk")
 
 # Global instance
 message_service = MessageService() 

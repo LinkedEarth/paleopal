@@ -195,6 +195,22 @@ const ICONS = {
       <path d="M12 5v14" />
       <path d="M19 12l-7 7-7-7" />
     </svg>
+  ),
+  fullscreen: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <polyline points="4 9 4 4 9 4" />
+      <polyline points="20 9 20 4 15 4" />
+      <polyline points="4 15 4 20 9 20" />
+      <polyline points="20 15 20 20 15 20" />
+    </svg>
+  ),
+  fullscreenExit: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <polyline points="9 4 4 4 4 9" />
+      <polyline points="15 4 20 4 20 9" />
+      <polyline points="9 20 4 20 4 15" />
+      <polyline points="15 20 20 20 20 15" />
+    </svg>
   )
 };
 

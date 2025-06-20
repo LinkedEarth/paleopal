@@ -28,6 +28,7 @@ const EditableCodeDisplay = ({
   const [showCopyNotification, setShowCopyNotification] = useState(false);
   const [showSaveNotification, setShowSaveNotification] = useState(false);
   const [showIndexModal, setShowIndexModal] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   
   const editorRef = useRef(null);
   const sparqlRegisteredRef = useRef(false);
@@ -40,6 +41,8 @@ const EditableCodeDisplay = ({
     return code || '';
   };
 
+  const [originalContent, setOriginalContent] = useState(getInitialContent());
+
   // Get current edited content
   const getCurrentContent = () => {
     if (agentType === 'sparql' && sparqlQuery) {
@@ -47,9 +50,6 @@ const EditableCodeDisplay = ({
     }
     return editedCode;
   };
-
-  // Track original content for dirty state detection
-  const originalContent = getInitialContent();
 
   // Check if content has been modified (dirty state)
   const isDirty = () => {
@@ -59,11 +59,13 @@ const EditableCodeDisplay = ({
 
   // Update original content when props change
   useEffect(() => {
+    const initialContent = getInitialContent();
     if (agentType === 'sparql' && sparqlQuery) {
       setEditedSparql(sparqlQuery);
     } else if (code) {
       setEditedCode(code);
     }
+    setOriginalContent(initialContent);
   }, [code, sparqlQuery, agentType]);
 
   // Get editor language
@@ -95,7 +97,7 @@ const EditableCodeDisplay = ({
       lineDecorationsWidth: isMobile ? 0 : undefined,
       lineNumbersMinChars: isMobile ? 0 : undefined,
       glyphMargin: false,
-      folding: false,
+      folding: isMobile ? false : true,
       roundedSelection: false,
       automaticLayout: true,
       wordWrap: 'off',
@@ -109,16 +111,9 @@ const EditableCodeDisplay = ({
       autoIndent: 'full',
       formatOnPaste: true,
       formatOnType: true,
-      // Remove scrollbars by setting overflow to hidden
-      scrollbar: {
-        vertical: 'hidden',
-        horizontal: 'hidden',
-      },
+      // Allow default scrollbars and behaviour
       overviewRulerLanes: 0,
-      // Mobile-specific optimizations
-      links: !isMobile,
-      contextmenu: !isMobile,
-      // Disable hover widgets on mobile to prevent keyboard overlay
+      // Disable hover widgets on mobile
       hover: {
         enabled: !isMobile
       },
@@ -126,7 +121,7 @@ const EditableCodeDisplay = ({
       parameterHints: {
         enabled: !isMobile
       },
-      // Disable suggestions widget on mobile to prevent keyboard overlay
+      // Disable suggestions widget on mobile
       suggest: {
         enabled: !isMobile
       },
@@ -154,19 +149,6 @@ const EditableCodeDisplay = ({
     // Apply the custom theme after registration
     const customTheme = isDarkMode ? 'prism-dark' : 'prism-light';
     monaco.editor.setTheme(customTheme);
-    
-    // Auto-resize editor to content
-    const updateHeight = () => {
-      const contentHeight = Math.max(200, Math.min(800, editor.getContentHeight()));
-      const container = editor.getContainerDomNode();
-      if (container) {
-        container.style.height = contentHeight + 'px';
-        editor.layout();
-      }
-    };
-
-    editor.onDidContentSizeChange(updateHeight);
-    setTimeout(updateHeight, 100);
   };
 
   // Update theme when dark mode changes
@@ -182,6 +164,13 @@ const EditableCodeDisplay = ({
       }
     }
   }, [isDarkMode]);
+
+  // Update editor options when focus state changes
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.updateOptions(getEditorOptions());
+    }
+  }, [isSaving, isExecuting]);
 
   // Update editor read-only state when operation status changes
   useEffect(() => {
@@ -200,7 +189,7 @@ const EditableCodeDisplay = ({
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isOperationInProgress]);
 
   const copyToClipboard = async (text) => {
     try {
@@ -208,75 +197,70 @@ const EditableCodeDisplay = ({
       setShowCopyNotification(true);
       setTimeout(() => setShowCopyNotification(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error('Failed to copy to clipboard:', err);
     }
   };
 
   const handleSave = async () => {
-    if (!messageId) {
-      onError?.('No message ID provided for save');
-      return;
-    }
-
+    if (!onSave || !isDirty() || isOperationInProgress()) return;
+    
     setIsSaving(true);
     try {
-      const requestData = {};
-
-      // Add the appropriate content based on agent type
-      if (agentType === 'sparql' && editedSparql) {
-        requestData.generated_sparql = editedSparql;
-      }
-      if (editedCode) {
-        requestData.generated_code = editedCode;
-      }
-
-      const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/${messageId}/save-edits`);
+      const currentContent = getCurrentContent();
+      
+      const url = buildApiUrl(`/api/messages/${messageId}`);
       const response = await apiRequest(url, {
-        method: 'POST',
-        body: JSON.stringify(requestData)
+        method: 'PUT',
+        body: JSON.stringify({
+          ...(agentType === 'sparql' && sparqlQuery ? { sparql_query: currentContent } : { code: currentContent })
+        })
       });
-
+      
       if (response.success) {
+        // Update the original content reference to mark as clean
+        setOriginalContent(currentContent);
+        
         setShowSaveNotification(true);
         setTimeout(() => setShowSaveNotification(false), 2000);
-        onSave?.(getCurrentContent());
+        
+        if (onSave) {
+          onSave(currentContent);
+        }
       } else {
-        onError?.('Save failed');
+        onError?.('Failed to save changes');
       }
     } catch (error) {
-      console.error('Error saving code:', error);
-      onError?.(error.message || 'Failed to save code');
+      console.error('Error saving changes:', error);
+      onError?.(error.message || 'Failed to save changes');
     } finally {
       setIsSaving(false);
     }
   };
 
   const handleExecute = async () => {
-    if (!messageId) {
-      onError?.('No message ID provided for execution');
-      return;
-    }
-
+    if (isOperationInProgress() || !messageId) return;
+    
     setIsExecuting(true);
     try {
+      const currentContent = getCurrentContent();
+      
+      // Prepare request data based on agent type
       const requestData = {
-        clear_variables: true // Always clear variables for now
+        clear_variables: false // Don't clear variables by default
       };
-
-      // Add the appropriate content based on agent type
-      if (agentType === 'sparql' && editedSparql) {
-        requestData.generated_sparql = editedSparql;
+      
+      if (agentType === 'sparql' && sparqlQuery) {
+        requestData.generated_sparql = currentContent;
+      } else {
+        requestData.generated_code = currentContent;
       }
-      if (editedCode) {
-        requestData.generated_code = editedCode;
-      }
-
-      const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/${messageId}/edit-and-execute`);
+      
+      const url = buildApiUrl(`/api/messages/${messageId}/edit-and-execute`);
       const response = await apiRequest(url, {
         method: 'POST',
         body: JSON.stringify(requestData)
       });
-
+      
       if (response.success) {
         onExecutionComplete?.(response);
       } else {
@@ -305,7 +289,7 @@ const EditableCodeDisplay = ({
   }
 
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${isFullScreen ? 'fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto' : ''}`}>
       {/* Copy notification */}
       {showCopyNotification && (
         <div className={`absolute top-2 right-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>
@@ -358,14 +342,13 @@ const EditableCodeDisplay = ({
           </div>
           
           <div className="flex items-center gap-2">
-            {/* Copy button */}
-            <button 
-              className={`p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded ${THEME.interactive.hover} transition-colors duration-200 ${isOperationInProgress() ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={() => copyToClipboard(getCurrentContent())}
-              disabled={isOperationInProgress()}
-              title="Copy to clipboard"
+            {/* Full-screen toggle */}
+            <button
+              className={`p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded ${THEME.interactive.hover} transition-colors duration-200`}
+              onClick={() => setIsFullScreen((prev) => !prev)}
+              title={isFullScreen ? 'Exit full screen' : 'Full screen'}
             >
-              <Icon name="copy" className={`w-4 h-4 ${THEME.text.secondary}`} />
+              <Icon name={isFullScreen ? 'fullscreenExit' : 'fullscreen'} className={`w-4 h-4 ${THEME.text.secondary}`} />
             </button>
             
             {/* Save button - icon only */}
@@ -418,6 +401,7 @@ const EditableCodeDisplay = ({
         
         <div className={`overflow-hidden ${isOperationInProgress() ? 'opacity-60' : ''}`}>
           <Editor
+            height={isFullScreen ? "calc(100vh - 100px)" : "400px"}
             language={getEditorLanguage()}
             theme={getEditorTheme()}
             value={getCurrentContent()}
