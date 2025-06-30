@@ -259,7 +259,7 @@ const ChatApp = () => {
       await axios.delete(buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${convId}`));
       
       // Remove from conversations list on success
-      const remaining = conversations.filter((c) => c.id !== convId);
+        const remaining = conversations.filter((c) => c.id !== convId);
       setConversations(remaining);
       
       if (remaining.length > 0) {

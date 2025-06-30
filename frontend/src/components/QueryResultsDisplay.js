@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import THEME from '../styles/colorTheme';
 import Icon from './Icon';
+import InteractiveMap from './InteractiveMap';
+import { hasGeographicData, extractDatasetNameFromValue } from '../utils/mapUtils';
+import LipdDatasetModal from './LipdDatasetModal';
 
 const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
   const copyToClipboard = (text) => navigator.clipboard.writeText(text).catch(() => {});
+
+  // State for LiPD dataset modal
+  const [selectedDataset, setSelectedDataset] = useState(null);
 
   if (error) {
     if (hideHeader) {
@@ -50,55 +56,95 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
   }
 
   const headers = Object.keys(results[0]);
+  // Identify dataset-related columns
+  const datasetColumns = headers.filter(h => /^(datasetname|dataset_name|datasetid|dataset_id|dsname|dataset)$/i.test(h));
+  const showMap = hasGeographicData(results);
   
   // Render table content
   const renderTable = () => (
-    <div className="space-y-2">
-      <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden`}>
-        <div className="max-h-80 overflow-y-auto overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
-            <thead className={`sticky top-0 z-10 ${THEME.containers.secondary}`}>
-              <tr>
-                {headers.map(h => (
-                  <th key={h} className={`border-b ${THEME.borders.default} px-3 py-2 text-left font-medium ${THEME.text.primary} ${THEME.containers.secondary}`}>
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className={THEME.containers.card}>
-              {results.map((row, i) => (
-                <tr key={i} className={THEME.interactive.hover}>
+    <div className="space-y-4">
+      {/* Interactive Map - show above table if geographic data is available */}
+      {showMap && (
+        <InteractiveMap 
+          data={results} 
+          hideHeader={true}
+          height="300px"
+          onDatasetClick={setSelectedDataset}
+        />
+      )}
+      
+      {/* Data Table */}
+      <div className="space-y-2">
+        <div className={`${THEME.containers.card} rounded border ${THEME.borders.default} overflow-hidden`}>
+          <div className="max-h-80 overflow-y-auto overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead className={`sticky top-0 z-10 ${THEME.containers.secondary}`}>
+                <tr>
                   {headers.map(h => (
-                    <td key={`${i}-${h}`} className={`border-b ${THEME.borders.table} px-3 py-2 ${THEME.text.primary}`}>
-                      {(() => {
-                        const v = row[h];
-                        if (v === null || v === undefined) return '';
-                        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
-                        try {
-                          return JSON.stringify(v);
-                        } catch (e) {
-                          return String(v);
-                        }
-                      })()}
-                    </td>
+                    <th key={h} className={`border-b ${THEME.borders.default} px-3 py-2 text-left font-medium ${THEME.text.primary} ${THEME.containers.secondary}`}>
+                      {h}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className={THEME.containers.card}>
+                {results.map((row, i) => (
+                  <tr key={i} className={THEME.interactive.hover}>
+                    {headers.map(h => (
+                      <td key={`${i}-${h}`} className={`border-b ${THEME.borders.table} px-3 py-2 ${THEME.text.primary}`}>
+                        {(() => {
+                          const v = row[h];
+                          if (v === null || v === undefined) return '';
+                          // If this column contains dataset name/id, render as clickable link
+                          if (datasetColumns.includes(h) && typeof v === 'string') {
+                            const datasetName = extractDatasetNameFromValue(v);
+                            if (datasetName) {
+                              return (
+                                <button
+                                  className="text-blue-600 dark:text-blue-400 underline hover:opacity-80"
+                                  onClick={() => setSelectedDataset(v)}
+                                  title="Browse LiPD dataset"
+                                >
+                                  {v}
+                                </button>
+                              );
+                            }
+                          }
+                          if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return v;
+                          try {
+                            return JSON.stringify(v);
+                          } catch (e) {
+                            return String(v);
+                          }
+                        })()}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+        {/* Show a note if results are truncated to the maximum limit */}
+        {results.length === 50 && (
+          <p className={`text-xs ${THEME.text.muted}`}>Displaying first 50 results (limited).</p>
+        )}
       </div>
-      {/* Show a note if results are truncated to the maximum limit */}
-      {results.length === 50 && (
-        <p className={`text-xs ${THEME.text.muted}`}>Displaying first 50 results (limited).</p>
-      )}
     </div>
   );
 
   // If hideHeader is true, render just the table
   if (hideHeader) {
-    return renderTable();
+    return (
+      <>
+        {renderTable()}
+        <LipdDatasetModal
+          isOpen={!!selectedDataset}
+          onClose={() => setSelectedDataset(null)}
+          datasetName={selectedDataset}
+        />
+      </>
+    );
   }
 
   // Default rendering with header
@@ -106,8 +152,9 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
     <div className={`border ${THEME.borders.default} rounded-lg ${THEME.containers.panel} relative group`}>
       <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
         <h4 className={`font-medium text-sm m-0 flex items-center gap-2 ${THEME.text.primary}`}>
-          <Icon name="list" className="w-4 h-4" />
+          <Icon name={showMap ? "map" : "list"} className="w-4 h-4" />
           Query Results ({results.length === 50 ? "limiting to ": ""}{results.length} row{results.length !== 1 ? 's' : ''})
+          {showMap && <span className={`text-xs px-2 py-1 rounded ${THEME.status.info.background} ${THEME.status.info.text}`}>with map</span>}
         </h4>
         <button 
           className={`top-2 right-2 z-10 p-1.5 ${THEME.containers.card} border ${THEME.borders.default} rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${THEME.interactive.hover}`}
@@ -121,6 +168,12 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
       <div className="p-3">
         {renderTable()}
       </div>
+      {/* LiPD Dataset Modal */}
+      <LipdDatasetModal
+        isOpen={!!selectedDataset}
+        onClose={() => setSelectedDataset(null)}
+        datasetName={selectedDataset}
+      />
     </div>
   );
 };

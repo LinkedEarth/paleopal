@@ -289,7 +289,7 @@ const EditableCodeDisplay = ({
   }
 
   return (
-    <div className={`space-y-4 ${isFullScreen ? 'fixed inset-0 z-50 bg-white dark:bg-slate-900 p-4 overflow-auto' : ''}`}>
+    <div className={`space-y-4 ${isFullScreen ? 'fixed inset-0 z-[9999] bg-white dark:bg-slate-900 p-4 overflow-auto' : ''}`}>
       {/* Copy notification */}
       {showCopyNotification && (
         <div className={`absolute top-2 right-2 z-20 px-3 py-1 ${THEME.status.success.background} ${THEME.status.success.text} text-xs rounded-lg shadow-lg`}>

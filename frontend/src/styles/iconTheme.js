@@ -211,6 +211,13 @@ const ICONS = {
       <polyline points="9 20 4 20 4 15" />
       <polyline points="15 20 20 20 20 15" />
     </svg>
+  ),
+  map: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <path d="M8 22L3 19V7L8 10L16 7L21 10V22L16 19L8 22Z" />
+      <path d="M8 10V22" />
+      <path d="M16 7V19" />
+    </svg>
   )
 };
 

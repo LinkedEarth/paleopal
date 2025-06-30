@@ -1,0 +1,231 @@
+/* Custom marker styles */
+.custom-archive-marker {
+  background: none !important;
+  border: none !important;
+}
+
+
+
+/* ===== LIGHT THEME POPUP STYLING ===== */
+.custom-popup-light .leaflet-popup-content-wrapper {
+  background-color: #ffffff; /* white */
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  color: #111827; /* gray-900 */
+}
+
+.custom-popup-light .leaflet-popup-content {
+  margin: 8px 12px;
+  line-height: 1.4;
+  font-size: 13px;
+  color: #111827; /* gray-900 */
+}
+
+.custom-popup-light .leaflet-popup-tip {
+  background-color: #ffffff; /* white */
+  border: 1px solid #e5e7eb; /* gray-200 */
+}
+
+.custom-popup-light .leaflet-popup-close-button {
+  color: #6b7280; /* gray-500 */
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.custom-popup-light .leaflet-popup-close-button:hover {
+  color: #374151; /* gray-700 */
+  background-color: #f3f4f6; /* gray-100 */
+}
+
+/* ===== DARK THEME POPUP STYLING ===== */
+.custom-popup-dark .leaflet-popup-content-wrapper {
+  background-color: #1f2937; /* gray-800 */
+  border: 1px solid #374151; /* gray-700 */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  color: #f9fafb; /* gray-50 */
+}
+
+.custom-popup-dark .leaflet-popup-content {
+  margin: 8px 12px;
+  line-height: 1.4;
+  font-size: 13px;
+  color: #f9fafb; /* gray-50 */
+}
+
+.custom-popup-dark .leaflet-popup-tip {
+  background-color: #1f2937; /* gray-800 */
+  border: 1px solid #374151; /* gray-700 */
+}
+
+.custom-popup-dark .leaflet-popup-close-button {
+  color: #9ca3af; /* gray-400 */
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.custom-popup-dark .leaflet-popup-close-button:hover {
+  color: #e5e7eb; /* gray-200 */
+  background-color: #374151; /* gray-700 */
+}
+
+/* Archive marker animations */
+.custom-archive-marker:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Clustering transitions */
+.marker-cluster {
+  transition: all 0.2s ease-in-out;
+}
+
+.marker-cluster:hover {
+  transform: scale(1.05);
+}
+
+/* ===== LEAFLET CONTROL THEMING ===== */
+/* Light theme zoom controls */
+.map-container-light .leaflet-control-zoom {
+  background-color: #ffffff !important; /* white */
+  border: 1px solid #e5e7eb !important; /* gray-200 */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+.map-container-light .leaflet-control-zoom a {
+  color: #111827 !important; /* gray-900 */
+  background-color: #ffffff !important; /* white */
+  border-bottom: 1px solid #e5e7eb !important; /* gray-200 */
+}
+
+.map-container-light .leaflet-control-zoom a:hover {
+  background-color: #f9fafb !important; /* gray-50 */
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Dark theme zoom controls */
+.map-container-dark .leaflet-control-zoom {
+  background-color: #1f2937 !important; /* gray-800 */
+  border: 1px solid #374151 !important; /* gray-700 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.map-container-dark .leaflet-control-zoom a {
+  color: #f9fafb !important; /* gray-50 */
+  background-color: #1f2937 !important; /* gray-800 */
+  border-bottom: 1px solid #374151 !important; /* gray-700 */
+}
+
+.map-container-dark .leaflet-control-zoom a:hover {
+  background-color: #374151 !important; /* gray-700 */
+  color: #ffffff !important; /* white */
+}
+
+/* Global fallback for zoom controls */
+.dark .leaflet-control-zoom {
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+}
+
+.dark .leaflet-control-zoom a {
+  color: #f9fafb !important;
+  background-color: #1f2937 !important;
+  border-bottom: 1px solid #374151 !important;
+}
+
+.dark .leaflet-control-zoom a:hover {
+  background-color: #374151 !important;
+  color: #ffffff !important;
+}
+
+/* ===== MAP TILES THEMING ===== */
+.map-tiles-light {
+  filter: none;
+}
+
+.map-tiles-dark {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.2) saturate(0.8);
+}
+
+/* ===== LEAFLET CONTAINER THEMING ===== */
+/* Light mode - default leaflet styling */
+.map-container-light .leaflet-container {
+  background-color: #f8fafc !important; /* slate-50 - light background */
+}
+
+.map-container-light .leaflet-map-pane {
+  background-color: #f8fafc !important;
+}
+
+.map-container-light .leaflet-tile-pane {
+  background-color: #f8fafc !important;
+}
+
+/* Dark mode - match the dark theme */
+.map-container-dark .leaflet-container {
+  background-color: #1f2937 !important; /* gray-800 - matching our dark theme */
+}
+
+.map-container-dark .leaflet-map-pane {
+  background-color: #1f2937 !important;
+}
+
+.map-container-dark .leaflet-tile-pane {
+  background-color: #1f2937 !important;
+}
+
+/* Global dark mode fallback for any remaining leaflet elements */
+.dark .leaflet-container {
+  background-color: #1f2937 !important;
+}
+
+.dark .leaflet-map-pane {
+  background-color: #1f2937 !important;
+}
+
+.dark .leaflet-tile-pane {
+  background-color: #1f2937 !important;
+}
+
+/* ===== MAP LEGEND SCROLLBAR STYLING ===== */
+.map-legend-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f3f4f6; /* gray-300 track, gray-100 thumb for light mode */
+}
+
+.dark .map-legend-scroll {
+  scrollbar-color: #4b5563 #1f2937; /* gray-600 track, gray-800 thumb for dark mode */
+}
+
+/* Webkit scrollbar styling */
+.map-legend-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.map-legend-scroll::-webkit-scrollbar-track {
+  background: #f3f4f6; /* gray-100 */
+  border-radius: 2px;
+}
+
+.map-legend-scroll::-webkit-scrollbar-thumb {
+  background: #d1d5db; /* gray-300 */
+  border-radius: 2px;
+}
+
+.map-legend-scroll::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af; /* gray-400 */
+}
+
+/* Dark mode webkit scrollbar */
+.dark .map-legend-scroll::-webkit-scrollbar-track {
+  background: #1f2937; /* gray-800 */
+}
+
+.dark .map-legend-scroll::-webkit-scrollbar-thumb {
+  background: #4b5563; /* gray-600 */
+}
+
+.dark .map-legend-scroll::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; /* gray-500 */
+} 

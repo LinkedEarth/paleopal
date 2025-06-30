@@ -1268,6 +1268,16 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
         const newMsg = convertBackendMessagesToFrontend([evt.message])[0];
         setMessages((prev) => {
           const withoutSpinner = prev.filter((m) => !m.isLoading);
+          
+          // Check if this progress message already exists to prevent duplicates
+          const existingIndex = withoutSpinner.findIndex(m => m.id === newMsg.id);
+          if (existingIndex !== -1) {
+            // Replace existing progress message
+            const updated = [...withoutSpinner];
+            updated[existingIndex] = newMsg;
+            return updated;
+          }
+          
           return [...withoutSpinner, newMsg];
         });
         break;
