@@ -717,7 +717,7 @@ print({variable_name}.head())
                         "generated_sparql": query,
                         "result_count": len(results),
                         "endpoint": "triplestore",
-                        "generated_results": results[:50]
+                        "generated_results": results[:10]
                     },
                     "conversation_id": state.conversation_id
                 }
@@ -756,7 +756,7 @@ print({variable_name}.head())
                         "generated_sparql": query,
                         "result_count": len(results),
                         "endpoint": sparql_endpoint,
-                        "generated_results": results[:50]  # keep first 50 rows for UI
+                        "generated_results": results[:10]  # keep first 10 rows for UI
                     },
                     "conversation_id": state.conversation_id
                 }
@@ -780,7 +780,7 @@ print({variable_name}.head())
                         "generated_sparql": query,
                         "result_count": len(results),
                         "endpoint": sparql_endpoint,
-                        "generated_results": results[:50] 
+                        "generated_results": results[:10] 
                     },
                     "conversation_id": state.conversation_id
                 }

@@ -3,7 +3,7 @@ SPARQL query generation agent using LangGraph.
 """
 
 import logging
-from langgraph.graph import Graph, StateGraph, START, END
+from langgraph.graph import StateGraph, START, END
 from typing import Dict, Any
 import json
 import asyncio
@@ -108,7 +108,7 @@ def add_hooks(fn, label):
         return result
     return _wrapped
 
-def create_agent() -> Graph:
+def create_agent():
     """Create a SPARQL query generation agent."""
     try:
         # Create the graph with config

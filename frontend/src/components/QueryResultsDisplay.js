@@ -2,14 +2,30 @@ import React, { useState } from 'react';
 import THEME from '../styles/colorTheme';
 import Icon from './Icon';
 import InteractiveMap from './InteractiveMap';
+import InteractiveMapMapbox from './InteractiveMapMapbox';
 import { hasGeographicData, extractDatasetNameFromValue } from '../utils/mapUtils';
 import LipdDatasetModal from './LipdDatasetModal';
+import usePagedSparql from '../hooks/usePagedSparql';
 
-const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
+const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=null, autoFetch=true }) => {
   const copyToClipboard = (text) => navigator.clipboard.writeText(text).catch(() => {});
 
   // State for LiPD dataset modal
   const [selectedDataset, setSelectedDataset] = useState(null);
+  
+  // State for manual fetch when autofetch is disabled
+  const [manualFetchEnabled, setManualFetchEnabled] = useState(false);
+
+  // how many rows to show in table
+  const pageSize = 50;
+  const [page, setPage] = useState(1);
+
+  const allRows = usePagedSparql(results, sparqlQuery, 500, autoFetch || manualFetchEnabled);
+
+  const totalPages = Math.max(1, Math.ceil(allRows.length / pageSize));
+
+  // Check if results are cut off when autofetch is disabled
+  const isResultsCutoff = !autoFetch && !manualFetchEnabled && results && results.length >= 10;
 
   if (error) {
     if (hideHeader) {
@@ -55,22 +71,48 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
     );
   }
 
-  const headers = Object.keys(results[0]);
+  const headers = Object.keys((allRows[0] || results[0]) || {});
   // Identify dataset-related columns
   const datasetColumns = headers.filter(h => /^(datasetname|dataset_name|datasetid|dataset_id|dsname|dataset)$/i.test(h));
-  const showMap = hasGeographicData(results);
+  const showMap = hasGeographicData(allRows);
   
   // Render table content
   const renderTable = () => (
     <div className="space-y-4">
+      {/* Cutoff warning when autofetch is disabled */}
+      {isResultsCutoff && (
+        <div className={`p-3 rounded border ${THEME.status.warning.background} ${THEME.status.warning.border} flex items-center justify-between gap-3`}>
+          <div className="flex items-center gap-2">
+            <Icon name="alertTriangle" className={`w-4 h-4 ${THEME.status.warning.text}`} />
+            <span className={`text-sm ${THEME.status.warning.text}`}>
+              Results are limited to 10 items with Auto-fetch disabled. There may be more results available.
+            </span>
+          </div>
+          <button
+            onClick={() => setManualFetchEnabled(true)}
+            className={`px-3 py-1.5 text-sm rounded font-medium transition-colors ${THEME.buttons.primary}`}
+          >
+            Fetch All Results
+          </button>
+        </div>
+      )}
+
       {/* Interactive Map - show above table if geographic data is available */}
       {showMap && (
-        <InteractiveMap 
-          data={results} 
-          hideHeader={true}
-          height="300px"
-          onDatasetClick={setSelectedDataset}
-        />
+        (process.env.REACT_APP_MAPBOX_TOKEN ? (
+          <InteractiveMapMapbox
+            data={allRows}
+            height="600px"
+            onDatasetClick={setSelectedDataset}
+          />
+        ) : (
+          <InteractiveMap 
+            data={allRows} 
+            hideHeader={true}
+            height="600px"
+            onDatasetClick={setSelectedDataset}
+          />
+        ))
       )}
       
       {/* Data Table */}
@@ -88,7 +130,7 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
                 </tr>
               </thead>
               <tbody className={THEME.containers.card}>
-                {results.map((row, i) => (
+                {allRows.slice((page-1)*pageSize, page*pageSize).map((row, i) => (
                   <tr key={i} className={THEME.interactive.hover}>
                     {headers.map(h => (
                       <td key={`${i}-${h}`} className={`border-b ${THEME.borders.table} px-3 py-2 ${THEME.text.primary}`}>
@@ -125,11 +167,41 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
             </table>
           </div>
         </div>
-        {/* Show a note if results are truncated to the maximum limit */}
-        {results.length === 50 && (
-          <p className={`text-xs ${THEME.text.muted}`}>Displaying first 50 results (limited).</p>
+        {/* Pagination */}
+        {allRows.length > pageSize && (
+          <div className="flex items-center justify-between pt-2">
+            <button
+              className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={page===1}
+              onClick={() => setPage(p=>Math.max(1,p-1))}
+            >Prev</button>
+            <span className={`text-xs ${THEME.text.secondary}`}>Page {page} / {totalPages}</span>
+            <button
+              className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={page===totalPages}
+              onClick={() => setPage(p=>Math.min(totalPages,p+1))}
+            >Next</button>
+          </div>
         )}
       </div>
+
+      {/* Cutoff warning at bottom when autofetch is disabled */}
+      {isResultsCutoff && (
+        <div className={`p-3 rounded border ${THEME.status.warning.background} ${THEME.status.warning.border} flex items-center justify-between gap-3`}>
+          <div className="flex items-center gap-2">
+            <Icon name="alertTriangle" className={`w-4 h-4 ${THEME.status.warning.text}`} />
+            <span className={`text-sm ${THEME.status.warning.text}`}>
+              Results are limited to 10 items with Auto-fetch disabled. There may be more results available.
+            </span>
+          </div>
+          <button
+            onClick={() => setManualFetchEnabled(true)}
+            className={`px-3 py-1.5 text-sm rounded font-medium transition-colors ${THEME.buttons.primary}`}
+          >
+            Fetch All Results
+          </button>
+        </div>
+      )}
     </div>
   );
 
@@ -153,7 +225,7 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false }) => {
       <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
         <h4 className={`font-medium text-sm m-0 flex items-center gap-2 ${THEME.text.primary}`}>
           <Icon name={showMap ? "map" : "list"} className="w-4 h-4" />
-          Query Results ({results.length === 50 ? "limiting to ": ""}{results.length} row{results.length !== 1 ? 's' : ''})
+          Query Results ({!autoFetch && !manualFetchEnabled && results.length >= 10 ? "showing ": ""}{allRows.length} row{allRows.length !== 1 ? 's' : ''})
           {showMap && <span className={`text-xs px-2 py-1 rounded ${THEME.status.info.background} ${THEME.status.info.text}`}>with map</span>}
         </h4>
         <button 

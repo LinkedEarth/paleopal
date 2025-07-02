@@ -3,7 +3,7 @@ Code generation agent using LangGraph.
 """
 
 import logging
-from langgraph.graph import Graph, StateGraph, START, END
+from langgraph.graph import StateGraph, START, END
 import json
 import asyncio
 from services.message_service import message_service
@@ -68,7 +68,7 @@ def add_hooks(fn, label):
         return result
     return _wrapped
 
-def create_agent() -> Graph:
+def create_agent():
     """Create a code generation agent using LangGraph."""
     try:
         # Create the graph with config

@@ -20,6 +20,7 @@ const AgentResultsDisplay = ({
   allMessages,
   enableExecution = true,
   isDarkMode = false,
+  autoFetch = true,
   onMessageUpdate,
   onError
 }) => {
@@ -130,6 +131,8 @@ const AgentResultsDisplay = ({
             results={results} 
             isDarkMode={isDarkMode}
             hideHeader={true}
+            sparqlQuery={message.generatedSparql}
+            autoFetch={autoFetch}
           />
         </div>
       )}      

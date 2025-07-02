@@ -758,7 +758,7 @@ class PythonExecutionService:
                         var_str = f"<function {getattr(value, '__name__', 'unknown')}>"
                     else:
                         # Regular value
-                    var_str = str(value)
+                        var_str = str(value)
                     
                     # Truncate long outputs
                     if len(var_str) > 200:
@@ -802,21 +802,21 @@ class PythonExecutionService:
         """Rebuild conversation state by re-executing code from remaining messages in order."""
         try:
             # 1. Start fresh
-                self.reset_conversation_state(conversation_id)
+            self.reset_conversation_state(conversation_id)
                 
             # 2. Replay every remaining message in chronological order
-                for message in remaining_messages:
+            for message in remaining_messages:
                 if getattr(message, "generated_code", None):
-                        try:
-                            self.execute_code(
-                                code=message.generated_code,
-                                conversation_id=conversation_id,
-                                timeout=30
-                            )
-                        except Exception as e:
+                    try:
+                        self.execute_code(
+                            code=message.generated_code,
+                            conversation_id=conversation_id,
+                            timeout=30
+                        )
+                    except Exception as e:
                         logger.warning(f"Failed to re-execute code from message {message.id}: {e}")
                         # Continue replaying even if one snippet fails
-                            continue
+                        continue
             logger.info(f"Successfully rebuilt execution state for conversation {conversation_id}. Variables: {len(self.get_conversation_state(conversation_id))}")
         except Exception as e:
             logger.error(f"Error rebuilding execution state for {conversation_id}: {e}")

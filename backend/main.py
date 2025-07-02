@@ -14,6 +14,7 @@ from fastapi import Request, Response, HTTPException
 
 # Import routers
 from routers import conversations, agents, messages, libraries, document_extraction, jobs, ws as ws_router
+from routers.sparql_proxy import router as sparql_proxy_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -49,6 +50,7 @@ app.include_router(libraries.router, prefix="/api")
 app.include_router(document_extraction.router, prefix="/api")
 app.include_router(jobs.router, prefix="/api")
 app.include_router(ws_router.router)
+app.include_router(sparql_proxy_router)
 
 # Serve generated plots
 PLOTS_DIR = Path(__file__).resolve().parent / "data" / "plots"

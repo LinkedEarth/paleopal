@@ -15,16 +15,17 @@ const MapLegend = ({ archiveTypes, className = '' }) => {
       </div>
       
       {/* Scrollable content */}
-      <div className="max-h-48 overflow-y-auto p-2 map-legend-scroll">
+      <div className="max-h-96 overflow-y-auto p-2 map-legend-scroll">
         <div className="space-y-1.5">
           {archiveTypes.map((item, index) => (
             <div key={index} className="flex items-center gap-2 py-1">
               <div 
-                className="w-6 h-6 flex items-center justify-center flex-shrink-0"
+                className="w-6 h-6 flex items-center justify-center flex-shrink-0 rounded-full ring-1 ring-white"
                 title={item.config.name}
                 style={{ 
                   fontSize: '16px',
-                  color: item.config.color,
+                  backgroundColor: item.config.color,
+                  color: '#ffffff',
                   fontWeight: '900',
                   lineHeight: '1'
                 }}

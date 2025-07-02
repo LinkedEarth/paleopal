@@ -266,6 +266,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   
   const [enableExecution, setEnableExecution] = useState(true);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
+  const [autoFetchEnabled, setAutoFetchEnabled] = useState(false);
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -1123,6 +1124,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               allMessages={messages}
               enableExecution={enableExecution}
               isDarkMode={isDarkMode}
+              autoFetch={autoFetchEnabled}
               onMessageUpdate={(updatedMessage) => {
                 // Convert backend message format to frontend format
                 const convertedMessage = convertBackendMessagesToFrontend([updatedMessage])[0];
@@ -1562,19 +1564,19 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               </span>
             </button>
 
-            {/* Auto-scroll Toggle */}
+            {/* Auto-fetch Toggle */}
             <button
-              onClick={(e) => setAutoScrollEnabled(!autoScrollEnabled)}
+              onClick={() => setAutoFetchEnabled(!autoFetchEnabled)}
               className={`p-2 rounded-md transition-colors border flex items-center gap-2 ${
-                autoScrollEnabled 
+                autoFetchEnabled 
                   ? `${THEME.status.success.background} ${THEME.status.success.border} ${THEME.status.success.text}` 
                   : `${THEME.containers.card} ${THEME.borders.default} ${THEME.text.secondary} ${THEME.interactive.hover}`
               }`}
-              title="Toggle Auto-scroll"
+              title="Toggle Auto Fetch"
             >
-              <Icon name="scroll" className="w-4 h-4" />
+              <Icon name="download" className="w-4 h-4" />
               <span className="hidden sm:inline text-xs font-medium">
-                {autoScrollEnabled ? 'Auto-scroll On' : 'Auto-scroll Off'}
+                {autoFetchEnabled ? 'Auto-fetch On' : 'Auto-fetch Off'}
               </span>
             </button>
           </div>
