@@ -3,16 +3,12 @@
 # Build stage
 FROM node:18-alpine AS build
 
-# Build arguments for environment variables
-ARG REACT_APP_MAPBOX_TOKEN
-ARG NODE_ENV=production
-
-# Set environment variables from build args
-ENV REACT_APP_MAPBOX_TOKEN=$REACT_APP_MAPBOX_TOKEN
-ENV NODE_ENV=$NODE_ENV
-
 # Set working directory
 WORKDIR /app
+
+# Accept build arguments for environment variables
+ARG REACT_APP_MAPBOX_TOKEN
+ENV REACT_APP_MAPBOX_TOKEN=$REACT_APP_MAPBOX_TOKEN
 
 # Copy package files
 COPY package*.json ./
@@ -22,11 +18,11 @@ RUN npm cache clean --force && \
     rm -rf package-lock.json node_modules && \
     npm install --legacy-peer-deps
 
-# Copy environment file first (if it exists)
-COPY .env* ./
-
 # Copy source code
 COPY . .
+
+# Copy environment file if it exists (for React build-time env vars)
+COPY .env* ./
 
 # Build the application
 RUN npm run build
