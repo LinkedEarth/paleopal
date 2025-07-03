@@ -21,6 +21,7 @@ const createMinimalTheme = (isDarkMode = false) => createTheme({
 const LipdDatasetViewer = ({ lipdInstance, datasetName }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   
   const { 
     dataset, 
@@ -47,6 +48,18 @@ const LipdDatasetViewer = ({ lipdInstance, datasetName }) => {
   useEffect(() => {
     setReadonly(true); // Always readonly in this viewer
   }, [setReadonly]);
+
+  // Close mobile nav when screen becomes large
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) { // lg breakpoint
+        setIsMobileNavOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const loadDataset = async () => {
@@ -135,10 +148,35 @@ const LipdDatasetViewer = ({ lipdInstance, datasetName }) => {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
+      <style>
+        {`
+          /* Hide unwanted close buttons from NavigationPanel */
+          .lipd-nav-wrapper button[aria-label*="close" i],
+          .lipd-nav-wrapper button[title*="close" i],
+          .lipd-nav-wrapper .MuiIconButton-root[aria-label*="close" i],
+          .lipd-nav-wrapper .close-button,
+          .lipd-nav-wrapper [data-testid*="close"],
+          .lipd-nav-wrapper button:has([data-icon="times"]),
+          .lipd-nav-wrapper button:has([data-icon="x"]),
+          .lipd-nav-wrapper button:has(svg[viewBox="0 0 24 24"]):has(line[x1="18"]):has(line[y1="6"]):has(line[x2="6"]):has(line[y2="18"]),
+          .lipd-nav-wrapper .MuiBox-root.css-1a6ic4q {
+            display: none !important;
+          }
+        `}
+      </style>
       <div className={`flex flex-col h-full ${THEME.containers.background}`}>
         {/* Header with breadcrumbs, readonly indicator, and download button */}
         <div className={`flex justify-between items-center p-4 border-b ${THEME.borders.default} ${THEME.containers.header}`}>
           <div className="flex items-center gap-4">
+            {/* Mobile menu button - only visible on smaller screens */}
+            <button
+              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+              className={`lg:hidden flex items-center justify-center w-10 h-10 rounded-lg ${THEME.buttons.secondary} transition-all duration-200`}
+              title="Toggle navigation"
+            >
+              <Icon name={isMobileNavOpen ? "close" : "menu"} className="w-5 h-5" />
+            </button>
+            
             <RouterProvider>
               <AppBarBreadcrumbs />
             </RouterProvider>
@@ -157,17 +195,45 @@ const LipdDatasetViewer = ({ lipdInstance, datasetName }) => {
               title="Download LiPD file"
             >
               <Icon name="download" className="w-4 h-4" />
-              Download LiPD
+              <span className="hidden sm:inline">Download LiPD</span>
+              <span className="sm:hidden">Download</span>
             </button>
           </div>
         </div>
         
         {/* Main content area with RouterProvider for navigation */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden relative">
           <RouterProvider>
+            {/* Mobile backdrop overlay */}
+            {isMobileNavOpen && (
+              <div 
+                className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+                onClick={() => setIsMobileNavOpen(false)}
+              />
+            )}
+            
             {/* Navigation panel */}
-            <div className={`w-80 border-r ${THEME.borders.default} overflow-auto ${THEME.containers.secondary}`}>
-              <NavigationPanel dataset={dataset} />
+            <div className={`
+              ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+              lg:relative fixed top-0 left-0 h-full z-50 lg:z-auto
+              w-80 border-r ${THEME.borders.default} overflow-auto ${THEME.containers.secondary}
+              transition-transform duration-300 ease-in-out
+              lg:block
+            `}>
+              {/* Mobile close button */}
+              <div className="lg:hidden flex justify-end p-3 border-b border-gray-200 dark:border-gray-700">
+                <button
+                  onClick={() => setIsMobileNavOpen(false)}
+                  className={`flex items-center justify-center w-8 h-8 rounded-lg ${THEME.buttons.secondary} transition-all duration-200`}
+                  title="Close navigation"
+                >
+                  <Icon name="close" className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="lipd-nav-wrapper">
+                <NavigationPanel dataset={dataset} />
+              </div>
             </div>
             
             {/* Editor panel (readonly) */}
