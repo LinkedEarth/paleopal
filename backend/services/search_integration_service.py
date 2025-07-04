@@ -566,6 +566,48 @@ Return ONLY a JSON array of the extracted terms:
         """
         sections = []
         
+        # Add conversation history first if available (new addition)
+        if context.get("conversation_history"):
+            sections.append("## CONVERSATION HISTORY\n")
+            sections.append("--------\n")
+            
+            conversation_history = context["conversation_history"]
+            for entry in conversation_history:
+                if entry["role"] == "user":
+                    sections.append(f"[User] -> [{'SPARQL Agent' if 'sparql' in entry.get('content', '').lower() else 'Code Agent'}]:")
+                    sections.append(f"{entry['content']}\n")
+                    
+                elif entry["role"] == "assistant":
+                    agent_type = entry.get("agent_type", "unknown")
+                    agent_name = {
+                        "sparql": "SPARQL Agent",
+                        "code": "Code Agent", 
+                        "workflow_generation": "Workflow Agent"
+                    }.get(agent_type, f"{agent_type.title()} Agent")
+                    
+                    sections.append(f"[{agent_name}]:")
+                    if entry.get("generated_content"):
+                        # Show the generated code/query
+                        if agent_type == "sparql":
+                            sections.append("```sparql")
+                            sections.append(entry["generated_content"])
+                            sections.append("```")
+                        else:
+                            sections.append("```python")
+                            sections.append(entry["generated_content"])
+                            sections.append("```")
+                        
+                        # Add execution info if available
+                        if entry.get("has_results"):
+                            sections.append(f"*Executed successfully - returned {entry.get('result_count', 0)} results*")
+                    else:
+                        # Fallback to content message
+                        sections.append(entry.get("content", "No content"))
+                    sections.append("")
+            
+            sections.append("## CONTEXT")
+            sections.append("--------\n")
+        
         # Add workflow context (high weight)
         if context.get("workflows"):
             sections.append("## RELEVANT WORKFLOW EXAMPLES (High Priority - Follow These Patterns):\n")
@@ -654,6 +696,48 @@ Return ONLY a JSON array of the extracted terms:
             Formatted text for LLM consumption
         """
         sections = []
+        
+        # Add conversation history first if available (new addition)
+        if context.get("conversation_history"):
+            sections.append("## CONVERSATION HISTORY\n")
+            sections.append("--------\n")
+            
+            conversation_history = context["conversation_history"]
+            for entry in conversation_history:
+                if entry["role"] == "user":
+                    sections.append(f"[User] -> [{'SPARQL Agent' if 'sparql' in entry.get('content', '').lower() else 'Code Agent'}]:")
+                    sections.append(f"{entry['content']}\n")
+                    
+                elif entry["role"] == "assistant":
+                    agent_type = entry.get("agent_type", "unknown")
+                    agent_name = {
+                        "sparql": "SPARQL Agent",
+                        "code": "Code Agent", 
+                        "workflow_generation": "Workflow Agent"
+                    }.get(agent_type, f"{agent_type.title()} Agent")
+                    
+                    sections.append(f"[{agent_name}]:")
+                    if entry.get("generated_content"):
+                        # Show the generated code/query
+                        if agent_type == "sparql":
+                            sections.append("```sparql")
+                            sections.append(entry["generated_content"])
+                            sections.append("```")
+                        else:
+                            sections.append("```python")
+                            sections.append(entry["generated_content"])
+                            sections.append("```")
+                        
+                        # Add execution info if available
+                        if entry.get("has_results"):
+                            sections.append(f"*Executed successfully - returned {entry.get('result_count', 0)} results*")
+                    else:
+                        # Fallback to content message
+                        sections.append(entry.get("content", "No content"))
+                    sections.append("")
+            
+            sections.append("## CONTEXT")
+            sections.append("--------\n")
         
         # Add refinement context first if this is a refinement request (highest priority)
         if context.get("refinement_context"):
@@ -772,6 +856,48 @@ Return ONLY a JSON array of the extracted terms:
             Formatted text for LLM consumption
         """
         sections = []
+        
+        # Add conversation history first if available (new addition)
+        if context.get("conversation_history"):
+            sections.append("## CONVERSATION HISTORY\n")
+            sections.append("--------\n")
+            
+            conversation_history = context["conversation_history"]
+            for entry in conversation_history:
+                if entry["role"] == "user":
+                    sections.append(f"[User] -> [{'SPARQL Agent' if 'sparql' in entry.get('content', '').lower() else 'Code Agent'}]:")
+                    sections.append(f"{entry['content']}\n")
+                    
+                elif entry["role"] == "assistant":
+                    agent_type = entry.get("agent_type", "unknown")
+                    agent_name = {
+                        "sparql": "SPARQL Agent",
+                        "code": "Code Agent", 
+                        "workflow_generation": "Workflow Agent"
+                    }.get(agent_type, f"{agent_type.title()} Agent")
+                    
+                    sections.append(f"[{agent_name}]:")
+                    if entry.get("generated_content"):
+                        # Show the generated code/query
+                        if agent_type == "sparql":
+                            sections.append("```sparql")
+                            sections.append(entry["generated_content"])
+                            sections.append("```")
+                        else:
+                            sections.append("```python")
+                            sections.append(entry["generated_content"])
+                            sections.append("```")
+                        
+                        # Add execution info if available
+                        if entry.get("has_results"):
+                            sections.append(f"*Executed successfully - returned {entry.get('result_count', 0)} results*")
+                    else:
+                        # Fallback to content message
+                        sections.append(entry.get("content", "No content"))
+                    sections.append("")
+            
+            sections.append("## CONTEXT")
+            sections.append("--------\n")
         
         # Add refinement context first if this is a refinement request (highest priority)
         if context.get("refinement_context"):

@@ -22,7 +22,10 @@ const AgentResultsDisplay = ({
   isDarkMode = false,
   autoFetch = true,
   onMessageUpdate,
-  onError
+  onError,
+  conversationId,
+  onMessagesUpdate,
+  messagesVersion
 }) => {
   const [showIndexModal, setShowIndexModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -53,8 +56,8 @@ const AgentResultsDisplay = ({
     </div>
   );
   
-  // Check if we have code or SPARQL to display
-  const hasCodeOrSparql = message.generatedCode || message.generatedSparql;
+  // Check if we have code or SPARQL to display (but not for workflow agent)
+  const hasCodeOrSparql = (message.generatedCode || message.generatedSparql) && agentType !== 'workflow_generation';
   
   // Get user prompt from conversation context
   const getUserPrompt = (messageId) => {
@@ -99,6 +102,9 @@ const AgentResultsDisplay = ({
             messageIndex={messageIndex}
             allMessages={allMessages}
             enableExecution={enableExecution}
+            conversationId={conversationId}
+            onMessagesUpdate={onMessagesUpdate}
+            messagesVersion={messagesVersion}
           />
         </div>
       )}
@@ -174,7 +180,8 @@ const areEqual = (prevProps, nextProps) => {
   return (
     prevProps.message === nextProps.message &&
     prevProps.isDarkMode === nextProps.isDarkMode &&
-    prevProps.enableExecution === nextProps.enableExecution
+    prevProps.enableExecution === nextProps.enableExecution &&
+    prevProps.messagesVersion === nextProps.messagesVersion
   );
 };
 

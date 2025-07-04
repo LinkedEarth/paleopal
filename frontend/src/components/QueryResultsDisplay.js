@@ -26,6 +26,8 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
 
   // Check if results are cut off when autofetch is disabled
   const isResultsCutoff = !autoFetch && !manualFetchEnabled && results && results.length >= 10;
+  
+
 
   if (error) {
     if (hideHeader) {
@@ -96,6 +98,8 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
           </button>
         </div>
       )}
+
+
 
       {/* Interactive Map - show above table if geographic data is available */}
       {showMap && (

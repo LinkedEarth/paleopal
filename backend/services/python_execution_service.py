@@ -21,7 +21,7 @@ import traceback
 import pickle
 import sqlite3
 import uuid
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Set
 from contextlib import redirect_stdout, redirect_stderr
 import threading
 import time
@@ -520,6 +520,65 @@ class PythonExecutionService:
         
         return saved_plots
     
+    def _get_image_files(self, working_dir: Path = None) -> Set[Path]:
+        """Get set of existing image files in working directory."""
+        if working_dir is None:
+            working_dir = Path.cwd()
+        
+        image_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.svg', '.pdf'}
+        image_files = set()
+        
+        try:
+            for file_path in working_dir.iterdir():
+                if file_path.is_file() and file_path.suffix.lower() in image_extensions:
+                    image_files.add(file_path)
+        except Exception as e:
+            logger.warning(f"Error scanning for image files: {e}")
+        
+        return image_files
+    
+    def _detect_and_move_saved_plots(self, conversation_id: str, existing_files: Set[Path], working_dir: Path = None) -> List[str]:
+        """Detect new image files saved directly by code execution and move them to plots directory."""
+        moved_plots = []
+        
+        try:
+            # Default to current working directory if not specified
+            if working_dir is None:
+                working_dir = Path.cwd()
+            
+            # Get current image files
+            current_files = self._get_image_files(working_dir)
+            
+            # Find new files (created during execution)
+            new_files = current_files - existing_files
+            
+            for file_path in new_files:
+                try:
+                    # Generate unique filename in plots directory
+                    plot_id = str(uuid.uuid4())[:8]
+                    timestamp = int(time.time())
+                    extension = file_path.suffix
+                    
+                    # Create new filename with conversation ID and timestamp
+                    new_filename = f"plot_c_{conversation_id}_{timestamp}_{plot_id}{extension}"
+                    new_filepath = _PLOTS_DIR / new_filename
+                    
+                    # Move the file to plots directory
+                    import shutil
+                    shutil.move(str(file_path), str(new_filepath))
+                    
+                    moved_plots.append(new_filename)
+                    logger.info(f"Moved plot from {file_path} to {new_filepath}")
+                    
+                except Exception as e:
+                    logger.warning(f"Failed to move plot file {file_path}: {e}")
+                    continue
+                    
+        except Exception as e:
+            logger.warning(f"Error detecting saved plots: {e}")
+        
+        return moved_plots
+    
     def execute_code(
         self, 
         code: str, 
@@ -556,6 +615,9 @@ class PythonExecutionService:
         execution_globals = state.copy()
         execution_locals = {}
         
+        # Take snapshot of existing image files before execution
+        existing_image_files = self._get_image_files()
+        
         # Capture output
         stdout_capture = io.StringIO()
         stderr_capture = io.StringIO()
@@ -578,8 +640,14 @@ class PythonExecutionService:
             execution_time = time.time() - start_time
             
             if result["success"]:
-                # Save any generated plots
+                # Save any generated plots from matplotlib figures
                 saved_plots = self._save_current_plots(conversation_id, execution_globals)
+                
+                # Detect and move any plots saved directly to files (e.g., pyleo.savefig, plt.savefig)
+                moved_plots = self._detect_and_move_saved_plots(conversation_id, existing_image_files)
+                
+                # Combine all plots
+                all_plots = saved_plots + moved_plots
                 
                 # Update conversation state with new variables
                 self._update_conversation_state(
@@ -591,7 +659,7 @@ class PythonExecutionService:
                     output=stdout_capture.getvalue(),
                     variables=self._extract_user_variables(execution_globals, execution_locals),
                     execution_time=execution_time,
-                    plots=saved_plots
+                    plots=all_plots
                 )
             else:
                 return ExecutionResult(

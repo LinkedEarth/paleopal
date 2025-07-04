@@ -8,13 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
-import textwrap
-import httpx
-from fastapi import Request, Response, HTTPException
 
 # Import routers
 from routers import conversations, agents, messages, libraries, document_extraction, jobs, ws as ws_router
-from routers.sparql_proxy import router as sparql_proxy_router
+# Removed: from routers.sparql_proxy import router as sparql_proxy_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -50,54 +47,12 @@ app.include_router(libraries.router, prefix="/api")
 app.include_router(document_extraction.router, prefix="/api")
 app.include_router(jobs.router, prefix="/api")
 app.include_router(ws_router.router)
-app.include_router(sparql_proxy_router)
+# Removed: app.include_router(sparql_proxy_router)
 
 # Serve generated plots
 PLOTS_DIR = Path(__file__).resolve().parent / "data" / "plots"
 PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/plots", StaticFiles(directory=str(PLOTS_DIR)), name="plots")
-
-# -------------------
-# Simple proxy endpoint for LiPDVerse GraphDB to avoid CORS
-# Frontend lipdjs can send its SPARQL POST/GET requests to /api/proxy/lipdverse
-# which will forward them to the public GraphDB endpoint and relay the response.
-# -------------------
-
-LIPDVERSE_ENDPOINT = "https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse-dynamic"
-
-@app.api_route("/api/proxy/lipdverse", methods=["GET", "POST"])
-async def proxy_lipdverse(request: Request):
-    """Proxy GraphDB requests to bypass CORS restrictions for the front-end.
-
-    The path accepts the same query params and body as the original GraphDB endpoint.
-    The client should keep headers like `Accept` and `Content-Type` when necessary.
-    """
-    try:
-        client_headers = dict(request.headers)
-        # Remove host header to avoid conflicts
-        client_headers.pop("host", None)
-
-        method = request.method.upper()
-        async with httpx.AsyncClient(timeout=60) as client:
-            if method == "GET":
-                resp = await client.get(LIPDVERSE_ENDPOINT, params=request.query_params, headers=client_headers)
-            elif method == "POST":
-                body = await request.body()
-                resp = await client.post(
-                    LIPDVERSE_ENDPOINT,
-                    params=request.query_params,
-                    headers=client_headers,
-                    content=body,
-                )
-            else:
-                raise HTTPException(status_code=405, detail="Method not allowed")
-
-        return Response(content=resp.content, status_code=resp.status_code, headers={
-            "content-type": resp.headers.get("content-type", "application/octet-stream"),
-        })
-    except Exception as e:
-        logger.error(f"Proxy to LiPDVerse failed: {e}")
-        raise HTTPException(status_code=500, detail="Proxy error")
 
 @app.get("/")
 async def root():

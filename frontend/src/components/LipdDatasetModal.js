@@ -29,8 +29,8 @@ const LipdDatasetModal = ({ isOpen, onClose, datasetName: rawDatasetName }) => {
 
       try {
         const lipd = new LiPD();
-        // Use backend proxy endpoint to avoid CORS issues
-        lipd.setEndpoint(`${window.location.origin}/api/proxy/lipdverse`);
+        // Use direct GraphDB endpoint
+        lipd.setEndpoint('https://linkedearth.graphdb.mint.isi.edu/repositories/LiPDVerse-dynamic');
         await lipd.loadRemoteDatasets(datasetName);
         setLipdInstance(lipd);
       } catch (err) {

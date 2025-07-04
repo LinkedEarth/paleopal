@@ -208,53 +208,93 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             state_data["clarification_processed"] = True
             state_data["user_input"] = original_user_input  # Use the original user input, not the empty clarification submission
         
-        # Extract conversation context from previous messages (simplified approach)
+        # Extract conversation context from previous messages (enhanced with full history)
         if request.conversation_id:
             try:
                 previous_messages = message_service.get_conversation_messages(request.conversation_id)
                 logger.info(f"Found {len(previous_messages)} previous messages for context")
                 
-                # Extract the most recent relevant context (last assistant message with generated content)
-                for msg in reversed(previous_messages):
-                    # Determine previous generated content
-                    previous_generated = None
-                    if msg.agent_type == 'sparql' and msg.agent_metadata and isinstance(msg.agent_metadata, dict):
-                        previous_generated = msg.agent_metadata.get('generated_sparql')
-                    else:
-                        previous_generated = msg.generated_code
-
-                    if (msg.role == 'assistant' and 
-                        previous_generated and 
-                        not msg.is_node_progress):  # Skip progress messages
+                # Build conversation history for context
+                conversation_history = []
+                last_assistant_context = None
+                
+                # Filter and organize messages for history
+                relevant_messages = [
+                    msg for msg in previous_messages 
+                    if not msg.is_node_progress and msg.message_type in ['chat', 'clarification']
+                ]
+                
+                for msg in relevant_messages:
+                    if msg.role == 'user':
+                        # Add user message to history
+                        conversation_history.append({
+                            "role": "user",
+                            "content": msg.content,
+                            "timestamp": msg.created_at.isoformat() if hasattr(msg.created_at, 'isoformat') else str(msg.created_at)
+                        })
+                    
+                    elif msg.role == 'assistant':
+                        # Determine what the assistant generated
+                        generated_content = None
+                        agent_type = msg.agent_type or "unknown"
                         
-                        # Add this as context for the generation nodes to use
-                        context = state_data.get("context", {})
-                        context["previous_query"] = previous_generated
-                        # Limit the number of previous results passed into context to avoid oversized prompts
-                        TRUNCATED_LIMIT = 50
-                        context["previous_results"] = (msg.execution_results or [])[:TRUNCATED_LIMIT]
-                        context["previous_agent_type"] = msg.agent_type
-                        context["has_previous_context"] = True
-                        # Add result variable names if available (only if not already provided by frontend)
-                        if msg.result_variable_names and "previous_result_variables" not in context and "previous_result_variable" not in context:
-                            if len(msg.result_variable_names) == 1:
-                                context["previous_result_variable"] = msg.result_variable_names[0]
-                                logger.info(f"   - Added single result variable from database: {msg.result_variable_names[0]}")
-                            else:
-                                context["previous_result_variables"] = msg.result_variable_names
-                                logger.info(f"   - Added {len(msg.result_variable_names)} result variables from database: {msg.result_variable_names}")
-                        elif "previous_result_variables" in context:
-                            logger.info(f"   - Using result variables from frontend: {context['previous_result_variables']}")
-                        elif "previous_result_variable" in context:
-                            logger.info(f"   - Using result variable from frontend: {context['previous_result_variable']}")
-                        state_data["context"] = context
+                        if msg.agent_type == 'sparql' and msg.agent_metadata and isinstance(msg.agent_metadata, dict):
+                            generated_content = msg.agent_metadata.get('generated_sparql')
+                        else:
+                            generated_content = msg.generated_code
                         
-                        logger.info(f"✅ Added previous context from {msg.agent_type} agent")
-                        logger.info(f"   - Previous query length: {len(previous_generated)} chars")
-                        logger.info(f"   - Previous results count: {len(msg.execution_results) if msg.execution_results else 0}")
-                        break
-                else:
-                    logger.info("No previous assistant messages with generated content found")
+                        # Add assistant message to history
+                        history_entry = {
+                            "role": "assistant", 
+                            "agent_type": agent_type,
+                            "content": msg.content,
+                            "generated_content": generated_content,
+                            "has_results": bool(msg.execution_results),
+                            "result_count": len(msg.execution_results) if msg.execution_results else 0,
+                            "timestamp": msg.created_at.isoformat() if hasattr(msg.created_at, 'isoformat') else str(msg.created_at)
+                        }
+                        conversation_history.append(history_entry)
+                        
+                        # Keep track of the most recent assistant message for backward compatibility
+                        if generated_content and not last_assistant_context:
+                            last_assistant_context = {
+                                "previous_query": generated_content,
+                                "previous_results": (msg.execution_results or [])[:50],  # Limit for prompt size
+                                "previous_agent_type": agent_type,
+                                "has_previous_context": True
+                            }
+                            
+                            # Add result variable names if available
+                            if msg.result_variable_names:
+                                if len(msg.result_variable_names) == 1:
+                                    last_assistant_context["previous_result_variable"] = msg.result_variable_names[0]
+                                else:
+                                    last_assistant_context["previous_result_variables"] = msg.result_variable_names
+                
+                # Add conversation history and context to state
+                context = state_data.get("context", {})
+                
+                # Add conversation history for enhanced context formatting
+                if conversation_history:
+                    context["conversation_history"] = conversation_history
+                    logger.info(f"✅ Added conversation history with {len(conversation_history)} messages")
+                
+                # Add last assistant context for backward compatibility with existing refinement logic
+                if last_assistant_context:
+                    context.update(last_assistant_context)
+                    logger.info(f"✅ Added previous context from {last_assistant_context['previous_agent_type']} agent")
+                    logger.info(f"   - Previous query length: {len(last_assistant_context['previous_query'])} chars")
+                    logger.info(f"   - Previous results count: {len(last_assistant_context['previous_results'])}")
+                
+                # Don't override context if it was provided by frontend (for result variables)
+                existing_context = state_data.get("context", {})
+                if "previous_result_variables" in existing_context or "previous_result_variable" in existing_context:
+                    # Merge without overriding frontend-provided result variables
+                    context.update({k: v for k, v in existing_context.items() 
+                                  if k.startswith("previous_result")})
+                    logger.info("Using result variables from frontend context")
+                
+                state_data["context"] = context
                     
             except Exception as e:
                 logger.warning(f"Failed to extract conversation context: {e}")

@@ -329,6 +329,12 @@ def generate_workflow_plan_node(state: WorkflowAgentState, config: WorkflowAgent
                 "conversation_id": state.conversation_id
             }
         
+        # Get conversation history from state context (same pattern as code/SPARQL agents)
+        context = state.context or {}
+        if context.get("conversation_history"):
+            context_data = context_data or {}
+            context_data["conversation_history"] = context["conversation_history"]
+        
         # Format context for LLM
         context_text = ""
         if context_data:

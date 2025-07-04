@@ -145,6 +145,11 @@ const conversationService = {
       method: 'PUT',
       body: JSON.stringify(updateData)
     });
+  },
+  
+  async getConversation(conversationId) {
+    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversationId}`);
+    return await apiRequest(url);
   }
 };
 
@@ -267,6 +272,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [enableExecution, setEnableExecution] = useState(true);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [autoFetchEnabled, setAutoFetchEnabled] = useState(false);
+  const [messagesVersion, setMessagesVersion] = useState(0); // New state for message version tracking
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -346,126 +352,63 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       const loadMessages = async () => {
         setMessagesLoading(true);
         
-        // First, reset all settings to defaults to prevent cross-conversation bleeding
-        setWaitingForClarification(false);
-        setClarificationQuestions([]);
-        setClarificationAnswers({});
-        setOriginalRequestContext(null);
-        setLlmProvider('google');
-        setSelectedAgent('sparql');
-        setEnableClarification(true);
-        setClarificationThreshold('conservative');
-        setEnableExecution(true);
-        setExecutionStartTime(null);
-        setIsLoading(false);
-        setError(null);
-        setInputValue('');
-        
         try {
-          // Load conversation settings from backend first
-          try {
-            const conversationUrl = buildApiUrl(`${API_CONFIG.ENDPOINTS.CONVERSATIONS}/${conversation.id}`);
-            const conversationDetails = await apiRequest(conversationUrl);
-            
-            // Apply conversation-specific settings if they exist
-            if (conversationDetails) {
-              setLlmProvider(conversationDetails.llm_provider || 'google');
-              setSelectedAgent(conversationDetails.selected_agent || 'sparql');
-              setEnableClarification(conversationDetails.enable_clarification ?? true);
-              setClarificationThreshold(conversationDetails.clarification_threshold || 'conservative');
-              setEnableExecution(conversationDetails.enable_execution ?? true);
-              setWaitingForClarification(conversationDetails.waiting_for_clarification || false);
-              setClarificationQuestions(conversationDetails.clarification_questions || []);
-              setClarificationAnswers(conversationDetails.clarification_answers || {});
-              setOriginalRequestContext(conversationDetails.original_request || null);
-            }
-          } catch (settingsError) {
-            console.warn('Failed to load conversation settings, using defaults:', settingsError);
-            // Continue with defaults - don't fail the entire loading process
-          }
+          // First, load the conversation to get the current settings
+          const conversationData = await conversationService.getConversation(conversation.id);
           
-          const loadedMessages = await messageService.getConversationMessages(conversation.id, true);
+          // Load conversation state from backend, with fallbacks to defaults
+          setLlmProvider(conversationData.llm_provider || 'google');
+          setSelectedAgent(conversationData.selected_agent || 'sparql');
+          setEnableClarification(conversationData.enable_clarification !== undefined ? conversationData.enable_clarification : true);
+          setClarificationThreshold(conversationData.clarification_threshold || 'conservative');
+          setEnableExecution(conversationData.enable_execution !== undefined ? conversationData.enable_execution : true);
+          setWaitingForClarification(conversationData.waiting_for_clarification || false);
+          setClarificationQuestions(conversationData.clarification_questions || []);
+          setClarificationAnswers(conversationData.clarification_answers || {});
+          setOriginalRequestContext(conversationData.original_request || null);
           
-          if (loadedMessages.length > 0) {
-            // Convert backend message format to frontend format
-            const convertedMessages = convertBackendMessagesToFrontend(loadedMessages);
-            setMessages(convertedMessages);
-            
-            // Check if the conversation has a pending request that needs polling
-            // Look for the last user message and check if there's a corresponding completed assistant response
-            const userMessages = convertedMessages.filter(msg => msg.role === 'user' && !msg.isNodeProgress);
-            const assistantMessages = convertedMessages.filter(msg => msg.role === 'assistant' && !msg.isNodeProgress);
-            
-            if (userMessages.length > 0) {
-              const lastUserMessage = userMessages[userMessages.length - 1];
-              const lastUserMessageTime = new Date(lastUserMessage.timestamp || lastUserMessage.created_at || 0);
-              
-              // Check if there's a completed assistant response after the last user message
-              const hasCompletedResponse = assistantMessages.some(msg => {
-                const msgTime = new Date(msg.timestamp || msg.created_at || 0);
-                const isAfterUserMessage = msgTime > lastUserMessageTime;
-                const hasResults = msg.hasQueryResults || 
-                  msg.hasGeneratedCode || 
-                  msg.hasWorkflowPlan ||
-                  msg.hasWorkflowExecution ||
-                  msg.needsClarification;
-                
-                return isAfterUserMessage && hasResults;
-              });
-              
-              // Check if request is too old (more than 5 minutes)
-              const timeSinceLastUserMessage = Date.now() - lastUserMessageTime.getTime();
-              const fiveMinutes = 5 * 60 * 1000;
-              
-              if (!hasCompletedResponse) {
-                if (timeSinceLastUserMessage > fiveMinutes) {
-                  setError('Request timed out - the agent took too long to respond');
-                  setIsLoading(false);
-                } else {
-                  setIsLoading(true);
-                }
-              }
-            }
-            
-            // Check if we need to restore clarification state from messages
-            // This handles cases where the last message is asking for clarification
-            const lastAssistantMessage = convertedMessages
-              .filter(msg => msg.role === 'assistant' && !msg.isNodeProgress)
-              .pop(); // Get the most recent assistant message
-              
-            if (lastAssistantMessage && lastAssistantMessage.needsClarification && lastAssistantMessage.clarificationQuestions) {
-              // Set clarification state after a brief delay to ensure other state is set
-              setTimeout(() => {
-                setWaitingForClarification(true);
-                setClarificationQuestions(lastAssistantMessage.clarificationQuestions);
-                // Clear any existing answers to start fresh
-                setClarificationAnswers({});
-              }, 100);
-            }
-          } else {
-            const greeting = [{
-              id: 1,
-              role: 'assistant',
-              content: 'Hi! I can help you with paleoclimate data analysis. Choose an agent and let me know what you need!'
-            }];
-            setMessages(greeting);
-          }
-        } catch (error) {
-          console.error('❌ Failed to load messages:', error);
-          console.error('❌ Error details:', {
-            message: error.message,
-            conversationId: conversation.id
+          console.log('📋 Loaded conversation state:', {
+            llm_provider: conversationData.llm_provider,
+            selected_agent: conversationData.selected_agent,
+            enable_clarification: conversationData.enable_clarification,
+            clarification_threshold: conversationData.clarification_threshold,
+            enable_execution: conversationData.enable_execution
           });
-          const greeting = [{
-            id: 1,
-            role: 'assistant',
-            content: 'Hi! I can help you with paleoclimate data analysis. Choose an agent and let me know what you need!'
-          }];
-          setMessages(greeting);
-        } finally {
-          setMessagesLoading(false);
+        } catch (error) {
+          console.error('Failed to load conversation settings, using defaults:', error);
+          // Reset to defaults if conversation loading fails
+          setLlmProvider('google');
+          setSelectedAgent('sparql');
+          setEnableClarification(true);
+          setClarificationThreshold('conservative');
+          setEnableExecution(true);
+          setWaitingForClarification(false);
+          setClarificationQuestions([]);
+          setClarificationAnswers({});
+          setOriginalRequestContext(null);
         }
-      };
+
+        try {
+          // 1) fetch the messages
+          const loaded = await messageService.getConversationMessages(
+            conversation.id,
+            true /* include progress */
+          );
+
+          // 2) convert & store
+          const converted =
+            loaded.length > 0
+              ? convertBackendMessagesToFrontend(loaded)
+              : defaultGreeting;
+          setMessages(converted);
+          setMessagesVersion(v => v + 1);
+        } catch (err) {
+          console.error('Failed to load messages:', err);
+          setMessages(defaultGreeting);        // fallback
+        } finally {
+          setMessagesLoading(false);           // <— stop spinner
+        }
+      }
       
       loadMessages();
       
@@ -692,33 +635,35 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
         });
       }
       
-      // Create a user message for this step - show the description as the main task
-      const stepMessage = `Step ${stepInfo.stepNumber}/${stepInfo.totalSteps}: ${stepInfo.stepName}
-
-📋 ${stepInfo.agentType.toUpperCase()} Agent Task:
-${stepInfo.description || stepInfo.input}
-
-${stepInfo.input !== stepInfo.description ? `🔧 Step Input: ${stepInfo.input}` : ''}
-${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies: ${stepInfo.dependencies.join(', ')}` : ''}`;
+      // Create a clear step marker for tracking workflow execution
+      const stepMarker = `[WORKFLOW STEP ${stepInfo.stepNumber}/${stepInfo.totalSteps}: ${stepInfo.stepName}]`;
       
-      const userMessage = {
-        id: `step_${Date.now()}`,
-        role: 'user',
-        content: stepMessage
-      };
+      // Build comprehensive step information including description, input, and expected output
+      let stepContent = '';
       
-      // Add the step message to chat immediately
-      setMessages(prev => [...prev, userMessage]);
+      if (stepInfo.description && stepInfo.description.trim()) {
+        stepContent += `Description: ${stepInfo.description.trim()}\n\n`;
+      }
       
-      // Wait a moment for UI to update
-      await new Promise(resolve => setTimeout(resolve, 500));
+      if (stepInfo.input && stepInfo.input.trim()) {
+        stepContent += `Task Input: ${stepInfo.input.trim()}\n\n`;
+      }
       
-      // Submit the step description as user_input with step context
+      if (stepInfo.expectedOutput && stepInfo.expectedOutput.trim()) {
+        stepContent += `Expected Output: ${stepInfo.expectedOutput.trim()}\n\n`;
+      }
+      
+      // Fallback if no content is available
+      if (!stepContent.trim()) {
+        stepContent = stepInfo.input || stepInfo.description || 'Execute this workflow step';
+      }
+      
+      // Submit the step with a clear marker that can be parsed for execution tracking
       console.log(`Executing step with agent: ${stepInfo.agentType}`);
       console.log('Step context:', stepContext);
       
-      // Use description as the main user input, with step details in context
-      const userInputForAgent = stepInfo.description || stepInfo.input;
+      // Use step marker + comprehensive step information as the user input for clear tracking
+      const userInputForAgent = `${stepMarker}\n\n${stepContent.trim()}`;
       await submitRequest(userInputForAgent, conversation.id, false, stepInfo.agentType, null, stepContext);
       
       // Wait for the step to complete
@@ -1125,6 +1070,9 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
               enableExecution={enableExecution}
               isDarkMode={isDarkMode}
               autoFetch={autoFetchEnabled}
+              conversationId={conversation.id}
+              messagesVersion={messagesVersion}
+              onMessagesUpdate={setMessages}
               onMessageUpdate={(updatedMessage) => {
                 // Convert backend message format to frontend format
                 const convertedMessage = convertBackendMessagesToFrontend([updatedMessage])[0];
@@ -1264,6 +1212,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
 
           return [...next, incoming];
         });
+        setMessagesVersion(prev => prev + 1); // Increment version after message update
         break;
       }
       case 'progress': {
@@ -1282,6 +1231,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
           
           return [...withoutSpinner, newMsg];
         });
+        setMessagesVersion(prev => prev + 1); // Increment version after message update
         break;
       }
       case 'job_updated': {
@@ -1301,6 +1251,7 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
           }
           return [...prev, updated];
         });
+        setMessagesVersion(prev => prev + 1); // Increment version after message update
         break;
       }
       default:
@@ -1323,31 +1274,49 @@ ${stepInfo.dependencies && stepInfo.dependencies.length > 0 ? `📦 Dependencies
     isWebSocketConnected,
   );
 
-  // Sync backend messages into local UI state (with fallback when WebSocket fails)
+  // 1) add a ref to hold the last synced snapshot
+  const lastSyncedRef = useRef([]);
+
+  // 2) replace the sync-effect body with:
   useEffect(() => {
     if (!backendMessages) return;
-    
-    const converted = backendMessages.length > 0
-      ? convertBackendMessagesToFrontend(backendMessages)
-      : defaultGreeting;
 
-    setMessages((prev) => {
-      // Enhanced comparison to avoid redundant updates
-      if (prev.length === converted.length) {
-        const same = prev.every((m, i) => {
-          const convertedMsg = converted[i];
-          return m.id === convertedMsg.id && 
-                 m.updated_at === convertedMsg.updated_at &&
-                 m.content === convertedMsg.content;
-        });
-        if (same) return prev; // no change
+    const converted =
+      backendMessages.length > 0
+        ? convertBackendMessagesToFrontend(backendMessages)
+        : defaultGreeting;
+
+    // ------------------------------------------
+    // compare with last synced version
+    const prev = lastSyncedRef.current;
+    let changed = false;
+
+    if (prev.length !== converted.length) {
+      changed = true;
+    } else {
+      for (let i = 0; i < converted.length; i++) {
+        if (
+          prev[i].id !== converted[i].id ||
+          prev[i].updated_at !== converted[i].updated_at ||
+          prev[i].content !== converted[i].content
+        ) {
+          changed = true;
+          break;
+        }
       }
-      
-      // Update if there are meaningful differences
-      const source = isWebSocketConnected ? 'WebSocket backup' : 'polling fallback';
-      console.debug(`📝 Syncing backend messages to local state (${source})`);
-      return converted;
-    });
+    }
+    // ------------------------------------------
+
+    if (changed) {
+      console.debug(
+        `📝 Syncing backend messages to local state (${
+          isWebSocketConnected ? 'WebSocket backup' : 'polling fallback'
+        })`
+      );
+      setMessages(converted);
+      setMessagesVersion((v) => v + 1);   // bump only when changed
+      lastSyncedRef.current = converted;  // store snapshot
+    }
   }, [backendMessages, isWebSocketConnected]);
 
   // Reflect running job status into loading indicator

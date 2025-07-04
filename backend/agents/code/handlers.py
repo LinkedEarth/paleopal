@@ -104,21 +104,9 @@ def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str
                 # Also add the full qualified name
                 approved_functions.add(full_name)
     
-    # Common invalid patterns that LLMs often use
-    invalid_patterns = [
-        r'\.get_dataset\s*\(',
-        r'\.load_dataset\s*\(',
-        r'\.find_dataset\s*\(',
-        r'\.select_dataset\s*\(',
-        r'\.fetch_dataset\s*\(',
-        r'\.retrieve_dataset\s*\(',
-    ]
-    
-    # Check for invalid patterns
-    for pattern in invalid_patterns:
-        matches = re.finditer(pattern, code, re.IGNORECASE)
-        for match in matches:
-            errors.append(f"Invalid function call found: '{match.group()}' - this function does not exist in PyLiPD/Pyleoclim")
+    # Note: We used to have hardcoded invalid patterns, but this was incorrectly flagging valid functions
+    # like load_dataset() which actually exists in pyleoclim.utils.datasets.load_dataset()
+    # Now we rely only on the actual function signatures from all_symbols.txt
     
     # Check for pylipd/pyleoclim method calls that aren't in approved list
     pylipd_pattern = r'(pylipd|pyleoclim)\.[\w\.]+\.(\w+)\s*\('
@@ -143,9 +131,8 @@ def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str
             
         # Check if this looks like a PyLiPD object call
         if ('lipd' in obj_name.lower() or 'series' in obj_name.lower()) and method_name not in approved_functions:
-            # Check if it's one of the known invalid methods
-            if method_name in ['get_dataset', 'load_dataset', 'find_dataset', 'select_dataset', 'fetch_dataset']:
-                errors.append(f"Invalid PyLiPD method: '{full_match}' - use approved alternatives like .get(), .get_datasets(), or .get_lipd()")
+            # Only flag if the method name is truly not in approved functions (no hardcoded list)
+            errors.append(f"Unrecognized PyLiPD method: '{full_match}' - method '{method_name}' not found in approved signatures")
     
     return errors
 
@@ -502,11 +489,17 @@ def should_execute_code(state: CodeAgentState) -> str:
         logger.info("Execution disabled by frontend flag – skipping code execution")
         return "false"
     
-    # Don't execute if there are validation errors
+    # Check validation errors - but allow execution if auto-execution is enabled
     validation_errors = getattr(state, 'validation_errors', []) or []
     if validation_errors:
-        logger.info("Validation errors present, skipping execution")
-        return "false"
+        # If auto-execution is enabled, allow execution despite validation errors
+        # This lets users see actual Python errors which can be more helpful
+        if enable_exec:
+            logger.info(f"Validation errors present but auto-execution is enabled - proceeding with execution")
+            logger.info(f"Validation errors: {validation_errors}")
+        else:
+            logger.info("Validation errors present and auto-execution disabled, skipping execution")
+            return "false"
     
     # Don't execute if there's already an error message
     if state.error_message:
@@ -584,11 +577,10 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
         
         if validation_errors:
             validation_issue = (
-                "**PyLiPD/Pyleoclim Validation Errors**: The code contains invalid function calls:\n"
+                "**PyLiPD/Pyleoclim Validation Errors**: The code contains function calls not found in the approved signatures:\n"
                 + "\n".join(f"• {error}" for error in validation_errors) +
                 "\n\nPlease use only the approved PyLiPD/Pyleoclim functions from the provided signatures. "
-                "Do not use functions like get_dataset(), load_dataset(), or find_dataset() as they do not exist. "
-                "Use the correct alternatives like get(), get_datasets(), or get_lipd() instead."
+                "Check the function names and module paths to ensure they match the official API."
             )
             issues_detected.append(validation_issue)
         
@@ -633,13 +625,19 @@ Please provide an improved version of the code that:
 3. Maintains the original functionality
 4. Follows best practices for paleoclimate data analysis
 5. Uses appropriate libraries (PyLiPD, Pyleoclim, pandas, numpy)
+6. **CRITICAL**: Contains ONLY executable Python code with proper # comment syntax
+7. **CRITICAL**: All explanatory text must be Python comments starting with # character
+8. **CRITICAL**: No markdown, prose, or unescaped text that would cause syntax errors
 
 Return your response as JSON with keys: code, description, improvements_made.
 """
         
         messages = [
             SystemMessage(content="You are an expert Python developer specializing in paleoclimate data analysis. "
-                                "You must only use valid PyLiPD/Pyleoclim functions that exist in the approved signatures."),
+                                "You must only use valid PyLiPD/Pyleoclim functions that exist in the approved signatures. "
+                                "CRITICAL REQUIREMENT: The 'code' field must contain ONLY executable Python code. "
+                                "ALL explanatory text must use proper Python comment syntax starting with # character. "
+                                "Never include markdown, prose, or unescaped text that would cause Python syntax errors."),
             HumanMessage(content=refinement_prompt)
         ]
         
@@ -888,6 +886,11 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         # Format comprehensive context for LLM
         context_prompt = ""
         if contextual_data:
+            # Add conversation history if available
+            context = state.context or {}
+            if context.get("conversation_history"):
+                contextual_data["conversation_history"] = context["conversation_history"]
+            
             context_prompt = search_service.format_code_context_for_llm(contextual_data)
         
         # Add previous context if available (replaces refinement-specific logic)
@@ -976,9 +979,11 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "5. Use correct API calls based on documentation\n"
             "6. Generate complete, executable code\n"
             "7. Include necessary imports\n"
-            "8. Add helpful comments\n"
-            "9. **SECURITY**: Use ast.literal_eval() instead of eval() for safe string parsing\n"
-            "10. When converting string representations to data, use json.loads() or ast.literal_eval()\n\n"
+            "8. **CRITICAL**: ALL comments and explanatory text must use proper Python comment syntax starting with # character\n"
+            "9. **CRITICAL**: Do NOT include any explanatory text or descriptions outside of Python comments\n"
+            "10. **CRITICAL**: The 'code' field must contain ONLY valid Python code with # comments - no markdown, no prose\n"
+            "11. **SECURITY**: Use ast.literal_eval() instead of eval() for safe string parsing\n"
+            "12. When converting string representations to data, use json.loads() or ast.literal_eval()\n\n"
             "Return JSON with keys: code, description, libraries, outputs."
         )
         
@@ -1003,6 +1008,10 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                          "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible. "
                          "*CRITICAL*: When including code in JSON, properly escape all backslashes (use \\\\ for \\) "
                          "and quotes (use \\\" for \") to ensure valid JSON format. "
+                         "*ABSOLUTELY CRITICAL - CODE SYNTAX*: The 'code' field must contain ONLY executable Python code. "
+                         "ALL explanatory text, descriptions, or comments MUST use proper Python comment syntax starting with # character. "
+                         "Do NOT include any markdown, prose, or unescaped text that would cause Python syntax errors. "
+                         "Examples: '# This loads the dataset' (CORRECT) vs 'This loads the dataset' (INCORRECT - causes syntax error). "
                          "*SECURITY*: Never use eval() for parsing strings - use ast.literal_eval() or json.loads() instead. "
                          "When converting string representations of lists/arrays to actual data structures, use safe parsing methods.")
         
@@ -1023,11 +1032,8 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 Generate code **only** with symbols that appear in this list, 
                 respecting parameter order and type hints.\n
                 {library_symbols}\n"""
-                "**EXAMPLES OF WHAT NOT TO DO**:\n"
-                "- lipd_obj.get_dataset(name) ❌ (does not exist)\n"
-                "- lipd_obj.load_dataset(name) ❌ (does not exist)\n"
-                "- lipd_obj.find_dataset(name) ❌ (does not exist)\n\n"
-                "**CORRECT ALTERNATIVES**:\n"
+                "**COMMON PATTERNS FOR DATA ACCESS**:\n"
+                "- pyleo.utils.load_dataset(name) ✅ (loads built-in Pyleoclim datasets)\n"
                 "- lipd_obj.get(dsnames) ✅ (gets dataset(s) from graph)\n"
                 "- lipd_obj.get_datasets() ✅ (returns list of Dataset objects)\n"
                 "- lipd_obj.get_lipd(dsname) ✅ (gets LiPD json for dataset)\n\n"
@@ -1148,27 +1154,40 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         logger.info(f"Generated code length: {len(generated_code)}")
         logger.info(f"Generated code preview: {generated_code[:200]}...")
         
-        # Validate PyLiPD/Pyleoclim function usage
+        # Validate PyLiPD/Pyleoclim function usage (DISABLED)
         validation_errors = []
-        if library_symbols and generated_code:
-            validation_errors = validate_pylipd_pyleoclim_usage(generated_code, library_symbols)
-            if validation_errors:
-                logger.warning(f"Generated code contains {len(validation_errors)} PyLiPD/Pyleoclim validation errors:")
-                for error in validation_errors:
-                    logger.warning(f"  - {error}")
-                
-                # Store validation errors in state for potential retry
-                # Don't add to description yet - let the retry logic handle it
-                logger.info("Validation errors detected - code may need regeneration")
-            else:
-                logger.info("✅ Generated code passed PyLiPD/Pyleoclim validation")
+        # TEMPORARILY DISABLED: Code validation causing issues
+        # if library_symbols and generated_code:
+        #     validation_errors = validate_pylipd_pyleoclim_usage(generated_code, library_symbols)
+        #     if validation_errors:
+        #         logger.warning(f"Generated code contains {len(validation_errors)} PyLiPD/Pyleoclim validation errors:")
+        #         for error in validation_errors:
+        #             logger.warning(f"  - {error}")
+        #         
+        #         # Store validation errors in state for potential retry
+        #         # Don't add to description yet - let the retry logic handle it
+        #         logger.info("Validation errors detected - code may need regeneration")
+        #     else:
+        #         logger.info("✅ Generated code passed PyLiPD/Pyleoclim validation")
+        logger.info("Code validation temporarily disabled")
         
         if output_format == "notebook":
-            header = (
-                f"# {parsed.get('description', 'Analysis')}\n"
-                "# Auto-generated by PaleoPal CodeGenerationAgent with contextual search\n\n"
-            )
-            generated_code = header + generated_code
+            # Check if this is a workflow step execution (contains step marker)
+            is_workflow_step = analysis_request and "[WORKFLOW STEP" in analysis_request
+            
+            if not is_workflow_step:
+                # Only add header for non-workflow requests to avoid duplication
+                description = parsed.get('description', 'Analysis')
+                # Ensure each line of description has proper comment syntax
+                description_lines = description.split('\n')
+                formatted_description = '\n'.join(f"# {line}" for line in description_lines)
+                
+                header = (
+                    f"{formatted_description}\n"
+                    "# Auto-generated by PaleoPal CodeGenerationAgent with contextual search\n\n"
+                )
+                generated_code = header + generated_code
+            # For workflow steps, the step information is already included in the generated code
         
         # Add success message
         messages = state.messages or []
@@ -1323,7 +1342,7 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
         execution_result = python_execution_service.execute_code(
             code=final_code,
             conversation_id=conversation_id,
-            timeout=30
+            timeout=300
         )
         
         logger.info(f"Execution completed. Success: {execution_result.success}")

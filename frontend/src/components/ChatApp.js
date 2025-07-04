@@ -221,6 +221,7 @@ const ChatApp = () => {
       error: null,
       enableClarification: true,
       clarificationThreshold: 'conservative',
+      enableExecution: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -356,6 +357,7 @@ const ChatApp = () => {
         selected_agent: conv.selectedAgent || conv.selected_agent || 'sparql',
         enable_clarification: conv.enableClarification !== undefined ? conv.enableClarification : (conv.enable_clarification !== undefined ? conv.enable_clarification : true),
         clarification_threshold: conv.clarificationThreshold || conv.clarification_threshold || 'conservative',
+        enable_execution: conv.enableExecution !== undefined ? conv.enableExecution : (conv.enable_execution !== undefined ? conv.enable_execution : true),
         waiting_for_clarification: conv.waitingForClarification || conv.waiting_for_clarification || false,
         clarification_questions: conv.clarificationQuestions || conv.clarification_questions || [],
         clarification_answers: conv.clarificationAnswers || conv.clarification_answers || {},
@@ -384,6 +386,7 @@ const ChatApp = () => {
             selected_agent: conv.selectedAgent || conv.selected_agent || 'sparql',
             enable_clarification: conv.enableClarification !== undefined ? conv.enableClarification : (conv.enable_clarification !== undefined ? conv.enable_clarification : true),
             clarification_threshold: conv.clarificationThreshold || conv.clarification_threshold || 'conservative',
+            enable_execution: conv.enableExecution !== undefined ? conv.enableExecution : (conv.enable_execution !== undefined ? conv.enable_execution : true),
             metadata: conv.metadata || null
           };
 

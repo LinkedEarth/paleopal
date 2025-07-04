@@ -510,6 +510,10 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         
         # Add previous context if available (replaces refinement-specific logic)
         context = state.context or {}
+        
+        # Add conversation history if available
+        if context.get("conversation_history"):
+            contextual_data["conversation_history"] = context["conversation_history"]
         if context.get("has_previous_context"):
             logger.info("=== ADDING PREVIOUS CONTEXT TO QUERY GENERATION ===")
             contextual_data["refinement_context"] = {

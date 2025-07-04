@@ -28,13 +28,42 @@ async def get_message(message_id: str):
         raise HTTPException(status_code=404, detail="Message not found")
     return message
 
-@router.put("/{message_id}", response_model=Message)
+@router.put("/{message_id}")
 async def update_message(message_id: str, update_data: MessageUpdate):
     """Update a message with new results and metadata."""
-    message = message_service.update_message(message_id, update_data)
+    # Convert MessageUpdate to the format expected by update_message_results
+    update_kwargs = {}
+    
+    if update_data.generated_code is not None:
+        update_kwargs["generated_code"] = update_data.generated_code
+    if update_data.execution_results is not None:
+        update_kwargs["execution_results"] = update_data.execution_results
+    if update_data.result_variable_names is not None:
+        update_kwargs["result_variable_names"] = update_data.result_variable_names
+    if update_data.agent_metadata is not None:
+        update_kwargs["agent_metadata"] = update_data.agent_metadata
+    if update_data.similar_results is not None:
+        update_kwargs["similar_results"] = update_data.similar_results
+    if update_data.entity_matches is not None:
+        update_kwargs["entity_matches"] = update_data.entity_matches
+    if update_data.needs_clarification is not None:
+        update_kwargs["needs_clarification"] = update_data.needs_clarification
+    if update_data.clarification_questions is not None:
+        update_kwargs["clarification_questions"] = update_data.clarification_questions
+    if update_data.clarification_responses is not None:
+        update_kwargs["clarification_responses"] = update_data.clarification_responses
+    if update_data.metadata is not None:
+        update_kwargs["metadata"] = update_data.metadata
+    
+    message = message_service.update_message_results(message_id, **update_kwargs)
     if not message:
         raise HTTPException(status_code=404, detail="Message not found")
-    return message
+    
+    # Return in the format expected by frontend
+    return {
+        "success": True,
+        "message": message
+    }
 
 @router.delete("/{message_id}")
 async def delete_message(message_id: str):
