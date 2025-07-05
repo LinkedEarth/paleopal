@@ -114,24 +114,6 @@ const messageService = {
     });
   },
 
-  async editUserMessage(messageId, content, shouldRegenerate = true) {
-    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/${messageId}/edit-user-message`);
-    return await apiRequest(url, {
-      method: 'PUT',
-      body: JSON.stringify({
-        content,
-        should_regenerate: shouldRegenerate
-      })
-    });
-  },
-
-  async retryMessage(messageId) {
-    const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/${messageId}/retry`);
-    return await apiRequest(url, {
-      method: 'POST'
-    });
-  },
-
   async getConversationMessages(conversationId, includeProgress = false) {
     const url = buildApiUrl(`${API_CONFIG.ENDPOINTS.MESSAGES}/conversation/${conversationId}?include_progress=${includeProgress}`);
     // console.log(`🔍 Fetching messages from: ${url}`);
@@ -291,11 +273,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [autoFetchEnabled, setAutoFetchEnabled] = useState(false);
   const [messagesVersion, setMessagesVersion] = useState(0); // New state for message version tracking
-  
-  // Message editing state
-  const [editingMessageId, setEditingMessageId] = useState(null);
-  const [editingContent, setEditingContent] = useState('');
-  const [retryingMessages, setRetryingMessages] = useState(new Set());
+  const [isReExecutingAll, setIsReExecutingAll] = useState(false);
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -703,7 +681,131 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     }
   };
 
-  // Update the handleSubmit to also handle clarification responses
+  // Handle re-executing all code/SPARQL in the conversation
+  const handleReExecuteAll = async () => {
+    if (isReExecutingAll || agentBusy || isLoading) return;
+    
+    // Get all messages with generated code or SPARQL
+    const executableMessages = messages.filter(msg => 
+      msg.role === 'assistant' && 
+      !msg.isNodeProgress && 
+      (msg.generatedCode || msg.generatedSparql) &&
+      msg.id && 
+      msg.id !== 'temp' && 
+      !msg.id.toString().startsWith('temp_') &&
+      !msg.id.toString().startsWith('loading_')
+    );
+    
+    if (executableMessages.length === 0) {
+      setError('No executable code or SPARQL found in conversation');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+    
+    const confirmed = window.confirm(
+      `Re-execute all code and SPARQL in this conversation?\n\n` +
+      `This will:\n` +
+      `• Re-run ${executableMessages.length} code/SPARQL messages\n` +
+      `• Clear and update all execution outputs\n` +
+      `• Preserve the conversation execution state\n\n` +
+      `Are you sure you want to proceed?`
+    );
+    
+    if (!confirmed) return;
+    
+    setIsReExecutingAll(true);
+    setError(null);
+    
+    try {
+      let successCount = 0;
+      let failureCount = 0;
+      
+      console.log(`🔄 Starting re-execution of ${executableMessages.length} messages`);
+      
+      // Process messages sequentially to maintain execution order
+      for (let i = 0; i < executableMessages.length; i++) {
+        const message = executableMessages[i];
+        
+        try {
+          console.log(`🔄 Re-executing message ${i + 1}/${executableMessages.length}: ${message.id}`);
+          
+          // Prepare request data based on message type
+          const requestData = {
+            clear_variables: false // Don't clear variables to maintain state
+          };
+          
+          if (message.agentType === 'sparql' && message.generatedSparql) {
+            requestData.generated_sparql = message.generatedSparql;
+          } else if (message.generatedCode) {
+            requestData.generated_code = message.generatedCode;
+          } else {
+            console.warn(`⚠️ Skipping message ${message.id}: no executable content found`);
+            continue;
+          }
+          
+          // Call the edit-and-execute endpoint
+          const url = buildApiUrl(`/api/messages/${message.id}/edit-and-execute`);
+          const response = await apiRequest(url, {
+            method: 'POST',
+            body: JSON.stringify(requestData)
+          });
+          
+          if (response.success) {
+            successCount++;
+            console.log(`✅ Successfully re-executed message ${message.id}`);
+            
+            // Update the local message state with new execution results
+            setMessages(prevMessages => 
+              prevMessages.map(msg => {
+                if (msg.id === message.id) {
+                  const updatedMessage = response.message;
+                  // Convert backend message format to frontend format
+                  const convertedMessage = convertBackendMessagesToFrontend([updatedMessage])[0];
+                  return { ...msg, ...convertedMessage };
+                }
+                return msg;
+              })
+            );
+          } else {
+            failureCount++;
+            console.error(`❌ Failed to re-execute message ${message.id}:`, response);
+          }
+          
+          // Small delay between executions to avoid overwhelming the backend
+          if (i < executableMessages.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
+          
+        } catch (error) {
+          failureCount++;
+          console.error(`❌ Error re-executing message ${message.id}:`, error);
+        }
+      }
+      
+      // Show completion message
+      const totalProcessed = successCount + failureCount;
+      let resultMessage = `Re-execution completed: ${successCount}/${totalProcessed} successful`;
+      
+      if (failureCount > 0) {
+        resultMessage += `, ${failureCount} failed`;
+        setError(resultMessage);
+        setTimeout(() => setError(''), 5000);
+      } else {
+        console.log(`✅ ${resultMessage}`);
+      }
+      
+      // Force messages refresh to ensure UI is updated
+      setMessagesVersion(prev => prev + 1);
+      
+    } catch (error) {
+      console.error('❌ Error during re-execution:', error);
+      setError(`Failed to re-execute messages: ${error.message || 'Unknown error'}`);
+      setTimeout(() => setError(''), 5000);
+    } finally {
+      setIsReExecutingAll(false);
+    }
+  };
+
   const submitRequest = async (userInput, conversationId, isClariSubmission = false, overrideAgentType = null, clarificationResponses = null, stepContext = null) => {
     try {
       // Use override agent type if provided, otherwise use current selected agent
@@ -876,74 +978,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       }
     }
     return false;
-  };
-
-  // Handle editing user messages
-  const handleEditUserMessage = (messageId, currentContent) => {
-    setEditingMessageId(messageId);
-    setEditingContent(currentContent);
-  };
-
-  const handleSaveEdit = async (messageId, shouldRegenerate = true) => {
-    if (!editingContent.trim()) {
-      setError('Message content cannot be empty');
-      return;
-    }
-
-    try {
-      const result = await messageService.editUserMessage(messageId, editingContent.trim(), shouldRegenerate);
-      
-      if (result.success) {
-        // Update the message in local state
-        setMessages(prev => prev.map(msg => 
-          msg.id === messageId ? { ...msg, content: editingContent.trim() } : msg
-        ));
-        
-        // Clear editing state
-        setEditingMessageId(null);
-        setEditingContent('');
-        
-        // Show success message if regenerating
-        if (shouldRegenerate && result.deleted_messages_count > 0) {
-          console.log(`✅ Edited message and deleted ${result.deleted_messages_count} subsequent messages for regeneration`);
-        }
-      }
-    } catch (error) {
-      console.error('Error editing message:', error);
-      setError(error.message || 'Failed to edit message');
-      setTimeout(() => setError(''), 5000);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingMessageId(null);
-    setEditingContent('');
-  };
-
-  // Handle retrying messages
-  const handleRetryMessage = async (messageId) => {
-    // Add to retrying set
-    setRetryingMessages(prev => new Set([...prev, messageId]));
-
-    try {
-      const result = await messageService.retryMessage(messageId);
-      
-      if (result.success) {
-        console.log(`✅ Retried message and deleted ${result.deleted_messages_count} messages from sequence ${result.from_sequence}`);
-        // The websocket will handle updating the UI
-      }
-    } catch (error) {
-      console.error('Error retrying message:', error);
-      setError(error.message || 'Failed to retry message');
-      setTimeout(() => setError(''), 5000);
-    } finally {
-      // Remove from retrying set
-      setRetryingMessages(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(messageId);
-        return newSet;
-      });
-    }
   };
 
   // Handler to open clarification dialog
@@ -1136,17 +1170,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               )}
             </button>
           )}
-
-          {/* Edit button - next to delete button for user messages */}
-          {!isLoading && message.role === 'user' && (
-            <button
-              onClick={() => handleEditUserMessage(message.id, message.content)}
-              className={`absolute -bottom-5 ${message.role === 'user' ? 'right-10' : 'left-10'} w-7 h-7 rounded-md flex items-center justify-center transition-opacity transition-colors duration-200 opacity-0 group-hover:opacity-100 bg-blue-100 dark:bg-blue-900/20 hover:bg-blue-200 dark:hover:bg-blue-900/40 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300`}
-              title="Edit this message"
-            >
-              <Icon name="edit" className="w-4 h-4" />
-            </button>
-          )}
           
           {message.isCombinedAnswers ? (
             <ClarificationResponseMessage 
@@ -1238,77 +1261,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
                       </span>
                     </div>
                   )}
-                  
-                  {/* Message content with editing functionality */}
-                  {editingMessageId === message.id ? (
-                    // Editing mode
-                    <div className="space-y-3">
-                      <textarea
-                        value={editingContent}
-                        onChange={(e) => setEditingContent(e.target.value)}
-                        className={`w-full p-3 rounded-lg border resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          isDarkMode 
-                            ? 'bg-neutral-800 border-neutral-600 text-white' 
-                            : 'bg-white border-neutral-300 text-neutral-900'
-                        }`}
-                        rows={Math.max(2, editingContent.split('\n').length)}
-                        placeholder="Edit your message..."
-                        autoFocus
-                      />
-                      
-                      {/* Edit action buttons */}
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleSaveEdit(message.id, true)}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200"
-                        >
-                          <Icon name="check" className="w-3.5 h-3.5" />
-                          Save & Regenerate
-                        </button>
-                        <button
-                          onClick={() => handleSaveEdit(message.id, false)}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md transition-colors duration-200"
-                        >
-                          <Icon name="check" className="w-3.5 h-3.5" />
-                          Save Only
-                        </button>
-                        <button
-                          onClick={handleCancelEdit}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-neutral-500 hover:bg-neutral-600 text-white text-sm font-medium rounded-md transition-colors duration-200"
-                        >
-                          <Icon name="close" className="w-3.5 h-3.5" />
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    // View mode
-                    <div className="relative group">
-                      <div className={THEME.text.primary}>{message.content}</div>
-                      
-                      {/* Action buttons */}
-                      <div className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-1">
-                        {message.role === 'assistant' && !isLoading && !message.isNodeProgress && (
-                          <button
-                            onClick={() => handleRetryMessage(message.id)}
-                            disabled={retryingMessages.has(message.id)}
-                            className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-200 ${
-                              retryingMessages.has(message.id)
-                                ? 'bg-amber-200 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 cursor-not-allowed'
-                                : 'bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-900/50 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300'
-                            }`}
-                            title={retryingMessages.has(message.id) ? 'Retrying...' : 'Retry this response'}
-                          >
-                            {retryingMessages.has(message.id) ? (
-                              <Icon name="spinner" className="w-3.5 h-3.5 animate-spin" />
-                            ) : (
-                              <Icon name="refresh" className="w-3.5 h-3.5" />
-                            )}
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  <div className={THEME.text.primary}>{message.content}</div>
                 </div>
               </div>
             </div>
@@ -1424,29 +1377,6 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           return [...prev, updated];
         });
         setMessagesVersion(prev => prev + 1); // Increment version after message update
-        break;
-      }
-      case 'regenerate_required': {
-        // Handle regeneration trigger (after user message edit)
-        console.log('🔄 Regeneration required after user message edit');
-        setMessages((prev) => {
-          // Remove loading messages that might be stale
-          return prev.filter((m) => !m.isLoading);
-        });
-        setIsLoading(false);
-        // Clear any retrying states
-        setRetryingMessages(new Set());
-        break;
-      }
-      case 'retry_required': {
-        // Handle retry trigger (manual retry button)
-        console.log('🔄 Retry required - messages deleted from sequence:', evt.from_sequence);
-        // The messages will be updated through regular message_created/updated events
-        // Just clear any loading states
-        setMessages((prev) => {
-          return prev.filter((m) => !m.isLoading);
-        });
-        setIsLoading(false);
         break;
       }
       default:
@@ -1749,6 +1679,33 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           {/* Download button */}
           {conversation.id && messages.length > 1 && (
             <div className="flex items-center gap-2">
+              {/* Re-execute All Button */}
+              {messages.some(msg => 
+                msg.role === 'assistant' && 
+                !msg.isNodeProgress && 
+                (msg.generatedCode || msg.generatedSparql) &&
+                msg.id && 
+                msg.id !== 'temp' && 
+                !msg.id.toString().startsWith('temp_') &&
+                !msg.id.toString().startsWith('loading_')
+              ) && (
+                <button
+                  onClick={handleReExecuteAll}
+                  disabled={isReExecutingAll || agentBusy || isLoading}
+                  className={`flex items-center gap-2 px-3 py-2 rounded transition-colors text-sm disabled:cursor-not-allowed ${
+                    isReExecutingAll
+                      ? 'bg-yellow-100 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800/30 text-yellow-600 dark:text-yellow-400'
+                      : `${THEME.buttons.primary} disabled:bg-slate-400 dark:disabled:bg-slate-600`
+                  }`}
+                  title="Re-execute all code and SPARQL in this conversation"
+                >
+                  <Icon name={isReExecutingAll ? "spinner" : "refresh"} className={`w-4 h-4 ${isReExecutingAll ? 'animate-spin' : ''}`} />
+                  <span className="hidden sm:inline">
+                    {isReExecutingAll ? 'Re-executing...' : 'Re-execute All'}
+                  </span>
+                </button>
+              )}
+
               <button
                 onClick={handleDownloadNotebook}
                 disabled={isLoading || agentBusy}

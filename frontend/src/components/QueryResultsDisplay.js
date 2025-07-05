@@ -7,7 +7,7 @@ import { hasGeographicData, extractDatasetNameFromValue } from '../utils/mapUtil
 import LipdDatasetModal from './LipdDatasetModal';
 import usePagedSparql from '../hooks/usePagedSparql';
 
-const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=null, autoFetch=true }) => {
+const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=null, autoFetch=true, message=null }) => {
   const copyToClipboard = (text) => navigator.clipboard.writeText(text).catch(() => {});
 
   // State for LiPD dataset modal
@@ -23,6 +23,10 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
   const allRows = usePagedSparql(results, sparqlQuery, 500, autoFetch || manualFetchEnabled);
 
   const totalPages = Math.max(1, Math.ceil(allRows.length / pageSize));
+
+  // Get the actual total result count from message metadata if available
+  const actualResultCount = message?.agentMetadata?.result_count;
+  const hasActualCount = typeof actualResultCount === 'number';
 
   // Check if results are cut off when autofetch is disabled
   const isResultsCutoff = !autoFetch && !manualFetchEnabled && results && results.length >= 10;
@@ -87,7 +91,7 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
           <div className="flex items-center gap-2">
             <Icon name="alertTriangle" className={`w-4 h-4 ${THEME.status.warning.text}`} />
             <span className={`text-sm ${THEME.status.warning.text}`}>
-              Results are limited to 10 items with Auto-fetch disabled. There may be more results available.
+              Results are limited to 10 items with Auto-fetch disabled.{hasActualCount ? ` Query found ${actualResultCount.toLocaleString()} total results.` : ' There may be more results available.'}
             </span>
           </div>
           <button
@@ -174,38 +178,30 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
         {/* Pagination */}
         {allRows.length > pageSize && (
           <div className="flex items-center justify-between pt-2">
-            <button
-              className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={page===1}
-              onClick={() => setPage(p=>Math.max(1,p-1))}
-            >Prev</button>
-            <span className={`text-xs ${THEME.text.secondary}`}>Page {page} / {totalPages}</span>
-            <button
-              className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={page===totalPages}
-              onClick={() => setPage(p=>Math.min(totalPages,p+1))}
-            >Next</button>
+            <div className={`text-xs ${THEME.text.secondary}`}>
+              {(() => {
+                const start = (page - 1) * pageSize + 1;
+                const end = Math.min(page * pageSize, allRows.length);
+                const totalDisplay = hasActualCount ? actualResultCount.toLocaleString() : allRows.length.toLocaleString();
+                return `Showing ${start.toLocaleString()} to ${end.toLocaleString()} out of ${totalDisplay}`;
+              })()}
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={page===1}
+                onClick={() => setPage(p=>Math.max(1,p-1))}
+              >Prev</button>
+              <span className={`text-xs ${THEME.text.secondary}`}>Page {page} / {totalPages}</span>
+              <button
+                className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={page===totalPages}
+                onClick={() => setPage(p=>Math.min(totalPages,p+1))}
+              >Next</button>
+            </div>
           </div>
         )}
       </div>
-
-      {/* Cutoff warning at bottom when autofetch is disabled */}
-      {isResultsCutoff && (
-        <div className={`p-3 rounded border ${THEME.status.warning.background} ${THEME.status.warning.border} flex items-center justify-between gap-3`}>
-          <div className="flex items-center gap-2">
-            <Icon name="alertTriangle" className={`w-4 h-4 ${THEME.status.warning.text}`} />
-            <span className={`text-sm ${THEME.status.warning.text}`}>
-              Results are limited to 10 items with Auto-fetch disabled. There may be more results available.
-            </span>
-          </div>
-          <button
-            onClick={() => setManualFetchEnabled(true)}
-            className={`px-3 py-1.5 text-sm rounded font-medium transition-colors ${THEME.buttons.primary}`}
-          >
-            Fetch All Results
-          </button>
-        </div>
-      )}
     </div>
   );
 
@@ -229,7 +225,7 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
       <div className={`flex justify-between items-center p-3 border-b ${THEME.borders.default} rounded-t-lg ${THEME.containers.header}`}>
         <h4 className={`font-medium text-sm m-0 flex items-center gap-2 ${THEME.text.primary}`}>
           <Icon name={showMap ? "map" : "list"} className="w-4 h-4" />
-          Query Results ({!autoFetch && !manualFetchEnabled && results.length >= 10 ? "showing ": ""}{allRows.length} row{allRows.length !== 1 ? 's' : ''})
+          Query Results ({hasActualCount ? `${actualResultCount.toLocaleString()} total, showing ${allRows.length.toLocaleString()}` : `${allRows.length.toLocaleString()} row${allRows.length !== 1 ? 's' : ''}`})
           {showMap && <span className={`text-xs px-2 py-1 rounded ${THEME.status.info.background} ${THEME.status.info.text}`}>with map</span>}
         </h4>
         <button 

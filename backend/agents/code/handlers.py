@@ -80,7 +80,7 @@ def load_library_symbols() -> str:
 
 def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str]:
     """
-    Validate that the generated code only uses approved PyLiPD/Pyleoclim functions.
+    Validate that the generated code only uses approved PyLiPD/Pyleoclim/Ammonyte functions.
     
     Returns a list of validation errors (empty if valid).
     """
@@ -108,14 +108,14 @@ def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str
     # like load_dataset() which actually exists in pyleoclim.utils.datasets.load_dataset()
     # Now we rely only on the actual function signatures from all_symbols.txt
     
-    # Check for pylipd/pyleoclim method calls that aren't in approved list
-    pylipd_pattern = r'(pylipd|pyleoclim)\.[\w\.]+\.(\w+)\s*\('
+    # Check for pylipd/pyleoclim/ammonyte method calls that aren't in approved list
+    pylipd_pattern = r'(pylipd|pyleoclim|ammonyte)\.[\w\.]+\.(\w+)\s*\('
     matches = re.finditer(pylipd_pattern, code)
     for match in matches:
         method_name = match.group(2)
         full_match = match.group(0)
         if method_name not in approved_functions:
-            errors.append(f"Unapproved PyLiPD/Pyleoclim function: '{full_match}' - not found in approved signatures")
+            errors.append(f"Unapproved PyLiPD/Pyleoclim/Ammonyte function: '{full_match}' - not found in approved signatures")
     
     # Check for object method calls (e.g., lipd_obj.method())
     obj_pattern = r'(\w+)\.(\w+)\s*\('
@@ -605,6 +605,15 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
         
         issues_text = "\n\n".join(issues_detected)
         
+        # Load library function signatures for refinement context
+        library_symbols = load_library_symbols()
+        symbols_count = len(library_symbols.splitlines()) if library_symbols else 0
+        logger.info(f"Loaded {symbols_count} library function signatures for code refinement")
+        
+        # Get comprehensive variable context for refinement
+        variable_context = _create_comprehensive_variable_context(state.conversation_id)
+        logger.info(f"Generated variable context length for refinement: {len(variable_context)} characters")
+        
         # Create refinement prompt
         refinement_prompt = f"""
 The following Python code was generated but has issues that need to be addressed:
@@ -619,25 +628,58 @@ GENERATED CODE:
 ISSUES DETECTED:
 {issues_text}
 
+{variable_context}
+
 Please provide an improved version of the code that:
 1. Addresses all the identified issues
 2. Uses only valid PyLiPD/Pyleoclim functions from the approved signatures
 3. Maintains the original functionality
 4. Follows best practices for paleoclimate data analysis
 5. Uses appropriate libraries (PyLiPD, Pyleoclim, pandas, numpy)
-6. **CRITICAL**: Contains ONLY executable Python code with proper # comment syntax
-7. **CRITICAL**: All explanatory text must be Python comments starting with # character
-8. **CRITICAL**: No markdown, prose, or unescaped text that would cause syntax errors
+6. Uses existing variables from the current variable state when applicable
+7. References variables by their exact names as shown in the variable state
+8. **CRITICAL**: Contains ONLY executable Python code with proper # comment syntax
+9. **CRITICAL**: All explanatory text must be Python comments starting with # character
+10. **CRITICAL**: No markdown, prose, or unescaped text that would cause syntax errors
 
 Return your response as JSON with keys: code, description, improvements_made.
 """
         
+        # Build system message with library constraints (same as generate_code_node)
+        system_content = ("You are an expert Python developer specializing in paleoclimate data analysis. "
+                         "You must only use valid PyLiPD/Pyleoclim functions that exist in the approved signatures. "
+                         "CRITICAL REQUIREMENT: The 'code' field must contain ONLY executable Python code. "
+                         "ALL explanatory text must use proper Python comment syntax starting with # character. "
+                         "Never include markdown, prose, or unescaped text that would cause Python syntax errors.")
+        
+        if library_symbols:
+            system_content += (f"""
+                **CRITICAL CONSTRAINT - READ CAREFULLY**
+                ### Approved pylipd / pyleoclim / ammonyte signatures
+                The file `backend/all_symbols.txt` is already loaded into context.  
+                Format:
+                • First line:  "p:" legend – symbol-kind prefixes (`c=class`, `f=function`).  
+                • Second line: "t:" legend – 1-letter type codes (`S=str`, …, `C:custom`, `X=unknown`).  
+                • A class line begins with `c:` followed by its fully-qualified name and constructor sig.  
+                • All indented lines beneath that class are its public methods, written as
+                    <2 spaces><methodName>(param:type,…)->ReturnTypeCode
+                • A free function line begins with `f:`.  
+                • `N` means the call returns `None`.  
+                • `O` / `X` mean "any / unknown".
+                Generate code **only** with symbols that appear in this list, 
+                respecting parameter order and type hints.\n
+                {library_symbols}\n"""
+                "**COMMON PATTERNS FOR DATA ACCESS**:\n"
+                "- pyleo.utils.load_dataset(name) ✅ (loads built-in Pyleoclim datasets)\n"
+                "- lipd_obj.get(dsnames) ✅ (gets dataset(s) from graph)\n"
+                "- lipd_obj.get_datasets() ✅ (returns list of Dataset objects)\n"
+                "- lipd_obj.get_lipd(dsname) ✅ (gets LiPD json for dataset)\n\n"
+                "If you need functionality that is not in the approved signatures, use alternative approaches "
+                "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names."
+            )
+        
         messages = [
-            SystemMessage(content="You are an expert Python developer specializing in paleoclimate data analysis. "
-                                "You must only use valid PyLiPD/Pyleoclim functions that exist in the approved signatures. "
-                                "CRITICAL REQUIREMENT: The 'code' field must contain ONLY executable Python code. "
-                                "ALL explanatory text must use proper Python comment syntax starting with # character. "
-                                "Never include markdown, prose, or unescaped text that would cause Python syntax errors."),
+            SystemMessage(content=system_content),
             HumanMessage(content=refinement_prompt)
         ]
         
@@ -883,58 +925,14 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 "conversation_id": state.conversation_id  # Preserve conversation_id
             }
         
-        # Format comprehensive context for LLM
-        context_prompt = ""
-        if contextual_data:
-            # Add conversation history if available
-            context = state.context or {}
-            if context.get("conversation_history"):
-                contextual_data["conversation_history"] = context["conversation_history"]
-            
-            context_prompt = search_service.format_code_context_for_llm(contextual_data)
-        
-        # Add previous context if available (replaces refinement-specific logic)
+        # Get context for conversation history
         context = state.context or {}
-        previous_variable_info = ""
+        logger.info(f"Context keys: {list(context.keys())}")
         
-        # Check for previous context either from database (has_previous_context) or frontend (previous_result_variable/variables)
-        has_database_context = context.get("has_previous_context")
-        has_frontend_context = context.get("previous_result_variable") or context.get("previous_result_variables")
-        
-        if has_database_context or has_frontend_context:
-            logger.info("=== ADDING PREVIOUS CONTEXT TO CODE GENERATION ===")
-            
-            # Add previous context to contextual_data for proper formatting (only if from database)
-            if has_database_context:
-                contextual_data["refinement_context"] = {
-                    "is_refinement": True,
-                    "previous_query": context.get("previous_query"),
-                    "previous_results": context.get("previous_results"),
-                    "refinement_request": analysis_request,
-                    "previous_agent_type": context.get("previous_agent_type")
-                }
-                logger.info(f"Previous query/code length: {len(context.get('previous_query', ''))}")
-                logger.info(f"Previous results count: {len(context.get('previous_results', []))}")
-            
-            # Add information about available variables (handle both single and multiple)
-            previous_result_variables = context.get("previous_result_variables")
-            previous_result_variable = context.get("previous_result_variable")
-            
-            if previous_result_variables and len(previous_result_variables) > 1:
-                var_list = "', '".join(previous_result_variables)
-                previous_variable_info = f"\n\n**IMPORTANT**: A previous {context.get('previous_agent_type', 'agent')} agent has created {len(previous_result_variables)} variables named '{var_list}' containing the execution results. You can use these variables directly in your code instead of creating new variables."
-                logger.info(f"Multiple previous result variables available: {previous_result_variables}")
-            elif previous_result_variable:
-                previous_variable_info = f"\n\n**IMPORTANT**: A previous {context.get('previous_agent_type', 'agent')} agent has created a variable named '{previous_result_variable}' containing the query results. You can use this variable directly in your code instead of creating new variables."
-                logger.info(f"Single previous result variable available: {previous_result_variable}")
-            elif previous_result_variables and len(previous_result_variables) == 1:
-                previous_variable_info = f"\n\n**IMPORTANT**: A previous {context.get('previous_agent_type', 'agent')} agent has created a variable named '{previous_result_variables[0]}' containing the query results. You can use this variable directly in your code instead of creating new variables."
-                logger.info(f"Single previous result variable available: {previous_result_variables[0]}")
-            
-            # Update the context prompt to include previous context
-            context_prompt = search_service.format_code_context_for_llm(contextual_data)
-            
-            logger.info(f"Previous agent type: {context.get('previous_agent_type')}")
+        # Add conversation history to contextual data if available
+        if context.get("conversation_history"):
+            contextual_data["conversation_history"] = context["conversation_history"]
+            logger.info(f"Added conversation history with {len(context['conversation_history'])} messages")
         
         # Build examples section for prompt
         examples_section = ""
@@ -960,7 +958,9 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         variable_context = _create_comprehensive_variable_context(state.conversation_id)
         logger.info(f"Generated variable context length: {len(variable_context)} characters")
         
-        # The previous context is now handled through the unified refinement_context 
+        # Format comprehensive context (includes conversation history if available)
+        context_prompt = search_service.format_code_context_for_llm(contextual_data)
+        logger.info(f"Context prompt: {context_prompt}")
         
         user_prompt = (
             f"ANALYSIS REQUEST: {analysis_request}{clarification_text}\n\n"
@@ -969,8 +969,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             f"OUTPUT FORMAT: {output_format}\n\n"
             f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
             f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
-            f"{variable_context}\n\n"
-            f"{previous_variable_info}\n\n"
+            # f"{variable_context}\n\n"
             "INSTRUCTIONS:\n"
             "1. Use existing variables from the current variable state when applicable\n"
             "2. Reference variables by their exact names as shown in the variable state\n"
@@ -1018,7 +1017,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         if library_symbols:
             system_content += (f"""
                 **CRITICAL CONSTRAINT - READ CAREFULLY**
-                ### Approved pylipd / pyleoclim signatures
+                ### Approved pylipd / pyleoclim / ammonyte signatures
                 The file `backend/all_symbols.txt` is already loaded into context.  
                 Format:
                 • First line:  “p:” legend – symbol-kind prefixes (`c=class`, `f=function`).  
@@ -1038,7 +1037,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 "- lipd_obj.get_datasets() ✅ (returns list of Dataset objects)\n"
                 "- lipd_obj.get_lipd(dsname) ✅ (gets LiPD json for dataset)\n\n"
                 "If you need functionality that is not in the approved signatures, use alternative approaches "
-                "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim function names."
+                "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names."
             )
         
         # logger.info(f"User prompt: {user_prompt}")
@@ -1342,7 +1341,8 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
         execution_result = python_execution_service.execute_code(
             code=final_code,
             conversation_id=conversation_id,
-            timeout=300
+            timeout=300,
+            message_id=getattr(state, 'current_message_id', None)
         )
         
         logger.info(f"Execution completed. Success: {execution_result.success}")

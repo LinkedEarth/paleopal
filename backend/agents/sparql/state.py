@@ -19,6 +19,15 @@ class SparqlAgentState(BaseAgentState):
     # - similar_code serves as similar_queries
     pass
 
+    execution_successful: bool = Field(
+        default=False,
+        description="Whether the last execution was successful"
+    )
+    current_message_id: Optional[str] = Field(
+        default=None,
+        description="Current message ID for variable origin tracking"
+    )
+
     class Config:
         """Pydantic configuration."""
         arbitrary_types_allowed = True

@@ -73,6 +73,10 @@ class CodeAgentState(BaseAgentState):
         default=False,
         description="Whether the last code execution was successful"
     )
+    current_message_id: Optional[str] = Field(
+        default=None,
+        description="Current message ID for variable origin tracking"
+    )
 
     class Config:
         """Pydantic configuration."""

@@ -514,18 +514,6 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         # Add conversation history if available
         if context.get("conversation_history"):
             contextual_data["conversation_history"] = context["conversation_history"]
-        if context.get("has_previous_context"):
-            logger.info("=== ADDING PREVIOUS CONTEXT TO QUERY GENERATION ===")
-            contextual_data["refinement_context"] = {
-                "is_refinement": True,
-                "previous_query": context.get("previous_query"),
-                "previous_results": context.get("previous_results"),
-                "refinement_request": user_input,
-                "previous_agent_type": context.get("previous_agent_type")
-            }
-            logger.info(f"Previous query length: {len(context.get('previous_query', ''))}")
-            logger.info(f"Previous results count: {len(context.get('previous_results', []))}")
-            logger.info(f"Previous agent type: {context.get('previous_agent_type')}")
         
         logger.info(f"user_input: '{user_input}'")
         logger.info(f"similar_queries count: {len(similar_queries)}")
@@ -538,7 +526,7 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
         
         # Format comprehensive context for LLM using the unified search service
         context_prompt = ""
-        if similar_queries or entity_matches or contextual_data.get("refinement_context"):
+        if similar_queries or entity_matches or contextual_data.get("conversation_history"):
             context_prompt = search_service.format_sparql_context_for_llm(contextual_data)
             logger.info(f"Formatted context prompt length: {len(context_prompt)}")
         else:
@@ -733,7 +721,8 @@ print({variable_name}.head())
             execution_result = python_execution_service.execute_code(
                 code=python_code,
                 conversation_id=state.conversation_id,
-                timeout=30
+                timeout=30,
+                message_id=getattr(state, 'current_message_id', None)
             )
             
             if execution_result.success:
@@ -955,12 +944,6 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
         logger.info(f"Retrieved enable_clarification: {enable_clarification}")
         if not enable_clarification:
             logger.info("Clarification detection disabled in config")
-            return {"needs_clarification": False}
-        
-        # Skip clarification for refinement requests
-        context = state.context or {}
-        if context.get("has_previous_context"):
-            logger.info("Skipping clarification detection for refinement request")
             return {"needs_clarification": False}
         
         # Skip clarification if it has already been processed

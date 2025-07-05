@@ -139,6 +139,7 @@ const AgentResultsDisplay = ({
             hideHeader={true}
             sparqlQuery={message.generatedSparql}
             autoFetch={autoFetch}
+            message={message}
           />
         </div>
       )}      

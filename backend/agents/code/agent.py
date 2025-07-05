@@ -131,8 +131,8 @@ def create_agent():
             }
         )
         
-        # After refinement, go back to generation
-        workflow.add_edge("refine_code", "generate_code")
+        # After refinement, go directly to execution to test the refined code
+        workflow.add_edge("refine_code", "execute_code")
         
         # Add finalize node that returns the final state
         workflow.add_node("finalize", finalize_code_response_node)

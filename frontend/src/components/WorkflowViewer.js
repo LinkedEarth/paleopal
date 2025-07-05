@@ -844,6 +844,19 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
 
     if (!confirmed) return;
 
+    // Immediately show "running" feedback before slow backend operations
+    setFailedSteps(prev => {
+      const newSet = new Set([...prev]);
+      newSet.delete(step.id);
+      return newSet;
+    });
+    setStartedSteps(prev => new Set([...prev, step.id]));
+    setExecutedSteps(prev => {
+      const newSet = new Set([...prev]);
+      newSet.delete(step.id);
+      return newSet;
+    });
+
     try {
       // Find the step marker message and its response
       const subsequentMessages = allMessages.slice(messageIndex + 1);
@@ -856,6 +869,13 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
 
       if (!stepMessage) {
         alert(`Cannot find the failed step message to delete. Please retry manually.`);
+        // Revert UI state on error
+        setFailedSteps(prev => new Set([...prev, step.id]));
+        setStartedSteps(prev => {
+          const newSet = new Set([...prev]);
+          newSet.delete(step.id);
+          return newSet;
+        });
         return;
       }
 
@@ -910,26 +930,6 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
         console.log(`Updated UI to remove ${allMessages.length - fullStepMessageIndex} messages from index ${fullStepMessageIndex}`);
       }
       
-      // Optimistically update step status in local state so the UI reflects changes immediately
-      setFailedSteps(prev => {
-        if (!prev.has(step.id)) return prev;
-        const newSet = new Set([...prev]);
-        newSet.delete(step.id);
-        return newSet;
-      });
-      setStartedSteps(prev => {
-        if (prev.has(step.id)) return prev;
-        const newSet = new Set([...prev, step.id]);
-        return newSet;
-      });
-      setExecutedSteps(prev => {
-        // Remove from executed in case it was incorrectly marked
-        if (!prev.has(step.id)) return prev;
-        const newSet = new Set([...prev]);
-        newSet.delete(step.id);
-        return newSet;
-      });
-      
       // Wait a moment for the state update to propagate
       await new Promise(resolve => setTimeout(resolve, 300));
       
@@ -964,6 +964,13 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
 
     } catch (error) {
       console.error(`Failed to retry step ${stepNumber}:`, error);
+      // Revert UI state on error
+      setFailedSteps(prev => new Set([...prev, step.id]));
+      setStartedSteps(prev => {
+        const newSet = new Set([...prev]);
+        newSet.delete(step.id);
+        return newSet;
+      });
       alert(`Failed to retry step: ${error.message}`);
     }
   };

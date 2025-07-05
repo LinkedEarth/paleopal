@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 from typing import Any, get_origin, get_args
 
-PACKAGES = ["pyleoclim", "pylipd"]
+PACKAGES = ["pyleoclim", "pylipd", "ammonyte"]
 
 # ---------------------------------------------------------------------------
 # Compact representation helpers

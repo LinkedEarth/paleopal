@@ -1084,3 +1084,66 @@ f:pylipd.utils.create_classes.get_python_snippet_for_multi_value_property(clsid:
 f:pylipd.utils.create_classes.get_python_snippet_for_property(clsid:O,pid:O,propid:O,pname:O,ptype:O,ont_range:O,python_range:O,getter:O,setter:O,is_enum:O)
 f:pylipd.utils.create_classes.get_todata_item(type:O,range:O)
 f:pylipd.utils.create_classes.get_tojson_item(type:O)
+f:ammonyte.utils.sampling.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
+f:ammonyte.utils.range_finder.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
+f:ammonyte.utils.plotting.bootstrap_fill_plot(series:O,ax:O,line_color:O,fill_color:O,transition_interval:O,plot_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
+f:ammonyte.utils.plotting.bootstrap_scatter_plot(series:O,ax:O,marker_color:O,transition_interval:O,scatter_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
+f:ammonyte.utils.plotting.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
+f:ammonyte.utils.plotting.get_labels(obj:C:TimeEmbeddedSeries)
+f:ammonyte.utils.rm.rm(series:C:Series,eps:I,m:I,delay:I)
+f:ammonyte.utils.parameters.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
+f:ammonyte.utils.parameters.rm(series:C:Series,eps:I,m:I,delay:I)
+f:ammonyte.utils.parameters.tau_search(series:X,num_lags:I,return_MI:B)->X
+f:ammonyte.utils.fisher.SOST(eig_data:O,s_for_sd:O)
+f:ammonyte.utils.fisher.fisher_information(eig_data:O,w_size:O,w_incre:O)
+f:ammonyte.utils.fisher.smooth_series(series:C:Series,block_size:I)
+f:ammonyte.utils.bootstrap_fill_plot(series:O,ax:O,line_color:O,fill_color:O,transition_interval:O,plot_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
+f:ammonyte.utils.bootstrap_scatter_plot(series:O,ax:O,marker_color:O,transition_interval:O,scatter_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
+f:ammonyte.utils.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
+f:ammonyte.utils.fisher_information(eig_data:O,w_size:O,w_incre:O)
+f:ammonyte.utils.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
+f:ammonyte.utils.rm(series:C:Series,eps:I,m:I,delay:I)
+f:ammonyte.utils.smooth_series(series:C:Series,block_size:I)
+f:ammonyte.utils.tau_search(series:X,num_lags:I,return_MI:B)->X
+c:ammonyte.core.rqa_res.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
+  confidence_fill_plot(self,ax:X,line_color:S,fill_color:S,fill_alpha:F,transition_interval:L[O],xlabel:S,ylabel:S,marker:S,markersize:F,linestyle:S,linewidth:F,alpha:F,label:S,title:S,zorder:I,plot_kwargs:D,ci_kwargs:D,background_series:C:Series,background_kwargs:D,legend:X,lgd_kwargs:D)->X
+  confidence_smooth_plot(self,block_size:I,figsize:O,ax:X,transition_interval:L[O],color:S,label:S,xlabel:S,ylabel:S,title:S,ci_kwargs:O,background_series:C:Series,background_kwargs:D,hline_kwargs:D,ci_plot_kwargs:D,legend:X,lgd_kwargs:D)->X
+  plot_eigenmaps(self,groups:L[O],axes:L[O],figsize:L[O],cmap:S,cmap_kwargs:D,ax:X,title:O)->X
+  plot_eigenmaps_FI(self,groups:L[O],axes:L[O],block_smooth:X,cmap:S,cmap_kwargs:D,figsize:L[O],ax:X,FI_axis_lims:L[O],scale:O,title:O)->X
+  smooth(self,block_size:I)->X
+f:ammonyte.core.rqa_res.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
+f:ammonyte.core.rqa_res.smooth_series(series:C:Series,block_size:I)
+c:ammonyte.core.recurrence_matrix.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
+c:ammonyte.core.recurrence_matrix.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+  laplacian_eigenmaps(self,w_size:I,w_incre:I)->X
+  plot(self,figsize:T,xlabel:S,ylabel:S,title:S,imshow_kwargs:D)
+f:ammonyte.core.recurrence_matrix.fisher_information(eig_data:O,w_size:O,w_incre:O)
+f:ammonyte.core.recurrence_matrix.get_labels(obj:C:TimeEmbeddedSeries)
+c:ammonyte.core.recurrence_network.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.recurrence_network.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.time_embedded_series.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.time_embedded_series.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.time_embedded_series.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+  create_recurrence_matrix(self,epsilon:F)->X
+  create_recurrence_network(self,epsilon:F)->X
+  find_epsilon(self,eps:F,target_density:F,tolerance:F,initial_density:F,parallelize:X,num_processes:I,amp:I,verbose:X)->X
+f:ammonyte.core.time_embedded_series.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
+f:ammonyte.core.time_embedded_series.tau_search(series:X,num_lags:I,return_MI:B)->X
+c:ammonyte.core.series.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
+c:ammonyte.core.series.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.series.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
+  determinism(self,window_size:I,overlap:I,m:I,tau:I,eps:F)->X
+  embed(self,m:O,tau:O)
+  laminarity(self,window_size:I,overlap:I,m:I,tau:I,eps:F)->X
+c:ammonyte.core.series.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+f:ammonyte.core.series.tau_search(series:X,num_lags:I,return_MI:B)->X
+c:ammonyte.core.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
+c:ammonyte.core.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.core.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
+c:ammonyte.core.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
+c:ammonyte.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+c:ammonyte.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
+c:ammonyte.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)

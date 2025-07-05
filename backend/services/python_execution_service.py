@@ -107,7 +107,7 @@ class PythonExecutionService:
     ALLOWED_MODULES = {
         'numpy', 'np', 'pandas', 'pd', 'matplotlib', 'plt', 'seaborn', 'sns',
         'pylipd', 'pyleoclim', 'pyleo', 'datetime', 'os', 'sys', 'json', 'ast',
-        'math', 'statistics', 'collections', 're', 'itertools', 'functools',
+        'ammonyte', 'math', 'statistics', 'collections', 're', 'itertools', 'functools',
         'pathlib', 'warnings', 'SPARQLWrapper', 'JSON'
     }
     
@@ -145,9 +145,13 @@ class PythonExecutionService:
         self._load_all_states()
         
     def _init_state_db(self):
-        """Initialize the execution states database."""
+        """Initialize the execution state database."""
         try:
             with sqlite3.connect(_STATE_DB_PATH) as conn:
+                # Check if variable_origins column exists, add it if not
+                cursor = conn.execute("PRAGMA table_info(execution_states)")
+                columns = [row[1] for row in cursor.fetchall()]
+                
                 conn.execute("""
                     CREATE TABLE IF NOT EXISTS execution_states (
                         conversation_id TEXT PRIMARY KEY,
@@ -155,15 +159,18 @@ class PythonExecutionService:
                         created_at TEXT NOT NULL,
                         updated_at TEXT NOT NULL,
                         variable_count INTEGER DEFAULT 0,
-                        state_size INTEGER DEFAULT 0
+                        state_size INTEGER DEFAULT 0,
+                        variable_origins TEXT DEFAULT NULL
                     )
                 """)
                 
-                # Create index for performance
-                conn.execute("CREATE INDEX IF NOT EXISTS idx_states_updated_at ON execution_states(updated_at)")
+                # Add variable_origins column if it doesn't exist (migration)
+                if 'variable_origins' not in columns:
+                    logger.info("Adding variable_origins column to execution_states table")
+                    conn.execute("ALTER TABLE execution_states ADD COLUMN variable_origins TEXT DEFAULT NULL")
                 
                 conn.commit()
-                logger.info("Execution states database initialized successfully")
+                logger.debug("Execution states database initialized")
         except Exception as e:
             logger.error(f"Error initializing execution states database: {e}")
             raise
@@ -583,7 +590,8 @@ class PythonExecutionService:
         self, 
         code: str, 
         conversation_id: str,
-        timeout: Optional[int] = None
+        timeout: Optional[int] = None,
+        message_id: Optional[str] = None
     ) -> ExecutionResult:
         """
         Execute Python code in a conversation context.
@@ -592,12 +600,17 @@ class PythonExecutionService:
             code: Python code to execute
             conversation_id: Conversation ID for state management
             timeout: Execution timeout in seconds
+            message_id: Message ID for variable origin tracking
             
         Returns:
             ExecutionResult with output, errors, and updated variables
         """
         start_time = time.time()
         timeout = timeout or self.execution_timeout
+        
+        # Set message context for variable origin tracking
+        if message_id:
+            self._current_message_id = message_id
         
         # Configure matplotlib BEFORE any code execution to prevent GUI issues
         try:
@@ -675,6 +688,10 @@ class PythonExecutionService:
                 error=f"Execution failed: {str(e)}",
                 execution_time=time.time() - start_time
             )
+        finally:
+            # Clear message context
+            if hasattr(self, '_current_message_id'):
+                delattr(self, '_current_message_id')
     
     def _is_code_safe(self, code: str) -> bool:
         """Check if code is safe to execute."""
@@ -760,19 +777,30 @@ class PythonExecutionService:
         # Merge locals into globals for the conversation state
         current_state = self.conversation_states[conversation_id]
         
+        # Track new variables for origin tracking
+        new_variables = {}
+        
         # Update with new variables from locals (user-defined variables)
         for name, value in locals_dict.items():
             if not name.startswith('_'):  # Skip private variables
+                if name not in current_state:  # This is a new variable
+                    new_variables[name] = value
                 current_state[name] = value
         
         # Update with modified globals (including non-picklable objects)
         for name, value in globals_dict.items():
             # Include ALL user variables, not just those already in state
             if not name.startswith('_') and name not in self.SAFE_BUILTINS:
+                if name not in current_state:  # This is a new variable
+                    new_variables[name] = value
                 current_state[name] = value
         
         # Persist the updated state to database
         self._save_state(conversation_id, current_state)
+        
+        # Update variable origins for new variables if we have a current message context
+        if new_variables and hasattr(self, '_current_message_id'):
+            self._update_variable_origins(conversation_id, self._current_message_id, new_variables)
     
     def _extract_user_variables(
         self, 
@@ -879,7 +907,8 @@ class PythonExecutionService:
                         self.execute_code(
                             code=message.generated_code,
                             conversation_id=conversation_id,
-                            timeout=30
+                            timeout=30,
+                            message_id=message.id  # Pass message ID for origin tracking
                         )
                     except Exception as e:
                         logger.warning(f"Failed to re-execute code from message {message.id}: {e}")
@@ -889,6 +918,101 @@ class PythonExecutionService:
         except Exception as e:
             logger.error(f"Error rebuilding execution state for {conversation_id}: {e}")
             self.reset_conversation_state(conversation_id)
+
+    def smart_rebuild_conversation_state(self, conversation_id: str, deleted_messages: List[Any], remaining_messages: List[Any]):
+        """Smart rebuild that only removes variables from deleted messages and preserves the rest."""
+        try:
+            current_state = self.get_conversation_state(conversation_id)
+            
+            # Get variable origins from current state metadata (if we have it)
+            variable_origins = self._get_variable_origins(conversation_id)
+            
+            # Find variables that were created by deleted messages
+            variables_to_remove = set()
+            deleted_message_ids = {msg.id for msg in deleted_messages}
+            
+            for var_name, origin_message_id in variable_origins.items():
+                if origin_message_id in deleted_message_ids:
+                    variables_to_remove.add(var_name)
+            
+            # If we don't have origin tracking, fall back to analyzing execution results
+            if not variable_origins and deleted_messages:
+                for deleted_msg in deleted_messages:
+                    if hasattr(deleted_msg, 'execution_results') and deleted_msg.execution_results:
+                        for result in deleted_msg.execution_results:
+                            if hasattr(result, 'variable_summary') and result.variable_summary:
+                                variables_to_remove.update(result.variable_summary.keys())
+                            elif isinstance(result, dict) and result.get('variable_summary'):
+                                variables_to_remove.update(result['variable_summary'].keys())
+            
+            # Remove only the affected variables
+            if variables_to_remove:
+                logger.info(f"Smart rebuild: removing {len(variables_to_remove)} variables: {list(variables_to_remove)}")
+                for var_name in variables_to_remove:
+                    if var_name in current_state:
+                        del current_state[var_name]
+                
+                # Update variable origins tracking
+                for var_name in variables_to_remove:
+                    if var_name in variable_origins:
+                        del variable_origins[var_name]
+                
+                self._save_variable_origins(conversation_id, variable_origins)
+                self._save_state(conversation_id, current_state)
+                
+                logger.info(f"Smart rebuild completed. Preserved {len(current_state)} variables, removed {len(variables_to_remove)}")
+            else:
+                logger.info("Smart rebuild: no variables to remove, state preserved as-is")
+                
+        except Exception as e:
+            logger.error(f"Smart rebuild failed for {conversation_id}: {e}. Falling back to full rebuild.")
+            # Fall back to full rebuild if smart rebuild fails
+            self.restore_conversation_state_from_messages(conversation_id, remaining_messages)
+
+    def _get_variable_origins(self, conversation_id: str) -> Dict[str, str]:
+        """Get mapping of variable names to the message IDs that created them."""
+        try:
+            with sqlite3.connect(_STATE_DB_PATH) as conn:
+                cursor = conn.execute(
+                    "SELECT variable_origins FROM execution_states WHERE conversation_id = ?",
+                    (conversation_id,)
+                )
+                row = cursor.fetchone()
+                if row and row[0]:
+                    import json
+                    return json.loads(row[0])
+        except Exception as e:
+            logger.debug(f"Could not load variable origins for {conversation_id}: {e}")
+        return {}
+    
+    def _save_variable_origins(self, conversation_id: str, origins: Dict[str, str]):
+        """Save mapping of variable names to message IDs that created them."""
+        try:
+            import json
+            origins_json = json.dumps(origins)
+            with sqlite3.connect(_STATE_DB_PATH) as conn:
+                conn.execute("""
+                    UPDATE execution_states 
+                    SET variable_origins = ? 
+                    WHERE conversation_id = ?
+                """, (origins_json, conversation_id))
+                conn.commit()
+        except Exception as e:
+            logger.debug(f"Could not save variable origins for {conversation_id}: {e}")
+
+    def _update_variable_origins(self, conversation_id: str, message_id: str, new_variables: Dict[str, Any]):
+        """Update variable origins tracking when new variables are created."""
+        try:
+            origins = self._get_variable_origins(conversation_id)
+            
+            # Add origins for new variables
+            for var_name in new_variables.keys():
+                if not var_name.startswith('_'):  # Skip private variables
+                    origins[var_name] = message_id
+            
+            self._save_variable_origins(conversation_id, origins)
+        except Exception as e:
+            logger.debug(f"Could not update variable origins for {conversation_id}: {e}")
     
     def get_state_statistics(self) -> Dict[str, Any]:
         """Get statistics about stored execution states."""

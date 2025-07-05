@@ -469,20 +469,25 @@ class MessageService:
                 deleted = cursor.rowcount > 0
                 if deleted:
                     logger.info(f"Deleted message {message_id} and its progress messages")
-                    
-                    # Remove variables introduced by the deleted message
-                    try:
-                        from services.python_execution_service import python_execution_service
-                        vars_to_remove = []
-                        for res in (message.execution_results or []):
-                            if getattr(res, 'variable_summary', None):
-                                vars_to_remove.extend(list(res.variable_summary.keys()))
-                            elif isinstance(res, dict) and res.get('variable_summary'):
-                                vars_to_remove.extend(list(res['variable_summary'].keys()))
-                        if vars_to_remove:
-                            python_execution_service.remove_variables(conversation_id, vars_to_remove)
-                    except Exception as e:
-                        logger.warning(f"Failed to trim variables for conversation {conversation_id}: {e}")
+
+                # Rebuild the execution state to accurately reflect remaining messages
+                try:
+                    from services.python_execution_service import python_execution_service
+                    # Get remaining messages (excluding progress messages)
+                    remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
+                    # Use smart rebuild to only remove variables from this specific message
+                    python_execution_service.smart_rebuild_conversation_state(
+                        conversation_id,
+                        [message],  # Only this message was deleted
+                        remaining_messages
+                    )
+                    logger.info(
+                        f"Smart rebuilt execution state for conversation {conversation_id} after deleting message {message_id}"
+                    )
+                except Exception as e:
+                    logger.warning(
+                        f"Failed to rebuild execution state for conversation {conversation_id} after deletion: {e}"
+                    )
                 
                 return deleted
     
@@ -527,22 +532,25 @@ class MessageService:
                 
                 if deleted_count > 0:
                     logger.info(f"Deleted {deleted_count} messages from sequence {from_sequence} in conversation {conversation_id}")
-                    
-                    # Remove variables introduced by the deleted messages
+
+                    # Rebuild the execution state to accurately reflect remaining messages
                     try:
                         from services.python_execution_service import python_execution_service
-                        vars_to_remove = []
-                        for msg in messages_to_delete:
-                            if msg.execution_results:
-                                for res in msg.execution_results:
-                                    if getattr(res, 'variable_summary', None):
-                                        vars_to_remove.extend(list(res.variable_summary.keys()))
-                                    elif isinstance(res, dict) and res.get('variable_summary'):
-                                        vars_to_remove.extend(list(res['variable_summary'].keys()))
-                        if vars_to_remove:
-                            python_execution_service.remove_variables(conversation_id, vars_to_remove)
+                        # Get remaining messages (excluding progress messages)
+                        remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
+                        # Use smart rebuild to only remove variables from deleted messages
+                        python_execution_service.smart_rebuild_conversation_state(
+                            conversation_id,
+                            messages_to_delete,  # All messages that were deleted
+                            remaining_messages
+                        )
+                        logger.info(
+                            f"Smart rebuilt execution state for conversation {conversation_id} after deleting {len(messages_to_delete)} messages from sequence {from_sequence}"
+                        )
                     except Exception as e:
-                        logger.warning(f"Failed to trim variables for conversation {conversation_id}: {e}")
+                        logger.warning(
+                            f"Failed to rebuild execution state for conversation {conversation_id} after deletion: {e}"
+                        )
                 
                 return deleted_count
     

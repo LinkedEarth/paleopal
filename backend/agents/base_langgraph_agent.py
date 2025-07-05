@@ -216,7 +216,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 
                 # Build conversation history for context
                 conversation_history = []
-                last_assistant_context = None
                 
                 # Filter and organize messages for history
                 relevant_messages = [
@@ -248,28 +247,13 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                             "role": "assistant", 
                             "agent_type": agent_type,
                             "content": msg.content,
+                            "generated_code": msg.generated_code,  # Always include the actual generated_code field
                             "generated_content": generated_content,
                             "has_results": bool(msg.execution_results),
                             "result_count": len(msg.execution_results) if msg.execution_results else 0,
                             "timestamp": msg.created_at.isoformat() if hasattr(msg.created_at, 'isoformat') else str(msg.created_at)
                         }
                         conversation_history.append(history_entry)
-                        
-                        # Keep track of the most recent assistant message for backward compatibility
-                        if generated_content and not last_assistant_context:
-                            last_assistant_context = {
-                                "previous_query": generated_content,
-                                "previous_results": (msg.execution_results or [])[:50],  # Limit for prompt size
-                                "previous_agent_type": agent_type,
-                                "has_previous_context": True
-                            }
-                            
-                            # Add result variable names if available
-                            if msg.result_variable_names:
-                                if len(msg.result_variable_names) == 1:
-                                    last_assistant_context["previous_result_variable"] = msg.result_variable_names[0]
-                                else:
-                                    last_assistant_context["previous_result_variables"] = msg.result_variable_names
                 
                 # Add conversation history and context to state
                 context = state_data.get("context", {})
@@ -278,13 +262,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 if conversation_history:
                     context["conversation_history"] = conversation_history
                     logger.info(f"✅ Added conversation history with {len(conversation_history)} messages")
-                
-                # Add last assistant context for backward compatibility with existing refinement logic
-                if last_assistant_context:
-                    context.update(last_assistant_context)
-                    logger.info(f"✅ Added previous context from {last_assistant_context['previous_agent_type']} agent")
-                    logger.info(f"   - Previous query length: {len(last_assistant_context['previous_query'])} chars")
-                    logger.info(f"   - Previous results count: {len(last_assistant_context['previous_results'])}")
                 
                 # Don't override context if it was provided by frontend (for result variables)
                 existing_context = state_data.get("context", {})
@@ -666,6 +643,20 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             # Create initial state and config
             initial_state = self._create_initial_state(request)
+            
+            # Set current message ID for variable origin tracking
+            if user_message_id:
+                if hasattr(initial_state, 'current_message_id'):
+                    initial_state.current_message_id = user_message_id
+                elif isinstance(initial_state, dict):
+                    initial_state['current_message_id'] = user_message_id
+                else:
+                    # For Pydantic models, try to set the attribute
+                    try:
+                        setattr(initial_state, 'current_message_id', user_message_id)
+                    except Exception as e:
+                        logger.debug(f"Could not set current_message_id on state: {e}")
+            
             config_obj = self._create_agent_config(request)
             # Expose owner_message_id to node functions via config
             if user_message_id:
