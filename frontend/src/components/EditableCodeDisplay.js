@@ -12,6 +12,7 @@ const EditableCodeDisplay = ({
   sparqlQuery,
   agentType = 'code', 
   messageId,
+  conversationId,
   isDarkMode = false,
   onExecutionComplete,
   onError,
@@ -19,7 +20,8 @@ const EditableCodeDisplay = ({
   onIndex,
   allMessages = [],
   hasCode = false,
-  hasSparql = false
+  hasSparql = false,
+  executionUpdates = {}
 }) => {
   const [editedCode, setEditedCode] = useState(code || '');
   const [editedSparql, setEditedSparql] = useState(sparqlQuery || '');
@@ -29,6 +31,7 @@ const EditableCodeDisplay = ({
   const [showSaveNotification, setShowSaveNotification] = useState(false);
   const [showIndexModal, setShowIndexModal] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [currentExecutionId, setCurrentExecutionId] = useState(null);
   
   const editorRef = useRef(null);
   const sparqlRegisteredRef = useRef(false);
@@ -67,6 +70,65 @@ const EditableCodeDisplay = ({
     }
     setOriginalContent(initialContent);
   }, [code, sparqlQuery, agentType]);
+
+  // Handle execution updates from WebSocket
+  useEffect(() => {
+    if (!currentExecutionId || !executionUpdates[currentExecutionId]) {
+      return;
+    }
+
+    const update = executionUpdates[currentExecutionId];
+    console.log(`📡 Processing execution update for ${currentExecutionId}:`, update);
+
+    switch (update.status) {
+      case 'pending':
+        // Execution is queued but not started yet
+        console.log(`⏳ Execution ${currentExecutionId} is pending`);
+        break;
+        
+      case 'running':
+        // Execution is actively running
+        console.log(`🏃 Execution ${currentExecutionId} is running`);
+        if (update.progress) {
+          console.log(`📈 Progress: ${update.progress}`);
+        }
+        break;
+        
+      case 'completed':
+        // Execution completed successfully
+        console.log(`✅ Execution ${currentExecutionId} completed successfully`);
+        // Pass the entire update to the parent so it can trigger a message refresh
+        onExecutionComplete?.(update);
+        setIsExecuting(false);
+        setCurrentExecutionId(null);
+        break;
+        
+      case 'failed':
+      case 'error':
+        // Execution failed
+        console.log(`❌ Execution ${currentExecutionId} failed:`, update.error);
+        onError?.(update.error || 'Execution failed');
+        setIsExecuting(false);
+        setCurrentExecutionId(null);
+        break;
+        
+      case 'cancelled':
+        // Execution was cancelled
+        console.log(`🛑 Execution ${currentExecutionId} was cancelled`);
+        // Show success message for cancellation instead of error
+        onExecutionComplete?.({ 
+          success: false, 
+          cancelled: true,
+          message: 'Execution cancelled successfully' 
+        });
+        setIsExecuting(false);
+        setCurrentExecutionId(null);
+        break;
+        
+      default:
+        console.warn(`⚠️ Unknown execution status: ${update.status}`);
+    }
+  }, [executionUpdates, currentExecutionId, onExecutionComplete, onError]);
 
   // Get editor language
   const getEditorLanguage = () => {
@@ -202,18 +264,22 @@ const EditableCodeDisplay = ({
   };
 
   const handleSave = async () => {
-    if (!onSave || !isDirty() || isOperationInProgress()) return;
-    
+    // Only proceed if content has changed and no other operation is running
+    if (!isDirty() || isOperationInProgress()) return;
+
     setIsSaving(true);
     try {
       const currentContent = getCurrentContent();
-      
-      const url = buildApiUrl(`/api/messages/${messageId}`);
+
+      // Use the dedicated save-edits endpoint introduced in the backend
+      const url = buildApiUrl(`/api/messages/${messageId}/save-edits`);
       const response = await apiRequest(url, {
-        method: 'PUT',
-        body: JSON.stringify({
-          ...(agentType === 'sparql' && sparqlQuery ? { sparql_query: currentContent } : { code: currentContent })
-        })
+        method: 'POST',
+        body: JSON.stringify(
+          agentType === 'sparql' && sparqlQuery
+            ? { generated_sparql: currentContent }
+            : { generated_code: currentContent }
+        )
       });
       
       if (response.success) {
@@ -240,13 +306,17 @@ const EditableCodeDisplay = ({
   const handleExecute = async () => {
     if (isOperationInProgress() || !messageId) return;
     
+    console.log(`🚀 Starting async execution for message ${messageId}`);
     setIsExecuting(true);
+    setCurrentExecutionId(null); // Clear any previous execution ID
+    
     try {
       const currentContent = getCurrentContent();
       
-      // Prepare request data based on agent type
+      // Prepare request data for async execution
       const requestData = {
-        clear_variables: false // Don't clear variables by default
+        clear_variables: false, // Don't clear variables by default
+        async_execution: true   // Request async execution
       };
       
       if (agentType === 'sparql' && sparqlQuery) {
@@ -255,22 +325,114 @@ const EditableCodeDisplay = ({
         requestData.generated_code = currentContent;
       }
       
+      console.log(`📤 Sending async execution request:`, requestData);
+      
       const url = buildApiUrl(`/api/messages/${messageId}/edit-and-execute`);
       const response = await apiRequest(url, {
         method: 'POST',
         body: JSON.stringify(requestData)
       });
       
-      if (response.success) {
+      console.log(`📥 Async execution response:`, response);
+      
+      if (response.success && response.async && response.execution_id) {
+        // Store the execution ID for cancellation and tracking
+        setCurrentExecutionId(response.execution_id);
+        console.log(`🆔 Async execution started with ID: ${response.execution_id}`);
+        
+        // The WebSocket will handle updates, so we keep isExecuting=true
+        // until we receive completion via WebSocket
+        
+      } else if (response.success && !response.async) {
+        // Fallback to synchronous execution completed immediately
+        console.log(`⏱️ Synchronous execution completed`);
         onExecutionComplete?.(response);
+        setIsExecuting(false);
+        setCurrentExecutionId(null);
+        
       } else {
-        onError?.('Execution failed');
+        onError?.('Execution failed to start');
+        setIsExecuting(false);
+        setCurrentExecutionId(null);
       }
+      
     } catch (error) {
-      console.error('Error executing code:', error);
-      onError?.(error.message || 'Failed to execute code');
-    } finally {
+      console.error('❌ Error starting execution:', error);
+      onError?.(error.message || 'Failed to start execution');
       setIsExecuting(false);
+      setCurrentExecutionId(null);
+    }
+  };
+
+  const handleCancelExecution = async () => {
+    console.log(`🛑 Cancel requested. ExecutionID: ${currentExecutionId}, ConversationID: ${conversationId}`);
+    
+    if (!currentExecutionId && !conversationId) {
+      console.log('❌ No execution ID or conversation ID available for cancellation');
+      return;
+    }
+    
+    try {
+      let cancelled = false;
+      
+      // Try to cancel by specific execution ID first if available
+      if (currentExecutionId) {
+        console.log(`🎯 Attempting to cancel specific execution: ${currentExecutionId}`);
+        const cancelUrl = buildApiUrl(`/api/agents/executions/${currentExecutionId}/cancel`);
+        const response = await apiRequest(cancelUrl, {
+          method: 'POST'
+        });
+        
+        console.log(`📋 Cancel response:`, response);
+        
+        // Check if cancellation was successful
+        if (response.cancelled) {
+          console.log(`✅ Successfully requested cancellation for execution ${currentExecutionId} via ${response.service || 'unknown'} service`);
+          cancelled = true;
+        } else {
+          console.log(`⚠️ Execution ${currentExecutionId} could not be cancelled (may have completed)`);
+        }
+      }
+      
+      // Use conversation-based cancellation as fallback if execution ID cancellation failed
+      if (!cancelled && conversationId) {
+        console.log(`🔄 Falling back to conversation-based cancellation for ${conversationId}`);
+        const cancelUrl = buildApiUrl(`/api/agents/executions/cancel-conversation/${conversationId}`);
+        const response = await apiRequest(cancelUrl, {
+          method: 'POST'
+        });
+        
+        console.log(`📋 Conversation cancel response:`, response);
+        
+        // Check if any executions were cancelled
+        if (response.total_cancelled > 0) {
+          console.log(`✅ Requested cancellation for ${response.total_cancelled} execution(s) in conversation ${conversationId}`);
+          cancelled = true;
+        }
+      }
+      
+      if (cancelled) {
+        onExecutionComplete?.({ 
+          success: false, 
+          cancelled: true,
+          message: 'Execution cancellation requested' 
+        });
+        // Don't reset execution state immediately - let WebSocket update handle it
+        // This prevents the UI from flickering if cancellation takes a moment
+      } else {
+        console.log('❌ No active executions found to cancel');
+        onError?.('No active execution found to cancel');
+        // Reset state if no executions were found
+        setIsExecuting(false);
+        setCurrentExecutionId(null);
+      }
+      
+    } catch (error) {
+      console.error('❌ Error cancelling execution:', error);
+      onError?.(error.message || 'Failed to cancel execution');
+      // Reset state on error
+      setIsExecuting(false);
+      setCurrentExecutionId(null);
     }
   };
 
@@ -361,14 +523,15 @@ const EditableCodeDisplay = ({
               <Icon name={isSaving ? "spinner" : "save"} className={`w-4 h-4 ${isDirty() ? 'text-white' : THEME.text.secondary} ${isSaving ? 'animate-spin' : ''}`} />
             </button>
             
-            {/* Execute button - icon only */}
+            {/* Execute/Cancel button - icon only */}
             <button 
-              className={`p-1.5 ${THEME.buttons.primary} rounded transition-colors duration-200 ${isExecuting ? 'opacity-75' : ''} ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={handleExecute}
-              disabled={isOperationInProgress()}
-              title="Execute code"
+              data-action="execute"
+              className={`p-1.5 ${isExecuting ? 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700' : THEME.buttons.primary} rounded transition-colors duration-200 ${isSaving && !isExecuting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={isExecuting ? handleCancelExecution : handleExecute}
+              disabled={isSaving && !isExecuting}
+              title={isExecuting ? "Cancel execution" : "Execute code"}
             >
-              <Icon name={isExecuting ? "spinner" : "play"} className={`w-4 h-4 text-white ${isExecuting ? 'animate-spin' : ''}`} />
+              <Icon name={isExecuting ? "stop" : "play"} className={`w-4 h-4 text-white`} />
             </button>
             
             {/* Index button */}

@@ -19,6 +19,28 @@ services:
       retries: 3
       start_period: 30s
 
+  # Isolated Python Execution Service
+  execution-service:
+    build:
+      context: ./backend/services/isolated_execution_service
+      dockerfile: Dockerfile
+    container_name: paleopal-execution-service
+    ports:
+      - "8201:8001"
+    volumes:
+      - execution-data:/app/data
+    mem_limit: 24g       # Set this to what your host can spare
+    environment:
+      - MEM_LIMIT_GB=24
+      - EXECUTION_TIMEOUT_MINUTES=30
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
   # Backend API
   backend:
     build:
@@ -30,13 +52,18 @@ services:
     volumes:
       - backend-data:/app/data
       - backend-libraries:/app/libraries
+      - execution-data:/app/execution_data:ro  # Read-only access to execution plots
       - ./backend/.env:/app/.env:ro
     environment:
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - EXECUTION_SERVICE_URL=http://execution-service:8001
+      - USE_ISOLATED_EXECUTION=true
+      - EXECUTION_TIMEOUT_MINUTES=30
     depends_on:
       - qdrant
+      - execution-service
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
@@ -76,6 +103,10 @@ volumes:
 
   # Persistent storage for document libraries
   backend-libraries:
+    driver: local
+
+  # Persistent storage for execution service data (state, plots)
+  execution-data:
     driver: local
 
 networks:

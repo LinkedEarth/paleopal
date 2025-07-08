@@ -12,7 +12,7 @@ const VariableStateDisplay = ({ variableState, isDarkMode = false }) => {
   const filteredVariables = Object.entries(variableState).filter(([name, info]) => {
     return info.type !== 'module' && 
            (!info.module || !info.module.includes('module')) &&
-           (!info.value || !info.value.includes('(module)'));
+           (!info.value || (typeof info.value !== 'string' || !info.value.includes('(module)')));
   });
 
   if (filteredVariables.length === 0) {

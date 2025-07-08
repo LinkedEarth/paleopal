@@ -257,5 +257,6 @@ class NotebookExportService:
             timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
             return f"paleopal_export_{timestamp}.ipynb"
 
-# Global service instance
+# Global service instance - lazy initialization to avoid multiprocessing issues
+# Global notebook export service instance
 notebook_export_service = NotebookExportService() 

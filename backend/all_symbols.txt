@@ -1,1149 +1,824 @@
-p:c=class,f=function
-t:S=str,I=int,F=float,B=bool,L=list,T=tuple,D=dict,N=None,O=object,C:custom,X=unknown
-c:pyleoclim.utils.lipdutils.CaseInsensitiveDict(self,args:O,kwargs:O)
-f:pyleoclim.utils.lipdutils.LipdToOntology(archiveType:X)->X
-f:pyleoclim.utils.lipdutils.checkTimeAxis(timeseries:D,x_axis:O)->X
-f:pyleoclim.utils.lipdutils.checkXaxis(timeseries:D,x_axis:X)->X
-f:pyleoclim.utils.lipdutils.enumerateLipds(lipds:D)
-f:pyleoclim.utils.lipdutils.enumerateTs(timeseries_list:L[O])
-f:pyleoclim.utils.lipdutils.gen_dict_extract(key:S,var:D)
-f:pyleoclim.utils.lipdutils.getEnsemble(csv_dict:D,csvName:S)->X
-f:pyleoclim.utils.lipdutils.getLipd(lipds:D)->X
-f:pyleoclim.utils.lipdutils.getMeasurement(csvName:X,lipd:D)->X
-f:pyleoclim.utils.lipdutils.get_archive_type()->X
-f:pyleoclim.utils.lipdutils.isEnsemble(csv_dict:D)->X
-f:pyleoclim.utils.lipdutils.isMeasurement(csv_dict:D)->X
-f:pyleoclim.utils.lipdutils.isModel(csvName:X,lipd:D)->X
-f:pyleoclim.utils.lipdutils.mapAgeEnsembleToPaleoData(ensembleValues:X,depthEnsemble:X,depthMapping:X,extrapolate:B)->X
-f:pyleoclim.utils.lipdutils.modelNumber(model:L[O])->X
-f:pyleoclim.utils.lipdutils.pre_process_list(list_str:L[O])->X
-f:pyleoclim.utils.lipdutils.pre_process_str(word:O)->X
-f:pyleoclim.utils.lipdutils.promptForVariable()->X
-f:pyleoclim.utils.lipdutils.searchVar(timeseries_list:L[O],key:L[O],exact:B,override:B)->X
-f:pyleoclim.utils.lipdutils.similar_string(list_str:L[O],search:S)->X
-f:pyleoclim.utils.lipdutils.timeUnitsCheck(units:X)->X
-f:pyleoclim.utils.lipdutils.whatArchives(print_response:B)->X
-f:pyleoclim.utils.lipdutils.whatInferredVariables(print_response:B)->X
-f:pyleoclim.utils.lipdutils.whatInterpretations(print_response:B)->X
-f:pyleoclim.utils.lipdutils.whatProxyObservations(print_response:B)->X
-f:pyleoclim.utils.lipdutils.whatProxySensors(print_response:B)->X
-f:pyleoclim.utils.lipdutils.whichEnsemble(ensembleTableList:O)->X
-f:pyleoclim.utils.lipdutils.whichMeasurement(measurementTableList:L[O])->X
-f:pyleoclim.utils.lipdutils.xAxisTs(timeseries:D)->X
-f:pyleoclim.utils.plotting.calculate_overlapping_sets(fig:O,ax:X,labels:L[O],x_locs:L[O],fontsize:I,buffer:F)->X
-f:pyleoclim.utils.plotting.closefig(fig:X)
-f:pyleoclim.utils.plotting.consolidate_legends(ax:O,split_btwn:O,hue:O,style:O,size:O,colorbar:O)
-f:pyleoclim.utils.plotting.get_label_width(ax:O,label:O,buffer:O,fontsize:O)
-f:pyleoclim.utils.plotting.hightlight_intervals(ax:X,intervals:L[O],labels:O,color:X,alpha:F,legend:O)->X
-f:pyleoclim.utils.plotting.infer_period_unit_from_time_unit(time_unit:O)
-f:pyleoclim.utils.plotting.keep_center_colormap(cmap:S,vmin:F,vmax:F,center:F)->X
-f:pyleoclim.utils.plotting.label_intervals(fig:O,ax:X,labels:L[O],x_locs:L[O],orientation:S,overlapping_sets:L[O],baseline:F,height:F,buffer:F,fontsize:I,linewidth:F,linestyle_kwargs:D,text_kwargs:D)->X
-f:pyleoclim.utils.plotting.make_annotation_ax(fig:O,ax:X,loc:X,ax_name:X,height:F,v_offset:F,b:F,width:F,h_offset:F,l:F,zorder:X)->X
-f:pyleoclim.utils.plotting.make_phantom_ax(ax:X)->X
-f:pyleoclim.utils.plotting.make_scalar_mappable(cmap:S,hue_vect:X,n:I,norm_kwargs:D)->X
-f:pyleoclim.utils.plotting.plot_scatter_xy(x1:X,y1:X,x2:X,y2:X,figsize:L[O],xlabel:S,ylabel:S,title:S,xlim:L[O],ylim:L[O],savefig_settings:D,ax:X,legend:B,plot_kwargs:D,lgd_kwargs:D)->X
-f:pyleoclim.utils.plotting.plot_xy(x:X,y:X,figsize:L[O],xlabel:S,ylabel:S,title:S,xlim:L[O],ylim:L[O],savefig_settings:D,ax:X,legend:B,plot_kwargs:D,lgd_kwargs:D,invert_xaxis:B,invert_yaxis:B)->X
-f:pyleoclim.utils.plotting.savefig(fig:X,path:S,dpi:I,settings:D,verbose:B)
-f:pyleoclim.utils.plotting.scatter_xy(x:X,y:X,c:X,figsize:L[O],xlabel:S,ylabel:S,title:S,xlim:L[O],ylim:L[O],savefig_settings:D,ax:X,legend:B,plot_kwargs:D,lgd_kwargs:D)->X
-f:pyleoclim.utils.plotting.set_style(style:X,font_scale:F,dpi:O)
-f:pyleoclim.utils.plotting.stripes_xy(x:X,y:X,cmap:S,figsize:L[O],ax:X,vmin:F,vmax:F,xlabel:O,ylabel:O,title:O,xlim:L[O],savefig_settings:D,label_color:O,x_offset:F,label_size:I,show_xaxis:B,invert_xaxis:B,top_label:S,bottom_label:S)->X
-f:pyleoclim.utils.plotting.tidy_labels(label:O)
-f:pyleoclim.utils.tsbase.clean_ts(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.tsbase.convert_datetime_index_to_time(datetime_index:X,time_unit:S,time_name:S)->X
-f:pyleoclim.utils.tsbase.disambiguate_time_metadata(time_unit:S)->X
-f:pyleoclim.utils.tsbase.dropna(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.tsbase.dropna_matrix(matrix:X,verbose:B)->X
-f:pyleoclim.utils.tsbase.is_evenly_spaced(x:X,tol:X)->X
-f:pyleoclim.utils.tsbase.overlap(t1:X,t2:X)->X
-f:pyleoclim.utils.tsbase.reduce_duplicated_timestamps(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.tsbase.resolution(x:X)->X
-f:pyleoclim.utils.tsbase.sort_ts(ys:X,ts:X,ascending:O,verbose:B)->X
-f:pyleoclim.utils.tsbase.time_to_datetime(time:X,datum:I,exponent:I,direction:S,unit:S)->X
-f:pyleoclim.utils.tsbase.time_unit_to_datum_exp_dir(time_unit:S,time_name:S,verbose:B)->X
-f:pyleoclim.utils.filter.butterworth(ys:X,fc:F,fs:F,filter_order:I,pad:S,reflect_type:O,params:T,padFrac:F)->X
-f:pyleoclim.utils.filter.firwin(ys:X,fc:F,numtaps:O,fs:F,pad:S,window:S,reflect_type:O,params:T,padFrac:F,kwargs:D)->X
-f:pyleoclim.utils.filter.is_evenly_spaced(x:X,tol:X)->X
-f:pyleoclim.utils.filter.lanczos(ys:X,fc:F,fs:F,pad:S,reflect_type:O,params:T,padFrac:F)->X
-f:pyleoclim.utils.filter.savitzky_golay(ys:X,window_length:I,polyorder:I,deriv:I,delta:F,axis:I,mode:S,cval:X)->X
-f:pyleoclim.utils.filter.ts_pad(ys:X,ts:X,method:S,params:T,reflect_type:X,padFrac:F)->X
-f:pyleoclim.utils.emd_utils.boundary_conditions(signal:X,time_samples:X,z:X,nbsym:I)->X
-f:pyleoclim.utils.emd_utils.extr(x:X)->X
-f:pyleoclim.utils.emd_utils.get_envelops(x:X,t:X)->X
-f:pyleoclim.utils.emd_utils.inst_freq(x:X,t:X)->X
-c:pyleoclim.utils.tsutils.EmpiricalModeDecomposition(self,x:X,t:X,threshold_1:F,threshold_2:F,alpha:F,ndirs:I,fixe:I,maxiter:I,fixe_h:O,n_imfs:I,nbsym:I,bivariate_mode:S)
-  decompose(self)->X
-  io(self)->X
+# Auto-generated symbols file for PyLiPD, PyLeoClim, and Ammonyte
+# Format: class/function name(params) -> return_type
+# Indented lines are methods of the preceding class
+
+class pyleoclim.utils.lipdutils.CaseInsensitiveDict(self, args: Any, kwargs: Any)
+function pyleoclim.utils.lipdutils.LipdToOntology(archiveType: str) -> str
+function pyleoclim.utils.lipdutils.checkTimeAxis(timeseries: dict, x_axis: Optional[Any]) -> list
+function pyleoclim.utils.lipdutils.checkXaxis(timeseries: dict, x_axis: Optional[str]) -> list
+function pyleoclim.utils.lipdutils.enumerateLipds(lipds: dict)
+function pyleoclim.utils.lipdutils.enumerateTs(timeseries_list: list)
+function pyleoclim.utils.lipdutils.gen_dict_extract(key: str, var: dict)
+function pyleoclim.utils.lipdutils.getEnsemble(csv_dict: dict, csvName: str) -> list
+function pyleoclim.utils.lipdutils.getLipd(lipds: dict) -> int
+function pyleoclim.utils.lipdutils.getMeasurement(csvName: str, lipd: dict) -> dict
+function pyleoclim.utils.lipdutils.get_archive_type() -> Dictionary
+function pyleoclim.utils.lipdutils.isEnsemble(csv_dict: dict) -> list
+function pyleoclim.utils.lipdutils.isMeasurement(csv_dict: dict) -> list
+function pyleoclim.utils.lipdutils.isModel(csvName: str, lipd: dict) -> list
+function pyleoclim.utils.lipdutils.mapAgeEnsembleToPaleoData(ensembleValues: list, depthEnsemble: list, depthMapping: list, extrapolate: bool) -> list
+function pyleoclim.utils.lipdutils.modelNumber(model: list) -> int
+function pyleoclim.utils.lipdutils.pre_process_list(list_str: list) -> list
+function pyleoclim.utils.lipdutils.pre_process_str(word: Any) -> str
+function pyleoclim.utils.lipdutils.promptForVariable() -> int
+function pyleoclim.utils.lipdutils.searchVar(timeseries_list: list, key: list, exact: bool, override: bool) -> list
+function pyleoclim.utils.lipdutils.similar_string(list_str: list, search: str) -> list
+function pyleoclim.utils.lipdutils.timeUnitsCheck(units: str) -> str
+function pyleoclim.utils.lipdutils.whatArchives(print_response: bool) -> JSON-object
+function pyleoclim.utils.lipdutils.whatInferredVariables(print_response: bool) -> JSON-object
+function pyleoclim.utils.lipdutils.whatInterpretations(print_response: bool) -> JSON-object
+function pyleoclim.utils.lipdutils.whatProxyObservations(print_response: bool) -> JSON-object
+function pyleoclim.utils.lipdutils.whatProxySensors(print_response: bool) -> JSON-object
+function pyleoclim.utils.lipdutils.whichEnsemble(ensembleTableList: Any) -> str
+function pyleoclim.utils.lipdutils.whichMeasurement(measurementTableList: list) -> str
+function pyleoclim.utils.lipdutils.xAxisTs(timeseries: dict) -> list
+function pyleoclim.utils.plotting.calculate_overlapping_sets(fig: Any, ax: matplotlib.axes.Axes, labels: list, x_locs: list, fontsize: int, buffer: float) -> A
+function pyleoclim.utils.plotting.closefig(fig: Optional[matplotlib.pyplot.figure])
+function pyleoclim.utils.plotting.consolidate_legends(ax: Any, split_btwn: Any, hue: Any, style: Any, size: Optional[Any], colorbar: Any)
+function pyleoclim.utils.plotting.get_label_width(ax: Any, label: Any, buffer: Any, fontsize: Any)
+function pyleoclim.utils.plotting.hightlight_intervals(ax: matplotlib.axes.Axes, intervals: list, labels: Optional[Any], color: Union[str, list], alpha: Union[float, list], legend: Any) -> matplotlib.axis
+function pyleoclim.utils.plotting.infer_period_unit_from_time_unit(time_unit: Any)
+function pyleoclim.utils.plotting.keep_center_colormap(cmap: Union[str, Colormap], vmin: float, vmax: float, center: float) -> matplotlib.colors.ListedColormap
+function pyleoclim.utils.plotting.label_intervals(fig: Any, ax: matplotlib.axes.Axes, labels: list, x_locs: list, orientation: str, overlapping_sets: Optional[list], baseline: float, height: float, buffer: float, fontsize: int, linewidth: Optional[float], linestyle_kwargs: Optional[dict], text_kwargs: Optional[dict]) -> The
+function pyleoclim.utils.plotting.make_annotation_ax(fig: Any, ax: Union[matplotlib.axes.Axes, dict], loc: str, ax_name: str, height: Optional[float], v_offset: float, b: Optional[float], width: Optional[float], h_offset: float, l: Optional[float], zorder: float) -> dict
+function pyleoclim.utils.plotting.make_phantom_ax(ax: matplotlib.axes.Axes) -> matplotlib.axis
+function pyleoclim.utils.plotting.make_scalar_mappable(cmap: Optional[str,], hue_vect: Optional[np.ndarray,], n: Optional[int], norm_kwargs: Optional[dict]) -> matplotlib.cm.ScalarMappable
+function pyleoclim.utils.plotting.plot_scatter_xy(x1: list, y1: list, x2: list, y2: list, figsize: Optional[list], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], xlim: Optional[list], ylim: Optional[list], savefig_settings: Optional[dict], ax: Optional[pyplot.axis], legend: bool, plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict]) -> the
+function pyleoclim.utils.plotting.plot_xy(x: list, y: list, figsize: Optional[list], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], xlim: Optional[list], ylim: Optional[list], savefig_settings: Optional[dict], ax: Optional[pyplot.axis], legend: bool, plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict], invert_xaxis: bool, invert_yaxis: bool) -> the
+function pyleoclim.utils.plotting.savefig(fig: matplotlib.pyplot.figure, path: Optional[str], dpi: int, settings: dict, verbose: bool,)
+function pyleoclim.utils.plotting.scatter_xy(x: numpy.ndarray, y: numpy.ndarray, c: Union[numpy.ndarray, list, color], figsize: Optional[list], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], xlim: Optional[list], ylim: Optional[list], savefig_settings: Optional[dict], ax: Optional[pyplot.axis], legend: bool, plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict]) -> the
+function pyleoclim.utils.plotting.set_style(style: Literal['journal', 'web', 'matplotlib', '_spines', '_nospines', '_grid', '_nogrid'], font_scale: float, dpi: Any)
+function pyleoclim.utils.plotting.stripes_xy(x: list, y: list, cmap: str, figsize: Optional[list], ax: Optional[pyplot.axis], vmin: Optional[float], vmax: Optional[float], xlabel: Optional[Any], ylabel: Optional[Any], title: Optional[Any], xlim: Optional[list], savefig_settings: Optional[dict], label_color: Optional[Any], x_offset: float, label_size: Optional[int], show_xaxis: bool, invert_xaxis: bool, top_label: Optional[str], bottom_label: Optional[str]) -> Union[ax, (fig,]
+function pyleoclim.utils.plotting.tidy_labels(label: Any)
+function pyleoclim.utils.tsbase.clean_ts(ys: list, ts: list, verbose: bool) -> list
+function pyleoclim.utils.tsbase.convert_datetime_index_to_time(datetime_index: pd.DatetimeIndex, time_unit: str, time_name: str) -> np.array((float,))
+function pyleoclim.utils.tsbase.disambiguate_time_metadata(time_unit: str) -> str
+function pyleoclim.utils.tsbase.dropna(ys: list, ts: list, verbose: bool) -> list
+function pyleoclim.utils.tsbase.dropna_matrix(matrix: list, verbose: bool) -> list
+function pyleoclim.utils.tsbase.is_evenly_spaced(x: list, tol: float64) -> bool
+function pyleoclim.utils.tsbase.overlap(t1: list, t2: list) -> length
+function pyleoclim.utils.tsbase.reduce_duplicated_timestamps(ys: list, ts: list, verbose: bool) -> list
+function pyleoclim.utils.tsbase.resolution(x: list) -> list
+function pyleoclim.utils.tsbase.sort_ts(ys: list, ts: list, ascending: Any, verbose: bool) -> list
+function pyleoclim.utils.tsbase.time_to_datetime(time: numpy.ndarray, datum: int, exponent: int, direction: str, unit: str) -> index,
+function pyleoclim.utils.tsbase.time_unit_to_datum_exp_dir(time_unit: str, time_name: Optional[str], verbose: bool) -> int,
+function pyleoclim.utils.filter.butterworth(ys: numpy.ndarray, fc: Union[float, list], fs: float, filter_order: int, pad: str, reflect_type: Any, params: tuple, padFrac: float) -> list
+function pyleoclim.utils.filter.firwin(ys: numpy.ndarray, fc: Union[float, list], numtaps: Optional[Any], fs: float, pad: str, window: Union[str, tuple], reflect_type: Any, params: tuple, padFrac: float, kwargs: dict) -> list
+function pyleoclim.utils.filter.lanczos(ys: numpy.ndarray, fc: float, fs: float, pad: str, reflect_type: Any, params: tuple, padFrac: float) -> list
+function pyleoclim.utils.filter.savitzky_golay(ys: list, window_length: Optional[int], polyorder: int, deriv: int, delta: float, axis: int, mode: str, cval: scalar) -> list
+function pyleoclim.utils.filter.ts_pad(ys: numpy.ndarray, ts: numpy.ndarray, method: str, params: tuple, reflect_type: str;, padFrac: float) -> list
+function pyleoclim.utils.emd_utils.boundary_conditions(signal: array-like,, time_samples: array-like,, z: Optional[array-like,], nbsym: int) -> tuple
+function pyleoclim.utils.emd_utils.extr(x: array-like,) -> tuple
+function pyleoclim.utils.emd_utils.get_envelops(x: array-like,, t: Optional[array-like,]) -> tuple
+function pyleoclim.utils.emd_utils.inst_freq(x: array-like,, t: Optional[array-like,]) -> numpy.ndarray
+class pyleoclim.utils.tsutils.EmpiricalModeDecomposition(self, x: array-like,, t: Optional[array-like,], threshold_1: float, threshold_2: float, alpha: float, ndirs: int, fixe: int, maxiter: int, fixe_h: Any, n_imfs: int, nbsym: int, bivariate_mode: str)
+  decompose(self) -> array-like,
+  io(self) -> float
   keep_decomposing(self)
-  mean_and_amplitude(self,m:X)->X
-  stop_EMD(self)->X
-  stop_sifting(self,m:X)->X
-f:pyleoclim.utils.tsutils.annualize(ys:X,ts:X)->X
-f:pyleoclim.utils.tsutils.bin(x:X,y:X,bin_size:F,start:F,stop:F,step_style:X,evenly_spaced:X,statistic:S,bin_edges:X,time_axis:X,no_nans:X)->X
-f:pyleoclim.utils.tsutils.boundary_conditions(signal:X,time_samples:X,z:X,nbsym:I)->X
-f:pyleoclim.utils.tsutils.calculate_distances(ys:X,n_neighbors:I,NN_kwargs:D)->X
-f:pyleoclim.utils.tsutils.center(y:X,axis:I)->X
-f:pyleoclim.utils.tsutils.clean_ts(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.tsutils.detect_outliers_DBSCAN(ys:X,nbr_clusters:I,eps:F,min_samples:I,n_neighbors:I,metric:S,NN_kwargs:D,DBSCAN_kwargs:D)->X
-f:pyleoclim.utils.tsutils.detect_outliers_kmeans(ys:X,nbr_clusters:I,max_cluster:I,threshold:I,LOF:B,n_frac:F,contamination:X,kmeans_kwargs:D)->X
-f:pyleoclim.utils.tsutils.detrend(y:X,x:X,method:S,n:I,preserve_mean:X,sg_kwargs:D)->X
-f:pyleoclim.utils.tsutils.dropna(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.tsutils.eff_sample_size(y:F,detrend_flag:X)->X
-f:pyleoclim.utils.tsutils.extr(x:X)->X
-f:pyleoclim.utils.tsutils.gauss(ys:X)->X
-f:pyleoclim.utils.tsutils.gaussianize(ys:X)->X
-f:pyleoclim.utils.tsutils.gkernel(t:X,y:X,h:F,step:F,start:F,stop:F,step_style:S,evenly_spaced:X,bin_edges:X,time_axis:X,no_nans:X)->X
-f:pyleoclim.utils.tsutils.increments(x:X,step_style:S)->X
-f:pyleoclim.utils.tsutils.interp(x:X,y:X,interp_type:S,step:F,start:F,stop:F,step_style:X,time_axis:X,kwargs:X)->X
-f:pyleoclim.utils.tsutils.make_even_axis(x:X,start:F,stop:F,step:F,step_style:X,no_nans:X)
-f:pyleoclim.utils.tsutils.phaseran(recblk:X,nsurr:I)->X
-f:pyleoclim.utils.tsutils.phaseran2(y:X,nsurr:I)->X
-f:pyleoclim.utils.tsutils.preprocess(ys:X,ts:X,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.tsutils.remove_outliers(ts:X,ys:X,indices:X)->X
-f:pyleoclim.utils.tsutils.savitzky_golay(ys:X,window_length:I,polyorder:I,deriv:I,delta:F,axis:I,mode:S,cval:X)->X
-f:pyleoclim.utils.tsutils.simple_stats(y:X,axis:I)->X
-f:pyleoclim.utils.tsutils.standardize(x:X,scale:X,axis:I,ddof:I,eps:X)->X
-f:pyleoclim.utils.tsutils.std(x:X,scale:X,axis:I,ddof:I,eps:X)->X
-f:pyleoclim.utils.tsutils.ts2segments(ys:X,ts:X,factor:F)->X
-f:pyleoclim.utils.tsmodel.ar1_fit(y:X,t:X)->X
-f:pyleoclim.utils.tsmodel.ar1_fit_evenly(y:X)->X
-f:pyleoclim.utils.tsmodel.ar1_model(t:X,tau:F,output_sigma:O)->X
-f:pyleoclim.utils.tsmodel.ar1_sim(y:X,p:I,t:X)->X
-f:pyleoclim.utils.tsmodel.colored_noise(alpha:F,t:F,std:F,f0:F,m:I,seed:I)->X
-f:pyleoclim.utils.tsmodel.colored_noise_2regimes(alpha1:O,alpha2:O,f_break:F,t:F,f0:F,m:I,seed:O)->X
-f:pyleoclim.utils.tsmodel.gen_ar1_evenly(t:X,g:F,scale:F,burnin:I)->X
-f:pyleoclim.utils.tsmodel.gen_ts(model:S,t:X,nt:X,kwargs:D)->X
-f:pyleoclim.utils.tsmodel.inverse_cumsum(arr:O)
-f:pyleoclim.utils.tsmodel.is_evenly_spaced(x:X,tol:X)->X
-f:pyleoclim.utils.tsmodel.isopersistent_rn(y:O,p:I)->X
-f:pyleoclim.utils.tsmodel.n_ll_unevenly_spaced_ar1(theta:X,y:X,t:X)->X
-f:pyleoclim.utils.tsmodel.random_time_axis(n:X,delta_t_dist:S,param:O,seed:O)->X
-f:pyleoclim.utils.tsmodel.sm_ar1_sim(n:I,p:I,g:F,sig:F)->X
-f:pyleoclim.utils.tsmodel.standardize(x:X,scale:X,axis:I,ddof:I,eps:X)->X
-f:pyleoclim.utils.tsmodel.tau_estimation(y:X,t:X)->X
-f:pyleoclim.utils.tsmodel.uar1_fit(y:X,t:X)->X
-f:pyleoclim.utils.tsmodel.uar1_sim(t:X,tau:F,sigma_2:F)->X
-c:pyleoclim.utils.wavelet.AliasFilter(self,args:O,kwargs:O)
-  alias(self,alpha:O,fs:O,fc:O,freq:O,log_pwr:O,freq_mask:O,avgs:O)
-  alias_filter(self,freq:X,pwr:X,fs:F,fc:F,f_limit:F,avgs:I)->X
-  misfit(self,alpha:O,fs:O,fc:O,freq:O,log_pwr:O,freq_mask:O,avgs:O)
-  model(self,alpha:O,fs:O,fc:O,freq:O,avgs:O)
-f:pyleoclim.utils.wavelet.angle_sig(theta:X,nMC:I,level:F)->X
-f:pyleoclim.utils.wavelet.angle_stats(theta:X)->X
-f:pyleoclim.utils.wavelet.ar1_fit(y:X,t:X)->X
-f:pyleoclim.utils.wavelet.ar1_sim(y:X,p:I,t:X)->X
-f:pyleoclim.utils.wavelet.assertPositiveInt(args:O)
-f:pyleoclim.utils.wavelet.chisquare_inv(P:F,V:F)->X
-f:pyleoclim.utils.wavelet.chisquare_solve(XGUESS:F,P:F,V:F)->X
-f:pyleoclim.utils.wavelet.clean_ts(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.wavelet.cwt(ys:X,ts:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,gaussianize:B,standardize:B,pad:B,mother:X,param:X)->X
-f:pyleoclim.utils.wavelet.cwt_coherence(y1:X,t1:X,y2:X,t2:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,pad:B,standardize:B,gaussianize:B,tau:X,Neff_threshold:I,mother:X,param:F,smooth_factor:F)->X
-f:pyleoclim.utils.wavelet.freq_vector_log(ts:X,fmin:F,fmax:F,nf:I)->X
-f:pyleoclim.utils.wavelet.freq_vector_lomb_scargle(ts:X,dt:F,nf:I,ofac:F,hifac:F)->X
-f:pyleoclim.utils.wavelet.freq_vector_nfft(ts:X)->X
-f:pyleoclim.utils.wavelet.freq_vector_scale(ts:X,dj:F,s0:F,j1:F,mother:X,param:X)->X
-f:pyleoclim.utils.wavelet.freq_vector_welch(ts:X)->X
-f:pyleoclim.utils.wavelet.get_wwz_func(nproc:I,method:X)->X
-f:pyleoclim.utils.wavelet.is_evenly_spaced(x:X,tol:X)->X
-f:pyleoclim.utils.wavelet.kirchner_basic(ys:X,ts:X,freq:X,tau:X,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.kirchner_f2py(ys:X,ts:X,freq:X,tau:X,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.kirchner_nproc(ys:X,ts:X,freq:X,tau:X,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.kirchner_numba(ys:X,ts:X,freq:X,tau:X,c:F,Neff_threshold:I,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B,nproc:I)->X
-f:pyleoclim.utils.wavelet.make_coi(tau:X,Neff_threshold:I)->X
-f:pyleoclim.utils.wavelet.make_freq_vector(ts:X,method:X,rayleigh_bound:X,kwargs:D)->X
-f:pyleoclim.utils.wavelet.make_omega(ts:X,freq:X)->X
-f:pyleoclim.utils.wavelet.prepare_wwz(ys:X,ts:X,freq:X,freq_method:S,freq_kwargs:S,tau:X,len_bd:I,bc_mode:X,reflect_type:X,kwargs:O)->X
-f:pyleoclim.utils.wavelet.preprocess(ys:X,ts:X,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.tc_wave_bases(mother:X,k:X,scale:F,param:F)->X
-f:pyleoclim.utils.wavelet.tc_wave_signif(ys:X,ts:X,scale:X,mother:S,param:I,sigtest:X,qs:L[O],dof:N,gws:X)->X
-f:pyleoclim.utils.wavelet.tc_wavelet(Y:X,dt:F,scale:O,mother:X,param:X,pad:X)->X
-f:pyleoclim.utils.wavelet.wtc(coeff1:X,coeff2:X,scales:X,tau:X,smooth_factor:O)->X
-f:pyleoclim.utils.wavelet.wwa2psd(wwa:X,ts:X,Neffs:X,freq:X,Neff_threshold:I,anti_alias:B,avgs:I)->X
-f:pyleoclim.utils.wavelet.wwz(ys:X,ts:X,tau:X,ntau:O,freq:X,freq_method:S,freq_kwargs:S,c:F,Neff_threshold:I,Neff_coi:O,nproc:I,detrend:X,sg_kwargs:D,method:X,gaussianize:O,standardize:O,len_bd:I,bc_mode:X,reflect_type:X)->X
-f:pyleoclim.utils.wavelet.wwz_basic(ys:X,ts:X,freq:X,tau:X,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.wwz_coherence(y1:X,t1:X,y2:X,t2:X,smooth_factor:F,tau:X,freq:X,freq_method:O,freq_kwargs:O,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,verbose:B,method:X,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.wwz_nproc(ys:X,ts:X,freq:X,tau:X,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wavelet.xwt(coeff1:X,coeff2:X)->X
-f:pyleoclim.utils.spectral.beta2Hurst(beta:F)->X
-f:pyleoclim.utils.spectral.beta_estimation(psd:X,freq:X,fmin:F,fmax:F,logf_binning_step:O,verbose:B)->X
-f:pyleoclim.utils.spectral.clean_ts(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.spectral.cwt(ys:X,ts:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,gaussianize:B,standardize:B,pad:B,mother:X,param:X)->X
-f:pyleoclim.utils.spectral.cwt_psd(ys:X,ts:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,gaussianize:B,standardize:B,pad:B,mother:X,param:X,cwt_res:D)->X
-f:pyleoclim.utils.spectral.is_evenly_spaced(x:X,tol:X)->X
-f:pyleoclim.utils.spectral.lomb_scargle(ys:X,ts:X,freq:S,freq_method:S,freq_kwargs:D,n50:I,window:S,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,average:X)->X
-f:pyleoclim.utils.spectral.make_freq_vector(ts:X,method:X,rayleigh_bound:X,kwargs:D)->X
-f:pyleoclim.utils.spectral.mtm(ys:X,ts:X,NW:F,BW:F,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,adaptive:X,jackknife:X,low_bias:X,sides:S,nfft:O)->X
-f:pyleoclim.utils.spectral.periodogram(ys:X,ts:X,window:X,nfft:I,return_onesided:B,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,scaling:X)->X
-f:pyleoclim.utils.spectral.prepare_wwz(ys:X,ts:X,freq:X,freq_method:S,freq_kwargs:S,tau:X,len_bd:I,bc_mode:X,reflect_type:X,kwargs:O)->X
-f:pyleoclim.utils.spectral.preprocess(ys:X,ts:X,detrend:X,sg_kwargs:D,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.spectral.psd_ar(var_noise:F,freq:X,ar_params:X,f_sampling:F)->X
-f:pyleoclim.utils.spectral.psd_fBM(freq:X,ts:X,H:F)->X
-f:pyleoclim.utils.spectral.welch(ys:X,ts:X,window:X,nperseg:I,noverlap:I,nfft:I,return_onesided:B,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,scaling:X,average:X)->X
-f:pyleoclim.utils.spectral.wwa2psd(wwa:X,ts:X,Neffs:X,freq:X,Neff_threshold:I,anti_alias:B,avgs:I)->X
-f:pyleoclim.utils.spectral.wwz(ys:X,ts:X,tau:X,ntau:O,freq:X,freq_method:S,freq_kwargs:S,c:F,Neff_threshold:I,Neff_coi:O,nproc:I,detrend:X,sg_kwargs:D,method:X,gaussianize:O,standardize:O,len_bd:I,bc_mode:X,reflect_type:X)->X
-f:pyleoclim.utils.spectral.wwz_psd(ys:X,ts:X,freq:X,freq_method:S,freq_kwargs:D,tau:X,c:F,nproc:I,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,Neff_threshold:I,anti_alias:B,avgs:I,method:X,wwa:X,wwz_Neffs:X,wwz_freq:X)->X
-f:pyleoclim.utils.correlation.ar1_fit_evenly(y:X)->X
-f:pyleoclim.utils.correlation.association(y1:X,y2:X,statistic:S,settings:D)->X
-f:pyleoclim.utils.correlation.corr_isopersist(y1:X,y2:X,alpha:F,nsim:I)->X
-f:pyleoclim.utils.correlation.corr_isospec(y1:X,y2:X,alpha:F,nsim:I)->X
-f:pyleoclim.utils.correlation.corr_sig(y1:X,y2:X,nsim:I,method:X,alpha:F)->X
-f:pyleoclim.utils.correlation.corr_ttest(y1:X,y2:X,alpha:F,df_min:F)->X
-f:pyleoclim.utils.correlation.cov_shrink_rblw(S:X,n:I)->X
-f:pyleoclim.utils.correlation.fdr(pvals:L[O],qlevel:F,method:X,adj_method:X,adj_args:D)->X
-f:pyleoclim.utils.correlation.fdr_basic(pvals:L[O],qlevel:F)->X
-f:pyleoclim.utils.correlation.fdr_master(pvals:L[O],qlevel:F,method:X)->X
-f:pyleoclim.utils.correlation.isopersistent_rn(y:O,p:I)->X
-f:pyleoclim.utils.correlation.phaseran(recblk:X,nsurr:I)->X
-f:pyleoclim.utils.correlation.prop_alt(pvals:L[O],adj_method:X,adj_args:D)->X
-f:pyleoclim.utils.correlation.storey(edf_quantile:F,pvals:L[O])->X
-f:pyleoclim.utils.causality.ar1_fit_evenly(y:X)->X
-f:pyleoclim.utils.causality.granger_causality(y1:O,y2:O,maxlag:I,addconst:B,verbose:B)->X
-f:pyleoclim.utils.causality.liang(y1:O,y2:O,npt:I)->X
-f:pyleoclim.utils.causality.liang_causality(y1:O,y2:O,npt:I,signif_test:X,nsim:I,qs:L[O])->X
-f:pyleoclim.utils.causality.phaseran(recblk:X,nsurr:I)->X
-f:pyleoclim.utils.causality.signif_isopersist(y1:O,y2:O,method:X,nsim:I,qs:L[O],kwargs:O)->X
-f:pyleoclim.utils.causality.signif_isospec(y1:O,y2:O,method:X,nsim:I,qs:L[O],kwargs:D)->X
-f:pyleoclim.utils.causality.sm_ar1_sim(n:I,p:I,g:F,sig:F)->X
-c:pyleoclim.utils.mapping.CaseInsensitiveDict(self,args:O,kwargs:O)
-f:pyleoclim.utils.mapping.LipdToOntology(archiveType:X)->X
-f:pyleoclim.utils.mapping.centroid_coords(lat:X,lon:X,true_centroid:X)->X
-f:pyleoclim.utils.mapping.compute_dist(lat_r:F,lon_r:F,lat_c:L[O],lon_c:L[O])->X
-f:pyleoclim.utils.mapping.consolidate_legends(ax:O,split_btwn:O,hue:O,style:O,size:O,colorbar:O)
-f:pyleoclim.utils.mapping.dist_sphere(lat1:F,lon1:F,lat2:F,lon2:F)->X
-f:pyleoclim.utils.mapping.keep_center_colormap(cmap:S,vmin:F,vmax:F,center:F)->X
-f:pyleoclim.utils.mapping.lon_180_to_360(x:O)
-f:pyleoclim.utils.mapping.lon_360_to_180(x:O)
-f:pyleoclim.utils.mapping.make_df(geo_ms:O,hue:O,marker:O,size:O,cols:O,d:O)
-f:pyleoclim.utils.mapping.make_scalar_mappable(cmap:S,hue_vect:X,n:I,norm_kwargs:D)->X
-f:pyleoclim.utils.mapping.map(lat:L[O],lon:L[O],criteria:L[O],marker:L[O],color:L[O],projection:X,proj_default:B,crit_dist:F,background:B,borders:B,rivers:B,lakes:B,figsize:L[O],ax:X,scatter_kwargs:D,legend:B,legend_title:S,lgd_kwargs:D,savefig_settings:D)->X
-f:pyleoclim.utils.mapping.pick_proj(lat:X,lon:X,crit_dist:F)->X
-f:pyleoclim.utils.mapping.savefig(fig:X,path:S,dpi:I,settings:D,verbose:B)
-f:pyleoclim.utils.mapping.scatter_map(geos:X,hue:X,size:X,marker:X,edgecolor:X,proj_default:B,projection:X,crit_dist:F,title:S,background:B,borders:B,coastline:O,rivers:B,lakes:B,ocean:O,land:O,figsize:L[O],scatter_kwargs:D,gridspec_kwargs:D,extent:X,edgecolor_var:O,lgd_kwargs:D,legend:B,colorbar:B,cmap:X,color_scale_type:S,fig:X,gs_slot:X,kwargs:D)->X
-f:pyleoclim.utils.mapping.set_proj(projection:X,proj_default:X)->X
-f:pyleoclim.utils.mapping.tidy_labels(label:O)
-f:pyleoclim.utils.mapping.within_distance(distance:L[O],radius:F)->X
-f:pyleoclim.utils.decomposition.ar1_sim(y:X,p:I,t:X)->X
-f:pyleoclim.utils.decomposition.cov_shrink_rblw(S:X,n:I)->X
-f:pyleoclim.utils.decomposition.ssa(y:X,M:I,nMC:I,f:F,trunc:S,var_thresh:F,online:X)->X
-f:pyleoclim.utils.decomposition.standardize(x:X,scale:X,axis:I,ddof:I,eps:X)->X
-f:pyleoclim.utils.jsonutils.PyleoObj_to_dict(obj:C:io)->X
-f:pyleoclim.utils.jsonutils.PyleoObj_to_json(obj:C:ui,filename:S)->X
-f:pyleoclim.utils.jsonutils.isPyleoclim(obj:C:ui)->X
-f:pyleoclim.utils.jsonutils.iterate_through_dict(dictionary:D,objname:S)->X
-f:pyleoclim.utils.jsonutils.json_to_PyleoObj(filename:S,objname:S)->X
-f:pyleoclim.utils.jsonutils.objname_to_obj(objname:S)->X
-f:pyleoclim.utils.jsonutils.open_json(filename:S)->X
-f:pyleoclim.utils.datasets.available_dataset_names()->X
-f:pyleoclim.utils.datasets.get_metadata(name:S)->X
-f:pyleoclim.utils.datasets.load_dataset(name:S)->X
-f:pyleoclim.utils.datasets.load_datasets_metadata(path:S)->X
-c:pyleoclim.utils.CaseInsensitiveDict(self,args:O,kwargs:O)
-f:pyleoclim.utils.LipdToOntology(archiveType:X)->X
-f:pyleoclim.utils.PyleoObj_to_json(obj:C:ui,filename:S)->X
-f:pyleoclim.utils.angle_sig(theta:X,nMC:I,level:F)->X
-f:pyleoclim.utils.angle_stats(theta:X)->X
-f:pyleoclim.utils.annualize(ys:X,ts:X)->X
-f:pyleoclim.utils.ar1_fit(y:X,t:X)->X
-f:pyleoclim.utils.ar1_sim(y:X,p:I,t:X)->X
-f:pyleoclim.utils.association(y1:X,y2:X,statistic:S,settings:D)->X
-f:pyleoclim.utils.available_dataset_names()->X
-f:pyleoclim.utils.bin(x:X,y:X,bin_size:F,start:F,stop:F,step_style:X,evenly_spaced:X,statistic:S,bin_edges:X,time_axis:X,no_nans:X)->X
-f:pyleoclim.utils.butterworth(ys:X,fc:F,fs:F,filter_order:I,pad:S,reflect_type:O,params:T,padFrac:F)->X
-f:pyleoclim.utils.checkTimeAxis(timeseries:D,x_axis:O)->X
-f:pyleoclim.utils.checkXaxis(timeseries:D,x_axis:X)->X
-f:pyleoclim.utils.clean_ts(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.closefig(fig:X)
-f:pyleoclim.utils.colored_noise(alpha:F,t:F,std:F,f0:F,m:I,seed:I)->X
-f:pyleoclim.utils.colored_noise_2regimes(alpha1:O,alpha2:O,f_break:F,t:F,f0:F,m:I,seed:O)->X
-f:pyleoclim.utils.compute_dist(lat_r:F,lon_r:F,lat_c:L[O],lon_c:L[O])->X
-f:pyleoclim.utils.corr_sig(y1:X,y2:X,nsim:I,method:X,alpha:F)->X
-f:pyleoclim.utils.cwt(ys:X,ts:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,gaussianize:B,standardize:B,pad:B,mother:X,param:X)->X
-f:pyleoclim.utils.cwt_coherence(y1:X,t1:X,y2:X,t2:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,pad:B,standardize:B,gaussianize:B,tau:X,Neff_threshold:I,mother:X,param:F,smooth_factor:F)->X
-f:pyleoclim.utils.cwt_psd(ys:X,ts:X,freq:X,freq_method:X,freq_kwargs:D,scale:X,detrend:B,sg_kwargs:D,gaussianize:B,standardize:B,pad:B,mother:X,param:X,cwt_res:D)->X
-f:pyleoclim.utils.detect_outliers_DBSCAN(ys:X,nbr_clusters:I,eps:F,min_samples:I,n_neighbors:I,metric:S,NN_kwargs:D,DBSCAN_kwargs:D)->X
-f:pyleoclim.utils.detect_outliers_kmeans(ys:X,nbr_clusters:I,max_cluster:I,threshold:I,LOF:B,n_frac:F,contamination:X,kmeans_kwargs:D)->X
-f:pyleoclim.utils.detrend(y:X,x:X,method:S,n:I,preserve_mean:X,sg_kwargs:D)->X
-f:pyleoclim.utils.dropna(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.enumerateLipds(lipds:D)
-f:pyleoclim.utils.enumerateTs(timeseries_list:L[O])
-f:pyleoclim.utils.fdr(pvals:L[O],qlevel:F,method:X,adj_method:X,adj_args:D)->X
-f:pyleoclim.utils.firwin(ys:X,fc:F,numtaps:O,fs:F,pad:S,window:S,reflect_type:O,params:T,padFrac:F,kwargs:D)->X
-f:pyleoclim.utils.gaussianize(ys:X)->X
-f:pyleoclim.utils.gen_ar1_evenly(t:X,g:F,scale:F,burnin:I)->X
-f:pyleoclim.utils.gen_dict_extract(key:S,var:D)
-f:pyleoclim.utils.gen_ts(model:S,t:X,nt:X,kwargs:D)->X
-f:pyleoclim.utils.getEnsemble(csv_dict:D,csvName:S)->X
-f:pyleoclim.utils.getLipd(lipds:D)->X
-f:pyleoclim.utils.getMeasurement(csvName:X,lipd:D)->X
-f:pyleoclim.utils.get_archive_type()->X
-f:pyleoclim.utils.get_metadata(name:S)->X
-f:pyleoclim.utils.gkernel(t:X,y:X,h:F,step:F,start:F,stop:F,step_style:S,evenly_spaced:X,bin_edges:X,time_axis:X,no_nans:X)->X
-f:pyleoclim.utils.granger_causality(y1:O,y2:O,maxlag:I,addconst:B,verbose:B)->X
-f:pyleoclim.utils.interp(x:X,y:X,interp_type:S,step:F,start:F,stop:F,step_style:X,time_axis:X,kwargs:X)->X
-f:pyleoclim.utils.inverse_cumsum(arr:O)
-f:pyleoclim.utils.isEnsemble(csv_dict:D)->X
-f:pyleoclim.utils.isMeasurement(csv_dict:D)->X
-f:pyleoclim.utils.isModel(csvName:X,lipd:D)->X
-f:pyleoclim.utils.isPyleoclim(obj:C:ui)->X
-f:pyleoclim.utils.is_evenly_spaced(x:X,tol:X)->X
-f:pyleoclim.utils.json_to_PyleoObj(filename:S,objname:S)->X
-f:pyleoclim.utils.lanczos(ys:X,fc:F,fs:F,pad:S,reflect_type:O,params:T,padFrac:F)->X
-f:pyleoclim.utils.liang_causality(y1:O,y2:O,npt:I,signif_test:X,nsim:I,qs:L[O])->X
-f:pyleoclim.utils.load_dataset(name:S)->X
-f:pyleoclim.utils.load_datasets_metadata(path:S)->X
-f:pyleoclim.utils.lomb_scargle(ys:X,ts:X,freq:S,freq_method:S,freq_kwargs:D,n50:I,window:S,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,average:X)->X
-f:pyleoclim.utils.map(lat:L[O],lon:L[O],criteria:L[O],marker:L[O],color:L[O],projection:X,proj_default:B,crit_dist:F,background:B,borders:B,rivers:B,lakes:B,figsize:L[O],ax:X,scatter_kwargs:D,legend:B,legend_title:S,lgd_kwargs:D,savefig_settings:D)->X
-f:pyleoclim.utils.mapAgeEnsembleToPaleoData(ensembleValues:X,depthEnsemble:X,depthMapping:X,extrapolate:B)->X
-f:pyleoclim.utils.modelNumber(model:L[O])->X
-f:pyleoclim.utils.mtm(ys:X,ts:X,NW:F,BW:F,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,adaptive:X,jackknife:X,low_bias:X,sides:S,nfft:O)->X
-f:pyleoclim.utils.periodogram(ys:X,ts:X,window:X,nfft:I,return_onesided:B,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,scaling:X)->X
-f:pyleoclim.utils.phaseran(recblk:X,nsurr:I)->X
-f:pyleoclim.utils.phaseran2(y:X,nsurr:I)->X
-f:pyleoclim.utils.pre_process_list(list_str:L[O])->X
-f:pyleoclim.utils.pre_process_str(word:O)->X
-f:pyleoclim.utils.promptForVariable()->X
-f:pyleoclim.utils.random_time_axis(n:X,delta_t_dist:S,param:O,seed:O)->X
-f:pyleoclim.utils.reduce_duplicated_timestamps(ys:X,ts:X,verbose:B)->X
-f:pyleoclim.utils.remove_outliers(ts:X,ys:X,indices:X)->X
-f:pyleoclim.utils.savefig(fig:X,path:S,dpi:I,settings:D,verbose:B)
-f:pyleoclim.utils.savitzky_golay(ys:X,window_length:I,polyorder:I,deriv:I,delta:F,axis:I,mode:S,cval:X)->X
-f:pyleoclim.utils.searchVar(timeseries_list:L[O],key:L[O],exact:B,override:B)->X
-f:pyleoclim.utils.set_style(style:X,font_scale:F,dpi:O)
-f:pyleoclim.utils.similar_string(list_str:L[O],search:S)->X
-f:pyleoclim.utils.simple_stats(y:X,axis:I)->X
-f:pyleoclim.utils.sort_ts(ys:X,ts:X,ascending:O,verbose:B)->X
-f:pyleoclim.utils.ssa(y:X,M:I,nMC:I,f:F,trunc:S,var_thresh:F,online:X)->X
-f:pyleoclim.utils.standardize(x:X,scale:X,axis:I,ddof:I,eps:X)->X
-f:pyleoclim.utils.tau_estimation(y:X,t:X)->X
-f:pyleoclim.utils.timeUnitsCheck(units:X)->X
-f:pyleoclim.utils.ts2segments(ys:X,ts:X,factor:F)->X
-f:pyleoclim.utils.uar1_fit(y:X,t:X)->X
-f:pyleoclim.utils.uar1_sim(t:X,tau:F,sigma_2:F)->X
-f:pyleoclim.utils.welch(ys:X,ts:X,window:X,nperseg:I,noverlap:I,nfft:I,return_onesided:B,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,scaling:X,average:X)->X
-f:pyleoclim.utils.whatArchives(print_response:B)->X
-f:pyleoclim.utils.whatInferredVariables(print_response:B)->X
-f:pyleoclim.utils.whatInterpretations(print_response:B)->X
-f:pyleoclim.utils.whatProxyObservations(print_response:B)->X
-f:pyleoclim.utils.whatProxySensors(print_response:B)->X
-f:pyleoclim.utils.whichEnsemble(ensembleTableList:O)->X
-f:pyleoclim.utils.whichMeasurement(measurementTableList:L[O])->X
-f:pyleoclim.utils.wwz(ys:X,ts:X,tau:X,ntau:O,freq:X,freq_method:S,freq_kwargs:S,c:F,Neff_threshold:I,Neff_coi:O,nproc:I,detrend:X,sg_kwargs:D,method:X,gaussianize:O,standardize:O,len_bd:I,bc_mode:X,reflect_type:X)->X
-f:pyleoclim.utils.wwz_coherence(y1:X,t1:X,y2:X,t2:X,smooth_factor:F,tau:X,freq:X,freq_method:O,freq_kwargs:O,c:F,Neff_threshold:I,nproc:I,detrend:X,sg_kwargs:D,verbose:B,method:X,gaussianize:B,standardize:B)->X
-f:pyleoclim.utils.wwz_psd(ys:X,ts:X,freq:X,freq_method:S,freq_kwargs:D,tau:X,c:F,nproc:I,detrend:S,sg_kwargs:D,gaussianize:B,standardize:B,Neff_threshold:I,anti_alias:B,avgs:I,method:X,wwa:X,wwz_Neffs:X,wwz_freq:X)->X
-f:pyleoclim.utils.xAxisTs(timeseries:D)->X
-c:pyleoclim.core.psds.MultiplePSD(self,psd_list:O,beta_est_res:X)
-  anti_alias(self,avgs:I,mute_pbar:X)->X
-  beta_est(self,fmin:F,fmax:F,logf_binning_step:X,verbose:B)->X
+  mean_and_amplitude(self, m: array-like,) -> tuple
+  stop_EMD(self) -> bool
+  stop_sifting(self, m: array-like,) -> bool
+function pyleoclim.utils.tsutils.annualize(ys: list, ts: list) -> list
+function pyleoclim.utils.tsutils.bin(x: list, y: list, bin_size: Optional[float], start: Optional[float], stop: Optional[float], step_style: Optional[str;], evenly_spaced: Literal['True', 'False'], statistic: str, bin_edges: Optional[np.ndarray], time_axis: Optional[np.ndarray], no_nans: bool;) -> list
+function pyleoclim.utils.tsutils.calculate_distances(ys: numpy.ndarray, n_neighbors: Optional[int], NN_kwargs: Optional[dict]) -> int
+function pyleoclim.utils.tsutils.center(y: list, axis: Optional[int]) -> list
+function pyleoclim.utils.tsutils.detect_outliers_DBSCAN(ys: numpy.ndarray, nbr_clusters: Optional[int], eps: Union[float, list], min_samples: Union[int, list], n_neighbors: Optional[int], metric: str, NN_kwargs: Optional[dict], DBSCAN_kwargs: Optional[dict]) -> list
+function pyleoclim.utils.tsutils.detect_outliers_kmeans(ys: numpy.ndarray, nbr_clusters: Union[int, list], max_cluster: int, threshold: int, LOF: bool, n_frac: float, contamination: ('auto',, kmeans_kwargs: Optional[dict]) -> list
+function pyleoclim.utils.tsutils.detrend(y: list, x: Optional[list], method: str, n: int, preserve_mean: bool, sg_kwargs: Optional[dict]) -> list
+function pyleoclim.utils.tsutils.eff_sample_size(y: float, detrend_flag: bool) -> float
+function pyleoclim.utils.tsutils.gauss(ys: 1D) -> 1D
+function pyleoclim.utils.tsutils.gaussianize(ys: 1D) -> 1D
+function pyleoclim.utils.tsutils.gkernel(t: 1d, y: 1d, h: Optional[float], step: Optional[float], start: Optional[float], stop: Optional[float], step_style: Optional[str], evenly_spaced: Literal['True', 'False'], bin_edges: Optional[list], time_axis: Optional[np.ndarray], no_nans: bool;) -> 1d
+function pyleoclim.utils.tsutils.increments(x: list, step_style: str) -> float
+function pyleoclim.utils.tsutils.interp(x: list, y: list, interp_type: str, step: Optional[float], start: Optional[float], stop: Optional[float], step_style: Optional[str;], time_axis: Optional[np.ndarray], kwargs: kwargs) -> list
+function pyleoclim.utils.tsutils.make_even_axis(x: Optional[np.ndarray], start: Optional[float], stop: Optional[float], step: Optional[float], step_style: Optional[str;], no_nans: bool:)
+function pyleoclim.utils.tsutils.phaseran(recblk: numpy.ndarray, nsurr: int) -> numpy.ndarray
+function pyleoclim.utils.tsutils.phaseran2(y: array,, nsurr: int) -> array
+function pyleoclim.utils.tsutils.preprocess(ys: list, ts: list, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool) -> list
+function pyleoclim.utils.tsutils.remove_outliers(ts: numpy.ndarray, ys: numpy.ndarray, indices: numpy.ndarray) -> numpy.ndarray
+function pyleoclim.utils.tsutils.simple_stats(y: list, axis: Optional[int,]) -> float
+function pyleoclim.utils.tsutils.standardize(x: list, scale: real, axis: Optional[int], ddof: int, eps: real) -> list
+function pyleoclim.utils.tsutils.std(x: list, scale: real, axis: Optional[int], ddof: int, eps: real) -> list
+function pyleoclim.utils.tsutils.ts2segments(ys: list, ts: list, factor: float) -> list
+function pyleoclim.utils.tsmodel.ar1_fit(y: list, t: Optional[list]) -> float
+function pyleoclim.utils.tsmodel.ar1_fit_evenly(y: list) -> float
+function pyleoclim.utils.tsmodel.ar1_model(t: list, tau: float, output_sigma: Any) -> list
+function pyleoclim.utils.tsmodel.ar1_sim(y: list, p: int, t: Optional[list]) -> list
+function pyleoclim.utils.tsmodel.colored_noise(alpha: float, t: float, std: float, f0: Optional[float], m: Optional[int], seed: Optional[int]) -> list
+function pyleoclim.utils.tsmodel.colored_noise_2regimes(alpha1: Any, alpha2: Any, f_break: float, t: float, f0: Optional[float], m: Optional[int], seed: Optional[Any]) -> list
+function pyleoclim.utils.tsmodel.gen_ar1_evenly(t: list, g: float, scale: float, burnin: int) -> list
+function pyleoclim.utils.tsmodel.gen_ts(model: str,, t: Optional[list], nt: number, kwargs: dict) -> numpy.ndarray
+function pyleoclim.utils.tsmodel.inverse_cumsum(arr: Any)
+function pyleoclim.utils.tsmodel.isopersistent_rn(y: Any, p: int) -> numpy.ndarray
+function pyleoclim.utils.tsmodel.n_ll_unevenly_spaced_ar1(theta: array,, y: array,length, t: array,length)
+function pyleoclim.utils.tsmodel.random_time_axis(n: int, delta_t_dist: str, param: Any, seed: Optional[Any]) -> 1D
+function pyleoclim.utils.tsmodel.sm_ar1_sim(n: int, p: int, g: float, sig: float) -> numpy.ndarray
+function pyleoclim.utils.tsmodel.tau_estimation(y: list, t: list) -> float
+function pyleoclim.utils.tsmodel.uar1_fit(y: An, t: An) -> An
+function pyleoclim.utils.tsmodel.uar1_sim(t: list, tau: float, sigma_2: float) -> n
+class pyleoclim.utils.wavelet.AliasFilter(self, args: Any, kwargs: Any)
+  alias(self, alpha: Any, fs: Any, fc: Any, freq: Any, log_pwr: Any, freq_mask: Any, avgs: Any)
+  alias_filter(self, freq: list, pwr: list, fs: float, fc: float, f_limit: float, avgs: int) -> float
+  misfit(self, alpha: Any, fs: Any, fc: Any, freq: Any, log_pwr: Any, freq_mask: Any, avgs: Any)
+  model(self, alpha: Any, fs: Any, fc: Any, freq: Any, avgs: Any)
+function pyleoclim.utils.wavelet.angle_sig(theta: numpy.ndarray, nMC: int, level: float) -> float
+function pyleoclim.utils.wavelet.angle_stats(theta: numpy.ndarray) -> float
+function pyleoclim.utils.wavelet.assertPositiveInt(args: Any)
+function pyleoclim.utils.wavelet.chisquare_inv(P: float, V: float) -> float
+function pyleoclim.utils.wavelet.chisquare_solve(XGUESS: float, P: float, V: float) -> float
+function pyleoclim.utils.wavelet.cwt(ys: numpy.ndarray, ts: numpy.ndarray, freq: Optional[numpy.ndarray], freq_method: str, freq_kwargs: dict, scale: Optional[numpy.ndarray], detrend: bool,, sg_kwargs: dict, gaussianize: bool, standardize: bool, pad: bool, mother: str, param: Optional[flaot]) -> dict
+function pyleoclim.utils.wavelet.cwt_coherence(y1: list, t1: list, y2: list, t2: list, freq: Optional[list], freq_method: str, freq_kwargs: dict, scale: Optional[numpy.ndarray], detrend: bool,, sg_kwargs: dict, pad: bool, standardize: bool, gaussianize: bool, tau: Optional[list], Neff_threshold: int, mother: str, param: Optional[float], smooth_factor: float) -> dict
+function pyleoclim.utils.wavelet.freq_vector_log(ts: list, fmin: Optional[float], fmax: Optional[float], nf: Optional[int]) -> list
+function pyleoclim.utils.wavelet.freq_vector_lomb_scargle(ts: list, dt: Optional[float], nf: Optional[int], ofac: float, hifac: float) -> list
+function pyleoclim.utils.wavelet.freq_vector_nfft(ts: list) -> list
+function pyleoclim.utils.wavelet.freq_vector_scale(ts: numpy.ndarray, dj: float, s0: Optional[float], j1: Optional[float], mother: str, param: Optional[flaot]) -> list
+function pyleoclim.utils.wavelet.freq_vector_welch(ts: list) -> list
+function pyleoclim.utils.wavelet.get_wwz_func(nproc: int, method: str) -> function
+function pyleoclim.utils.wavelet.kirchner_basic(ys: list, ts: list, freq: list, tau: list, c: float, Neff_threshold: int, nproc: int, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool) -> list
+function pyleoclim.utils.wavelet.kirchner_f2py(ys: list, ts: list, freq: list, tau: list, c: float, Neff_threshold: int, nproc: int, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool) -> list
+function pyleoclim.utils.wavelet.kirchner_nproc(ys: list, ts: list, freq: list, tau: list, c: float, Neff_threshold: int, nproc: int, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool) -> the
+function pyleoclim.utils.wavelet.kirchner_numba(ys: list, ts: list, freq: list, tau: list, c: float, Neff_threshold: int, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool, nproc: int) -> list
+function pyleoclim.utils.wavelet.make_coi(tau: list, Neff_threshold: int)
+function pyleoclim.utils.wavelet.make_freq_vector(ts: list, method: str, rayleigh_bound: bool, kwargs: dict) -> list
+function pyleoclim.utils.wavelet.make_omega(ts: list, freq: list) -> list
+function pyleoclim.utils.wavelet.prepare_wwz(ys: list, ts: list, freq: Optional[list], freq_method: str, freq_kwargs: Optional[str], tau: Optional[list], len_bd: int, bc_mode: str, reflect_type: str, kwargs: Any) -> list
+function pyleoclim.utils.wavelet.tc_wave_bases(mother: str, k: numpy.ndarray, scale: float, param: float) -> numpy.ndarray
+function pyleoclim.utils.wavelet.tc_wave_signif(ys: numpy.ndarray, ts: numpy.ndarray, scale: numpy.ndarray, mother: str, param: int, sigtest: Literal['chi-square', 'time-average', 'scale-average'], qs: list, dof: Optional[None], gws: Optional[np.array]) -> numpy.ndarray
+function pyleoclim.utils.wavelet.tc_wavelet(Y: numpy.ndarray, dt: float, scale: Any, mother: str, param: flaot, pad: Literal['True', 'False']) -> numpy.ndarray
+function pyleoclim.utils.wavelet.wtc(coeff1: list, coeff2: list, scales: list, tau: array', smooth_factor: Any) -> list
+function pyleoclim.utils.wavelet.wwa2psd(wwa: list, ts: list, Neffs: list, freq: Optional[list], Neff_threshold: int, anti_alias: bool, avgs: int) -> list
+function pyleoclim.utils.wavelet.wwz(ys: list, ts: list, tau: Optional[list], ntau: Optional[Any], freq: Optional[list], freq_method: str, freq_kwargs: str, c: float, Neff_threshold: int, Neff_coi: Any, nproc: int, detrend: string,, sg_kwargs: Optional[dict], method: string,, gaussianize: Any, standardize: Any, len_bd: int, bc_mode: string,, reflect_type: string,) -> collections.namedtuple
+function pyleoclim.utils.wavelet.wwz_basic(ys: list, ts: list, freq: list, tau: list, c: float, Neff_threshold: int, nproc: int, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool) -> list
+function pyleoclim.utils.wavelet.wwz_coherence(y1: list, t1: list, y2: list, t2: list, smooth_factor: float, tau: Optional[list], freq: Optional[list], freq_method: Any, freq_kwargs: Optional[Any], c: float, Neff_threshold: int, nproc: int, detrend: str, sg_kwargs: Optional[dict], verbose: bool, method: str, gaussianize: bool, standardize: bool) -> dict
+function pyleoclim.utils.wavelet.wwz_nproc(ys: list, ts: list, freq: list, tau: list, c: float, Neff_threshold: int, nproc: int, detrend: str, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool) -> list
+function pyleoclim.utils.wavelet.xwt(coeff1: list, coeff2: list) -> array
+function pyleoclim.utils.spectral.beta2Hurst(beta: float) -> float
+function pyleoclim.utils.spectral.beta_estimation(psd: list, freq: list, fmin: Optional[float], fmax: Optional[float], logf_binning_step: Any, verbose: bool) -> float
+function pyleoclim.utils.spectral.cwt_psd(ys: numpy.ndarray, ts: numpy.ndarray, freq: Optional[numpy.ndarray], freq_method: str, freq_kwargs: Optional[dict], scale: Optional[numpy.ndarray], detrend: bool,, sg_kwargs: dict, gaussianize: bool, standardize: bool, pad: bool, mother: str, param: Optional[flaot,], cwt_res: Optional[dict]) -> dict
+function pyleoclim.utils.spectral.lomb_scargle(ys: list, ts: list, freq: Union[str, list], freq_method: str, freq_kwargs: Optional[dict], n50: int, window: Union[str, tuple], detrend: Optional[Any], sg_kwargs: Optional[Any], gaussianize: Any, standardize: Any, average: Any) -> dict
+function pyleoclim.utils.spectral.mtm(ys: list, ts: list, NW: Optional[float], BW: Optional[float], detrend: Optional[str], sg_kwargs: Optional[Any], gaussianize: Any, standardize: Any, adaptive: Any, jackknife: Any, low_bias: Any, sides: Any, nfft: Optional[Any]) -> dict
+function pyleoclim.utils.spectral.periodogram(ys: list, ts: list, window: Union[str, tuple], nfft: Optional[int], return_onesided: bool, detrend: Optional[str], sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool, scaling: Literal['density', 'spectrum']) -> dict
+function pyleoclim.utils.spectral.psd_ar(var_noise: float, freq: list, ar_params: list, f_sampling: float) -> list
+function pyleoclim.utils.spectral.psd_fBM(freq: list, ts: list, H: float) -> list
+function pyleoclim.utils.spectral.welch(ys: list, ts: list, window: Union[str, tuple], nperseg: Optional[int], noverlap: Optional[int], nfft: Optional[int], return_onesided: bool, detrend: Optional[str], sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool, scaling: Literal['density', 'spectrum'], average: Literal['mean', 'median']) -> dict
+function pyleoclim.utils.spectral.wwz_psd(ys: list, ts: list, freq: Optional[list], freq_method: str,, freq_kwargs: Optional[dict], tau: Optional[list], c: float, nproc: int, detrend: str,, sg_kwargs: Optional[dict], gaussianize: bool, standardize: bool, Neff_threshold: int, anti_alias: bool, avgs: int, method: string,, wwa: Optional[list], wwz_Neffs: Optional[list], wwz_freq: Optional[list]) -> collections.namedtuple
+function pyleoclim.utils.correlation.association(y1: array,, y2: array,, statistic: str, settings: Optional[dict]) -> instance
+function pyleoclim.utils.correlation.corr_isopersist(y1: list, y2: list, alpha: float, nsim: int) -> float
+function pyleoclim.utils.correlation.corr_isospec(y1: list, y2: list, alpha: float, nsim: int) -> float
+function pyleoclim.utils.correlation.corr_sig(y1: list, y2: list, nsim: int, method: str;, alpha: float) -> dict
+function pyleoclim.utils.correlation.corr_ttest(y1: list, y2: list, alpha: float, df_min: float) -> float
+function pyleoclim.utils.correlation.cov_shrink_rblw(S: array,, n: int) -> array,
+function pyleoclim.utils.correlation.fdr(pvals: Union[list, list], qlevel: float, method: Literal['original', 'general'], adj_method: Optional[Literal['mean', 'storey', 'two-stage']], adj_args: dict) -> Optional[list]
+function pyleoclim.utils.correlation.fdr_basic(pvals: Union[list, list], qlevel: float) -> Optional[list]
+function pyleoclim.utils.correlation.fdr_master(pvals: Union[list, list], qlevel: float, method: Literal['original', 'general']) -> Optional[list]
+function pyleoclim.utils.correlation.prop_alt(pvals: Union[list, list], adj_method: str;, adj_args: dict) -> int
+function pyleoclim.utils.correlation.storey(edf_quantile: float, pvals: Union[list, list]) -> int
+function pyleoclim.utils.causality.granger_causality(y1: Any, y2: Any, maxlag: Union[int, int], addconst: bool, verbose: bool) -> dict
+function pyleoclim.utils.causality.liang(y1: Any, y2: Any, npt: int) -> dict
+function pyleoclim.utils.causality.liang_causality(y1: Any, y2: Any, npt: int, signif_test: str;, nsim: int, qs: list) -> dict
+function pyleoclim.utils.causality.signif_isopersist(y1: Any, y2: Any, method: str;, nsim: int, qs: list, kwargs: Any) -> dict
+function pyleoclim.utils.causality.signif_isospec(y1: Any, y2: Any, method: str;, nsim: int, qs: list, kwargs: dict) -> dict
+function pyleoclim.utils.mapping.centroid_coords(lat: 1d, lon: 1d, true_centroid: bool) -> coordinates
+function pyleoclim.utils.mapping.compute_dist(lat_r: float, lon_r: float, lat_c: list, lon_c: list) -> list
+function pyleoclim.utils.mapping.dist_sphere(lat1: float, lon1: float, lat2: float, lon2: float) -> float
+function pyleoclim.utils.mapping.lon_180_to_360(x: Any)
+function pyleoclim.utils.mapping.lon_360_to_180(x: Any)
+function pyleoclim.utils.mapping.make_df(geo_ms: Any, hue: Optional[Any], marker: Optional[Any], size: Optional[Any], cols: Optional[Any], d: Optional[Any])
+function pyleoclim.utils.mapping.map(lat: list, lon: list, criteria: list, marker: Optional[list], color: Optional[list], projection: str, proj_default: bool, crit_dist: float, background: bool, borders: bool, rivers: bool, lakes: bool, figsize: Optional[list], ax: Optional[axis,optional], scatter_kwargs: Optional[dict], legend: bool, legend_title: Optional[str], lgd_kwargs: Optional[dict], savefig_settings: Optional[dict]) -> Union[The, axis]
+function pyleoclim.utils.mapping.pick_proj(lat: 1d, lon: 1d, crit_dist: float) -> str
+function pyleoclim.utils.mapping.scatter_map(geos: Pandas, hue: str, size: Optional[str], marker: str, edgecolor: Union[color, list], proj_default: bool, projection: str, crit_dist: float, title: Optional[str], background: bool, borders: bool, coastline: Any, rivers: bool, lakes: bool, ocean: Any, land: Any, figsize: Union[list, tuple], scatter_kwargs: Optional[dict], gridspec_kwargs: Optional[dict], extent: TYPE, edgecolor_var: Optional[Any], lgd_kwargs: Optional[dict], legend: bool, colorbar: bool, cmap: Union[str, list], color_scale_type: Optional[str], fig: Optional[matplotlib.pyplot.figure], gs_slot: Optional[Gridspec], kwargs: dict) -> TYPE
+function pyleoclim.utils.mapping.set_proj(projection: str, proj_default: bool;) -> the
+function pyleoclim.utils.mapping.within_distance(distance: list, radius: float) -> list
+function pyleoclim.utils.decomposition.ssa(y: array, M: Optional[int], nMC: int, f: float, trunc: Optional[str], var_thresh: float, online: bool;) -> dict
+function pyleoclim.utils.jsonutils.PyleoObj_to_dict(obj: pyleoclim.core.io) -> dict
+function pyleoclim.utils.jsonutils.PyleoObj_to_json(obj: pyleoclim.core.ui, filename: str)
+function pyleoclim.utils.jsonutils.isPyleoclim(obj: pyleoclim.core.ui) -> Literal['True', 'False']
+function pyleoclim.utils.jsonutils.iterate_through_dict(dictionary: dict, objname: str) -> dict
+function pyleoclim.utils.jsonutils.json_to_PyleoObj(filename: str, objname: str) -> pyleoclim.core.ui
+function pyleoclim.utils.jsonutils.objname_to_obj(objname: str) -> pyleoclim.core.ui
+function pyleoclim.utils.jsonutils.open_json(filename: str) -> dict
+function pyleoclim.utils.datasets.available_dataset_names() -> List
+function pyleoclim.utils.datasets.get_metadata(name: str) -> Dictionary
+function pyleoclim.utils.datasets.load_dataset(name: str) -> pyleoclim_util.Series
+function pyleoclim.utils.datasets.load_datasets_metadata(path: Union[str, pathlib.Path]) -> Dictionary
+class pyleoclim.core.psds.MultiplePSD(self, psd_list: Any, beta_est_res: Optional[numpy.ndarray])
+  anti_alias(self, avgs: int, mute_pbar: bool;) -> pyleoclim.core.psds.MultiplePSD
+  beta_est(self, fmin: Optional[float], fmax: Optional[float], logf_binning_step: str;, verbose: bool) -> pyleoclim.core.psds.MultiplePSD
   copy(self)
-  plot(self,figsize:L[O],in_loglog:B,in_period:B,xlabel:S,ylabel:S,title:S,xlim:L[O],ylim:L[O],savefig_settings:D,ax:X,xticks:L[O],yticks:L[O],legend:B,colors:X,cmap:S,norm:X,plot_kwargs:X,lgd_kwargs:X)->X
-  plot_envelope(self,figsize:L[O],qs:L[O],in_loglog:B,in_period:B,xlabel:S,ylabel:S,title:S,xlim:L[O],ylim:L[O],savefig_settings:D,ax:X,xticks:L[O],yticks:L[O],plot_legend:B,curve_clr:S,curve_lw:S,shade_clr:S,shade_alpha:F,shade_label:S,lgd_kwargs:D,members_plot_num:I,members_alpha:F,members_lw:F,seed:I)->X
-  plot_traces(self,figsize:L[O],in_loglog:B,in_period:B,xlabel:S,ylabel:S,title:S,num_traces:I,seed:I,xticks:L[O],yticks:L[O],xlim:L[O],ylim:L[O],linestyle:X,savefig_settings:D,ax:X,legend:X,color:S,lw:F,alpha:F,lgd_kwargs:D)->X
-  quantiles(self,qs:L[O],lw:L[O])->X
-c:pyleoclim.core.psds.PSD(self,frequency:O,amplitude:O,label:O,timeseries:O,plot_kwargs:O,spec_method:O,spec_args:O,signif_qs:O,signif_method:O,period_unit:O,beta_est_res:O)
-  anti_alias(self,avgs:I)->X
-  beta_est(self,fmin:F,fmax:F,logf_binning_step:S,verbose:X)->X
-  plot(self,in_loglog:X,in_period:X,label:S,xlabel:S,ylabel:S,title:S,marker:S,markersize:I,color:S,linestyle:S,linewidth:F,transpose:X,xlim:L[O],ylim:L[O],figsize:L[O],savefig_settings:D,ax:X,legend:X,lgd_kwargs:D,xticks:L[O],yticks:L[O],alpha:F,zorder:I,plot_kwargs:D,signif_clr:S,signif_linestyles:L[O],signif_linewidth:F,plot_beta:X,beta_kwargs:D)->X
-  signif_test(self,method:X,number:I,seed:I,qs:L[O],settings:D,scalogram:C:Scalogram)->X
-f:pyleoclim.core.psds.infer_period_unit_from_time_unit(time_unit:O)
-c:pyleoclim.core.ssares.SsaRes(self,orig:O,label:O,eigvals:O,eigvecs:O,pctvar:O,PC:O,RCmat:O,RCseries:O,mode_idx:O,eigvals_q:O)
-  copy(self)->X
-  modeplot(self,index:I,figsize:L[O],savefig_settings:D,title_kwargs:D,spec_method:S,plot_original:O)
-  screeplot(self,figsize:L[O],title:S,ax:X,savefig_settings:D,title_kwargs:D,xlim:L[O],clr_mcssa:S,clr_signif:S,clr_eig:S)
-c:pyleoclim.core.correns.CorrEns(self,r:O,p:O,signif:O,signif_fdr:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-  plot(self,figsize:L[O],title:S,ax:X,savefig_settings:D,hist_kwargs:D,title_kwargs:D,xlim:L[O],alpha:F,multiple:S,clr_insignif:O,clr_signif:O,clr_signif_fdr:O,clr_percentile:O)
-f:pyleoclim.core.correns.pval_format(p:O,threshold:O,style:O)
-c:pyleoclim.core.scalograms.MultipleScalogram(self,scalogram_list:O)
-  quantiles(self,qs:L[O])->X
-c:pyleoclim.core.scalograms.Scalogram(self,frequency:X,scale:X,time:X,amplitude:X,coi:X,label:S,Neff_threshold:I,wwz_Neffs:X,timeseries:C:Series,wave_method:S,wave_args:D,signif_qs:D,signif_method:S,freq_method:S,freq_kwargs:D,scale_unit:S,time_label:S,signif_scals:C:MultipleScalogram,qs:L[O])
-  plot(self,variable:X,in_scale:B,xlabel:S,ylabel:S,title:S,ylim:L[O],xlim:L[O],yticks:L[O],figsize:L[O],signif_clr:S,signif_linestyles:S,signif_linewidths:F,contourf_style:D,cbar_style:D,plot_cb:O,savefig_settings:D,ax:X,signif_thresh:F)->X
-  signif_test(self,method:X,number:I,seed:I,qs:L[O],settings:D,export_scal:X)->X
-c:pyleoclim.core.multivardecomp.MultivariateDecomp(self,name:O,eigvals:O,eigvecs:O,pctvar:O,pcs:O,neff:O,orig:O)
-  modeplot(self,index:I,figsize:L[O],fig:O,savefig_settings:D,gs:X,title:S,title_kwargs:D,spec_method:S,cmap:S,hue:S,marker:X,size:S,scatter_kwargs:D,flip:O,map_kwargs:D,gridspec_kwargs:D)->X
-  screeplot(self,figsize:L[O],uq:S,title:S,ax:X,savefig_settings:D,title_kwargs:D,xlim:L[O],clr_eig:S)
-c:pyleoclim.core.resolutions.MultipleResolution(self,resolution_list:O,time_unit:O)
-  describe(self)->X
-  summary_plot(self,figsize:T,xlabel:S,ylabel:S,legend:B,ax:X,log_scale:B,boxplot_whis:F,boxplot_width:F,boxplot_dodge:B,boxplot_palette:X,stripplot_size:F,stripplot_color:S,stripplot_alpha:F,stripplot_dodge:B,boxplot_kwargs:D,stripplot_kwargs:D,savefig_settings:X)->X
-c:pyleoclim.core.resolutions.Resolution(self,resolution:O,time:O,resolution_unit:O,label:O,timeseries:O)
-  dashboard(self,figsize:L[O],title:S,plot_kwargs:D,histplot_kwargs:D,savefig_settings:D)->X
-  histplot(self,figsize:L[O],title:S,savefig_settings:D,ax:X,ylabel:S,vertical:X,edgecolor:X,plot_kwargs:D)
-  make_labels(self)->X
-  plot(self,figsize:L[O],marker:S,markersize:F,color:S,linestyle:S,linewidth:F,xlim:O,ylim:O,label:S,xlabel:S,ylabel:S,title:S,zorder:I,legend:X,plot_kwargs:D,lgd_kwargs:D,alpha:F,savefig_settings:D,ax:X,invert_xaxis:B,invert_yaxis:B)->X
-c:pyleoclim.core.multipleseries.CorrEns(self,r:O,p:O,signif:O,signif_fdr:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.core.multipleseries.MultiplePSD(self,psd_list:O,beta_est_res:X)
-c:pyleoclim.core.multipleseries.MultipleResolution(self,resolution_list:O,time_unit:O)
-c:pyleoclim.core.multipleseries.MultipleScalogram(self,scalogram_list:O)
-c:pyleoclim.core.multipleseries.MultipleSeries(self,series_list:O,time_unit:O,label:O,name:O)
-  append(self,ts:C:Series,inplace:O)->X
-  bin(self,kwargs:D)->X
-  common_time(self,method:X,step:F,start:F,stop:F,step_style:X,time_axis:X,kwargs:D)->X
-  convert_time_unit(self,time_unit:S)
-  correlation(self,target:C:Series,timespan:T,alpha:F,statistic:S,method:S,number:I,settings:D,fdr_kwargs:D,common_time_kwargs:D,mute_pbar:X,seed:F)->X
-  detrend(self,method:S,kwargs:O)->X
-  equal_lengths(self)->X
-  filter(self,cutoff_freq:F,cutoff_scale:F,method:X,kwargs:D)->X
-  flip(self,axis:S)->X
-  gkernel(self,kwargs:D)->X
-  increments(self,step_style:X,verbose:B)->X
-  interp(self,kwargs:X)->X
-  pca(self,weights:X,name:O,missing:X,tol_em:F,max_em_iter:I,pca_kwargs:O)->X
-  plot(self,figsize:L[O],marker:S,markersize:F,linestyle:S,linewidth:F,colors:X,cmap:S,norm:X,xlabel:S,ylabel:S,title:S,time_unit:S,legend:B,plot_kwargs:D,lgd_kwargs:D,savefig_settings:X,ax:X,invert_xaxis:B)->X
-  remove(self,label:O)
-  resolution(self,time_unit:O,verbose:O,statistic:O)->X
-  sel(self,value:I,time:I,tolerance:I)->X
-  spectral(self,method:X,freq:S,settings:D,mute_pbar:B,freq_kwargs:D,label:S,verbose:B,scalogram_list:C:MultipleScalogram)->X
-  stackplot(self,figsize:L[O],savefig_settings:X,time_unit:S,xlim:L[O],fill_between_alpha:F,colors:X,cmap:S,norm:X,labels:N,ylabel_fontsize:I,spine_lw:F,grid_lw:F,label_x_loc:F,v_shift_factor:F,linewidth:F,yticks_minor:B,xticks_minor:B,ylims:S,plot_kwargs:D)->X
-  standardize(self)->X
-  stripes(self,cmap:S,sat:F,ref_period:X,figsize:L[O],savefig_settings:X,time_unit:S,labels:N,label_color:O,show_xaxis:B,common_time_kwargs:D,xlim:L[O],font_scale:F,x_offset:F)->X
-  time_coverage_plot(self,figsize:L[O],marker:S,markersize:F,alpha:F,linestyle:S,linewidth:F,colors:X,cmap:S,norm:X,xlabel:S,ylabel:S,title:S,time_unit:S,legend:B,inline_legend:B,plot_kwargs:D,lgd_kwargs:D,label_x_offset:F,label_y_offset:F,savefig_settings:X,ax:X,ypad:O,invert_xaxis:B,invert_yaxis:B)->X
-  to_csv(self,path:S,args:O,use_common_time:O,kwargs:O)->X
-  to_json(self,path:X)->X
-  to_pandas(self,paleo_style:X,args:O,use_common_time:O,kwargs:O)->X
-  view(self)->X
-  wavelet(self,method:S,settings:D,freq:S,freq_kwargs:D,verbose:B,mute_pbar:B)->X
-c:pyleoclim.core.multipleseries.MultivariateDecomp(self,name:O,eigvals:O,eigvecs:O,pctvar:O,pcs:O,neff:O,orig:O)
-c:pyleoclim.core.coherences.Coherence(self,frequency:O,scale:O,time:O,wtc:O,xwt:O,phase:O,coi:O,wave_method:O,wave_args:O,timeseries1:O,timeseries2:O,signif_qs:O,signif_method:O,qs:O,freq_method:O,freq_kwargs:O,Neff_threshold:O,scale_unit:O,time_label:O)
-  dashboard(self,title:S,figsize:L[O],overlap:X,phase_style:D,line_colors:L[O],savefig_settings:D,ts_plot_kwargs:D,wavelet_plot_kwargs:D)->X
-  phase_stats(self,scales:F,number:I,level:F)->X
-  plot(self,var:S,xlabel:S,ylabel:S,title:S,figsize:L[O],ylim:L[O],xlim:L[O],in_scale:B,yticks:L[O],contourf_style:D,phase_style:D,cbar_style:D,savefig_settings:D,ax:X,signif_clr:S,signif_linestyles:S,signif_linewidths:F,signif_thresh:F,under_clr:S,over_clr:S,bad_clr:S)->X
-  signif_test(self,number:I,method:X,seed:I,qs:L[O],settings:D,mute_pbar:B)->X
-c:pyleoclim.core.coherences.GlobalCoherence(self,global_coh:O,coh:O,signif_qs:O,signif_method:O,qs:O,label:O)
-  plot(self,figsize:T,xlim:T,xlabel:S,label:S,psd_y_label:S,coh_y_label:S,coh_line_color:S,ax:X,coh_ylim:T,fill_alpha:F,fill_color:S,coh_plot_kwargs:D,savefig_settings:D,spectral_kwargs:D,legend:B,legend_kwargs:D,spec1_plot_kwargs:D,spec2_plot_kwargs:D)->X
-  signif_test(self,method:X,number:I,qs:L[O])->X
-c:pyleoclim.core.coherences.MultipleScalogram(self,scalogram_list:O)
-c:pyleoclim.core.coherences.Scalogram(self,frequency:X,scale:X,time:X,amplitude:X,coi:X,label:S,Neff_threshold:I,wwz_Neffs:X,timeseries:C:Series,wave_method:S,wave_args:D,signif_qs:D,signif_method:S,freq_method:S,freq_kwargs:D,scale_unit:S,time_label:S,signif_scals:C:MultipleScalogram,qs:L[O])
-c:pyleoclim.core.corr.Corr(self,r:O,p:O,r_crit:O,signif:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-f:pyleoclim.core.corr.pval_format(p:O,threshold:O,style:O)
-c:pyleoclim.core.series.Coherence(self,frequency:O,scale:O,time:O,wtc:O,xwt:O,phase:O,coi:O,wave_method:O,wave_args:O,timeseries1:O,timeseries2:O,signif_qs:O,signif_method:O,qs:O,freq_method:O,freq_kwargs:O,Neff_threshold:O,scale_unit:O,time_label:O)
-c:pyleoclim.core.series.Corr(self,r:O,p:O,r_crit:O,signif:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.core.series.GlobalCoherence(self,global_coh:O,coh:O,signif_qs:O,signif_method:O,qs:O,label:O)
-c:pyleoclim.core.series.MultipleSeries(self,series_list:O,time_unit:O,label:O,name:O)
-c:pyleoclim.core.series.PSD(self,frequency:O,amplitude:O,label:O,timeseries:O,plot_kwargs:O,spec_method:O,spec_args:O,signif_qs:O,signif_method:O,period_unit:O,beta_est_res:O)
-c:pyleoclim.core.series.Resolution(self,resolution:O,time:O,resolution_unit:O,label:O,timeseries:O)
-c:pyleoclim.core.series.Scalogram(self,frequency:X,scale:X,time:X,amplitude:X,coi:X,label:S,Neff_threshold:I,wwz_Neffs:X,timeseries:C:Series,wave_method:S,wave_args:D,signif_qs:D,signif_method:S,freq_method:S,freq_kwargs:D,scale_unit:S,time_label:S,signif_scals:C:MultipleScalogram,qs:L[O])
-c:pyleoclim.core.series.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-  bin(self,keep_log:X,kwargs:O)->X
-  causality(self,target_series:X,method:X,timespan:T,settings:D,common_time_kwargs:D)->X
-  center(self,timespan:T,keep_log:X)->X
-  clean(self,verbose:B,keep_log:X)->X
-  compare(self,ts:X,row_clr:O)->X
-  convert_time_unit(self,time_unit:S,keep_log:X)
-  correlation(self,target_series:X,alpha:F,statistic:S,method:S,number:I,timespan:T,settings:D,seed:F,common_time_kwargs:D,mute_pbar:B)->X
-  detrend(self,method:S,keep_log:X,preserve_mean:X,kwargs:D)->X
-  equals(self,ts:X,index_tol:I,value_tol:F)->X
-  fill_na(self,timespan:T,dt:F,keep_log:X)->X
-  filter(self,cutoff_freq:F,cutoff_scale:F,method:S,keep_log:X,kwargs:D)->X
-  flip(self,axis:S,keep_log:X)->X
-  gaussianize(self,keep_log:O)->X
-  gkernel(self,step_style:S,keep_log:X,step_type:O,kwargs:O)->X
-  global_coherence(self,target_series:X,coh:X,method:X,wavelet_kwargs:D)->X
-  interp(self,method:X,keep_log:X,kwargs:O)->X
-  is_evenly_spaced(self,tol:F)->X
-  outliers(self,method:S,remove:B,settings:D,fig_outliers:B,figsize_outliers:L[O],plotoutliers_kwargs:D,savefigoutliers_settings:D,fig_clusters:B,figsize_clusters:L[O],plotclusters_kwargs:D,savefigclusters_settings:D,keep_log:X)->X
-  overlap(self,ts:X)->X
-  pandas_method(self,method:S)->X
-  resample(self,rule:S,keep_log:O,kwargs:D)->X
-  resolution(self)->X
-  segment(self,factor:F,verbose:B)->X
-  slice(self,timespan:T)->X
-  sort(self,verbose:B,ascending:O,keep_log:X)->X
-  spectral(self,method:X,freq:S,freq_kwargs:D,settings:D,label:S,scalogram:C:Scalogram,verbose:B)->X
-  ssa(self,M:I,nMC:O,f:F,trunc:S,var_thresh:F,online:X)->X
-  standardize(self,keep_log:O,scale:O)->X
-  stats(self)->X
-  stripes(self,figsize:L[O],cmap:S,ref_period:X,sat:F,top_label:S,bottom_label:S,label_color:O,label_size:O,xlim:L[O],xlabel:O,savefig_settings:D,ax:X,invert_xaxis:B,show_xaxis:B,x_offset:F)->X
-  summary_plot(self,psd:X,scalogram:X,figsize:L[O],title:S,time_lim:L[O],value_lim:L[O],period_lim:L[O],psd_lim:L[O],time_label:S,value_label:S,period_label:S,psd_label:S,ts_plot_kwargs:D,wavelet_plot_kwargs:D,psd_plot_kwargs:D,gridspec_kwargs:D,y_label_loc:F,legend:B,savefig_settings:D)
-  to_csv(self,metadata_header:X,path:S)->X
-  to_pandas(self,paleo_style:X)->X
-  wavelet(self,method:S,settings:D,freq:S,freq_kwargs:D,verbose:B)->X
-  wavelet_coherence(self,target_series:X,method:S,settings:D,freq:S,freq_kwargs:D,verbose:B,common_time_kwargs:D)->X
-c:pyleoclim.core.series.SeriesResampler(self,rule:O,series:O,metadata:O,keep_log:O,kwargs:O)
-c:pyleoclim.core.series.SsaRes(self,orig:O,label:O,eigvals:O,eigvecs:O,pctvar:O,PC:O,RCmat:O,RCseries:O,mode_idx:O,eigvals_q:O)
-f:pyleoclim.core.series.dict2namedtuple(d:O)
-c:pyleoclim.core.geoseries.GeoSeries(self,time:O,value:O,lat:O,lon:O,elevation:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,log:O,keep_log:O,verbose:O,depth:O,depth_name:O,depth_unit:O,sort_ts:O,dropna:O,clean_ts:O,auto_time_params:O)
-  dashboard(self,figsize:L[O],gs:X,plt_kwargs:D,histplt_kwargs:D,spectral_kwargs:D,spectralsignif_kwargs:D,spectralfig_kwargs:D,map_kwargs:D,hue:S,marker:X,size:S,scatter_kwargs:D,gridspec_kwargs:D,savefig_settings:D)->X
-  map(self,projection:S,proj_default:X,background:B,borders:B,coastline:B,rivers:B,lakes:B,ocean:B,land:B,fig:X,gridspec_slot:X,title:X,figsize:L[O],marker:S,hue:S,size:X,edgecolor:X,markersize:F,scatter_kwargs:D,cmap:X,colorbar:B,gridspec_kwargs:D,legend:X,lgd_kwargs:D,savefig_settings:D)->X
-  map_neighbors(self,mgs:X,radius:F,projection:S,proj_default:X,background:X,borders:X,rivers:X,lakes:X,ocean:O,land:O,fig:O,gridspec_slot:O,title:B,figsize:L[O],marker:S,hue:S,size:O,edgecolor:O,markersize:F,scatter_kwargs:D,cmap:O,colorbar:O,gridspec_kwargs:O,legend:X,lgd_kwargs:D,savefig_settings:D)->X
-c:pyleoclim.core.geoseries.GeoSeriesResampler(self,rule:O,series:O,metadata:O,keep_log:O,kwargs:O)
-c:pyleoclim.core.geoseries.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.multiplegeoseries.MultipleGeoSeries(self,series_list:O,time_unit:O,label:O)
-  map(self,marker:X,hue:X,size:X,cmap:X,edgecolor:X,projection:X,proj_default:B,crit_dist:F,colorbar:B,color_scale_type:S,background:B,borders:B,coastline:B,rivers:B,lakes:B,land:B,ocean:B,figsize:L[O],fig:X,scatter_kwargs:D,gridspec_kwargs:D,legend:B,gridspec_slot:O,lgd_kwargs:D,savefig_settings:D,kwargs:D)->X
-  pca(self,weights:X,missing:X,tol_em:F,max_em_iter:I,pca_kwargs:O)->X
-  time_geo_plot(self,figsize:L[O],marker:S,markersize:F,alpha:F,y_criteria:S,linestyle:S,linewidth:F,colors:X,cmap:S,norm:X,xlabel:S,ylabel:S,title:S,time_unit:S,legend:B,inline_legend:B,plot_kwargs:D,lgd_kwargs:D,label_x_offset:F,label_y_offset:F,savefig_settings:X,ax:X,invert_xaxis:B,invert_yaxis:B)->X
-c:pyleoclim.core.multiplegeoseries.MultipleSeries(self,series_list:O,time_unit:O,label:O,name:O)
-c:pyleoclim.core.ensembleseries.CorrEns(self,r:O,p:O,signif:O,signif_fdr:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.core.ensembleseries.EnsembleSeries(self,series_list:O,label:O)
-  correlation(self,target:X,timespan:T,alpha:F,method:S,statistic:S,number:I,settings:D,fdr_kwargs:D,common_time_kwargs:D,mute_pbar:X,seed:F)->X
-  plot_envelope(self,figsize:L[O],qs:L[O],xlabel:S,ylabel:S,title:S,xlim:L[O],ylim:L[O],savefig_settings:D,ax:X,plot_legend:X,curve_clr:S,curve_lw:S,shade_clr:S,shade_alpha:F,inner_shade_label:S,outer_shade_label:S,lgd_kwargs:D)->X
-  plot_traces(self,figsize:L[O],xlabel:S,ylabel:S,title:S,num_traces:I,seed:I,xlim:L[O],ylim:L[O],linestyle:X,savefig_settings:D,ax:X,legend:X,color:S,lw:F,alpha:F,lgd_kwargs:D)->X
-  quantiles(self,qs:L[O],axis:X)->X
-  stackplot(self,figsize:L[O],savefig_settings:X,xlim:L[O],fill_between_alpha:F,colors:L[O],cmap:S,norm:X,spine_lw:F,grid_lw:F,font_scale:F,label_x_loc:F,v_shift_factor:F,linewidth:F)->X
-  to_array(self,axis:S,labels:B)->X
-  to_dataframe(self,axis:S)->X
-c:pyleoclim.core.ensembleseries.MultipleSeries(self,series_list:O,time_unit:O,label:O,name:O)
-c:pyleoclim.core.ensembleseries.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.surrogateseries.EnsembleSeries(self,series_list:O,label:O)
-c:pyleoclim.core.surrogateseries.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.surrogateseries.SurrogateSeries(self,series_list:L[O],number:I,method:S,label:S,param:L[O],seed:O)
-  from_param(self,param:L[O],length:I,time_pattern:S,settings:D)->X
-  from_series(self,target_series:X)->X
-c:pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries(self,series_list:O,label:O,lat:O,lon:O,elevation:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,depth:O,depth_name:O,depth_unit:O)
-  dashboard(self,figsize:L[O],gs:X,plt_kwargs:D,histplt_kwargs:D,spectral_kwargs:D,spectralfig_kwargs:D,map_kwargs:D,hue:S,marker:X,size:S,scatter_kwargs:D,gridspec_kwargs:D,savefig_settings:D)->X
-c:pyleoclim.core.ensemblegeoseries.EnsembleSeries(self,series_list:O,label:O)
-c:pyleoclim.core.ensemblegeoseries.GeoSeries(self,time:O,value:O,lat:O,lon:O,elevation:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,log:O,keep_log:O,verbose:O,depth:O,depth_name:O,depth_unit:O,sort_ts:O,dropna:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp(self,pca_list:O,label:O)
-  modeplot(self,index:I,flip:B,plot_envelope_kwargs:D,psd_envelope_kwargs:O,figsize:L[O],fig:O,savefig_settings:D,gs:X,title:S,title_kwargs:D,spec_method:S,cmap:S,marker:X,scatter_kwargs:D,map_kwargs:D,gridspec_kwargs:D,quantiles:L[O])->X
-  screeplot(self,clr_eig:S,linewidth:F,title:O,violin_kwargs:D,figsize:L[O],savefig_settings:D,ax:X)->X
-c:pyleoclim.core.ensmultivardecomp.EnsembleSeries(self,series_list:O,label:O)
-c:pyleoclim.core.ensmultivardecomp.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.mulensgeoseries.EnsMultivarDecomp(self,pca_list:O,label:O)
-c:pyleoclim.core.mulensgeoseries.MulEnsGeoSeries(self,ensemble_series_list:O,label:O)
-  mcpca(self,nsim:I,seed:I,common_time_kwargs:D,pca_kwargs:D,align_method:X,delta:F,phase_max:F)->X
-  stackplot(self,figsize:L[O],savefig_settings:X,time_unit:S,xlim:L[O],colors:X,cmap:S,plot_style:X,norm:X,labels:N,ylabel_fontsize:I,spine_lw:F,grid_lw:F,label_x_loc:F,v_shift_factor:F,yticks_minor:B,xticks_minor:B,ylims:S,plot_kwargs:D,common_time_kwargs:D)->X
-c:pyleoclim.core.mulensgeoseries.MultipleGeoSeries(self,series_list:O,time_unit:O,label:O)
-c:pyleoclim.core.mulensgeoseries.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.Coherence(self,frequency:O,scale:O,time:O,wtc:O,xwt:O,phase:O,coi:O,wave_method:O,wave_args:O,timeseries1:O,timeseries2:O,signif_qs:O,signif_method:O,qs:O,freq_method:O,freq_kwargs:O,Neff_threshold:O,scale_unit:O,time_label:O)
-c:pyleoclim.core.Corr(self,r:O,p:O,r_crit:O,signif:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.core.CorrEns(self,r:O,p:O,signif:O,signif_fdr:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.core.EnsMultivarDecomp(self,pca_list:O,label:O)
-c:pyleoclim.core.EnsembleGeoSeries(self,series_list:O,label:O,lat:O,lon:O,elevation:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,depth:O,depth_name:O,depth_unit:O)
-c:pyleoclim.core.EnsembleSeries(self,series_list:O,label:O)
-c:pyleoclim.core.GeoSeries(self,time:O,value:O,lat:O,lon:O,elevation:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,log:O,keep_log:O,verbose:O,depth:O,depth_name:O,depth_unit:O,sort_ts:O,dropna:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.GlobalCoherence(self,global_coh:O,coh:O,signif_qs:O,signif_method:O,qs:O,label:O)
-c:pyleoclim.core.MulEnsGeoSeries(self,ensemble_series_list:O,label:O)
-c:pyleoclim.core.MultipleGeoSeries(self,series_list:O,time_unit:O,label:O)
-c:pyleoclim.core.MultiplePSD(self,psd_list:O,beta_est_res:X)
-c:pyleoclim.core.MultipleResolution(self,resolution_list:O,time_unit:O)
-c:pyleoclim.core.MultipleScalogram(self,scalogram_list:O)
-c:pyleoclim.core.MultipleSeries(self,series_list:O,time_unit:O,label:O,name:O)
-c:pyleoclim.core.MultivariateDecomp(self,name:O,eigvals:O,eigvecs:O,pctvar:O,pcs:O,neff:O,orig:O)
-c:pyleoclim.core.PSD(self,frequency:O,amplitude:O,label:O,timeseries:O,plot_kwargs:O,spec_method:O,spec_args:O,signif_qs:O,signif_method:O,period_unit:O,beta_est_res:O)
-c:pyleoclim.core.Resolution(self,resolution:O,time:O,resolution_unit:O,label:O,timeseries:O)
-c:pyleoclim.core.Scalogram(self,frequency:X,scale:X,time:X,amplitude:X,coi:X,label:S,Neff_threshold:I,wwz_Neffs:X,timeseries:C:Series,wave_method:S,wave_args:D,signif_qs:D,signif_method:S,freq_method:S,freq_kwargs:D,scale_unit:S,time_label:S,signif_scals:C:MultipleScalogram,qs:L[O])
-c:pyleoclim.core.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.core.SsaRes(self,orig:O,label:O,eigvals:O,eigvecs:O,pctvar:O,PC:O,RCmat:O,RCseries:O,mode_idx:O,eigvals_q:O)
-c:pyleoclim.core.SurrogateSeries(self,series_list:L[O],number:I,method:S,label:S,param:L[O],seed:O)
-c:pyleoclim.Coherence(self,frequency:O,scale:O,time:O,wtc:O,xwt:O,phase:O,coi:O,wave_method:O,wave_args:O,timeseries1:O,timeseries2:O,signif_qs:O,signif_method:O,qs:O,freq_method:O,freq_kwargs:O,Neff_threshold:O,scale_unit:O,time_label:O)
-c:pyleoclim.Corr(self,r:O,p:O,r_crit:O,signif:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.CorrEns(self,r:O,p:O,signif:O,signif_fdr:O,alpha:O,p_fmt_td:O,p_fmt_style:O)
-c:pyleoclim.EnsMultivarDecomp(self,pca_list:O,label:O)
-c:pyleoclim.EnsembleGeoSeries(self,series_list:O,label:O,lat:O,lon:O,elevation:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,depth:O,depth_name:O,depth_unit:O)
-c:pyleoclim.EnsembleSeries(self,series_list:O,label:O)
-c:pyleoclim.GeoSeries(self,time:O,value:O,lat:O,lon:O,elevation:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,sensorType:O,observationType:O,log:O,keep_log:O,verbose:O,depth:O,depth_name:O,depth_unit:O,sort_ts:O,dropna:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.GlobalCoherence(self,global_coh:O,coh:O,signif_qs:O,signif_method:O,qs:O,label:O)
-c:pyleoclim.MulEnsGeoSeries(self,ensemble_series_list:O,label:O)
-c:pyleoclim.MultipleGeoSeries(self,series_list:O,time_unit:O,label:O)
-c:pyleoclim.MultiplePSD(self,psd_list:O,beta_est_res:X)
-c:pyleoclim.MultipleResolution(self,resolution_list:O,time_unit:O)
-c:pyleoclim.MultipleScalogram(self,scalogram_list:O)
-c:pyleoclim.MultipleSeries(self,series_list:O,time_unit:O,label:O,name:O)
-c:pyleoclim.MultivariateDecomp(self,name:O,eigvals:O,eigvecs:O,pctvar:O,pcs:O,neff:O,orig:O)
-c:pyleoclim.PSD(self,frequency:O,amplitude:O,label:O,timeseries:O,plot_kwargs:O,spec_method:O,spec_args:O,signif_qs:O,signif_method:O,period_unit:O,beta_est_res:O)
-c:pyleoclim.Resolution(self,resolution:O,time:O,resolution_unit:O,label:O,timeseries:O)
-c:pyleoclim.Scalogram(self,frequency:X,scale:X,time:X,amplitude:X,coi:X,label:S,Neff_threshold:I,wwz_Neffs:X,timeseries:C:Series,wave_method:S,wave_args:D,signif_qs:D,signif_method:S,freq_method:S,freq_kwargs:D,scale_unit:S,time_label:S,signif_scals:C:MultipleScalogram,qs:L[O])
-c:pyleoclim.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:pyleoclim.SsaRes(self,orig:O,label:O,eigvals:O,eigvecs:O,pctvar:O,PC:O,RCmat:O,RCseries:O,mode_idx:O,eigvals_q:O)
-c:pyleoclim.SurrogateSeries(self,series_list:L[O],number:I,method:S,label:S,param:L[O],seed:O)
-f:pyleoclim.closefig(fig:X)
-f:pyleoclim.savefig(fig:X,path:S,dpi:I,settings:D,verbose:B)
-f:pyleoclim.set_style(style:X,font_scale:F,dpi:O)
-c:pyleoclim.core.coherence.Coherence(self,frequency:O,scale:O,time:O,wtc:O,xwt:O,phase:O,coi:O,wave_method:O,wave_args:O,timeseries1:O,timeseries2:O,signif_qs:O,signif_method:O,qs:O,freq_method:O,freq_kwargs:O,Neff_threshold:O,scale_unit:O,time_label:O)
-c:pyleoclim.core.coherence.MultipleScalogram(self,scalogram_list:O)
-c:pyleoclim.core.coherence.Scalogram(self,frequency:X,scale:X,time:X,amplitude:X,coi:X,label:S,Neff_threshold:I,wwz_Neffs:X,timeseries:C:Series,wave_method:S,wave_args:D,signif_qs:D,signif_method:S,freq_method:S,freq_kwargs:D,scale_unit:S,time_label:S,signif_scals:C:MultipleScalogram,qs:L[O])
-c:pyleoclim.core.globalcoherence.GlobalCoherence(self,global_coh:O,coh:O,signif_qs:O,signif_method:O,qs:O,label:O)
-f:pylipd.utils.utils.camelCase(id:O)
-f:pylipd.utils.utils.escape(str:O)
-f:pylipd.utils.utils.expand_schema(schema:O)
-f:pylipd.utils.utils.fromCamelCase(str:O)
-f:pylipd.utils.utils.lcfirst(s:O)
-f:pylipd.utils.utils.sanitizeId(id:O)
-f:pylipd.utils.utils.sparql_results_to_df(results:X)->X
-f:pylipd.utils.utils.ucfirst(s:O)
-f:pylipd.utils.utils.unCamelCase(id:O)
-f:pylipd.utils.utils.uniqid(prefix:O,more_entropy:O)
-f:pylipd.utils.utils.unzip_string(string:O)
-f:pylipd.utils.utils.zip_string(string:O)
-c:pylipd.utils.legacy_utils.LiPD_Legacy(self,args:O,kwargs:O)
-  extract(self,d:O,whichtables:O,mode:O,time:O)
-c:pylipd.utils.lipd_to_rdf.LipdToRDF(self,standardize:O,add_labels:O)
-  convert(self,lipdpath:S)
-  serialize(self,topath:S,type:S)
-f:pylipd.utils.lipd_to_rdf.camelCase(id:O)
-f:pylipd.utils.lipd_to_rdf.escape(str:O)
-f:pylipd.utils.lipd_to_rdf.expand_schema(schema:O)
-f:pylipd.utils.lipd_to_rdf.lcfirst(s:O)
-f:pylipd.utils.lipd_to_rdf.sanitizeId(id:O)
-f:pylipd.utils.lipd_to_rdf.ucfirst(s:O)
-f:pylipd.utils.lipd_to_rdf.unCamelCase(id:O)
-f:pylipd.utils.lipd_to_rdf.uniqid(prefix:O,more_entropy:O)
-c:pylipd.utils.multi_processing.LipdToRDF(self,standardize:O,add_labels:O)
-f:pylipd.utils.multi_processing.convert_lipd_to_graph(arg:O)
-f:pylipd.utils.multi_processing.convert_to_rdf(files:O)
-f:pylipd.utils.multi_processing.extract_variables_graph(arg:O)
-f:pylipd.utils.multi_processing.multi_convert_to_rdf(filemap:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.utils.multi_processing.multi_load_lipd(graph:O,lipdfiles:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.utils.multi_processing.multi_load_lipd_series(graph:O,single_dataset_lipds:O,parallel:O)
-c:pylipd.utils.rdf_graph.RDFGraph(self,graph:O)
+  plot(self, figsize: list, in_loglog: bool, in_period: bool,, xlabel: Optional[str], ylabel: str, title: Optional[str], xlim: Optional[list], ylim: Optional[list], savefig_settings: Optional[dict], ax: Optional[matplotlib], xticks: Optional[list], yticks: Optional[list], legend: bool, colors: Union[a, one,, a], cmap: Optional[str], norm: Optional[matplotlib.colors.Normalize], plot_kwargs: Optional[dictionary], lgd_kwargs: Optional[dictionary]) -> matplotlib.pyplot.figure
+  plot_envelope(self, figsize: list, qs: list, in_loglog: bool, in_period: bool, xlabel: Optional[str], ylabel: str, title: Optional[str], xlim: Optional[list], ylim: Optional[list], savefig_settings: Optional[dict], ax: Optional[matplotlib.ax], xticks: Optional[list], yticks: Optional[list], plot_legend: bool, curve_clr: str, curve_lw: str, shade_clr: str, shade_alpha: float, shade_label: Optional[str], lgd_kwargs: Optional[dict], members_plot_num: int, members_alpha: float, members_lw: float, seed: Optional[int]) -> matplotlib.pyplot.figure
+  plot_traces(self, figsize: list, in_loglog: bool, in_period: bool, xlabel: Optional[str], ylabel: str, title: Optional[str], num_traces: int, seed: Optional[int], xticks: Optional[list], yticks: Optional[list], xlim: Optional[list], ylim: Optional[list], linestyle: Literal['-', '--', '-.', ':', '', '(offset', 'on-off-seq)', '...'], savefig_settings: Optional[dict], ax: Optional[matplotlib.ax], legend: bool;, color: str, lw: float, alpha: float, lgd_kwargs: Optional[dict]) -> matplotlib.figure
+  quantiles(self, qs: list, lw: list) -> pyleoclim.core.psds.MultiplePSD
+class pyleoclim.core.psds.PSD(self, frequency: Union[numpy.ndarray, float], amplitude: Union[numpy.ndarray, float], label: Optional[str], timeseries: Optional[pyleoclim.core.series.Series], plot_kwargs: Optional[dict], spec_method: Optional[str], spec_args: Optional[dict], signif_qs: Optional[pyleoclim.core.scalograms.MultipleScalogram], signif_method: Optional[str], period_unit: Optional[str], beta_est_res: Union[list, numpy.ndarray])
+  anti_alias(self, avgs: int) -> pyleoclim.core.psds.PSD
+  beta_est(self, fmin: Optional[float], fmax: Optional[float], logf_binning_step: str,, verbose: bool;) -> pyleoclim.core.psds.PSD
+  plot(self, in_loglog: bool;, in_period: bool;, label: Optional[str], xlabel: Optional[str], ylabel: str, title: Optional[str], marker: Optional[str], markersize: Optional[int], color: Optional[str], linestyle: Optional[str], linewidth: Optional[float], transpose: bool;, xlim: Optional[list], ylim: Optional[list], figsize: list, savefig_settings: Optional[dict], ax: Optional[ax], legend: bool;, lgd_kwargs: Optional[dict], xticks: Optional[list], yticks: Optional[list], alpha: Optional[float], zorder: Optional[int], plot_kwargs: Optional[dict], signif_clr: str, signif_linestyles: list, signif_linewidth: float, plot_beta: bool;, beta_kwargs: Optional[dict]) -> fig,
+  signif_test(self, method: str;, number: Optional[int], seed: Optional[int], qs: list, settings: Optional[dict], scalogram: Optional[pyleoclim.Scalogram]) -> pyleoclim.core.psds.PSD
+function pyleoclim.core.psds.infer_period_unit_from_time_unit(time_unit: Any)
+class pyleoclim.core.ssares.SsaRes(self, orig: pyleoclim.core.series.Series, label: Any, eigvals: float, eigvecs: float, pctvar: float, PC: float, RCmat: float, RCseries: float, mode_idx: list, eigvals_q: Optional[float])
+  copy(self) -> pyleoclim.core.ssares.SsaRes
+  modeplot(self, index: int, figsize: list, savefig_settings: Optional[dict], title_kwargs: Optional[dict], spec_method: str, plot_original: Any)
+  screeplot(self, figsize: list, title: str, ax: Optional[matplotlib.axis], savefig_settings: Optional[dict], title_kwargs: Optional[dict], xlim: Optional[list], clr_mcssa: str, clr_signif: str, clr_eig: str)
+class pyleoclim.core.correns.CorrEns(self, r: list, p: list, signif: list, signif_fdr: list, alpha: float, p_fmt_td: float, p_fmt_style: str)
+  plot(self, figsize: list, title: Optional[str], ax: Optional[matplotlib.axis], savefig_settings: Optional[dict], hist_kwargs: Optional[dict], title_kwargs: Optional[dict], xlim: Optional[list], alpha: float, multiple: str,, clr_insignif: Any, clr_signif: Any, clr_signif_fdr: Any, clr_percentile: Any)
+function pyleoclim.core.correns.pval_format(p: Any, threshold: Any, style: Any)
+class pyleoclim.core.scalograms.MultipleScalogram(self, scalogram_list: Any)
+  quantiles(self, qs: list) -> pyleoclim.core.scalograms.MultipleScalogram
+class pyleoclim.core.scalograms.Scalogram(self, frequency: Any, scale: Any, time: Any, amplitude: Any, coi: Optional[Any], label: Optional[Any], Neff_threshold: Any, wwz_Neffs: Optional[Any], timeseries: Optional[Any], wave_method: Optional[Any], wave_args: Optional[Any], signif_qs: Optional[Any], signif_method: Optional[Any], freq_method: Optional[Any], freq_kwargs: Optional[Any], scale_unit: Optional[Any], time_label: Optional[Any], signif_scals: Optional[Any], qs: Optional[Any])
+  copy(self) -> pyleoclim.core.scalograms.Scalogram
+  plot(self, variable: Literal['amplitude', 'power'], in_scale: bool, xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], ylim: Optional[list], xlim: Optional[list], yticks: Optional[list], figsize: list, signif_clr: str, signif_linestyles: str, signif_linewidths: float, contourf_style: dict, cbar_style: dict, plot_cb: Any, savefig_settings: dict, ax: Optional[ax], signif_thresh: float) -> matplotlib.figure
+  signif_test(self, method: Literal['ar1asym', 'ar1sim', 'uar1', 'CN'], number: Optional[int], seed: Optional[int], qs: list, settings: Optional[dict], export_scal: bool;) -> pyleoclim.core.scalograms.Scalogram
+class pyleoclim.core.multivardecomp.MultivariateDecomp(self, name: str, eigvals: 1d, eigvecs: 2d, pctvar: float, pcs: 1d, neff: float, orig: Union[pyleoclim.core.multipleseries.MultipleSeries, MultipleGeoSeries])
+  modeplot(self, index: int, figsize: list, fig: Optional[Any], savefig_settings: Optional[dict], gs: Optional[matplotlib.gridspec], title: Optional[str], title_kwargs: Optional[dict], spec_method: str, cmap: Optional[str], hue: str, marker: Optional[str], size: Optional[str], scatter_kwargs: Optional[dict], flip: Any, map_kwargs: Optional[dict], gridspec_kwargs: Optional[dict]) -> matplotlib.figure
+  screeplot(self, figsize: list, uq: str, title: Optional[str], ax: Optional[matplotlib.axis], savefig_settings: Optional[dict], title_kwargs: Optional[dict], xlim: list, clr_eig: str)
+class pyleoclim.core.resolutions.MultipleResolution(self, resolution_list: list, time_unit: str)
+  describe(self) -> dict
+  summary_plot(self, figsize: tuple,, xlabel: Optional[str], ylabel: Optional[str], legend: bool, ax: Optional[matplotlib.ax], log_scale: Optional[bool], boxplot_whis: Union[float, pair], boxplot_width: float, boxplot_dodge: bool, boxplot_palette: Union[palette, dict], stripplot_size: float, stripplot_color: str, stripplot_alpha: float, stripplot_dodge: bool, boxplot_kwargs: Optional[dict], stripplot_kwargs: Optional[dict], savefig_settings: Optional[dictionary]) -> matplotlib.figure
+class pyleoclim.core.resolutions.Resolution(self, resolution: Union[list, numpy.ndarray], time: Union[list, numpy.ndarray], resolution_unit: Optional[str], label: Optional[str], timeseries: Optional[pyleoclim.core.series.Series])
+  dashboard(self, figsize: Union[list, tuple], title: Optional[str], plot_kwargs: Optional[dict], histplot_kwargs: Optional[dict], savefig_settings: Optional[dict]) -> matplotlib.figure
+  histplot(self, figsize: list, title: Optional[str], savefig_settings: Optional[dict], ax: Optional[matplotlib.axis], ylabel: str, vertical: Literal['True', 'False'], edgecolor: matplotlib.color, plot_kwargs: dict)
+  make_labels(self) -> str
+  plot(self, figsize: list, marker: Optional[str], markersize: Optional[float], color: Optional[str,], linestyle: Optional[str], linewidth: Optional[float], xlim: Optional[Any], ylim: Optional[Any], label: Optional[str], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], zorder: Optional[int], legend: Literal['True', 'False'], plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict], alpha: Optional[float], savefig_settings: Optional[dict], ax: Optional[matplotlib.axis], invert_xaxis: bool, invert_yaxis: bool) -> matplotlib.figure
+class pyleoclim.core.multipleseries.MultipleSeries(self, series_list: list, time_unit: Optional[str], label: Optional[str], name: Optional[Any])
+  append(self, ts: pyleoclim.core.series.Series, inplace: Any) -> pyleoclim.core.multipleseries.MultipleSeries
+  bin(self, kwargs: dict) -> pyleoclim.core.multipleseries.MultipleSeries
+  common_time(self, method: string;, step: Optional[float], start: Optional[float], stop: Optional[float], step_style: Optional[string;], time_axis: Optional[list], kwargs: dict) -> pyleoclim.core.multipleseries.MultipleSeries
+  convert_time_unit(self, time_unit: Optional[str])
+  copy(self) -> pyleoclim.core.multipleseries.MultipleSeries
+  correlation(self, target: Optional[pyleoclim.core.series.Series], timespan: Optional[tuple], alpha: float, statistic: str, method: str,, number: int, settings: Optional[dict], fdr_kwargs: Optional[dict], common_time_kwargs: Optional[dict], mute_pbar: bool;, seed: Union[float, int]) -> pyleoclim.core.correns.CorrEns
+  detrend(self, method: str, kwargs: Any) -> pyleoclim.core.multipleseries.MultipleSeries
+  equal_lengths(self) -> bool
+  filter(self, cutoff_freq: Union[float, list], cutoff_scale: Union[float, list], method: str;, kwargs: dict) -> pyleoclim.core.multipleseries.MultipleSeries
+  flip(self, axis: str) -> pyleoclim.core.multipleseries.MultipleSeries
+  gkernel(self, kwargs: dict) -> pyleoclim.core.multipleseries.MultipleSeries
+  increments(self, step_style: str;, verbose: bool) -> numpy.ndarray
+  interp(self, kwargs: keyword) -> pyleoclim.core.multipleseries.MultipleSeries
+  pca(self, weights: Optional[ndarray], name: Optional[Any], missing: Literal['str', 'None'], tol_em: float, max_em_iter: int, pca_kwargs: Any) -> pyleoclim.core.multivardecomp.MultivariateDecomp
+  plot(self, figsize: list, marker: Optional[str], markersize: Optional[float], linestyle: Optional[str], linewidth: Optional[float], colors: Union[a, one,, a], cmap: str, norm: Optional[matplotlib.colors.Normalize], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], time_unit: Optional[str], legend: bool, plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict], savefig_settings: Optional[dictionary], ax: Optional[matplotlib.ax], invert_xaxis: bool) -> matplotlib.figure
+  remove(self, label: Any)
+  resolution(self, time_unit: Optional[Any], verbose: Any, statistic: Any) -> pyleoclim.core.resolutions.MultipleResolution
+  sel(self, value: Optional[int,], time: Optional[int,], tolerance: int,) -> pyleoclim.mulitpleseries.MultipleSeries
+  spectral(self, method: str;, freq: Union[str, list], settings: Optional[dict], mute_pbar: bool, freq_kwargs: Optional[dict], label: Optional[str], verbose: bool, scalogram_list: Optional[pyleoclim.core.scalograms.MultipleScalogram]) -> pyleoclim.core.psds.MultiplePSD
+  stackplot(self, figsize: Optional[list], savefig_settings: Optional[dictionary], time_unit: Optional[str], xlim: Optional[list], fill_between_alpha: float, colors: Union[a, one,, a], cmap: str, norm: Optional[matplotlib.colors.Normalize], labels: Union[None,, list], ylabel_fontsize: int, spine_lw: float, grid_lw: float, label_x_loc: float, v_shift_factor: float, linewidth: float, yticks_minor: bool, xticks_minor: bool, ylims: str, plot_kwargs: Union[dict, list]) -> matplotlib.figure
+  standardize(self) -> pyleoclim.core.multipleseries.MultipleSeries
+  stripes(self, cmap: str, sat: float, ref_period: Optional[TYPE], figsize: Optional[list], savefig_settings: Optional[dictionary], time_unit: Optional[str], labels: Union[None,, list], label_color: Any, show_xaxis: bool, common_time_kwargs: Optional[dict], xlim: Optional[list], font_scale: float, x_offset: float) -> matplotlib.figure
+  time_coverage_plot(self, figsize: list, marker: Optional[str], markersize: Optional[float], alpha: float, linestyle: Optional[str], linewidth: float, colors: Union[a, one,, a], cmap: str, norm: Optional[matplotlib.colors.Normalize], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], time_unit: Optional[str], legend: bool, inline_legend: bool, plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict], label_x_offset: Union[float, list], label_y_offset: Union[float, list], savefig_settings: Optional[dictionary], ax: Optional[matplotlib.ax], ypad: Optional[Any], invert_xaxis: bool, invert_yaxis: bool) -> matplotlib.figure
+  to_csv(self, path: Optional[str], args: Any, use_common_time: Any, kwargs: Any) -> None.
+  to_json(self, path: Optional[str]) -> None.
+  to_pandas(self, paleo_style: bool, args: Any, use_common_time: Any, kwargs: Any) -> pandas.DataFrame
+  view(self) -> pd.DataFrame
+  wavelet(self, method: str, settings: dict, freq: Union[str, list], freq_kwargs: Optional[dict], verbose: bool, mute_pbar: bool) -> MultipleScalograms
+class pyleoclim.core.coherences.Coherence(self, frequency: Any, scale: Any, time: Any, wtc: Any, xwt: Any, phase: Any, coi: Optional[Any], wave_method: Optional[Any], wave_args: Optional[Any], timeseries1: Optional[Any], timeseries2: Optional[Any], signif_qs: Optional[Any], signif_method: Optional[Any], qs: Optional[Any], freq_method: Optional[Any], freq_kwargs: Optional[Any], Neff_threshold: Any, scale_unit: Optional[Any], time_label: Optional[Any])
+  dashboard(self, title: Optional[str], figsize: list, overlap: bool, phase_style: dict, line_colors: list, savefig_settings: dict, ts_plot_kwargs: Optional[dict], wavelet_plot_kwargs: Optional[dict]) -> fig,
+  phase_stats(self, scales: float, number: int, level: float) -> dict
+  plot(self, var: str, xlabel: Optional[str], ylabel: Optional[str], title: str, figsize: list, ylim: Optional[list], xlim: Optional[list], in_scale: bool, yticks: Optional[list], contourf_style: dict, phase_style: dict, cbar_style: dict, savefig_settings: dict, ax: Optional[ax], signif_clr: str, signif_linestyles: str, signif_linewidths: float, signif_thresh: float, under_clr: str, over_clr: str, bad_clr: str) -> fig,
+  signif_test(self, number: int, method: Literal['ar1sim', 'phaseran', 'CN'], seed: Optional[int], qs: list, settings: Optional[dict], mute_pbar: bool) -> pyleoclim.core.coherence.Coherence
+class pyleoclim.core.coherences.GlobalCoherence(self, global_coh: numpy.ndarray, coh: pyleoclim.core.coherences.Coherence, signif_qs: Optional[Any], signif_method: Optional[Any], qs: Optional[Any], label: Any)
+  plot(self, figsize: tuple, xlim: Optional[tuple], xlabel: Optional[str], label: Optional[str], psd_y_label: str, coh_y_label: str, coh_line_color: str, ax: Optional[matplotlib], coh_ylim: tuple, fill_alpha: float, fill_color: str, coh_plot_kwargs: Optional[dict], savefig_settings: Optional[dict], spectral_kwargs: Optional[dict], legend: bool, legend_kwargs: Optional[dict], spec1_plot_kwargs: Optional[dict], spec2_plot_kwargs: Optional[dict]) -> matplotlib
+  signif_test(self, method: str;, number: int, qs: list) -> pyleoclim.core.globalcoherence.GlobalCoherence
+class pyleoclim.core.corr.Corr(self, r: float, p: float, r_crit: float, signif: bool, alpha: float, p_fmt_td: float, p_fmt_style: str)
+function pyleoclim.core.corr.pval_format(p: Any, threshold: Any, style: Any)
+class pyleoclim.core.series.Series(self, time: Union[list, numpy.ndarray], value: numpy.ndarray, time_unit: Optional[str], time_name: Optional[str], value_name: Optional[str], value_unit: Optional[str], label: Optional[str], importedFrom: Optional[str], archiveType: Optional[str], control_archiveType: bool, log: Optional[dict], keep_log: bool, sort_ts: str, dropna: bool, verbose: bool, clean_ts: bool, auto_time_params: Optional[bool])
+  bin(self, keep_log: bool, kwargs: Any) -> pyleoclim.core.series.Series
+  causality(self, target_series: pyleoclim.core.series.Series, method: Literal['liang', 'granger'], timespan: Optional[tuple], settings: Optional[dict], common_time_kwargs: Optional[dict]) -> dict
+  center(self, timespan: Union[tuple, list], keep_log: bool) -> pyleoclim.core.series.Series
+  clean(self, verbose: bool, keep_log: bool) -> pyleoclim.core.series.Series
+  compare(self, ts: pyleo.Series, row_clr: Any) -> Matplotlib
+  convert_time_unit(self, time_unit: str, keep_log: bool)
+  copy(self) -> pyleoclim.core.series.Series
+  correlation(self, target_series: pyleoclim.core.series.Series, alpha: float, statistic: str, method: str,, number: int, timespan: Optional[tuple], settings: Optional[dict], seed: Union[float, int], common_time_kwargs: Optional[dict], mute_pbar: bool) -> pyleoclim.core.corr.Corr
+  detrend(self, method: str, keep_log: bool, preserve_mean: bool, kwargs: dict) -> pyleoclim.core.series.Series
+  equals(self, ts: Series, index_tol: int,, value_tol: float,) -> bool
+  fill_na(self, timespan: Union[tuple, list], dt: float, keep_log: bool) -> pyleoclim.core.series.Series
+  filter(self, cutoff_freq: Union[float, list], cutoff_scale: Union[float, list], method: str,, keep_log: bool, kwargs: dict) -> pyleoclim.core.series.Series
+  flip(self, axis: str, keep_log: bool) -> pyleoclim.core.series.Series
+  gaussianize(self, keep_log: Any) -> pyleoclim.core.series.Series
+  gkernel(self, step_style: str, keep_log: bool, step_type: Optional[Any], kwargs: Any) -> pyleoclim.core.series.Series
+  global_coherence(self, target_series: Optional[pyleo.Series], coh: Optional[pyleo.core.coherence.Coherence], method: str;, wavelet_kwargs: Optional[dict]) -> pyleo.core.globalcoherence.GlobalCoherence
+  interp(self, method: Literal['‘linear’', '‘nearest’', '‘zero’', '‘slinear’', '‘quadratic’', '‘cubic’', '‘previous’', '‘next’'], keep_log: bool, kwargs: Any) -> pyleoclim.core.series.Series
+  is_evenly_spaced(self, tol: float) -> bool
+  outliers(self, method: str,, remove: bool, settings: Optional[dict], fig_outliers: bool, figsize_outliers: list, plotoutliers_kwargs: Optional[dict], savefigoutliers_settings: Optional[dict], fig_clusters: bool, figsize_clusters: list, plotclusters_kwargs: Optional[dict], savefigclusters_settings: Optional[dict], keep_log: bool) -> pyleoclim.core.series.Series
+  overlap(self, ts: pyleo.Series) -> float
+  pandas_method(self, method: str) -> pyleoclim.core.series.Series
+  resample(self, rule: str, keep_log: Any, kwargs: dict) -> pyleoclim.core.series.SeriesResampler
+  resolution(self) -> pyleoclim.core.resolutions.Resolution
+  segment(self, factor: float, verbose: bool) -> Union[pyleoclim.core.multipleseries.MultipleSeries, pyleoclim.core.series.Series]
+  sel(self, value: Optional[int,], time: Optional[int,], tolerance: int,) -> Copy
+  slice(self, timespan: Union[tuple, list]) -> pyleoclim.core.series.Series
+  sort(self, verbose: bool, ascending: Any, keep_log: bool) -> pyleoclim.core.series.Series
+  spectral(self, method: str;, freq: Union[str, list], freq_kwargs: Optional[dict], settings: Optional[dict], label: Optional[str], scalogram: Optional[pyleoclim.core.series.Series.Scalogram], verbose: bool) -> pyleoclim.core.psds.PSD
+  ssa(self, M: Optional[int], nMC: Any, f: float, trunc: Optional[str], var_thresh: float, online: bool;) -> object
+  standardize(self, keep_log: Any, scale: Any) -> pyleoclim.core.series.Series
+  stats(self) -> dictionary
+  stripes(self, figsize: list, cmap: str, ref_period: Optional[array-like], sat: float, top_label: Optional[str], bottom_label: Optional[str], label_color: Any, label_size: Optional[Any], xlim: Optional[list], xlabel: Optional[Any], savefig_settings: Optional[dict], ax: Optional[matplotlib.axis], invert_xaxis: bool, show_xaxis: bool, x_offset: float) -> matplotlib.figure
+  summary_plot(self, psd: pyleoclim.core.psds.PSD, scalogram: pyleoclim.core.scalograms.Scalogram, figsize: list, title: Optional[str], time_lim: Union[list, tuple], value_lim: Union[list, tuple], period_lim: Union[list, tuple], psd_lim: Union[list, tuple], time_label: Optional[str], value_label: Optional[str], period_label: Optional[str], psd_label: Optional[str], ts_plot_kwargs: Optional[dict], wavelet_plot_kwargs: Optional[dict], psd_plot_kwargs: Optional[dict], gridspec_kwargs: Optional[dict], y_label_loc: Optional[float], legend: Optional[bool], savefig_settings: Optional[dict])
+  to_csv(self, metadata_header: bool, path: Optional[str])
+  to_pandas(self, paleo_style: bool) -> pd.Series
+  wavelet(self, method: str, settings: Optional[dict], freq: Union[str, list], freq_kwargs: Optional[dict], verbose: bool) -> Scalogram
+  wavelet_coherence(self, target_series: pyleoclim.core.series.Series, method: str, settings: Optional[dict], freq: Union[str, list], freq_kwargs: Optional[dict], verbose: bool, common_time_kwargs: Optional[dict]) -> pyleoclim.core.coherence.Coherence
+class pyleoclim.core.series.SeriesResampler(self, rule: Any, series: Any, metadata: Any, keep_log: Any, kwargs: Any)
+function pyleoclim.core.series.dict2namedtuple(d: Any)
+class pyleoclim.core.geoseries.GeoSeries(self, time: Union[list, numpy.ndarray], value: numpy.ndarray, lat: float, lon: float, elevation: Optional[float], time_unit: Optional[str], time_name: Optional[str], value_name: Optional[str], value_unit: Optional[str], label: Optional[str], importedFrom: Optional[str], archiveType: Optional[str], control_archiveType: bool, sensorType: Optional[str], observationType: Optional[str], log: Optional[dict], keep_log: bool, verbose: bool, depth: Optional[list], depth_name: Optional[str], depth_unit: Optional[str], sort_ts: str, dropna: bool, clean_ts: bool, auto_time_params: Optional[bool])
+  dashboard(self, figsize: Union[list, tuple], gs: Optional[matplotlib.gridspec], plt_kwargs: Optional[dict], histplt_kwargs: Optional[dict], spectral_kwargs: Optional[dict], spectralsignif_kwargs: Optional[dict], spectralfig_kwargs: Optional[dict], map_kwargs: Optional[dict], hue: str, marker: str, size: Optional[str], scatter_kwargs: Optional[dict], gridspec_kwargs: Optional[dict], savefig_settings: Optional[dict]) -> matplotlib.figure
+  map(self, projection: str, proj_default: bool;, background: bool, borders: Union[bool, dict], coastline: Union[bool, dict], rivers: Union[bool, dict], lakes: Union[bool, dict], ocean: Union[bool, dict], land: Union[bool, dict], fig: Optional[matplotlib.pyplot.figure], gridspec_slot: Optional[Gridspec], title: Optional[str], figsize: Union[list, tuple], marker: str, hue: str, size: Optional[str], edgecolor: Union[color, list], markersize: Optional[float], scatter_kwargs: Optional[dict], cmap: Union[str, list], colorbar: bool, gridspec_kwargs: Optional[dict], legend: bool;, lgd_kwargs: Optional[dict], savefig_settings: Optional[dict]) -> fig,ax_d
+  map_neighbors(self, mgs: pyleoclim.core.multiplegeoseries.MultipleGeoSeries, radius: float, projection: str, proj_default: bool;, background: bool;, borders: bool;, rivers: bool;, lakes: bool;, ocean: Any, land: Any, fig: Optional[Any], gridspec_slot: Optional[Any], title: Union[bool, str], figsize: Union[list, tuple], marker: str, hue: str, size: Optional[Any], edgecolor: Optional[Any], markersize: Optional[float], scatter_kwargs: Optional[dict], cmap: Optional[Any], colorbar: Any, gridspec_kwargs: Optional[Any], legend: bool;, lgd_kwargs: Optional[dict], savefig_settings: Optional[dict]) -> fig,ax_d
+  segment(self, factor: float, verbose: bool) -> Union[MultiplegGeoSeries, pyleoclim.core.geoseries.GeoSeries]
+class pyleoclim.core.geoseries.GeoSeriesResampler(self, rule: Any, series: Any, metadata: Any, keep_log: Any, kwargs: Any)
+class pyleoclim.core.multiplegeoseries.MultipleGeoSeries(self, series_list: list, time_unit: Optional[str], label: Optional[str])
+  map(self, marker: str, hue: str, size: Optional[str], cmap: Union[str, list], edgecolor: Union[color, list], projection: str, proj_default: bool, crit_dist: float, colorbar: bool, color_scale_type: Optional[str], background: bool, borders: Union[bool, dict], coastline: Union[bool, dict], rivers: Union[bool, dict], lakes: Union[bool, dict], land: Union[bool, dict], ocean: Union[bool, dict], figsize: Union[list, tuple], fig: Optional[matplotlib.pyplot.figure], scatter_kwargs: Optional[dict], gridspec_kwargs: Optional[dict], legend: bool, gridspec_slot: Optional[Any], lgd_kwargs: Optional[dict], savefig_settings: Optional[dict], kwargs: dict) -> fig,
+  pca(self, weights: Optional[ndarray], missing: Literal['str', 'None'], tol_em: float, max_em_iter: int, pca_kwargs: Any) -> pyleoclim.core.multivardecomp.MultivariateDecomp
+  time_geo_plot(self, figsize: list, marker: Optional[str], markersize: Optional[float], alpha: float, y_criteria: str, linestyle: Optional[str], linewidth: float, colors: Union[a, one,, a], cmap: str, norm: Optional[matplotlib.colors.Normalize], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], time_unit: Optional[str], legend: bool, inline_legend: bool, plot_kwargs: Optional[dict], lgd_kwargs: Optional[dict], label_x_offset: Union[float, list], label_y_offset: Union[float, list], savefig_settings: Optional[dictionary], ax: Optional[matplotlib.ax], invert_xaxis: bool, invert_yaxis: bool) -> matplotlib.figure
+class pyleoclim.core.ensembleseries.EnsembleSeries(self, series_list: Any, label: Optional[Any])
+  correlation(self, target: Union[pyleoclim.core.series.Series, pyleoclim.core.ensembleseries.EnsembleSeries], timespan: Optional[tuple], alpha: float, method: str,, statistic: str, number: int, settings: Optional[dict], fdr_kwargs: Optional[dict], common_time_kwargs: Optional[dict], mute_pbar: bool;, seed: Union[float, int]) -> pyleoclim.core.correns.CorrEns
+  histplot(self, figsize: list, title: Optional[str], savefig_settings: Optional[dict], ax: Optional[matplotlib.axis], ylabel: str, vertical: bool;, edgecolor: matplotlib.color, plot_kwargs: dict)
+  plot_envelope(self, figsize: list, qs: list, xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], xlim: Optional[list], ylim: Optional[list], savefig_settings: Optional[dict], ax: Optional[matplotlib.ax], plot_legend: bool;, curve_clr: str, curve_lw: str, shade_clr: str, shade_alpha: float, inner_shade_label: str, outer_shade_label: str, lgd_kwargs: Optional[dict]) -> matplotlib.figure
+  plot_traces(self, figsize: list, xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], num_traces: int, seed: Optional[int], xlim: Optional[list], ylim: Optional[list], linestyle: Literal['-', '--', '-.', ':', '', '(offset', 'on-off-seq)', '...'], savefig_settings: Optional[dict], ax: Optional[matplotlib.ax], legend: bool;, color: str, lw: float, alpha: float, lgd_kwargs: Optional[dict]) -> matplotlib.figure
+  quantiles(self, qs: list, axis: str) -> pyleoclim.core.ensembleseries.EnsembleSeries
+  slice(self, timespan: Union[tuple, list]) -> pyleoclim.core.ensembleseries.EnsembleSeries
+  stackplot(self, figsize: list, savefig_settings: Optional[dictionary], xlim: Optional[list], fill_between_alpha: float, colors: Optional[list], cmap: str, norm: Optional[matplotlib.colors.Normalize], spine_lw: float, grid_lw: float, font_scale: float, label_x_loc: float, v_shift_factor: float, linewidth: float) -> matplotlib.figure
+  to_array(self, axis: str,, labels: bool,) -> numpy.ndarray
+  to_dataframe(self, axis: str,) -> pandas.DataFrame
+class pyleoclim.core.surrogateseries.SurrogateSeries(self, series_list: list, number: int, method: Optional[str], label: Optional[str], param: Optional[list], seed: Optional[Any])
+  from_param(self, param: list, length: int, time_pattern: str, settings: Optional[dict]) -> pyleoclim.core.surrogateseries.SurrogateSeries
+  from_series(self, target_series: Series) -> pyleoclim.core.surrogateseries.SurrogateSeries
+class pyleoclim.core.ensemblegeoseries.EnsembleGeoSeries(self, series_list: list, label: Optional[str], lat: Optional[float], lon: Optional[float], elevation: Optional[float], archiveType: Optional[str], control_archiveType: bool, sensorType: Optional[str], observationType: Optional[str], depth: Optional[list], depth_name: Optional[str], depth_unit: Optional[str])
+  dashboard(self, figsize: Union[list, tuple], gs: Optional[matplotlib.gridspec], plt_kwargs: Optional[dict], histplt_kwargs: Optional[dict], spectral_kwargs: Optional[dict], spectralfig_kwargs: Optional[dict], map_kwargs: Optional[dict], hue: str, marker: str, size: Optional[str], scatter_kwargs: Optional[dict], gridspec_kwargs: Optional[dict], savefig_settings: Optional[dict]) -> matplotlib.figure
+class pyleoclim.core.ensmultivardecomp.EnsMultivarDecomp(self, pca_list: Any, label: Optional[Any])
+  modeplot(self, index: int, flip: bool, plot_envelope_kwargs: Optional[dict], psd_envelope_kwargs: Optional[Any], figsize: list, fig: Optional[Any], savefig_settings: Optional[dict], gs: Optional[matplotlib.gridspec], title: Optional[str], title_kwargs: Optional[dict], spec_method: str, cmap: str, marker: Optional[str], scatter_kwargs: Optional[dict], map_kwargs: Optional[dict], gridspec_kwargs: Optional[dict], quantiles: list,array) -> matplotlib.figure
+  screeplot(self, clr_eig: str, linewidth: float, title: Any, violin_kwargs: Optional[dict], figsize: list, savefig_settings: Optional[dict], ax: Optional[matplotlib.axis]) -> matplotlib.figure
+class pyleoclim.core.mulensgeoseries.MulEnsGeoSeries(self, ensemble_series_list: Any, label: Optional[Any])
+  mcpca(self, nsim: int, seed: Optional[int], common_time_kwargs: Optional[dict], pca_kwargs: Optional[dict], align_method: str;, delta: float, phase_max: float) -> pyleo.EnsMultivarDecomp
+  stackplot(self, figsize: Optional[list], savefig_settings: Optional[dictionary], time_unit: Optional[str], xlim: Optional[list], colors: Union[a, one,, a], cmap: str, plot_style: str;, norm: Optional[matplotlib.colors.Normalize], labels: Union[None,, list], ylabel_fontsize: int, spine_lw: float, grid_lw: float, label_x_loc: float, v_shift_factor: float, yticks_minor: bool, xticks_minor: bool, ylims: str, plot_kwargs: Union[dict, list], common_time_kwargs: Optional[dict]) -> matplotlib.figure
+class pyleoclim.core.coherence.Coherence(self, frequency: Any, scale: Any, time: Any, wtc: Any, xwt: Any, phase: Any, coi: Optional[Any], wave_method: Optional[Any], wave_args: Optional[Any], timeseries1: Optional[Any], timeseries2: Optional[Any], signif_qs: Optional[Any], signif_method: Optional[Any], qs: Optional[Any], freq_method: Optional[Any], freq_kwargs: Optional[Any], Neff_threshold: Any, scale_unit: Optional[Any], time_label: Optional[Any])
+class pyleoclim.core.globalcoherence.GlobalCoherence(self, global_coh: numpy.ndarray, coh: pyleoclim.core.coherences.Coherence, signif_qs: Optional[Any], signif_method: Optional[Any], qs: Optional[Any], label: Any)
+function pylipd.utils.utils.camelCase(id: Any)
+function pylipd.utils.utils.escape(str: Any)
+function pylipd.utils.utils.expand_schema(schema: Any)
+function pylipd.utils.utils.fromCamelCase(str: Any)
+function pylipd.utils.utils.lcfirst(s: Any)
+function pylipd.utils.utils.sanitizeId(id: Any)
+function pylipd.utils.utils.sparql_results_to_df(results: rdflib.plugins.sparql.processor.SPARQLResult) -> pandas.core.frame.DataFrame
+function pylipd.utils.utils.ucfirst(s: Any)
+function pylipd.utils.utils.unCamelCase(id: Any)
+function pylipd.utils.utils.uniqid(prefix: Any, more_entropy: Any)
+function pylipd.utils.utils.unzip_string(string: Any)
+function pylipd.utils.utils.zip_string(string: Any)
+class pylipd.utils.legacy_utils.LiPD_Legacy(self, args: Any, kwargs: Any)
+  extract(self, d: Any, whichtables: Any, mode: Any, time: Any)
+class pylipd.utils.lipd_to_rdf.LipdToRDF(self, standardize: Any, add_labels: Any)
+  convert(self, lipdpath: str)
+  serialize(self, topath: str, type: str)
+function pylipd.utils.multi_processing.convert_lipd_to_graph(arg: Any)
+function pylipd.utils.multi_processing.convert_to_rdf(files: Any)
+function pylipd.utils.multi_processing.extract_variables_graph(arg: Any)
+function pylipd.utils.multi_processing.multi_convert_to_rdf(filemap: Any, parallel: Any, standardize: Any, add_labels: Any)
+function pylipd.utils.multi_processing.multi_load_lipd(graph: Any, lipdfiles: Any, parallel: Any, standardize: Any, add_labels: Any)
+function pylipd.utils.multi_processing.multi_load_lipd_series(graph: Any, single_dataset_lipds: Any, parallel: Any)
+class pylipd.utils.rdf_graph.RDFGraph(self, graph: Optional[Any])
   clear(self)
-  get(self,ids:S)->X
-  get_all_graph_ids(self)->X
-  load(self,files:O,graphid:O)
-  merge(self,rdf:C:RDFGraph)->X
-  pop(self,ids:S)->X
-  query(self,query:S,remote:B,result:S)->X
-  remove(self,ids:S)
+  copy(self) -> pylipd.utils.rdf_graph.RDFGraph
+  get(self, ids: Union[str, list]) -> pylipd.utils.utils.rdf_graph.RDFGraph
+  get_all_graph_ids(self) -> list
+  load(self, files: Any, graphid: Optional[Any])
+  merge(self, rdf: pylipd.rdf_graph.RDFGraph) -> pylipd.utils.rdf_graph.RDFGraph
+  pop(self, ids: Union[str, list]) -> pylipd.utils.rdf_graph.RDFGraph
+  query(self, query: str, remote: bool, result: str) -> dict
+  remove(self, ids: Union[str, list])
   serialize(self)
-  set_endpoint(self,endpoint:S)
-f:pylipd.utils.rdf_graph.sparql_results_to_df(results:X)->X
-c:pylipd.utils.rdf_to_lipd.RDFToLiPD(self,graph:O)
-  convert(self,dsname:O,lipdfile:O)
-  convert_to_json(self,dsname:O)
-f:pylipd.utils.rdf_to_lipd.lcfirst(s:O)
-f:pylipd.utils.rdf_to_lipd.ucfirst(s:O)
-f:pylipd.utils.rdf_to_lipd.unzip_string(string:O)
-c:pylipd.classes.archivetype.ArchiveType(self,id:S,label:S)
-  getId(self)->X
-  getLabel(self)->X
-  to_data(self,data:D)->X
-  to_json(self)->X
-c:pylipd.classes.archivetype.ArchiveTypeConstants(self,args:O,kwargs:O)
-c:pylipd.classes.change.Change(self)
-  addNotes(self,notess:S)
-  add_non_standard_property(self,key:S,value:X)
-  from_data(id:S,data:D)->X
-  from_json(data:D)->X
-  getName(self)->S
-  getNotess(self)->L[S]
-  get_all_non_standard_properties(self)->X
-  get_non_standard_property(self,key:S)->X
-  setName(self,name:S)
-  setNotess(self,notess:L[S])
-  set_non_standard_property(self,key:S,value:X)
-f:pylipd.classes.change.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.changelog.Change(self)
-c:pylipd.classes.changelog.ChangeLog(self)
-  addChanges(self,changess:C:Change)
-  getChangess(self)->L[C:Change]
-  getCurator(self)->S
-  getLastVersion(self)->S
-  getNotes(self)->S
-  getTimestamp(self)->S
-  getVersion(self)->S
-  setChangess(self,changess:L[C:Change])
-  setCurator(self,curator:S)
-  setLastVersion(self,lastVersion:S)
-  setNotes(self,notes:S)
-  setTimestamp(self,timestamp:S)
-  setVersion(self,version:S)
-f:pylipd.classes.changelog.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.calibration.Calibration(self)
-  getDOI(self)->S
-  getDatasetRange(self)->S
-  getEquation(self)->S
-  getEquationIntercept(self)->S
-  getEquationR2(self)->S
-  getEquationSlope(self)->S
-  getEquationSlopeUncertainty(self)->S
-  getMethod(self)->S
-  getMethodDetail(self)->S
-  getProxyDataset(self)->S
-  getSeasonality(self)->S
-  getTargetDataset(self)->S
-  getUncertainty(self)->S
-  setDOI(self,dOI:S)
-  setDatasetRange(self,datasetRange:S)
-  setEquation(self,equation:S)
-  setEquationIntercept(self,equationIntercept:S)
-  setEquationR2(self,equationR2:S)
-  setEquationSlope(self,equationSlope:S)
-  setEquationSlopeUncertainty(self,equationSlopeUncertainty:S)
-  setMethod(self,method:S)
-  setMethodDetail(self,methodDetail:S)
-  setProxyDataset(self,proxyDataset:S)
-  setSeasonality(self,seasonality:S)
-  setTargetDataset(self,targetDataset:S)
-  setUncertainty(self,uncertainty:S)
-f:pylipd.classes.calibration.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.compilation.Compilation(self)
-f:pylipd.classes.compilation.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.interpretationseasonality.InterpretationSeasonality(self,id:S,label:S)
-c:pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants(self,args:O,kwargs:O)
-c:pylipd.classes.interpretationvariable.InterpretationVariable(self,id:S,label:S)
-c:pylipd.classes.interpretationvariable.InterpretationVariableConstants(self,args:O,kwargs:O)
-c:pylipd.classes.interpretation.Interpretation(self)
-  getBasis(self)->S
-  getDirection(self)->S
-  getMathematicalRelation(self)->S
-  getRank(self)->S
-  getScope(self)->S
-  getSeasonality(self)->C:InterpretationSeasonality
-  getSeasonalityGeneral(self)->C:InterpretationSeasonality
-  getSeasonalityOriginal(self)->C:InterpretationSeasonality
-  getVariable(self)->C:InterpretationVariable
-  getVariableDetail(self)->S
-  getVariableGeneral(self)->S
-  getVariableGeneralDirection(self)->S
-  isLocal(self)->S
-  setBasis(self,basis:S)
-  setDirection(self,direction:S)
-  setLocal(self,local:S)
-  setMathematicalRelation(self,mathematicalRelation:S)
-  setRank(self,rank:S)
-  setScope(self,scope:S)
-  setSeasonality(self,seasonality:C:InterpretationSeasonality)
-  setSeasonalityGeneral(self,seasonalityGeneral:C:InterpretationSeasonality)
-  setSeasonalityOriginal(self,seasonalityOriginal:C:InterpretationSeasonality)
-  setVariable(self,variable:C:InterpretationVariable)
-  setVariableDetail(self,variableDetail:S)
-  setVariableGeneral(self,variableGeneral:S)
-  setVariableGeneralDirection(self,variableGeneralDirection:S)
-c:pylipd.classes.interpretation.InterpretationSeasonality(self,id:S,label:S)
-c:pylipd.classes.interpretation.InterpretationVariable(self,id:S,label:S)
-f:pylipd.classes.interpretation.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.paleoproxy.PaleoProxy(self,id:S,label:S)
-c:pylipd.classes.paleoproxy.PaleoProxyConstants(self,args:O,kwargs:O)
-c:pylipd.classes.paleoproxygeneral.PaleoProxyGeneral(self,id:S,label:S)
-c:pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants(self,args:O,kwargs:O)
-c:pylipd.classes.paleounit.PaleoUnit(self,id:S,label:S)
-c:pylipd.classes.paleounit.PaleoUnitConstants(self,args:O,kwargs:O)
-c:pylipd.classes.paleovariable.PaleoVariable(self,id:S,label:S)
-c:pylipd.classes.paleovariable.PaleoVariableConstants(self,args:O,kwargs:O)
-c:pylipd.classes.physicalsample.PhysicalSample(self)
-  getHousedAt(self)->S
-  getIGSN(self)->S
-  setHousedAt(self,housedAt:S)
-  setIGSN(self,iGSN:S)
-f:pylipd.classes.physicalsample.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.resolution.PaleoUnit(self,id:S,label:S)
-c:pylipd.classes.resolution.Resolution(self)
-  getMaxValue(self)->F
-  getMeanValue(self)->F
-  getMedianValue(self)->F
-  getMinValue(self)->F
-  getUnits(self)->C:PaleoUnit
-  setMaxValue(self,maxValue:F)
-  setMeanValue(self,meanValue:F)
-  setMedianValue(self,medianValue:F)
-  setMinValue(self,minValue:F)
-  setUnits(self,units:C:PaleoUnit)
-f:pylipd.classes.resolution.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.variable.ArchiveType(self,id:S,label:S)
-c:pylipd.classes.variable.Calibration(self)
-c:pylipd.classes.variable.Compilation(self)
-c:pylipd.classes.variable.Interpretation(self)
-c:pylipd.classes.variable.PaleoProxy(self,id:S,label:S)
-c:pylipd.classes.variable.PaleoProxyGeneral(self,id:S,label:S)
-c:pylipd.classes.variable.PaleoUnit(self,id:S,label:S)
-c:pylipd.classes.variable.PaleoVariable(self,id:S,label:S)
-c:pylipd.classes.variable.PhysicalSample(self)
-c:pylipd.classes.variable.Resolution(self)
-c:pylipd.classes.variable.Variable(self)
-  addCalibratedVia(self,calibratedVias:C:Calibration)
-  addInterpretation(self,interpretations:C:Interpretation)
-  addPhysicalSample(self,physicalSamples:C:PhysicalSample)
-  getArchiveType(self)->C:ArchiveType
-  getCalibratedVias(self)->L[C:Calibration]
-  getColumnNumber(self)->I
-  getDescription(self)->S
-  getFoundInDataset(self)->X
-  getFoundInTable(self)->X
-  getInstrument(self)->X
-  getInterpretations(self)->L[C:Interpretation]
-  getMissingValue(self)->S
-  getPartOfCompilation(self)->C:Compilation
-  getPhysicalSamples(self)->L[C:PhysicalSample]
-  getProxy(self)->C:PaleoProxy
-  getProxyGeneral(self)->C:PaleoProxyGeneral
-  getResolution(self)->C:Resolution
-  getStandardVariable(self)->C:PaleoVariable
-  getUncertaintyAnalytical(self)->S
-  getUncertaintyReproducibility(self)->S
-  getValues(self)->S
-  getVariableId(self)->S
-  getVariableType(self)->S
-  isComposite(self)->B
-  isPrimary(self)->B
-  setArchiveType(self,archiveType:C:ArchiveType)
-  setCalibratedVias(self,calibratedVias:L[C:Calibration])
-  setColumnNumber(self,columnNumber:I)
-  setComposite(self,composite:B)
-  setDescription(self,description:S)
-  setFoundInDataset(self,foundInDataset:O)
-  setFoundInTable(self,foundInTable:O)
-  setInstrument(self,instrument:O)
-  setInterpretations(self,interpretations:L[C:Interpretation])
-  setMissingValue(self,missingValue:S)
-  setPartOfCompilation(self,partOfCompilation:C:Compilation)
-  setPhysicalSamples(self,physicalSamples:L[C:PhysicalSample])
-  setPrimary(self,primary:B)
-  setProxy(self,proxy:C:PaleoProxy)
-  setProxyGeneral(self,proxyGeneral:C:PaleoProxyGeneral)
-  setResolution(self,resolution:C:Resolution)
-  setStandardVariable(self,standardVariable:C:PaleoVariable)
-  setUncertaintyAnalytical(self,uncertaintyAnalytical:S)
-  setUncertaintyReproducibility(self,uncertaintyReproducibility:S)
-  setValues(self,values:S)
-  setVariableId(self,variableId:S)
-  setVariableType(self,variableType:S)
-f:pylipd.classes.variable.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.datatable.DataTable(self)
-  addVariable(self,variables:C:Variable)
-  getDataFrame(self,use_standard_names:O)->X
-  getFileName(self)->S
-  getVariables(self)->L[C:Variable]
-  setDataFrame(self,df:X)
-  setFileName(self,fileName:S)
-  setVariables(self,variables:L[C:Variable])
-c:pylipd.classes.datatable.Variable(self)
-f:pylipd.classes.datatable.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.model.DataTable(self)
-c:pylipd.classes.model.Model(self)
-  addDistributionTable(self,distributionTables:C:DataTable)
-  addEnsembleTable(self,ensembleTables:C:DataTable)
-  addSummaryTable(self,summaryTables:C:DataTable)
-  getCode(self)->S
-  getDistributionTables(self)->L[C:DataTable]
-  getEnsembleTables(self)->L[C:DataTable]
-  getSummaryTables(self)->L[C:DataTable]
-  setCode(self,code:S)
-  setDistributionTables(self,distributionTables:L[C:DataTable])
-  setEnsembleTables(self,ensembleTables:L[C:DataTable])
-  setSummaryTables(self,summaryTables:L[C:DataTable])
-f:pylipd.classes.model.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.chrondata.ChronData(self)
-  addMeasurementTable(self,measurementTables:C:DataTable)
-  addModeledBy(self,modeledBy:C:Model)
-  getMeasurementTables(self)->L[C:DataTable]
-  getModeledBy(self)->L[C:Model]
-  setMeasurementTables(self,measurementTables:L[C:DataTable])
-  setModeledBy(self,modeledBy:L[C:Model])
-c:pylipd.classes.chrondata.DataTable(self)
-c:pylipd.classes.chrondata.Model(self)
-f:pylipd.classes.chrondata.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.person.Person(self)
-f:pylipd.classes.person.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.funding.Funding(self)
-  addGrant(self,grants:S)
-  addInvestigator(self,investigators:C:Person)
-  getFundingAgency(self)->S
-  getFundingCountry(self)->S
-  getGrants(self)->L[S]
-  getInvestigators(self)->L[C:Person]
-  setFundingAgency(self,fundingAgency:S)
-  setFundingCountry(self,fundingCountry:S)
-  setGrants(self,grants:L[S])
-  setInvestigators(self,investigators:L[C:Person])
-c:pylipd.classes.funding.Person(self)
-f:pylipd.classes.funding.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.location.Location(self)
-  getContinent(self)->S
-  getCoordinates(self)->S
-  getCoordinatesFor(self)->X
-  getCountry(self)->S
-  getCountryOcean(self)->S
-  getElevation(self)->S
-  getGeometryType(self)->S
-  getLatitude(self)->S
-  getLocationName(self)->S
-  getLocationType(self)->S
-  getLongitude(self)->S
-  getOcean(self)->S
-  getSiteName(self)->S
-  setContinent(self,continent:S)
-  setCoordinates(self,coordinates:S)
-  setCoordinatesFor(self,coordinatesFor:O)
-  setCountry(self,country:S)
-  setCountryOcean(self,countryOcean:S)
-  setElevation(self,elevation:S)
-  setGeometryType(self,geometryType:S)
-  setLatitude(self,latitude:S)
-  setLocationName(self,locationName:S)
-  setLocationType(self,locationType:S)
-  setLongitude(self,longitude:S)
-  setOcean(self,ocean:S)
-  setSiteName(self,siteName:S)
-f:pylipd.classes.location.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.paleodata.DataTable(self)
-c:pylipd.classes.paleodata.Model(self)
-c:pylipd.classes.paleodata.PaleoData(self)
-f:pylipd.classes.paleodata.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.publication.Person(self)
-c:pylipd.classes.publication.Publication(self)
-  addAuthor(self,authors:C:Person)
-  addDataUrl(self,dataUrls:S)
-  addUrl(self,urls:S)
-  getAbstract(self)->S
-  getAuthors(self)->L[C:Person]
-  getCitation(self)->S
-  getCiteKey(self)->S
-  getDataUrls(self)->L[S]
-  getFirstAuthor(self)->C:Person
-  getInstitution(self)->S
-  getIssue(self)->S
-  getJournal(self)->S
-  getPages(self)->S
-  getPublicationType(self)->S
-  getPublisher(self)->S
-  getReport(self)->S
-  getTitle(self)->S
-  getUrls(self)->L[S]
-  getVolume(self)->S
-  getYear(self)->I
-  setAbstract(self,abstract:S)
-  setAuthors(self,authors:L[C:Person])
-  setCitation(self,citation:S)
-  setCiteKey(self,citeKey:S)
-  setDataUrls(self,dataUrls:L[S])
-  setFirstAuthor(self,firstAuthor:C:Person)
-  setInstitution(self,institution:S)
-  setIssue(self,issue:S)
-  setJournal(self,journal:S)
-  setPages(self,pages:S)
-  setPublicationType(self,publicationType:S)
-  setPublisher(self,publisher:S)
-  setReport(self,report:S)
-  setTitle(self,title:S)
-  setUrls(self,urls:L[S])
-  setVolume(self,volume:S)
-  setYear(self,year:I)
-f:pylipd.classes.publication.uniqid(prefix:O,more_entropy:O)
-c:pylipd.classes.dataset.ArchiveType(self,id:S,label:S)
-c:pylipd.classes.dataset.ChangeLog(self)
-c:pylipd.classes.dataset.ChronData(self)
-c:pylipd.classes.dataset.Dataset(self)
-  addChangeLog(self,changeLogs:C:ChangeLog)
-  addChronData(self,chronData:C:ChronData)
-  addCreator(self,creators:C:Person)
-  addFunding(self,fundings:C:Funding)
-  addPaleoData(self,paleoData:C:PaleoData)
-  addPublication(self,publications:C:Publication)
-  getChangeLogs(self)->L[C:ChangeLog]
-  getChronData(self)->L[C:ChronData]
-  getCollectionName(self)->S
-  getCollectionYear(self)->S
-  getCompilationNest(self)->S
-  getContributor(self)->C:Person
-  getCreators(self)->L[C:Person]
-  getDataSource(self)->S
-  getDatasetId(self)->S
-  getFundings(self)->L[C:Funding]
-  getLocation(self)->C:Location
-  getOriginalDataUrl(self)->S
-  getPaleoData(self)->L[C:PaleoData]
-  getPublications(self)->L[C:Publication]
-  getSpreadsheetLink(self)->S
-  setChangeLogs(self,changeLogs:L[C:ChangeLog])
-  setChronData(self,chronData:L[C:ChronData])
-  setCollectionName(self,collectionName:S)
-  setCollectionYear(self,collectionYear:S)
-  setCompilationNest(self,compilationNest:S)
-  setContributor(self,contributor:C:Person)
-  setCreators(self,creators:L[C:Person])
-  setDataSource(self,dataSource:S)
-  setDatasetId(self,datasetId:S)
-  setFundings(self,fundings:L[C:Funding])
-  setLocation(self,location:C:Location)
-  setOriginalDataUrl(self,originalDataUrl:S)
-  setPaleoData(self,paleoData:L[C:PaleoData])
-  setPublications(self,publications:L[C:Publication])
-  setSpreadsheetLink(self,spreadsheetLink:S)
-c:pylipd.classes.dataset.Funding(self)
-c:pylipd.classes.dataset.Location(self)
-c:pylipd.classes.dataset.PaleoData(self)
-c:pylipd.classes.dataset.Person(self)
-c:pylipd.classes.dataset.Publication(self)
-f:pylipd.classes.dataset.uniqid(prefix:O,more_entropy:O)
-c:pylipd.utils.json_to_rdf.JSONToRDF(self,graph:O,graphurl:O)
-  load_data_in_graph(self,data:O)
-c:pylipd.utils.rdf_to_json.RDFToJSON(self,id:O,graph:X)
+  set_endpoint(self, endpoint: str)
+class pylipd.utils.rdf_to_lipd.RDFToLiPD(self, graph: Any)
+  convert(self, dsname: Any, lipdfile: Any)
+  convert_to_json(self, dsname: Any)
+class pylipd.classes.archivetype.ArchiveType(self, id: str, label: str)
+  getId(self) -> str
+  getLabel(self) -> str
+  to_data(self, data: dict) -> dict
+  to_json(self) -> str
+class pylipd.classes.archivetype.ArchiveTypeConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.change.Change(self)
+  addNotes(self, notess: str)
+  add_non_standard_property(self, key: str, value: Any)
+  from_data(id: str, data: dict) -> Change
+  from_json(data: dict) -> Change
+  getName(self) -> str
+  getNotess(self) -> list[str]
+  get_all_non_standard_properties(self) -> dict
+  get_non_standard_property(self, key: str) -> Any
+  setName(self, name: str)
+  setNotess(self, notess: list[str])
+  set_non_standard_property(self, key: str, value: Any)
+  to_json(self) -> dict
+class pylipd.classes.changelog.ChangeLog(self)
+  addChanges(self, changess: pylipd.classes.change.Change)
+  from_data(id: str, data: dict) -> ChangeLog
+  from_json(data: dict) -> ChangeLog
+  getChangess(self) -> list[pylipd.classes.change.Change]
+  getCurator(self) -> str
+  getLastVersion(self) -> str
+  getNotes(self) -> str
+  getTimestamp(self) -> str
+  getVersion(self) -> str
+  setChangess(self, changess: list[pylipd.classes.change.Change])
+  setCurator(self, curator: str)
+  setLastVersion(self, lastVersion: str)
+  setNotes(self, notes: str)
+  setTimestamp(self, timestamp: str)
+  setVersion(self, version: str)
+class pylipd.classes.calibration.Calibration(self)
+  from_data(id: str, data: dict) -> Calibration
+  from_json(data: dict) -> Calibration
+  getDOI(self) -> str
+  getDatasetRange(self) -> str
+  getEquation(self) -> str
+  getEquationIntercept(self) -> str
+  getEquationR2(self) -> str
+  getEquationSlope(self) -> str
+  getEquationSlopeUncertainty(self) -> str
+  getMethod(self) -> str
+  getMethodDetail(self) -> str
+  getProxyDataset(self) -> str
+  getSeasonality(self) -> str
+  getTargetDataset(self) -> str
+  getUncertainty(self) -> str
+  setDOI(self, dOI: str)
+  setDatasetRange(self, datasetRange: str)
+  setEquation(self, equation: str)
+  setEquationIntercept(self, equationIntercept: str)
+  setEquationR2(self, equationR2: str)
+  setEquationSlope(self, equationSlope: str)
+  setEquationSlopeUncertainty(self, equationSlopeUncertainty: str)
+  setMethod(self, method: str)
+  setMethodDetail(self, methodDetail: str)
+  setProxyDataset(self, proxyDataset: str)
+  setSeasonality(self, seasonality: str)
+  setTargetDataset(self, targetDataset: str)
+  setUncertainty(self, uncertainty: str)
+class pylipd.classes.compilation.Compilation(self)
+  from_data(id: str, data: dict) -> Compilation
+  from_json(data: dict) -> Compilation
+class pylipd.classes.interpretationseasonality.InterpretationSeasonality(self, id: str, label: str)
+class pylipd.classes.interpretationseasonality.InterpretationSeasonalityConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.interpretationvariable.InterpretationVariable(self, id: str, label: str)
+class pylipd.classes.interpretationvariable.InterpretationVariableConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.interpretation.Interpretation(self)
+  from_data(id: str, data: dict) -> Interpretation
+  from_json(data: dict) -> Interpretation
+  getBasis(self) -> str
+  getDirection(self) -> str
+  getMathematicalRelation(self) -> str
+  getRank(self) -> str
+  getScope(self) -> str
+  getSeasonality(self) -> pylipd.classes.interpretationseasonality.InterpretationSeasonality
+  getSeasonalityGeneral(self) -> pylipd.classes.interpretationseasonality.InterpretationSeasonality
+  getSeasonalityOriginal(self) -> pylipd.classes.interpretationseasonality.InterpretationSeasonality
+  getVariable(self) -> pylipd.classes.interpretationvariable.InterpretationVariable
+  getVariableDetail(self) -> str
+  getVariableGeneral(self) -> str
+  getVariableGeneralDirection(self) -> str
+  isLocal(self) -> str
+  setBasis(self, basis: str)
+  setDirection(self, direction: str)
+  setLocal(self, local: str)
+  setMathematicalRelation(self, mathematicalRelation: str)
+  setRank(self, rank: str)
+  setScope(self, scope: str)
+  setSeasonality(self, seasonality: pylipd.classes.interpretationseasonality.InterpretationSeasonality)
+  setSeasonalityGeneral(self, seasonalityGeneral: pylipd.classes.interpretationseasonality.InterpretationSeasonality)
+  setSeasonalityOriginal(self, seasonalityOriginal: pylipd.classes.interpretationseasonality.InterpretationSeasonality)
+  setVariable(self, variable: pylipd.classes.interpretationvariable.InterpretationVariable)
+  setVariableDetail(self, variableDetail: str)
+  setVariableGeneral(self, variableGeneral: str)
+  setVariableGeneralDirection(self, variableGeneralDirection: str)
+class pylipd.classes.paleoproxy.PaleoProxy(self, id: str, label: str)
+class pylipd.classes.paleoproxy.PaleoProxyConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.paleoproxygeneral.PaleoProxyGeneral(self, id: str, label: str)
+class pylipd.classes.paleoproxygeneral.PaleoProxyGeneralConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.paleounit.PaleoUnit(self, id: str, label: str)
+class pylipd.classes.paleounit.PaleoUnitConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.paleovariable.PaleoVariable(self, id: str, label: str)
+class pylipd.classes.paleovariable.PaleoVariableConstants(self, args: Any, kwargs: Any)
+class pylipd.classes.physicalsample.PhysicalSample(self)
+  from_data(id: str, data: dict) -> PhysicalSample
+  from_json(data: dict) -> PhysicalSample
+  getHousedAt(self) -> str
+  getIGSN(self) -> str
+  setHousedAt(self, housedAt: str)
+  setIGSN(self, iGSN: str)
+class pylipd.classes.resolution.Resolution(self)
+  from_data(id: str, data: dict) -> Resolution
+  from_json(data: dict) -> Resolution
+  getMaxValue(self) -> float
+  getMeanValue(self) -> float
+  getMedianValue(self) -> float
+  getMinValue(self) -> float
+  getUnits(self) -> pylipd.classes.paleounit.PaleoUnit
+  setMaxValue(self, maxValue: float)
+  setMeanValue(self, meanValue: float)
+  setMedianValue(self, medianValue: float)
+  setMinValue(self, minValue: float)
+  setUnits(self, units: pylipd.classes.paleounit.PaleoUnit)
+class pylipd.classes.variable.Variable(self)
+  addCalibratedVia(self, calibratedVias: pylipd.classes.calibration.Calibration)
+  addInterpretation(self, interpretations: pylipd.classes.interpretation.Interpretation)
+  addPhysicalSample(self, physicalSamples: pylipd.classes.physicalsample.PhysicalSample)
+  from_data(id: str, data: dict) -> Variable
+  from_json(data: dict) -> Variable
+  getArchiveType(self) -> pylipd.classes.archivetype.ArchiveType
+  getCalibratedVias(self) -> list[pylipd.classes.calibration.Calibration]
+  getColumnNumber(self) -> int
+  getDescription(self) -> str
+  getFoundInDataset(self) -> object
+  getFoundInTable(self) -> object
+  getInstrument(self) -> object
+  getInterpretations(self) -> list[pylipd.classes.interpretation.Interpretation]
+  getMissingValue(self) -> str
+  getPartOfCompilation(self) -> pylipd.classes.compilation.Compilation
+  getPhysicalSamples(self) -> list[pylipd.classes.physicalsample.PhysicalSample]
+  getProxy(self) -> pylipd.classes.paleoproxy.PaleoProxy
+  getProxyGeneral(self) -> pylipd.classes.paleoproxygeneral.PaleoProxyGeneral
+  getResolution(self) -> pylipd.classes.resolution.Resolution
+  getStandardVariable(self) -> pylipd.classes.paleovariable.PaleoVariable
+  getUncertaintyAnalytical(self) -> str
+  getUncertaintyReproducibility(self) -> str
+  getValues(self) -> str
+  getVariableId(self) -> str
+  getVariableType(self) -> str
+  isComposite(self) -> bool
+  isPrimary(self) -> bool
+  setArchiveType(self, archiveType: pylipd.classes.archivetype.ArchiveType)
+  setCalibratedVias(self, calibratedVias: list[pylipd.classes.calibration.Calibration])
+  setColumnNumber(self, columnNumber: int)
+  setComposite(self, composite: bool)
+  setDescription(self, description: str)
+  setFoundInDataset(self, foundInDataset: object)
+  setFoundInTable(self, foundInTable: object)
+  setInstrument(self, instrument: object)
+  setInterpretations(self, interpretations: list[pylipd.classes.interpretation.Interpretation])
+  setMissingValue(self, missingValue: str)
+  setPartOfCompilation(self, partOfCompilation: pylipd.classes.compilation.Compilation)
+  setPhysicalSamples(self, physicalSamples: list[pylipd.classes.physicalsample.PhysicalSample])
+  setPrimary(self, primary: bool)
+  setProxy(self, proxy: pylipd.classes.paleoproxy.PaleoProxy)
+  setProxyGeneral(self, proxyGeneral: pylipd.classes.paleoproxygeneral.PaleoProxyGeneral)
+  setResolution(self, resolution: pylipd.classes.resolution.Resolution)
+  setStandardVariable(self, standardVariable: pylipd.classes.paleovariable.PaleoVariable)
+  setUncertaintyAnalytical(self, uncertaintyAnalytical: str)
+  setUncertaintyReproducibility(self, uncertaintyReproducibility: str)
+  setValues(self, values: str)
+  setVariableId(self, variableId: str)
+  setVariableType(self, variableType: str)
+class pylipd.classes.datatable.DataTable(self)
+  addVariable(self, variables: pylipd.classes.variable.Variable)
+  from_data(id: str, data: dict) -> DataTable
+  from_json(data: dict) -> DataTable
+  getDataFrame(self, use_standard_names: Any) -> pandas.core.frame.DataFrame
+  getFileName(self) -> str
+  getVariables(self) -> list[pylipd.classes.variable.Variable]
+  setDataFrame(self, df: pandas.core.frame.DataFrame)
+  setFileName(self, fileName: str)
+  setVariables(self, variables: list[pylipd.classes.variable.Variable])
+class pylipd.classes.model.Model(self)
+  addDistributionTable(self, distributionTables: pylipd.classes.datatable.DataTable)
+  addEnsembleTable(self, ensembleTables: pylipd.classes.datatable.DataTable)
+  addSummaryTable(self, summaryTables: pylipd.classes.datatable.DataTable)
+  from_data(id: str, data: dict) -> Model
+  from_json(data: dict) -> Model
+  getCode(self) -> str
+  getDistributionTables(self) -> list[pylipd.classes.datatable.DataTable]
+  getEnsembleTables(self) -> list[pylipd.classes.datatable.DataTable]
+  getSummaryTables(self) -> list[pylipd.classes.datatable.DataTable]
+  setCode(self, code: str)
+  setDistributionTables(self, distributionTables: list[pylipd.classes.datatable.DataTable])
+  setEnsembleTables(self, ensembleTables: list[pylipd.classes.datatable.DataTable])
+  setSummaryTables(self, summaryTables: list[pylipd.classes.datatable.DataTable])
+class pylipd.classes.chrondata.ChronData(self)
+  addMeasurementTable(self, measurementTables: pylipd.classes.datatable.DataTable)
+  addModeledBy(self, modeledBy: pylipd.classes.model.Model)
+  from_data(id: str, data: dict) -> ChronData
+  from_json(data: dict) -> ChronData
+  getMeasurementTables(self) -> list[pylipd.classes.datatable.DataTable]
+  getModeledBy(self) -> list[pylipd.classes.model.Model]
+  setMeasurementTables(self, measurementTables: list[pylipd.classes.datatable.DataTable])
+  setModeledBy(self, modeledBy: list[pylipd.classes.model.Model])
+class pylipd.classes.person.Person(self)
+  from_data(id: str, data: dict) -> Person
+  from_json(data: dict) -> Person
+class pylipd.classes.funding.Funding(self)
+  addGrant(self, grants: str)
+  addInvestigator(self, investigators: pylipd.classes.person.Person)
+  from_data(id: str, data: dict) -> Funding
+  from_json(data: dict) -> Funding
+  getFundingAgency(self) -> str
+  getFundingCountry(self) -> str
+  getGrants(self) -> list[str]
+  getInvestigators(self) -> list[pylipd.classes.person.Person]
+  setFundingAgency(self, fundingAgency: str)
+  setFundingCountry(self, fundingCountry: str)
+  setGrants(self, grants: list[str])
+  setInvestigators(self, investigators: list[pylipd.classes.person.Person])
+class pylipd.classes.location.Location(self)
+  from_data(id: str, data: dict) -> Location
+  from_json(data: dict) -> Location
+  getContinent(self) -> str
+  getCoordinates(self) -> str
+  getCoordinatesFor(self) -> object
+  getCountry(self) -> str
+  getCountryOcean(self) -> str
+  getElevation(self) -> str
+  getGeometryType(self) -> str
+  getLatitude(self) -> str
+  getLocationName(self) -> str
+  getLocationType(self) -> str
+  getLongitude(self) -> str
+  getOcean(self) -> str
+  getSiteName(self) -> str
+  setContinent(self, continent: str)
+  setCoordinates(self, coordinates: str)
+  setCoordinatesFor(self, coordinatesFor: object)
+  setCountry(self, country: str)
+  setCountryOcean(self, countryOcean: str)
+  setElevation(self, elevation: str)
+  setGeometryType(self, geometryType: str)
+  setLatitude(self, latitude: str)
+  setLocationName(self, locationName: str)
+  setLocationType(self, locationType: str)
+  setLongitude(self, longitude: str)
+  setOcean(self, ocean: str)
+  setSiteName(self, siteName: str)
+class pylipd.classes.paleodata.PaleoData(self)
+  from_data(id: str, data: dict) -> PaleoData
+  from_json(data: dict) -> PaleoData
+class pylipd.classes.publication.Publication(self)
+  addAuthor(self, authors: pylipd.classes.person.Person)
+  addDataUrl(self, dataUrls: str)
+  addUrl(self, urls: str)
+  from_data(id: str, data: dict) -> Publication
+  from_json(data: dict) -> Publication
+  getAbstract(self) -> str
+  getAuthors(self) -> list[pylipd.classes.person.Person]
+  getCitation(self) -> str
+  getCiteKey(self) -> str
+  getDataUrls(self) -> list[str]
+  getFirstAuthor(self) -> pylipd.classes.person.Person
+  getInstitution(self) -> str
+  getIssue(self) -> str
+  getJournal(self) -> str
+  getPages(self) -> str
+  getPublicationType(self) -> str
+  getPublisher(self) -> str
+  getReport(self) -> str
+  getTitle(self) -> str
+  getUrls(self) -> list[str]
+  getVolume(self) -> str
+  getYear(self) -> int
+  setAbstract(self, abstract: str)
+  setAuthors(self, authors: list[pylipd.classes.person.Person])
+  setCitation(self, citation: str)
+  setCiteKey(self, citeKey: str)
+  setDataUrls(self, dataUrls: list[str])
+  setFirstAuthor(self, firstAuthor: pylipd.classes.person.Person)
+  setInstitution(self, institution: str)
+  setIssue(self, issue: str)
+  setJournal(self, journal: str)
+  setPages(self, pages: str)
+  setPublicationType(self, publicationType: str)
+  setPublisher(self, publisher: str)
+  setReport(self, report: str)
+  setTitle(self, title: str)
+  setUrls(self, urls: list[str])
+  setVolume(self, volume: str)
+  setYear(self, year: int)
+class pylipd.classes.dataset.Dataset(self)
+  addChangeLog(self, changeLogs: pylipd.classes.changelog.ChangeLog)
+  addChronData(self, chronData: pylipd.classes.chrondata.ChronData)
+  addCreator(self, creators: pylipd.classes.person.Person)
+  addFunding(self, fundings: pylipd.classes.funding.Funding)
+  addPaleoData(self, paleoData: pylipd.classes.paleodata.PaleoData)
+  addPublication(self, publications: pylipd.classes.publication.Publication)
+  from_data(id: str, data: dict) -> Dataset
+  from_json(data: dict) -> Dataset
+  getChangeLogs(self) -> list[pylipd.classes.changelog.ChangeLog]
+  getChronData(self) -> list[pylipd.classes.chrondata.ChronData]
+  getCollectionName(self) -> str
+  getCollectionYear(self) -> str
+  getCompilationNest(self) -> str
+  getContributor(self) -> pylipd.classes.person.Person
+  getCreators(self) -> list[pylipd.classes.person.Person]
+  getDataSource(self) -> str
+  getDatasetId(self) -> str
+  getFundings(self) -> list[pylipd.classes.funding.Funding]
+  getLocation(self) -> pylipd.classes.location.Location
+  getOriginalDataUrl(self) -> str
+  getPaleoData(self) -> list[pylipd.classes.paleodata.PaleoData]
+  getPublications(self) -> list[pylipd.classes.publication.Publication]
+  getSpreadsheetLink(self) -> str
+  setChangeLogs(self, changeLogs: list[pylipd.classes.changelog.ChangeLog])
+  setChronData(self, chronData: list[pylipd.classes.chrondata.ChronData])
+  setCollectionName(self, collectionName: str)
+  setCollectionYear(self, collectionYear: str)
+  setCompilationNest(self, compilationNest: str)
+  setContributor(self, contributor: pylipd.classes.person.Person)
+  setCreators(self, creators: list[pylipd.classes.person.Person])
+  setDataSource(self, dataSource: str)
+  setDatasetId(self, datasetId: str)
+  setFundings(self, fundings: list[pylipd.classes.funding.Funding])
+  setLocation(self, location: pylipd.classes.location.Location)
+  setOriginalDataUrl(self, originalDataUrl: str)
+  setPaleoData(self, paleoData: list[pylipd.classes.paleodata.PaleoData])
+  setPublications(self, publications: list[pylipd.classes.publication.Publication])
+  setSpreadsheetLink(self, spreadsheetLink: str)
+class pylipd.utils.json_to_rdf.JSONToRDF(self, graph: Any, graphurl: Any)
+  load_data_in_graph(self, data: Any)
+class pylipd.utils.rdf_to_json.RDFToJSON(self, id: Any, graph: rdflib.graph.ConjunctiveGraph)
   to_json(self)
-c:pylipd.lipd_series.LiPDSeries(self,graph:O)
-  filter_by_name(self,name:S)->X
-  filter_by_proxy(self,proxy:S)->X
-  filter_by_resolution(self,threshold:F,stats:S)->X
-  get_all_proxy(self)->X
-  get_all_variable_names(self)->X
-  get_all_variables(self)->X
-  get_timeseries_essentials(self)->X
-  get_variable_properties(self)->X
-  load(self,lipd:X,parallel:O)
-c:pylipd.lipd_series.RDFGraph(self,graph:O)
-f:pylipd.lipd_series.multi_load_lipd_series(graph:O,single_dataset_lipds:O,parallel:O)
-c:pylipd.lipd.Dataset(self)
-c:pylipd.lipd.JSONToRDF(self,graph:O,graphurl:O)
-c:pylipd.lipd.LiPD(self,graph:O)
-  convert_lipd_dir_to_rdf(self,lipd_dir:S,rdf_file:S,parallel:O,standardize:O,add_labels:O)
-  create_lipd(self,dsname:S,lipdfile:S)->X
-  filter_by_archive_type(self,archiveType:S)->X
-  filter_by_compilationName(self,compilationName:S)->X
-  filter_by_datasetName(self,datasetName:S)->X
-  filter_by_geo_bbox(self,lonMin:F,latMin:F,lonMax:F,latMax:F)->X
-  filter_by_time(self,timeBound:L[O],timeBoundType:S,recordLength:F)->X
-  get(self,dsnames:S)->X
-  get_all_archiveTypes(self)->X
-  get_all_compilation_names(self)->X
-  get_all_dataset_ids(self)->X
-  get_all_dataset_names(self)->X
-  get_all_locations(self,dsname:S)->X
-  get_bibtex(self,remote:B,save:B,path:S,verbose:B)->X
-  get_dataset_properties(self)->X
-  get_datasets(self)->X
-  get_ensemble_tables(self,dsname:S,ensembleVarName:N,ensembleDepthVarName:S)->X
-  get_lipd(self,dsname:S)->X
-  get_model_properties(self)->X
-  get_timeseries(self,dsnames:L[O],to_dataframe:B,mode:O,time:O)->X
-  get_timeseries_essentials(self,dsnames:L[O],mode:X)->X
-  load(self,lipdfiles:L[O],parallel:B,standardize:O,add_labels:O)
-  load_datasets(self,datasets:X)
-  load_from_dir(self,dir_path:S,parallel:B,cutoff:I,standardize:O,add_labels:O)
-  load_remote_datasets(self,dsnames:X,load_default_graph:O)
-  pop(self,dsnames:S)->X
-  remove(self,dsnames:S)
-  to_lipd_series(self,parallel:B)->X
-  update_remote_datasets(self,dsnames:O)
-c:pylipd.lipd.LiPDSeries(self,graph:O)
-c:pylipd.lipd.LiPD_Legacy(self,args:O,kwargs:O)
-c:pylipd.lipd.RDFGraph(self,graph:O)
-c:pylipd.lipd.RDFToJSON(self,id:O,graph:X)
-c:pylipd.lipd.RDFToLiPD(self,graph:O)
-f:pylipd.lipd.multi_convert_to_rdf(filemap:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.lipd.multi_load_lipd(graph:O,lipdfiles:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.lipd.sanitizeId(id:O)
-c:pylipd.utils.dataset.LiPD(self,graph:O)
-f:pylipd.utils.dataset.available_dataset_names()->X
-f:pylipd.utils.dataset.load_datasets(names:O)
-f:pylipd.utils.dataset.load_dir(name:O)
-c:pylipd.utils.LiPD(self,graph:O)
-c:pylipd.utils.LiPD_Legacy(self,args:O,kwargs:O)
-c:pylipd.utils.LipdToRDF(self,standardize:O,add_labels:O)
-c:pylipd.utils.RDFGraph(self,graph:O)
-c:pylipd.utils.RDFToLiPD(self,graph:O)
-f:pylipd.utils.available_dataset_names()->X
-f:pylipd.utils.camelCase(id:O)
-f:pylipd.utils.convert_lipd_to_graph(arg:O)
-f:pylipd.utils.convert_to_rdf(files:O)
-f:pylipd.utils.escape(str:O)
-f:pylipd.utils.expand_schema(schema:O)
-f:pylipd.utils.extract_variables_graph(arg:O)
-f:pylipd.utils.fromCamelCase(str:O)
-f:pylipd.utils.lcfirst(s:O)
-f:pylipd.utils.load_datasets(names:O)
-f:pylipd.utils.load_dir(name:O)
-f:pylipd.utils.multi_convert_to_rdf(filemap:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.utils.multi_load_lipd(graph:O,lipdfiles:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.utils.multi_load_lipd_series(graph:O,single_dataset_lipds:O,parallel:O)
-f:pylipd.utils.sanitizeId(id:O)
-f:pylipd.utils.sparql_results_to_df(results:X)->X
-f:pylipd.utils.ucfirst(s:O)
-f:pylipd.utils.unCamelCase(id:O)
-f:pylipd.utils.uniqid(prefix:O,more_entropy:O)
-f:pylipd.utils.unzip_string(string:O)
-f:pylipd.utils.zip_string(string:O)
-c:pylipd.LiPD(self,graph:O)
-c:pylipd.LiPD_Legacy(self,args:O,kwargs:O)
-c:pylipd.LipdToRDF(self,standardize:O,add_labels:O)
-c:pylipd.RDFGraph(self,graph:O)
-c:pylipd.RDFToLiPD(self,graph:O)
-f:pylipd.available_dataset_names()->X
-f:pylipd.camelCase(id:O)
-f:pylipd.convert_lipd_to_graph(arg:O)
-f:pylipd.convert_to_rdf(files:O)
-f:pylipd.escape(str:O)
-f:pylipd.expand_schema(schema:O)
-f:pylipd.extract_variables_graph(arg:O)
-f:pylipd.fromCamelCase(str:O)
-f:pylipd.lcfirst(s:O)
-f:pylipd.load_datasets(names:O)
-f:pylipd.load_dir(name:O)
-f:pylipd.multi_convert_to_rdf(filemap:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.multi_load_lipd(graph:O,lipdfiles:O,parallel:O,standardize:O,add_labels:O)
-f:pylipd.multi_load_lipd_series(graph:O,single_dataset_lipds:O,parallel:O)
-f:pylipd.sanitizeId(id:O)
-f:pylipd.sparql_results_to_df(results:X)->X
-f:pylipd.ucfirst(s:O)
-f:pylipd.unCamelCase(id:O)
-f:pylipd.uniqid(prefix:O,more_entropy:O)
-f:pylipd.unzip_string(string:O)
-f:pylipd.zip_string(string:O)
-c:pylipd.classes.uncertainty.Uncertainty(self)
-  add_non_standard_property(self,key:O,value:O)
-  from_data(id:O,data:O)->X
-  from_json(data:O)->X
-  getUncertaintyType(self)->S
+class pylipd.lipd_series.LiPDSeries(self, graph: Optional[Any])
+  filter_by_name(self, name: str) -> pylipd.lipd_series.LiPDSeries
+  filter_by_proxy(self, proxy: str) -> pylipd.lipd_series.LiPDSeries
+  filter_by_resolution(self, threshold: float, stats: str) -> pylipd.lipd_series.LiPDSeries
+  get_all_proxy(self) -> list
+  get_all_variable_names(self) -> list
+  get_all_variables(self) -> pandas.DataFrame
+  get_timeseries_essentials(self) -> pandas.DataFrame
+  get_variable_properties(self) -> list
+  load(self, lipd: pylipd.lipd.LiPD, parallel: Any)
+class pylipd.lipd.LiPD(self, graph: Optional[Any])
+  convert_lipd_dir_to_rdf(self, lipd_dir: str, rdf_file: str, parallel: Any, standardize: Any, add_labels: Any)
+  create_lipd(self, dsname: str, lipdfile: str) -> dict
+  filter_by_archive_type(self, archiveType: str) -> pylipd.lipd.LiPD
+  filter_by_compilationName(self, compilationName: str) -> pylipd.lipd.LiPD
+  filter_by_datasetName(self, datasetName: str) -> pylipd.lipd.LiPD
+  filter_by_geo_bbox(self, lonMin: float, latMin: float, lonMax: float, latMax: float) -> pylipd.lipd.LiPD
+  filter_by_time(self, timeBound: list, timeBoundType: str, recordLength: Optional[float]) -> pylipd.lipd.LiPD
+  get(self, dsnames: Union[str, list]) -> pylipd.lipd.LiPD
+  get_all_archiveTypes(self) -> list
+  get_all_compilation_names(self) -> list
+  get_all_dataset_ids(self) -> list
+  get_all_dataset_names(self) -> list
+  get_all_locations(self, dsname: Optional[str]) -> pandas.DataFrame
+  get_bibtex(self, remote: bool, save: bool, path: str, verbose: bool) -> list
+  get_dataset_properties(self) -> list
+  get_datasets(self) -> list[Dataset]
+  get_ensemble_tables(self, dsname: Optional[str], ensembleVarName: Optional[str], ensembleDepthVarName: str) -> dataframe
+  get_lipd(self, dsname: str) -> dict
+  get_model_properties(self) -> list
+  get_timeseries(self, dsnames: list, to_dataframe: bool, mode: Any, time: Any) -> dict
+  get_timeseries_essentials(self, dsnames: Optional[list], mode: paleo,) -> pandas.DataFrame
+  load(self, lipdfiles: list, parallel: bool, standardize: Any, add_labels: Any)
+  load_datasets(self, datasets: list[Dataset])
+  load_from_dir(self, dir_path: str, parallel: bool, cutoff: Optional[int], standardize: Any, add_labels: Any)
+  load_remote_datasets(self, dsnames: list, load_default_graph: Any)
+  pop(self, dsnames: Union[str, list]) -> pylipd.lipd.LiPD
+  remove(self, dsnames: Union[str, list])
+  to_lipd_series(self, parallel: bool) -> pylipd.lipd_series.LiPDSeries
+  update_remote_datasets(self, dsnames: Any)
+function pylipd.utils.dataset.available_dataset_names() -> list
+function pylipd.utils.dataset.load_datasets(names: Any)
+function pylipd.utils.dataset.load_dir(name: Any)
+class pylipd.classes.uncertainty.Uncertainty(self)
+  add_non_standard_property(self, key: Any, value: Any)
+  from_data(id: Any, data: Any) -> Uncertainty
+  from_json(data: Any) -> Uncertainty
+  getUncertaintyType(self) -> str
   get_all_non_standard_properties(self)
-  get_non_standard_property(self,key:O)
-  setUncertaintyType(self,uncertaintyType:S)
-  set_non_standard_property(self,key:O,value:O)
-  to_data(self,data:O)
-f:pylipd.classes.uncertainty.uniqid(prefix:O,more_entropy:O)
-f:pylipd.utils.create_classes.fetch_extra_template_functions(clsid:O)
-f:pylipd.utils.create_classes.generate_class_file(clsid:O,import_snippets:O,initvar_snippets:O,todata_snippets:O,fromdata_snippets:O,tojson_snippets:O,fromjson_snippets:O,fn_snippets:O)
-f:pylipd.utils.create_classes.generate_enum_classes()
-f:pylipd.utils.create_classes.generate_lipd_classes()
-f:pylipd.utils.create_classes.get_fromdata_item(ptype:O,range:O,is_enum:O)
-f:pylipd.utils.create_classes.get_fromjson_item(ptype:O,range:O,is_enum:O)
-f:pylipd.utils.create_classes.get_python_snippet_for_multi_value_property(clsid:O,pid:O,propid:O,pname:O,ptype:O,ont_range:O,python_range:O,getter:O,setter:O,adder:O,is_enum:O)
-f:pylipd.utils.create_classes.get_python_snippet_for_property(clsid:O,pid:O,propid:O,pname:O,ptype:O,ont_range:O,python_range:O,getter:O,setter:O,is_enum:O)
-f:pylipd.utils.create_classes.get_todata_item(type:O,range:O)
-f:pylipd.utils.create_classes.get_tojson_item(type:O)
-f:ammonyte.utils.sampling.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
-f:ammonyte.utils.range_finder.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
-f:ammonyte.utils.plotting.bootstrap_fill_plot(series:O,ax:O,line_color:O,fill_color:O,transition_interval:O,plot_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
-f:ammonyte.utils.plotting.bootstrap_scatter_plot(series:O,ax:O,marker_color:O,transition_interval:O,scatter_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
-f:ammonyte.utils.plotting.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
-f:ammonyte.utils.plotting.get_labels(obj:C:TimeEmbeddedSeries)
-f:ammonyte.utils.rm.rm(series:C:Series,eps:I,m:I,delay:I)
-f:ammonyte.utils.parameters.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
-f:ammonyte.utils.parameters.rm(series:C:Series,eps:I,m:I,delay:I)
-f:ammonyte.utils.parameters.tau_search(series:X,num_lags:I,return_MI:B)->X
-f:ammonyte.utils.fisher.SOST(eig_data:O,s_for_sd:O)
-f:ammonyte.utils.fisher.fisher_information(eig_data:O,w_size:O,w_incre:O)
-f:ammonyte.utils.fisher.smooth_series(series:C:Series,block_size:I)
-f:ammonyte.utils.bootstrap_fill_plot(series:O,ax:O,line_color:O,fill_color:O,transition_interval:O,plot_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
-f:ammonyte.utils.bootstrap_scatter_plot(series:O,ax:O,marker_color:O,transition_interval:O,scatter_kwargs:O,ci_kwargs:O,background_series:O,background_kwargs:O)->X
-f:ammonyte.utils.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
-f:ammonyte.utils.fisher_information(eig_data:O,w_size:O,w_incre:O)
-f:ammonyte.utils.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
-f:ammonyte.utils.rm(series:C:Series,eps:I,m:I,delay:I)
-f:ammonyte.utils.smooth_series(series:C:Series,block_size:I)
-f:ammonyte.utils.tau_search(series:X,num_lags:I,return_MI:B)->X
-c:ammonyte.core.rqa_res.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
-  confidence_fill_plot(self,ax:X,line_color:S,fill_color:S,fill_alpha:F,transition_interval:L[O],xlabel:S,ylabel:S,marker:S,markersize:F,linestyle:S,linewidth:F,alpha:F,label:S,title:S,zorder:I,plot_kwargs:D,ci_kwargs:D,background_series:C:Series,background_kwargs:D,legend:X,lgd_kwargs:D)->X
-  confidence_smooth_plot(self,block_size:I,figsize:O,ax:X,transition_interval:L[O],color:S,label:S,xlabel:S,ylabel:S,title:S,ci_kwargs:O,background_series:C:Series,background_kwargs:D,hline_kwargs:D,ci_plot_kwargs:D,legend:X,lgd_kwargs:D)->X
-  plot_eigenmaps(self,groups:L[O],axes:L[O],figsize:L[O],cmap:S,cmap_kwargs:D,ax:X,title:O)->X
-  plot_eigenmaps_FI(self,groups:L[O],axes:L[O],block_smooth:X,cmap:S,cmap_kwargs:D,figsize:L[O],ax:X,FI_axis_lims:L[O],scale:O,title:O)->X
-  smooth(self,block_size:I)->X
-f:ammonyte.core.rqa_res.confidence_interval(series:O,upper:O,lower:O,w:O,n_samples:O,random_state:O)
-f:ammonyte.core.rqa_res.smooth_series(series:C:Series,block_size:I)
-c:ammonyte.core.recurrence_matrix.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
-c:ammonyte.core.recurrence_matrix.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-  laplacian_eigenmaps(self,w_size:I,w_incre:I)->X
-  plot(self,figsize:T,xlabel:S,ylabel:S,title:S,imshow_kwargs:D)
-f:ammonyte.core.recurrence_matrix.fisher_information(eig_data:O,w_size:O,w_incre:O)
-f:ammonyte.core.recurrence_matrix.get_labels(obj:C:TimeEmbeddedSeries)
-c:ammonyte.core.recurrence_network.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.recurrence_network.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.time_embedded_series.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.time_embedded_series.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.time_embedded_series.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-  create_recurrence_matrix(self,epsilon:F)->X
-  create_recurrence_network(self,epsilon:F)->X
-  find_epsilon(self,eps:F,target_density:F,tolerance:F,initial_density:F,parallelize:X,num_processes:I,amp:I,verbose:X)->X
-f:ammonyte.core.time_embedded_series.range_finder(eps:O,density:O,target_density:O,tolerance:O,num_processes:O,amp:O)
-f:ammonyte.core.time_embedded_series.tau_search(series:X,num_lags:I,return_MI:B)->X
-c:ammonyte.core.series.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
-c:ammonyte.core.series.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.series.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-  determinism(self,window_size:I,overlap:I,m:I,tau:I,eps:F)->X
-  embed(self,m:O,tau:O)
-  laminarity(self,window_size:I,overlap:I,m:I,tau:I,eps:F)->X
-c:ammonyte.core.series.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-f:ammonyte.core.series.tau_search(series:X,num_lags:I,return_MI:B)->X
-c:ammonyte.core.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
-c:ammonyte.core.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.core.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:ammonyte.core.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.RQARes(self,time:O,value:O,time_name:O,time_unit:O,value_name:O,value_unit:O,series:O,label:O,m:O,tau:O,eps:O,eigenmap:O,w_size:O,w_incre:O)
-c:ammonyte.RecurrenceMatrix(self,matrix:O,time:O,epsilon:O,m:O,tau:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.RecurrenceNetwork(self,matrix:O,time:O,epsilon:O,series:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
-c:ammonyte.Series(self,time:O,value:O,time_unit:O,time_name:O,value_name:O,value_unit:O,label:O,importedFrom:O,archiveType:O,control_archiveType:O,log:O,keep_log:O,sort_ts:O,dropna:O,verbose:O,clean_ts:O,auto_time_params:O)
-c:ammonyte.TimeEmbeddedSeries(self,series:O,m:O,tau:O,embedded_data:O,embedded_time:O,value_name:O,value_unit:O,time_name:O,time_unit:O,label:O)
+  get_non_standard_property(self, key: Any)
+  setUncertaintyType(self, uncertaintyType: str)
+  set_non_standard_property(self, key: Any, value: Any)
+  to_data(self, data: Any)
+function pylipd.utils.create_classes.fetch_extra_template_functions(clsid: Any)
+function pylipd.utils.create_classes.generate_class_file(clsid: Any, import_snippets: Any, initvar_snippets: Any, todata_snippets: Any, fromdata_snippets: Any, tojson_snippets: Any, fromjson_snippets: Any, fn_snippets: Any)
+function pylipd.utils.create_classes.generate_enum_classes()
+function pylipd.utils.create_classes.generate_lipd_classes()
+function pylipd.utils.create_classes.get_fromdata_item(ptype: Any, range: Any, is_enum: Any)
+function pylipd.utils.create_classes.get_fromjson_item(ptype: Any, range: Any, is_enum: Any)
+function pylipd.utils.create_classes.get_python_snippet_for_multi_value_property(clsid: Any, pid: Any, propid: Any, pname: Any, ptype: Any, ont_range: Any, python_range: Any, getter: Any, setter: Any, adder: Any, is_enum: Any)
+function pylipd.utils.create_classes.get_python_snippet_for_property(clsid: Any, pid: Any, propid: Any, pname: Any, ptype: Any, ont_range: Any, python_range: Any, getter: Any, setter: Any, is_enum: Any)
+function pylipd.utils.create_classes.get_todata_item(type: Any, range: Any)
+function pylipd.utils.create_classes.get_tojson_item(type: Any)
+function ammonyte.utils.sampling.confidence_interval(series: Any, upper: Any, lower: Any, w: Any, n_samples: Any, random_state: Any)
+function ammonyte.utils.range_finder.range_finder(eps: Any, density: Any, target_density: Any, tolerance: Any, num_processes: Any, amp: Any)
+function ammonyte.utils.plotting.bootstrap_fill_plot(series: Any, ax: Optional[Any], line_color: Optional[Any], fill_color: Optional[Any], transition_interval: Optional[Any], plot_kwargs: Optional[Any], ci_kwargs: Optional[Any], background_series: Optional[Any], background_kwargs: Optional[Any]) -> matplotlib.figure
+function ammonyte.utils.plotting.bootstrap_scatter_plot(series: Any, ax: Optional[Any], marker_color: Optional[Any], transition_interval: Optional[Any], scatter_kwargs: Optional[Any], ci_kwargs: Optional[Any], background_series: Optional[Any], background_kwargs: Optional[Any]) -> matplotlib.figure
+function ammonyte.utils.plotting.get_labels(obj: ammonyte.TimeEmbeddedSeries,)
+function ammonyte.utils.rm.rm(series: Union[pyleoclim.core.series.Series, pandas.Series], eps: int, m: int, delay: int)
+function ammonyte.utils.parameters.tau_search(series: pyleo.Series, num_lags: int, return_MI: bool,) -> int
+function ammonyte.utils.fisher.SOST(eig_data: Any, s_for_sd: Any)
+function ammonyte.utils.fisher.fisher_information(eig_data: Any, w_size: Any, w_incre: Any)
+function ammonyte.utils.fisher.smooth_series(series: pyleoclim.Series, block_size: int)
+class ammonyte.core.rqa_res.RQARes(self, time: Any, value: Any, time_name: Optional[Any], time_unit: Optional[Any], value_name: Optional[Any], value_unit: Optional[Any], series: Optional[Any], label: Optional[Any], m: Optional[Any], tau: Optional[Any], eps: Optional[Any], eigenmap: Optional[Any], w_size: Optional[Any], w_incre: Optional[Any])
+  confidence_fill_plot(self, ax: Optional[matplotlib.axes], line_color: Optional[str,], fill_color: Optional[str,], fill_alpha: Optional[float], transition_interval: Optional[list,tuple], xlabel: Optional[str], ylabel: Optional[str], marker: Optional[str], markersize: Optional[float], linestyle: Optional[str], linewidth: Optional[float], alpha: Optional[float], label: Optional[str], title: Optional[str], zorder: Optional[int], plot_kwargs: Optional[dict], ci_kwargs: Optional[dict], background_series: Optional[pyleoclim.core.series.Series], background_kwargs: Optional[dict], legend: bool;, lgd_kwargs: Optional[dict]) -> matplotlib.figure
+  confidence_smooth_plot(self, block_size: int, figsize: Any, ax: Optional[matplotlib.axes], transition_interval: Optional[list,tuple], color: Optional[str,], label: Optional[str], xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], ci_kwargs: Optional[Any], background_series: Optional[pyleoclim.core.series.Series], background_kwargs: Optional[dict], hline_kwargs: Optional[dict], ci_plot_kwargs: Optional[dict], legend: bool;, lgd_kwargs: Optional[dict]) -> matplotlib.figure
+  plot_eigenmaps(self, groups: list,tuple;, axes: list,tuple, figsize: list,tuple, cmap: str,, cmap_kwargs: Optional[dict], ax: Optional[matplotlib.axes.Axes], title: Optional[Any]) -> matplotlib.figure
+  plot_eigenmaps_FI(self, groups: list,tuple;, axes: list,tuple, block_smooth: bool;, cmap: str, cmap_kwargs: Optional[dict], figsize: list,tuple, ax: Optional[matplotlib.axes.Axes], FI_axis_lims: Optional[list,tuple], scale: Any, title: Optional[Any]) -> matplotlib.figure
+  smooth(self, block_size: int) -> ammonyte.core.rqa_res.RQARes
+class ammonyte.core.recurrence_matrix.RecurrenceMatrix(self, matrix: Any, time: Any, epsilon: Any, m: Any, tau: Any, series: Optional[Any], value_name: Optional[Any], value_unit: Optional[Any], time_name: Optional[Any], time_unit: Optional[Any], label: Optional[Any])
+  laplacian_eigenmaps(self, w_size: int, w_incre: int) -> pyleoclim.Series
+  plot(self, figsize: tuple, xlabel: Optional[str], ylabel: Optional[str], title: Optional[str], imshow_kwargs: Optional[dict])
+class ammonyte.core.recurrence_network.RecurrenceNetwork(self, matrix: Any, time: Any, epsilon: Any, series: Optional[Any], value_name: Optional[Any], value_unit: Optional[Any], time_name: Optional[Any], time_unit: Optional[Any], label: Optional[Any])
+class ammonyte.core.time_embedded_series.TimeEmbeddedSeries(self, series: Any, m: Any, tau: Optional[Any], embedded_data: Optional[Any], embedded_time: Optional[Any], value_name: Optional[Any], value_unit: Optional[Any], time_name: Optional[Any], time_unit: Optional[Any], label: Optional[Any])
+  create_recurrence_matrix(self, epsilon: float) -> ammonyte.RecurrenceMatrix
+  create_recurrence_network(self, epsilon: float) -> ammonyte.RecurrenceNetwork
+  find_epsilon(self, eps: float, target_density: float, tolerance: float, initial_density: Optional[float], parallelize: bool;, num_processes: Optional[int], amp: int, verbose: bool;) -> float
+class ammonyte.core.series.Series(self, time: Union[list, numpy.ndarray], value: numpy.ndarray, time_unit: Optional[str], time_name: Optional[str], value_name: Optional[str], value_unit: Optional[str], label: Optional[str], importedFrom: Optional[str], archiveType: Optional[str], control_archiveType: bool, log: Optional[dict], keep_log: bool, sort_ts: str, dropna: bool, verbose: bool, clean_ts: bool, auto_time_params: Optional[bool])
+  determinism(self, window_size: int, overlap: int, m: int, tau: int, eps: float) -> ammonyte.core.series.Series
+  embed(self, m: Any, tau: Optional[Any])
+  laminarity(self, window_size: int, overlap: int, m: int, tau: int, eps: float) -> ammonyte.core.series.Series

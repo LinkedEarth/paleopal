@@ -314,5 +314,5 @@ class DocumentExtractionService:
             "optional_params": []
         })
 
-# Global service instance
+# Global document extraction service instance
 extraction_service = DocumentExtractionService() 

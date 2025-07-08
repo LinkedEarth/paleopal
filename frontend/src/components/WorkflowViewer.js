@@ -1125,6 +1125,31 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
     }
   };
 
+  const handleCancelWorkflowExecution = async () => {
+    if (!conversationId) return;
+    
+    try {
+      // For workflows, cancel all executions for the conversation since
+      // workflows may have multiple concurrent executions
+      const cancelUrl = buildApiUrl(`/api/agents/executions/cancel-conversation/${conversationId}`);
+      const response = await apiRequest(cancelUrl, {
+        method: 'POST'
+      });
+      
+      if (response.cancelled_count > 0) {
+        console.log(`✅ Cancelled ${response.cancelled_count} execution(s) for workflow`);
+      } else {
+        console.log('No active workflow executions found to cancel');
+      }
+      
+      // Reset execution state
+      setIsExecuting(false);
+      setCurrentStep(-1);
+    } catch (error) {
+      console.error('Error cancelling workflow execution:', error);
+    }
+  };
+
   if (error) {
     return (
       <div className="border border-neutral-200 dark:border-neutral-600 rounded-lg bg-neutral-50 dark:bg-neutral-800">
@@ -1159,15 +1184,15 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
         <div className="flex gap-2">
           {onExecuteStep && !allCompleted && !hasFailed && (
             <button 
-              className={`px-3 py-1 ${THEME.buttons.primary} rounded text-xs transition-colors`}
-              onClick={handleExecuteStepByStep}
-              title={hasStarted ? "Continue execution from next step" : "Execute workflow step by step"}
-              disabled={isExecuting}
+              data-action="execute"
+              className={`px-3 py-1 ${isExecuting ? 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white' : THEME.buttons.primary} rounded text-xs transition-colors`}
+              onClick={isExecuting ? handleCancelWorkflowExecution : handleExecuteStepByStep}
+              title={isExecuting ? "Cancel workflow execution" : hasStarted ? "Continue execution from next step" : "Execute workflow step by step"}
             >
               {isExecuting ? (
                 <span className="flex items-center gap-1">
-                  <Icon name="spinner" className="w-3 h-3 animate-spin" />
-                  Running...
+                  <Icon name="stop" className="w-3 h-3" />
+                  Cancel
                 </span>
               ) : hasStarted ? (
                 <span className="flex items-center gap-1">
@@ -1347,18 +1372,20 @@ const WorkflowViewer = ({ workflowData, onExecuteStep, messageIndex, allMessages
                       )}
                       {canExecuteFrom && (
                         <button
-                          className={`ml-auto px-3 py-1 ${THEME.buttons.primary} rounded-full text-xs transition-colors`}
-                          onClick={() => handleExecuteFromStep(index)}
-                          title={`Execute workflow starting from step ${index + 1}`}
+                          data-action="execute"
+                          className={`ml-auto px-3 py-1 ${isCurrent ? 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white' : THEME.buttons.primary} rounded-full text-xs transition-colors`}
+                          onClick={isCurrent ? handleCancelWorkflowExecution : () => handleExecuteFromStep(index)}
+                          title={isCurrent ? "Cancel execution" : `Execute workflow starting from step ${index + 1}`}
                         >
                           <span className="flex items-center gap-1">
-                            <Icon name="play" className="w-3 h-3" />
-                            Resume from here
+                            <Icon name={isCurrent ? "stop" : "play"} className="w-3 h-3" />
+                            {isCurrent ? "Cancel" : "Resume from here"}
                           </span>
                         </button>
                       )}
                       {canRetry && (
                         <button
+                          data-action="execute"
                           className={`ml-auto px-3 py-1 ${THEME.status.error.background} ${THEME.status.error.text} border ${THEME.status.error.border} rounded-full text-xs transition-colors hover:opacity-80`}
                           onClick={() => handleRetryStep(index)}
                           title={`Retry step ${index + 1} - will delete failed messages and re-run`}

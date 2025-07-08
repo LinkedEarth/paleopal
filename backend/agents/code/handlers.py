@@ -16,6 +16,7 @@ from .state import CodeAgentState, CodeAgentConfig
 from agents.base_state import MAX_REFINEMENTS
 from agents.base_langgraph_agent import get_config_value, get_message_value, format_clarification_response_for_llm
 from services.search_integration_service import search_service
+from services.service_manager import service_manager
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +78,72 @@ def load_library_symbols() -> str:
     except Exception as e:
         logger.error(f"Error loading all_symbols.txt: {e}")
         return ""
+
+# -----------------------------------------------------------------------------
+# Utility: filter the massive all_symbols.txt to only the classes that matter
+# -----------------------------------------------------------------------------
+
+def _filter_library_symbols(all_symbols: str, variable_context: str, max_lines: int = 1500) -> str:
+    """Return a trimmed version of *all_symbols* that only contains the classes
+    referenced in *variable_context* (plus their indented method lines).
+
+    This keeps the prompt small and focused while still giving the LLM the exact
+    signatures it is allowed to use.
+
+    Args:
+        all_symbols: The full text of backend/all_symbols.txt.
+        variable_context: The string returned by _create_comprehensive_variable_context().
+        max_lines: Hard cap to avoid producing giant prompts if something goes
+                   wrong (default 1500, well under most model limits).
+
+    Returns:
+        Filtered symbol text.  If no matching classes are found, falls back to
+        the first *max_lines* lines of *all_symbols* to avoid returning an empty
+        constraint block.
+    """
+    if not all_symbols:
+        return ""
+
+    import re
+
+    # Pull fully-qualified class names from the variable context – they appear
+    # in parentheses after the variable name, e.g. "• gisp2 (pyleoclim.core.series.Series)"
+    class_matches = re.findall(r"\(([^)]+)\)", variable_context)
+    relevant_classes = set(class_matches)
+
+    if not relevant_classes:
+        # Nothing extracted – return a safe slice of the original to keep some guidance
+        return "\n".join(all_symbols.splitlines()[:max_lines])
+
+    filtered_lines: list[str] = []
+    include_block = False  # whether we are inside a class block that should be kept
+
+    for line in all_symbols.splitlines():
+        stripped = line.lstrip()
+
+        # Detect the start of a class signature – lines beginning with "c:"
+        if stripped.startswith("c:"):
+            # Example line: "c:pyleoclim.core.series.Series(self)"
+            class_name_part = stripped[2:]  # drop the "c:"
+            class_name = class_name_part.split("(")[0].strip()
+
+            include_block = class_name in relevant_classes
+
+            if include_block:
+                filtered_lines.append(line)
+        else:
+            # Indented method line – keep it only if current class is included
+            if include_block:
+                filtered_lines.append(line)
+
+        if len(filtered_lines) >= max_lines:
+            break
+
+    # Fallback again if, for some reason, nothing was captured
+    if not filtered_lines:
+        return "\n".join(all_symbols.splitlines()[:max_lines])
+
+    return "\n".join(filtered_lines)
 
 def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str]:
     """
@@ -587,40 +654,79 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
         # Check for execution errors
         for result in execution_results:
             if isinstance(result, dict) and result.get("type") == "execution_error":
+                error_msg = result.get('error', 'Unknown execution error')
+                
                 execution_issue = (
-                    f"**Execution Error**: The code failed to execute:\n"
-                    f"• {result.get('error', 'Unknown execution error')}\n\n"
-                    f"Please fix the code to resolve this execution error."
+                    f"**Execution Error**: The code failed to execute with the following error:\n"
+                    f"```\n{error_msg}\n```\n"
+                    f"Please analyze the error message and fix the code accordingly."
                 )
-                issues_detected.append(execution_issue)
-        
-        if error_message:
-            issues_detected.append(f"**General Error**: {error_message}")
-        
-        if not issues_detected and len(generated_code.strip()) < 50:
-            issues_detected.append("**Code Length**: Code seems incomplete or too short")
-        
-        if not issues_detected:
-            issues_detected.append("Code needs general improvement")
+                issues_detected.append(execution_issue)    
         
         issues_text = "\n\n".join(issues_detected)
         
-        # Load library function signatures for refinement context
-        library_symbols = load_library_symbols()
-        symbols_count = len(library_symbols.splitlines()) if library_symbols else 0
-        logger.info(f"Loaded {symbols_count} library function signatures for code refinement")
+        # Use 2-step approach for refinement: detect current + needed functions
+        use_two_step = get_config_value(config, 'use_two_step_llm') or True
         
-        # Get comprehensive variable context for refinement
+        if use_two_step:
+            # Step 1: Detect functions already in use + ask what additional ones might be needed
+            step1_result = _step1_refine_functions(state, config)
+            logger.info(f"Refinement Step 1 result: {step1_result}")
+            if "error_message" in step1_result:
+                # Fallback to traditional approach
+                logger.warning("Step 1 refinement failed, using traditional approach")
+                use_two_step = False
+            else:
+                # Step 2: Get signatures for detected + requested functions
+                library_symbols_full = load_library_symbols()
+                symbol_index = _create_function_index(library_symbols_full)
+                
+                current_functions = step1_result.get("current_functions", [])
+                additional_functions = step1_result.get("additional_functions", [])
+                all_requested = list(set(current_functions + additional_functions))  # Remove duplicates
+                
+                if all_requested:
+                    trimmed_library_symbols = _find_matching_signatures(all_requested, symbol_index)
+                    logger.info(f"2-step refinement: Found signatures for {len(all_requested)} functions ({len(current_functions)} current + {len(additional_functions)} additional)")
+                else:
+                    # Fallback to compact list if no functions detected
+                    logger.warning("No functions detected in step 1, falling back to compact approach")
+                    trimmed_library_symbols = _create_compact_function_list(library_symbols_full)
+                
+                final_size = len(trimmed_library_symbols)
+                logger.info(f"2-step refinement library symbols: {final_size} chars")
+        
+        if not use_two_step:
+            # Traditional approach with optimization (fallback)
+            library_symbols_full = load_library_symbols()
+            
+            # Apply optimization to reduce token count
+            optimization_level = get_config_value(config, 'symbols_optimization_level') or "aggressive"
+            optimized_symbols = _optimize_library_symbols(library_symbols_full, optimization_level)
+            
+            # Apply filtering based on variable context
+            variable_context = _create_comprehensive_variable_context(state.conversation_id)
+            trimmed_library_symbols = _filter_library_symbols(optimized_symbols, variable_context)
+            
+            symbols_count = len(trimmed_library_symbols.splitlines()) if trimmed_library_symbols else 0
+            final_size = len(trimmed_library_symbols)
+            
+            logger.info(f"Traditional refinement: Loaded {symbols_count} relevant library function signatures ({final_size} chars)")
+        
+        # Get comprehensive variable context for refinement (with fallback)
         variable_context = _create_comprehensive_variable_context(state.conversation_id)
+        if "No variables available" in variable_context:
+            # Fallback to variable summary from previous execution results
+            variable_context = _variable_context_from_results(execution_results)
         logger.info(f"Generated variable context length for refinement: {len(variable_context)} characters")
         
-        # Create refinement prompt
+        # Create refinement prompt - simplified to return just code
         refinement_prompt = f"""
 The following Python code was generated but has issues that need to be addressed:
 
-ORIGINAL REQUEST: {analysis_request}
+{variable_context}
 
-GENERATED CODE:
+CODE:
 ```python
 {generated_code}
 ```
@@ -628,85 +734,90 @@ GENERATED CODE:
 ISSUES DETECTED:
 {issues_text}
 
-{variable_context}
-
 Please provide an improved version of the code that:
-1. Addresses all the identified issues
-2. Uses only valid PyLiPD/Pyleoclim functions from the approved signatures
+1. **FIRST AND MOST IMPORTANT**: Carefully analyze any execution errors and fix them precisely
+2. Uses only valid PyLiPD/Pyleoclim/Ammonyte functions from the approved signatures
 3. Maintains the original functionality
-4. Follows best practices for paleoclimate data analysis
-5. Uses appropriate libraries (PyLiPD, Pyleoclim, pandas, numpy)
-6. Uses existing variables from the current variable state when applicable
-7. References variables by their exact names as shown in the variable state
-8. **CRITICAL**: Contains ONLY executable Python code with proper # comment syntax
-9. **CRITICAL**: All explanatory text must be Python comments starting with # character
-10. **CRITICAL**: No markdown, prose, or unescaped text that would cause syntax errors
+4. Uses appropriate libraries (PyLiPD, Pyleoclim, Ammonyte, pandas, numpy)
+5. Uses existing variables from the current variable state when applicable
+6. References variables by their exact names as shown in the variable state
 
-Return your response as JSON with keys: code, description, improvements_made.
+Return ONLY the corrected Python code. Do not include any explanations, markdown, or formatting - just the executable Python code.
 """
         
         # Build system message with library constraints (same as generate_code_node)
-        system_content = ("You are an expert Python developer specializing in paleoclimate data analysis. "
-                         "You must only use valid PyLiPD/Pyleoclim functions that exist in the approved signatures. "
-                         "CRITICAL REQUIREMENT: The 'code' field must contain ONLY executable Python code. "
-                         "ALL explanatory text must use proper Python comment syntax starting with # character. "
-                         "Never include markdown, prose, or unescaped text that would cause Python syntax errors.")
+        system_content = ("You are an expert Python developer specializing in paleoclimate data analysis and debugging. "
+                         "Your primary task is to fix execution errors by carefully analyzing error messages and correcting the code. "
+                         "You must only use valid PyLiPD/Pyleoclim/Ammonyte functions that exist in the approved signatures. "
+                         "CRITICAL REQUIREMENT: Return ONLY executable Python code. Do not include any explanations, descriptions, or markdown formatting. "
+                         "Pay special attention to parameter types - booleans should be True/False, not strings like 'True'/'False'.")
         
-        if library_symbols:
+        if trimmed_library_symbols:
             system_content += (f"""
+                               
                 **CRITICAL CONSTRAINT - READ CAREFULLY**
                 ### Approved pylipd / pyleoclim / ammonyte signatures
                 The file `backend/all_symbols.txt` is already loaded into context.  
                 Format:
-                • First line:  "p:" legend – symbol-kind prefixes (`c=class`, `f=function`).  
-                • Second line: "t:" legend – 1-letter type codes (`S=str`, …, `C:custom`, `X=unknown`).  
-                • A class line begins with `c:` followed by its fully-qualified name and constructor sig.  
-                • All indented lines beneath that class are its public methods, written as
-                    <2 spaces><methodName>(param:type,…)->ReturnTypeCode
-                • A free function line begins with `f:`.  
-                • `N` means the call returns `None`.  
-                • `O` / `X` mean "any / unknown".
+                • Classes begin with `class` followed by the fully-qualified name and constructor signature
+                • Methods are indented with 2 spaces under their class and show full signatures  
+                • Standalone functions begin with `function` followed by their full signature
+                • All signatures use full Python typing (Optional[str], Union[list, float], etc.)
+                • Return types are shown after `->` (if no return type shown, returns None)
+                
+                Examples:
+                ```
+                class pyleoclim.core.series.Series(self, time: list, value: numpy.ndarray, ...)
+                  plot(self, xlabel: str, ylabel: str) -> matplotlib.figure
+                  spectral_analysis(self, method: str) -> pyleoclim.core.psds.PSD
+                
+                function pyleoclim.utils.plotting.plot_xy(x: list, y: list) -> matplotlib.figure
+                ```
+                
                 Generate code **only** with symbols that appear in this list, 
-                respecting parameter order and type hints.\n
-                {library_symbols}\n"""
-                "**COMMON PATTERNS FOR DATA ACCESS**:\n"
-                "- pyleo.utils.load_dataset(name) ✅ (loads built-in Pyleoclim datasets)\n"
-                "- lipd_obj.get(dsnames) ✅ (gets dataset(s) from graph)\n"
-                "- lipd_obj.get_datasets() ✅ (returns list of Dataset objects)\n"
-                "- lipd_obj.get_lipd(dsname) ✅ (gets LiPD json for dataset)\n\n"
-                "If you need functionality that is not in the approved signatures, use alternative approaches "
-                "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names."
+                respecting parameter order and type hints exactly.
+                               
+                {trimmed_library_symbols}
+                If you need functionality that is not in the approved signatures, use alternative approaches
+                with pandas, numpy, matplotlib, or other standard libraries instead. 
+
+                DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names.
+                """
             )
         
         messages = [
             SystemMessage(content=system_content),
             HumanMessage(content=refinement_prompt)
         ]
+
+        logger.info(refinement_prompt)
         
         raw_response = llm._call(messages)
         
-        # Parse response
-        try:
-            parsed = json.loads(raw_response)
-        except json.JSONDecodeError:
-            # Fallback parsing
-                code_match = re.search(r"```python\s*(.*?)\s*```", raw_response, re.DOTALL)
-                refined_code = code_match.group(1) if code_match else generated_code
-                parsed = {
-                    "code": refined_code,
-                "description": "Code refined to address issues",
-                "improvements_made": ["Fixed validation errors", "General improvements"]
-            }
+        # Clean up the response - remove any code block markers if present
+        refined_code = raw_response.strip()
         
-        refined_code = parsed.get("code", generated_code)
+        # Remove markdown code block markers if present
+        if refined_code.startswith("```python"):
+            refined_code = refined_code[9:]  # Remove ```python
+        if refined_code.startswith("```"):
+            refined_code = refined_code[3:]   # Remove ```
+        if refined_code.endswith("```"):
+            refined_code = refined_code[:-3]  # Remove trailing ```
+        
+        refined_code = refined_code.strip()
+        
+        # Check if the refined code is actually different from the original
+        if refined_code.strip() == generated_code.strip():
+            logger.warning("Refined code is identical to original code - LLM may not have understood the error")
+        else:
+            logger.info(f"Code successfully refined - {len(refined_code)} chars vs {len(generated_code)} chars original")
         
         return {
             "generated_code": refined_code,
             "refinement_count": refinement_count + 1,
             "error_message": "",  # Clear previous error
             "validation_errors": [],  # Clear validation errors - they'll be re-checked
-            "refinement_description": parsed.get("description", "Code refined"),
-            "improvements_made": parsed.get("improvements_made", []),
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
@@ -718,82 +829,213 @@ Return your response as JSON with keys: code, description, improvements_made.
         }
 
 def _create_comprehensive_variable_context(conversation_id: str) -> str:
-    """Create comprehensive variable context with IDs, types, and smart value previews."""
+    """Create a comprehensive context of available variables in the conversation."""
     try:
-        from services.python_execution_service import python_execution_service
-        
-        # Get the current conversation state (all variables)
-        state = python_execution_service.get_conversation_state(conversation_id)
+        # Import the async execution service
+        # Get execution service from service manager
+        execution_service = service_manager.get_execution_service()
+        state = execution_service.get_conversation_state(conversation_id)
         
         if not state:
-            return ""
+            return "No variables available in the current conversation context."
         
-        # Filter out private variables and functions
-        user_variables = {
-            name: value for name, value in state.items() 
-            if not name.startswith('_') and not callable(value)
-        }
+        context_parts = []
+        context_parts.append("=== CURRENT CONVERSATION VARIABLES ===")
         
-        if not user_variables:
-            return ""
+        # Group variables by type for better organization
+        data_vars = {}
+        function_vars = {}
+        module_vars = {}
+        other_vars = {}
         
-        variable_context = "**CURRENT VARIABLE STATE:**\n\n"
+        for name, value in state.items():
+            # Check if this is a metadata dictionary from isolated execution service
+            if isinstance(value, dict) and 'type' in value and 'module' in value:
+                # Handle isolated execution service format
+                var_info = _format_variable_metadata(value)
+                var_type = value.get('type', 'unknown')
+            else:
+                # Handle direct object format (local execution service)
+                # Skip common modules that are always imported
+                if hasattr(value, '__module__') and value.__module__ in ['builtins', 'numpy', 'pandas', 'matplotlib.pyplot', 'matplotlib']:
+                    continue
+                var_info = _get_smart_value_preview(value)
+                var_type = type(value).__name__
+            
+            # Categorize variables
+            if any(keyword in var_info.lower() for keyword in ['function', 'method']):
+                function_vars[name] = (var_type, var_info)
+            elif any(keyword in var_info.lower() for keyword in ['module']):
+                module_vars[name] = (var_type, var_info)
+            elif any(data_type in var_type for data_type in ['DataFrame', 'Series', 'ndarray', 'LiPD', 'EnsembleSeries']):
+                data_vars[name] = (var_type, var_info)
+            else:
+                other_vars[name] = (var_type, var_info)
         
-        # Check if we have string data that might need parsing
-        has_string_data = any(
-            isinstance(var_value, str) and (
-                var_value.strip().startswith('[') or 
-                var_value.strip().startswith('{') or
-                'values' in str(var_value).lower()
-            )
-            for var_value in user_variables.values()
-        )
+        # Add data variables first (most important)
+        context_parts.append("\nVARIABLES:")        
+        if data_vars:
+            for name, (var_type, info) in data_vars.items():
+                context_parts.append(f"  • {name} ({var_type}): {info}")
         
-        for var_name, var_value in user_variables.items():
-            try:
-                # Get variable ID (memory address as unique identifier)
-                var_id = f"var_{id(var_value)}"
-                
-                # Get fully qualified type name
-                var_type = type(var_value)
-                fully_qualified_type = f"{var_type.__module__}.{var_type.__name__}" if var_type.__module__ != 'builtins' else var_type.__name__
-                
-                # Get smart value preview based on type
-                value_preview = _get_smart_value_preview(var_value)
-                
-                # Add variable information to context
-                variable_context += f"• **{var_name}** (ID: {var_id})\n"
-                variable_context += f"  - Type: `{fully_qualified_type}`\n"
-                variable_context += f"  - Value Preview: {value_preview}\n\n"
-                
-            except Exception as e:
-                logger.warning(f"Error processing variable '{var_name}': {e}")
-                # Fallback for problematic variables
-                variable_context += f"• **{var_name}** (ID: unknown)\n"
-                variable_context += f"  - Type: `{type(var_value).__name__}`\n"
-                variable_context += f"  - Value Preview: <Error displaying value>\n\n"
+        # Add other variables
+        if other_vars:
+            for name, (var_type, info) in other_vars.items():
+                context_parts.append(f"  • {name} ({var_type}): {info}")
         
-        # Add safe parsing guidance if we detected string data
-        if has_string_data:
-            variable_context += "\n**SAFE STRING PARSING EXAMPLES:**\n"
-            variable_context += "```python\n"
-            variable_context += "import ast\n"
-            variable_context += "import json\n"
-            variable_context += "import numpy as np\n\n"
-            variable_context += "# Safe way to convert string representations to data:\n"
-            variable_context += "# For list/array strings like '[1, 2, 3]':\n"
-            variable_context += "values = ast.literal_eval(string_data)  # Safe alternative to eval()\n"
-            variable_context += "array_data = np.array(values)\n\n"
-            variable_context += "# For JSON strings:\n"
-            variable_context += "data = json.loads(json_string)\n\n"
-            variable_context += "# Never use eval() - it's unsafe!\n"
-            variable_context += "```\n\n"
+        # Add functions (less important for most analyses)
+        if function_vars:
+            context_parts.append("\n⚙️ FUNCTIONS:")
+            for name, (var_type, info) in function_vars.items():
+                context_parts.append(f"  • {name} ({var_type}): {info}")
         
-        return variable_context
+        # Add modules (least important, usually just imported libraries)
+        if module_vars:
+            context_parts.append("\n📚 MODULES:")
+            for name, (var_type, info) in module_vars.items():
+                context_parts.append(f"  • {name} ({var_type}): {info}")
+        
+        if not any([data_vars, other_vars, function_vars, module_vars]):
+            context_parts.append("No user-defined variables found.")
+        
+        context_parts.append("\n" + "="*50)
+        
+        return "\n".join(context_parts)
         
     except Exception as e:
-        logger.warning(f"Error creating comprehensive variable context: {e}")
-        return ""
+        logger.error(f"Error creating variable context: {e}")
+        return f"Error accessing conversation variables: {str(e)}"
+
+# -----------------------------------------------------------------------------
+# Fallback: build variable context from execution_results
+# -----------------------------------------------------------------------------
+
+def _variable_context_from_results(execution_results: List[Dict[str, Any]]) -> str:
+    """Create a variable context string from the latest execution_success result.
+
+    This is used when the execution environment does not keep the variable state
+    alive between `execute_code_node` and `refine_code_node` (e.g., isolated
+    execution service).
+    """
+    if not execution_results:
+        return "No variables available in the current conversation context."
+
+    latest_success = None
+    for res in reversed(execution_results):
+        if isinstance(res, dict) and res.get("type") == "execution_success":
+            latest_success = res
+            break
+
+    if not latest_success:
+        return "No variables available in the current conversation context."
+
+    var_summary: dict = latest_success.get("variable_summary", {}) or {}
+    if not var_summary:
+        return "No variables available in the current conversation context."
+
+    parts = ["=== CURRENT CONVERSATION VARIABLES (from previous execution) ===", "", "VARIABLES:"]
+
+    for name, meta in var_summary.items():
+        if isinstance(meta, dict):
+            type_name = meta.get("type", "unknown")
+            desc = meta.get("description", "") or meta.get("value", "")
+        else:
+            type_name = type(meta).__name__
+            desc = str(meta)
+
+        if len(str(desc)) > 80:
+            desc = str(desc)[:77] + "..."
+        parts.append(f"  • {name} ({type_name}): `{desc}`")
+
+    parts.append("\n" + "="*50)
+    return "\n".join(parts)
+
+def _format_variable_metadata(metadata: Dict[str, Any]) -> str:
+    """Format variable metadata from isolated execution service into readable string."""
+    try:
+        var_type = metadata.get('type', 'unknown')
+        description = metadata.get('description', '')
+        value = metadata.get('value', '')
+        
+        # Handle different types
+        if var_type in ['ndarray']:
+            shape = metadata.get('shape', [])
+            dtype = metadata.get('dtype', 'unknown')
+            size = metadata.get('size', 0)
+            return f"`NumPy array shape {tuple(shape)}, dtype={dtype}, {size} elements`"
+        
+        elif var_type in ['DataFrame']:
+            shape = metadata.get('shape', [])
+            columns = metadata.get('columns', [])
+            if columns:
+                col_preview = columns[:3] + (['...'] if len(columns) > 3 else [])
+                return f"`DataFrame {tuple(shape)}, columns: {col_preview}`"
+            else:
+                return f"`DataFrame {tuple(shape)}`"
+        
+        elif var_type in ['Series']:
+            length = metadata.get('length', 0)
+            name = metadata.get('name', 'unnamed')
+            return f"`Series length {length}, name: {name}`"
+        
+        elif var_type in ['LiPD', 'EnsembleSeries', 'Series'] and 'pyleoclim' in metadata.get('module', ''):
+            # PyLeoClim objects
+            data_points = metadata.get('data_points', 0)
+            label = metadata.get('label', '')
+            archive_type = metadata.get('archive_type', '')
+            
+            parts = [f"PyLeoClim {var_type}"]
+            if label:
+                parts.append(f"'{label}'")
+            if data_points:
+                parts.append(f"({data_points} data points)")
+            if archive_type:
+                parts.append(f"[{archive_type}]")
+            
+            return f"`{' '.join(parts)}`"
+        
+        elif var_type in ['float64', 'int64', 'float32', 'int32', 'float', 'int']:
+            # Numeric values
+            return f"`{value}`"
+        
+        elif var_type == 'str':
+            # String values
+            if len(str(value)) <= 50:
+                return f"`'{value}'`"
+            else:
+                return f"`'{str(value)[:47]}...'` (length: {len(str(value))})"
+        
+        elif var_type == 'bool':
+            return f"`{value}`"
+        
+        elif var_type in ['list', 'tuple']:
+            length = metadata.get('length', 0)
+            if length == 0:
+                return f"`Empty {var_type}`"
+            else:
+                return f"`{var_type} with {length} elements`"
+        
+        elif var_type == 'dict':
+            size = metadata.get('size', 0)
+            keys = metadata.get('keys', [])
+            if keys:
+                key_preview = keys[:3] + (['...'] if len(keys) > 3 else [])
+                return f"`Dict with {size} keys: {key_preview}`"
+            else:
+                return f"`Dict with {size} keys`"
+        
+        else:
+            # Generic fallback
+            if description:
+                return f"`{description}`"
+            elif value:
+                return f"`{value}`"
+            else:
+                return f"`{var_type} object`"
+                
+    except Exception as e:
+        logger.debug(f"Error formatting variable metadata: {e}")
+        return f"`{metadata.get('type', 'unknown')} object`"
 
 def _get_smart_value_preview(value) -> str:
     """Get smart value preview based on variable type."""
@@ -939,20 +1181,57 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         for idx, ex in enumerate(examples, 1):
             examples_section += (
                 f"\n## Example {idx}: {ex.get('name', 'Unknown')}\n"
-                f"Source: {ex.get('source_type', 'unknown')}\n"
-                f"Description: {ex.get('description', '')}\n"
                 f"Relevance: {ex.get('relevance_score', 0):.3f}\n"
-                f"Categories: {', '.join(ex.get('categories', []))}\n"
                 "```python\n" + ex.get("code", "") + "\n```\n"
             )
         
         # Include clarification context if available
         clarification_text = format_clarification_response_for_llm(state)
         
-        # Load library function signatures
-        library_symbols = load_library_symbols()
-        symbols_count = len(library_symbols.splitlines()) if library_symbols else 0
-        logger.info(f"Loaded {symbols_count} library function signatures for code generation")
+        # Choose between 2-step LLM approach or traditional approach
+        use_two_step = get_config_value(config, 'use_two_step_llm') or True
+        
+        if use_two_step:
+            # Step 1: Ask LLM what functions it plans to use
+            step1_result = _step1_plan_functions(state, config)
+            logger.info(f"Step 1 result: {step1_result}")
+            if "error_message" in step1_result:
+                return step1_result
+            
+            # Step 2: Get only the signatures it requested
+            library_symbols_full = load_library_symbols()
+            symbol_index = _create_function_index(library_symbols_full)
+            requested_symbols = step1_result.get("requested_symbols", [])
+            
+            if requested_symbols:
+                trimmed_library_symbols = _find_matching_signatures(requested_symbols, symbol_index)
+                logger.info(f"2-step approach: LLM requested {len(requested_symbols)} symbols, found signatures for them")
+            else:
+                # Fallback to compact list if no symbols extracted
+                logger.warning("No symbols extracted from step 1, falling back to compact approach")
+                trimmed_library_symbols = _create_compact_function_list(library_symbols_full)
+            
+            final_size = len(trimmed_library_symbols)
+            logger.info(f"2-step library symbols: {final_size} chars (vs {len(library_symbols_full)} original)")
+        else:
+            # Traditional approach with optimization
+            library_symbols_full = load_library_symbols()
+            
+            # Apply optimization to reduce token count
+            optimization_level = get_config_value(config, 'symbols_optimization_level') or "aggressive"
+            optimized_symbols = _optimize_library_symbols(library_symbols_full, optimization_level)
+            
+            # Apply filtering based on variable context
+            variable_context = _create_comprehensive_variable_context(state.conversation_id)
+            trimmed_library_symbols = _filter_library_symbols(optimized_symbols, variable_context)
+            
+            symbols_count = len(trimmed_library_symbols.splitlines()) if trimmed_library_symbols else 0
+            original_size = len(library_symbols_full)
+            optimized_size = len(optimized_symbols)
+            final_size = len(trimmed_library_symbols)
+            
+            logger.info(f"Traditional library symbols optimization: {original_size} -> {optimized_size} -> {final_size} chars ({optimization_level})")
+            logger.info(f"Loaded {symbols_count} relevant library function signatures for code generation")
         
         # Get comprehensive variable context with IDs, types, and smart previews
         variable_context = _create_comprehensive_variable_context(state.conversation_id)
@@ -960,16 +1239,16 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         
         # Format comprehensive context (includes conversation history if available)
         context_prompt = search_service.format_code_context_for_llm(contextual_data)
-        logger.info(f"Context prompt: {context_prompt}")
+        # logger.info(f"Context prompt: {context_prompt}")
         
         user_prompt = (
             f"ANALYSIS REQUEST: {analysis_request}{clarification_text}\n\n"
-            f"DATA CONTEXT: {data_context}\n"
-            f"ANALYSIS TYPE: {analysis_type}\n"
-            f"OUTPUT FORMAT: {output_format}\n\n"
-            f"COMPREHENSIVE CONTEXT:\n{context_prompt}\n\n"
-            f"ADDITIONAL EXAMPLES:\n{examples_section}\n\n"
-            # f"{variable_context}\n\n"
+            # f"DATA CONTEXT: {data_context}\n"
+            # f"ANALYSIS TYPE: {analysis_type}\n"
+            # f"OUTPUT FORMAT: {output_format}\n\n"
+            f"CONTEXT:\n{context_prompt}\n\n"
+            f"RELEVANT EXAMPLES:\n{examples_section}\n\n"
+            f"{variable_context}\n\n"
             "INSTRUCTIONS:\n"
             "1. Use existing variables from the current variable state when applicable\n"
             "2. Reference variables by their exact names as shown in the variable state\n"
@@ -1014,23 +1293,30 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                          "*SECURITY*: Never use eval() for parsing strings - use ast.literal_eval() or json.loads() instead. "
                          "When converting string representations of lists/arrays to actual data structures, use safe parsing methods.")
         
-        if library_symbols:
+        if trimmed_library_symbols:
             system_content += (f"""
                 **CRITICAL CONSTRAINT - READ CAREFULLY**
                 ### Approved pylipd / pyleoclim / ammonyte signatures
                 The file `backend/all_symbols.txt` is already loaded into context.  
                 Format:
-                • First line:  “p:” legend – symbol-kind prefixes (`c=class`, `f=function`).  
-                • Second line: “t:” legend – 1-letter type codes (`S=str`, …, `C:custom`, `X=unknown`).  
-                • A class line begins with `c:` followed by its fully-qualified name and constructor sig.  
-                • All indented lines beneath that class are its public methods, written as
-                    <2 spaces><methodName>(param:type,…)->ReturnTypeCode
-                • A free function line begins with `f:`.  
-                • `N` means the call returns `None`.  
-                • `O` / `X` mean “any / unknown”.
+                • Classes begin with `class` followed by the fully-qualified name and constructor signature
+                • Methods are indented with 2 spaces under their class and show full signatures  
+                • Standalone functions begin with `function` followed by their full signature
+                • All signatures use full Python typing (Optional[str], Union[list, float], etc.)
+                • Return types are shown after `->` (if no return type shown, returns None)
+                
+                Examples:
+                ```
+                class pyleoclim.core.series.Series(self, time: list, value: numpy.ndarray, ...)
+                  plot(self, xlabel: str, ylabel: str) -> matplotlib.figure
+                  spectral_analysis(self, method: str) -> pyleoclim.core.psds.PSD
+                
+                function pyleoclim.utils.plotting.plot_xy(x: list, y: list) -> matplotlib.figure
+                ```
+                
                 Generate code **only** with symbols that appear in this list, 
-                respecting parameter order and type hints.\n
-                {library_symbols}\n"""
+                respecting parameter order and type hints exactly.\n
+                {trimmed_library_symbols}\n"""
                 "**COMMON PATTERNS FOR DATA ACCESS**:\n"
                 "- pyleo.utils.load_dataset(name) ✅ (loads built-in Pyleoclim datasets)\n"
                 "- lipd_obj.get(dsnames) ✅ (gets dataset(s) from graph)\n"
@@ -1040,13 +1326,18 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
                 "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names."
             )
         
+        logger.info(f"System prompt: {system_content}")
         # logger.info(f"User prompt: {user_prompt}")
         messages = [
-            # SystemMessage(content=system_content),
-            HumanMessage(content=system_content + "\n\n" + user_prompt)
+            SystemMessage(content=system_content),
+            HumanMessage(content=user_prompt)
         ]
+
+        logger.info(f"LLM system message length: {len(system_content)}")
+        logger.info(f"LLM user message length: {len(user_prompt)}")
         
         raw_response = llm._call(messages)
+
         logger.info(f"LLM raw response length: {len(raw_response)}")
         logger.info(f"LLM raw response preview: {raw_response[:200]}...")
         
@@ -1153,21 +1444,20 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         logger.info(f"Generated code length: {len(generated_code)}")
         logger.info(f"Generated code preview: {generated_code[:200]}...")
         
-        # Validate PyLiPD/Pyleoclim function usage (DISABLED)
+        # Validate PyLiPD/Pyleoclim function usage
         validation_errors = []
-        # TEMPORARILY DISABLED: Code validation causing issues
-        # if library_symbols and generated_code:
-        #     validation_errors = validate_pylipd_pyleoclim_usage(generated_code, library_symbols)
-        #     if validation_errors:
-        #         logger.warning(f"Generated code contains {len(validation_errors)} PyLiPD/Pyleoclim validation errors:")
-        #         for error in validation_errors:
-        #             logger.warning(f"  - {error}")
-        #         
-        #         # Store validation errors in state for potential retry
-        #         # Don't add to description yet - let the retry logic handle it
-        #         logger.info("Validation errors detected - code may need regeneration")
-        #     else:
-        #         logger.info("✅ Generated code passed PyLiPD/Pyleoclim validation")
+        if trimmed_library_symbols and generated_code:
+            validation_errors = validate_pylipd_pyleoclim_usage(generated_code, trimmed_library_symbols)
+            if validation_errors:
+                logger.warning(f"Generated code contains {len(validation_errors)} PyLiPD/Pyleoclim validation errors:")
+                for error in validation_errors:
+                    logger.warning(f"  - {error}")
+                
+                # Store validation errors in state for potential retry
+                # Don't add to description yet - let the retry logic handle it
+                logger.info("Validation errors detected - code may need regeneration")
+            else:
+                logger.info("✅ Generated code passed PyLiPD/Pyleoclim validation")
         logger.info("Code validation temporarily disabled")
         
         if output_format == "notebook":
@@ -1310,17 +1600,30 @@ def execute_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[st
                 "conversation_id": conversation_id
             }
         
-        # Import the execution service
-        from services.python_execution_service import python_execution_service
+        # Check if we're in async mode (when called from async wrapper)
+        async_mode = getattr(state, '_async_mode', False)
         
-        # Check if we have a previous result variable to reference
-        context = state.context or {}
-        previous_result_variable = context.get("previous_result_variable")
-        
-        if previous_result_variable:
-            logger.info(f"Previous agent created variable '{previous_result_variable}' - code can reference this variable")
-        else:
-            logger.info("No previous result variable found - code will execute in fresh context")
+        if async_mode:
+            # In async mode, return the prepared code for the async wrapper to execute
+            logger.info("Running in async mode - returning prepared code for async execution")
+            
+            # Prepend matplotlib backend configuration to avoid GUI issues
+            matplotlib_config = """
+# Configure matplotlib for non-interactive use
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
+import warnings
+warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
+"""
+            
+            # Combine matplotlib config with the generated code
+            final_code = matplotlib_config + "\n" + generated_code
+            
+            return {
+                "prepared_code": final_code,
+                "conversation_id": conversation_id,
+                "async_execution": True
+            }
         
         logger.info(f"Executing code for conversation {conversation_id}")
         logger.info(f"Code to execute (first 200 chars): {generated_code[:200]}...")
@@ -1337,13 +1640,43 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
         # Combine matplotlib config with the generated code
         final_code = matplotlib_config + "\n" + generated_code
         
-        # Execute the main generated code
-        execution_result = python_execution_service.execute_code(
-            code=final_code,
-            conversation_id=conversation_id,
-            timeout=300,
-            message_id=getattr(state, 'current_message_id', None)
-        )
+        # Execute the main generated code using execution service
+        execution_service = service_manager.get_execution_service()
+        
+        # Create execution request and run it synchronously
+        import asyncio
+        import uuid
+        
+        execution_id = str(uuid.uuid4())
+        
+        # Check if we're already in an async context
+        try:
+            loop = asyncio.get_running_loop()
+            # We're in an async context, need to run in thread pool
+            import concurrent.futures
+            import functools
+            
+            async def run_execution():
+                return await execution_service.execute_code(
+                    code=final_code,
+                    conversation_id=conversation_id,
+                    execution_id=execution_id
+                )
+            
+            # Create a new thread to run the async execution
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(
+                    lambda: asyncio.run(run_execution())
+                )
+                execution_result = future.result(timeout=300)  # 5 minute timeout
+                
+        except RuntimeError:
+            # No running loop, we can run directly
+            execution_result = asyncio.run(execution_service.execute_code(
+                code=final_code,
+                conversation_id=conversation_id,
+                execution_id=execution_id
+            ))
         
         logger.info(f"Execution completed. Success: {execution_result.success}")
         
@@ -1352,7 +1685,7 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
         
         if execution_result.success:
             # Get variable summary for display (this is JSON-serializable)
-            var_summary = python_execution_service.get_variable_summary(conversation_id)
+            var_summary = execution_service.get_variable_summary(conversation_id)
             
             # Add successful execution result
             result_entry = {
@@ -1362,6 +1695,11 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
                 "variable_summary": var_summary,
                 "plots": execution_result.plots or []
             }
+            
+            # Include execution ID if available
+            if execution_result.execution_id:
+                result_entry["execution_id"] = execution_result.execution_id
+            
             # Note: Don't include raw variables as they contain non-serializable objects
             
             execution_results.append(result_entry)
@@ -1371,20 +1709,27 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
             
         else:
             # Add error result
-            execution_results.append({
+            error_entry = {
                 "type": "execution_error",
                 "error": execution_result.error,
                 "output": execution_result.output,
                 "execution_time": execution_result.execution_time,
                 "plots": execution_result.plots or []
-            })
+            }
+            
+            # Include execution ID if available
+            if execution_result.execution_id:
+                error_entry["execution_id"] = execution_result.execution_id
+                
+            execution_results.append(error_entry)
             
             logger.warning(f"Execution failed: {execution_result.error}")
         
         # Also extract execution details for frontend display
         result = {
             "execution_results": execution_results,
-            "conversation_id": conversation_id
+            "conversation_id": conversation_id,
+            "generated_code": generated_code  # CRITICAL: Pass through the generated code
         }
         
         # Add execution details in the format expected by frontend
@@ -1416,3 +1761,841 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
             "execution_time": 0.0,
             "conversation_id": state.conversation_id
         } 
+
+def _optimize_library_symbols(all_symbols: str, optimization_level: str = "aggressive") -> str:
+    """
+    Optimize the library symbols encoding to reduce token count while preserving information.
+    
+    Args:
+        all_symbols: The full text of backend/all_symbols.txt
+        optimization_level: "conservative", "moderate", or "aggressive"
+    
+    Returns:
+        Optimized symbols text with dramatically reduced size
+    """
+    if not all_symbols:
+        return ""
+    
+    if optimization_level == "conservative":
+        return _optimize_conservative(all_symbols)
+    elif optimization_level == "moderate": 
+        return _optimize_moderate(all_symbols)
+    elif optimization_level == "aggressive":
+        return _optimize_aggressive(all_symbols)
+    else:
+        return all_symbols
+
+def _optimize_conservative(all_symbols: str) -> str:
+    """Conservative optimization: abbreviate common patterns but keep structure."""
+    lines = all_symbols.split('\n')
+    optimized = []
+    
+    # Create abbreviation mappings
+    abbrevs = {
+        'pyleoclim.utils.': 'py.',
+        'pyleoclim.core.': 'pyc.',
+        'pylipd.': 'lipd.',
+        'Optional[': 'O[',
+        'Union[': 'U[',
+        'numpy.ndarray': 'ndarray',
+        'matplotlib.': 'mpl.',
+        'pandas.': 'pd.',
+        'Dict[str, Any]': 'DictSA',
+        'List[': 'L[',
+        'Literal[': 'Lit[',
+        ', kwargs: Any': '',  # Remove common kwargs
+        ', args: Any': '',    # Remove common args
+    }
+    
+    for line in lines:
+        if line.strip().startswith('#'):
+            continue  # Skip comments
+            
+        optimized_line = line
+        for old, new in abbrevs.items():
+            optimized_line = optimized_line.replace(old, new)
+        optimized.append(optimized_line)
+    
+    return '\n'.join(optimized)
+
+def _optimize_moderate(all_symbols: str) -> str:
+    """Moderate optimization: use compact format with symbol tables."""
+    lines = all_symbols.split('\n')
+    
+    # Create symbol tables for common patterns
+    modules = {}
+    types = {}
+    mod_counter = 1
+    type_counter = 1
+    
+    # First pass: identify common modules and types
+    for line in lines:
+        if line.strip().startswith('#'):
+            continue
+            
+        # Extract module paths
+        if line.startswith(('class ', 'function ')):
+            parts = line.split('(')[0].split()
+            if len(parts) >= 2:
+                full_name = parts[1]
+                if '.' in full_name:
+                    module_path = '.'.join(full_name.split('.')[:-1])
+                    if module_path not in modules:
+                        modules[module_path] = f"M{mod_counter}"
+                        mod_counter += 1
+        
+        # Extract common types
+        common_types = [
+            'Optional[Any]', 'Union[str, list]', 'Union[float, list]', 
+            'numpy.ndarray', 'matplotlib.axes.Axes', 'Dict[str, Any]',
+            'Optional[str]', 'Optional[float]', 'Optional[int]',
+            'List[str]', 'List[float]', 'List[int]'
+        ]
+        for ctype in common_types:
+            if ctype in line and ctype not in types:
+                types[ctype] = f"T{type_counter}"
+                type_counter += 1
+    
+    # Build header with symbol tables
+    result = ["# Symbol Tables:"]
+    for module, abbrev in sorted(modules.items()):
+        result.append(f"# {abbrev}={module}")
+    for dtype, abbrev in sorted(types.items()):
+        result.append(f"# {abbrev}={dtype}")
+    result.append("")
+    
+    # Second pass: apply optimizations
+    for line in lines:
+        if line.strip().startswith('#'):
+            continue
+            
+        optimized_line = line
+        
+        # Replace modules
+        for module, abbrev in modules.items():
+            optimized_line = optimized_line.replace(module + '.', abbrev + '.')
+        
+        # Replace types
+        for dtype, abbrev in types.items():
+            optimized_line = optimized_line.replace(dtype, abbrev)
+        
+        # Additional cleanup
+        optimized_line = optimized_line.replace('self, ', 'self,')
+        optimized_line = optimized_line.replace(', kwargs: A', '')
+        optimized_line = optimized_line.replace(', args: A', '')
+        
+        result.append(optimized_line)
+    
+    return '\n'.join(result)
+
+def _optimize_aggressive(all_symbols: str) -> str:
+    """Aggressive optimization: ultra-compact format."""
+    lines = all_symbols.split('\n')
+    result = []
+    
+    # Ultra-compact legend
+    result.extend([
+        "# COMPACT API LEGEND:",
+        "# c:ClassName(params)->ret | f:funcName(params)->ret | m:methodName(params)->ret",
+        "# Types: S=str, I=int, F=float, B=bool, L=list, D=dict, A=Any, O=Optional[A], U=Union",
+        "# Modules: py=pyleoclim, lipd=pylipd, np=numpy, pd=pandas, mpl=matplotlib",
+        ""
+    ])
+    
+    current_class = None
+    
+    for line in lines:
+        if line.strip().startswith('#'):
+            continue
+            
+        if line.startswith('class '):
+            # Extract class info
+            parts = line.split('(', 1)
+            class_name = parts[0].replace('class ', '')
+            
+            # Compress class name
+            compressed_name = class_name
+            compressed_name = compressed_name.replace('pyleoclim.', 'py.')
+            compressed_name = compressed_name.replace('pylipd.', 'lipd.')
+            
+            # Compress parameters
+            if len(parts) > 1:
+                params = parts[1].rstrip(')')
+                params = _compress_params(params)
+                result.append(f"c:{compressed_name}({params})")
+            else:
+                result.append(f"c:{compressed_name}")
+            
+            current_class = compressed_name
+            
+        elif line.startswith('function '):
+            # Extract function info
+            parts = line.split('(', 1)
+            func_name = parts[0].replace('function ', '')
+            
+            # Compress function name
+            compressed_name = func_name
+            compressed_name = compressed_name.replace('pyleoclim.', 'py.')
+            compressed_name = compressed_name.replace('pylipd.', 'lipd.')
+            
+            # Compress parameters and return type
+            if len(parts) > 1:
+                rest = parts[1]
+                if ' -> ' in rest:
+                    params_part, ret_part = rest.split(' -> ', 1)
+                    params = _compress_params(params_part.rstrip(')'))
+                    ret_type = _compress_type(ret_part)
+                    result.append(f"f:{compressed_name}({params})->{ret_type}")
+                else:
+                    params = _compress_params(rest.rstrip(')'))
+                    result.append(f"f:{compressed_name}({params})")
+            else:
+                result.append(f"f:{compressed_name}")
+                
+        elif line.startswith('  ') and current_class:
+            # Method of current class
+            method_line = line.strip()
+            if '(' in method_line:
+                parts = method_line.split('(', 1)
+                method_name = parts[0]
+                
+                rest = parts[1]
+                if ' -> ' in rest:
+                    params_part, ret_part = rest.split(' -> ', 1)
+                    params = _compress_params(params_part.rstrip(')'))
+                    ret_type = _compress_type(ret_part)
+                    result.append(f"  m:{method_name}({params})->{ret_type}")
+                else:
+                    params = _compress_params(rest.rstrip(')'))
+                    result.append(f"  m:{method_name}({params})")
+            else:
+                result.append(f"  m:{method_line}")
+        else:
+            # Reset class context for non-indented lines
+            if not line.startswith('  '):
+                current_class = None
+    
+    return '\n'.join(result)
+
+def _compress_params(params_str: str) -> str:
+    """Compress parameter list using type abbreviations."""
+    if not params_str.strip():
+        return ""
+    
+    # Type mappings for aggressive compression
+    type_map = {
+        'str': 'S',
+        'int': 'I', 
+        'float': 'F',
+        'bool': 'B',
+        'list': 'L',
+        'dict': 'D',
+        'Any': 'A',
+        'numpy.ndarray': 'nda',
+        'matplotlib.axes.Axes': 'ax',
+        'pandas.DataFrame': 'df',
+        'Optional[Any]': 'OA',
+        'Optional[str]': 'OS',
+        'Optional[int]': 'OI',
+        'Optional[float]': 'OF',
+        'Union[str, list]': 'U[S,L]',
+        'Union[float, list]': 'U[F,L]',
+        'Dict[str, Any]': 'D[S,A]',
+        'List[str]': 'L[S]',
+        'List[float]': 'L[F]',
+        'Literal[': 'Lit[',
+    }
+    
+    compressed = params_str
+    
+    # Apply type mappings
+    for full_type, abbrev in type_map.items():
+        compressed = compressed.replace(full_type, abbrev)
+    
+    # Clean up common patterns
+    compressed = compressed.replace('self, ', '')
+    compressed = compressed.replace('self,', '')
+    compressed = compressed.replace(', kwargs: A', '')
+    compressed = compressed.replace(', args: A', '')
+    compressed = compressed.replace('  ', ' ')
+    
+    # Remove parameter names, keep only types for ultra-compression
+    # This is aggressive - only keep the essential type information
+    param_parts = []
+    for param in compressed.split(','):
+        param = param.strip()
+        if ':' in param:
+            param_type = param.split(':', 1)[1].strip()
+            param_parts.append(param_type)
+        elif param:  # Keep params without type annotations
+            param_parts.append(param)
+    
+    return ','.join(param_parts)
+
+def _compress_type(type_str: str) -> str:
+    """Compress return type using abbreviations."""
+    type_map = {
+        'str': 'S',
+        'int': 'I',
+        'float': 'F', 
+        'bool': 'B',
+        'list': 'L',
+        'dict': 'D',
+        'Any': 'A',
+        'numpy.ndarray': 'nda',
+        'matplotlib.axes.Axes': 'ax',
+        'pandas.DataFrame': 'df',
+        'Optional[Any]': 'OA',
+        'Union[str, list]': 'U[S,L]',
+        'Dict[str, Any]': 'D[S,A]',
+        'List[str]': 'L[S]',
+        'tuple': 'tup',
+        'collections.namedtuple': 'nt',
+    }
+    
+    compressed = type_str.strip()
+    for full_type, abbrev in type_map.items():
+        compressed = compressed.replace(full_type, abbrev)
+    
+    return compressed 
+
+def _create_function_index(all_symbols: str) -> Dict[str, str]:
+    """
+    Create an index mapping function/class names to their full signatures.
+    
+    Returns:
+        Dict mapping simple names and full names to their signatures
+    """
+    index = {}
+    lines = all_symbols.split('\n')
+    current_class = None
+    current_class_lines = []
+    
+    for line in lines:
+        if line.strip().startswith('#') or not line.strip():
+            continue
+            
+        if line.startswith('class '):
+            # Save previous class if exists
+            if current_class and current_class_lines:
+                full_signature = '\n'.join(current_class_lines)
+                index[current_class] = full_signature
+                # Also index by simple class name
+                simple_name = current_class.split('.')[-1]
+                if simple_name not in index:
+                    index[simple_name] = full_signature
+            
+            # Start new class
+            current_class = line.split('(')[0].replace('class ', '')
+            current_class_lines = [line]
+            
+        elif line.startswith('function '):
+            # Standalone function
+            func_name = line.split('(')[0].replace('function ', '')
+            index[func_name] = line
+            # Also index by simple function name
+            simple_name = func_name.split('.')[-1]
+            if simple_name not in index:
+                index[simple_name] = line
+                
+        elif line.startswith('  ') and current_class:
+            # Method of current class
+            current_class_lines.append(line)
+            
+            # Also index the method by its full qualified name
+            method_name = line.strip().split('(')[0]
+            full_method_name = f"{current_class}.{method_name}"
+            
+            # For methods, we want the entire class definition including this method
+            class_with_method = '\n'.join(current_class_lines)
+            index[full_method_name] = class_with_method
+            
+            # Also index by ClassName.method format
+            simple_class_name = current_class.split('.')[-1]
+            simple_method_key = f"{simple_class_name}.{method_name}"
+            if simple_method_key not in index:
+                index[simple_method_key] = class_with_method
+    
+    # Don't forget the last class
+    if current_class and current_class_lines:
+        full_signature = '\n'.join(current_class_lines)
+        index[current_class] = full_signature
+        simple_name = current_class.split('.')[-1]
+        if simple_name not in index:
+            index[simple_name] = full_signature
+    
+    return index
+
+def _create_compact_function_list(all_symbols: str) -> str:
+    """
+    Create a compact list of all available functions and classes without signatures.
+    This is used in step 1 to let the LLM choose what it needs.
+    """
+    lines = all_symbols.split('\n')
+    functions = []
+    classes = []
+    
+    current_class = None
+    class_methods = []
+    
+    for line in lines:
+        if line.strip().startswith('#'):
+            continue
+            
+        if line.startswith('class '):
+            # Save previous class if exists
+            if current_class and class_methods:
+                class_entry = {
+                    'name': current_class,
+                    'methods': class_methods
+                }
+                classes.append(class_entry)
+            
+            # Start new class
+            current_class = line.split('(')[0].replace('class ', '')
+            class_methods = []
+            
+        elif line.startswith('function '):
+            # Standalone function
+            func_name = line.split('(')[0].replace('function ', '')
+            functions.append(func_name)
+                
+        elif line.startswith('  ') and current_class:
+            # Method of current class
+            method_name = line.strip().split('(')[0]
+            class_methods.append(method_name)
+    
+    # Don't forget the last class
+    if current_class and class_methods:
+        class_entry = {
+            'name': current_class,
+            'methods': class_methods
+        }
+        classes.append(class_entry)
+    
+    # Format as compact list
+    result = ["# AVAILABLE PYLEOCLIM/PYLIPD/AMMONYTE API", ""]
+    
+    if classes:
+        result.append("## CLASSES:")
+        for cls in classes:
+            result.append(f"• {cls['name']}")
+            if cls['methods']:
+                # Show first few methods as examples
+                method_preview = cls['methods'][:3]
+                if len(cls['methods']) > 3:
+                    method_preview.append(f"... +{len(cls['methods'])-3} more")
+                result.append(f"  Methods: {', '.join(method_preview)}")
+        result.append("")
+    
+    if functions:
+        result.append("## FUNCTIONS:")
+        # Group functions by module for better organization
+        func_by_module = {}
+        for func in functions:
+            if '.' in func:
+                module = '.'.join(func.split('.')[:-1])
+                if module not in func_by_module:
+                    func_by_module[module] = []
+                func_by_module[module].append(func.split('.')[-1])
+            else:
+                if 'other' not in func_by_module:
+                    func_by_module['other'] = []
+                func_by_module['other'].append(func)
+        
+        for module, funcs in sorted(func_by_module.items()):
+            result.append(f"### {module}:")
+            # Show functions in groups of 5 per line
+            for i in range(0, len(funcs), 5):
+                func_group = funcs[i:i+5]
+                result.append(f"  {', '.join(func_group)}")
+        result.append("")
+    
+    result.append("NOTE: This is just a list of available functions/classes.")
+    result.append("Request specific ones you need and their full signatures will be provided.")
+    
+    return '\n'.join(result)
+
+def _extract_functions_from_code(code: str) -> List[str]:
+    """
+    Extract PyLiPD/PyLeoClim/Ammonyte function calls from existing code.
+    Returns a list of function names that are already being used.
+    """
+    functions_found = []
+    
+    # Pattern 1: Direct module calls like pyleoclim.utils.datasets.load_dataset()
+    direct_pattern = r'((?:pyleoclim|pylipd|ammonyte)\.[\w\.]+)\s*\('
+    direct_matches = re.findall(direct_pattern, code)
+    functions_found.extend(direct_matches)
+    
+    # Pattern 2: Object method calls where we can infer the type
+    # Look for variable assignments that use PyLiPD/PyLeoClim constructors
+    constructor_pattern = r'(\w+)\s*=\s*((?:pyleoclim|pylipd|ammonyte)\.[\w\.]+)\s*\('
+    constructor_matches = re.findall(constructor_pattern, code)
+    
+    # Now look for method calls on those variables
+    for var_name, class_name in constructor_matches:
+        # Find method calls on this variable
+        method_pattern = fr'{re.escape(var_name)}\.(\w+)\s*\('
+        method_matches = re.findall(method_pattern, code)
+        for method in method_matches:
+            # Reconstruct the full method name
+            full_method = f"{class_name}.{method}"
+            functions_found.append(full_method)
+    
+    # Pattern 3: Import statements to detect what's being imported
+    import_pattern = r'from\s+((?:pyleoclim|pylipd|ammonyte)\.[\w\.]+)\s+import\s+([\w\s,]+)'
+    import_matches = re.findall(import_pattern, code)
+    for module, imports in import_matches:
+        # Split the imports and add them with their full module path
+        for imported_item in imports.split(','):
+            item = imported_item.strip()
+            if item and item != '*':
+                functions_found.append(f"{module}.{item}")
+    
+    # Pattern 4: Direct imports like "import pyleoclim as pyleo"
+    direct_import_pattern = r'import\s+((?:pyleoclim|pylipd|ammonyte)(?:\.\w+)*)\s*(?:as\s+(\w+))?'
+    direct_import_matches = re.findall(direct_import_pattern, code)
+    
+    # Track alias mappings
+    alias_mappings = {}
+    for full_module, alias in direct_import_matches:
+        if alias:
+            alias_mappings[alias] = full_module
+    
+    # Pattern 5: Calls using aliases (e.g., pyleo.utils.datasets.load_dataset)
+    for alias, full_module in alias_mappings.items():
+        alias_pattern = fr'{re.escape(alias)}\.([^(]*)\s*\('
+        alias_matches = re.findall(alias_pattern, code)
+        for match in alias_matches:
+            # Reconstruct with full module name
+            functions_found.append(f"{full_module}.{match}")
+    
+    # Clean up and deduplicate
+    cleaned_functions = []
+    for func in functions_found:
+        func = func.strip().strip('.,()[]')
+        # Only keep valid-looking function names
+        if (func and 
+            len(func) > 5 and  # Minimum reasonable length
+            '.' in func and   # Must have module structure
+            func not in cleaned_functions and
+            any(lib in func.lower() for lib in ['pyleoclim', 'pylipd', 'ammonyte'])):
+            cleaned_functions.append(func)
+    
+    return cleaned_functions
+
+def _extract_requested_symbols(llm_response: str) -> List[str]:
+    """
+    Extract the list of functions/classes the LLM wants to use from its response.
+    """
+    requested = []
+    
+    # Look for direct mentions of pyleoclim/pylipd functions first (most reliable)
+    func_pattern = r'((?:pyleoclim|pylipd|ammonyte)\.[\w\.]+)'
+    func_matches = re.findall(func_pattern, llm_response)
+    requested.extend(func_matches)
+    
+    # Look for bullet points and lists with function names
+    lines = llm_response.split('\n')
+    for line in lines:
+        line = line.strip()
+        
+        # Skip empty lines and non-list items
+        if not line or not (line.startswith(('-', '•', '*')) or re.match(r'\d+\.', line)):
+            continue
+        
+        # Extract potential function names from the line
+        # Remove list markers and explanatory text in parentheses
+        cleaned_line = re.sub(r'^[-•*]\s*', '', line)  # Remove bullet points
+        cleaned_line = re.sub(r'^\d+\.\s*', '', cleaned_line)  # Remove numbering
+        cleaned_line = re.sub(r'\s*\([^)]*\).*$', '', cleaned_line)  # Remove explanations in parentheses
+        cleaned_line = cleaned_line.strip()
+        
+        # Look for pyleoclim/pylipd patterns in the cleaned line
+        if any(lib in cleaned_line.lower() for lib in ['pyleoclim', 'pylipd', 'ammonyte']):
+            # Extract the actual function/class name
+            func_match = re.search(r'((?:pyleoclim|pylipd|ammonyte)\.[\w\.]+)', cleaned_line)
+            if func_match:
+                requested.append(func_match.group(1))
+            else:
+                # If no full path found, add the cleaned line as-is
+                if cleaned_line and len(cleaned_line) > 3:
+                    requested.append(cleaned_line)
+    
+    # Look for other common patterns
+    patterns = [
+        r'(?:I (?:need|want|will use|plan to use))[^:]*:?\s*([^\n]+)',
+        r'(?:Functions|Classes) (?:needed|required):?\s*([^\n]+)',
+    ]
+    
+    for pattern in patterns:
+        matches = re.findall(pattern, llm_response, re.IGNORECASE | re.MULTILINE)
+        for match in matches:
+            # Look for function names in the match
+            func_in_match = re.findall(r'((?:pyleoclim|pylipd|ammonyte)\.[\w\.]+)', match)
+            requested.extend(func_in_match)
+    
+    # Clean up and deduplicate
+    cleaned = []
+    for item in requested:
+        item = item.strip().strip('.,()[]')
+        # Only keep items that look like valid function/class names
+        if (item and 
+            len(item) > 3 and 
+            item not in cleaned and
+            ('.' in item or any(lib in item.lower() for lib in ['series', 'psd', 'lipd', 'plot']))):
+            cleaned.append(item)
+    
+    return cleaned
+
+def _find_matching_signatures(requested_symbols: List[str], symbol_index: Dict[str, str]) -> str:
+    """
+    Find the full signatures for the requested symbols.
+    """
+    found_signatures = []
+    not_found = []
+    added_signatures = set()  # Track what we've already added to avoid duplicates
+    
+    for symbol in requested_symbols:
+        found = False
+        
+        # Try exact match first
+        if symbol in symbol_index:
+            sig = symbol_index[symbol]
+            if sig not in added_signatures:
+                found_signatures.append(sig)
+                added_signatures.add(sig)
+            found = True
+        else:
+            # Try partial matching with priority order
+            matches = []
+            
+            # 1. Look for exact suffix matches (e.g., "plot" matches "SomeClass.plot")
+            for key in symbol_index.keys():
+                if key.lower().endswith('.' + symbol.lower()):
+                    matches.append((key, 1))  # Priority 1 (highest)
+            
+            # 2. Look for substring matches in method names
+            if not matches:
+                symbol_parts = symbol.split('.')
+                target_method = symbol_parts[-1] if len(symbol_parts) > 1 else symbol
+                
+                for key in symbol_index.keys():
+                    key_parts = key.split('.')
+                    if len(key_parts) > 1 and target_method.lower() == key_parts[-1].lower():
+                        matches.append((key, 2))  # Priority 2
+            
+            # 3. Look for general substring matches
+            if not matches:
+                for key in symbol_index.keys():
+                    if symbol.lower() in key.lower():
+                        matches.append((key, 3))  # Priority 3 (lowest)
+            
+            if matches:
+                # Sort by priority and take the best match
+                matches.sort(key=lambda x: x[1])
+                best_match = matches[0][0]
+                sig = symbol_index[best_match]
+                if sig not in added_signatures:
+                    found_signatures.append(sig)
+                    added_signatures.add(sig)
+                found = True
+        
+        if not found:
+            not_found.append(symbol)
+    
+    result = []
+    if found_signatures:
+        result.append("# REQUESTED FUNCTION/CLASS SIGNATURES:")
+        # Remove duplicates while preserving order
+        unique_signatures = []
+        for sig in found_signatures:
+            if sig not in unique_signatures:
+                unique_signatures.append(sig)
+        result.extend(unique_signatures)
+        result.append("")
+    
+    if not_found:
+        result.append(f"# NOTE: Could not find signatures for: {', '.join(not_found)}")
+        result.append("")
+    
+    return '\n'.join(result)
+
+def _step1_plan_functions(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+    """
+    Step 1: Ask LLM what functions/classes it plans to use.
+    """
+    try:
+        analysis_request = state.analysis_request or ""
+        variable_context = _create_comprehensive_variable_context(state.conversation_id)
+        
+        # Create compact function list
+        library_symbols_full = load_library_symbols()
+        compact_list = _create_compact_function_list(library_symbols_full)
+        
+        # Get LLM from config
+        llm = get_config_value(config, 'llm')
+        if not llm:
+            return {"error_message": "LLM not available"}
+        
+        planning_prompt = f"""
+You are planning to generate Python code for a paleoclimate data analysis task.
+
+ANALYSIS REQUEST: {analysis_request}
+
+{variable_context}
+
+AVAILABLE API:
+{compact_list}
+
+Please analyze the request and identify the key PyLiPD, PyLeoClim, or Ammonyte functions/classes you would likely need for this task.
+
+Include functions for:
+1. The core functionality you definitely need
+2. 1-2 alternative approaches if the main approach doesn't work
+3. Essential supporting functions (data loading, basic processing)
+
+Think about the main workflow steps but focus on the most relevant functions rather than listing everything possible.
+
+Respond with a focused list of 5-15 functions/classes. For example:
+- pyleoclim.core.series.Series
+- pyleoclim.utils.datasets.load_dataset
+- pyleoclim.utils.plotting.plot_xy
+- pylipd.lipd.LiPD.get_datasets
+
+Focus only on the PyLiPD/PyLeoClim/Ammonyte functions. Don't list standard libraries like pandas, numpy, matplotlib.
+"""
+
+        system_content = (
+            "You are an expert in paleoclimate data analysis. "
+            "Analyze the user's request and identify the most relevant PyLiPD, PyLeoClim, or Ammonyte "
+            "functions and classes needed to complete the task effectively. "
+            "Include core functions plus a few alternatives, but avoid listing everything possible. "
+            "Aim for a focused selection of 5-15 functions that cover the main workflow needs."
+        )
+        
+        messages = [
+            SystemMessage(content=system_content),
+            HumanMessage(content=planning_prompt)
+        ]
+        
+        logger.info(f"Step 1: Planning functions for request: {analysis_request[:100]}...")
+        response = llm._call(messages)
+        
+        # Extract requested symbols
+        requested_symbols = _extract_requested_symbols(response)
+        logger.info(f"Step 1: LLM requested {len(requested_symbols)} symbols: {requested_symbols}")
+        
+        return {
+            "requested_symbols": requested_symbols,
+            "planning_response": response,
+            "conversation_id": state.conversation_id
+        }
+        
+    except Exception as e:
+        logger.error(f"Error in step 1 planning: {e}", exc_info=True)
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id
+        }
+
+def _step1_refine_functions(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+    """
+    Step 1 for refinement: Detect functions already in use + ask what additional ones might be needed.
+    """
+    try:
+        generated_code = state.generated_code or ""
+        validation_errors = getattr(state, 'validation_errors', []) or []
+        execution_results = state.execution_results or []
+        
+        # Extract functions already being used in the current code
+        current_functions = _extract_functions_from_code(generated_code)
+        logger.info(f"Detected {len(current_functions)} functions already in use: {current_functions}")
+        
+        # Build issues description for LLM
+        issues_detected = []
+        if validation_errors:
+            issues_detected.append("**Validation Errors**: " + "; ".join(validation_errors))
+        
+        # Check for execution errors
+        for result in execution_results:
+            if isinstance(result, dict) and result.get("type") == "execution_error":
+                error_msg = result.get('error', 'Unknown execution error')
+                issues_detected.append(f"**Execution Error**: {error_msg}")
+        
+        issues_text = "\n".join(issues_detected) if issues_detected else "General code improvements needed"
+        
+        # Create compact function list for alternatives
+        library_symbols_full = load_library_symbols()
+        compact_list = _create_compact_function_list(library_symbols_full)
+        
+        # Get LLM from config
+        llm = get_config_value(config, 'llm')
+        if not llm:
+            return {"error_message": "LLM not available"}
+        
+        refine_planning_prompt = f"""
+You are analyzing existing Python code that needs to be fixed or improved.
+
+CURRENT CODE:
+```python
+{generated_code}
+```
+
+ISSUES TO FIX:
+{issues_text}
+
+AVAILABLE API:
+{compact_list}
+
+The code already uses these PyLiPD/PyLeoClim/Ammonyte functions:
+{', '.join(current_functions) if current_functions else 'None detected'}
+
+Please identify what ADDITIONAL PyLiPD, PyLeoClim, or Ammonyte functions you might need to fix the issues or improve the code.
+
+Include additional functions for:
+1. Alternative approaches to fix the errors
+2. Missing functionality that could help
+3. Better methods to achieve the same goals
+
+Respond with a focused list of 3-10 additional functions/classes (beyond what's already in use):
+- pyleoclim.core.series.Series.plot
+- pyleoclim.utils.datasets.load_dataset
+- etc.
+
+Focus only on ADDITIONAL PyLiPD/PyLeoClim/Ammonyte functions. Don't list standard libraries.
+"""
+
+        system_content = (
+            "You are an expert in debugging and improving paleoclimate data analysis code. "
+            "Analyze the existing code and the issues, then identify additional PyLiPD, PyLeoClim, or Ammonyte "
+            "functions that could help fix the problems or improve the implementation. "
+            "Focus on functions that are different from what's already being used."
+        )
+        
+        messages = [
+            SystemMessage(content=system_content),
+            HumanMessage(content=refine_planning_prompt)
+        ]
+        
+        logger.info(f"Step 1 Refinement: Analyzing code for additional functions needed...")
+        response = llm._call(messages)
+        
+        # Extract additional symbols
+        additional_symbols = _extract_requested_symbols(response)
+        logger.info(f"Step 1 Refinement: LLM suggested {len(additional_symbols)} additional symbols: {additional_symbols}")
+        
+        return {
+            "current_functions": current_functions,
+            "additional_functions": additional_symbols,
+            "planning_response": response,
+            "conversation_id": state.conversation_id
+        }
+        
+    except Exception as e:
+        logger.error(f"Error in step 1 refinement planning: {e}", exc_info=True)
+        return {
+            "error_message": str(e),
+            "conversation_id": state.conversation_id
+        }

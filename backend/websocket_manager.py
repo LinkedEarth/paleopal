@@ -7,8 +7,16 @@ from fastapi import WebSocket
 
 logger = logging.getLogger(__name__)
 
-def make_json_serializable(obj):
-    """Convert objects to JSON-serializable format."""
+def make_json_serializable(obj, _seen=None):
+    """Convert objects to JSON-serializable format with circular reference detection."""
+    if _seen is None:
+        _seen = set()
+    
+    # Check for circular references
+    obj_id = id(obj)
+    if obj_id in _seen:
+        return f"<Circular reference to {type(obj).__name__}>"
+    
     if obj is None:
         return None
     elif isinstance(obj, (str, int, float, bool)):
@@ -16,15 +24,42 @@ def make_json_serializable(obj):
     elif isinstance(obj, datetime):
         return obj.isoformat()
     elif isinstance(obj, (list, tuple)):
-        return [make_json_serializable(item) for item in obj]
+        _seen.add(obj_id)
+        try:
+            result = [make_json_serializable(item, _seen) for item in obj]
+        finally:
+            _seen.remove(obj_id)
+        return result
     elif isinstance(obj, dict):
-        return {key: make_json_serializable(value) for key, value in obj.items()}
+        _seen.add(obj_id)
+        try:
+            result = {key: make_json_serializable(value, _seen) for key, value in obj.items()}
+        finally:
+            _seen.remove(obj_id)
+        return result
     elif hasattr(obj, 'dict'):
         # Pydantic model - convert to dict first
-        return make_json_serializable(obj.dict())
+        _seen.add(obj_id)
+        try:
+            result = make_json_serializable(obj.dict(), _seen)
+        finally:
+            _seen.remove(obj_id)
+        return result
     elif hasattr(obj, '__dict__'):
-        # Object with attributes - convert to dict
-        return make_json_serializable(obj.__dict__)
+        # Object with attributes - convert to dict with size limit for safety
+        _seen.add(obj_id)
+        try:
+            obj_dict = obj.__dict__
+            # Limit the number of attributes to prevent massive serialization
+            if len(obj_dict) > 50:
+                return f"<{type(obj).__name__} object with {len(obj_dict)} attributes>"
+            result = make_json_serializable(obj_dict, _seen)
+        except Exception:
+            # If serialization fails, just return a string representation
+            result = f"<{type(obj).__name__} object>"
+        finally:
+            _seen.remove(obj_id)
+        return result
     else:
         # Fallback - convert to string
         return str(obj)
@@ -34,10 +69,23 @@ class WebSocketManager:
     def __init__(self):
         # {conv_id: [WebSocket, ...]}
         self.active: Dict[str, List[WebSocket]] = {}
+        self._main_loop = None
+
+    def set_event_loop(self, loop):
+        """Set the main event loop for thread-safe operations."""
+        self._main_loop = loop
 
     async def connect(self, conv_id: str, websocket: WebSocket):
         await websocket.accept()
         self.active.setdefault(conv_id, []).append(websocket)
+        
+        # Store the event loop if not already stored
+        if self._main_loop is None:
+            try:
+                self._main_loop = asyncio.get_running_loop()
+            except RuntimeError:
+                pass
+        
         logger.info(f"✅ WebSocket connected for conversation {conv_id}. Total connections: {len(self.active.get(conv_id, []))}")
 
     def disconnect(self, conv_id: str, websocket: WebSocket):
@@ -65,21 +113,48 @@ class WebSocketManager:
             logger.error(f"Message data: {message}")
             return
 
-        # Send to all connections
+        # Send to all connections with proper async handling
         disconnected = []
         for ws in connections:
             try:
-                # Use asyncio.create_task to avoid blocking
-                asyncio.create_task(self._send_message(ws, message_json))
+                # Check if we're in an async context
+                try:
+                    current_loop = asyncio.get_running_loop()
+                    # We're in an async context - create task
+                    asyncio.create_task(self._send_message(ws, message_json))
+                except RuntimeError:
+                    # No running event loop - we're in a sync context (like thread pool)
+                    # Use the stored main loop if available
+                    if self._main_loop and self._main_loop.is_running():
+                        try:
+                            # Schedule the coroutine to run in the main event loop
+                            future = asyncio.run_coroutine_threadsafe(
+                                self._send_message(ws, message_json), 
+                                self._main_loop
+                            )
+                            # Don't wait for the result to avoid blocking
+                            logger.debug(f"📤 Scheduled WebSocket message from thread to main loop")
+                        except Exception as e:
+                            logger.warning(f"Failed to schedule WebSocket message: {e}")
+                            # Don't disconnect on scheduling failures - the connection might still be good
+                    else:
+                        logger.warning(f"No main event loop available for WebSocket message")
+                        # Don't disconnect - the loop might become available later
             except Exception as e:
                 logger.warning(f"Failed to send WebSocket message: {e}")
-                disconnected.append(ws)
+                # Only disconnect on actual connection errors, not scheduling errors
+                if "connection" in str(e).lower() or "closed" in str(e).lower():
+                    disconnected.append(ws)
 
-        # Clean up disconnected WebSockets
+        # Clean up only actually disconnected WebSockets
         for ws in disconnected:
             self.disconnect(conv_id, ws)
 
-        logger.debug(f"📡 Broadcasted message to {len(connections) - len(disconnected)} WebSocket connections for conversation {conv_id}")
+        sent_count = len(connections) - len(disconnected)
+        if sent_count > 0:
+            logger.debug(f"📡 Broadcasted message to {sent_count} WebSocket connections for conversation {conv_id}")
+        else:
+            logger.warning(f"⚠️ Failed to send message to any WebSocket connections for conversation {conv_id}")
 
     async def _send_message(self, websocket: WebSocket, message_json: str):
         """Send a message to a specific WebSocket connection."""
@@ -97,5 +172,21 @@ class WebSocketManager:
         """Get connection counts for all conversations"""
         return {conv_id: len(conns) for conv_id, conns in self.active.items()}
 
+    def send_to_conversation(self, conv_id: str, message: Dict[str, Any]):
+        """Alias for broadcast method for better readability."""
+        self.broadcast(conv_id, message)
+
+    def send_execution_update(self, conv_id: str, execution_id: str, status: str, **kwargs):
+        """Send an execution status update to all clients in a conversation."""
+        message = {
+            "type": "execution_update",
+            "execution_id": execution_id,
+            "status": status,
+            "timestamp": datetime.utcnow().isoformat(),
+            **kwargs
+        }
+        self.send_to_conversation(conv_id, message)
+
 # Global instance
 ws_manager = WebSocketManager() 
+websocket_manager = ws_manager  # Alias for consistency 

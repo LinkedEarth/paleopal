@@ -15,7 +15,9 @@ from agents.base_agent import BaseAgent, AgentRequest, AgentResponse, AgentStatu
 from agents.base_state import BaseAgentState, BaseAgentConfig
 from services.conversation_service import conversation_service
 from services.message_service import message_service
+from services.job_service import job_service
 from schemas.message import MessageCreate, MessageUpdate
+from schemas.job import JobCreate
 
 logger = logging.getLogger(__name__)
 
@@ -94,8 +96,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         """Create initial state for agent execution."""
         logger.info(f"Creating initial state for agent_type: {request.agent_type}")
         
-        # Import message service at the top for use throughout the function
-        from services.message_service import message_service
+        # Message service already imported at top level
         
         # Build base state from request
         state_data = {
@@ -253,6 +254,65 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                             "result_count": len(msg.execution_results) if msg.execution_results else 0,
                             "timestamp": msg.created_at.isoformat() if hasattr(msg.created_at, 'isoformat') else str(msg.created_at)
                         }
+                        
+                        # Add execution results details if available
+                        if msg.execution_results:
+                            execution_summary = []
+                            for result in msg.execution_results:
+                                # Convert ExecutionResult object to dict if needed
+                                if hasattr(result, 'dict'):
+                                    # It's a Pydantic ExecutionResult object
+                                    result_dict = result.dict()
+                                elif hasattr(result, 'model_dump'):
+                                    # It's a Pydantic v2 ExecutionResult object
+                                    result_dict = result.model_dump()
+                                elif isinstance(result, dict):
+                                    # It's already a dictionary
+                                    result_dict = result
+                                else:
+                                    # Skip if we can't convert it
+                                    logger.warning(f"Unknown execution result type: {type(result)}")
+                                    continue
+                                
+                                summary = {
+                                    "type": result_dict.get("type"),
+                                    "success": result_dict.get("type") == "execution_success"
+                                }
+                                
+                                if result_dict.get("type") == "execution_success":
+                                    summary["execution_time"] = result_dict.get("execution_time", 0)
+                                    if result_dict.get("variable_summary"):
+                                        summary["variables_created"] = list(result_dict["variable_summary"].keys())
+                                    if result_dict.get("output"):
+                                        # Include first few lines of output for context
+                                        output_lines = result_dict["output"].strip().split('\n')
+                                        if len(output_lines) > 30:
+                                            summary["output_preview"] = '\n'.join(output_lines[:30]) + '\n...'
+                                        else:
+                                            summary["output_preview"] = result_dict["output"].strip()
+                                    if result_dict.get("plots"):
+                                        summary["plots_generated"] = len(result_dict["plots"])
+                                elif result_dict.get("type") == "execution_error":
+                                    summary["execution_time"] = result_dict.get("execution_time", 0)
+                                    if result_dict.get("error"):
+                                        # Include error message for context
+                                        error_msg = result_dict["error"].strip()
+                                        if len(error_msg) > 200:
+                                            summary["error_message"] = error_msg[:200] + '...'
+                                        else:
+                                            summary["error_message"] = error_msg
+                                    if result_dict.get("output"):
+                                        # Include partial output if available
+                                        output_lines = result_dict["output"].strip().split('\n')
+                                        if len(output_lines) > 20:
+                                            summary["partial_output"] = '\n'.join(output_lines[:20]) + '\n...'
+                                        else:
+                                            summary["partial_output"] = result_dict["output"].strip()
+                                
+                                execution_summary.append(summary)
+                            
+                            history_entry["execution_results"] = execution_summary
+                        
                         conversation_history.append(history_entry)
                 
                 # Add conversation history and context to state
@@ -444,7 +504,8 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 if execution_results and isinstance(execution_results, list) and len(execution_results) > 0:
                     # Get the first execution result for summary
                     first_result = execution_results[0]
-                    if first_result.get('type') == 'execution_success':
+                    # Ensure first_result is a dict before calling .get()
+                    if isinstance(first_result, dict) and first_result.get('type') == 'execution_success':
                         success_message += f"\n\n✅ **Execution completed successfully"
                         if first_result.get('execution_time'):
                             success_message += f" in {first_result['execution_time']:.2f}s"
@@ -469,7 +530,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                                 else:
                                     preview = output
                                 success_message += f"\n\n📋 **Output:**\n```\n{preview}\n```"
-                    elif first_result.get('type') == 'execution_error':
+                    elif isinstance(first_result, dict) and first_result.get('type') == 'execution_error':
                         success_message += f"\n\n❌ **Execution failed"
                         if first_result.get('execution_time'):
                             success_message += f" after {first_result['execution_time']:.2f}s"
@@ -573,9 +634,16 @@ class BaseLangGraphAgent(BaseAgent, ABC):
     
     def _create_result_from_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
         """Create result dict from state. Can be overridden by subclasses."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
         return {
-            "generated_code": state.get("generated_code", ""),
-            "execution_results": state.get("execution_results", []),
+            "generated_code": get_state_value("generated_code", ""),
+            "execution_results": get_state_value("execution_results", []),
             "needs_clarification": False,
         }
     
@@ -628,8 +696,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     logger.info(f"Created user message {user_message_id}")
                     # Create Job row representing this agent run
                     try:
-                        from schemas.job import JobCreate
-                        from services.job_service import job_service
                         job = job_service.create_job(JobCreate(
                             conversation_id=request.conversation_id,
                             owner_message_id=user_message_id,
@@ -665,6 +731,16 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 except Exception:
                     pass
             
+            # Build config_dict for LangGraph
+            if hasattr(config_obj, '__dict__'):
+                config_dict = {"configurable": config_obj.__dict__}
+            else:
+                config_dict = {"configurable": config_obj}
+            
+            # Add owner_message_id directly to the configurable dict
+            if user_message_id:
+                config_dict["configurable"]["owner_message_id"] = user_message_id
+            
             # Execute the graph asynchronously to support async nodes
             result_state = await self._graph.ainvoke(initial_state, config_dict)
             
@@ -687,7 +763,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Mark job completion
             if job_id:
                 try:
-                    from services.job_service import job_service
                     job_service.update_job_state(job_id, "done")
                 except Exception as e:
                     logger.warning(f"Failed to mark job done: {e}")
@@ -699,7 +774,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # mark job error
             if 'job_id' in locals() and job_id:
                 try:
-                    from services.job_service import job_service
                     job_service.update_job_state(job_id, "error", str(e))
                 except Exception:
                     pass
@@ -743,7 +817,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             if request.metadata.get('clarification_responses'):
                 # For clarification responses, find the most recent clarification response message
                 try:
-                    from services.message_service import message_service
                     recent_messages = message_service.get_conversation_messages(request.conversation_id)
                     
                     # Look for the most recent clarification_response message
@@ -762,9 +835,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # For initial user queries, create a user message
             elif request.conversation_id and request.user_input:
                 try:
-                    from services.message_service import message_service
-                    from schemas.message import MessageCreate
-                    
                     user_message_data = MessageCreate(
                         conversation_id=request.conversation_id,
                         role='user',
@@ -777,8 +847,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     logger.info(f"Created user message {owner_message_id} for progress tracking")
                     # Create job row for this agent run
                     try:
-                        from schemas.job import JobCreate
-                        from services.job_service import job_service
                         job = job_service.create_job(JobCreate(
                             conversation_id=request.conversation_id,
                             owner_message_id=owner_message_id,
@@ -803,7 +871,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Create initial progress message if we have an owner
             if owner_message_id:
                 try:
-                    from services.message_service import message_service
                     progress_msg = message_service.create_progress_message(
                         owner_message_id,
                         "Agent Execution",
@@ -862,7 +929,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Create completion progress message if we have an owner
             if owner_message_id:
                 try:
-                    from services.message_service import message_service
                     progress_msg = message_service.create_progress_message(
                         owner_message_id,
                         "Agent Execution",
@@ -877,7 +943,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Mark job done
             if 'job_id' in locals() and job_id:
                 try:
-                    from services.job_service import job_service
                     job_service.update_job_state(job_id, "done")
                 except Exception:
                     pass
@@ -891,7 +956,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # mark job error
             if 'job_id' in locals() and job_id:
                 try:
-                    from services.job_service import job_service
                     job_service.update_job_state(job_id, "error", str(e))
                 except Exception:
                     pass
@@ -901,7 +965,6 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Create error progress message if we have owner_message_id
             if 'owner_message_id' in locals() and owner_message_id:
                 try:
-                    from services.message_service import message_service
                     progress_msg = message_service.create_progress_message(
                         owner_message_id,
                         "Agent Execution",
@@ -950,7 +1013,8 @@ class BaseLangGraphAgent(BaseAgent, ABC):
         # Check for generated code/query
         generated_code = get_state_value("generated_code")
         if generated_code:
-            output["generated_code_preview"] = generated_code[:200] + "..." if len(generated_code) > 200 else generated_code
+            # Include full code for frontend display (e.g. AgentProgressDisplay modal)
+            output["code"] = generated_code
         
         # Check for execution results
         execution_results = get_state_value("execution_results")

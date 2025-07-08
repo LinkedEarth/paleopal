@@ -3,6 +3,8 @@ from typing import List
 
 from schemas.conversation import Conversation, ConversationCreate, ConversationUpdate
 from services.conversation_service import conversation_service
+from services.service_manager import service_manager
+from services.notebook_export_service import notebook_export_service
 
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
@@ -69,30 +71,29 @@ def get_database_state():
     """Debug endpoint to examine database state."""
     return conversation_service.debug_database_state()
 
-@router.get("/debug/execution-states")
-def get_execution_state_statistics():
-    """Debug endpoint to examine Python execution state statistics."""
-    from services.python_execution_service import python_execution_service
-    return python_execution_service.get_state_statistics()
+@router.get("/state/stats")
+async def get_state_stats():
+    """Get execution state statistics."""
+    execution_service = service_manager.get_execution_service()
+    return execution_service.get_state_statistics()
 
-@router.delete("/debug/execution-states/{conversation_id}")
-def clear_execution_state(conversation_id: str):
-    """Debug endpoint to clear execution state for a specific conversation."""
-    from services.python_execution_service import python_execution_service
-    python_execution_service.clear_conversation_state(conversation_id)
-    return {"message": f"Cleared execution state for conversation {conversation_id}"}
+@router.delete("/{conversation_id}/state")
+async def clear_conversation_state(conversation_id: str):
+    """Clear execution state for a conversation."""
+    execution_service = service_manager.get_execution_service()
+    execution_service.clear_conversation_state(conversation_id)
+    return {"message": "Conversation state cleared"}
 
-@router.post("/debug/execution-states/{conversation_id}/reset")
-def reset_execution_state(conversation_id: str):
-    """Debug endpoint to reset execution state for a specific conversation."""
-    from services.python_execution_service import python_execution_service
-    python_execution_service.reset_conversation_state(conversation_id)
-    return {"message": f"Reset execution state for conversation {conversation_id}"}
+@router.post("/{conversation_id}/state/reset")
+async def reset_conversation_state(conversation_id: str):
+    """Reset execution state for a conversation."""
+    execution_service = service_manager.get_execution_service()
+    execution_service.reset_conversation_state(conversation_id)
+    return {"message": "Conversation state reset"}
 
 @router.get("/{conversation_id}/export/notebook")
 def export_conversation_as_notebook(conversation_id: str):
     """Export a conversation as a Jupyter notebook."""
-    from services.notebook_export_service import notebook_export_service
     from fastapi.responses import JSONResponse
     
     try:

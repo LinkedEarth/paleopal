@@ -75,13 +75,20 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
 
     def _create_result_from_state(self, state: Dict[str, Any]) -> Dict[str, Any]:
         """Create SPARQL-specific result from state using unified schema."""
+        # Helper function to get values from either Pydantic model or dict
+        def get_state_value(key, default=None):
+            if isinstance(state, dict):
+                return state.get(key, default)
+            else:
+                return getattr(state, key, default)
+        
         # Use the agent_metadata that was set by the execute_query_node
-        agent_metadata = state.get("agent_metadata", {})
+        agent_metadata = get_state_value("agent_metadata", {})
         
         return {
-            "generated_code": state.get("generated_code", ""),
-            "execution_results": state.get("execution_results", []),
-            "result_variable_names": state.get("result_variable_names", []),
+            "generated_code": get_state_value("generated_code", ""),
+            "execution_results": get_state_value("execution_results", []),
+            "result_variable_names": get_state_value("result_variable_names", []),
             "agent_metadata": agent_metadata,
             "needs_clarification": False,
         }

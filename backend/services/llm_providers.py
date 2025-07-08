@@ -336,6 +336,8 @@ class OllamaProvider(LLMProvider):
 
 IMPORTANT: Respond with ONLY the requested JSON object. Do not include any explanations, reasoning, or additional text outside the JSON. Do not use thinking tags or any other markup. Do not prefix with "json" or any other text."""
                 
+                # logger.info(f"Ollama: Sending messages: {enhanced_messages}")
+
                 response = ollama.chat(
                     model=self.model_name,
                     messages=enhanced_messages,
@@ -430,6 +432,7 @@ class OpenAIProvider(LLMProvider):
         client = openai.OpenAI(api_key=self.api_key)
         
         try:
+            # logger.info(f"OpenAI: Sending messages: {messages}")
             response = client.chat.completions.create(
                 model=self.model_name,
                 messages=messages
@@ -517,6 +520,7 @@ class ClaudeProvider(LLMProvider):
             if system_prompt:
                 api_params["system"] = system_prompt
             
+            # logger.info(f"Claude API params: {api_params}")
             response = client.messages.create(**api_params)
             return response.content[0].text
         except Exception as e:
@@ -531,7 +535,7 @@ class GoogleGeminiProvider(LLMProvider):
     
     def __init__(
         self,
-        model_name: str = "gemini-2.5-flash-preview-04-17",
+        model_name: str = "gemini-2.5-pro",
         api_key: Optional[str] = None
     ):
         """
@@ -587,9 +591,11 @@ class GoogleGeminiProvider(LLMProvider):
             chat = model.start_chat()
             for msg in messages:
                 if msg["role"] == "user":
+                    # logger.info(f"Google Gemini: Sending user message: {msg['content']}")
                     chat.send_message(msg["content"])
-                elif msg["role"] == "assistant":
-                    # Store assistant messages for context
+                elif msg["role"] == "system":
+                    # Store system messages for context
+                    # logger.info(f"Google Gemini: Sending system message: {msg['content']}")
                     chat.history.append({"role": "model", "parts": [msg["content"]]})
             
             # Get the last response
@@ -650,6 +656,8 @@ class GrokProvider(LLMProvider):
         try:
             client = openai.OpenAI(base_url="https://api.x.ai/v1", api_key=self.api_key)
             
+            # logger.info(f"Grok: Sending messages: {messages}")
+
             response = client.chat.completions.create(
                 model=self.model_name,
                 messages=messages
@@ -887,6 +895,7 @@ class LangChainWrapper(BaseChatModel):
                 elif msg.type == "ai":
                     formatted_messages.append({"role": "assistant", "content": msg.content})
         
+        # logger.info(f"Formatted messages: {formatted_messages}")
         response = self.provider.generate_response(formatted_messages)
         
         # Additional post-processing for reasoning models that might return JSON when we want plain text

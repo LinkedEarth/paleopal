@@ -9,7 +9,7 @@ from langgraph.graph import add_messages
 from langchain.chat_models.base import BaseChatModel
 
 # Constants
-MAX_REFINEMENTS = 1  # Maximum number of refinement attempts for any agent
+MAX_REFINEMENTS = 3  # Maximum number of refinement attempts for any agent
 
 class BaseAgentState(BaseModel):
     """Base state for all agents using Pydantic."""

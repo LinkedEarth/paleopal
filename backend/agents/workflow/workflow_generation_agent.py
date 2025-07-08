@@ -57,7 +57,7 @@ class WorkflowGenerationAgent(BaseLangGraphAgent):
             
             # Workflow-specific settings
             max_steps = metadata.get("max_steps", 10)
-            execution_timeout = metadata.get("execution_timeout", 300)
+            execution_timeout = metadata.get("execution_timeout", 1800)  # 30 minutes default
             
             return WorkflowAgentConfig(
                 llm=llm,

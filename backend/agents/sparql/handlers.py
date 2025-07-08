@@ -714,22 +714,25 @@ print({variable_name}.head())
                     "conversation_id": state.conversation_id
                 }
 
-            # Execute the Python code to create the variable
-            from services.python_execution_service import python_execution_service
+            # Execute the Python code
+            logger.info("Executing generated Python code...")
             
-            logger.info(f"Creating DataFrame variable '{variable_name}' from SPARQL results")
-            execution_result = python_execution_service.execute_code(
+            # Get execution service from service manager
+            execution_service = service_manager.get_execution_service()
+            
+            execution_result = execution_service.execute_code(
                 code=python_code,
                 conversation_id=state.conversation_id,
-                timeout=30,
-                message_id=getattr(state, 'current_message_id', None)
+                timeout=60
             )
+            
+            logger.info(f"Python execution completed. Success: {execution_result.success}")
+            
+            # Get variable summary after execution
+            var_summary = execution_service.get_variable_summary(state.conversation_id)
             
             if execution_result.success:
                 logger.info(f"Successfully created DataFrame variable '{variable_name}'")
-                
-                # Get variable summary for display (this is JSON-serializable)
-                var_summary = python_execution_service.get_variable_summary(state.conversation_id)
                 
                 # Create unified execution result as dictionary
                 unified_execution_result = {
@@ -737,7 +740,8 @@ print({variable_name}.head())
                     "output": execution_result.output,
                     "execution_time": execution_result.execution_time,
                     "variable_summary": var_summary,
-                    "plots": execution_result.plots or []
+                    "plots": execution_result.plots or [],
+                    "execution_id": execution_result.execution_id  # Include execution ID
                 }
                 
                 return {
@@ -762,7 +766,8 @@ print({variable_name}.head())
                     "output": execution_result.output,
                     "execution_time": execution_result.execution_time,
                     "error": execution_result.error,
-                    "plots": execution_result.plots or []
+                    "plots": execution_result.plots or [],
+                    "execution_id": execution_result.execution_id  # Include execution ID even for errors
                 }
                 
                 return {
@@ -777,7 +782,6 @@ print({variable_name}.head())
                     },
                     "conversation_id": state.conversation_id
                 }
-                
         except Exception as e:
             logger.error(f"Error executing SPARQL query: {e}")
             # Create a friendly error message

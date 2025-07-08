@@ -187,17 +187,17 @@ const QueryResultsDisplay = ({ results, error, hideHeader = false, sparqlQuery=n
               })()}
             </div>
             <div className="flex items-center gap-2">
-              <button
-                className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={page===1}
-                onClick={() => setPage(p=>Math.max(1,p-1))}
-              >Prev</button>
-              <span className={`text-xs ${THEME.text.secondary}`}>Page {page} / {totalPages}</span>
-              <button
-                className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={page===totalPages}
-                onClick={() => setPage(p=>Math.min(totalPages,p+1))}
-              >Next</button>
+            <button
+              className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={page===1}
+              onClick={() => setPage(p=>Math.max(1,p-1))}
+            >Prev</button>
+            <span className={`text-xs ${THEME.text.secondary}`}>Page {page} / {totalPages}</span>
+            <button
+              className={`text-xs px-2 py-1 rounded ${THEME.interactive.hover} ${page===totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={page===totalPages}
+              onClick={() => setPage(p=>Math.min(totalPages,p+1))}
+            >Next</button>
             </div>
           </div>
         )}

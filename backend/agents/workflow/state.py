@@ -35,7 +35,7 @@ class WorkflowAgentConfig(BaseAgentConfig):
     
     # Workflow-specific configuration
     max_steps: int = Field(default=10, description="Maximum number of steps allowed in a workflow")
-    execution_timeout: int = Field(default=300, description="Timeout for workflow execution in seconds")
+    execution_timeout: int = Field(default=1800, description="Timeout for workflow execution in seconds (30 minutes)")
 
     class Config:
         """Pydantic configuration."""

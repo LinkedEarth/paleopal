@@ -26,7 +26,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
     return (
       <div key={index} className={`mb-4 pb-4 border-b ${THEME.borders.default} last:border-b-0`}>
         <div className={`font-medium text-sm ${THEME.text.primary} mb-2`}>
-          {result.name || result.title || result.query || `${type} ${index + 1}`}
+          {result.name || result.title || result.query}
         </div>
         
         {result.description && (
@@ -134,7 +134,7 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                       // Filter out variables that are modules
                       return info.type !== 'module' && 
                              (!info.module || !info.module.includes('module')) &&
-                             (!info.value || !info.value.includes('(module)'));
+                             (!info.value || (typeof info.value !== 'string' || !info.value.includes('(module)')));
                     })
                     .map(([name, info]) => (
                     <div key={name} className={`text-xs ${THEME.status.info.background} p-3 rounded border ${THEME.status.info.border}`}>
@@ -142,7 +142,17 @@ const ResultsModal = ({ isOpen, onClose, title, results, type }) => {
                         {name} <span className={`font-normal ${THEME.status.info.text}`}>({info.type})</span>
                       </div>
                       <div className={`${THEME.status.info.text} mt-1 font-mono text-xs break-all`}>
-                        {info.value}
+                        {(() => {
+                          if (info.value === null || info.value === undefined) return String(info.value);
+                          if (typeof info.value === 'string' || typeof info.value === 'number' || typeof info.value === 'boolean') {
+                            return String(info.value);
+                          }
+                          try {
+                            return JSON.stringify(info.value, null, 2);
+                          } catch (err) {
+                            return String(info.value);
+                          }
+                        })()}
                       </div>
                     </div>
                   ))}
@@ -388,34 +398,35 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
   
   // Determine currently running node - has 'start' but no corresponding 'complete'
   const currentRunningNode = (() => {
-    // Group messages by nodeName
-    const nodeMessages = {};
+    // Map of nodeName to array of its messages sorted by timestamp
+    const byNode = {};
     progressMessages.forEach(msg => {
-      if (!nodeMessages[msg.nodeName]) {
-        nodeMessages[msg.nodeName] = { start: null, complete: null };
-      }
-      if (msg.phase === 'start') {
-        nodeMessages[msg.nodeName].start = msg;
-      } else if (msg.phase === 'complete') {
-        nodeMessages[msg.nodeName].complete = msg;
-      }
+      if (!byNode[msg.nodeName]) byNode[msg.nodeName] = [];
+      byNode[msg.nodeName].push(msg);
     });
-    
-    // Find a node that has start but no complete (most recent start time)
-    let runningNode = null;
-    let latestStartTime = 0;
-    
-    for (const [nodeName, messages] of Object.entries(nodeMessages)) {
-      if (messages.start && !messages.complete) {
-        const startTime = new Date(messages.start.timestamp || messages.start.created_at || 0).getTime();
-        if (startTime > latestStartTime) {
-          latestStartTime = startTime;
-          runningNode = messages.start;
+    let running = null;
+    let latest = 0;
+    Object.entries(byNode).forEach(([nodeName, msgs]) => {
+      // sort messages by timestamp ascending
+      msgs.sort((a,b)=> new Date(a.timestamp||a.created_at||0) - new Date(b.timestamp||b.created_at||0));
+      // track unmatched starts
+      let openStart = null;
+      msgs.forEach(m => {
+        if (m.phase === 'start') {
+          openStart = m; // new open start
+        } else if (m.phase === 'complete') {
+          openStart = null; // matched
+        }
+      });
+      if (openStart) {
+        const t = new Date(openStart.timestamp||openStart.created_at||0).getTime();
+        if (t > latest) {
+          latest = t;
+          running = openStart;
         }
       }
-    }
-    
-    return runningNode;
+    });
+    return running;
   })();
 
   // Get execution status
@@ -544,7 +555,7 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                   return (
                     <div key={stepId} className="space-y-2">
                       <div className="flex items-center gap-3 p-1 pl-6">
-                        {currentRunningNode && currentRunningNode.nodeName === node.nodeName ? (
+                        {currentRunningNode && currentRunningNode.id === node.id ? (
                           <Icon name="spinner" className="w-4 h-4 text-amber-500 dark:text-amber-300 animate-spin" />
                         ) : (
                           <span className="text-green-500 dark:text-green-400 text-sm">✓</span>
@@ -575,6 +586,21 @@ export const AgentProgressDisplay = ({ messages, executionStart }) => {
                             >
                               {nodeOutput.execution_successful ? '✓ Success' : '✗ Failed'}
                               {nodeOutput.execution_time && ` (${nodeOutput.execution_time.toFixed(2)}s)`}
+                            </button>
+                          )}
+
+                          {/* New: badge for generate_code and refine_code to view produced code */}
+                          {(node.nodeName === 'generate_code' || node.nodeName === 'refine_code') && (nodeOutput.code || nodeOutput.generated_code) && (
+                            <button
+                              className="px-2 py-0.5 bg-purple-100 dark:bg-purple-800/30 text-purple-800 dark:text-purple-200 rounded hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors text-xs"
+                              onClick={() => openModal(
+                                `${node.nodeName === 'generate_code' ? 'Generated' : 'Refined'} Code`,
+                                [{ code: nodeOutput.code || nodeOutput.generated_code }],
+                                'generated_code'
+                              )}
+                              title="Click to view code"
+                            >
+                              View Code
                             </button>
                           )}
                           

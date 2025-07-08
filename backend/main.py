@@ -3,15 +3,30 @@ Main FastAPI application for the PaleoPal backend.
 """
 
 import logging
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
+# Mark this as the main process before any service imports
+import os
+os.environ['PALEOPAL_MAIN_PROCESS'] = 'true'
+
+# Disable tokenizer parallelism warnings from multiprocessing
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 # Import routers
 from routers import conversations, agents, messages, libraries, document_extraction, jobs, ws as ws_router
+from services.service_manager import service_manager
 # Removed: from routers.sparql_proxy import router as sparql_proxy_router
+
+# Import additional modules for plot proxy
+import requests
+from fastapi import HTTPException
+from fastapi.responses import FileResponse, StreamingResponse
+import io
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -50,9 +65,94 @@ app.include_router(ws_router.router)
 # Removed: app.include_router(sparql_proxy_router)
 
 # Serve generated plots
-PLOTS_DIR = Path(__file__).resolve().parent / "data" / "plots"
+# When using isolated execution service, plots are stored in the shared Docker volume
+USE_ISOLATED_EXECUTION = os.getenv('USE_ISOLATED_EXECUTION', 'true').lower() == 'true'
+
+if USE_ISOLATED_EXECUTION:
+    # In development mode, we need to serve plots from a local directory
+    # The isolated service will save plots to the Docker volume, but we'll create
+    # a local directory for development and use a proxy approach if needed
+    PLOTS_DIR = Path(__file__).resolve().parent / "data" / "plots"
+    logger.info("🖼️ Using isolated execution service with local plots directory for development: backend/data/plots")
+else:
+    # Plots are stored locally in backend/data/plots
+    PLOTS_DIR = Path(__file__).resolve().parent / "data" / "plots"
+    logger.info("🖼️ Using local plots directory: backend/data/plots")
+
 PLOTS_DIR.mkdir(parents=True, exist_ok=True)
-app.mount("/plots", StaticFiles(directory=str(PLOTS_DIR)), name="plots")
+# Remove StaticFiles mount - we'll handle plot serving through the custom endpoint
+# app.mount("/plots", StaticFiles(directory=str(PLOTS_DIR)), name="plots")
+
+# Add plot proxy endpoint for development with isolated execution
+@app.get("/plots/{plot_filename}")
+async def get_plot(plot_filename: str):
+    """Serve plot files, with proxy support for isolated execution service."""
+    local_plot_path = PLOTS_DIR / plot_filename
+    
+    # If plot exists locally, serve it directly
+    if local_plot_path.exists():
+        return FileResponse(local_plot_path)
+    
+    # If using isolated execution service and plot doesn't exist locally,
+    # try to fetch it from the isolated service
+    if USE_ISOLATED_EXECUTION:
+        try:
+            # Try to fetch the plot from the isolated service
+            service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8201')
+            response = requests.get(f"{service_url}/plots/{plot_filename}", timeout=10)
+            
+            if response.status_code == 200:
+                # Save the plot locally for future requests
+                local_plot_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(local_plot_path, 'wb') as f:
+                    f.write(response.content)
+                
+                # Return the plot content
+                return StreamingResponse(
+                    io.BytesIO(response.content),
+                    media_type="image/png",
+                    headers={"Content-Disposition": f"inline; filename={plot_filename}"}
+                )
+        except Exception as e:
+            logger.warning(f"Failed to fetch plot {plot_filename} from isolated service: {e}")
+    
+    # Plot not found
+    raise HTTPException(status_code=404, detail="Plot not found")
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize services on startup."""
+    logger.info("🚀 Starting PaleoPal API services...")
+    
+    # Set up event loop for WebSocket manager
+    try:
+        import asyncio
+        from websocket_manager import websocket_manager
+        loop = asyncio.get_running_loop()
+        websocket_manager.set_event_loop(loop)
+        logger.info("✅ WebSocket manager event loop configured")
+    except Exception as e:
+        logger.error(f"❌ Failed to configure WebSocket manager event loop: {e}")
+    
+    # Initialize async execution service
+    try:
+        logger.info("✅ Async execution service initialized")
+    except Exception as e:
+        logger.error(f"❌ Failed to initialize async execution service: {e}")
+
+@app.on_event("shutdown") 
+async def shutdown_event():
+    """Cleanup services on shutdown."""
+    logger.info("🛑 Shutting down PaleoPal API services...")
+    
+    # Shutdown execution service
+    try:
+        execution_service = service_manager.get_execution_service()
+        if hasattr(execution_service, 'shutdown'):
+            execution_service.shutdown()
+        logger.info("✅ Execution service shutdown complete")
+    except Exception as e:
+        logger.error(f"❌ Error shutting down execution service: {e}")
 
 @app.get("/")
 async def root():

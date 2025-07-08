@@ -274,6 +274,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [autoFetchEnabled, setAutoFetchEnabled] = useState(false);
   const [messagesVersion, setMessagesVersion] = useState(0); // New state for message version tracking
   const [isReExecutingAll, setIsReExecutingAll] = useState(false);
+  const [executionUpdates, setExecutionUpdates] = useState({}); // Track async execution updates
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -705,7 +706,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     const confirmed = window.confirm(
       `Re-execute all code and SPARQL in this conversation?\n\n` +
       `This will:\n` +
-      `• Re-run ${executableMessages.length} code/SPARQL messages\n` +
+      `• Re-run ${executableMessages.length} code/SPARQL messages sequentially\n` +
+      `• Scroll to each message as it executes\n` +
       `• Clear and update all execution outputs\n` +
       `• Preserve the conversation execution state\n\n` +
       `Are you sure you want to proceed?`
@@ -716,64 +718,150 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     setIsReExecutingAll(true);
     setError(null);
     
+    // Helper function to scroll to a specific message
+    const scrollToMessage = (messageId) => {
+      const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+      if (messageElement) {
+        messageElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        // Add a brief highlight effect
+        messageElement.style.transition = 'background-color 0.3s ease';
+        messageElement.style.backgroundColor = isDarkMode ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)';
+        setTimeout(() => {
+          messageElement.style.backgroundColor = '';
+        }, 1000);
+      }
+    };
+    
+    // Helper function to simulate clicking the execute button
+    const simulateExecuteClick = async (messageId) => {
+      return new Promise((resolve) => {
+        // Find the execute button for this message
+        const executeButton = document.querySelector(`[data-message-id="${messageId}"] [data-action="execute"]`);
+        if (executeButton && !executeButton.disabled) {
+          // Store the original button text to detect changes
+          const originalButtonText = executeButton.textContent || '';
+          const originalTitle = executeButton.title || '';
+          
+          // Set up a listener for when execution completes
+          const checkForCompletion = () => {
+            const button = document.querySelector(`[data-message-id="${messageId}"] [data-action="execute"]`);
+            if (!button) {
+              // Button disappeared, consider execution complete
+              resolve(true);
+              return;
+            }
+            
+            const currentText = button.textContent || '';
+            const currentTitle = button.title || '';
+            
+            // Check if button is no longer disabled and text has changed back
+            if (!button.disabled && 
+                (!currentText.includes('Executing') && 
+                 !currentText.includes('Running') && 
+                 !currentText.includes('...') &&
+                 !currentTitle.includes('Executing'))) {
+              resolve(true);
+            } else {
+              setTimeout(checkForCompletion, 500);
+            }
+          };
+          
+          // Click the button
+          executeButton.click();
+          
+          // Start checking for completion after a short delay
+          setTimeout(checkForCompletion, 1000);
+          
+          // Timeout after 30 seconds to avoid infinite waiting
+          setTimeout(() => {
+            resolve(false);
+          }, 30000);
+        } else {
+          // No execute button found or it's disabled, resolve immediately
+          resolve(false);
+        }
+      });
+    };
+    
     try {
       let successCount = 0;
       let failureCount = 0;
       
-      console.log(`🔄 Starting re-execution of ${executableMessages.length} messages`);
+      console.log(`🔄 Starting sequential re-execution of ${executableMessages.length} messages`);
       
-      // Process messages sequentially to maintain execution order
+      // Process messages sequentially with visual feedback
       for (let i = 0; i < executableMessages.length; i++) {
         const message = executableMessages[i];
         
         try {
           console.log(`🔄 Re-executing message ${i + 1}/${executableMessages.length}: ${message.id}`);
           
-          // Prepare request data based on message type
-          const requestData = {
-            clear_variables: false // Don't clear variables to maintain state
-          };
+          // Scroll to the current message
+          scrollToMessage(message.id);
           
-          if (message.agentType === 'sparql' && message.generatedSparql) {
-            requestData.generated_sparql = message.generatedSparql;
-          } else if (message.generatedCode) {
-            requestData.generated_code = message.generatedCode;
-          } else {
-            console.warn(`⚠️ Skipping message ${message.id}: no executable content found`);
-            continue;
-          }
+          // Wait a moment for scroll to complete
+          await new Promise(resolve => setTimeout(resolve, 500));
           
-          // Call the edit-and-execute endpoint
-          const url = buildApiUrl(`/api/messages/${message.id}/edit-and-execute`);
-          const response = await apiRequest(url, {
-            method: 'POST',
-            body: JSON.stringify(requestData)
-          });
+          // Try to simulate clicking the execute button first
+          const uiExecutionSucceeded = await simulateExecuteClick(message.id);
           
-          if (response.success) {
+          if (uiExecutionSucceeded) {
+            // Execution happened via UI
             successCount++;
-            console.log(`✅ Successfully re-executed message ${message.id}`);
-            
-            // Update the local message state with new execution results
-            setMessages(prevMessages => 
-              prevMessages.map(msg => {
-                if (msg.id === message.id) {
-                  const updatedMessage = response.message;
-                  // Convert backend message format to frontend format
-                  const convertedMessage = convertBackendMessagesToFrontend([updatedMessage])[0];
-                  return { ...msg, ...convertedMessage };
-                }
-                return msg;
-              })
-            );
+            console.log(`✅ Successfully re-executed message ${message.id} via UI simulation`);
           } else {
-            failureCount++;
-            console.error(`❌ Failed to re-execute message ${message.id}:`, response);
+            // Fallback to API call if UI simulation didn't work
+            console.log(`🔄 Falling back to API call for message ${message.id}`);
+            
+            // Prepare request data based on message type
+            const requestData = {
+              clear_variables: false // Don't clear variables to maintain state
+            };
+            
+            if (message.agentType === 'sparql' && message.generatedSparql) {
+              requestData.generated_sparql = message.generatedSparql;
+            } else if (message.generatedCode) {
+              requestData.generated_code = message.generatedCode;
+            } else {
+              console.warn(`⚠️ Skipping message ${message.id}: no executable content found`);
+              continue;
+            }
+            
+            // Call the edit-and-execute endpoint
+            const url = buildApiUrl(`/api/messages/${message.id}/edit-and-execute`);
+            const response = await apiRequest(url, {
+              method: 'POST',
+              body: JSON.stringify(requestData)
+            });
+            
+            if (response.success) {
+              successCount++;
+              console.log(`✅ Successfully re-executed message ${message.id} via API`);
+              
+              // Update the local message state with new execution results
+              setMessages(prevMessages => 
+                prevMessages.map(msg => {
+                  if (msg.id === message.id) {
+                    const updatedMessage = response.message;
+                    // Convert backend message format to frontend format
+                    const convertedMessage = convertBackendMessagesToFrontend([updatedMessage])[0];
+                    return { ...msg, ...convertedMessage };
+                  }
+                  return msg;
+                })
+              );
+            } else {
+              failureCount++;
+              console.error(`❌ Failed to re-execute message ${message.id}:`, response);
+            }
           }
           
-          // Small delay between executions to avoid overwhelming the backend
+          // Delay between executions to allow user to see progress
           if (i < executableMessages.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => setTimeout(resolve, 1500));
           }
           
         } catch (error) {
@@ -793,6 +881,11 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       } else {
         console.log(`✅ ${resultMessage}`);
       }
+      
+      // Scroll back to bottom
+      setTimeout(() => {
+        scrollToBottomIfNeeded(true);
+      }, 1000);
       
       // Force messages refresh to ensure UI is updated
       setMessagesVersion(prev => prev + 1);
@@ -1135,6 +1228,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     return (
       <div key={message.id} className={`${wrapperClass} group`}>
         <div 
+          data-message-id={message.id}
           className={`${allClasses} relative transition-all duration-300`}
         >
           {/* Deletion overlay */}
@@ -1197,6 +1291,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               autoFetch={autoFetchEnabled}
               conversationId={conversation.id}
               messagesVersion={messagesVersion}
+              executionUpdates={executionUpdates}
               onMessagesUpdate={setMessages}
               onMessageUpdate={(updatedMessage) => {
                 // Convert backend message format to frontend format
@@ -1377,6 +1472,42 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           return [...prev, updated];
         });
         setMessagesVersion(prev => prev + 1); // Increment version after message update
+        break;
+      }
+      case 'execution_update': {
+        console.log('📡 Execution update received:', evt);
+        
+        // Store execution update in state for components to access
+        setExecutionUpdates(prev => ({
+          ...prev,
+          [evt.execution_id]: {
+            execution_id: evt.execution_id,
+            message_id: evt.message_id,
+            status: evt.status,
+            progress: evt.progress,
+            result: evt.result,
+            error: evt.error,
+            timestamp: evt.timestamp || new Date().toISOString()
+          }
+        }));
+        
+        // Automatically resolve step promise if a workflow step is waiting
+        if (stepExecutionInProgress.current && stepCompletionResolver.current) {
+          const terminalStatuses = ['completed', 'failed', 'error', 'cancelled'];
+          if (terminalStatuses.includes(evt.status)) {
+            console.log(`🚦 Resolving step promise due to execution status: ${evt.status}`);
+            stepCompletionResolver.current();
+            stepCompletionResolver.current = null;
+            stepExecutionInProgress.current = false;
+          }
+        }
+        
+        // If execution is completed, trigger message refresh to get updated results
+        if (evt.status === 'completed' || evt.status === 'failed' || evt.status === 'error' || evt.status === 'cancelled') {
+          console.log(`🔄 Execution ${evt.execution_id} ${evt.status}, refreshing messages`);
+          // Trigger a message refresh to get the updated execution results
+          setMessagesVersion(prev => prev + 1);
+        }
         break;
       }
       default:

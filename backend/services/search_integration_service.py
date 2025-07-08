@@ -1,17 +1,21 @@
 """
 Search Integration Service
 
-This service provides integration with notebook_library and literature_library
-to search for relevant workflows and methods that can inform workflow planning.
-Enhanced with code snippet and documentation search for code generation context.
+Provides unified search across all knowledge libraries including:
+- Literature/Methods
+- Code Documentation
+- SPARQL Queries  
+- Ontology Terms
+- Jupyter Notebooks
 """
 
+import logging
 import os
 import sys
-import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from config import DEFAULT_LLM_PROVIDER
+from services.service_manager import service_manager  # Move import to top level
 
 # Add the library directories to Python path for imports
 base_dir = Path(__file__).parent.parent.parent
@@ -280,9 +284,6 @@ class SearchIntegrationService:
             
             if use_term_extraction:
                 try:
-                    # Import here to avoid circular imports
-                    from services.service_manager import service_manager
-
                     # Get LLM for term extraction
                     llm = service_manager.get_llm_provider(llm_provider)
                     
@@ -614,6 +615,33 @@ Return ONLY a JSON array of the extracted terms:
                         # Add execution info if available
                         if entry.get("has_results"):
                             sections.append(f"*Executed successfully - returned {entry.get('result_count', 0)} results*")
+                            
+                            # Add detailed execution results if available
+                            if entry.get("execution_results"):
+                                for exec_result in entry["execution_results"]:
+                                    if exec_result.get("success"):
+                                        sections.append(f"✅ **Execution successful** ({exec_result.get('execution_time', 0):.2f}s)")
+                                        if exec_result.get("variables_created"):
+                                            sections.append(f"📊 **Variables created:** {', '.join(exec_result['variables_created'])}")
+                                        if exec_result.get("output_preview"):
+                                            sections.append("📋 **Output:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["output_preview"])
+                                            sections.append("```")
+                                        if exec_result.get("plots_generated"):
+                                            sections.append(f"📈 **Plots generated:** {exec_result['plots_generated']}")
+                                    else:
+                                        sections.append(f"❌ **Execution failed** ({exec_result.get('execution_time', 0):.2f}s)")
+                                        if exec_result.get("error_message"):
+                                            sections.append("🚫 **Error:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["error_message"])
+                                            sections.append("```")
+                                        if exec_result.get("partial_output"):
+                                            sections.append("📋 **Partial output:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["partial_output"])
+                                            sections.append("```")
                     else:
                         # Fallback to content message
                         sections.append(entry.get("content", "No content"))
@@ -760,10 +788,37 @@ Return ONLY a JSON array of the extracted terms:
                         # Add execution info if available
                         if entry.get("has_results"):
                             sections.append(f"*Executed successfully - returned {entry.get('result_count', 0)} results*")
+                            
+                            # Add detailed execution results if available
+                            if entry.get("execution_results"):
+                                for exec_result in entry["execution_results"]:
+                                    if exec_result.get("success"):
+                                        sections.append(f"✅ **Execution successful** ({exec_result.get('execution_time', 0):.2f}s)")
+                                        if exec_result.get("variables_created"):
+                                            sections.append(f"📊 **Variables created:** {', '.join(exec_result['variables_created'])}")
+                                        if exec_result.get("output_preview"):
+                                            sections.append("📋 **Output:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["output_preview"])
+                                            sections.append("```")
+                                        if exec_result.get("plots_generated"):
+                                            sections.append(f"📈 **Plots generated:** {exec_result['plots_generated']}")
+                                    else:
+                                        sections.append(f"❌ **Execution failed** ({exec_result.get('execution_time', 0):.2f}s)")
+                                        if exec_result.get("error_message"):
+                                            sections.append("🚫 **Error:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["error_message"])
+                                            sections.append("```")
+                                        if exec_result.get("partial_output"):
+                                            sections.append("📋 **Partial output:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["partial_output"])
+                                            sections.append("```")
                     else:
                         # Fallback to content message
                         sections.append(entry.get("content", "No content"))
-                    sections.append("")
+                sections.append("")
             
             sections.append("## CONTEXT")
             sections.append("--------\n")
@@ -877,6 +932,33 @@ Return ONLY a JSON array of the extracted terms:
                         # Add execution info if available
                         if entry.get("has_results"):
                             sections.append(f"*Executed successfully - returned {entry.get('result_count', 0)} results*")
+                            
+                            # Add detailed execution results if available
+                            if entry.get("execution_results"):
+                                for exec_result in entry["execution_results"]:
+                                    if exec_result.get("success"):
+                                        sections.append(f"✅ **Execution successful** ({exec_result.get('execution_time', 0):.2f}s)")
+                                        if exec_result.get("variables_created"):
+                                            sections.append(f"📊 **Variables created:** {', '.join(exec_result['variables_created'])}")
+                                        if exec_result.get("output_preview"):
+                                            sections.append("📋 **Output:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["output_preview"])
+                                            sections.append("```")
+                                        if exec_result.get("plots_generated"):
+                                            sections.append(f"📈 **Plots generated:** {exec_result['plots_generated']}")
+                                    else:
+                                        sections.append(f"❌ **Execution failed** ({exec_result.get('execution_time', 0):.2f}s)")
+                                        if exec_result.get("error_message"):
+                                            sections.append("🚫 **Error:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["error_message"])
+                                            sections.append("```")
+                                        if exec_result.get("partial_output"):
+                                            sections.append("📋 **Partial output:**")
+                                            sections.append("```")
+                                            sections.append(exec_result["partial_output"])
+                                            sections.append("```")
                     else:
                         # Fallback to content message
                         sections.append(entry.get("content", "No content"))
@@ -920,5 +1002,5 @@ Return ONLY a JSON array of the extracted terms:
         return "\n".join(sections)
 
 
-# Global instance
+# Global search integration service instance
 search_service = SearchIntegrationService() 

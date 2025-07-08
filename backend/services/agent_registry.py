@@ -11,9 +11,24 @@ logger = logging.getLogger(__name__)
 class AgentRegistry:
     """Registry for managing multiple agents and routing requests."""
     
+    _instance = None
+    _initialized = False
+    
+    def __new__(cls):
+        """Ensure only one instance of AgentRegistry exists."""
+        if cls._instance is None:
+            cls._instance = super(AgentRegistry, cls).__new__(cls)
+        return cls._instance
+    
     def __init__(self):
+        """Initialize the agent registry (only once)."""
+        if AgentRegistry._initialized:
+            return
+            
         self._agents: Dict[str, BaseAgent] = {}
         self._agent_instances: Dict[str, BaseAgent] = {}
+        
+        AgentRegistry._initialized = True
     
     def register_agent(self, agent: BaseAgent) -> None:
         """
@@ -170,5 +185,6 @@ class AgentRegistry:
                 }
         return status
 
-# Global registry instance
+# Global registry instance - lazy initialization to avoid multiprocessing issues
+# Global agent registry instance
 agent_registry = AgentRegistry() 

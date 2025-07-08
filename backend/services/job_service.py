@@ -110,4 +110,6 @@ class JobService:
         except Exception:
             pass
 
+# Global instance - lazy initialization to avoid multiprocessing issues
+# Global job service instance
 job_service = JobService() 

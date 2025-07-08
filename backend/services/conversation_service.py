@@ -10,6 +10,7 @@ import os
 
 from schemas.conversation import Conversation, ConversationCreate, ConversationUpdate
 from services.message_service import message_service
+from services.service_manager import service_manager
 
 logger = logging.getLogger(__name__)
 
@@ -249,14 +250,13 @@ class ConversationService:
                 conn.commit()
                 
                 if conversation_deleted:
-                    # Clean up execution state for this conversation
+                    # Clear execution state when deleting conversation
                     try:
-                        from services.python_execution_service import python_execution_service
-                        python_execution_service.clear_conversation_state(conv_id)
+                        execution_service = service_manager.get_execution_service()
+                        execution_service.clear_conversation_state(conv_id)
                         logger.info(f"Deleted conversation {conv_id}, {messages_deleted} messages, and execution state")
                     except Exception as e:
                         logger.warning(f"Failed to clear execution state for conversation {conv_id}: {e}")
-                    logger.info(f"Deleted conversation {conv_id} and {messages_deleted} associated messages")
                 else:
                     logger.warning(f"Conversation {conv_id} not found for deletion (deleted {messages_deleted} orphaned messages)")
                 
@@ -302,9 +302,9 @@ class ConversationService:
                 if deleted_count > 0:
                     # Clean up execution states for deleted conversations
                     try:
-                        from services.python_execution_service import python_execution_service
+                        execution_service = service_manager.get_execution_service()
                         for conv_id in conversation_ids:
-                            python_execution_service.clear_conversation_state(conv_id)
+                            execution_service.clear_conversation_state(conv_id)
                         logger.info(f"Cleaned up {deleted_count} old conversations and their execution states")
                     except Exception as e:
                         logger.warning(f"Failed to clear execution states during cleanup: {e}")
@@ -400,5 +400,5 @@ class ConversationService:
         except Exception as e:
             logger.warning(f"Failed to clean up plots for conversation {conversation_id}: {e}")
 
-# Global instance
+# Global conversation service instance
 conversation_service = ConversationService() 

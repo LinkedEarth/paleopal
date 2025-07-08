@@ -8,6 +8,7 @@ embedding services, and database connections.
 import logging
 from typing import Optional, Dict, Any
 from langchain_core.language_models import BaseLanguageModel
+import os
 
 # Import services
 from services.sparql_service import SPARQLService
@@ -18,22 +19,56 @@ from services.llm_providers import LLMProviderFactory
 # Import config
 from config import SPARQL_ENDPOINT_URL
 
+# Option to use isolated execution service
+USE_ISOLATED_EXECUTION = os.getenv('USE_ISOLATED_EXECUTION', 'true').lower() == 'true'
+
 logger = logging.getLogger(__name__)
+
+if USE_ISOLATED_EXECUTION:
+    logger.info("🔗 Configured to use isolated execution service")
+else:
+    logger.info("🔧 Configured to use local async execution service")
 
 
 class ServiceManager:
     """Centralized service manager for all backend services."""
     
+    _instance = None
+    _initialized = False
+    
+    def __new__(cls):
+        """Ensure only one instance of ServiceManager exists."""
+        if cls._instance is None:
+            cls._instance = super(ServiceManager, cls).__new__(cls)
+        return cls._instance
+    
     def __init__(self):
-        """Initialize the service manager."""
-        self._sparql_service: Optional[SPARQLService] = None
-        self._llm_cache: Dict[str, BaseLanguageModel] = {}
+        """Initialize the service manager (only once)."""
+        if ServiceManager._initialized:
+            return
         
-        # Initialize Python execution service
-        self._python_execution_service = None
+        self._llm_cache = {}
+        self._sparql_service = None
+        self._execution_service = None
         
+        ServiceManager._initialized = True
         logger.info("ServiceManager initialized")
 
+    def get_execution_service(self):
+        """Get the execution service (either isolated or local)."""
+        if self._execution_service is None:
+            if USE_ISOLATED_EXECUTION:
+                from services.execution_client import execution_client
+                self._execution_service = execution_client
+            else:
+                from services.async_execution_service import execution_service
+                self._execution_service = execution_service
+        return self._execution_service
+    
+    # Keep the old method name for backward compatibility
+    def get_async_execution_service(self):
+        """Get async execution service (legacy method name)."""
+        return self.get_execution_service()
     
     def get_sparql_service(self, endpoint_url: str = None) -> SPARQLService:
         """
@@ -85,16 +120,10 @@ class ServiceManager:
         """Get status of all services."""
         return {
             "sparql_service_initialized": self._sparql_service is not None,
+            "execution_service_initialized": self._execution_service is not None,
             "llm_providers_cached": list(self._llm_cache.keys()),
-            "note": "Vector search now handled by unified Qdrant libraries"
+            "execution_service_type": "isolated" if USE_ISOLATED_EXECUTION else "local"
         }
-
-    def get_python_execution_service(self):
-        """Get the Python execution service."""
-        if self._python_execution_service is None:
-            from services.python_execution_service import python_execution_service
-            self._python_execution_service = python_execution_service
-        return self._python_execution_service
 
 
 # Global service manager instance

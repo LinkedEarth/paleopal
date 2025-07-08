@@ -25,16 +25,32 @@ const AgentResultsDisplay = ({
   onError,
   conversationId,
   onMessagesUpdate,
-  messagesVersion
+  messagesVersion,
+  executionUpdates = {}
 }) => {
   const [showIndexModal, setShowIndexModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
   // Handle execution completion from EditableCodeDisplay
-  const handleExecutionComplete = (response) => {
-    if (response.success && response.message) {
-      onMessageUpdate?.(response.message);
+  const handleExecutionComplete = (payload) => {
+    // payload can be either the direct API response (sync execution) or a WebSocket execution_update
+    if (!payload) return;
+
+    // If payload contains a full message (sync path), update directly
+    if (payload.success && payload.message) {
+      onMessageUpdate?.(payload.message);
       setSuccessMessage('Code executed successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
+      return;
+    }
+
+    // If payload is a WebSocket update with status completed, trigger a refresh via the parent callback
+    if (payload.status === 'completed') {
+      // Parent ChatWindow listens for message_updated events, but we can still show a quick toast
+      setSuccessMessage('Execution completed');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } else if (payload.status === 'error' || payload.status === 'failed') {
+      setSuccessMessage('Execution failed');
       setTimeout(() => setSuccessMessage(''), 3000);
     }
   };
@@ -116,6 +132,7 @@ const AgentResultsDisplay = ({
           sparqlQuery={message.generatedSparql}
           agentType={agentType} 
           messageId={message.id}
+          conversationId={conversationId}
           isDarkMode={isDarkMode}
           onExecutionComplete={handleExecutionComplete}
           onError={onError}
@@ -123,6 +140,7 @@ const AgentResultsDisplay = ({
           allMessages={allMessages}
           hasCode={!!message.generatedCode}
           hasSparql={!!message.generatedSparql}
+          executionUpdates={executionUpdates}
         />
       )}
 

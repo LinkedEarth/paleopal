@@ -86,6 +86,28 @@ class CodeAgentState(BaseAgentState):
 
 class CodeAgentConfig(BaseAgentConfig):
     """Configuration for the Code Generation agent."""
+    
+    # Clarification settings
+    enable_clarification: bool = Field(
+        default=True,
+        description="Whether to enable clarification requests"
+    )
+    clarification_threshold: str = Field(
+        default="conservative",
+        description="Threshold for clarification detection"
+    )
+    
+    # Library symbols optimization
+    symbols_optimization_level: str = Field(
+        default="aggressive",
+        description="Optimization level for library symbols: 'conservative', 'moderate', or 'aggressive'"
+    )
+    
+    # Two-step LLM approach
+    use_two_step_llm: bool = Field(
+        default=True,
+        description="Use 2-step LLM approach: first ask what functions to use, then provide only those signatures"
+    )
 
     class Config:
         """Pydantic configuration."""

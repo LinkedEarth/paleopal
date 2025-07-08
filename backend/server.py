@@ -19,11 +19,48 @@ if __name__ == "__main__":
     
     logger.info(f"Starting PaleoPal API server on {host}:{port}")
     
-    # Run the server
+    # Auto-reload is useful during development but can be problematic if non-code files
+    # (e.g., generated plots, database files) trigger reload loops. We therefore
+    # restrict the reload watcher to Python source directories only and explicitly
+    # exclude "data" (where execution states & plots are stored) and "frontend".
+
+    is_dev = os.environ.get("ENV", "development") == "development"
+    # Allow disabling reload even in dev mode for performance testing
+    disable_reload = os.environ.get("DISABLE_RELOAD", "false").lower() == "true"
+
+    # Directories that contain backend Python source code
+    # Note: We exclude the entire "backend" dir to avoid watching data files,
+    # and instead watch specific subdirectories
+    reload_dirs = [
+        "routers",
+        "services", 
+        "agents",
+        "schemas",
+        "utils",
+        "libraries"
+    ]
+
+    # Explicitly excluded paths (relative to project root)
+    reload_excludes = [
+        "backend/data",      # execution DB + plots
+        "frontend",          # avoid triggering reload on frontend rebuilds
+        "docs",
+        "*.db",              # SQLite database files
+        "*.png",             # Plot images
+        "*.jpg",             # Images
+        "*.jpeg",            # Images
+        "*.log"              # Log files
+    ]
+
+    # Enable reload only if in dev mode AND reload is not explicitly disabled
+    enable_reload = is_dev and not disable_reload
+    
     uvicorn.run(
         "main:app",
         host=host,
         port=port,
-        reload=True,  # Enable auto-reload during development
+        reload=enable_reload,
+        reload_dirs=reload_dirs if enable_reload else None,
+        reload_excludes=reload_excludes if enable_reload else None,
         log_level="info"
     ) 

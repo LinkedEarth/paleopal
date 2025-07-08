@@ -9,6 +9,7 @@ from pathlib import Path
 import os
 
 from schemas.message import Message, MessageCreate, MessageUpdate, ExecutionResult
+from services.service_manager import service_manager
 
 logger = logging.getLogger(__name__)
 
@@ -24,10 +25,23 @@ MAX_STORED_RESULTS = 50
 class MessageService:
     """Service for managing individual messages with unified schema across all agents."""
     
+    _instance = None
+    _initialized = False
     _lock = Lock()
     
+    def __new__(cls):
+        """Ensure only one instance of MessageService exists."""
+        if cls._instance is None:
+            cls._instance = super(MessageService, cls).__new__(cls)
+        return cls._instance
+    
     def __init__(self):
+        """Initialize the message service (only once)."""
+        if MessageService._initialized:
+            return
+            
         self._init_db()
+        MessageService._initialized = True
     
     def _init_db(self):
         """Initialize the messages table with unified schema."""
@@ -469,14 +483,14 @@ class MessageService:
                 deleted = cursor.rowcount > 0
                 if deleted:
                     logger.info(f"Deleted message {message_id} and its progress messages")
-
+                    
                 # Rebuild the execution state to accurately reflect remaining messages
                 try:
-                    from services.python_execution_service import python_execution_service
                     # Get remaining messages (excluding progress messages)
                     remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
                     # Use smart rebuild to only remove variables from this specific message
-                    python_execution_service.smart_rebuild_conversation_state(
+                    execution_service = service_manager.get_execution_service()
+                    execution_service.smart_rebuild_conversation_state(
                         conversation_id,
                         [message],  # Only this message was deleted
                         remaining_messages
@@ -532,14 +546,14 @@ class MessageService:
                 
                 if deleted_count > 0:
                     logger.info(f"Deleted {deleted_count} messages from sequence {from_sequence} in conversation {conversation_id}")
-
+                    
                     # Rebuild the execution state to accurately reflect remaining messages
                     try:
-                        from services.python_execution_service import python_execution_service
                         # Get remaining messages (excluding progress messages)
                         remaining_messages = self.get_conversation_messages(conversation_id, include_progress=False)
                         # Use smart rebuild to only remove variables from deleted messages
-                        python_execution_service.smart_rebuild_conversation_state(
+                        execution_service = service_manager.get_execution_service()
+                        execution_service.smart_rebuild_conversation_state(
                             conversation_id,
                             messages_to_delete,  # All messages that were deleted
                             remaining_messages
@@ -654,5 +668,6 @@ class MessageService:
         if deleted_count > 0:
             logger.info(f"Deleted {deleted_count} plot files from disk")
 
-# Global instance
+# Global instance - lazy initialization to avoid multiprocessing issues
+# Global message service instance
 message_service = MessageService() 

@@ -1,9 +1,18 @@
-from fastapi import APIRouter, HTTPException, Query
-from typing import List, Optional
+"""
+Message router for the PaleoPal API.
+"""
+
 import logging
+import uuid
+from typing import List, Optional
+from fastapi import APIRouter, HTTPException, Query
 
 from schemas.message import Message, MessageCreate, MessageUpdate
 from services.message_service import message_service
+from services.service_manager import service_manager
+from services.conversation_service import conversation_service
+from websocket_manager import websocket_manager
+from config import DEFAULT_LLM_PROVIDER
 
 logger = logging.getLogger(__name__)
 
@@ -203,17 +212,15 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
         new_generated_sparql = request_data.get("generated_sparql")
         clear_variables = request_data.get("clear_variables", False)
         
-        # Clear variables if requested
+        # Clear execution state if requested
         if clear_variables:
-            from services.python_execution_service import python_execution_service
-            # Save variables created by other messages by restoring their execution
-            from services.conversation_service import conversation_service
-
+            execution_service = service_manager.get_execution_service()
+            execution_service.clear_conversation_state(message.conversation_id)
+            logger.info(f"Cleared execution state for conversation {message.conversation_id}")
+            
+            # Rebuild execution state from remaining messages
             # Get conversation with messages
             conversation = conversation_service.get_conversation(message.conversation_id, include_messages=True)
-
-            # Clear all variables first
-            python_execution_service.clear_conversation_state(message.conversation_id)
 
             # Determine messages to replay (exclude current message and progress msgs)
             remaining_messages = []
@@ -226,7 +233,7 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
             # Restore state by re-executing remaining messages in order
             if remaining_messages:
                 try:
-                    python_execution_service.restore_conversation_state_from_messages(
+                    execution_service.restore_conversation_state_from_messages(
                         message.conversation_id,
                         remaining_messages
                     )
@@ -248,8 +255,6 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
             # Import SPARQL agent components
             from agents.sparql.state import SparqlAgentState, SparqlAgentConfig
             from agents.sparql.handlers import execute_query_node
-            from services.service_manager import service_manager
-            from config import DEFAULT_LLM_PROVIDER
             
             # Create minimal state for the node
             state = SparqlAgentState(
@@ -265,7 +270,11 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
                 sparql_service=service_manager.get_sparql_service()
             )
             
-            # Call the execute_query_node
+            # Check if async execution is requested
+            async_execution = request_data.get('async_execution', True)  # Default to async
+            
+            # SPARQL execution - use synchronous execution for now
+            # (async SPARQL execution not yet implemented in isolated executor)
             node_result = execute_query_node(state, config)
             
             # Extract results from node output
@@ -286,8 +295,6 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
             # Import Code agent components
             from agents.code.state import CodeAgentState, CodeAgentConfig
             from agents.code.handlers import execute_code_node
-            from services.service_manager import service_manager
-            from config import DEFAULT_LLM_PROVIDER
             
             # Create minimal state for the node
             state = CodeAgentState(
@@ -300,19 +307,136 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
                 llm=service_manager.get_llm_provider(DEFAULT_LLM_PROVIDER)
             )
             
-            # Call the execute_code_node
-            node_result = execute_code_node(state, config)
+            # Check if async execution is requested
+            async_execution = request_data.get('async_execution', True)  # Default to async
+            
+            if async_execution:
+                # Use async execution service
+                
+                def update_callback(execution_update):
+                    """Callback to send WebSocket updates and update message on completion."""
+                    try:
+                        # Create a safe variable summary for WebSocket (avoid circular references)
+                        variables_summary = {}
+                        raw_variables = execution_update.get("variables", {})
+                        for name, value in raw_variables.items():
+                            try:
+                                # Only include simple, serializable information
+                                var_type = type(value).__name__
+                                if isinstance(value, (str, int, float, bool, list, dict)):
+                                    # For simple types, include the actual value
+                                    variables_summary[name] = {"type": var_type, "value": value}
+                                else:
+                                    # For complex objects, just include type and basic info
+                                    variables_summary[name] = {
+                                        "type": var_type,
+                                        "description": f"{var_type} object"
+                                    }
+                            except Exception:
+                                # If anything fails, just include the name and type
+                                variables_summary[name] = {
+                                    "type": type(value).__name__ if hasattr(value, '__class__') else "unknown",
+                                    "description": "Complex object"
+                                }
+                        
+                        # Send execution status update via WebSocket
+                        websocket_manager.send_to_conversation(
+                            message.conversation_id,
+                            {
+                                "type": "execution_update",
+                                "execution_id": execution_update.get("execution_id"),
+                                "message_id": message_id,
+                                "status": execution_update.get("status"),
+                                "output": execution_update.get("output", ""),
+                                "error": execution_update.get("error", ""),
+                                "execution_time": execution_update.get("execution_time", 0),
+                                "plots": execution_update.get("plots", []),
+                                "variables": variables_summary,
+                                "agent_type": "code"
+                            }
+                        )
+                        
+                        # Update message in database when execution completes (success or failure)
+                        if execution_update.get("status") in ['completed', 'error', 'failed', 'cancelled']:
+                            try:
+                                # Format execution results for message update
+                                result_entry = {
+                                    "type": "execution_success" if execution_update.get("status") == "completed" else "execution_error",
+                                    "output": execution_update.get("output", ""),
+                                    "error": execution_update.get("error", ""),
+                                    "execution_time": execution_update.get("execution_time", 0),
+                                    "plots": execution_update.get("plots", []),
+                                    "execution_id": execution_update.get("execution_id")
+                                }
+                                # Include variable_summary for successful executions
+                                if execution_update.get("status") == "completed":
+                                    # Get variable summary from the execution service
+                                    execution_service = service_manager.get_execution_service()
+                                    var_summary = execution_service.get_variable_summary(message.conversation_id)
+                                    result_entry["variable_summary"] = var_summary
+                                
+                                execution_results = [result_entry]
+                                
+                                # Update the message with execution results
+                                updated_message = message_service.update_message_results(
+                                    message_id=message_id,
+                                    generated_code=new_generated_code,
+                                    execution_results=execution_results,
+                                    result_variable_names=list(execution_update.get("variables", {}).keys()),
+                                    agent_metadata={"execution_id": execution_update.get("execution_id")}
+                                )
+                                
+                                if updated_message:
+                                    logger.info(f"✅ Updated message {message_id} with async execution results")
+                                    
+                                    # Send message update via WebSocket
+                                    websocket_manager.send_to_conversation(
+                                        message.conversation_id,
+                                        {
+                                            "type": "message_updated",
+                                            "message": updated_message.dict() if hasattr(updated_message, 'dict') else updated_message
+                                        }
+                                    )
+                                else:
+                                    logger.error(f"❌ Failed to update message {message_id} with async execution results")
+                                    
+                            except Exception as e:
+                                logger.error(f"❌ Error updating message with async execution results: {e}")
+                        
+                    except Exception as e:
+                        logger.error(f"Error in execution update callback: {e}")
+                
+                # Generate execution ID
+                execution_id = str(uuid.uuid4())
+                
+                # Start async execution using the simplified interface
+                execution_service = service_manager.get_execution_service()
+                execution_id = execution_service.submit_execution(
+                    code=new_generated_code,
+                    conversation_id=message.conversation_id,
+                    execution_id=execution_id,
+                    update_callback=update_callback
+                )
+                
+                logger.info(f"🚀 Started async code execution {execution_id} for message {message_id}")
+                
+                return {
+                    "success": True,
+                    "message": message,
+                    "execution_id": execution_id,
+                    "async": True,
+                    "status": "started",
+                    "agent_type": "code"
+                }
+            else:
+                # Synchronous execution (fallback)
+                node_result = execute_code_node(state, config)
             
             # Extract results from node output
             if node_result.get("execution_results"):
                 execution_results = node_result["execution_results"]
-            
-            # Extract created variable names from execution results
-            if execution_results:
-                for result in execution_results:
-                    if isinstance(result, dict) and result.get("type") == "execution_success":
-                        var_summary = result.get("variable_summary", {})
-                        result_variable_names.extend(var_summary.keys())
+                if node_result.get("result_variable_names"):
+                    result_variable_names = node_result["result_variable_names"]
         
         else:
             raise HTTPException(status_code=400, detail="No valid code or SPARQL provided for editing")
@@ -329,12 +453,23 @@ async def edit_and_execute_code(message_id: str, request_data: dict):
         if not updated_message:
             raise HTTPException(status_code=500, detail="Failed to update message")
         
+        # Extract execution ID if available from the most recent execution result
+        execution_id = None
+        if execution_results:
+            for result in reversed(execution_results):  # Check most recent first
+                if isinstance(result, dict) and result.get("execution_id"):
+                    execution_id = result["execution_id"]
+                    break
+
+        logger.info(f"🆔 Returning execution ID: {execution_id} for message {message_id}")
+        
         return {
             "success": True,
             "message": updated_message,
             "variables_cleared": clear_variables,
             "old_variable_count": len(message.result_variable_names or []),
-            "new_variable_count": len(result_variable_names)
+            "new_variable_count": len(result_variable_names),
+            "execution_id": execution_id
         }
         
     except HTTPException:

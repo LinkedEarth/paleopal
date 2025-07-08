@@ -4,16 +4,22 @@ Multi-agent router for the paleoclimate analysis system.
 
 import logging
 import asyncio
-from fastapi import APIRouter, HTTPException, BackgroundTasks
-from fastapi.responses import StreamingResponse
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Request
+from fastapi.responses import StreamingResponse, JSONResponse
 from typing import Dict, Any, List, AsyncGenerator
 import json
+import uuid
+from datetime import datetime
+import time
+from concurrent.futures import ThreadPoolExecutor
 
 from agents.base_agent import AgentRequest, AgentResponse, AgentStatus
-from services.agent_registry import agent_registry
-from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
-from agents.code import CodeGenerationAgent
-from agents.workflow.workflow_generation_agent import WorkflowGenerationAgent
+# Import schemas (these are safe)
+from schemas.conversation import ConversationCreate
+from schemas.message import MessageCreate
+
+# Import base classes and utils (these are safe)
+from agents.base_agent import AgentRequest, AgentResponse, AgentStatus
 from utils.agent_utils import (
     create_sparql_agent_with_config, 
     create_code_agent_with_config, 
@@ -21,15 +27,27 @@ from utils.agent_utils import (
     create_workflow_agent_with_config
 )
 
+# Delayed imports for services to avoid initialization in child processes
+# These will be imported when needed
+
 logger = logging.getLogger(__name__)
 
 # Create router
 router = APIRouter(prefix="/agents", tags=["agents"])
 
+# Thread pool for non-blocking execution
+executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="agent_exec")
+
 # Initialize agents on startup
 def initialize_agents():
     """Initialize and register all available agents."""
     try:
+        # Import services only when needed (in main process)
+        from services.agent_registry import agent_registry
+        from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
+        from agents.code import CodeGenerationAgent
+        from agents.workflow.workflow_generation_agent import WorkflowGenerationAgent
+        
         # Register SPARQL agent with default settings
         sparql_agent = SparqlGenerationAgent()
         agent_registry.register_agent(sparql_agent)
@@ -100,6 +118,7 @@ async def stream_agent_execution(request: AgentRequest) -> AsyncGenerator[str, N
         
         # Fallback to registry agent
         if not agent:
+            from services.agent_registry import agent_registry
             agent = agent_registry.get_agent(request.agent_type)
         
         if not agent:
@@ -168,11 +187,161 @@ async def stream_agent_execution(request: AgentRequest) -> AsyncGenerator[str, N
         if stream_id in streaming_connections:
             del streaming_connections[stream_id]
 
+
+@router.get("/executions")
+async def get_active_executions():
+    """Get all active executions across all agents."""
+    try:
+        # Import services when needed
+        from services.service_manager import service_manager
+        execution_service = service_manager.get_execution_service()
+        
+        # Get active executions from execution service
+        active_executions = execution_service.get_active_executions()
+        
+        # Format for response
+        execution_list = []
+        for execution_id, execution in active_executions.items():
+            execution_list.append({
+                "execution_id": execution_id,
+                "conversation_id": execution.conversation_id,
+                "message_id": execution.message_id,
+                "status": execution.status.value,
+                "started_at": execution.started_at.isoformat(),
+                "progress": execution.progress
+            })
+        
+        return {
+            "active_executions": execution_list,
+            "total_count": len(execution_list)
+        }
+    except Exception as e:
+        logger.error(f"Error getting active executions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/executions/{conversation_id}")
+async def get_conversation_executions(conversation_id: str):
+    """Get active executions for a specific conversation."""
+    try:
+        # Import services when needed
+        from services.service_manager import service_manager
+        execution_service = service_manager.get_execution_service()
+        
+        # Get active executions for conversation from execution service
+        active_executions = execution_service.get_active_executions(conversation_id)
+        
+        # Format for response
+        execution_list = []
+        for execution_id, execution in active_executions.items():
+            execution_list.append({
+                "execution_id": execution_id,
+                "conversation_id": execution.conversation_id,
+                "message_id": execution.message_id,
+                "status": execution.status.value,
+                "started_at": execution.started_at.isoformat(),
+                "progress": execution.progress
+            })
+        
+        return {
+            "conversation_id": conversation_id,
+            "active_executions": execution_list,
+            "total_count": len(execution_list)
+        }
+    except Exception as e:
+        logger.error(f"Error getting conversation executions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/executions/{execution_id}/cancel")
+async def cancel_execution(execution_id: str):
+    """Cancel a specific execution by ID."""
+    try:
+        # Import services when needed
+        from services.service_manager import service_manager
+        execution_service = service_manager.get_execution_service()
+        
+        logger.info(f"🛑 API request to cancel execution: {execution_id}")
+        
+        # Use execution service for cancellation
+        cancelled = execution_service.cancel_execution(execution_id)
+        
+        if cancelled:
+            logger.info(f"✅ Successfully cancelled execution {execution_id}")
+            return {"success": True, "message": f"Execution {execution_id} cancelled"}
+        else:
+            logger.warning(f"⚠️ Execution {execution_id} not found or could not be cancelled")
+            return {"success": False, "message": f"Execution {execution_id} not found or already completed"}
+            
+    except Exception as e:
+        logger.error(f"❌ Error cancelling execution {execution_id}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/executions/cancel-conversation/{conversation_id}")
+async def cancel_conversation_executions(conversation_id: str):
+    """Cancel all executions for a conversation."""
+    try:
+        # Import services when needed
+        from services.service_manager import service_manager
+        execution_service = service_manager.get_execution_service()
+        
+        logger.info(f"🛑 API request to cancel all executions for conversation: {conversation_id}")
+        
+        # Use execution service for conversation cancellation
+        cancelled_count = execution_service.cancel_conversation_executions(conversation_id)
+        
+        logger.info(f"✅ Cancelled {cancelled_count} executions for conversation {conversation_id}")
+        return {
+            "success": True,
+            "message": f"Cancelled {cancelled_count} executions for conversation {conversation_id}",
+            "cancelled_count": cancelled_count
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error cancelling conversation executions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/executions/{execution_id}")
+async def get_execution_status(execution_id: str):
+    """Get the status of a specific execution."""
+    try:
+        # Import services when needed
+        from services.service_manager import service_manager
+        execution_service = service_manager.get_execution_service()
+        
+        execution = execution_service.get_execution(execution_id)
+        
+        if not execution:
+            raise HTTPException(status_code=404, detail="Execution not found")
+        
+        return execution.to_dict()
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting execution status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/stats")
+async def get_agent_stats():
+    """Get agent execution statistics."""
+    try:
+        # Import services when needed
+        from services.service_manager import service_manager
+        execution_service = service_manager.get_execution_service()
+        
+        stats = execution_service.get_state_statistics()
+        return stats
+    except Exception as e:
+        logger.error(f"Error getting agent stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.get("/")
 @router.get("")  # Handle both /agents/ and /agents
 async def list_agents():
     """List all available agents and their capabilities."""
     try:
+        # Import services when needed
+        from services.agent_registry import agent_registry
+        
         agents = agent_registry.list_agents()
         return {
             "agents": agents,
@@ -186,6 +355,9 @@ async def list_agents():
 async def get_capabilities():
     """Get all capabilities across all agents."""
     try:
+        # Import services when needed
+        from services.agent_registry import agent_registry
+        
         capabilities = agent_registry.get_capabilities()
         return {"capabilities": capabilities}
     except Exception as e:
@@ -196,6 +368,9 @@ async def get_capabilities():
 async def get_agent_status():
     """Get status information for all agents."""
     try:
+        # Import services when needed
+        from services.agent_registry import agent_registry
+        
         status = agent_registry.get_agent_status()
         return {"agent_status": status}
     except Exception as e:
@@ -271,6 +446,9 @@ async def handle_agent_request_streaming(request: AgentRequest):
 async def get_agent_info(agent_type: str):
     """Get information about a specific agent."""
     try:
+        # Import services when needed
+        from services.agent_registry import agent_registry
+        
         agent = agent_registry.get_agent(agent_type)
         if not agent:
             raise HTTPException(status_code=404, detail=f"Agent '{agent_type}' not found")
@@ -286,6 +464,9 @@ async def get_agent_info(agent_type: str):
 async def get_agent_capabilities(agent_type: str):
     """Get capabilities for a specific agent."""
     try:
+        # Import services when needed
+        from services.agent_registry import agent_registry
+        
         agent = agent_registry.get_agent(agent_type)
         if not agent:
             raise HTTPException(status_code=404, detail=f"Agent '{agent_type}' not found")
@@ -351,6 +532,9 @@ async def call_agent_capability(
 async def find_agents_with_capability(capability_name: str):
     """Find all agents that support a specific capability."""
     try:
+        # Import services when needed
+        from services.agent_registry import agent_registry
+        
         agents = agent_registry.find_agents_with_capability(capability_name)
         return {
             "capability": capability_name,
@@ -392,6 +576,7 @@ async def execute_agent_async(request: AgentRequest):
         
         # Fallback to registry agent
         if not agent:
+            from services.agent_registry import agent_registry
             agent = agent_registry.get_agent(request.agent_type)
         
         if not agent:
