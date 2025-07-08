@@ -145,63 +145,7 @@ def _filter_library_symbols(all_symbols: str, variable_context: str, max_lines: 
 
     return "\n".join(filtered_lines)
 
-def validate_pylipd_pyleoclim_usage(code: str, library_symbols: str) -> List[str]:
-    """
-    Validate that the generated code only uses approved PyLiPD/Pyleoclim/Ammonyte functions.
-    
-    Returns a list of validation errors (empty if valid).
-    """
-    if not library_symbols:
-        return []
-    
-    errors = []
-    
-    # Extract all approved function names from the symbols
-    approved_functions = set()
-    for line in library_symbols.split('\n'):
-        if line.startswith('function ') or line.startswith('class '):
-            # Extract function/class name
-            # Format: "function pylipd.lipd.LiPD.get_dataset(...)" or "class pylipd.lipd.LiPD(...)"
-            parts = line.split('(')[0].split()
-            if len(parts) >= 2:
-                full_name = parts[1]
-                # Extract just the method name (last part after the last dot)
-                method_name = full_name.split('.')[-1]
-                approved_functions.add(method_name)
-                # Also add the full qualified name
-                approved_functions.add(full_name)
-    
-    # Note: We used to have hardcoded invalid patterns, but this was incorrectly flagging valid functions
-    # like load_dataset() which actually exists in pyleoclim.utils.datasets.load_dataset()
-    # Now we rely only on the actual function signatures from all_symbols.txt
-    
-    # Check for pylipd/pyleoclim/ammonyte method calls that aren't in approved list
-    pylipd_pattern = r'(pylipd|pyleoclim|ammonyte)\.[\w\.]+\.(\w+)\s*\('
-    matches = re.finditer(pylipd_pattern, code)
-    for match in matches:
-        method_name = match.group(2)
-        full_match = match.group(0)
-        if method_name not in approved_functions:
-            errors.append(f"Unapproved PyLiPD/Pyleoclim/Ammonyte function: '{full_match}' - not found in approved signatures")
-    
-    # Check for object method calls (e.g., lipd_obj.method())
-    obj_pattern = r'(\w+)\.(\w+)\s*\('
-    matches = re.finditer(obj_pattern, code)
-    for match in matches:
-        obj_name = match.group(1)
-        method_name = match.group(2)
-        full_match = match.group(0)
-        
-        # Skip standard library and common objects
-        if obj_name.lower() in ['pd', 'np', 'plt', 'df', 'fig', 'ax', 'os', 'sys', 'json', 'datetime']:
-            continue
-            
-        # Check if this looks like a PyLiPD object call
-        if ('lipd' in obj_name.lower() or 'series' in obj_name.lower()) and method_name not in approved_functions:
-            # Only flag if the method name is truly not in approved functions (no hardcoded list)
-            errors.append(f"Unrecognized PyLiPD method: '{full_match}' - method '{method_name}' not found in approved signatures")
-    
-    return errors
+
 
 async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
     """Enhanced search for relevant code examples using comprehensive contextual search."""
@@ -556,17 +500,7 @@ def should_execute_code(state: CodeAgentState) -> str:
         logger.info("Execution disabled by frontend flag – skipping code execution")
         return "false"
     
-    # Check validation errors - but allow execution if auto-execution is enabled
-    validation_errors = getattr(state, 'validation_errors', []) or []
-    if validation_errors:
-        # If auto-execution is enabled, allow execution despite validation errors
-        # This lets users see actual Python errors which can be more helpful
-        if enable_exec:
-            logger.info(f"Validation errors present but auto-execution is enabled - proceeding with execution")
-            logger.info(f"Validation errors: {validation_errors}")
-        else:
-            logger.info("Validation errors present and auto-execution disabled, skipping execution")
-            return "false"
+
     
     # Don't execute if there's already an error message
     if state.error_message:
@@ -580,7 +514,6 @@ def should_refine_code(state: CodeAgentState) -> str:
     """Determine if code should be refined based on various criteria including execution errors."""
     generated_code = state.generated_code or ""
     error_message = state.error_message or ""
-    validation_errors = getattr(state, 'validation_errors', []) or []
     execution_results = state.execution_results or []
     refinement_count = state.refinement_count or 0
         
@@ -588,11 +521,6 @@ def should_refine_code(state: CodeAgentState) -> str:
     if refinement_count >= MAX_REFINEMENTS:
         logger.info("Maximum refinements reached, not refining further")
         return "false"
-    
-    # Check if there are validation errors
-    if validation_errors:
-        logger.info(f"Found {len(validation_errors)} validation errors, should refine")
-        return "true"
         
     # Check if there's an explicit error message
     if error_message:
@@ -619,7 +547,6 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
     try:
         generated_code = state.generated_code or ""
         error_message = state.error_message or ""
-        validation_errors = getattr(state, 'validation_errors', []) or []
         analysis_request = state.analysis_request or ""
         refinement_count = state.refinement_count or 0
         
@@ -641,15 +568,6 @@ def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str
         # Build issues description based on what problems we found
         issues_detected = []
         execution_results = state.execution_results or []
-        
-        if validation_errors:
-            validation_issue = (
-                "**PyLiPD/Pyleoclim Validation Errors**: The code contains function calls not found in the approved signatures:\n"
-                + "\n".join(f"• {error}" for error in validation_errors) +
-                "\n\nPlease use only the approved PyLiPD/Pyleoclim functions from the provided signatures. "
-                "Check the function names and module paths to ensure they match the official API."
-            )
-            issues_detected.append(validation_issue)
         
         # Check for execution errors
         for result in execution_results:
@@ -817,7 +735,6 @@ Return ONLY the corrected Python code. Do not include any explanations, markdown
             "generated_code": refined_code,
             "refinement_count": refinement_count + 1,
             "error_message": "",  # Clear previous error
-            "validation_errors": [],  # Clear validation errors - they'll be re-checked
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
@@ -1444,21 +1361,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
         logger.info(f"Generated code length: {len(generated_code)}")
         logger.info(f"Generated code preview: {generated_code[:200]}...")
         
-        # Validate PyLiPD/Pyleoclim function usage
-        validation_errors = []
-        if trimmed_library_symbols and generated_code:
-            validation_errors = validate_pylipd_pyleoclim_usage(generated_code, trimmed_library_symbols)
-            if validation_errors:
-                logger.warning(f"Generated code contains {len(validation_errors)} PyLiPD/Pyleoclim validation errors:")
-                for error in validation_errors:
-                    logger.warning(f"  - {error}")
-                
-                # Store validation errors in state for potential retry
-                # Don't add to description yet - let the retry logic handle it
-                logger.info("Validation errors detected - code may need regeneration")
-            else:
-                logger.info("✅ Generated code passed PyLiPD/Pyleoclim validation")
-        logger.info("Code validation temporarily disabled")
+
         
         if output_format == "notebook":
             # Check if this is a workflow step execution (contains step marker)
@@ -1497,7 +1400,6 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "messages": messages,
             "execution_results": [{"type": "code_generated", "status": "success"}],
             "context_used": context_summary,
-            "validation_errors": validation_errors,  # Add validation errors to state
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
         
@@ -1518,7 +1420,6 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         analysis_description = state.analysis_description or ""
         refinement_count = state.refinement_count or 0
         has_error = bool(state.error_message)
-        validation_errors = getattr(state, 'validation_errors', []) or []
         
         if not generated_code:
             return {
@@ -1530,20 +1431,10 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
         messages = state.messages or []
         
         # Handle different completion scenarios
-        if validation_errors and refinement_count >= MAX_REFINEMENTS:
-            # Add validation warnings to the description since we couldn't fix them
-            validation_warning = (
-                f"\n\n⚠️ **VALIDATION WARNINGS**: The generated code contains PyLiPD/Pyleoclim function calls that may not work:\n"
-                + "\n".join(f"• {error}" for error in validation_errors) +
-                "\n\nPlease review and correct these function calls manually using the approved PyLiPD/Pyleoclim API."
-            )
-            analysis_description += validation_warning
-            message_content = "Code generation completed with validation warnings after maximum attempts."
-            final_status = "completed_with_warnings"
-        elif refinement_count >= MAX_REFINEMENTS and has_error:
+        if refinement_count >= MAX_REFINEMENTS and has_error:
             message_content = "Code generation completed after maximum refinement attempts."
             final_status = "refinement_exhausted"
-        elif generated_code and not has_error and not validation_errors:
+        elif generated_code and not has_error:
             message_content = f"Code generation completed successfully. {analysis_description}"
             final_status = "success"
         else:
@@ -2506,7 +2397,6 @@ def _step1_refine_functions(state: CodeAgentState, config: CodeAgentConfig) -> D
     """
     try:
         generated_code = state.generated_code or ""
-        validation_errors = getattr(state, 'validation_errors', []) or []
         execution_results = state.execution_results or []
         
         # Extract functions already being used in the current code
@@ -2515,8 +2405,6 @@ def _step1_refine_functions(state: CodeAgentState, config: CodeAgentConfig) -> D
         
         # Build issues description for LLM
         issues_detected = []
-        if validation_errors:
-            issues_detected.append("**Validation Errors**: " + "; ".join(validation_errors))
         
         # Check for execution errors
         for result in execution_results:
