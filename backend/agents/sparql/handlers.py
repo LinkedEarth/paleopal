@@ -720,11 +720,42 @@ print({variable_name}.head())
             # Get execution service from service manager
             execution_service = service_manager.get_execution_service()
             
-            execution_result = execution_service.execute_code(
-                code=python_code,
-                conversation_id=state.conversation_id,
-                timeout=60
-            )
+            # Create execution request and run it synchronously
+            import asyncio
+            import uuid
+            
+            execution_id = str(uuid.uuid4())
+            
+            # Check if we're already in an async context
+            try:
+                loop = asyncio.get_running_loop()
+                # We're in an async context, need to run in thread pool
+                import concurrent.futures
+                import functools
+                
+                async def run_execution():
+                    return await execution_service.execute_code(
+                        code=python_code,
+                        conversation_id=state.conversation_id,
+                        execution_id=execution_id,
+                        timeout=60
+                    )
+                
+                # Create a new thread to run the async execution
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    future = executor.submit(
+                        lambda: asyncio.run(run_execution())
+                    )
+                    execution_result = future.result(timeout=120)  # 2 minute timeout
+                    
+            except RuntimeError:
+                # No running loop, we can run directly
+                execution_result = asyncio.run(execution_service.execute_code(
+                    code=python_code,
+                    conversation_id=state.conversation_id,
+                    execution_id=execution_id,
+                    timeout=60
+                ))
             
             logger.info(f"Python execution completed. Success: {execution_result.success}")
             
