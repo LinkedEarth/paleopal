@@ -821,14 +821,14 @@ print({variable_name}.head())
             # Return a structured error result instead of raising an exception
             return {
                 "error_message": error_message,
-                "execution_results": [{"error": error_message}],
+                "execution_results": [{"type": "execution_error", "error": error_message}],
                 "conversation_id": state.conversation_id  # Preserve conversation_id
             }
     except Exception as e:
         logger.error(f"Error in execute_query_node: {e}")
         return {
             "error_message": str(e),
-            "execution_results": [{"error": f"Error: {str(e)}"}],
+            "execution_results": [{"type": "execution_error", "error": f"Error: {str(e)}"}],
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 

@@ -1596,7 +1596,7 @@ def execute_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[st
         if not conversation_id:
             logger.warning("No conversation ID for state management")
             return {
-                "execution_results": [{"type": "error", "message": "No conversation ID for execution state"}],
+                "execution_results": [{"type": "execution_error", "error": "No conversation ID for execution state"}],
                 "conversation_id": conversation_id
             }
         
@@ -1755,7 +1755,7 @@ warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
     except Exception as e:
         logger.error(f"Error in execute_code_node: {e}")
         return {
-            "execution_results": [{"type": "error", "message": f"Execution node error: {str(e)}"}],
+            "execution_results": [{"type": "execution_error", "error": f"Execution node error: {str(e)}"}],
             "execution_successful": False,
             "execution_error": f"Execution node error: {str(e)}",
             "execution_time": 0.0,
