@@ -167,5 +167,7 @@ class ExecutionClient:
         """Check service health."""
         return await self.execution_service.health_check()
 
-# Create default client instance
-execution_client = ExecutionClient() 
+# Create default client instance with environment variable support
+import os
+execution_service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8201')
+execution_client = ExecutionClient(execution_service_url) 

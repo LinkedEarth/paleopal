@@ -165,8 +165,10 @@ class AsyncExecutionService:
         # The caller should await the result
         return self.execute_code_async(request)
 
-# Create service instance
-execution_service = AsyncExecutionService()
+# Create service instance with environment variable support
+import os
+execution_service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8201')
+execution_service = AsyncExecutionService(execution_service_url)
 
 # Compatibility functions for existing code
 async def execute_code_async(request: ExecutionRequest) -> ExecutionResult:
