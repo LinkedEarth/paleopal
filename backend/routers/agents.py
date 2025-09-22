@@ -442,6 +442,55 @@ async def handle_agent_request_streaming(request: AgentRequest):
         logger.error(f"Error handling streaming agent request: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/chat")
+async def chat(request_data: Dict[str, Any]):
+    """
+    Plain chat endpoint without persistence. Accepts messages array and returns assistant reply.
+    Body example:
+    {
+      "messages": [{"role":"user","content":"..."}],
+      "llm_provider": "openai",
+      "model": "gpt-4o"
+    }
+    """
+    try:
+        from services.service_manager import service_manager
+        from langchain.schema import HumanMessage, SystemMessage, AIMessage
+
+        messages = request_data.get("messages", [])
+        provider = request_data.get("llm_provider") or request_data.get("provider") or "openai"
+        model = request_data.get("model")
+
+        # Get LLM
+        llm = service_manager.get_llm_provider(provider=provider, model=model)
+
+        # Convert to LangChain messages
+        lc_messages = []
+        for m in messages:
+            role = m.get("role")
+            content = m.get("content", "")
+            if not content:
+                continue
+            if role == "system":
+                lc_messages.append(SystemMessage(content=content))
+            elif role == "assistant":
+                lc_messages.append(AIMessage(content=content))
+            else:
+                lc_messages.append(HumanMessage(content=content))
+
+        # Fallback if empty
+        if not lc_messages:
+            raise HTTPException(status_code=400, detail="messages array is required")
+
+        # Call model
+        response_text = llm._call(lc_messages)
+        return {"role": "assistant", "content": response_text}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error in /agents/chat: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.get("/{agent_type}")
 async def get_agent_info(agent_type: str):
     """Get information about a specific agent."""

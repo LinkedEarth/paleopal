@@ -1,0 +1,120 @@
+{
+  "name": "paleopal-vscode-extension",
+  "displayName": "PaleoPal",
+  "description": "VSCode extension for PaleoPal: stateless agent chat and notebook workflows.",
+  "version": "0.1.0",
+  "publisher": "paleopal",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "extensionDependencies": [
+    "ms-toolsai.jupyter"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onNotebook:jupyter-notebook",
+    "onCommand:paleopal.newConversation",
+    "onCommand:paleopal.askAgent",
+    "onCommand:paleopal.insertResult",
+    "onCommand:paleopal.runNotebook",
+    "onCommand:paleopal.runAgentForCell",
+    "onCommand:paleopal.setDefaultModel"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "PaleoPal",
+      "properties": {
+        "paleopal.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:8000/api",
+          "description": "PaleoPal backend base URL (e.g., http://localhost:8000/api)"
+        },
+        "paleopal.defaultProvider": {
+          "type": "string",
+          "default": "openai",
+          "enum": ["openai", "anthropic", "google", "ollama", "grok"],
+          "description": "Default LLM provider for agent requests"
+        },
+        "paleopal.enableClarification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable agent clarifications (SPARQL and code agents)"
+        },
+        "paleopal.clarificationThreshold": {
+          "type": "string",
+          "default": "conservative",
+          "enum": ["conservative", "balanced", "aggressive"],
+          "description": "Clarification aggressiveness"
+        },
+        "paleopal.enableExecution": {
+          "type": "boolean",
+          "default": false,
+          "description": "Execute generated code on the server (off means client will run code locally)"
+        },
+        "paleopal.defaultModel": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini",
+            "claude-3-7-sonnet-20250219","claude-3-opus-20240229","claude-3-sonnet-20240229","claude-3-haiku-20240307","claude-2.1",
+            "gemini-2.5-pro","gemini-2.5-flash","gemini-1.5-pro","gemini-1.5-flash","gemini-1.0-pro",
+            "deepseek-r1","qwen2.5-coder:32b-instruct","llama3:70b","llama3:8b","mixtral:8x7b",
+            "grok-3-mini-beta","grok-2-mini","grok-2","grok-1","grok-beta"
+          ],
+          "enumDescriptions": [
+            "Select automatically based on provider",
+            "OpenAI","OpenAI","OpenAI","OpenAI","OpenAI",
+            "Anthropic","Anthropic","Anthropic","Anthropic","Anthropic",
+            "Google","Google","Google","Google","Google",
+            "Ollama","Ollama","Ollama","Ollama","Ollama",
+            "Grok","Grok","Grok","Grok","Grok"
+          ],
+          "description": "Default model for current provider (top models). Use ‘PaleoPal: Set Default Model’ for a filtered list."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "paleopal.newConversation",
+        "title": "PaleoPal: New Conversation"
+      },
+      {
+        "command": "paleopal.askAgent",
+        "title": "PaleoPal: Ask Agent"
+      },
+      {
+        "command": "paleopal.insertResult",
+        "title": "PaleoPal: Insert Result"
+      },
+      {
+        "command": "paleopal.runNotebook",
+        "title": "PaleoPal: Run Notebook Locally"
+      },
+      {
+        "command": "paleopal.runAgentForCell",
+        "title": "PaleoPal: Run Agent for Cell (@agent ...)"
+      },
+      {
+        "command": "paleopal.setDefaultModel",
+        "title": "PaleoPal: Set Default Model"
+      }
+    ]
+  },
+  "main": "./dist/extension.js",
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p .",
+    "build": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {}
+}
+

@@ -111,106 +111,94 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             "messages": []
         }
         
+        # Determine stateless mode from request metadata
+        is_stateless = False
+        try:
+            is_stateless = bool(request.metadata.get("stateless", False))
+        except Exception:
+            is_stateless = False
+
         # Handle clarification responses if provided
         clarification_responses = request.metadata.get("clarification_responses", [])
         if clarification_responses:
             logger.info(f"Processing {len(clarification_responses)} clarification responses")
             
-            # Create a user message in the database to represent the clarification responses
-            try:
-                # Store structured clarification responses along with a readable message
-                clarification_text_parts = []
-                
-                # Try to get the clarification questions and original user input from conversation history
-                clarification_questions = {}
-                original_user_input = request.user_input  # Fallback to current input
-                
-                if request.conversation_id:
-                    try:
-                        recent_messages = message_service.get_conversation_messages(request.conversation_id)
-                        
-                        # Look for the original user message (the first user message in the conversation)
-                        for msg in recent_messages:
-                            if msg.role == 'user' and msg.message_type == 'chat':
-                                original_user_input = msg.content
-                                logger.info(f"Found original user input: {original_user_input[:100]}...")
-                                break
-                        
-                        # Look for the most recent message with clarification questions
-                        for msg in reversed(recent_messages):
-                            if (msg.role == 'assistant' and 
-                                msg.needs_clarification and 
-                                hasattr(msg, 'clarification_questions') and 
-                                msg.clarification_questions):
-                                # Parse clarification questions if they exist
-                                questions = msg.clarification_questions
-                                if isinstance(questions, str):
-                                    import json
-                                    try:
-                                        questions = json.loads(questions)
-                                    except:
-                                        questions = []
-                                elif isinstance(questions, list):
-                                    questions = questions
-                                else:
+            # When stateless, don't write clarification messages to DB; only add to state
+            structured_responses = []
+            clarification_questions = {}
+            original_user_input = request.user_input
+            if not is_stateless and request.conversation_id:
+                try:
+                    recent_messages = message_service.get_conversation_messages(request.conversation_id)
+                    for msg in recent_messages:
+                        if msg.role == 'user' and msg.message_type == 'chat':
+                            original_user_input = msg.content
+                            logger.info(f"Found original user input: {original_user_input[:100]}...")
+                            break
+                    for msg in reversed(recent_messages):
+                        if (msg.role == 'assistant' and msg.needs_clarification and hasattr(msg, 'clarification_questions') and msg.clarification_questions):
+                            questions = msg.clarification_questions
+                            if isinstance(questions, str):
+                                import json
+                                try:
+                                    questions = json.loads(questions)
+                                except:
                                     questions = []
-                                
-                                # Create a mapping of question IDs to questions
-                                for q in questions:
-                                    if isinstance(q, dict) and 'id' in q and 'question' in q:
-                                        clarification_questions[q['id']] = q['question']
-                                break
-                    except Exception as e:
-                        logger.warning(f"Could not retrieve conversation history: {e}")
-                
-                # Format structured responses for storage
-                structured_responses = []
-                for response in clarification_responses:
-                    question_id = response.get('id', response.get('question_id', ''))
-                    answer = response.get('answer', response.get('response', ''))
-                    question_text = clarification_questions.get(question_id, f"Question {question_id}")
-                    
-                    # Store structured data
-                    structured_responses.append({
-                        "question_id": question_id,
-                        "question": question_text,
-                        "answer": answer,
-                        "response": answer  # duplicate for backward compatibility
-                    })
-                    
-                    # Also create readable text for display
-                    clarification_text_parts.append(f"Regarding '{question_text}': {answer}")
-                
-                
-                # Create the clarification response message in the database with structured data
-                clarification_msg = message_service.create_message(
-                    MessageCreate(
-                        conversation_id=request.conversation_id,
-                        role="user",
-                        content="Clarification responses submitted",
-                        message_type="clarification_response",
-                        agent_type=request.agent_type
-                    )
-                )
-                
-                # Update the message with structured clarification responses
-                message_service.update_message_results(
-                    clarification_msg.id,
-                    clarification_responses=structured_responses
-                )
-                
-                logger.info(f"Created clarification response message: {clarification_msg.id} with {len(structured_responses)} structured responses")
-                
-            except Exception as e:
-                logger.error(f"Failed to create clarification response message: {e}")
+                            elif isinstance(questions, list):
+                                questions = questions
+                            else:
+                                questions = []
+                            for q in questions:
+                                if isinstance(q, dict) and 'id' in q and 'question' in q:
+                                    clarification_questions[q['id']] = q['question']
+                            break
+                except Exception as e:
+                    logger.warning(f"Could not retrieve conversation history: {e}")
+            for response in clarification_responses:
+                question_id = response.get('id', response.get('question_id', ''))
+                answer = response.get('answer', response.get('response', ''))
+                question_text = clarification_questions.get(question_id, f"Question {question_id}")
+                structured_responses.append({
+                    "question_id": question_id,
+                    "question": question_text,
+                    "answer": answer,
+                    "response": answer
+                })
             
             # Set clarification state
             state_data["clarification_responses"] = clarification_responses
             state_data["clarification_processed"] = True
             state_data["user_input"] = original_user_input  # Use the original user input, not the empty clarification submission
         
-        # Extract conversation context from previous messages (enhanced with full history)
-        if request.conversation_id:
+        # Extract conversation context: prefer client-provided history; fallback to DB if not stateless
+        provided_history = None
+        try:
+            provided_history = request.context.get("conversation_history") if isinstance(request.context, dict) else None
+        except Exception:
+            provided_history = None
+        if provided_history and isinstance(provided_history, list):
+            logger.info(f"Using client-provided conversation_history with {len(provided_history)} messages")
+            context = state_data.get("context", {}) or {}
+            context["conversation_history"] = provided_history
+            state_data["context"] = context
+            # Also project client-provided history into messages for LLM dialog context
+            try:
+                for h in provided_history:
+                    if not isinstance(h, dict):
+                        continue
+                    role = h.get("role")
+                    if role == "user":
+                        content = h.get("content", "")
+                        if content:
+                            state_data["messages"].append({"role": "user", "content": content})
+                    elif role == "assistant":
+                        # Prefer generated content/code; fallback to content
+                        content = h.get("generated_content") or h.get("generated_code") or h.get("content", "")
+                        if content:
+                            state_data["messages"].append({"role": "assistant", "content": content})
+            except Exception as e:
+                logger.warning(f"Failed to project conversation_history into messages: {e}")
+        elif request.conversation_id and not is_stateless:
             try:
                 previous_messages = message_service.get_conversation_messages(request.conversation_id)
                 logger.info(f"Found {len(previous_messages)} previous messages for context")
@@ -394,6 +382,24 @@ class BaseLangGraphAgent(BaseAgent, ABC):
     def _create_response_from_state(self, state) -> AgentResponse:
         """Create response from final state and save as message."""
         try:
+            # Determine stateless mode from state.metadata
+            is_stateless = False
+            try:
+                if isinstance(state, dict):
+                    meta = state.get('metadata') or {}
+                    is_stateless = bool(meta.get('stateless', False))
+                else:
+                    meta = getattr(state, 'metadata', {}) or {}
+                    # meta should be a dict-like; fall back safely
+                    is_stateless = bool(meta.get('stateless', False)) if hasattr(meta, 'get') else False
+            except Exception:
+                # Fallback for Pydantic model access
+                try:
+                    meta = getattr(state, 'metadata', {})
+                    is_stateless = bool(meta.get('stateless', False)) if hasattr(meta, 'get') else False
+                except Exception:
+                    is_stateless = False
+
             # Helper function to get values from either Pydantic model or dict
             def get_state_value(key, default=None):
                 if isinstance(state, dict):
@@ -416,6 +422,55 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             logger.info(f"State has clarification_questions: {bool(get_state_value('clarification_questions'))}")
             logger.info(f"State has generated_code: {bool(get_state_value('generated_code'))}")
             logger.info(f"State has error_message: {bool(get_state_value('error_message'))}")
+
+            # Stateless fast-path: return responses without DB writes
+            if is_stateless:
+                if needs_clarification:
+                    clarification_questions = get_state_value('clarification_questions', [])
+                    message_content = "I need some clarification to provide the best response."
+                    return AgentResponse(
+                        status=AgentStatus.NEEDS_CLARIFICATION,
+                        message=message_content,
+                        result={
+                            "clarification_questions": clarification_questions
+                        },
+                        conversation_id=conversation_id,
+                        clarification_questions=clarification_questions
+                    )
+                error_message = get_state_value('error_message')
+                if error_message:
+                    return AgentResponse(
+                        status=AgentStatus.ERROR,
+                        message=error_message,
+                        result=None,
+                        conversation_id=conversation_id
+                    )
+                generated_code = get_state_value('generated_code')
+                execution_results = get_state_value('execution_results')
+                similar_results = get_state_value('similar_code', [])
+                entity_matches = get_state_value('entity_matches', [])
+                if generated_code:
+                    # Prepare agent results
+                    agent_results = self._create_result_from_state(state)
+                    agent_results.update({
+                        'execution_info': self._create_execution_info_from_state(state),
+                        'similar_results': similar_results,
+                        'entity_matches': entity_matches
+                    })
+                    success_message = "Successfully generated and executed code." if execution_results else "Successfully generated code."
+                    return AgentResponse(
+                        status=AgentStatus.SUCCESS,
+                        message=success_message,
+                        result=agent_results,
+                        conversation_id=conversation_id
+                    )
+                # No code generated
+                return AgentResponse(
+                    status=AgentStatus.ERROR,
+                    message="No code was generated",
+                    result=None,
+                    conversation_id=conversation_id
+                )
             
             # Check if clarification is needed
             if needs_clarification:
@@ -673,7 +728,14 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             # Create initial user message in database if we have a conversation_id
             user_message_id = None
             job_id = None
-            if request.conversation_id:
+            # Determine stateless mode
+            is_stateless = False
+            try:
+                is_stateless = bool(request.metadata.get("stateless", False))
+            except Exception:
+                is_stateless = False
+
+            if request.conversation_id and not is_stateless:
                 try:
                     # For clarification submissions, we might not have user_input but we need to create a user message for progress tracking
                     content = request.user_input
@@ -812,6 +874,12 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             
             # Determine the owner message ID for progress tracking
             owner_message_id = None
+            # Determine stateless mode
+            is_stateless = False
+            try:
+                is_stateless = bool(request.metadata.get("stateless", False))
+            except Exception:
+                is_stateless = False
             
             # Check if this is a clarification response submission
             if request.metadata.get('clarification_responses'):
@@ -833,7 +901,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                     logger.error(f"Failed to find clarification response message: {e}")
             
             # For initial user queries, create a user message
-            elif request.conversation_id and request.user_input:
+            elif request.conversation_id and request.user_input and not is_stateless:
                 try:
                     user_message_data = MessageCreate(
                         conversation_id=request.conversation_id,
@@ -869,7 +937,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
                 config_dict["configurable"]["owner_message_id"] = owner_message_id            
             
             # Create initial progress message if we have an owner
-            if owner_message_id:
+            if owner_message_id and not is_stateless:
                 try:
                     progress_msg = message_service.create_progress_message(
                         owner_message_id,
@@ -927,7 +995,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             response = self._create_response_from_state(final_state)
             
             # Create completion progress message if we have an owner
-            if owner_message_id:
+            if owner_message_id and not is_stateless:
                 try:
                     progress_msg = message_service.create_progress_message(
                         owner_message_id,
@@ -963,7 +1031,7 @@ class BaseLangGraphAgent(BaseAgent, ABC):
             logger.error(f"Error in streaming {self.agent_type} agent: %s", e, exc_info=True)
             
             # Create error progress message if we have owner_message_id
-            if 'owner_message_id' in locals() and owner_message_id:
+            if 'owner_message_id' in locals() and owner_message_id and not is_stateless:
                 try:
                     progress_msg = message_service.create_progress_message(
                         owner_message_id,
