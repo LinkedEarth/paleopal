@@ -18,7 +18,7 @@ from services.service_manager import service_manager
 logger = logging.getLogger(__name__)
 
 
-def extract_workflow_request_node(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
+def extract_workflow_request_node(state: WorkflowAgentState, config) -> Dict[str, Any]:
     """Extract workflow request from messages."""
     try:
         logger.info("=== EXTRACT_WORKFLOW_REQUEST_NODE CALLED ===")
@@ -56,7 +56,7 @@ def extract_workflow_request_node(state: WorkflowAgentState, config: WorkflowAge
         }
 
 
-def search_workflow_context_node(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
+def search_workflow_context_node(state: WorkflowAgentState, config) -> Dict[str, Any]:
     """Search for contextual guidance for workflow planning."""
     try:
         user_input = state.user_input or ""
@@ -230,7 +230,7 @@ Only include the JSON object, nothing else."""
         return {"needs_clarification": False}
 
 
-def detect_clarification_node(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
+def detect_clarification_node(state: WorkflowAgentState, config) -> Dict[str, Any]:
     """Detect if clarification is needed for workflow planning."""
     try:
         user_input = state.user_input or ""
@@ -305,7 +305,7 @@ def detect_clarification_node(state: WorkflowAgentState, config: WorkflowAgentCo
         }
 
 
-def generate_workflow_plan_node(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
+def generate_workflow_plan_node(state: WorkflowAgentState, config) -> Dict[str, Any]:
     """Generate a workflow plan using LLM and contextual search."""
     try:
         logger.info("=== GENERATE_WORKFLOW_PLAN_NODE CALLED ===")
@@ -514,7 +514,7 @@ Only return the JSON object, nothing else."""
         }
 
 
-def finalize_workflow_response_node(state: WorkflowAgentState, config: WorkflowAgentConfig) -> Dict[str, Any]:
+def finalize_workflow_response_node(state: WorkflowAgentState, config) -> Dict[str, Any]:
     """Finalize the workflow response."""
     try:
         logger.info("=== FINALIZE_WORKFLOW_RESPONSE_NODE CALLED ===")

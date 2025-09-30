@@ -147,7 +147,7 @@ def _filter_library_symbols(all_symbols: str, variable_context: str, max_lines: 
 
 
 
-async def search_code_examples_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+async def search_code_examples_node(state: CodeAgentState, config) -> Dict[str, Any]:
     """Enhanced search for relevant code examples using comprehensive contextual search."""
     try:
         analysis_request = getattr(state, "analysis_request", "") or state.user_input or ""
@@ -380,7 +380,7 @@ Only include the JSON object, nothing else."""
         logger.error(f"Error detecting clarification needs: {e}")
         return {"needs_clarification": False}
 
-def detect_clarification_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def detect_clarification_node(state: CodeAgentState, config) -> Dict[str, Any]:
     """Detect if clarification is needed for code generation."""
     try:
         analysis_request = state.analysis_request or ""
@@ -542,7 +542,7 @@ def should_refine_code(state: CodeAgentState) -> str:
     logger.info("No refinement needed")
     return "false"
 
-def refine_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def refine_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
     """Refine the generated code to address issues including validation errors."""
     try:
         generated_code = state.generated_code or ""
@@ -1058,7 +1058,7 @@ def _get_smart_value_preview(value) -> str:
         logger.debug(f"Error getting smart preview for value: {e}")
         return "`<Error displaying value>`"
 
-def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
     """Enhanced code generation with comprehensive contextual information."""
     try:
         logger.info("=== ENHANCED GENERATE_CODE_NODE CALLED ===")
@@ -1413,7 +1413,7 @@ def generate_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[s
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
-def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def finalize_code_response_node(state: CodeAgentState, config) -> Dict[str, Any]:
     """Finalize the code generation response."""
     try:
         generated_code = state.generated_code or ""
@@ -1469,7 +1469,7 @@ def finalize_code_response_node(state: CodeAgentState, config: CodeAgentConfig) 
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
-def execute_code_node(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def execute_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
     """Execute the generated code and capture results."""
     try:
         logger.info("=== EXECUTE_CODE_NODE CALLED ===")
@@ -2313,7 +2313,7 @@ def _find_matching_signatures(requested_symbols: List[str], symbol_index: Dict[s
     
     return '\n'.join(result)
 
-def _step1_plan_functions(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def _step1_plan_functions(state: CodeAgentState, config) -> Dict[str, Any]:
     """
     Step 1: Ask LLM what functions/classes it plans to use.
     """
@@ -2391,7 +2391,7 @@ Focus only on the PyLiPD/PyLeoClim/Ammonyte functions. Don't list standard libra
             "conversation_id": state.conversation_id
         }
 
-def _step1_refine_functions(state: CodeAgentState, config: CodeAgentConfig) -> Dict[str, Any]:
+def _step1_refine_functions(state: CodeAgentState, config) -> Dict[str, Any]:
     """
     Step 1 for refinement: Detect functions already in use + ask what additional ones might be needed.
     """

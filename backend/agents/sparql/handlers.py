@@ -22,7 +22,7 @@ from config import DEFAULT_LLM_PROVIDER
 
 logger = logging.getLogger(__name__)
 
-def get_similar_queries_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def get_similar_queries_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """Get similar SPARQL queries from the database."""
     try:
         user_input = state.user_input or ""
@@ -49,7 +49,7 @@ def get_similar_queries_node(state: SparqlAgentState, config: SparqlAgentConfig)
             "conversation_id": state.conversation_id
         }
 
-def get_entity_matches_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def get_entity_matches_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """Get entity matches for the user query (fallback if not already available)."""
     try:
         # Check if entity matches are already available from unified context
@@ -489,7 +489,7 @@ def detect_clarification_needs(
             "needs_clarification": False
         }
 
-def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def generate_query_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """Enhanced SPARQL query generation with comprehensive contextual information."""
     try:
         logger.info("=== ENHANCED GENERATE_QUERY_NODE CALLED ===")
@@ -607,7 +607,7 @@ def generate_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> D
             "conversation_id": state.conversation_id  # Preserve conversation_id even in error case
         }
 
-def execute_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def execute_query_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """Execute the generated SPARQL query and create Python variables."""
     try:
         if not state.generated_code:
@@ -885,7 +885,7 @@ def should_refine_query(state: SparqlAgentState) -> str:
     logger.info("Query appears successful, no refinement needed")
     return "false"
 
-def refine_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def refine_query_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """Refine the generated query based on results or errors."""
     try:
         # Access the LLM directly from service manager
@@ -960,7 +960,7 @@ Return ONLY the SPARQL query without any explanation."""
             "conversation_id": state.conversation_id  # Preserve conversation_id
         }
 
-def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def detect_clarification_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """
     Analyze the query and entity matches to identify if clarification is needed.
     This is a separate node that runs before query generation.
@@ -1075,7 +1075,7 @@ def detect_clarification_node(state: SparqlAgentState, config: SparqlAgentConfig
             "conversation_id": state.conversation_id
         }
 
-def finalize_query_node(state: SparqlAgentState, config: SparqlAgentConfig) -> Dict[str, Any]:
+def finalize_query_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """
     Finalize the query processing and clean up the state.
     This handles both successful queries and cases where refinement was exhausted.
