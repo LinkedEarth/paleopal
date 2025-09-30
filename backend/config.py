@@ -19,16 +19,16 @@ DATA_DIR = BASE_DIR / "data"
 # LLM settings
 LLM_PROVIDERS = {
     "openai": {
-        "model": os.getenv("OPENAI_MODEL", "gpt-4o")
+        "model": os.getenv("OPENAI_MODEL", "gpt-5")
     },
     "anthropic": {
-        "model": os.getenv("CLAUDE_MODEL", "claude-3-7-sonnet-20250219")
+        "model": os.getenv("CLAUDE_MODEL", "claude-sonnet-4-5-20250929")
     },
     "google": {
-        "model": os.getenv("GOOGLE_MODEL", "gemini-2.5-flash-preview-04-17")
+        "model": os.getenv("GOOGLE_MODEL", "gemini-2.5-pro")
     },
     "grok": {
-        "model": os.getenv("GROK_MODEL", "grok-3-mini-beta")
+        "model": os.getenv("GROK_MODEL", "grok-4")
     },
     "ollama": {
         "model": os.getenv("OLLAMA_MODEL", "deepseek-r1")
