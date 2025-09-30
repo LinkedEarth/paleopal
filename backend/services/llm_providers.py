@@ -704,28 +704,28 @@ class LLMProviderFactory:
             )
         
         elif provider_type == "openai":
-            default_model = "gpt-4o"
+            default_model = "gpt-5"
             return OpenAIProvider(
                 model_name=model_name or default_model,
                 api_key=api_key
             )
         
         elif provider_type in ["anthropic", "claude"]:
-            default_model = "claude-3-7-sonnet-20250219"
+            default_model = "claude-sonnet-4-5-20250929"
             return ClaudeProvider(
                 model_name=model_name or default_model,
                 api_key=api_key
             )
         
         elif provider_type in ["google", "gemini"]:
-            default_model = "gemini-2.5-flash-preview-04-17"
+            default_model = "gemini-2.5-pro"
             return GoogleGeminiProvider(
                 model_name=model_name or default_model,
                 api_key=api_key
             )
         
         elif provider_type == "grok":
-            default_model = "grok-3-mini-beta"
+            default_model = "grok-4"
             return GrokProvider(
                 model_name=model_name or default_model,
                 api_key=api_key
