@@ -78,4 +78,95 @@ Ingestion tasks are decoupled; new sources can be added without touching the mai
 
 ---
 
+## 6. Local Setup
+
+### VSCode Extension: Local installation
+
+- Open VS Code → Extensions view → "…" menu → Install from VSIX → select `vscode-extension/paleopal-vscode-extension-0.1.0.vsix`.
+- Configure settings:
+  - `paleopal.backendUrl`: `http://localhost:8000/api` (default)
+  - `paleopal.defaultProvider`: one of `openai|anthropic|google|ollama|grok`
+  - Optionally set `paleopal.defaultModel`.
+- Available commands:
+  - PaleoPal: New Conversation
+  - PaleoPal: Ask Agent
+  - PaleoPal: Insert Result
+  - PaleoPal: Run Notebook Locally
+
+### Populate a local Qdrant database
+
+This powers semantic search for agents. You can run Qdrant in Docker, set env vars, and run the indexers.
+
+1) Run Qdrant locally (recommended):
+
+```bash
+docker run -p 6333:6333 -p 6334:6334 \
+  -v qdrant-data:/qdrant/storage \
+  --name paleopal-qdrant qdrant/qdrant:v1.7.0
+```
+
+If you use the project `docker-compose.yml`, Qdrant maps to host `6335`. In that case, set `QDRANT_PORT=6335` when indexing from your host.
+
+2) Python environment (host):
+
+```bash
+cd /Users/varun/git/paleopal
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+```
+
+3) Required environment variables (host shell):
+
+```bash
+export QDRANT_HOST=localhost
+export QDRANT_PORT=6333
+# Optional: only if your Qdrant requires auth
+# export QDRANT_API_KEY=...
+
+# Optional: embedding model for sentence-transformers
+# Note: libraries read EMBED_MODEL (not EMBED_MODEL_NAME)
+# export EMBED_MODEL=all-MiniLM-L6-v2
+```
+
+4) Prepare notebooks to index:
+
+```bash
+mkdir -p /Users/varun/git/paleopal/backend/libraries/notebook_library/my_notebooks
+# Copy your .ipynb files into this folder
+```
+
+5) Verify Qdrant connectivity (optional):
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+python qdrant_config.py --status
+```
+
+6) Run the indexers:
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+bash index_everything.sh
+```
+
+This will index SPARQL queries, ontology entities, notebook snippets/workflows from `notebook_library/my_notebooks`, ReadTheDocs docs/symbols/code, and extracted literature methods. To index only notebooks:
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+python notebook_library/index_notebooks.py --keep-invalid --no-synth-imports notebook_library/my_notebooks
+```
+
+7) Inspect collections and counts (optional):
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+python qdrant_config.py --libraries
+python qdrant_config.py --health
+```
+
+Notes:
+- If using docker-compose, either set `export QDRANT_PORT=6335` on host before indexing, or run indexing from within a container that can reach `qdrant:6333`.
+- The first run downloads the embedding model; allow a few minutes.
+
 *Last updated 2025.*

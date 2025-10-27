@@ -154,6 +154,13 @@ class ExecutionClient:
         except Exception as e:
             logger.error(f"Failed to get variable summary for {conversation_id}: {e}")
             return {}
+
+    def get_conversation_state(self, conversation_id: str) -> Dict[str, Any]:
+        """Synchronous accessor for conversation state variables.
+
+        Provided for compatibility with callers expecting a sync method.
+        """
+        return self.get_variable_summary(conversation_id)
     
     async def get_variables(self, conversation_id: str) -> Dict[str, Any]:
         """Get conversation variables."""

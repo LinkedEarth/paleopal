@@ -130,6 +130,19 @@ class AsyncExecutionService:
         except Exception as e:
             logger.error(f"Failed to get variables for {conversation_id}: {e}")
             return {}
+
+    def get_conversation_state(self, conversation_id: str) -> Dict[str, Any]:
+        """Synchronous accessor for conversation state (compatibility)."""
+        try:
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+            return loop.run_until_complete(self.get_conversation_variables(conversation_id))
+        except Exception as e:
+            logger.error(f"Failed to get conversation state for {conversation_id}: {e}")
+            return {}
     
     async def clear_conversation_state(self, conversation_id: str) -> bool:
         """Clear conversation state."""

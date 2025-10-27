@@ -275,6 +275,8 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [messagesVersion, setMessagesVersion] = useState(0); // New state for message version tracking
   const [isReExecutingAll, setIsReExecutingAll] = useState(false);
   const [executionUpdates, setExecutionUpdates] = useState({}); // Track async execution updates
+  // Track which LLM providers are available according to backend
+  const [availableLlmIds, setAvailableLlmIds] = useState(LLM_PROVIDERS.map(p => p.id));
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -464,6 +466,47 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
 
   // Cleanup effect placeholder (legacy polling removed)
   useEffect(() => { /* no polling to clean up */ }, []);
+
+  // Fetch available LLM providers from backend status and restrict options
+  useEffect(() => {
+    let cancelled = false;
+    const fetchAvailableLlms = async () => {
+      try {
+        const res = await fetch(buildApiUrl('/api/status'));
+        const data = await res.json();
+        const llmMap = data?.llm_providers || {};
+        const available = Object.entries(llmMap)
+          .filter(([_, meta]) => meta && meta.available)
+          .map(([key]) => key);
+        if (!cancelled) {
+          // If none reported, keep existing default list to avoid empty selector
+          setAvailableLlmIds(available.length > 0 ? available : LLM_PROVIDERS.map(p => p.id));
+        }
+      } catch (e) {
+        // On error, keep defaults
+        if (!cancelled) setAvailableLlmIds(LLM_PROVIDERS.map(p => p.id));
+      }
+    };
+    fetchAvailableLlms();
+    return () => { cancelled = true; };
+  }, []);
+
+  // If current provider is not available, switch to first available and persist
+  useEffect(() => {
+    if (availableLlmIds.length === 0) return;
+    if (!availableLlmIds.includes(llmProvider)) {
+      const fallback = availableLlmIds[0];
+      setLlmProvider(fallback);
+      if (conversation.id) {
+        conversationService.updateConversation(conversation.id, {
+          llm_provider: fallback
+        }).catch(err => {
+          console.error('Failed to persist fallback LLM provider:', err);
+          setError('Failed to save LLM provider setting');
+        });
+      }
+    }
+  }, [availableLlmIds, llmProvider, conversation.id]);
 
   // Legacy polling stubs – kept for backward-compat references
   const stopPolling = () => {};
@@ -1743,7 +1786,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               onChange={handleLlmProviderChange}
               className={`px-3 sm:px-4 py-2 rounded text-sm disabled:cursor-not-allowed appearance-none ${LLM_PROVIDER_BADGES[llmProvider]} border ${LLM_PROVIDER_FOCUS[llmProvider] || ''} pr-8 transition-all duration-200`}
             >
-              {LLM_PROVIDERS.map(provider => (
+              {LLM_PROVIDERS.filter(p => availableLlmIds.includes(p.id)).map(provider => (
                 <option key={provider.id} value={provider.id}>
                   {provider.name}
                 </option>

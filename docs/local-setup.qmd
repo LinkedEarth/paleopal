@@ -1,0 +1,112 @@
+---
+title: "PaleoPal Local Setup"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+---
+
+## Overview
+
+This guide covers local installation of the PaleoPal VSCode extension and populating a local Qdrant vector database used by the agents for semantic search.
+
+## Prerequisites
+
+- Docker (or Docker Desktop)
+- Python 3.10+ and `venv`
+- Git
+- VS Code (latest)
+
+## Install the VSCode Extension Locally
+
+1. Open VS Code → Extensions view → "…" menu → Install from VSIX.
+2. Select `vscode-extension/paleopal-vscode-extension-0.1.0.vsix`.
+3. Configure settings:
+   - `paleopal.backendUrl`: `http://localhost:8000/api` (default)
+   - `paleopal.defaultProvider`: `openai|anthropic|google|ollama|grok`
+   - Optionally set `paleopal.defaultModel`.
+4. Available commands:
+   - PaleoPal: New Conversation
+   - PaleoPal: Ask Agent
+   - PaleoPal: Insert Result
+   - PaleoPal: Run Notebook Locally
+
+## Populate a Local Qdrant Database
+
+These steps index SPARQL queries, ontology entities, notebooks, ReadTheDocs docs/symbols/code, and extracted literature methods into Qdrant.
+
+### 1) Run Qdrant locally (recommended)
+
+```bash
+docker run -p 6333:6333 -p 6334:6334 \
+  -v qdrant-data:/qdrant/storage \
+  --name paleopal-qdrant qdrant/qdrant:v1.7.0
+```
+
+If you use the repository `docker-compose.yml`, Qdrant maps to host port `6335`. In that case, set `QDRANT_PORT=6335` when indexing from your host.
+
+### 2) Create a Python environment
+
+```bash
+cd /Users/varun/git/paleopal
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+```
+
+### 3) Required environment variables
+
+```bash
+export QDRANT_HOST=localhost
+export QDRANT_PORT=6333
+# Optional: only if your Qdrant requires auth
+# export QDRANT_API_KEY=...
+
+# Optional: embedding model used by sentence-transformers
+# Note: libraries read EMBED_MODEL (not EMBED_MODEL_NAME)
+# export EMBED_MODEL=all-MiniLM-L6-v2
+```
+
+### 4) Prepare notebooks to index
+
+```bash
+mkdir -p /Users/varun/git/paleopal/backend/libraries/notebook_library/my_notebooks
+# Copy your .ipynb files into this folder
+```
+
+### 5) Verify Qdrant connectivity (optional)
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+python qdrant_config.py --status
+```
+
+### 6) Run the indexers
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+bash index_everything.sh
+```
+
+To index only notebooks:
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+python notebook_library/index_notebooks.py --keep-invalid --no-synth-imports notebook_library/my_notebooks
+```
+
+### 7) Inspect collections and counts (optional)
+
+```bash
+cd /Users/varun/git/paleopal/backend/libraries
+python qdrant_config.py --libraries
+python qdrant_config.py --health
+```
+
+### Notes
+
+- If using docker-compose, either set `export QDRANT_PORT=6335` on host before indexing, or run indexing from within a container that can reach `qdrant:6333`.
+- The first run downloads the embedding model; allow a few minutes.
+
+
