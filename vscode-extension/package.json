@@ -52,7 +52,7 @@
           "default": "auto",
           "enum": [
             "auto",
-            "gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini",
+            "gpt-5","gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini",
             "claude-3-7-sonnet-20250219","claude-3-opus-20240229","claude-3-sonnet-20240229","claude-3-haiku-20240307","claude-2.1",
             "gemini-2.5-pro","gemini-2.5-flash","gemini-1.5-pro","gemini-1.5-flash","gemini-1.0-pro",
             "deepseek-r1","qwen2.5-coder:32b-instruct","llama3:70b","llama3:8b","mixtral:8x7b",
@@ -60,7 +60,7 @@
           ],
           "enumDescriptions": [
             "Select automatically based on provider",
-            "OpenAI","OpenAI","OpenAI","OpenAI","OpenAI",
+            "OpenAI","OpenAI","OpenAI","OpenAI","OpenAI","OpenAI",
             "Anthropic","Anthropic","Anthropic","Anthropic","Anthropic",
             "Google","Google","Google","Google","Google",
             "Ollama","Ollama","Ollama","Ollama","Ollama",
@@ -69,6 +69,15 @@
           "description": "Default model for current provider (top models). Use ‘PaleoPal: Set Default Model’ for a filtered list."
         }
       }
+    },
+    "menus": {
+      "notebook/cell/title": [
+        {
+          "command": "paleopal.runAgentForCell",
+          "when": "notebookType == 'jupyter-notebook'",
+          "group": "execution@100"
+        }
+      ]
     },
     "commands": [
       {
@@ -89,7 +98,8 @@
       },
       {
         "command": "paleopal.runAgentForCell",
-        "title": "PaleoPal: Run Agent for Cell (@agent ...)"
+        "title": "PaleoPal: Run Agent for Cell (@agent ...)",
+        "icon": "$(robot)"
       },
       {
         "command": "paleopal.setDefaultModel",

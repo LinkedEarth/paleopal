@@ -607,9 +607,9 @@ def refine_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                     trimmed_library_symbols = _find_matching_signatures(all_requested, symbol_index)
                     logger.info(f"2-step refinement: Found signatures for {len(all_requested)} functions ({len(current_functions)} current + {len(additional_functions)} additional)")
                 else:
-                    # Fallback to compact list if no functions detected
-                    logger.warning("No functions detected in step 1, falling back to compact approach")
-                    trimmed_library_symbols = _create_compact_function_list(library_symbols_full)
+                    # No specialized functions detected; allow refinement without library constraints
+                    logger.info("No specialized functions detected; proceeding without library constraint block for refinement")
+                    trimmed_library_symbols = ""
                 
                 final_size = len(trimmed_library_symbols)
                 logger.info(f"2-step refinement library symbols: {final_size} chars")
@@ -654,9 +654,9 @@ ISSUES DETECTED:
 
 Please provide an improved version of the code that:
 1. **FIRST AND MOST IMPORTANT**: Carefully analyze any execution errors and fix them precisely
-2. Uses only valid PyLiPD/Pyleoclim/Ammonyte functions from the approved signatures
+2. If using PyLiPD/Pyleoclim/Ammonyte, use only valid functions from the approved signatures; otherwise prefer pandas/numpy/matplotlib when sufficient
 3. Maintains the original functionality
-4. Uses appropriate libraries (PyLiPD, Pyleoclim, Ammonyte, pandas, numpy)
+4. Uses appropriate libraries (PyLiPD, Pyleoclim, Ammonyte) only when beneficial; otherwise use pandas/numpy/matplotlib
 5. Uses existing variables from the current variable state when applicable
 6. References variables by their exact names as shown in the variable state
 
@@ -1124,9 +1124,9 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                 trimmed_library_symbols = _find_matching_signatures(requested_symbols, symbol_index)
                 logger.info(f"2-step approach: LLM requested {len(requested_symbols)} symbols, found signatures for them")
             else:
-                # Fallback to compact list if no symbols extracted
-                logger.warning("No symbols extracted from step 1, falling back to compact approach")
-                trimmed_library_symbols = _create_compact_function_list(library_symbols_full)
+                # No specialized functions requested; proceed without library constraints to allow plain pandas solutions
+                logger.info("No specialized functions requested; proceeding without library constraint block")
+                trimmed_library_symbols = ""
             
             final_size = len(trimmed_library_symbols)
             logger.info(f"2-step library symbols: {final_size} chars (vs {len(library_symbols_full)} original)")
@@ -1198,7 +1198,8 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                                  "You have access to comprehensive context including code snippets, documentation, "
                                  "and previous code. Generate complete, executable code that integrates seamlessly "
                                  "with existing variables and follows established patterns. "
-                                 "Use PyLiPD, Pyleoclim, pandas, numpy, and matplotlib as appropriate. "
+                                 "Prefer PyLiPD/Pyleoclim only when they provide clear, task-specific advantages; "
+                                 "otherwise use plain pandas/numpy/matplotlib. "
                          "Return your response as valid JSON with keys: code, description, libraries, outputs. "
                          "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible. "
                          "*CRITICAL*: When including code in JSON, properly escape all backslashes (use \\\\ for \\) "
@@ -1340,7 +1341,7 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
             # Try to extract libraries
             lib_pattern = r'"libraries"\s*:\s*\[(.*?)\]'
             lib_match = re.search(lib_pattern, raw_response, re.DOTALL)
-            libraries = ["pyleoclim", "pandas", "numpy"]  # default
+            libraries = ["pandas", "numpy", "matplotlib"]  # default prefers plain stack
             if lib_match:
                 lib_content = lib_match.group(1)
                 # Extract quoted strings
@@ -2248,6 +2249,10 @@ def _find_matching_signatures(requested_symbols: List[str], symbol_index: Dict[s
     not_found = []
     added_signatures = set()  # Track what we've already added to avoid duplicates
     
+    # If nothing was requested, avoid forcing a constraint block
+    if not requested_symbols:
+        return ""
+    
     for symbol in requested_symbols:
         found = False
         
@@ -2296,6 +2301,10 @@ def _find_matching_signatures(requested_symbols: List[str], symbol_index: Dict[s
         if not found:
             not_found.append(symbol)
     
+    # If we didn't find any valid signatures, do not return a constraint block
+    if not found_signatures:
+        return ""
+    
     result = []
     if found_signatures:
         result.append("# REQUESTED FUNCTION/CLASS SIGNATURES:")
@@ -2306,11 +2315,7 @@ def _find_matching_signatures(requested_symbols: List[str], symbol_index: Dict[s
                 unique_signatures.append(sig)
         result.extend(unique_signatures)
         result.append("")
-    
-    if not_found:
-        result.append(f"# NOTE: Could not find signatures for: {', '.join(not_found)}")
-        result.append("")
-    
+
     return '\n'.join(result)
 
 def _step1_plan_functions(state: CodeAgentState, config) -> Dict[str, Any]:
@@ -2340,30 +2345,30 @@ ANALYSIS REQUEST: {analysis_request}
 AVAILABLE API:
 {compact_list}
 
-Please analyze the request and identify the key PyLiPD, PyLeoClim, or Ammonyte functions/classes you would likely need for this task.
+Decide whether specialized libraries are necessary:
+- Prefer PyLiPD/PyLeoClim/Ammonyte ONLY when they provide clear advantages (e.g., spectral analysis, LiPD ingestion/traversal, domain-specific utilities/plotting).
+- If the task is straightforward data wrangling/IO/plotting that pandas/numpy/matplotlib can handle, respond with exactly: NONE
 
-Include functions for:
-1. The core functionality you definitely need
-2. 1-2 alternative approaches if the main approach doesn't work
-3. Essential supporting functions (data loading, basic processing)
+If specialized libraries are warranted, list the key PyLiPD/PyLeoClim/Ammonyte functions/classes you would likely need. Include:
+1. Core functionality you definitely need
+2. 1-2 alternatives if the main approach doesn't work
+3. Essential supporting domain-specific helpers
 
-Think about the main workflow steps but focus on the most relevant functions rather than listing everything possible.
+Examples of when to reply NONE:
+- "Load a CSV and plot a histogram of a column"
+- "Merge two dataframes on a key and compute summary statistics"
 
-Respond with a focused list of 5-15 functions/classes. For example:
-- pyleoclim.core.series.Series
-- pyleoclim.utils.datasets.load_dataset
-- pyleoclim.utils.plotting.plot_xy
-- pylipd.lipd.LiPD.get_datasets
+Examples of when to list library functions:
+- "Compute PSD of a time series and plot spectra" -> list pyleoclim spectral functions
+- "Parse LiPD datasets and extract age models" -> list pylipd functions
 
-Focus only on the PyLiPD/PyLeoClim/Ammonyte functions. Don't list standard libraries like pandas, numpy, matplotlib.
+When listing, provide 3-10 focused PyLiPD/PyLeoClim/Ammonyte functions/classes only. Do not list pandas/numpy/matplotlib in this step.
 """
 
         system_content = (
             "You are an expert in paleoclimate data analysis. "
-            "Analyze the user's request and identify the most relevant PyLiPD, PyLeoClim, or Ammonyte "
-            "functions and classes needed to complete the task effectively. "
-            "Include core functions plus a few alternatives, but avoid listing everything possible. "
-            "Aim for a focused selection of 5-15 functions that cover the main workflow needs."
+            "Only surface specialized functions when they add clear value beyond pandas/numpy/matplotlib; "
+            "otherwise respond with NONE to indicate a plain pandas path."
         )
         
         messages = [

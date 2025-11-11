@@ -5,7 +5,7 @@ export class AgentCellStatusBarProvider implements vscode.NotebookCellStatusBarI
     try {
       // Show on both markup and code cells if content starts with @agent
       const text = cell.document.getText().trim();
-      if (!text.startsWith('@agent')) return;
+      if (!/^\s*@agent\b/i.test(text)) return;
       const item = new vscode.NotebookCellStatusBarItem('$(robot) Run Agent', vscode.NotebookCellStatusBarAlignment.Right);
       item.command = {
         command: 'paleopal.runAgentForCell',

@@ -215,16 +215,22 @@ async function runAgentForCell() {
   }
   const cell = editor.notebook.cellAt(idx);
   const text = cell.document.getText().trim();
-  if (!text.startsWith('@agent')) {
+  // Allow leading whitespace and case-insensitive @agent
+  if (!/^\s*@agent\b/i.test(text)) {
     vscode.window.showErrorMessage('Current cell does not start with @agent.');
     return;
   }
-  // parse: @agent <type> <request text>
-  const line = text.split(/\n/)[0];
-  const parts = line.split(/\s+/);
-  const agentTypeRaw = ((parts[1] || 'code') as any);
+  // parse: supports both "@agent <type> <request text>" in same line and multi-line body
+  const lines = text.split(/\n/);
+  const firstLine = lines[0];
+  const restBody = lines.slice(1).join('\n').trim();
+  const match = firstLine.match(/^\s*@agent(?:\s+(\w+))?(?:\s+(.+))?$/i);
+  const typeToken = (match && match[1]) ? match[1].toLowerCase() : 'code';
+  const inlineRequest = (match && match[2]) ? match[2].trim() : '';
+  const agentTypeRaw = (typeToken as any);
   const agentType = (agentTypeRaw === 'workflow' ? 'workflow_generation' : agentTypeRaw) as any;
-  const userText = text.replace(/^@agent[^\n]*\n?/, '').trim();
+  const combined = [inlineRequest, restBody].filter(Boolean).join('\n').trim();
+  const userText = combined;
   const convId = `client_${randomUUID()}`;
   const history = buildHistoryUpToCell(idx);
   const { provider, model, enableClarification, clarificationThreshold, enableExecution } = getConfig();
@@ -333,7 +339,7 @@ async function insertCodeBelowIndex(afterIndex: number, code: string) {
 
 async function setDefaultModelQuickPick() {
   const providers: Record<string, string[]> = {
-    openai: ["gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini"],
+    openai: ["gpt-5","gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini"],
     anthropic: ["claude-3-7-sonnet-20250219","claude-3-opus-20240229","claude-3-sonnet-20240229","claude-3-haiku-20240307","claude-2.1"],
     google: ["gemini-2.5-pro","gemini-2.5-flash","gemini-1.5-pro","gemini-1.5-flash","gemini-1.0-pro"],
     ollama: ["deepseek-r1","qwen2.5-coder:32b-instruct","llama3:70b","llama3:8b","mixtral:8x7b"],
