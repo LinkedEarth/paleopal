@@ -9,7 +9,7 @@ import re
 import uuid
 import pathlib
 from typing import Dict, Any, List, Optional
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 from datetime import datetime
 
 from .state import CodeAgentState, CodeAgentConfig

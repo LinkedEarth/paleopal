@@ -455,7 +455,7 @@ async def chat(request_data: Dict[str, Any]):
     """
     try:
         from services.service_manager import service_manager
-        from langchain.schema import HumanMessage, SystemMessage, AIMessage
+        from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
         messages = request_data.get("messages", [])
         provider = request_data.get("llm_provider") or request_data.get("provider") or "openai"

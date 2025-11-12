@@ -41,11 +41,11 @@ try:
 except ImportError:
     genai = None
 
-# Add imports at the top
-from langchain.chat_models.base import BaseChatModel
-from langchain.schema import HumanMessage, SystemMessage, AIMessage
-from langchain.callbacks.manager import CallbackManagerForLLMRun
-from langchain.schema import ChatGeneration, BaseMessage
+# Add imports at the top (LangChain 0.2+)
+from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage, BaseMessage
+from langchain_core.callbacks.manager import CallbackManagerForLLMRun
+from langchain_core.outputs import ChatGeneration
 from pydantic import Field
 
 # Configure logging

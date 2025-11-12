@@ -361,7 +361,7 @@ class SearchIntegrationService:
         """
         try:
             # Import here to avoid circular imports
-            from langchain.schema import HumanMessage, SystemMessage
+            from langchain_core.messages import HumanMessage, SystemMessage
             import json
             import re
             

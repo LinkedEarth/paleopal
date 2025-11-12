@@ -6,7 +6,7 @@ This provides a unified state structure that can be extended by specific agents.
 from typing import Annotated, Dict, Any, List, Optional, Union
 from pydantic import BaseModel, Field
 from langgraph.graph import add_messages
-from langchain.chat_models.base import BaseChatModel
+from langchain_core.language_models.chat_models import BaseChatModel
 
 # Constants
 MAX_REFINEMENTS = 3  # Maximum number of refinement attempts for any agent

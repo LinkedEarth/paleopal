@@ -8,7 +8,7 @@ import json
 import uuid
 import re
 from typing import Dict, Any, List
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage
 
 from .state import WorkflowAgentState, WorkflowAgentConfig
 from agents.base_langgraph_agent import get_config_value, get_message_value, format_clarification_response_for_llm

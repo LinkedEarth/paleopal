@@ -8,8 +8,8 @@ import re
 import json
 import uuid
 from typing import Dict, Any, List
-from langchain.chat_models.base import BaseChatModel
-from langchain.schema import HumanMessage, SystemMessage
+from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.messages import HumanMessage, SystemMessage
 from .state import SparqlAgentState, SparqlAgentConfig
 from agents.base_state import MAX_REFINEMENTS
 from agents.base_langgraph_agent import get_config_value, get_message_value, format_clarification_response_for_llm
