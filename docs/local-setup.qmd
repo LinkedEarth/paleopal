@@ -44,7 +44,7 @@ docker run -p 6333:6333 -p 6334:6334 \
   --name paleopal-qdrant qdrant/qdrant:v1.7.0
 ```
 
-If you use the repository `docker-compose.yml`, Qdrant maps to host port `6335`. In that case, set `QDRANT_PORT=6335` when indexing from your host.
+If you use the repository `docker-compose.yml`, Qdrant maps to host port `6333`. In that case, set `QDRANT_PORT=6333` when indexing from your host.
 
 ### 2) Create a Python environment
 
@@ -106,7 +106,7 @@ python qdrant_config.py --health
 
 ### Notes
 
-- If using docker-compose, either set `export QDRANT_PORT=6335` on host before indexing, or run indexing from within a container that can reach `qdrant:6333`.
+- If using docker-compose, either set `export QDRANT_PORT=6333` on host before indexing, or run indexing from within a container that can reach `qdrant:6333`.
 - The first run downloads the embedding model; allow a few minutes.
 
 

@@ -30,7 +30,7 @@ docker-compose up execution-service
 docker-compose up
 ```
 
-The service will be available at `http://localhost:8201`
+The service will be available at `http://localhost:8001`
 
 ### 2. Enable Isolated Execution (Optional)
 
@@ -60,7 +60,7 @@ python test_isolated_execution.py
 import requests
 
 # Execute code via HTTP API
-response = requests.post("http://localhost:8201/execute", json={
+response = requests.post("http://localhost:8001/execute", json={
     "code": "import numpy as np\nresult = np.array([1,2,3]).sum()\nprint(f'Sum: {result}')",
     "conversation_id": "my_conversation",
     "execution_id": "exec_001"
@@ -78,7 +78,7 @@ print(f"Variables: {result['variables']}")
 from services.execution_client import ExecutionClient
 
 # Create client
-client = ExecutionClient("http://localhost:8201")
+client = ExecutionClient("http://localhost:8001")
 
 # Execute code
 result = client.execute_code(
@@ -319,10 +319,10 @@ docker-compose restart execution-service
 ### Connection Issues
 ```bash
 # Test health endpoint
-curl http://localhost:8201/health
+curl http://localhost:8001/health
 
 # Check port binding
-docker-compose ps | grep 8201
+docker-compose ps | grep 8001
 ```
 
 ### Execution Failures

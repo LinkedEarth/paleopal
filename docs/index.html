@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaleoPal - AI-Powered Assistant for Paleoclimate Research</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PaleoPal</h1>
+            <p class="subtitle">AI-Powered Assistant for Paleoclimate Research</p>
+        </header>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#philosophy">Philosophy</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#faqs">FAQs</a></li>
+                <li><a href="#demos">Demos</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="philosophy" class="section">
+                <h2>The Philosophy Behind PaleoPal</h2>
+                
+                <p>PaleoPal is an AI-powered assistant designed to accelerate paleoclimate research by combining <strong>retrieval-augmented generation (RAG)</strong>, specialized AI agents, and a comprehensive vector knowledge base derived from notebooks, research papers, and ontologies.</p>
+
+                <h3>Core Principles</h3>
+                <ul>
+                    <li><strong>Domain-Specific Intelligence</strong>: PaleoPal understands the unique challenges of paleoclimate research, from SPARQL queries for LinkedEarth datasets to complex time series analysis workflows.</li>
+                    <li><strong>Multi-Agent Architecture</strong>: Specialized agents handle different aspects of research:
+                        <ul>
+                            <li><strong>SPARQL Agent</strong>: Generates and refines queries for paleoclimate databases</li>
+                            <li><strong>Code Agent</strong>: Writes Python code for data analysis and visualization</li>
+                            <li><strong>Workflow Agent</strong>: Plans multi-step research workflows</li>
+                        </ul>
+                    </li>
+                    <li><strong>Knowledge-Driven</strong>: Built on a vector knowledge base that includes:
+                        <ul>
+                            <li>Notebook snippets and workflows</li>
+                            <li>Research paper methods</li>
+                            <li>API documentation</li>
+                            <li>Ontology entities and relationships</li>
+                            <li>SPARQL query templates</li>
+                        </ul>
+                    </li>
+                    <li><strong>Transparency and Collaboration</strong>: Real-time progress visualization, clarification dialogues, and context-aware responses ensure researchers understand and control the AI's reasoning process.</li>
+                </ul>
+
+                <h3>Why PaleoPal?</h3>
+                <p>Paleoclimate research involves complex, multi-step workflows that require deep domain knowledge. Traditional AI assistants lack the specialized understanding needed for tasks like:</p>
+                <ul>
+                    <li>Querying LinkedEarth GraphDB with proper SPARQL syntax</li>
+                    <li>Understanding paleoclimate data structures and ontologies</li>
+                    <li>Generating code that follows established analysis patterns</li>
+                    <li>Planning workflows that integrate multiple data sources and methods</li>
+                </ul>
+                <p>PaleoPal bridges this gap by combining general-purpose AI capabilities with domain-specific knowledge retrieval, making it a true research partner rather than just a code generator.</p>
+            </section>
+
+            <section id="installation" class="section">
+                <h2>Installation Instructions</h2>
+
+                <h3>Quick Start with Docker (Recommended)</h3>
+                <p>The easiest way to get started with PaleoPal is using Docker Compose:</p>
+                
+                <div class="code-block">
+                    <pre><code># Clone the repository
+git clone https://github.com/yourusername/paleopal.git
+cd paleopal
+
+# Create environment file
+cp backend/env.example backend/.env
+
+# Edit backend/.env with your API keys:
+# OPENAI_API_KEY=your_key_here
+# ANTHROPIC_API_KEY=your_key_here
+# GOOGLE_API_KEY=your_key_here
+# XAI_API_KEY=your_key_here
+
+# Start all services
+docker compose up -d
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8000
+# Qdrant Dashboard: http://localhost:6333/dashboard</code></pre>
+                </div>
+
+                <h3>Local Development Setup</h3>
+                
+                <h4>Prerequisites</h4>
+                <ul>
+                    <li>Python 3.11+</li>
+                    <li>Node.js 18+ and npm</li>
+                    <li>Docker (for Qdrant vector database)</li>
+                </ul>
+
+                <h4>Backend Setup</h4>
+                <div class="code-block">
+                    <pre><code># Create virtual environment
+cd backend
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start Qdrant (Docker)
+docker run -p 6333:6333 -p 6334:6334 \
+  -v qdrant-data:/qdrant/storage \
+  --name paleopal-qdrant qdrant/qdrant:v1.7.0
+
+# Configure environment variables
+cp env.example .env
+# Edit .env with your API keys
+
+# Launch API server
+uvicorn main:app --reload</code></pre>
+                </div>
+
+                <h4>Frontend Setup</h4>
+                <div class="code-block">
+                    <pre><code># Install dependencies
+cd frontend
+npm install
+
+# Start development server
+npm start
+# Frontend will be available at http://localhost:3000</code></pre>
+                </div>
+
+                <h4>Populating the Knowledge Base</h4>
+                <p>To enable semantic search, you need to populate Qdrant with embeddings:</p>
+                <div class="code-block">
+                    <pre><code># Set environment variables
+export QDRANT_HOST=localhost
+export QDRANT_PORT=6333
+
+# Run the indexing script
+cd backend/libraries
+bash index_everything.sh
+
+# This indexes:
+# - SPARQL queries
+# - Ontology entities
+# - Notebook snippets and workflows
+# - ReadTheDocs documentation
+# - Literature methods</code></pre>
+                </div>
+
+                <h3>VS Code Extension</h3>
+                <p>PaleoPal includes a VS Code extension for integrated research workflows:</p>
+                <ol>
+                    <li>Open VS Code → Extensions view</li>
+                    <li>Click "..." menu → Install from VSIX</li>
+                    <li>Select <code>vscode-extension/paleopal-vscode-extension-0.1.0.vsix</code></li>
+                    <li>Configure settings:
+                        <ul>
+                            <li><code>paleopal.backendUrl</code>: <code>http://localhost:8000/api</code></li>
+                            <li><code>paleopal.defaultProvider</code>: <code>openai|anthropic|google|ollama|grok</code></li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>System Requirements</h3>
+                <ul>
+                    <li><strong>RAM</strong>: Minimum 4GB, recommended 8GB+</li>
+                    <li><strong>Disk Space</strong>: 10GB+ for Docker volumes and dependencies</li>
+                    <li><strong>API Keys</strong>: At least one LLM provider API key (OpenAI, Anthropic, Google, or xAI)</li>
+                </ul>
+            </section>
+
+            <section id="faqs" class="section">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <h3>What is PaleoPal?</h3>
+                    <p>PaleoPal is an AI-powered assistant specifically designed for paleoclimate research. It helps researchers by generating SPARQL queries, writing analysis code, and planning multi-step workflows using a knowledge base of notebooks, papers, and ontologies.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Do I need to know programming to use PaleoPal?</h3>
+                    <p>While PaleoPal can help generate code, some familiarity with Python and data analysis concepts is helpful. The system is designed to assist researchers who already work with paleoclimate data, making their workflows more efficient rather than replacing domain expertise.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Which LLM providers are supported?</h3>
+                    <p>PaleoPal supports multiple LLM providers:
+                        <ul>
+                            <li>OpenAI (GPT-4o)</li>
+                            <li>Anthropic (Claude 3.5)</li>
+                            <li>Google (Gemini 2.5)</li>
+                            <li>xAI (Grok 3)</li>
+                            <li>Ollama (DeepSeek-R1, for local deployment)</li>
+                        </ul>
+                        You need at least one API key to use PaleoPal.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How does the knowledge base work?</h3>
+                    <p>PaleoPal uses semantic search (via Qdrant vector database) to retrieve relevant context from:
+                        <ul>
+                            <li>Notebook snippets and workflows</li>
+                            <li>Research paper methods</li>
+                            <li>API documentation</li>
+                            <li>Ontology entities and relationships</li>
+                            <li>SPARQL query templates</li>
+                        </ul>
+                        This context is then used to augment the AI's responses, ensuring domain-specific accuracy.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I use PaleoPal without Docker?</h3>
+                    <p>Yes, you can run the backend and frontend locally, but you'll still need Qdrant running (either via Docker or a local installation). The Docker setup is recommended for easier deployment and data persistence.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I add my own notebooks to the knowledge base?</h3>
+                    <p>Place your Jupyter notebooks in <code>backend/libraries/notebook_library/my_notebooks/</code> and run the indexing script:
+                        <div class="code-block">
+                            <pre><code>cd backend/libraries
+python notebook_library/index_notebooks.py --keep-invalid --no-synth-imports notebook_library/my_notebooks</code></pre>
+                        </div>
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is my data stored securely?</h3>
+                    <p>PaleoPal stores conversations and execution state locally (in SQLite) or in Docker volumes. Vector embeddings are stored in your local Qdrant instance. No data is sent to external services except the LLM providers you configure. Always review your API key permissions and data handling policies.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I use PaleoPal offline?</h3>
+                    <p>Partially. While you can run PaleoPal locally with Ollama for LLM inference, you'll still need internet access for:
+                        <ul>
+                            <li>Initial setup and dependency installation</li>
+                            <li>Accessing LinkedEarth GraphDB (if using SPARQL queries)</li>
+                            <li>Downloading embedding models (first time only)</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I report bugs or request features?</h3>
+                    <p>Please open an issue on the GitHub repository with:
+                        <ul>
+                            <li>A clear description of the problem or feature request</li>
+                            <li>Steps to reproduce (for bugs)</li>
+                            <li>Your system configuration (OS, Python version, etc.)</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is PaleoPal free to use?</h3>
+                    <p>PaleoPal itself is open-source software. However, you'll need API keys from LLM providers, which may have usage costs depending on your provider and usage volume. Some providers offer free tiers for development and research.</p>
+                </div>
+            </section>
+
+            <section id="demos" class="section">
+                <h2>Demos</h2>
+                <p>Watch these videos to see PaleoPal in action:</p>
+
+                <div class="demo-grid">
+                    <div class="demo-item">
+                        <h3>Getting Started with PaleoPal</h3>
+                        <div class="video-placeholder">
+                            <p>Video coming soon</p>
+                            <p class="video-description">Learn how to set up PaleoPal and start your first conversation</p>
+                        </div>
+                    </div>
+
+                    <div class="demo-item">
+                        <h3>SPARQL Query Generation</h3>
+                        <div class="video-placeholder">
+                            <p>Video coming soon</p>
+                            <p class="video-description">See how PaleoPal generates and refines SPARQL queries for LinkedEarth datasets</p>
+                        </div>
+                    </div>
+
+                    <div class="demo-item">
+                        <h3>Code Generation for Analysis</h3>
+                        <div class="video-placeholder">
+                            <p>Video coming soon</p>
+                            <p class="video-description">Watch PaleoPal generate Python code for paleoclimate data analysis</p>
+                        </div>
+                    </div>
+
+                    <div class="demo-item">
+                        <h3>Workflow Planning</h3>
+                        <div class="video-placeholder">
+                            <p>Video coming soon</p>
+                            <p class="video-description">Explore how PaleoPal plans multi-step research workflows</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-instructions">
+                    <h3>Adding Your Own Demo Videos</h3>
+                    <p>To add demo videos to this page, replace the video placeholders with embedded video iframes. For example:</p>
+                    <div class="code-block">
+                        <pre><code>&lt;div class="demo-item"&gt;
+    &lt;h3&gt;Your Demo Title&lt;/h3&gt;
+    &lt;div class="video-container"&gt;
+        &lt;iframe 
+            src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen&gt;
+        &lt;/iframe&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 PaleoPal. Open source software for paleoclimate research.</p>
+            <p>
+                <a href="https://github.com/yourusername/paleopal">GitHub Repository</a> |
+                <a href="https://github.com/yourusername/paleopal/issues">Report Issues</a> |
+                <a href="https://github.com/yourusername/paleopal/blob/main/docs/PaleoPal_High_Level_Architecture.md">Documentation</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
+

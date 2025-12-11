@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-p</span> 6333:6333 <span class="at">-p</span> 6334:6334 <span class="dt">\</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> qdrant-data:/qdrant/storage <span class="dt">\</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--name</span> paleopal-qdrant qdrant/qdrant:v1.7.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If you use the project <code>docker-compose.yml</code>, Qdrant maps to host <code>6335</code>. In that case, set <code>QDRANT_PORT=6335</code> when indexing from your host.</p>
+<p>If you use the project <code>docker-compose.yml</code>, Qdrant maps to host <code>6333</code>. In that case, set <code>QDRANT_PORT=6333</code> when indexing from your host.</p>
 <ol start="2" type="1">
 <li>Python environment (host):</li>
 </ol>
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/varun/git/paleopal/backend/libraries</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> qdrant_config.py <span class="at">--libraries</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> qdrant_config.py <span class="at">--health</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Notes: - If using docker-compose, either set <code>export QDRANT_PORT=6335</code> on host before indexing, or run indexing from within a container that can reach <code>qdrant:6333</code>. - The first run downloads the embedding model; allow a few minutes.</p>
+<p>Notes: - If using docker-compose, either set <code>export QDRANT_PORT=6333</code> on host before indexing, or run indexing from within a container that can reach <code>qdrant:6333</code>. - The first run downloads the embedding model; allow a few minutes.</p>
 <p><em>Last updated 2025.</em></p>
 </section>
 </section>

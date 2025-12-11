@@ -8,7 +8,7 @@ Given a natural-language query, propose a high-level workflow outline by:
 """
 
 from typing import List, Dict, Any, Tuple
-import pathlib, json, collections
+import pathlib, json, collections, os
 
 import faiss  # type: ignore
 from sentence_transformers import SentenceTransformer  # type: ignore
@@ -16,10 +16,21 @@ from sentence_transformers import SentenceTransformer  # type: ignore
 DEFAULT_INDEX_DIR = pathlib.Path("notebook_index")
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
 
+# Model cache directory - use environment variable or default to backend/models_cache
+MODEL_CACHE_DIR = os.getenv(
+    "MODEL_CACHE_DIR", 
+    str(pathlib.Path(__file__).parent.parent.parent / "models_cache")
+)
+# Ensure cache directory exists
+pathlib.Path(MODEL_CACHE_DIR).mkdir(parents=True, exist_ok=True)
+
 
 def _load_model() -> SentenceTransformer:  # type: ignore
     if not hasattr(_load_model, "_m"):
-        _load_model._m = SentenceTransformer(EMBED_MODEL_NAME)  # type: ignore
+        _load_model._m = SentenceTransformer(
+            EMBED_MODEL_NAME,
+            cache_folder=MODEL_CACHE_DIR
+        )  # type: ignore
     return _load_model._m  # type: ignore
 
 

@@ -29,11 +29,23 @@ from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
 
 EMBED_MODEL_NAME = os.getenv("SNIPPET_EMBED_MODEL", "all-MiniLM-L6-v2")
 
+# Model cache directory - use environment variable or default to backend/models_cache
+MODEL_CACHE_DIR = os.getenv(
+    "MODEL_CACHE_DIR", 
+    str(pathlib.Path(__file__).parent.parent.parent / "models_cache")
+)
+# Ensure cache directory exists
+pathlib.Path(MODEL_CACHE_DIR).mkdir(parents=True, exist_ok=True)
+
 
 def _load_model() -> SentenceTransformer:  # type: ignore
     """Load (or cache) the sentence-transformer model used for embeddings."""
     if not hasattr(_load_model, "_model"):
-        _load_model._model = SentenceTransformer(EMBED_MODEL_NAME)  # type: ignore
+        _load_model._model = SentenceTransformer(
+            EMBED_MODEL_NAME,
+            cache_folder=MODEL_CACHE_DIR
+        )  # type: ignore
+        print(f"Loaded embedding model: {EMBED_MODEL_NAME} (cached in {MODEL_CACHE_DIR})")
     return _load_model._model  # type: ignore
 
 

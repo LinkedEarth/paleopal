@@ -26,7 +26,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create necessary directories
-RUN mkdir -p data libraries
+RUN mkdir -p data libraries models_cache
 
 # Expose port
 EXPOSE 8000

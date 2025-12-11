@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class ExecutionClient:
     """Clean execution client implementation."""
     
-    def __init__(self, execution_service_url: str = "http://localhost:8201"):
+    def __init__(self, execution_service_url: str = "http://localhost:8001"):
         self.execution_service = AsyncExecutionService(execution_service_url)
         logger.info("ExecutionClient initialized")
     
@@ -176,5 +176,5 @@ class ExecutionClient:
 
 # Create default client instance with environment variable support
 import os
-execution_service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8201')
+execution_service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8001')
 execution_client = ExecutionClient(execution_service_url) 

@@ -36,7 +36,7 @@ class ExecutionResult(BaseModel):
 class AsyncExecutionService:
     """Clean async execution service implementation."""
     
-    def __init__(self, execution_service_url: str = "http://localhost:8201"):
+    def __init__(self, execution_service_url: str = "http://localhost:8001"):
         self.execution_service_url = execution_service_url
         self.default_timeout = 300  # 5 minutes
         logger.info(f"AsyncExecutionService initialized with URL: {execution_service_url}")
@@ -180,7 +180,7 @@ class AsyncExecutionService:
 
 # Create service instance with environment variable support
 import os
-execution_service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8201')
+execution_service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8001')
 execution_service = AsyncExecutionService(execution_service_url)
 
 # Compatibility functions for existing code

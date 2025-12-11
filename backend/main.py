@@ -98,7 +98,7 @@ async def get_plot(plot_filename: str):
     if USE_ISOLATED_EXECUTION:
         try:
             # Try to fetch the plot from the isolated service
-            service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8201')
+            service_url = os.getenv('EXECUTION_SERVICE_URL', 'http://localhost:8001')
             response = requests.get(f"{service_url}/plots/{plot_filename}", timeout=10)
             
             if response.status_code == 200:

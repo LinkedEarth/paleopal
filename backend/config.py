@@ -15,6 +15,10 @@ OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 # Paths
 BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR / "data"
+MODEL_CACHE_DIR = BASE_DIR / "models_cache"
+
+# Create model cache directory if it doesn't exist
+MODEL_CACHE_DIR.mkdir(exist_ok=True)
 
 # LLM settings
 LLM_PROVIDERS = {

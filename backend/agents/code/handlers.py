@@ -1393,11 +1393,34 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
             "content": f"Generated {output_format} code for {analysis_type} analysis. {context_summary}."
         })
         
+        # Ensure expected_outputs is always a list
+        outputs_raw = parsed.get("outputs", [])
+        if isinstance(outputs_raw, str):
+            # If outputs is a string, convert it to a list containing that string
+            expected_outputs = [outputs_raw]
+        elif isinstance(outputs_raw, list):
+            expected_outputs = outputs_raw
+        else:
+            # Fallback: convert to list if it's some other type
+            expected_outputs = [str(outputs_raw)] if outputs_raw else []
+        
+        # Ensure required_libraries is always a list
+        libraries_raw = parsed.get("libraries", [])
+        if isinstance(libraries_raw, str):
+            # If libraries is a string, try to split by comma or use as single item
+            libraries_list = [lib.strip() for lib in libraries_raw.split(",")] if "," in libraries_raw else [libraries_raw]
+            required_libraries = libraries_list
+        elif isinstance(libraries_raw, list):
+            required_libraries = libraries_raw
+        else:
+            # Fallback: convert to list if it's some other type
+            required_libraries = [str(libraries_raw)] if libraries_raw else []
+        
         result = {
             "generated_code": generated_code,
             "analysis_description": parsed.get("description", ""),
-            "required_libraries": parsed.get("libraries", []),
-            "expected_outputs": parsed.get("outputs", []),
+            "required_libraries": required_libraries,
+            "expected_outputs": expected_outputs,
             "messages": messages,
             "execution_results": [{"type": "code_generated", "status": "success"}],
             "context_used": context_summary,

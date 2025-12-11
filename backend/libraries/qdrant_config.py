@@ -10,6 +10,12 @@ import uuid
 from typing import List, Dict, Any, Optional, Union
 import json
 from pathlib import Path
+import sys
+
+# Add backend to path for config import
+backend_dir = Path(__file__).parent.parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
 
 try:
     from qdrant_client import QdrantClient
@@ -33,6 +39,14 @@ QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
 QDRANT_PORT = int(os.getenv("QDRANT_PORT", "6333"))
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY", None)
 EMBED_MODEL_NAME = os.getenv("EMBED_MODEL", "all-MiniLM-L6-v2")
+
+# Model cache directory - use environment variable or default to backend/models_cache
+MODEL_CACHE_DIR = os.getenv(
+    "MODEL_CACHE_DIR", 
+    str(Path(__file__).parent.parent / "models_cache")
+)
+# Ensure cache directory exists
+Path(MODEL_CACHE_DIR).mkdir(parents=True, exist_ok=True)
 
 # Collection names for each library
 COLLECTION_NAMES = {
@@ -73,8 +87,11 @@ class QdrantManager:
     def model(self) -> SentenceTransformer:
         """Get or create embedding model."""
         if self._model is None:
-            self._model = SentenceTransformer(EMBED_MODEL_NAME)
-            logger.info(f"Loaded embedding model: {EMBED_MODEL_NAME}")
+            self._model = SentenceTransformer(
+                EMBED_MODEL_NAME,
+                cache_folder=MODEL_CACHE_DIR
+            )
+            logger.info(f"Loaded embedding model: {EMBED_MODEL_NAME} (cached in {MODEL_CACHE_DIR})")
         return self._model
     
     def ping(self) -> bool:

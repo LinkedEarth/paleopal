@@ -37,15 +37,47 @@ This guide explains how to run the PaleoPal system using Docker with data persis
    XAI_API_KEY=your_xai_key_here
    ```
 
-4. **Start the system**:
+4. **Pre-download embedding models (optional, recommended for offline use)**:
+   
+   If your Docker container won't have internet access, you can pre-download the embedding model on your host machine:
+   
+   **Option A: Using the download script (recommended)**:
+   ```bash
+   # Install huggingface_hub (lighter weight, no PyTorch needed)
+   pip install huggingface_hub
+   
+   # Run the download script
+   python3 backend/scripts/download_model.py
+   ```
+   
+   **Option B: Using huggingface_hub directly**:
+   ```bash
+   pip install huggingface_hub
+   python3 -c "from huggingface_hub import snapshot_download; snapshot_download('sentence-transformers/all-MiniLM-L6-v2', local_dir='backend/models_cache/all-MiniLM-L6-v2')"
+   ```
+   
+   **Option C: Copy from existing cache**:
+   ```bash
+   # Copy from your existing HuggingFace cache
+   mkdir -p backend/models_cache
+   cp -r ~/.cache/huggingface/hub/models--sentence-transformers--all-MiniLM-L6-v2 backend/models_cache/
+   ```
+   
+   **Option D: Let Docker download it (requires internet on first run)**:
+   If you have internet access when starting Docker, the model will download automatically on first use. Subsequent runs will use the cached version.
+   
+   The models cache directory (`backend/models_cache`) is mounted into the container, so the model will be available without internet access.
+
+5. **Start the system**:
    ```bash
    docker compose up -d
    ```
 
-5. **Access the application**:
+6. **Access the application**:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000
    - Qdrant Dashboard: http://localhost:6333/dashboard
+   - Execution Service: http://localhost:8001
 
 ## Architecture
 
@@ -54,7 +86,9 @@ The Docker setup includes:
 - **Frontend** (port 3000): React application served by Nginx
 - **Backend** (port 8000): FastAPI application with Python
 - **Qdrant** (port 6333): Vector database for embeddings
+- **Execution Service** (port 8001): Isolated Python execution service
 - **Persistent Volumes**: For data storage
+- **Models Cache**: Mounted directory for embedding models (allows offline operation)
 
 ## Data Persistence
 
@@ -63,8 +97,10 @@ The system uses Docker volumes for persistent storage:
 - `qdrant-data`: Vector database storage
 - `backend-data`: SQLite conversations database and uploads
 - `backend-libraries`: Document libraries and extracted methods
+- `execution-data`: Execution service state and generated plots
+- `backend/models_cache`: Embedding models cache (bind mount from host)
 
-Your data will persist across container restarts and rebuilds.
+Your data will persist across container restarts and rebuilds. The models cache directory is mounted from your host, allowing you to pre-download models for offline operation.
 
 ## Management Commands
 

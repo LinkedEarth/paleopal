@@ -4,8 +4,8 @@ services:
     image: qdrant/qdrant:v1.7.0
     container_name: paleopal-qdrant
     ports:
-      - "6335:6333"
-      - "6336:6334"
+      - "6333:6333"
+      - "6334:6334"
     volumes:
       - qdrant-data:/qdrant/storage
     environment:
@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile
     container_name: paleopal-execution-service
     ports:
-      - "8201:8001"
+      - "8001:8001"
     volumes:
       - execution-data:/app/data
     mem_limit: 24g       # Set this to what your host can spare
@@ -48,12 +48,13 @@ services:
       dockerfile: Dockerfile
     container_name: paleopal-backend
     ports:
-      - "8200:8000"
+      - "8000:8000"
     volumes:
       - backend-data:/app/data
       - backend-libraries:/app/libraries
       - execution-data:/app/execution_data:ro  # Read-only access to execution plots
       - ./backend/.env:/app/.env:ro
+      - ./backend/models_cache:/app/models_cache  # Mount models cache directory
     environment:
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
@@ -61,6 +62,7 @@ services:
       - EXECUTION_SERVICE_URL=http://execution-service:8001
       - USE_ISOLATED_EXECUTION=true
       - EXECUTION_TIMEOUT_MINUTES=30
+      - MODEL_CACHE_DIR=/app/models_cache
     depends_on:
       - qdrant
       - execution-service
@@ -81,7 +83,7 @@ services:
         - REACT_APP_MAPBOX_TOKEN=${REACT_APP_MAPBOX_TOKEN:-}
     container_name: paleopal-frontend
     ports:
-      - "3200:80"
+      - "3000:80"
     depends_on:
       - backend
     restart: unless-stopped
