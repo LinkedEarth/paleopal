@@ -1,4 +1,7 @@
 ### Install and run Qdrant locally
+
+In most cases, this will already been down in the first step (docker compose):
+
 - Recommended (matches defaults used by the indexers):
 ```bash
 docker run -p 6333:6333 -p 6334:6334 -v qdrant-data:/qdrant/storage --name paleopal-qdrant qdrant/qdrant:v1.7.0
@@ -6,6 +9,9 @@ docker run -p 6333:6333 -p 6334:6334 -v qdrant-data:/qdrant/storage --name paleo
 - If you use the provided docker-compose, Qdrant is exposed on host port 6333. In that case set QDRANT_PORT=6333 when running indexers on your host.
 
 ### Python environment
+
+This is only for filling up the Quadrant. You do not need to be within this environment when running PaleoPAL later. 
+
 ```bash
 cd /Users/varun/git/paleopal
 python3 -m venv .venv
@@ -17,7 +23,7 @@ pip install -r backend/requirements.txt
 Set these in your shell before indexing (or in your `.env` if you prefer). Values shown match the simple `docker run` above:
 ```bash
 export QDRANT_HOST=localhost
-export QDRANT_PORT=6333
+export QDRANT_PORT=6335
 # Optional: only if your Qdrant requires auth
 # export QDRANT_API_KEY=...
 
