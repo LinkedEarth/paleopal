@@ -1198,8 +1198,10 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                                  "You have access to comprehensive context including code snippets, documentation, "
                                  "and previous code. Generate complete, executable code that integrates seamlessly "
                                  "with existing variables and follows established patterns. "
-                                 "Prefer PyLiPD/Pyleoclim only when they provide clear, task-specific advantages; "
-                                 "otherwise use plain pandas/numpy/matplotlib. "
+                                 "**Library preference**: Prefer PyLiPD/Pyleoclim/Ammonyte as the primary toolset for paleoclimate workflows "
+                                 "(LiPD ingestion/traversal, paleoclimate time series objects, domain-specific plotting and spectral analysis). "
+                                 "Use pandas/numpy/matplotlib as supporting utilities (wrangling, interop, plotting) or as a fallback when a needed "
+                                 "capability is not available in the approved signatures. "
                          "Return your response as valid JSON with keys: code, description, libraries, outputs. "
                          "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible. "
                          "*CRITICAL*: When including code in JSON, properly escape all backslashes (use \\\\ for \\) "
@@ -1341,7 +1343,9 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
             # Try to extract libraries
             lib_pattern = r'"libraries"\s*:\s*\[(.*?)\]'
             lib_match = re.search(lib_pattern, raw_response, re.DOTALL)
-            libraries = ["pandas", "numpy", "matplotlib"]  # default prefers plain stack
+            # If we couldn't parse libraries, keep a paleoclimate-first default ordering.
+            # (This is metadata + downstream hints; it shouldn't force pandas-only solutions.)
+            libraries = ["pyleoclim", "pylipd", "numpy", "pandas", "matplotlib"]
             if lib_match:
                 lib_content = lib_match.group(1)
                 # Extract quoted strings
@@ -2369,8 +2373,8 @@ AVAILABLE API:
 {compact_list}
 
 Decide whether specialized libraries are necessary:
-- Prefer PyLiPD/PyLeoClim/Ammonyte ONLY when they provide clear advantages (e.g., spectral analysis, LiPD ingestion/traversal, domain-specific utilities/plotting).
-- If the task is straightforward data wrangling/IO/plotting that pandas/numpy/matplotlib can handle, respond with exactly: NONE
+- Prefer PyLiPD/PyLeoClim/Ammonyte for paleoclimate workflows (LiPD ingestion/traversal, paleoclimate time series/spectral analysis, domain-specific plotting/utilities).
+- Respond with exactly: NONE only when the request is clearly generic (e.g., plain CSV wrangling) and does not benefit from paleoclimate-specific libraries.
 
 If specialized libraries are warranted, list the key PyLiPD/PyLeoClim/Ammonyte functions/classes you would likely need. Include:
 1. Core functionality you definitely need
@@ -2390,8 +2394,8 @@ When listing, provide 3-10 focused PyLiPD/PyLeoClim/Ammonyte functions/classes o
 
         system_content = (
             "You are an expert in paleoclimate data analysis. "
-            "Only surface specialized functions when they add clear value beyond pandas/numpy/matplotlib; "
-            "otherwise respond with NONE to indicate a plain pandas path."
+            "Default to PyLiPD/PyLeoClim/Ammonyte for paleoclimate workflows; "
+            "respond with NONE only for clearly generic tasks that don't benefit from these libraries."
         )
         
         messages = [

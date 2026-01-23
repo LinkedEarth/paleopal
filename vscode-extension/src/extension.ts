@@ -339,11 +339,11 @@ async function insertCodeBelowIndex(afterIndex: number, code: string) {
 
 async function setDefaultModelQuickPick() {
   const providers: Record<string, string[]> = {
-    openai: ["gpt-5","gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini"],
-    anthropic: ["claude-3-7-sonnet-20250219","claude-3-opus-20240229","claude-3-sonnet-20240229","claude-3-haiku-20240307","claude-2.1"],
-    google: ["gemini-2.5-pro","gemini-2.5-flash","gemini-1.5-pro","gemini-1.5-flash","gemini-1.0-pro"],
+    openai: ["gpt-5.2", "gpt-5.2-pro", "gpt-5","gpt-4o","gpt-4o-mini","gpt-4-turbo","gpt-3.5-turbo","o4-mini"],
+    anthropic: ["claude-sonnet-4-5-20250929", "claude-opus-4-5-20251101", "claude-3-7-sonnet-20250219"],
+    google: ["gemini-2.5-pro","gemini-2.5-flash", "gemini-3-pro-preview","gemini-1.5-pro","gemini-1.5-flash","gemini-1.0-pro"],
     ollama: ["deepseek-r1","qwen2.5-coder:32b-instruct","llama3:70b","llama3:8b","mixtral:8x7b"],
-    grok: ["grok-3-mini-beta","grok-2-mini","grok-2","grok-1","grok-beta"],
+    grok: ["grok-4", "grok-3-mini"],
   };
   const cfg = vscode.workspace.getConfiguration('paleopal');
   const provider = cfg.get<string>('defaultProvider', 'openai');
