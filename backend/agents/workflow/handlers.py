@@ -7,7 +7,7 @@ import logging
 import json
 import uuid
 import re
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from .state import WorkflowAgentState, WorkflowAgentConfig
@@ -16,6 +16,48 @@ from services.search_integration_service import search_service
 from services.service_manager import service_manager
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_workflow_json(raw_response: str) -> Dict[str, Any]:
+    """Extract a workflow JSON object from an LLM response."""
+    decoder = json.JSONDecoder()
+
+    def parse_candidate(candidate: str) -> Optional[Dict[str, Any]]:
+        candidate = candidate.strip()
+        if not candidate:
+            return None
+
+        try:
+            parsed = json.loads(candidate)
+        except json.JSONDecodeError:
+            try:
+                parsed, _ = decoder.raw_decode(candidate)
+            except json.JSONDecodeError:
+                return None
+
+        if isinstance(parsed, dict) and isinstance(parsed.get("steps"), list):
+            return parsed
+        return None
+
+    # Prefer fenced JSON, but accept any fenced block that contains the object.
+    for fenced_match in re.finditer(r"```(?:json)?\s*(.*?)\s*```", raw_response, re.DOTALL | re.IGNORECASE):
+        parsed = parse_candidate(fenced_match.group(1))
+        if parsed is not None:
+            return parsed
+
+    parsed = parse_candidate(raw_response)
+    if parsed is not None:
+        return parsed
+
+    # Last resort: scan for the first balanced JSON object in prose.
+    for index, char in enumerate(raw_response):
+        if char != "{":
+            continue
+        parsed = parse_candidate(raw_response[index:])
+        if parsed is not None:
+            return parsed
+
+    raise ValueError("No valid workflow JSON object found")
 
 
 def extract_workflow_request_node(state: WorkflowAgentState, config) -> Dict[str, Any]:
@@ -71,7 +113,7 @@ def search_workflow_context_node(state: WorkflowAgentState, config) -> Dict[str,
         logger.info(f"=== SEARCH_WORKFLOW_CONTEXT_NODE CALLED ===")
         logger.info(f"Searching for workflow context with query: '{user_input}'")
 
-        # Get context from notebook workflows and literature methods - run synchronously
+        # Get context from notebook workflows only - run synchronously
         import asyncio
         context = asyncio.run(search_service.get_context_for_planning(user_input))
         
@@ -79,20 +121,13 @@ def search_workflow_context_node(state: WorkflowAgentState, config) -> Dict[str,
         state.contextual_search_data = context
         
         workflows_count = len(context.get('workflows', []))
-        methods_count = len(context.get('methods', []))
-        
-        logger.info(f"Search completed: {workflows_count} workflows, {methods_count} methods found")
+        logger.info(f"Search completed: {workflows_count} workflows found")
         logger.info(f"Setting contextual_search_data in state: {bool(context)}")
         
         # Log some details about the found workflows
         if workflows_count > 0:
             for i, workflow in enumerate(context.get('workflows', [])[:2]):  # Log first 2
                 logger.info(f"Workflow {i+1}: {workflow.get('title', 'No title')} (similarity: {workflow.get('similarity_score', 0):.3f})")
-        
-        # Log some details about the found methods  
-        if methods_count > 0:
-            for i, method in enumerate(context.get('methods', [])[:2]):  # Log first 2
-                logger.info(f"Method {i+1}: {method.get('method_name', 'No name')} (similarity: {method.get('similarity_score', 0):.3f})")
         
         return {
             "contextual_search_data": context,
@@ -234,7 +269,8 @@ def detect_clarification_node(state: WorkflowAgentState, config) -> Dict[str, An
     """Detect if clarification is needed for workflow planning."""
     try:
         user_input = state.user_input or ""
-        context_data = state.contextual_search_data or {}
+        context_data = dict(state.contextual_search_data or {})
+        context_data.pop("methods", None)
         
         # Get LLM from config
         llm = get_config_value(config, 'llm')
@@ -381,8 +417,8 @@ Return the workflow in this JSON format:
       "id": "step_1",
       "name": "Find Datasets",
       "agent": "sparql",
-      "description": "Find relevant paleoclimate datasets from coral d18O for last 10,000 years in ENSO-sensitive regions",
-      "input": "Search query for paleoclimate datasets",
+      "description": "Find paleoclimate datasets relevant to the user's requested archive, proxy, region, and time period",
+      "input": "Dataset search request derived from the user's analysis goal",
       "expected_output": "List of relevant datasets with metadata",
       "dependencies": []
     }},
@@ -390,8 +426,8 @@ Return the workflow in this JSON format:
       "id": "step_2", 
       "name": "Analyze Data",
       "agent": "code",
-      "description": "Analyze the retrieved datasets for ENSO variability patterns and create visualizations",
-      "input": "Dataset analysis request with specific focus on ENSO patterns",
+      "description": "Analyze the retrieved datasets according to the user's requested scientific objective and create visualizations",
+      "input": "Dataset analysis request derived from the user's analysis goal",
       "expected_output": "Analysis results, statistical summaries, and visualizations",
       "dependencies": ["step_1"]
     }}
@@ -422,20 +458,12 @@ Only return the JSON object, nothing else."""
         # Extract structured JSON from response
         structured_workflow = ""
         try:
-            # Try to extract structured JSON from response
-            structured_match = re.search(r"```json\s*(\{.*?\})\s*```", raw_response, re.DOTALL)
-            if structured_match:
-                logger.info("Found structured JSON in code block")
-                structured_workflow = structured_match.group(1).strip()
-            else:
-                # Try to find structured JSON without code blocks
-                structured_match = re.search(r"(structured JSON.*?)(?=\n\n|\n```|\nNote:|\nThe|\Z)", raw_response, re.DOTALL)
-                if structured_match:
-                    logger.info("Found structured JSON without code blocks")
-                    structured_workflow = structured_match.group(1).strip()
-                else:
-                    logger.warning("No structured JSON found, using fallback")
-                    raise ValueError("No valid structured JSON found")
+            workflow_data = _parse_workflow_json(raw_response)
+            workflow_data.setdefault("workflow_id", str(uuid.uuid4()))
+            workflow_data.setdefault("title", "Paleoclimate Analysis Workflow")
+            workflow_data.setdefault("description", f"Workflow for: {user_input}")
+            structured_workflow = json.dumps(workflow_data, indent=2)
+            logger.info("Parsed workflow JSON from LLM response")
                     
         except Exception as e:
             logger.warning(f"Structured JSON parsing failed: {e}, using fallback")
@@ -450,8 +478,8 @@ Only return the JSON object, nothing else."""
       "id": "step_1",
       "name": "Find Datasets",
       "agent": "sparql",
-      "description": "Find relevant paleoclimate datasets from coral d18O for last 10,000 years in ENSO-sensitive regions",
-      "input": "Search query for paleoclimate datasets",
+      "description": "Find paleoclimate datasets relevant to the user's requested archive, proxy, region, and time period",
+      "input": "Dataset search request derived from the user's analysis goal",
       "expected_output": "List of relevant datasets with metadata",
       "dependencies": []
     }},
@@ -459,8 +487,8 @@ Only return the JSON object, nothing else."""
       "id": "step_2", 
       "name": "Analyze Data",
       "agent": "code",
-      "description": "Analyze the retrieved datasets for ENSO variability patterns and create visualizations",
-      "input": "Dataset analysis request with specific focus on ENSO patterns",
+      "description": "Analyze the retrieved datasets according to the user's requested scientific objective and create visualizations",
+      "input": "Dataset analysis request derived from the user's analysis goal",
       "expected_output": "Analysis results, statistical summaries, and visualizations",
       "dependencies": ["step_1"]
     }}
@@ -468,18 +496,23 @@ Only return the JSON object, nothing else."""
 }}"""
         
         # Parse workflow details for metadata
-        workflow_id = str(uuid.uuid4())
-        
-        # Count tasks and extract agent types from structured JSON
-        task_count = len(re.findall(r'"id": "step_[0-9]+",', structured_workflow))
-        sparql_tasks = len(re.findall(r'"agent": "sparql"', structured_workflow))
-        code_tasks = len(re.findall(r'"agent": "code"', structured_workflow))
-        
+        try:
+            workflow_metadata = json.loads(structured_workflow)
+        except json.JSONDecodeError:
+            workflow_metadata = {}
+
+        workflow_id = workflow_metadata.get("workflow_id") or str(uuid.uuid4())
+        steps = workflow_metadata.get("steps", [])
+        if not isinstance(steps, list):
+            steps = []
+
+        task_count = len(steps)
         agents_involved = []
-        if sparql_tasks > 0:
-            agents_involved.append("sparql")
-        if code_tasks > 0:
-            agents_involved.append("code")
+        for step in steps:
+            if isinstance(step, dict):
+                agent = step.get("agent")
+                if agent in ["sparql", "code"] and agent not in agents_involved:
+                    agents_involved.append(agent)
         
         estimated_steps = task_count
         
@@ -487,8 +520,7 @@ Only return the JSON object, nothing else."""
         
         # Add success message
         messages = state.messages or []
-        context_summary = f"Used {len(context_data.get('workflows', []))} workflow examples, " \
-                         f"{len(context_data.get('methods', []))} literature methods"
+        context_summary = f"Used {len(context_data.get('workflows', []))} workflow examples"
         
         messages.append({
             "role": "assistant",

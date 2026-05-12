@@ -704,7 +704,7 @@ class LLMProviderFactory:
             )
         
         elif provider_type == "openai":
-            default_model = "gpt-5.2"
+            default_model = "gpt-5.5"
             return OpenAIProvider(
                 model_name=model_name or default_model,
                 api_key=api_key
@@ -798,6 +798,7 @@ class LLMProviderFactory:
             
             # If requested provider is not available, try fallbacks
             fallback_providers = [
+                ("openai", "gpt-5.5"),
                 ("openai", "gpt-5.2"),
                 ("openai", "gpt-4o"),
                 ("claude", "claude-sonnet-4-5-20250929"),

@@ -6,6 +6,7 @@ API to query the Qdrant workflow index built by `index_notebooks.py`.
 """
 
 import json
+import logging
 import pathlib
 import sys
 from typing import List, Dict, Any, Optional
@@ -17,6 +18,8 @@ if str(parent_dir) not in sys.path:
     sys.path.insert(0, str(parent_dir))
 
 from qdrant_config import get_qdrant_manager, COLLECTION_NAMES
+
+logger = logging.getLogger(__name__)
 
 
 def search_workflows(
@@ -61,6 +64,13 @@ def search_workflows(
     qdrant_manager = get_qdrant_manager()
     
     try:
+        if collection_name not in qdrant_manager.list_collections():
+            logger.info(
+                "Notebook workflow collection '%s' does not exist; continuing without workflow examples",
+                collection_name,
+            )
+            return []
+
         results = qdrant_manager.search(
             collection_name=collection_name,
             query=query,
@@ -171,6 +181,14 @@ def get_workflow_by_id(workflow_id: str, collection_name: str = None) -> Optiona
     qdrant_manager = get_qdrant_manager()
     
     try:
+        if collection_name not in qdrant_manager.list_collections():
+            logger.info(
+                "Notebook workflow collection '%s' does not exist; cannot fetch workflow '%s'",
+                collection_name,
+                workflow_id,
+            )
+            return None
+
         # Search by ID (exact match)
         results = qdrant_manager.search(
             collection_name=collection_name,

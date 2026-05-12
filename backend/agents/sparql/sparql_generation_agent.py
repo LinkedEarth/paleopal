@@ -63,7 +63,10 @@ class SparqlGenerationAgent(BaseLangGraphAgent):
     def _create_agent_config(self, request: AgentRequest) -> SparqlAgentConfig:
         """Create SPARQL agent configuration from request."""
         # Get services from service manager
-        llm = service_manager.get_llm_provider(request.metadata.get("llm_provider", DEFAULT_LLM_PROVIDER))
+        llm = service_manager.get_llm_provider(
+            request.metadata.get("llm_provider", DEFAULT_LLM_PROVIDER),
+            model=request.metadata.get("model")
+        )
         sparql_service = service_manager.get_sparql_service()
         
         return SparqlAgentConfig(

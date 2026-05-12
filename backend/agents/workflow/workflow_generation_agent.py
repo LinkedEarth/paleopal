@@ -49,7 +49,8 @@ class WorkflowGenerationAgent(BaseLangGraphAgent):
             
             # Get LLM provider from metadata
             llm_provider = metadata.get("llm_provider", "google")
-            llm = service_manager.get_llm_provider(llm_provider)
+            llm_model = metadata.get("model")
+            llm = service_manager.get_llm_provider(llm_provider, model=llm_model)
             
             # Get clarification settings
             enable_clarification = metadata.get("enable_clarification", True)

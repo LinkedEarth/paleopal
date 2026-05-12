@@ -495,7 +495,10 @@ def generate_query_node(state: SparqlAgentState, config) -> Dict[str, Any]:
         logger.info("=== ENHANCED GENERATE_QUERY_NODE CALLED ===")
         
         # Get LLM directly from service manager
-        llm = service_manager.get_llm_provider(state.llm_provider or DEFAULT_LLM_PROVIDER)
+        llm = service_manager.get_llm_provider(
+            state.llm_provider or DEFAULT_LLM_PROVIDER,
+            model=(getattr(state, "metadata", {}) or {}).get("model")
+        )
         
         user_input = state.user_input or ""
         similar_queries = state.similar_code or []
@@ -889,7 +892,10 @@ def refine_query_node(state: SparqlAgentState, config) -> Dict[str, Any]:
     """Refine the generated query based on results or errors."""
     try:
         # Access the LLM directly from service manager
-        llm = service_manager.get_llm_provider(state.llm_provider or DEFAULT_LLM_PROVIDER)
+        llm = service_manager.get_llm_provider(
+            state.llm_provider or DEFAULT_LLM_PROVIDER,
+            model=(getattr(state, "metadata", {}) or {}).get("model")
+        )
         
         # Construct refinement prompt
         error_msg = state.error_message or ""
@@ -992,7 +998,10 @@ def detect_clarification_node(state: SparqlAgentState, config) -> Dict[str, Any]
             return {"needs_clarification": False}
         
         # Access the LLM directly from service manager
-        llm = service_manager.get_llm_provider(state.llm_provider or DEFAULT_LLM_PROVIDER)
+        llm = service_manager.get_llm_provider(
+            state.llm_provider or DEFAULT_LLM_PROVIDER,
+            model=(getattr(state, "metadata", {}) or {}).get("model")
+        )
         
         # Skip if we don't have entity matches
         if not state.entity_matches:

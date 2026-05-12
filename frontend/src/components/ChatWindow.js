@@ -22,6 +22,16 @@ const LLM_PROVIDERS = [
   { id: 'ollama', name: 'Ollama' }
 ];
 
+const LLM_MODELS = {
+  openai: ['gpt-5.5', 'gpt-5.2', 'gpt-5.2-pro', 'gpt-5', 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo', 'o4-mini'],
+  google: ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-3-pro-preview', 'gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.0-pro'],
+  anthropic: ['claude-sonnet-4-5-20250929', 'claude-opus-4-5-20251101', 'claude-3-7-sonnet-20250219'],
+  grok: ['grok-4', 'grok-3-mini'],
+  ollama: ['deepseek-r1', 'qwen2.5-coder:32b-instruct', 'llama3:70b', 'llama3:8b', 'mixtral:8x7b']
+};
+
+const getDefaultModelForProvider = (provider) => LLM_MODELS[provider]?.[0] || 'auto';
+
 // LLM Provider badge styles - consistent with agent styling
 const LLM_PROVIDER_BADGES = {
   openai: 'bg-green-50 dark:bg-green-950/30 border border-green-200/60 dark:border-green-800/40 text-green-700 dark:text-green-300 shadow-sm',
@@ -247,6 +257,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
   const [waitingForClarification, setWaitingForClarification] = useState(false);
   const [clarificationQuestions, setClarificationQuestions] = useState([]);
   const [llmProvider, setLlmProvider] = useState('google');
+  const [llmModel, setLlmModel] = useState(getDefaultModelForProvider('google'));
   const [selectedAgent, setSelectedAgent] = useState('sparql');
   const [isLoading, setIsLoading] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(false);
@@ -311,6 +322,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       clarificationAnswers,
       originalRequestContext,
       llmProvider,
+      llmModel,
       selectedAgent,
       isLoading,
       error,
@@ -319,7 +331,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       executionStartTime,
     };
   }, [conversation.id, conversation.title, conversation.messages, waitingForClarification, 
-      clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, 
+      clarificationQuestions, clarificationAnswers, originalRequestContext, llmProvider, llmModel,
       selectedAgent, isLoading, error, enableClarification, clarificationThreshold, executionStartTime]);
 
   // Helper function to update parent conversation (only call on user actions)
@@ -361,7 +373,14 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           const conversationData = await conversationService.getConversation(conversation.id);
           
           // Load conversation state from backend, with fallbacks to defaults
-          setLlmProvider(conversationData.llm_provider || 'google');
+          const loadedProvider = conversationData.llm_provider || 'google';
+          const loadedModel = conversationData.metadata?.model;
+          setLlmProvider(loadedProvider);
+          setLlmModel(
+            LLM_MODELS[loadedProvider]?.includes(loadedModel)
+              ? loadedModel
+              : getDefaultModelForProvider(loadedProvider)
+          );
           setSelectedAgent(conversationData.selected_agent || 'sparql');
           setEnableClarification(conversationData.enable_clarification !== undefined ? conversationData.enable_clarification : true);
           setClarificationThreshold(conversationData.clarification_threshold || 'conservative');
@@ -373,6 +392,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
           
           console.log('📋 Loaded conversation state:', {
             llm_provider: conversationData.llm_provider,
+            model: conversationData.metadata?.model,
             selected_agent: conversationData.selected_agent,
             enable_clarification: conversationData.enable_clarification,
             clarification_threshold: conversationData.clarification_threshold,
@@ -497,9 +517,11 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     if (!availableLlmIds.includes(llmProvider)) {
       const fallback = availableLlmIds[0];
       setLlmProvider(fallback);
+      setLlmModel(getDefaultModelForProvider(fallback));
       if (conversation.id) {
         conversationService.updateConversation(conversation.id, {
-          llm_provider: fallback
+          llm_provider: fallback,
+          metadata: { model: getDefaultModelForProvider(fallback) }
         }).catch(err => {
           console.error('Failed to persist fallback LLM provider:', err);
           setError('Failed to save LLM provider setting');
@@ -517,12 +539,15 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
 
   const handleLlmProviderChange = (e) => {
     const newProvider = e.target.value;
+    const newModel = getDefaultModelForProvider(newProvider);
     setLlmProvider(newProvider);
+    setLlmModel(newModel);
     
     // Persist to backend
     if (conversation.id) {
       conversationService.updateConversation(conversation.id, {
-        llm_provider: newProvider
+        llm_provider: newProvider,
+        metadata: { model: newModel }
       }).catch(error => {
         console.error('Failed to update LLM provider:', error);
         setError('Failed to save LLM provider setting');
@@ -530,6 +555,22 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
     }
     
     // Update parent immediately
+    updateParentConversation();
+  };
+
+  const handleLlmModelChange = (e) => {
+    const newModel = e.target.value;
+    setLlmModel(newModel);
+
+    if (conversation.id) {
+      conversationService.updateConversation(conversation.id, {
+        metadata: { model: newModel }
+      }).catch(error => {
+        console.error('Failed to update LLM model:', error);
+        setError('Failed to save LLM model setting');
+      });
+    }
+
     updateParentConversation();
   };
 
@@ -950,6 +991,7 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
       // For clarification submissions, include clarification responses in metadata
       const metadata = {
         llm_provider: llmProvider,
+        model: llmModel,
         enable_clarification: enableClarification,
         clarification_threshold: clarificationThreshold,
         enable_execution: enableExecution,
@@ -1789,6 +1831,24 @@ const ChatWindow = ({ conversation = {}, onConversationUpdate, isDarkMode = fals
               {LLM_PROVIDERS.filter(p => availableLlmIds.includes(p.id)).map(provider => (
                 <option key={provider.id} value={provider.id}>
                   {provider.name}
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <Icon name="chevronDown" className="w-4 h-4 text-slate-400" />
+            </div>
+          </div>
+
+          <div className="relative flex-shrink-0">
+            <select
+              id="llm-model"
+              value={llmModel}
+              onChange={handleLlmModelChange}
+              className={`px-3 sm:px-4 py-2 rounded text-sm disabled:cursor-not-allowed appearance-none ${LLM_PROVIDER_BADGES[llmProvider]} border ${LLM_PROVIDER_FOCUS[llmProvider] || ''} pr-8 transition-all duration-200 max-w-[220px]`}
+            >
+              {(LLM_MODELS[llmProvider] || ['auto']).map(model => (
+                <option key={model} value={model}>
+                  {model}
                 </option>
               ))}
             </select>

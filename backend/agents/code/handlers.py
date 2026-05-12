@@ -654,9 +654,9 @@ ISSUES DETECTED:
 
 Please provide an improved version of the code that:
 1. **FIRST AND MOST IMPORTANT**: Carefully analyze any execution errors and fix them precisely
-2. If using PyLiPD/Pyleoclim/Ammonyte, use only valid functions from the approved signatures; otherwise prefer pandas/numpy/matplotlib when sufficient
+2. If using PyLiPD/Pyleoclim/Ammonyte, use only valid functions from the approved signatures; otherwise prefer already specified/contextual packages such as pandas/numpy/matplotlib when sufficient
 3. Maintains the original functionality
-4. Uses appropriate libraries (PyLiPD, Pyleoclim, Ammonyte) only when beneficial; otherwise use pandas/numpy/matplotlib
+4. Uses only packages already specified by the user, visible in existing code/context, or approved by the PyLiPD/Pyleoclim/Ammonyte signatures unless another package is absolutely necessary to fix the issue
 5. Uses existing variables from the current variable state when applicable
 6. References variables by their exact names as shown in the variable state
 
@@ -667,6 +667,7 @@ Return ONLY the corrected Python code. Do not include any explanations, markdown
         system_content = ("You are an expert Python developer specializing in paleoclimate data analysis and debugging. "
                          "Your primary task is to fix execution errors by carefully analyzing error messages and correcting the code. "
                          "You must only use valid PyLiPD/Pyleoclim/Ammonyte functions that exist in the approved signatures. "
+                         "Do not introduce new third-party packages unless absolutely necessary; prefer specified/contextual packages and Python standard libraries. "
                          "CRITICAL REQUIREMENT: Return ONLY executable Python code. Do not include any explanations, descriptions, or markdown formatting. "
                          "Pay special attention to parameter types - booleans should be True/False, not strings like 'True'/'False'.")
         
@@ -696,8 +697,9 @@ Return ONLY the corrected Python code. Do not include any explanations, markdown
                 respecting parameter order and type hints exactly.
                                
                 {trimmed_library_symbols}
-                If you need functionality that is not in the approved signatures, use alternative approaches
-                with pandas, numpy, matplotlib, or other standard libraries instead. 
+                If you need functionality that is not in the approved signatures, use specified/contextual packages
+                such as pandas, numpy, matplotlib, or Python standard libraries instead.
+                Do not introduce additional third-party packages unless absolutely necessary to fix the issue.
 
                 DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names.
                 """
@@ -1124,8 +1126,8 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                 trimmed_library_symbols = _find_matching_signatures(requested_symbols, symbol_index)
                 logger.info(f"2-step approach: LLM requested {len(requested_symbols)} symbols, found signatures for them")
             else:
-                # No specialized functions requested; proceed without library constraints to allow plain pandas solutions
-                logger.info("No specialized functions requested; proceeding without library constraint block")
+                # No specialized functions requested; rely on the package constraint in the generation prompt.
+                logger.info("No specialized functions requested; proceeding without specialized signature block")
                 trimmed_library_symbols = ""
             
             final_size = len(trimmed_library_symbols)
@@ -1173,12 +1175,13 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
             "4. Follow patterns from the code snippets and examples\n"
             "5. Use correct API calls based on documentation\n"
             "6. Generate complete, executable code\n"
-            "7. Include necessary imports\n"
+            "7. Include necessary imports, but use only packages explicitly requested by the user, present in existing variables/context/examples, or listed in the approved PyLiPD/Pyleoclim/Ammonyte signatures\n"
             "8. **CRITICAL**: ALL comments and explanatory text must use proper Python comment syntax starting with # character\n"
             "9. **CRITICAL**: Do NOT include any explanatory text or descriptions outside of Python comments\n"
             "10. **CRITICAL**: The 'code' field must contain ONLY valid Python code with # comments - no markdown, no prose\n"
             "11. **SECURITY**: Use ast.literal_eval() instead of eval() for safe string parsing\n"
-            "12. When converting string representations to data, use json.loads() or ast.literal_eval()\n\n"
+            "12. When converting string representations to data, use json.loads() or ast.literal_eval()\n"
+            "13. **PACKAGE CONSTRAINT**: Do not introduce new third-party packages unless absolutely necessary. If you must use one, list it in libraries and explain why no specified/approved package can do the job in description.\n\n"
             "Return JSON with keys: code, description, libraries, outputs."
         )
         
@@ -1202,6 +1205,9 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                                  "(LiPD ingestion/traversal, paleoclimate time series objects, domain-specific plotting and spectral analysis). "
                                  "Use pandas/numpy/matplotlib as supporting utilities (wrangling, interop, plotting) or as a fallback when a needed "
                                  "capability is not available in the approved signatures. "
+                                 "**Package constraint**: Use only packages specified by the user, visible in existing variables/context/examples, "
+                                 "or approved in the PyLiPD/Pyleoclim/Ammonyte signatures. Do not import additional third-party packages "
+                                 "unless absolutely necessary; if unavoidable, include them in the libraries field and justify the exception in the description. "
                          "Return your response as valid JSON with keys: code, description, libraries, outputs. "
                          "*IMPORTANT*: Try to use the code snippets and examples to generate the code as much as possible. "
                          "*CRITICAL*: When including code in JSON, properly escape all backslashes (use \\\\ for \\) "
@@ -1242,8 +1248,9 @@ def generate_code_node(state: CodeAgentState, config) -> Dict[str, Any]:
                 "- lipd_obj.get(dsnames) ✅ (gets dataset(s) from graph)\n"
                 "- lipd_obj.get_datasets() ✅ (returns list of Dataset objects)\n"
                 "- lipd_obj.get_lipd(dsname) ✅ (gets LiPD json for dataset)\n\n"
-                "If you need functionality that is not in the approved signatures, use alternative approaches "
-                "with pandas, numpy, matplotlib, or other standard libraries instead. DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names."
+                "If you need functionality that is not in the approved signatures, first use specified or already-contextual packages "
+                "such as pandas, numpy, matplotlib, or Python standard libraries. Do not introduce additional third-party packages "
+                "unless absolutely necessary, and justify any exception in the JSON description. DO NOT make up PyLiPD/Pyleoclim/Ammonyte function names."
             )
         
         logger.info(f"System prompt: {system_content}")

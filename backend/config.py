@@ -23,7 +23,7 @@ MODEL_CACHE_DIR.mkdir(exist_ok=True)
 # LLM settings
 LLM_PROVIDERS = {
     "openai": {
-        "model": os.getenv("OPENAI_MODEL", "gpt-5")
+        "model": os.getenv("OPENAI_MODEL", "gpt-5.5")
     },
     "anthropic": {
         "model": os.getenv("CLAUDE_MODEL", "claude-sonnet-4-5-20250929")

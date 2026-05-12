@@ -26,7 +26,7 @@ sys.path.insert(0, str(base_dir / "libraries" / "readthedocs_library"))
 logger = logging.getLogger(__name__)
 
 class SearchIntegrationService:
-    """Service to search notebook workflows and literature methods."""
+    """Service to search project knowledge libraries."""
     
     def __init__(self):
         self.base_dir = Path(__file__).parent.parent  # Go up to workspace root
@@ -418,24 +418,20 @@ Return ONLY a JSON array of the extracted terms:
     
     async def get_context_for_planning(self, user_query: str) -> Dict[str, Any]:
         """
-        Get comprehensive context for workflow planning by searching both
-        notebooks and literature.
+        Get workflow planning context from notebook workflow examples.
         
         Args:
             user_query: The user's request
             
         Returns:
-            Dictionary containing workflow and method context
+            Dictionary containing workflow context
         """
         # Search workflows with higher weight
         workflows = await self.search_notebook_workflows(user_query, top_k=3)
         
-        # Search methods with lower weight (for loose guidance)
-        methods = await self.search_literature_methods(user_query, top_k=5)
-        
         return {
             "workflows": workflows,
-            "methods": methods,
+            "methods": [],
             "query": user_query
         }
     
