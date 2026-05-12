@@ -1,4 +1,8 @@
-# PaleoPal Website
+![PaleoPAL Logo](https://github.com/LinkedEarth/Logos/blob/master/PaleoPAL/PaleoPal_rectangular_light.png?raw=true)
+
+[![DOI](https://zenodo.org/badge/990262252.svg)](https://doi.org/10.5281/zenodo.19341100)
+
+# PaleoPAL: An AI Assistant for Paleoclimatology
 
 This directory contains the GitHub Pages website for PaleoPal.
 
