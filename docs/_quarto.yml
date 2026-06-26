@@ -1,0 +1,93 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "index.qmd"
+    - "installation/"
+    - "tutorials/"
+    - "evaluation/"
+    - "gallery/"
+    - "faq/"
+
+execute:
+  freeze: true
+
+website:
+  title: "PaleoPAL"
+  description: "AI-Powered Assistant for Paleoclimate Research"
+  page-navigation: true
+
+  navbar:
+    title: false
+    logo: figures/PaleoPal_rectangular_light.png
+    logo-alt: "PaleoPAL"
+    left:
+      - file: installation/index.qmd
+        text: Installation
+      - file: tutorials/index.qmd
+        text: Tutorials
+      - file: evaluation/index.qmd
+        text: Evaluation
+      - file: gallery/index.qmd
+        text: Gallery
+      - file: faq/index.qmd
+        text: FAQ
+
+    right:
+      - icon: github
+        href: https://github.com/LinkedEarth/PaleoPAL
+
+  sidebar:
+    - id: installation
+      title: Installation
+      style: floating
+      align: left
+      contents:
+        - installation/index.qmd
+        - section: "Setup Options"
+          contents:
+            - installation/docker.qmd
+            - installation/local-setup.qmd
+            - installation/vscode-extension.qmd
+
+    - id: tutorials
+      title: Tutorials
+      style: floating
+      align: left
+      contents:
+        - tutorials/index.qmd
+        - section: "Getting Started"
+          contents:
+            - tutorials/getting-started.qmd
+        - section: "Working with Data"
+          contents:
+            - tutorials/sparql-queries.qmd
+
+    - id: evaluation
+      title: Evaluation
+      style: floating
+      align: left
+      contents:
+        - evaluation/index.qmd
+
+    - id: gallery
+      title: Gallery
+      style: floating
+      align: left
+      contents:
+        - gallery/index.qmd
+
+    - id: faq
+      title: FAQ
+      style: floating
+      align: left
+      contents:
+        - faq/index.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 5
+    toc-location: right
+    css: styles.css

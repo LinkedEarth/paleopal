@@ -1,0 +1,77 @@
+---
+title: "Local Development Setup"
+sidebar: installation
+---
+
+## Prerequisites
+
+- Python 3.11+
+- Node.js 18+ and npm
+- Docker (for Qdrant vector database)
+- Git
+
+## Backend setup
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+pip install -r requirements.txt
+
+# Start Qdrant
+docker run -p 6333:6333 -p 6334:6334 \
+  -v qdrant-data:/qdrant/storage \
+  --name paleopal-qdrant qdrant/qdrant:v1.7.0
+
+# Configure environment variables
+cp env.example .env
+# Edit .env with your API keys
+
+# Launch API server
+uvicorn main:app --reload
+```
+
+## Frontend setup
+
+```bash
+cd frontend
+npm install
+npm start
+# Frontend will be available at http://localhost:3000
+```
+
+## Populating the knowledge base
+
+```bash
+export QDRANT_HOST=localhost
+export QDRANT_PORT=6333
+
+cd backend/libraries
+bash index_everything.sh
+```
+
+To index only notebooks:
+
+```bash
+cd backend/libraries
+python notebook_library/index_notebooks.py \
+  --keep-invalid --no-synth-imports \
+  notebook_library/my_notebooks
+```
+
+### Adding your own notebooks
+
+Place your `.ipynb` files in `backend/libraries/notebook_library/my_notebooks/` and run the notebook indexer above.
+
+### Inspecting collections
+
+```bash
+cd backend/libraries
+python qdrant_config.py --libraries
+python qdrant_config.py --health
+```
+
+::: {.callout-note}
+The first run downloads the embedding model — allow a few minutes.
+:::

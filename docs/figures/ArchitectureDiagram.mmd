@@ -1,0 +1,12 @@
+flowchart TB
+    USER["👤  User"] --> CLIENT["🖥️  Web Client, VSCode Extension"]
+    CLIENT --> BACKEND["<b>🚀  Backend API (FastAPI)</b>"]
+    BACKEND --> PERSIST["🗄️  <b>Database (SQLite)</b><br>Conversations &amp; State"] & AGENTS["<b>🤖  AI Agents<br></b>SPARQL<br>Code<br>Workflow"]
+    SOURCES_BOX["<b>📚  Knowledge Sources<br></b>• Notebooks<br>• Research Papers<br>• Documentation<br>• Ontologies"] -- extract & embed --> EMBED["🔗  <b>Embedding Model</b><br>all-MiniLM-L6-v2"]
+    EMBED -- index --> VECTOR["<b>Vector Database (Qdrant)</b><br>• Methods &amp; Workflows<br>• Code Snippets<br>• SPARQL Queries<br>• Ontology Entities"]
+    AGENTS -- retrieve context --> VECTOR
+    AGENTS -- query + context --> LLMS["🧠  <b>Generative LLMs</b><br>• OpenAI GPT-4o<br>• Anthropic Claude-3.5<br>• Google Gemini-2.5<br>• xAI Grok-3<br>• Ollama DeepSeek-R1"]
+    SPARQL_EP["🌐  <b>SPARQL Endpoint</b><br>"] --> PALEO["🌍  LiPD Paleoclimate Data<br>( LinkedEarth GraphDB )"]
+    AGENTS -- direct queries --> SPARQL_EP
+    SOURCES_BOX@{ shape: cyl}
+    VECTOR@{ shape: cyl}
