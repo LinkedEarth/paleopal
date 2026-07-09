@@ -1,0 +1,535 @@
+[
+  {
+    "objectID": "faq/index.html",
+    "href": "faq/index.html",
+    "title": "Frequently Asked Questions",
+    "section": "",
+    "text": "Do I need to know programming to use PaleoPAL?\nWhile PaleoPAL can help generate code, some familiarity with Python and data analysis concepts is helpful. The system is designed to assist researchers who already work with paleoclimate data, making their workflows more efficient.\n\n\nWhich LLM providers are supported?\n\nOpenAI (GPT-4o / GPT-5.5)\nAnthropic (Claude 3.5)\nGoogle (Gemini 2.5)\nxAI (Grok 3)\nOllama (DeepSeek-R1, for local deployment)\n\nYou need at least one API key to use PaleoPAL.\n\n\nHow does the knowledge base work?\nPaleoPAL uses semantic search (via Qdrant vector database) to retrieve relevant context from notebook snippets, API documentation, ontology entities, and SPARQL query templates. This context augments the AI’s responses, ensuring domain-specific accuracy.\n\n\nCan I use PaleoPAL offline?\nPartially. You can run PaleoPAL locally with Ollama for LLM inference, but you’ll still need internet access for initial setup, accessing LinkedEarth GraphDB, and downloading embedding models (first time only).\n\n\nIs PaleoPAL free to use?\nPaleoPAL is open-source software. However, you’ll need API keys from LLM providers, which may have usage costs depending on your provider and volume. Some providers offer free tiers for research.",
+    "crumbs": [
+      "Getting Started",
+      "Frequently Asked Questions"
+    ]
+  },
+  {
+    "objectID": "evaluation/index.html",
+    "href": "evaluation/index.html",
+    "title": "Evaluation",
+    "section": "",
+    "text": "This section provides information about how the performance of PaleoPAL has been evaluated.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation"
+    ]
+  },
+  {
+    "objectID": "evaluation/index.html#purpose-of-the-evaluation",
+    "href": "evaluation/index.html#purpose-of-the-evaluation",
+    "title": "Evaluation",
+    "section": "Purpose of the Evaluation",
+    "text": "Purpose of the Evaluation\nPaleoPAL is an AI assistant designed to support paleoclimate research by helping users find relevant data, identify appropriate methods, and develop reproducible analysis workflows. Because PaleoPAL is embedded in the scientific research process, evaluating it requires more than checking whether it returns a single “correct” answer.\nMany AI systems are evaluated using automated metrics, such as accuracy, precision, recall, or F1 score. These metrics are useful when there is a clearly defined ground truth: for example, whether a document belongs in a category, whether a known answer was retrieved, or whether a prediction matches an observed label. PaleoPAL is different. A successful interaction may involve interpreting an open-ended research question, identifying relevant datasets, explaining assumptions, suggesting possible methods, generating code, or helping a user refine an analysis. In these cases, there may be several valid paths forward rather than one correct answer.\nThe goal of this evaluation is therefore to assess how well PaleoPAL supports real paleoclimate research workflows. We are interested not only in whether PaleoPAL provides accurate information, but also whether its responses are useful, transparent, scientifically appropriate, reproducible, and aligned with community practices. Feedback from evaluators will help us identify where PaleoPAL performs well, where it needs improvement, and how it can better support researchers, educators, and students working with paleoclimate data.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation"
+    ]
+  },
+  {
+    "objectID": "evaluation/index.html#what-participants-will-evaluate",
+    "href": "evaluation/index.html#what-participants-will-evaluate",
+    "title": "Evaluation",
+    "section": "What Participants Will Evaluate",
+    "text": "What Participants Will Evaluate\nParticipants will evaluate how well PaleoPAL supports common paleoclimate research tasks, from interpreting a scientific question to helping build a reproducible workflow. The evaluation focuses on both the final output and the interaction process: how PaleoPAL responds, explains its choices, adapts to feedback, and helps the user make progress.\nParticipants may be asked to test whether PaleoPAL can understand paleoclimate research questions, including relevant proxy systems, archives, time periods, regions, variables, and scientific context. They will also evaluate whether PaleoPAL can retrieve relevant datasets, metadata, documentation, or methodological resources, and whether those materials are appropriate for the scientific task.\nThe evaluation will also examine PaleoPAL’s ability to recommend suitable methods and tools, build coherent analysis workflows, and generate or refine code in notebooks. Participants will consider whether PaleoPAL can connect steps such as data discovery, preprocessing, analysis, visualization, and interpretation into a workflow that is technically usable and scientifically meaningful.\nFinally, participants will assess how well PaleoPAL explains results, communicates assumptions and limitations, and adapts when the user provides clarifications, corrections, or additional constraints.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation"
+    ]
+  },
+  {
+    "objectID": "evaluation/index.html#evaluation-activities",
+    "href": "evaluation/index.html#evaluation-activities",
+    "title": "Evaluation",
+    "section": "Evaluation Activities",
+    "text": "Evaluation Activities\nThe PaleoPAL evaluation includes three activities that increase in complexity. The goal is to assess not only whether PaleoPAL can produce correct outputs, but also whether it can support the process of scientific work: interpreting questions, selecting tools, generating code, building workflows, and adapting to feedback.\n\n\n\nEvaluation activity\nWhat participants will do\n\n\n\n\nStructured paleoclimate tasks\nParticipants will complete short, well-scoped paleoclimate analysis tasks under three conditions: without AI assistance, with a general-purpose LLM, and with PaleoPAL. These tasks are similar to homework or tutorial exercises: they have a defined goal and an expected solution, but require scientific understanding as well as technical implementation. They are designed to evaluate whether PaleoPAL can help users translate scientific prompts into appropriate analyses, generate useful code, choose suitable tools and methods, avoid hallucinated functions or APIs, reach a working result efficiently, and respond to corrections or clarifications.\n\n\nReproducing a scientific study\nParticipants will use PaleoPAL to help reproduce part of an existing paleoclimate study. This activity tests whether PaleoPAL can support a connected research workflow, including understanding the scientific goal, identifying relevant data and methods, generating or refining code, explaining choices, and helping interpret results.\n\n\nExploring an unknown science problem\nParticipants will use PaleoPAL to investigate a less structured scientific problem. This activity tests PaleoPAL in an exploratory setting where the question, data, methods, and interpretation may need to be refined during the interaction. It is intended to evaluate the full set of criteria, including usability, factuality, reasoning transparency, workflow coherence, steering, and domain alignment.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation"
+    ]
+  },
+  {
+    "objectID": "evaluation/index.html#evaluation-criteria",
+    "href": "evaluation/index.html#evaluation-criteria",
+    "title": "Evaluation",
+    "section": "Evaluation Criteria",
+    "text": "Evaluation Criteria\nPaleoPAL will be evaluated across several dimensions that reflect how researchers actually use AI assistants in scientific workflows. Rather than relying on a single score, the evaluation considers whether PaleoPAL helps users move from a research question to a scientifically appropriate, reproducible result.\n\n\n\n\n\n\n\nEvaluation criterion\nWhat we are assessing\n\n\n\n\nUser Experience and Ease of Use\nDoes PaleoPAL make the task easier, faster, or less frustrating, and how does this vary by user experience level?\n\n\nReasoning Transparency\nDoes PaleoPAL explain why it chose a dataset, method, tool, or workflow in a way the user can follow?\n\n\nTool and Method Appropriateness\nDoes PaleoPAL select suitable libraries, functions, methods, and data structures, both with and without user guidance?\n\n\nWorkflow Coherence\nDoes PaleoPAL produce a connected workflow rather than fragmented steps?\n\n\nFactuality and Hallucination Control\nDoes PaleoPAL avoid inventing functions, misusing APIs, citing nonexistent features, or making unsupported claims?\n\n\nSteering and Adaptability\nDoes PaleoPAL adapt to clarifications, corrections, and constraints provided by the user?\n\n\nDomain Alignment\nDoes PaleoPAL respect paleoclimate terminology, concepts, and community practices?\n\n\nTime to First Correct Result\nHow quickly does the user obtain a result that works, even if it still needs refinement?",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation"
+    ]
+  },
+  {
+    "objectID": "evaluation/reproduce.html",
+    "href": "evaluation/reproduce.html",
+    "title": "Reproducing a scientific study",
+    "section": "",
+    "text": "Coming soon",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Reproducing a scientific study"
+    ]
+  },
+  {
+    "objectID": "tutorials/index.html",
+    "href": "tutorials/index.html",
+    "title": "Tutorials",
+    "section": "",
+    "text": "Step-by-step guides for working with PaleoPAL.",
+    "crumbs": [
+      "Getting Started",
+      "Tutorials"
+    ]
+  },
+  {
+    "objectID": "tutorials/index.html#getting-started",
+    "href": "tutorials/index.html#getting-started",
+    "title": "Tutorials",
+    "section": "Getting started",
+    "text": "Getting started\n\n\n\nGetting Started\nYour first conversation with PaleoPAL",
+    "crumbs": [
+      "Getting Started",
+      "Tutorials"
+    ]
+  },
+  {
+    "objectID": "tutorials/index.html#working-with-data",
+    "href": "tutorials/index.html#working-with-data",
+    "title": "Tutorials",
+    "section": "Working with data",
+    "text": "Working with data\n\n\n\nSPARQL Queries\nQuerying LinkedEarth datasets",
+    "crumbs": [
+      "Getting Started",
+      "Tutorials"
+    ]
+  },
+  {
+    "objectID": "tutorials/getting-started.html",
+    "href": "tutorials/getting-started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "This tutorial is a placeholder — content coming soon.\nThis guide will walk you through your first conversation with PaleoPAL, including:\n\nStarting the application\nChoosing an LLM provider\nAsking your first question\nUnderstanding agent responses",
+    "crumbs": [
+      "Getting Started",
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started/vscode-extension.html",
+    "href": "getting-started/vscode-extension.html",
+    "title": "VS Code Extension",
+    "section": "",
+    "text": "PaleoPAL includes a VS Code extension for integrated research workflows.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "VS Code Extension"
+    ]
+  },
+  {
+    "objectID": "getting-started/vscode-extension.html#installation",
+    "href": "getting-started/vscode-extension.html#installation",
+    "title": "VS Code Extension",
+    "section": "Installation",
+    "text": "Installation\n\nOpen VS Code\nClick on the Extensions icon in the left sidebar. It looks like four small squares, with one square slightly separated. Or you can use the keyboard shortcut Ctrl+Shift+X (Windows/Linux) or Cmd+Shift+X (Mac) to open the Extensions view. Or use the menu View -&gt; Extensions.\nClick the “…” menu and select Install from VSIX.\nSelect paleopal/vscode-extension/paleopal-vscode-extension-x.x.x.vsix.\n\nWe have kept all versions of the extension in the vscode-extension folder, so you can install any version you want. However, we recommend using the latest version for the best experience.\nYou can also right-click on the .vsix file in the folder view of VS Code and select Install Extension VSIX to install the extension.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "VS Code Extension"
+    ]
+  },
+  {
+    "objectID": "getting-started/vscode-extension.html#configuration",
+    "href": "getting-started/vscode-extension.html#configuration",
+    "title": "VS Code Extension",
+    "section": "Configuration",
+    "text": "Configuration\n\nClick on the VS Code settings icon (gear icon) in the left sidebar.\nSelect Extensions\nSearch for “paleopal”. Click on the little gear icon next to the PaleoPAL extension and select settings.\nand configure the settings:\n\n\n\n\n\n\n\n\n\nSetting\nDescription\nDefault\n\n\n\n\npaleopal.backendUrl\nBackend API URL\nhttp://localhost:8000/api\n\n\npaleopal.defaultProvider\nLLM provider\n—\n\n\npaleopal.defaultModel\nModel override (optional)\n—\n\n\n\nSupported providers: openai, anthropic, google, ollama, grok.\nYou can also enable clarifications (i.e. PaleoPAL will ask you for clarifications when it is unsure about your query) and automatic execution (i.e. PaleoPAL will automatically execute code snippets). Be careful with automatic execution, as it can be dangerous if you are not sure about the code you are executing.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "VS Code Extension"
+    ]
+  },
+  {
+    "objectID": "getting-started/using-paleopal-web.html",
+    "href": "getting-started/using-paleopal-web.html",
+    "title": "Using PaleoPAL from the web interface",
+    "section": "",
+    "text": "You must have PaleoPAL installed with properly indexed libraries. If you haven’t done so yet, please follow the installation instructions before proceeding.",
+    "crumbs": [
+      "Getting Started",
+      "Using PaleoPAL",
+      "Using PaleoPAL from the web interface"
+    ]
+  },
+  {
+    "objectID": "getting-started/using-paleopal-web.html#prerequisites",
+    "href": "getting-started/using-paleopal-web.html#prerequisites",
+    "title": "Using PaleoPAL from the web interface",
+    "section": "",
+    "text": "You must have PaleoPAL installed with properly indexed libraries. If you haven’t done so yet, please follow the installation instructions before proceeding.",
+    "crumbs": [
+      "Getting Started",
+      "Using PaleoPAL",
+      "Using PaleoPAL from the web interface"
+    ]
+  },
+  {
+    "objectID": "getting-started/using-paleopal-web.html#accessing-the-web-interface",
+    "href": "getting-started/using-paleopal-web.html#accessing-the-web-interface",
+    "title": "Using PaleoPAL from the web interface",
+    "section": "Accessing the web interface",
+    "text": "Accessing the web interface\nNavigate to the PaleoPAL folder on your computer. Make sure Docker is installed and running, then execute the following command in your terminal:\ndocker compose up -d\nTo access the PaleoPAL web interface, open your web browser and navigate to the URL where PaleoPAL is hosted. The URL should be http://localhost:3000.",
+    "crumbs": [
+      "Getting Started",
+      "Using PaleoPAL",
+      "Using PaleoPAL from the web interface"
+    ]
+  },
+  {
+    "objectID": "getting-started/using-paleopal-web.html#paleopal-web-interface-overview",
+    "href": "getting-started/using-paleopal-web.html#paleopal-web-interface-overview",
+    "title": "Using PaleoPAL from the web interface",
+    "section": "PaleoPAL web interface overview",
+    "text": "PaleoPAL web interface overview\nThe PaleoPAL web interface provides a user-friendly way to interact with the PaleoPAL database and perform various analyses. The interface is organized into several sections, each serving a specific purpose in the analysis workflow.\nUnder construction: This website is being updated to reflect the latest features and improvements in PaleoPAL. Please check back later for more detailed instructions and screenshots of the web interface.",
+    "crumbs": [
+      "Getting Started",
+      "Using PaleoPAL",
+      "Using PaleoPAL from the web interface"
+    ]
+  },
+  {
+    "objectID": "getting-started/updating-libraries.html",
+    "href": "getting-started/updating-libraries.html",
+    "title": "Updating the Libraries",
+    "section": "",
+    "text": "PaleoPAL’s knowledge base libraries are updated regularly to include new notebooks, code, and documentation. To keep your local installation up to date, you can follow these steps:\n1. Pull the latest changes from the PaleoPAL repository\nMake sure you are in the PaleoPAL directory and run:\ngit pull origin main\n2. Activate the PaleoPAL conda environment\nMake sure that you are in the conda environment you created for PaleoPAL (if you followed the Docker installation instructions). If not, activate your environment:\nconda activate paleopal\nIf you did not keep this environment, follow the instructions in the Docker installation guide to create a new environment and install the required Python packages.\n3. Run PaleoPAL using Docker\ndocker compose up -d\nand Navigate to the Qdrant Dashboard: http://localhost:6333/dashboard.\n4. Remove existing collections in Qdrant\nThere is no way to update the libraries in place, so you will need to remove the existing collections in Qdrant before re-indexing the libraries. You can do this by clicking on the “Delete” button (garbage can) for each collection in the Qdrant Dashboard. If you only want/need to update specific libraries, you can delete only the collections for those libraries.\n5. Re-index the libraries\nIf you have removed all collections, you can re-index all libraries by running the following command:\ncd backend/libraries\nbash index_everything.sh\nIf you only need to update specific libraries, you can run the commands in the index_everything.sh script for those libraries. For example, to only index the spaqrl library, you can run the following command:\npython sparql_library/index_queries.py --queries-dir sparql_library/queries",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Advanced",
+      "Updating the Libraries"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PaleoPAL",
+    "section": "",
+    "text": "PaleoPAL is an AI-powered assistant designed to accelerate paleoclimate research by combining retrieval-augmented generation (RAG), specialized AI agents, and a comprehensive vector knowledge base derived from notebooks, research papers, and ontologies.\n\n\nAI agents are autonomous systems that can perceive their environment, make decisions, and take actions to achieve specific goals. In the context of PaleoPAL, these agents are specialized to handle different aspects of paleoclimate research, such as obtaining and wrangling data, writing code, and planning multi-step analyses.\n\n\n\nRAG is a technique that combines the power of retrieval and generation to provide more accurate and contextually relevant responses. In PaleoPAL, RAG is used to fetch relevant information about paleoclimate data and analysis, and incorporate it into the AI’s responses. For example, if you ask “How do I perform spectral analysis on a dataset?”, PaleoPAL first searches its knowledge base for relevant pieces of code, then feeds that context to the language model so its answer includes the correct function calls and idioms rather than generic guesses. The knowledge base is built on a combination of community-curated software documentation and scientific notebooks that have been peer-reviewed."
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "PaleoPAL",
+    "section": "",
+    "text": "PaleoPAL is an AI-powered assistant designed to accelerate paleoclimate research by combining retrieval-augmented generation (RAG), specialized AI agents, and a comprehensive vector knowledge base derived from notebooks, research papers, and ontologies.\n\n\nAI agents are autonomous systems that can perceive their environment, make decisions, and take actions to achieve specific goals. In the context of PaleoPAL, these agents are specialized to handle different aspects of paleoclimate research, such as obtaining and wrangling data, writing code, and planning multi-step analyses.\n\n\n\nRAG is a technique that combines the power of retrieval and generation to provide more accurate and contextually relevant responses. In PaleoPAL, RAG is used to fetch relevant information about paleoclimate data and analysis, and incorporate it into the AI’s responses. For example, if you ask “How do I perform spectral analysis on a dataset?”, PaleoPAL first searches its knowledge base for relevant pieces of code, then feeds that context to the language model so its answer includes the correct function calls and idioms rather than generic guesses. The knowledge base is built on a combination of community-curated software documentation and scientific notebooks that have been peer-reviewed."
+  },
+  {
+    "objectID": "index.html#paleopal-core-features",
+    "href": "index.html#paleopal-core-features",
+    "title": "PaleoPAL",
+    "section": "PaleoPAL Core Features",
+    "text": "PaleoPAL Core Features\n\nDomain-Specific Intelligence: PaleoPAL is designed to work with paleoclimate data and research methodologies. It understands fundamental concepts in paleoclimate science such as “proxies” and can perform context-aware analysis, including time series analysis.\nMulti-Agent Architecture: Specialized agents handle different aspects of research from querying datasets on the LiPDGraph, to opening datasets with PyLiPD, and performing time series analysis with Pyleoclim.\nKnowledge-Driven: Built on knowledge extracted from code documentation and tutorials and scientific notebooks.\nTransparency and Collaboration: Real-time progress visualization, clarification dialogues, and context-aware responses ensure researchers understand and control the AI’s reasoning process.\n\n\nArchitecture\nFor a high-level overview of PaleoPAL’s architecture, see the Architecture Overview."
+  },
+  {
+    "objectID": "index.html#where-to-go-next",
+    "href": "index.html#where-to-go-next",
+    "title": "PaleoPAL",
+    "section": "Where to go next",
+    "text": "Where to go next\n\n\n\nGetting Started\nSet up PaleoPAL and learn how to use it\n\n\nTutorials\nWorked examples for common research tasks\n\n\nEvaluation\nBenchmarks and evaluation results\n\n\nGallery\nExample analyses and workflows"
+  },
+  {
+    "objectID": "getting-started/local-setup.html",
+    "href": "getting-started/local-setup.html",
+    "title": "Local Development Setup",
+    "section": "",
+    "text": "This allows installing PaleoPAL locally for development and custom setups. This is not recommended for most users, as it requires more setup and maintenance than the Docker installation. However, it allows for more flexibility and customization.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Advanced",
+      "Local Development Setup"
+    ]
+  },
+  {
+    "objectID": "getting-started/local-setup.html#prerequisites",
+    "href": "getting-started/local-setup.html#prerequisites",
+    "title": "Local Development Setup",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\nPython 3.11+\nNode.js 18+ and npm\nDocker (for Qdrant vector database)\nGit",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Advanced",
+      "Local Development Setup"
+    ]
+  },
+  {
+    "objectID": "getting-started/local-setup.html#backend-setup",
+    "href": "getting-started/local-setup.html#backend-setup",
+    "title": "Local Development Setup",
+    "section": "Backend setup",
+    "text": "Backend setup\ncd backend\npython -m venv .venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\npip install -r requirements.txt\n\n# Start Qdrant\ndocker run -p 6333:6333 -p 6334:6334 \\\n  -v qdrant-data:/qdrant/storage \\\n  --name paleopal-qdrant qdrant/qdrant:v1.7.0\n\n# Configure environment variables\ncp env.example .env\n# Edit .env with your API keys\n\n# Launch API server\nuvicorn main:app --reload",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Advanced",
+      "Local Development Setup"
+    ]
+  },
+  {
+    "objectID": "getting-started/local-setup.html#frontend-setup",
+    "href": "getting-started/local-setup.html#frontend-setup",
+    "title": "Local Development Setup",
+    "section": "Frontend setup",
+    "text": "Frontend setup\ncd frontend\nnpm install\nnpm start\n# Frontend will be available at http://localhost:3000",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Advanced",
+      "Local Development Setup"
+    ]
+  },
+  {
+    "objectID": "getting-started/local-setup.html#populating-the-knowledge-base",
+    "href": "getting-started/local-setup.html#populating-the-knowledge-base",
+    "title": "Local Development Setup",
+    "section": "Populating the knowledge base",
+    "text": "Populating the knowledge base\nexport QDRANT_HOST=localhost\nexport QDRANT_PORT=6333\n\ncd backend/libraries\nbash index_everything.sh\nTo index only notebooks:\ncd backend/libraries\npython notebook_library/index_notebooks.py \\\n  --keep-invalid --no-synth-imports \\\n  notebook_library/my_notebooks\n\nAdding your own notebooks\nPlace your .ipynb files in backend/libraries/notebook_library/my_notebooks/ and run the notebook indexer above.\n\n\nInspecting collections\ncd backend/libraries\npython qdrant_config.py --libraries\npython qdrant_config.py --health\n\n\n\n\n\n\nNote\n\n\n\nThe first run downloads the embedding model — allow a few minutes.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Advanced",
+      "Local Development Setup"
+    ]
+  },
+  {
+    "objectID": "getting-started/docker.html",
+    "href": "getting-started/docker.html",
+    "title": "Installing PaleoPAL with Docker",
+    "section": "",
+    "text": "Docker (or Docker Desktop). You can download and install Docker from here.\nGit (or GitHub Desktop). You can download and install GitHub Desktop from here.\n\nIf you are not familiar with these tools, don’t worry! The following instructions will guide you through the installation process step by step. But if you would like to know more about how Docker and Git can help you with your research, check out these resources.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Installing PaleoPAL with Docker"
+    ]
+  },
+  {
+    "objectID": "getting-started/docker.html#prerequisites",
+    "href": "getting-started/docker.html#prerequisites",
+    "title": "Installing PaleoPAL with Docker",
+    "section": "",
+    "text": "Docker (or Docker Desktop). You can download and install Docker from here.\nGit (or GitHub Desktop). You can download and install GitHub Desktop from here.\n\nIf you are not familiar with these tools, don’t worry! The following instructions will guide you through the installation process step by step. But if you would like to know more about how Docker and Git can help you with your research, check out these resources.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Installing PaleoPAL with Docker"
+    ]
+  },
+  {
+    "objectID": "getting-started/docker.html#system-requirements",
+    "href": "getting-started/docker.html#system-requirements",
+    "title": "Installing PaleoPAL with Docker",
+    "section": "System Requirements",
+    "text": "System Requirements\n\nRAM: Minimum 4 GB, recommended 8 GB+\nDisk space: 10 GB+ for Docker volumes and dependencies\nAPI keys: At least one LLM provider key (OpenAI, Anthropic, Google, or xAI)",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Installing PaleoPAL with Docker"
+    ]
+  },
+  {
+    "objectID": "getting-started/docker.html#quick-start",
+    "href": "getting-started/docker.html#quick-start",
+    "title": "Installing PaleoPAL with Docker",
+    "section": "Quick start",
+    "text": "Quick start\n1. Create a new environment\nAlthough PaleoPAL can run in any environment (preferably the one where all you science toolboxes are installed), this guide will setup the libraries that power PaleoPAL. The installation requires specific Python packages and versions, so we recommend creating a new environment when installing or updating the libraries. You can use any environment manager you prefer, such as conda, venv, or pipenv. The following instructions use conda as an example.\n\n\n\n\n\n\nWarning\n\n\n\nThe indexing code requires Python 3.11. If you are using a different version of Python, you may encounter errors when indexing the libraries.\n\n\nconda create -n paleopal python=3.11\nconda activate paleopal\n2. Clone the PaleoPAL repository\nThe repository contains all the code and resources needed to install and run PaleoPAL. You can clone it using Git by running the following command, use GitHub Desktop, or download the ZIP file from the GitHub repository\ngit clone https://github.com/LinkedEarth/PaleoPAL.git\ncd PaleoPAL\n3. Create the environment file\nThis file will store all your LLM provider API keys:\ncp backend/env.example backend/.env\n4. Add your API keys\nYou need to add you API keys to the backend/.env file you have just created. You can do so with any text editor.\n# Edit backend/.env with your API keys:\n# OPENAI_API_KEY=your_key_here\n# ANTHROPIC_API_KEY=your_key_here\n# GOOGLE_API_KEY=your_key_here\n# XAI_API_KEY=your_key_here\nInstructions on how to obtain API keys vary by providers:\n- OPEN AI API key can be obtained from the OpenAI Platform.\n- ANTHROPIC API key can be obtained from the Anthropic Platform.\n- GOOGLE API key can be obtained from the Google Cloud Console.\n- XAI API key can be obtained from the XAI Platform.\n5. Start all services\ndocker compose up -d\nUsing -d (or --detach) runs your containers in the background, allowing you to continue using the terminal while the services are running. If you need to have access to the logs for troubleshooting, you can run the command without -d to see the logs in real time. You can also use docker compose logs -f to follow the logs after starting the services in detached mode.\n6. Access the application\nOnce running, the services are available at:\n\n\n\nService\nURL\n\n\n\n\nFrontend\nhttp://localhost:3000\n\n\nBackend API\nhttp://localhost:8000\n\n\nQdrant Dashboard\nhttp://localhost:6333/dashboard\n\n\n\nTo make sure that everything is running correctly, check the status of each service. The frontend will allow you to interact with PaleoPAL, the backend API will handle requests from the frontend, and Qdrant is the vector database that stores the knowledge base. Right now, it should be empty. We will be populating it in the next step.\n7. Populating the knowledge base\nThe first time you are using PaleoPAL, you need to populate the knowledge base with relevant data.\n\n\n\n\n\n\nNote\n\n\n\nAlthough you may theoretically use any notebook, code base and documentation to populate the knowledge base, it is recommended to use the provided resources for best results. We cannot guarantee the accuracy of results when using resources not indexed in the knowledge base.\n\n\nThe first step in this process is to install the Python dependencies required to index the libraries. You can do this by running the following command:\npip install -r backend/requirements.txt   \ncd backend/libraries\nbash index_everything.sh\nThis indexes the libraries and documentation that power PaleoPAL. The indexing process may take a few minutes, depending on your system and internet connection. Once the indexing is complete, you can start using PaleoPAL to assist with your paleoclimate research. You can also create the libraries one by one by running the commands in the index_everything.sh script. This is useful if you want to index only specific libraries or if you encounter errors during the indexing process. You can find the commands in the backend/libraries/index_everything.sh file. For example, to only index the spaqrl library, you can run the following command:\npython sparql_library/index_queries.py --queries-dir sparql_library/queries\nWe have strived to make the indexing process as general as possible so you can index your own libraries and documentation. However, we recommend that you follow the documentation and notebook structure used by other LinkedEarth projects. If you want to get an idea of what PaleoPAL uses, check out the libraries folder in the GitHub repository.\nOnce you have indexed the libraries, make sure that the Qdrant Dashboard is populated. You are ready to start using PaleoPAL!\n\n\n\n\n\n\nImportant\n\n\n\nMake sure you run this step! The libraries are what makes PaleoPAL a powerful tool for paleoclimate research. Without them, PaleoPAL will not be able to provide accurate and contextually relevant responses. At least, it won’t be better than a generic LLM. You can always re-index the libraries later if you want to update them or add new ones.\n\n\nWe will update the libraries regularly to include new notebooks, code, and documentation. You can follow the instructions in the Updating Libraries guide to keep your local installation up to date.\n8. Recommended next steps\nYou can start using PaleoPAL using the frontend interface. However, one of the most powerful features of PaleoPAL is its ability to work with you in a Jupyter Notebook through a VS Code extension. You can find instructions for installing the extension here.",
+    "crumbs": [
+      "Getting Started",
+      "Installation",
+      "Installing PaleoPAL with Docker"
+    ]
+  },
+  {
+    "objectID": "getting-started/using-paleopal-vscode.html",
+    "href": "getting-started/using-paleopal-vscode.html",
+    "title": "Using PaleoPAL from the web interface",
+    "section": "",
+    "text": "You must have PaleoPAL installed with properly indexed libraries. If you haven’t done so yet, please follow the installation instructions before proceeding.",
+    "crumbs": [
+      "Getting Started",
+      "Using PaleoPAL",
+      "Using PaleoPAL from the web interface"
+    ]
+  },
+  {
+    "objectID": "getting-started/using-paleopal-vscode.html#prerequisites",
+    "href": "getting-started/using-paleopal-vscode.html#prerequisites",
+    "title": "Using PaleoPAL from the web interface",
+    "section": "",
+    "text": "You must have PaleoPAL installed with properly indexed libraries. If you haven’t done so yet, please follow the installation instructions before proceeding.",
+    "crumbs": [
+      "Getting Started",
+      "Using PaleoPAL",
+      "Using PaleoPAL from the web interface"
+    ]
+  },
+  {
+    "objectID": "getting-started/index.html",
+    "href": "getting-started/index.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "This section provides instructions for installing and using PaleoPAL, as well as guides for advanced users and developers.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started/index.html#installation",
+    "href": "getting-started/index.html#installation",
+    "title": "Getting Started",
+    "section": "Installation",
+    "text": "Installation\nIf you are new to PaleoPAL, we recommend starting with the Docker installation guide. This guide provides step-by-step instructions for installing PaleoPAL and indexing the libraries that power it. We also provide a VS Code extension that allows you to use PaleoPAL directly in your Jupyter Notebooks.\nIf you are an advanced user or developer, you can follow the local development setup guide to install PaleoPAL locally and customize it to your needs.\nIf you need to update the libraries that power PaleoPAL, you can follow the updating libraries guide to keep your local installation up to date.\nYou can access all these guides from the sidebar or by clicking on the links below:\n\n\n\nInstalling PaleoPAL with Docker\nInstalls PaleoPAL and index the libraries\n\n\nVS Code Extension\nInstall the VS Code extension\n\n\nUpdating Libraries\nInstructions for keeping the knowledge base libraries up to date\n\n\nAdvanced Installation\nInstructions for local development and custom setups (not recommended for most users)",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "getting-started/index.html#using-paleopal",
+    "href": "getting-started/index.html#using-paleopal",
+    "title": "Getting Started",
+    "section": "Using PaleoPAL",
+    "text": "Using PaleoPAL\nThere are two main ways to interact with PaleoPAL: through the frontend interface or through the VS Code extension. The frontend interface allows you to interact with PaleoPAL through a web browser, while the VS Code extension allows you to use PaleoPAL directly in your Jupyter Notebooks.\n\n\n\n\n\n\nImportant\n\n\n\nYour data (data and code) stay on your computer. PaleoPAL does not send your data to any external servers. The only data that is sent to external servers are the queries you send to the LLMs (e.g., OpenAI, Anthropic, Google, Ollama, Grok). You can also use a local LLM (e.g., Ollama, Grok) to avoid sending any data to external servers.\n\n\n\n\n\nUsing PaleoPAL through the web interface\nInstructions on using PaleoPAL in a web browser\n\n\nUsing PaleoPAL through the VS Code extension\nInstructions on using PaleoPAL in the VS Code extension",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "tutorials/sparql-queries.html",
+    "href": "tutorials/sparql-queries.html",
+    "title": "SPARQL Queries",
+    "section": "",
+    "text": "This tutorial is a placeholder — content coming soon.\nThis guide will cover:\n\nHow PaleoPAL generates SPARQL queries from natural language\nQuerying LinkedEarth GraphDB\nRefining and iterating on query results\nWorking with returned datasets",
+    "crumbs": [
+      "Getting Started",
+      "Working with Data",
+      "SPARQL Queries"
+    ]
+  },
+  {
+    "objectID": "evaluation/newstudy.html",
+    "href": "evaluation/newstudy.html",
+    "title": "Exploring an unknown science problem",
+    "section": "",
+    "text": "Coming soon",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Exploring an unknown science problem"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html",
+    "href": "evaluation/StructuredTasks.html",
+    "title": "Structured paleoclimate tasks",
+    "section": "",
+    "text": "This part of the PaleoPAL evaluation focuses on a structured paleoclimate analysis. These analysis workflows are similar to homework or tutorial-style scientific exercises: they have a defined goal and an expected solution, but they require both scientific understanding and technical implementation.\nThe evaluation compares three conditions: completing the task without AI assistance, completing a comparable task with a general-purpose LLM, and completing a comparable task with PaleoPAL. The goal is to assess whether PaleoPAL can help users translate scientific prompts into appropriate analyses, generate useful code, choose suitable tools and methods, avoid hallucinated functions or APIs, reach a working result efficiently, and respond to corrections or clarifications.\n\n\n\n\n\n\n\nCondition\nDescription\n\n\n\n\nNo AI assistance\nParticipants complete the task manually using documentation, tutorials, and non-AI programming resources.\n\n\nGeneral-purpose LLM assistance\nParticipants complete a comparable task using a general-purpose AI assistant, such as ChatGPT, Claude, or Gemini.\n\n\nPaleoPAL assistance\nParticipants complete a comparable task using PaleoPAL, with an LLM of their choice.\n\n\n\nThe goal is not to evaluate whether PaleoPAL can solve an entire research problem worthy of a standalone paper. Instead, we are evaluating whether PaleoPAL can support smaller pieces of scientific analyses that paleogeoscientists commonly perform. Each of the evaluation analyses include retrieving a dataset, loading and inspecting paleoclimate data, running a standard analysis, and creating a visualization. Each of these tasks involve one or more of the documents and libraries that PaleoPAL has indexed, and each step requires both scientific understanding and technical implementation.\nThis activity primarily evaluates:\n\n\n\n\n\n\n\nEvaluation criterion\nRole in this activity\n\n\n\n\nUser Experience and Ease of Use\nDoes AI assistance make the task easier, faster, or less frustrating?\n\n\nTool and Method Appropriateness\nDoes the system select suitable libraries, functions, methods, and workflows?\n\n\nFactuality and Hallucination Control\nDoes the system avoid inventing functions, misusing APIs, or making unsupported claims?\n\n\nSteering and Adaptability\nDoes the system respond appropriately to corrections, clarifications, and constraints?\n\n\nTime to First Correct Result\nHow quickly does the participant reach a working result, even if it still needs refinement?",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html#overview",
+    "href": "evaluation/StructuredTasks.html#overview",
+    "title": "Structured paleoclimate tasks",
+    "section": "",
+    "text": "This part of the PaleoPAL evaluation focuses on a structured paleoclimate analysis. These analysis workflows are similar to homework or tutorial-style scientific exercises: they have a defined goal and an expected solution, but they require both scientific understanding and technical implementation.\nThe evaluation compares three conditions: completing the task without AI assistance, completing a comparable task with a general-purpose LLM, and completing a comparable task with PaleoPAL. The goal is to assess whether PaleoPAL can help users translate scientific prompts into appropriate analyses, generate useful code, choose suitable tools and methods, avoid hallucinated functions or APIs, reach a working result efficiently, and respond to corrections or clarifications.\n\n\n\n\n\n\n\nCondition\nDescription\n\n\n\n\nNo AI assistance\nParticipants complete the task manually using documentation, tutorials, and non-AI programming resources.\n\n\nGeneral-purpose LLM assistance\nParticipants complete a comparable task using a general-purpose AI assistant, such as ChatGPT, Claude, or Gemini.\n\n\nPaleoPAL assistance\nParticipants complete a comparable task using PaleoPAL, with an LLM of their choice.\n\n\n\nThe goal is not to evaluate whether PaleoPAL can solve an entire research problem worthy of a standalone paper. Instead, we are evaluating whether PaleoPAL can support smaller pieces of scientific analyses that paleogeoscientists commonly perform. Each of the evaluation analyses include retrieving a dataset, loading and inspecting paleoclimate data, running a standard analysis, and creating a visualization. Each of these tasks involve one or more of the documents and libraries that PaleoPAL has indexed, and each step requires both scientific understanding and technical implementation.\nThis activity primarily evaluates:\n\n\n\n\n\n\n\nEvaluation criterion\nRole in this activity\n\n\n\n\nUser Experience and Ease of Use\nDoes AI assistance make the task easier, faster, or less frustrating?\n\n\nTool and Method Appropriateness\nDoes the system select suitable libraries, functions, methods, and workflows?\n\n\nFactuality and Hallucination Control\nDoes the system avoid inventing functions, misusing APIs, or making unsupported claims?\n\n\nSteering and Adaptability\nDoes the system respond appropriately to corrections, clarifications, and constraints?\n\n\nTime to First Correct Result\nHow quickly does the participant reach a working result, even if it still needs refinement?",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html#participants",
+    "href": "evaluation/StructuredTasks.html#participants",
+    "title": "Structured paleoclimate tasks",
+    "section": "Participants",
+    "text": "Participants\nParticipants are researchers in paleoclimatology with varying levels of experience in the field. Participants will be asked to document their process, including where they encountered difficulty, what resources they used, when they reached a working result, and how much manual correction was required. The comparison across participants and conditions is part of the evaluation. We are interested not only in whether a task is completed, but also in how the experience differs depending on the participant’s background and the type of assistance available.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html#evaluation-design",
+    "href": "evaluation/StructuredTasks.html#evaluation-design",
+    "title": "Structured paleoclimate tasks",
+    "section": "Evaluation Design",
+    "text": "Evaluation Design\nFor each condition, participants will complete a structured paleoclimate workflow. Each workflow is based on a small but meaningful part of a typical paleoclimate study and includes the following components:\n\nDataset retrieval: Participants will retrieve paleoclimate data from multiple source types, including the [LiPDGraph](https://linkedearth.graphdb.mint.isi.edu, a dataset from NOAA or PANGAEA accessed through PyleoTUPS, and a local LiPD file.\nData inspection: Participants will load the datasets, inspect metadata, and identify relevant variables.\nAnalysis: Participants will apply a standard time series analysis, such as spectral analysis, coherence analysis, correlation, or change point detection.\nVisualization: Participants will create plots or maps to visualize the data, analysis results, or metadata.\n\nEach task is time-constrained. If a participant does not complete a task within the allotted time, that is still a valid evaluation outcome. Incomplete tasks should be documented clearly, including what was completed, where the participant got stuck, and what additional information or assistance would have been needed.\n\nHow the Task Notebooks Were Prepared\nBefore the evaluation, each participant contributed a structured paleoclimate analysis based on their current work. Each analysis notebook included three components: data gathering, analysis, and visualization. The data-gathering step was designed to involve multiple source types, including records from the LiPDGraph, datasets from NOAA or PANGAEA accessible through PyleoTUPS, and local LiPD files.\nThe notebooks were then standardized into high-level task descriptions, similar to homework-style assignments. These standardized versions preserved the scientific goals of the original analyses while removing tool-specific instructions, so that participants could be evaluated on how they approached the task under different assistance conditions.\n\n\nConditions\nPaleoPAL will be evluated through three conditions:\nFor the No AI assistance condition, participants may use package documentation, tutorials, example notebooks, and programming resources such as Stack Overflow. Participants should not use AI assistants. Participants should also avoid using search workflows that surface AI-generated answers. When possible, go directly to the relevant documentation or known resource.\nFor the General-purpose LLM assistance condition, participants may use an AI assistant such as ChatGPT, Claude, Gemini, or a combination of these systems. Participants should record which system they used, and, when possible, the model or version. Participants should also preserve prompts and responses, either in the notebook or in a separate record.\nFor the PaleoPAL assistance condition, participants will use PaleoPAL with an LLM of their choice. Installing PaleoPAL does not count toward the task time. However, understanding how to use it properly does.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html#required-tools",
+    "href": "evaluation/StructuredTasks.html#required-tools",
+    "title": "Structured paleoclimate tasks",
+    "section": "Required tools",
+    "text": "Required tools\nBefore beginning this evaluation activity, participants should make sure they have access to the required tools, documentation, and computing environment.\nParticipants should have:\n\n\n\nRequirement\nNotes\n\n\n\n\nPython environment\nA working Python environment (Python=3.12) with Pyleoclim, PyLiPD, PyleoTUPS, and Ammonyte installed.\n\n\nJupyter notebook interface\nVS Code with all appropriate extension (Python, Jupyter Notebook, PaleoPAL)\n\n\nEvaluation notebooks\nThe task notebooks provided by the PaleoPAL evaluation team.\n\n\nTime tracker\nParticipants should track how much time they spend on each task and subtask.\n\n\n\nFor all evaluation conditions, participants may use the following tools and resources:",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html#resources",
+    "href": "evaluation/StructuredTasks.html#resources",
+    "title": "Structured paleoclimate tasks",
+    "section": "Resources",
+    "text": "Resources\nThese resources were used to build the PaleoPAL libraries.\n\nLiPD resources\nThe following websites contain useful information about LiPD and the controlled vocabulary:\n\n\n\nTool or resource\nPurpose\n\n\n\n\nLiPD Overview\nAn overview on how LiPD files are organized\n\n\nControlled Vocabulary\nControlled Vocabulary used for certain fields in LiPD datasets\n\n\n\n\n\nLiPDGraph Resources\nThe following contain information about where to find the graph, the ontology underpinning the knowledge base, and useful resources for SPARQL\n\n\n\nTool or resource\nPurpose\n\n\n\n\nLiPDGraph endpoint\nURL to access the SPARQL Endpoint\n\n\nLinkedEarth Ontology\nRepresents the schema underlying the knowledge base. Can be used to infer relationship between classes and properties\n\n\nPaleoclimate Dataset Representation\nAn overview of the ontology and SPARQL\n\n\nQuerying the LiPDGraph\nTutorial on how to query the LiPDGraph\n\n\nPyLiPD queries\nSince PyLiPD operates on a local graph similar to LiPDGraph, most of its functionalities are wrappers around SPARQL queries. These queries can be reused in the concept of LiPDGraph\n\n\nPaleoBooks\nExample workflows and tutorials that may serve as references. For graph queries, the Books on Updating LMRv2.1, Fun in the Frequency Domain, and PaleoPCA are relevant\n\n\nA gentle introduction to SPARQL\nThis website contains some basic SPARQL commands\n\n\nregex buddy\nThis website has quick shortcuts on regular expressions, which you can use in your query\n\n\n\n\n\nSoftware\n\n\n\nTool or resource\nPurpose\n\n\n\n\nPyLiPD documentation\nOverview of PyLiPD and API documentation\n\n\nPyLiPD tutorials\nTutorials on how to use PyLiPD in scientific workflows\n\n\nPyleoTUPS documentation\nOverview of PyleoTUPS and API documentation\n\n\nPyleoTUPS tutorials\nTutorials on how to use PyleoTUPS, including an overview of how NOAA and PANGAEA organize their databases\n\n\nPyleoclim documentation\nOverview of Pyleoclim and API documentation\n\n\nPyleoclim tutorials\nTutorials on how to use Pyleoclim in scientific worklfows\n\n\nAmmonyte documentation and tutorials\nOverview of Ammonyte, API documentation and tutorials\n\n\n\n\n\nScience Examples\n\n\n\nTool or resource\nPurpose\n\n\n\n\nPaleoBooks\nA gallery of scientific notebooks that showcase the various tools supported by PaleoPAL",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "evaluation/StructuredTasks.html#evaluation-activities",
+    "href": "evaluation/StructuredTasks.html#evaluation-activities",
+    "title": "Structured paleoclimate tasks",
+    "section": "Evaluation Activities",
+    "text": "Evaluation Activities\n\nScientific Analysis\nFor each task, participants should follow the same general procedure.\n\nOpen the assigned task notebook.\nRead the task description and expected deliverables.\nStart tracking time.\nWork on the task under the assigned condition: no AI, general-purpose LLM, or PaleoPAL.\nComplete the task to the best of your ability within the allotted time. When using an AI assistant, make sure that you preserve prompts in the notebook.\nStop after the allotted task time, even if the task is incomplete.\nClean up the notebook enough that another person can understand what was attempted.\nComplete the evaluation form.\n\nThe evaluation notebooks are divided into three tasks: data gathering (which itself is divided into three subtasks), analysis, and visualization. Each task has been assigned a specific time allocation. At these checkpoints, participants may be given part of the expected solution or “ground truth” so that they can continue with the next stage rather than getting stuck indefinitely. When this happens, participants should clearly mark where they used the provided checkpoint information. At the end of a task (whether completed or not), participants should stop the clock and look at the provided solution to ensure that they start on the next task with a similar output. Participants should restart the clock at the beginning of each new task, after looking at the provided solution.\n\n\nEvaluation Form\nEach condition will be accompanied by an evaluation form. Participants will complete the form after the period to describe their experience and assess the system used for that condition.\nThe form will ask participants to reflect on their experience, including what worked well, what was challenging, and what could be improved. Participants will also rate the system across several evaluation criteria, including ease of use, tool and method appropriateness, factuality, adaptability, and time to first correct result.\nIn addition, participants will report their familiarity with the scientific concepts and software tools used in the task. They will also indicate whether they were able to complete the task and, if so, how much time it took.\n\n\nTime Commitment\nEach structured paleoclimate task is expected to require approximately three hours total.\n\n\n\nActivity\nTime\n\n\n\n\nScience task\n2 hours\n\n\nEvaluation form\n1 hour\n\n\n\nParticipants should stop the science task after two hours, even if the task is incomplete. Incomplete tasks are informative and should be documented. The evaluation is designed to capture where progress was made, where participants got stuck, and how different forms of assistance affected the process.",
+    "crumbs": [
+      "Getting Started",
+      "Evaluation Activities",
+      "Structured paleoclimate tasks"
+    ]
+  },
+  {
+    "objectID": "gallery/index.html",
+    "href": "gallery/index.html",
+    "title": "Gallery",
+    "section": "",
+    "text": "Example analyses and workflows produced with PaleoPAL.\nGallery examples coming soon.",
+    "crumbs": [
+      "Getting Started",
+      "Gallery"
+    ]
+  }
+]
