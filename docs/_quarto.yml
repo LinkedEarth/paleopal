@@ -1,0 +1,103 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "index.qmd"
+    - "getting-started/"
+    - "tutorials/"
+    - "evaluation/"
+    - "gallery/"
+    - "faq/"
+
+execute:
+  freeze: true
+
+website:
+  title: "PaleoPAL"
+  description: "AI-Powered Assistant for Paleoclimate Research"
+  page-navigation: true
+
+  navbar:
+    title: false
+    logo: figures/PaleoPal_rectangular_light.png
+    logo-alt: "PaleoPAL"
+    left:
+      - file: getting-started/index.qmd
+        text: Getting Started
+      - file: tutorials/index.qmd
+        text: Tutorials
+      - file: evaluation/index.qmd
+        text: Evaluation
+      - file: gallery/index.qmd
+        text: Gallery
+      - file: faq/index.qmd
+        text: FAQ
+
+    right:
+      - icon: github
+        href: https://github.com/LinkedEarth/PaleoPAL
+
+  sidebar:
+    - id: getting-started
+      title: Getting Started
+      style: floating
+      align: left
+      contents:
+        - getting-started/index.qmd
+        - section: "Installation"
+          contents:
+          - getting-started/docker.qmd
+          - getting-started/vscode-extension.qmd
+          - section: "Advanced"
+            contents:
+              - getting-started/local-setup.qmd
+              - getting-started/updating-libraries.qmd
+        - section: "Using PaleoPAL"
+          contents:
+            - getting-started/using-paleopal-web.qmd
+            - getting-started/using-paleopal-vscode.qmd
+    - id: tutorials
+      title: Tutorials
+      style: floating
+      align: left
+      contents:
+        - tutorials/index.qmd
+        - section: "Getting Started"
+          contents:
+            - tutorials/getting-started.qmd
+        - section: "Working with Data"
+          contents:
+            - tutorials/sparql-queries.qmd
+
+    - id: evaluation
+      title: Evaluation
+      style: floating
+      align: left
+      contents:
+        - evaluation/index.qmd
+        - section: "Evaluation Activities"
+          contents:
+            - evaluation/StructuredTasks.qmd
+            - evaluation/reproduce.qmd
+            - evaluation/newstudy.qmd
+    - id: gallery
+      title: Gallery
+      style: floating
+      align: left
+      contents:
+        - gallery/index.qmd
+
+    - id: faq
+      title: FAQ
+      style: floating
+      align: left
+      contents:
+        - faq/index.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 5
+    toc-location: right
+    css: styles.css

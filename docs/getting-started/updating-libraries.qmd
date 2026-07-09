@@ -1,0 +1,55 @@
+---
+title: "Updating the Libraries"
+sidebar: getting-started
+---
+
+PaleoPAL's knowledge base libraries are updated regularly to include new notebooks, code, and documentation. To keep your local installation up to date, you can follow these steps:
+
+**1. Pull the latest changes from the PaleoPAL repository**
+
+Make sure you are in the PaleoPAL directory and run:
+
+```bash
+git pull origin main
+```
+
+**2. Activate the PaleoPAL conda environment**
+
+Make sure that you are in the conda environment you created for PaleoPAL (if you followed the [Docker installation instructions](docker.qmd)). If not, activate your environment:
+
+```bash
+conda activate paleopal
+```
+
+If you did not keep this environment, follow the instructions in the [Docker installation guide](docker.qmd) to create a new environment and install the required Python packages.
+
+**3. Run PaleoPAL using Docker**
+
+```bash
+docker compose up -d
+```
+
+and Navigate to the Qdrant Dashboard: <http://localhost:6333/dashboard>.
+
+**4. Remove existing collections in Qdrant**
+
+There is no way to update the libraries in place, so you will need to remove the existing collections in Qdrant before re-indexing the libraries. You can do this by clicking on the "Delete" button (garbage can) for each collection in the Qdrant Dashboard. If you only want/need to update specific libraries, you can delete only the collections for those libraries.
+
+**5. Re-index the libraries**
+
+If you have removed all collections, you can re-index all libraries by running the following command:
+
+```bash
+cd backend/libraries
+bash index_everything.sh
+```
+
+If you only need to update specific libraries, you can run the commands in the `index_everything.sh` script for those libraries. For example, to only index the spaqrl library, you can run the following command:
+
+```bash
+python sparql_library/index_queries.py --queries-dir sparql_library/queries
+```
+
+
+
+
