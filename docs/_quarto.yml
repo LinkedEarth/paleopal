@@ -3,7 +3,7 @@ project:
   output-dir: _site
   render:
     - "index.qmd"
-    - "installation/"
+    - "getting-started/"
     - "tutorials/"
     - "evaluation/"
     - "gallery/"
@@ -22,8 +22,8 @@ website:
     logo: figures/PaleoPal_rectangular_light.png
     logo-alt: "PaleoPAL"
     left:
-      - file: installation/index.qmd
-        text: Installation
+      - file: getting-started/index.qmd
+        text: Getting Started
       - file: tutorials/index.qmd
         text: Tutorials
       - file: evaluation/index.qmd
@@ -38,18 +38,24 @@ website:
         href: https://github.com/LinkedEarth/PaleoPAL
 
   sidebar:
-    - id: installation
-      title: Installation
+    - id: getting-started
+      title: Getting Started
       style: floating
       align: left
       contents:
-        - installation/index.qmd
-        - section: "Setup Options"
+        - getting-started/index.qmd
+        - section: "Installation"
           contents:
-            - installation/docker.qmd
-            - installation/local-setup.qmd
-            - installation/vscode-extension.qmd
-
+          - getting-started/docker.qmd
+          - getting-started/vscode-extension.qmd
+          - section: "Advanced"
+            contents:
+              - getting-started/local-setup.qmd
+              - getting-started/updating-libraries.qmd
+        - section: "Using PaleoPAL"
+          contents:
+            - getting-started/using-paleopal-web.qmd
+            - getting-started/using-paleopal-vscode.qmd
     - id: tutorials
       title: Tutorials
       style: floating
@@ -69,7 +75,11 @@ website:
       align: left
       contents:
         - evaluation/index.qmd
-
+        - section: "Evaluation Activities"
+          contents:
+            - evaluation/StructuredTasks.qmd
+            - evaluation/reproduce.qmd
+            - evaluation/newstudy.qmd
     - id: gallery
       title: Gallery
       style: floating

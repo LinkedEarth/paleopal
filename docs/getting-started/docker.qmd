@@ -1,0 +1,129 @@
+---
+title: "Installing PaleoPAL with Docker"
+sidebar: getting-started
+---
+
+## Prerequisites
+
+- Docker (or Docker Desktop). You can download and install Docker from [here](https://www.docker.com/get-started).
+- Git (or GitHub Desktop). You can download and install GitHub Desktop from [here](https://github.com/apps/desktop).
+
+If you are not familiar with these tools, don't worry! The following instructions will guide you through the installation process step by step. But if you would like to know more about how Docker and Git can help you with your research, check out these [resources](https://linked.earth/LeapFROGS/). 
+
+
+## System Requirements
+
+- **RAM**: Minimum 4 GB, recommended 8 GB+
+- **Disk space**: 10 GB+ for Docker volumes and dependencies
+- **API keys**: At least one LLM provider key (OpenAI, Anthropic, Google, or xAI)
+
+## Quick start
+
+**1. Create a new environment**
+
+Although PaleoPAL can run in any environment (preferably the one where all you science toolboxes are installed), this guide will setup the libraries that power PaleoPAL. The installation requires specific Python packages and versions, so we recommend creating a new environment when installing or updating the libraries. You can use any environment manager you prefer, such as `conda`, `venv`, or `pipenv`. The following instructions use `conda` as an example. 
+
+::: {.callout-warning}
+The indexing code requires **Python 3.11**. If you are using a different version of Python, you may encounter errors when indexing the libraries.
+:::
+
+```bash
+conda create -n paleopal python=3.11
+conda activate paleopal
+```
+
+**2. Clone the PaleoPAL repository**
+
+The repository contains all the code and resources needed to install and run PaleoPAL. You can clone it using Git by running the following command, use GitHub Desktop, or download the ZIP file from the [GitHub repository](https://github.com/LinkedEarth/paleopal)
+
+```bash
+git clone https://github.com/LinkedEarth/PaleoPAL.git
+cd PaleoPAL
+```
+
+**3. Create the environment file**
+
+This file will store all your LLM provider API keys: 
+
+```bash
+cp backend/env.example backend/.env
+```
+
+**4. Add your API keys**
+
+You need to add you API keys to the `backend/.env` file you have just created. You can do so with any text editor.
+
+```
+# Edit backend/.env with your API keys:
+# OPENAI_API_KEY=your_key_here
+# ANTHROPIC_API_KEY=your_key_here
+# GOOGLE_API_KEY=your_key_here
+# XAI_API_KEY=your_key_here
+```
+
+Instructions on how to obtain API keys vary by providers:  
+- OPEN AI API key can be obtained from the [OpenAI Platform](https://platform.openai.com/).  
+- ANTHROPIC API key can be obtained from the [Anthropic Platform](https://console.anthropic.com/).  
+- GOOGLE API key can be obtained from the [Google Cloud Console](https://console.cloud.google.com/).  
+- XAI API key can be obtained from the [XAI Platform](https://x.ai/).    
+
+
+**5. Start all services**
+
+```bash
+docker compose up -d
+```
+
+Using `-d` (or `--detach`) runs your containers in the background, allowing you to continue using the terminal while the services are running. If you need to have access to the logs for troubleshooting, you can run the command without `-d` to see the logs in real time. You can also use `docker compose logs -f` to follow the logs after starting the services in detached mode.
+
+**6. Access the application**
+
+Once running, the services are available at:
+
+| Service | URL |
+|---------|-----|
+| Frontend | <http://localhost:3000> |
+| Backend API | <http://localhost:8000> |
+| Qdrant Dashboard | <http://localhost:6333/dashboard> |
+
+To make sure that everything is running correctly, check the status of each service. The frontend will allow you to interact with PaleoPAL, the backend API will handle requests from the frontend, and Qdrant is the vector database that stores the knowledge base. Right now, it should be empty. We will be populating it in the next step.
+
+**7. Populating the knowledge base**
+
+The first time you are using PaleoPAL, you need to populate the knowledge base with relevant data. 
+
+::: {.callout-note}
+Although you may theoretically use any notebook, code base and documentation to populate the knowledge base, it is recommended to use the provided resources for best results. We cannot guarantee the accuracy of results when using resources not indexed in the knowledge base.
+::: 
+
+The first step in this process is to install the Python dependencies required to index the libraries. You can do this by running the following command:
+
+```bash
+pip install -r backend/requirements.txt   
+```
+
+
+```bash
+cd backend/libraries
+bash index_everything.sh
+```
+
+This indexes the libraries and documentation that power PaleoPAL. The indexing process may take a few minutes, depending on your system and internet connection. Once the indexing is complete, you can start using PaleoPAL to assist with your paleoclimate research. You can also create the libraries one by one by running the commands in the index_everything.sh script. This is useful if you want to index only specific libraries or if you encounter errors during the indexing process. You can find the commands in the `backend/libraries/index_everything.sh` file. For example, to only index the spaqrl library, you can run the following command:
+
+```bash
+python sparql_library/index_queries.py --queries-dir sparql_library/queries
+```
+
+We have strived to make the indexing process as general as possible so you can index your own libraries and documentation. However, we recommend that you follow the documentation and notebook structure used by other LinkedEarth projects. If you want to get an idea of what PaleoPAL uses, check out the `libraries` folder in the GitHub repository. 
+
+Once you have indexed the libraries, make sure that the Qdrant Dashboard is populated. You are ready to start [using PaleoPAL](using-paleopal.qmd)!
+
+::: {.callout-important}
+Make sure you run this step! The libraries are what makes PaleoPAL a powerful tool for paleoclimate research. Without them, PaleoPAL will not be able to provide accurate and contextually relevant responses. At least, it won't be better than a generic LLM. You can always re-index the libraries later if you want to [update them](updating-libraries.qmd) or add new ones.
+:::
+
+We will update the libraries regularly to include new notebooks, code, and documentation. You can follow the instructions in the [Updating Libraries](updating-libraries.qmd) guide to keep your local installation up to date.
+
+**8. Recommended next steps**
+
+You can start using PaleoPAL using the frontend interface. However, one of the most powerful features of PaleoPAL is its ability to work with you in a Jupyter Notebook through a VS Code extension. You can find instructions for installing the extension [here](vscode-extension.qmd).
