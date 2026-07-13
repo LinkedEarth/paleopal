@@ -1,0 +1,72 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "30bb2c9668e78ece"
+  ],
+  "payload": {
+    "title": "Creating LiPD files from a tabular template",
+    "summary": "This Jupyter notebook demonstrates how to programmatically create LiPD files from an Excel template. It is designed for users who need to generate multiple LiPD files using a structured approach. The notebook utilizes the PyLiPD library to read data from an Excel file, process metadata, and create PaleoData and ChronData objects. It also includes steps to add an ensemble table and save the dataset as a LiPD file. The notebook is intended for users familiar with object-oriented programming and the LinkedEarth Ontology.",
+    "goals": [
+      "Create a LiPD formatted Dataset from an excel template",
+      "Add an ensemble table",
+      "Save the Dataset to a file"
+    ],
+    "libraries": [
+      "pylipd",
+      "pandas",
+      "uuid"
+    ],
+    "techniques": [
+      "Object-Oriented Programming",
+      "Data extraction from Excel",
+      "Data manipulation with Pandas",
+      "LiPD file creation"
+    ],
+    "keywords": [
+      "LiPD",
+      "LinkedEarth Ontology",
+      "Object-Oriented Programming"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook begins by importing necessary classes from the PyLiPD library to handle various components of a LiPD dataset.",
+        "heading": "Creating LiPD files from a tabular template"
+      },
+      {
+        "blurb": "The Excel template is opened, and relevant sheets are identified for extracting metadata and measurement tables.",
+        "heading": "Opening our template file"
+      },
+      {
+        "blurb": "A PaleoData object is created, and measurement tables are populated using data extracted from the Excel file.",
+        "heading": "PaleoData"
+      },
+      {
+        "blurb": "ChronData is constructed similarly to PaleoData, using a Pandas DataFrame to manage chronology-related information.",
+        "heading": "ChronData"
+      },
+      {
+        "blurb": "An ensemble table is added to the dataset using data from a CSV file, demonstrating how to handle additional data structures.",
+        "heading": "Adding an ensemble table"
+      },
+      {
+        "blurb": "The final step involves writing the constructed dataset to a LiPD file, completing the process of programmatic LiPD file creation.",
+        "heading": "Writing a LiPD file"
+      },
+      {
+        "blurb": "The newly created LiPD file is reopened to verify its contents and ensure the data has been correctly formatted and saved.",
+        "heading": "Opening the LiPD file"
+      }
+    ],
+    "inputs": [
+      "Excel file with sheets: About, Guidelines, Metadata, paleo1measurementTable1, chron1measurementTable1, Lists",
+      "CSV file for ensemble table"
+    ],
+    "outputs": [
+      "LiPD file"
+    ],
+    "source": "llm:openai"
+  }
+}

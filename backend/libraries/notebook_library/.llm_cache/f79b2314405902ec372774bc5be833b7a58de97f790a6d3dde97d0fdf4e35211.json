@@ -1,0 +1,95 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4eebefe512bcbb03"
+  ],
+  "payload": {
+    "title": "Tracing Transformations",
+    "description": "This Jupyter notebook demonstrates how to track data transformations using the `keep_log` parameter in the Pyleoclim library. It focuses on ensuring reproducibility by logging each step of data manipulation, using a dataset of benthic \u03b418O records. The notebook includes loading the dataset, slicing, detrending, interpolating, and standardizing the data, while maintaining a log of these transformations. The final output is a visual representation of the data transformations applied.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the LR04 dataset using Pyleoclim.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load Dataset"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Load Dataset"
+        ],
+        "description": "Plot the original LR04 dataset to visualize the data before any transformations.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Plot Original Dataset"
+      },
+      {
+        "cell_indices": [
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Plot Original Dataset"
+        ],
+        "description": "Slice the dataset to focus on the last 3000 years for further analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Slice Dataset"
+      },
+      {
+        "cell_indices": [
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Slice Dataset"
+        ],
+        "description": "Detrend, interpolate, and standardize the sliced dataset while keeping a log of transformations.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Apply Transformations"
+      },
+      {
+        "cell_indices": [
+          10,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Apply Transformations"
+        ],
+        "description": "Access and review the log of transformations applied to the dataset.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Review Transformation Log"
+      },
+      {
+        "cell_indices": [
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Review Transformation Log"
+        ],
+        "description": "Plot the transformed dataset to visualize the effects of the applied transformations.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Plot Transformed Dataset"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

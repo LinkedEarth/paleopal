@@ -1,0 +1,112 @@
+{
+  "task": "project_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "reproduce_lmr_pb|046273e28da8bea7|1d3a4a07101c9bdf|808d157f71714f0e|87b8cf7e71ec7865|9606b2fae62c05fb|b10e3227299117cf|dd3a2211ebf20885|e9de5ca8d97e1fe7"
+  ],
+  "payload": {
+    "title": "Reproduce LMR Paleoclimate Book Project",
+    "summary": "The Reproduce LMR Paleoclimate Book Project aims to replicate the LMRv2.1 climate reconstruction process through a series of Jupyter notebooks. The project is divided into three main phases: data assembly, data assimilation, and validation. Each phase involves specific tasks such as constructing proxy databases, running data assimilation processes, and validating the reconstructed climate data against known datasets. The project utilizes various libraries and tools, including Pyleoclim, cfr, and LiPD, to handle paleoclimate data and perform necessary analyses.",
+    "phases": [
+      {
+        "phase": "data_assembly",
+        "notebook_paths": [
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/correlating_geoseries.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_a_db_assembly_Tardif2019_pickle.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_b_db_assembly_cfr_PAGES2k.ipynb"
+        ],
+        "role": "Assemble and prepare paleoclimate data for assimilation."
+      },
+      {
+        "phase": "data_assimilation",
+        "notebook_paths": [
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assimilation/C02_a_DA_with_class_based_seasonality.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assimilation/plotting_gs_dashboard.ipynb"
+        ],
+        "role": "Execute data assimilation to reconstruct climate fields."
+      },
+      {
+        "phase": "validation",
+        "notebook_paths": [
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/loading_from_verse.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/C03_b_comparison.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/C03_a_validation.ipynb"
+        ],
+        "role": "Validate the reconstructed climate data against known datasets."
+      }
+    ],
+    "end_to_end_steps": [
+      {
+        "step_number": 1,
+        "phase": "data_assembly",
+        "title": "Correlating two GeoSeries",
+        "description": "Compute the correlation between two GeoSeries using the pyleoclim library.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/correlating_geoseries.ipynb"
+      },
+      {
+        "step_number": 2,
+        "phase": "data_assembly",
+        "title": "Database Assembly using the LMRv2.1 pickle file",
+        "description": "Construct a ProxyDatabase object using PAGES 2k proxy records from LMRv2.1 pickle files.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_a_db_assembly_Tardif2019_pickle.ipynb"
+      },
+      {
+        "step_number": 3,
+        "phase": "data_assembly",
+        "title": "Database Assembly using cfr's built in PAGES 2k database",
+        "description": "Construct a proxy database using the PAGES 2k (v2.0.0) records with the 'cfr' library.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_b_db_assembly_cfr_PAGES2k.ipynb"
+      },
+      {
+        "step_number": 4,
+        "phase": "data_assimilation",
+        "title": "Run Data Assimilation",
+        "description": "Execute a data assimilation process to reproduce the LMRv2.1 climate reconstruction.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assimilation/C02_a_DA_with_class_based_seasonality.ipynb"
+      },
+      {
+        "step_number": 5,
+        "phase": "data_assimilation",
+        "title": "Plotting as a GeoSeries Dashboard",
+        "description": "Explore and visualize a subset of LiPD datasets using Pyleoclim.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assimilation/plotting_gs_dashboard.ipynb"
+      },
+      {
+        "step_number": 6,
+        "phase": "validation",
+        "title": "Loading LiPDverse Data and Plotting as GeoSeries",
+        "description": "Load paleoclimate datasets from the LiPDverse and create a Pyleoclim GeoSeries.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/loading_from_verse.ipynb"
+      },
+      {
+        "step_number": 7,
+        "phase": "validation",
+        "title": "Proxy Database Forensics",
+        "description": "Identify differences and similarities between two proxy databases using the `cfr.ProxyDatabase` class.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/C03_b_comparison.ipynb"
+      },
+      {
+        "step_number": 8,
+        "phase": "validation",
+        "title": "Validating a Reconstruction",
+        "description": "Validate a paleoclimate reconstruction by comparing it to the original LMRv2.1 reconstruction and multiple instrumental datasets.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/C03_a_validation.ipynb"
+      }
+    ],
+    "keywords": [
+      "paleoclimate",
+      "data assembly",
+      "data assimilation",
+      "validation",
+      "LMRv2.1",
+      "proxy database",
+      "GeoSeries",
+      "PAGES 2k",
+      "LiPDverse",
+      "climate reconstruction"
+    ],
+    "source": "llm:openai",
+    "project_id": "reproduce_lmr_pb"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0a147d62ad4acecf"
+  ],
+  "payload": {
+    "title": "Clustering",
+    "description": "This notebook applies clustering algorithms to oceanographic data to identify watermasses based on multiple traits. It uses Scikit Learn's clustering tools to analyze tracer data from the C-iTRACE dataset, focusing on both surface and sectional data. The notebook demonstrates the use of various clustering techniques, including Mean Shift and TSNE, to visualize and interpret the spatial distribution of watermasses.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and modules for data processing, visualization, and clustering.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load the C-iTRACE dataset using fsspec and xarray, and merge tracer data variables.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load C-iTRACE Dataset"
+      },
+      {
+        "cell_indices": [
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Define a function to apply clustering algorithms to tracer data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Clustering Function Definition"
+      },
+      {
+        "cell_indices": [
+          20,
+          21,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Load C-iTRACE Dataset"
+        ],
+        "description": "Select a specific surface from the dataset for clustering analysis.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Select Surface Data"
+      },
+      {
+        "cell_indices": [
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "Clustering Function Definition",
+          "Select Surface Data"
+        ],
+        "description": "Apply clustering algorithms to the selected surface data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Cluster Surface Data"
+      },
+      {
+        "cell_indices": [
+          26
+        ],
+        "code": "",
+        "dependencies": [
+          "Cluster Surface Data"
+        ],
+        "description": "Plot the clustering results on a map using positional coordinates.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Visualize Clusters in Positional Coordinates"
+      },
+      {
+        "cell_indices": [
+          28,
+          29
+        ],
+        "code": "",
+        "dependencies": [
+          "Cluster Surface Data"
+        ],
+        "description": "Use TSNE to reduce dimensions and visualize clusters in cluster space.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Visualize Clusters in Cluster Space"
+      },
+      {
+        "cell_indices": [
+          32,
+          34
+        ],
+        "code": "",
+        "dependencies": [
+          "Load C-iTRACE Dataset"
+        ],
+        "description": "Select a specific section from the dataset for clustering analysis.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Select Section Data"
+      },
+      {
+        "cell_indices": [
+          37,
+          38,
+          39
+        ],
+        "code": "",
+        "dependencies": [
+          "Clustering Function Definition",
+          "Select Section Data"
+        ],
+        "description": "Apply clustering algorithms to the selected section data.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Cluster Section Data"
+      },
+      {
+        "cell_indices": [
+          42
+        ],
+        "code": "",
+        "dependencies": [
+          "Cluster Section Data"
+        ],
+        "description": "Plot the clustering results of the section data in positional coordinates.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Visualize Section Clusters in Positional Coordinates"
+      }
+    ],
+    "num_steps": 10,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b0aec6ae0966b05e"
+  ],
+  "payload": {
+    "title": "Correlation Analysis of Toy Data and Insolation",
+    "description": "This workflow demonstrates the use of Pyleoclim to calculate correlations between insolation and toy data, highlighting challenges in distinguishing between seasonal and physical lag.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3,
+          5
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and define a function to correlate series with large gaps.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Importing Libraries and Defining Functions"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Importing Libraries and Defining Functions"
+        ],
+        "description": "Generate sinusoidal toy data for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Creating Toy Data"
+      },
+      {
+        "cell_indices": [
+          7,
+          9,
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Creating Toy Data"
+        ],
+        "description": "Create insolation curves for integrated July insolation at various latitudes and calculate correlations with toy data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Calculating Correlations with Shifted Insolation"
+      },
+      {
+        "cell_indices": [
+          15,
+          17,
+          19,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Creating Toy Data"
+        ],
+        "description": "Calculate correlations between toy data and insolation at different months instead of different shifts.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Calculating Correlations with Monthly Insolation"
+      },
+      {
+        "cell_indices": [
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculating Correlations with Shifted Insolation",
+          "Calculating Correlations with Monthly Insolation"
+        ],
+        "description": "Compile results into a multi-panel figure to visualize correlation patterns.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Creating the Multi-Panel Figure"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

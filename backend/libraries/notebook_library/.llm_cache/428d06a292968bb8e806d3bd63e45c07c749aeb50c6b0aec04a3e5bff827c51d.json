@@ -1,0 +1,141 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "764b748b9afd330d"
+  ],
+  "payload": {
+    "title": "[Fig. 9] Schematic for the Plume Distance",
+    "description": "This notebook provides a schematic illustration to enhance the understanding of the plume distance metric by integrating multiple steps of the process. It involves loading and processing climate ensemble data, resampling data according to a power law, and calculating the plume distance. The notebook uses various visualization techniques to plot proximity probabilities and densities, ultimately combining these into a comprehensive schematic.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and set up the environment for the analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load and prepare the LMRonline dataset for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Loading LMRonline Data"
+      },
+      {
+        "cell_indices": [
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load and prepare the LMRv2.1 dataset, and align it with the LMRonline data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Loading LMRv2.1 Data"
+      },
+      {
+        "cell_indices": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Loading LMRv2.1 Data"
+        ],
+        "description": "Resample the LMRv2.1 data using a power-law model and calculate inter-ensemble distances.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Resample Data According to a Power Law"
+      },
+      {
+        "cell_indices": [
+          13,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Resample Data According to a Power Law"
+        ],
+        "description": "Calculate the plume distance between the resampled LMRv2.1 data and the LMRonline data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate Plume Distance"
+      },
+      {
+        "cell_indices": [
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate Plume Distance"
+        ],
+        "description": "Create a schematic plot to visualize the plume distance and related metrics.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Plot Schematic"
+      },
+      {
+        "cell_indices": [
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate Plume Distance"
+        ],
+        "description": "Plot the proximity probability to illustrate inter-ensemble distances.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Proximity Probability Plot"
+      },
+      {
+        "cell_indices": [
+          20,
+          21,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate Plume Distance"
+        ],
+        "description": "Plot proximity densities to compare intra- and inter-ensemble distances.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Proximity Densities Plot"
+      },
+      {
+        "cell_indices": [
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Plot Schematic",
+          "Proximity Probability Plot",
+          "Proximity Densities Plot"
+        ],
+        "description": "Combine all plots into a single comprehensive schematic.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Combine Plots into One"
+      }
+    ],
+    "num_steps": 9,
+    "source": "llm:openai"
+  }
+}

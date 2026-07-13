@@ -1,0 +1,55 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "a8d6b485be922f48"
+  ],
+  "payload": {
+    "title": "Climate Reconstruction Workflow",
+    "description": "This workflow sets up a climate reconstruction job using the cfr.ReconJob class. It involves loading proxy data from a netCDF file, calculating climate anomalies, and specifying the Proxy System Model (PSM) and seasonality for proxies.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          0
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Create a reconstruction job object using the cfr.ReconJob class.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Initialize Reconstruction Job"
+      },
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [
+          "Initialize Reconstruction Job"
+        ],
+        "description": "Load the pseudoPAGES2k database from a netCDF file.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Proxy Database"
+      },
+      {
+        "cell_indices": [
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Proxy Database"
+        ],
+        "description": "Load climate data from netCDF files and calculate anomalies against the reference period 1850-1870 CE.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Climate Data and Calculate Anomalies"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

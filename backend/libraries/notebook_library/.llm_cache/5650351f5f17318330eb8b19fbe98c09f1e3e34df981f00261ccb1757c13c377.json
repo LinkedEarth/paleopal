@@ -1,0 +1,62 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b10e3227299117cf"
+  ],
+  "payload": {
+    "title": "Database Assembly using cfr's built in PAGES 2k database",
+    "summary": "This Jupyter notebook, authored by Tanaya Gondhalekar, demonstrates the process of constructing a proxy database using the PAGES 2k (v2.0.0) records. The notebook utilizes the 'cfr' library to fetch and filter proxy records based on temporal resolution and archive type. The filtered data is then saved as NetCDF files for use in data assimilation workflows. The notebook provides a straightforward approach to assembling a ProxyDatabase for emulating LMRv2.1.",
+    "goals": [
+      "Build a proxy database using PAGES 2k records.",
+      "Filter records by temporal resolution and archive type.",
+      "Save the filtered database as NetCDF files."
+    ],
+    "libraries": [
+      "cfr"
+    ],
+    "techniques": [
+      "Data fetching",
+      "Data filtering",
+      "NetCDF file creation"
+    ],
+    "keywords": [
+      "PAGES 2k",
+      "proxy database",
+      "data filtering",
+      "NetCDF",
+      "cfr library"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook's purpose and author, focusing on building a proxy database using PAGES 2k records.",
+        "heading": "Database Assembly using cfr's built in PAGES 2k database"
+      },
+      {
+        "blurb": "Demonstrates how to use the 'cfr' library to fetch the PAGES 2k database from the cloud.",
+        "heading": "Use _cfr_'s `.fetch()` to pull PAGES2kv2 from the cloud"
+      },
+      {
+        "blurb": "Explains filtering the database to include only annual and subannual records based on temporal resolution.",
+        "heading": "Use `ProxyDatabase.filter()` to filter by resolution"
+      },
+      {
+        "blurb": "Describes optional filtering by archive type to refine the database further.",
+        "heading": "(Optional) Use the same filtering method for archive type"
+      },
+      {
+        "blurb": "Details the process of saving the filtered database as NetCDF files for future use in data assimilation.",
+        "heading": "Save as a netCDF file to use in the data assimilation workflow"
+      }
+    ],
+    "inputs": [
+      "PAGES 2k (v2.0.0) proxy records"
+    ],
+    "outputs": [
+      "Filtered proxy database as NetCDF files"
+    ],
+    "source": "llm:openai"
+  }
+}

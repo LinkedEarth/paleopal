@@ -1,0 +1,108 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "15788b124b1b0213"
+  ],
+  "payload": {
+    "title": "Pyleoclim figures with multiple panels",
+    "description": "This notebook demonstrates how to create multi-panel figures using the Pyleoclim library, which is built on top of Matplotlib. It focuses on combining individual plots into larger figures for enhanced visualization. The notebook generates time series data with fractal noise, applies various time alignment methods, and visualizes the results using Pyleoclim's plotting capabilities. The notebook is intended for users with basic knowledge of Python and Matplotlib.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and set up the environment for generating time series data and plotting.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          2,
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Generate two incompletely sampled time series with fractal noise using Pyleoclim utilities.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Generate Fractal Noise Time Series"
+      },
+      {
+        "cell_indices": [
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Generate Fractal Noise Time Series"
+        ],
+        "description": "Prepare the plotting environment by creating a 2x2 array of axes and flattening it for easier indexing.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Plotting Setup"
+      },
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Plotting Setup"
+        ],
+        "description": "Align the time series using the common_time method with default parameters and plot the results.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Apply Common Time with Default Parameters"
+      },
+      {
+        "cell_indices": [
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Apply Common Time with Default Parameters"
+        ],
+        "description": "Align the time series using the common_time method with binning and plot the results.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Apply Common Time with Binning"
+      },
+      {
+        "cell_indices": [
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Apply Common Time with Binning"
+        ],
+        "description": "Align the time series using the common_time method with a Gaussian kernel and plot the results.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Apply Common Time with Gaussian Kernel"
+      },
+      {
+        "cell_indices": [
+          19,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Apply Common Time with Gaussian Kernel"
+        ],
+        "description": "Summarize the key points about using Pyleoclim's plotting capabilities and the importance of understanding Matplotlib for customization.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Takeaways"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

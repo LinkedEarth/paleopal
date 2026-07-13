@@ -1,0 +1,98 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "1c2f71f34fbc035a"
+  ],
+  "payload": {
+    "title": "Creating Murmuration Plots for Interglacial Data",
+    "description": "This workflow demonstrates the use of the Pyleoclim library to calculate correlations between speleothem oxygen isotope data and insolation at various latitudes, focusing on interglacial periods. It includes defining a function for handling correlations in datasets with large hiatuses, constructing insolation curves using the Climlab library, processing data to isolate interglacial records, calculating correlations, and visualizing the results using murmuration plots.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing, correlation analysis, and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Load Libraries"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Define a function to correlate time series with large gaps by segmenting and smoothing the data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Define Correlation Function"
+      },
+      {
+        "cell_indices": [
+          5,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Use Climlab to define insolation curves for various latitudes and time periods.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Create Insolation Dictionaries"
+      },
+      {
+        "cell_indices": [
+          8,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Process speleothem oxygen isotope data to isolate records from interglacial periods.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Isolate Interglacial Records"
+      },
+      {
+        "cell_indices": [
+          12,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "2",
+          "3",
+          "4"
+        ],
+        "description": "Calculate correlations between the isolated interglacial records and insolation data at various latitudes.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate Correlations"
+      },
+      {
+        "cell_indices": [
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Visualize the correlation results using murmuration plots.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Plot Results"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

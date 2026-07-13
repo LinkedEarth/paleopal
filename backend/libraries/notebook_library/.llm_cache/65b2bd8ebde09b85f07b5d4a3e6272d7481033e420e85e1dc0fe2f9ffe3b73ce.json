@@ -1,0 +1,102 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "5bec43e749e9a5bd"
+  ],
+  "payload": {
+    "title": "The Dataset class",
+    "description": "This Jupyter notebook provides a tutorial on editing and creating LiPD files using the PyLiPD library in Python. It focuses on the Dataset class, which is central to manipulating paleoclimate datasets. The notebook demonstrates how to load LiPD files, convert them into Dataset objects, and access various properties and data using Python APIs. It also covers working with age ensembles and understanding the relationships among classes derived from the LinkedEarth Ontology.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load a LiPD file to create a LiPD object.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load LiPD File"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Load LiPD File"
+        ],
+        "description": "Convert the LiPD object into a Dataset object using the get_datasets method.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Create Dataset Object"
+      },
+      {
+        "cell_indices": [
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Dataset Object"
+        ],
+        "description": "Retrieve basic information about the Dataset, such as its name.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Access Dataset Information"
+      },
+      {
+        "cell_indices": [
+          9,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Dataset Object"
+        ],
+        "description": "Access and print the geographical location of the Dataset.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Retrieve Location Information"
+      },
+      {
+        "cell_indices": [
+          13,
+          14,
+          15,
+          17,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Dataset Object"
+        ],
+        "description": "Loop through PaleoData objects to extract measurement tables and standardize variable names using Pandas DataFrames.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Extract and Standardize PaleoData"
+      },
+      {
+        "cell_indices": [
+          23,
+          25,
+          27,
+          29
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Load LiPD File"
+        ],
+        "description": "Load a different LiPD file containing ensemble data, convert it to a Dataset object, and extract ensemble tables.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Work with Age Ensembles"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

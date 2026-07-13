@@ -1,0 +1,64 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2390a9a99c66de3a"
+  ],
+  "payload": {
+    "title": "Holocene Ice Window Size",
+    "description": "This workflow analyzes the size of ice windows during the Holocene epoch using paleoclimate data. It involves importing and processing datasets from the LiPD format, focusing on specific indices of interest within each dataset. The workflow employs various data visualization and analysis libraries to explore and visualize the data.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define color palettes for data visualization using seaborn.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Set Visualization Parameters"
+      },
+      {
+        "cell_indices": [
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Specify the path to the LiPD datasets and initialize the LiPD object to load all files.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load LiPD Datasets"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

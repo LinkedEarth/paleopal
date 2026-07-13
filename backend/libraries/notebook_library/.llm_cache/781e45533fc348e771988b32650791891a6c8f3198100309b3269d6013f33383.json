@@ -1,0 +1,135 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2621ecedc9009e65"
+  ],
+  "payload": {
+    "title": "Exploring EPICA Dome C records with Pyleoclim",
+    "description": "This Jupyter notebook demonstrates the use of Pyleoclim for analyzing paleoclimate data from the EPICA Dome C ice core. It focuses on loading and visualizing deuterium and CO2 data, applying spectral analysis techniques such as Lomb-Scargle periodogram and wavelet analysis, and assessing memory properties of the time series. The notebook also explores singular spectrum analysis to clean the data and compares temperature and CO2 records. The outputs include visualizations of spectral properties, coherence between datasets, and statistical significance tests.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Set up the environment and import necessary libraries.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          8,
+          10,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the deuterium data into a pandas DataFrame, check for missing values, transform the data into kyr, and visualize it.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Loading and Visualizing Deuterium Series"
+      },
+      {
+        "cell_indices": [
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform Lomb-Scargle periodogram analysis on the deuterium series, simulate AR(1) benchmarks, and save interpolated data for future use.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Lomb-Scargle Periodogram"
+      },
+      {
+        "cell_indices": [
+          31,
+          33,
+          35,
+          37,
+          39,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Apply Singular Spectrum Analysis (SSA) to clean the deuterium record and visualize the reconstruction.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Singular Spectrum Analysis"
+      },
+      {
+        "cell_indices": [
+          43,
+          45,
+          47,
+          49
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Conduct wavelet analysis to explore the evolution of the spectrum over time and perform significance testing.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Wavelet Analysis"
+      },
+      {
+        "cell_indices": [
+          51,
+          53
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Assess the scaling properties of the deuterium series by estimating the scaling exponent and converting it to a Hurst exponent.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Assessing Memory"
+      },
+      {
+        "cell_indices": [
+          56,
+          57,
+          58,
+          60,
+          62,
+          64,
+          66,
+          68,
+          70,
+          71,
+          73
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Load CO2 data, visualize it alongside deuterium data, and perform a comparison analysis.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Temperature and CO2"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

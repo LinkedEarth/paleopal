@@ -1,0 +1,140 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "716ed4fa53747d09"
+  ],
+  "payload": {
+    "title": "Leveraging `Xarray` for spatiotemporal diagnostics",
+    "description": "This notebook demonstrates the use of Xarray for calculating and visualizing global mean anomalies and spatial distributions of climate data. It utilizes CMIP6 data accessed via AWS and Google Cloud, and employs libraries such as Cartopy and Matplotlib for plotting.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          8,
+          9,
+          10,
+          12,
+          14,
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Read CMIP6 data from AWS or Google Cloud using intake.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Data Acquisition"
+      },
+      {
+        "cell_indices": [
+          20,
+          21,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Acquisition"
+        ],
+        "description": "Calculate climatology and anomalies for precipitation data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Calculating Anomalies"
+      },
+      {
+        "cell_indices": [
+          26,
+          27,
+          29,
+          30,
+          31
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculating Anomalies"
+        ],
+        "description": "Apply latitude weights and calculate global mean anomalies.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Calculating Weighted Means"
+      },
+      {
+        "cell_indices": [
+          34,
+          35,
+          36,
+          37
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculating Weighted Means"
+        ],
+        "description": "Reduce high frequency variability by annualizing the data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Annualizing Data"
+      },
+      {
+        "cell_indices": [
+          40,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "Annualizing Data"
+        ],
+        "description": "Create spatial snapshots with filled contours using Cartopy.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Pcolor Maps with Cartopy"
+      },
+      {
+        "cell_indices": [
+          43,
+          45,
+          47
+        ],
+        "code": "",
+        "dependencies": [
+          "Pcolor Maps with Cartopy"
+        ],
+        "description": "Plot global precipitation anomaly with filled contours and custom color schemes.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Global Precipitation Anomaly (Filled Contours)"
+      },
+      {
+        "cell_indices": [
+          50,
+          51,
+          52,
+          53
+        ],
+        "code": "",
+        "dependencies": [
+          "Global Precipitation Anomaly (Filled Contours)"
+        ],
+        "description": "Enhance the plot by adding contour lines for monthly precipitation magnitude.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Global Precip Anomaly with Contour Lines"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

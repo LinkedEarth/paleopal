@@ -51,9 +51,11 @@ Path(MODEL_CACHE_DIR).mkdir(parents=True, exist_ok=True)
 # Collection names for each library
 COLLECTION_NAMES = {
     "sparql": "sparql_queries",
-    "ontology": "ontology_entities", 
+    "ontology": "ontology_entities",
     "notebook_snippets": "notebook_snippets",
     "notebook_workflows": "notebook_workflows",
+    # Parent documents for hierarchical retrieval (notebook + project summaries)
+    "notebook_summaries": "notebook_summaries",
     "literature": "literature_methods",
     "readthedocs_docs": "readthedocs_docs",
     "readthedocs_code": "readthedocs_code",
@@ -287,6 +289,46 @@ class QdrantManager:
         except Exception as e:
             logger.error(f"Failed to delete collection {collection_name}: {e}")
             return False
+
+    def scroll_by_filter(
+        self,
+        collection_name: str,
+        filters: Optional[Dict[str, Any]] = None,
+        limit: int = 100,
+    ) -> List[Dict[str, Any]]:
+        """Return payload points matching filters (no vector search). Paginates until limit."""
+        try:
+            query_filter = None
+            if filters:
+                conditions = [
+                    FieldCondition(key=field, match=MatchValue(value=value))
+                    for field, value in filters.items()
+                ]
+                if conditions:
+                    query_filter = Filter(must=conditions)
+
+            results: List[Dict[str, Any]] = []
+            next_offset = None
+            page_size = min(256, max(1, limit))
+            while len(results) < limit:
+                points, next_offset = self.client.scroll(
+                    collection_name=collection_name,
+                    scroll_filter=query_filter,
+                    limit=min(page_size, limit - len(results)),
+                    offset=next_offset,
+                    with_payload=True,
+                    with_vectors=False,
+                )
+                if not points:
+                    break
+                for point in points:
+                    results.append({"id": point.id, **(point.payload or {})})
+                if next_offset is None:
+                    break
+            return results
+        except Exception as e:
+            logger.error(f"Scroll failed in {collection_name}: {e}")
+            return []
 
 
 # Global instance

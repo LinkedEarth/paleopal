@@ -1,0 +1,76 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "6db56a7c1756eae6"
+  ],
+  "payload": {
+    "title": "[Fig. 1] Motivation for the study",
+    "description": "This workflow reproduces Figure 1 from a scientific paper, focusing on climate reconstructions and simulations. It processes and visualizes data using various Python libraries, comparing ensemble means and reconstructions.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and set up the environment for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup Environment"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup Environment"
+        ],
+        "description": "Load GMST data from a NetCDF file and process it for visualization. Create a new DataFrame to store processed data and calculate ensemble means.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Process GMST Data"
+      },
+      {
+        "cell_indices": [
+          8,
+          10,
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup Environment"
+        ],
+        "description": "Load NHT data from a NetCDF file and a text file. Compare reconstructions by visualizing the data using line density plots.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load and Compare NHT Reconstructions"
+      },
+      {
+        "cell_indices": [
+          14,
+          15,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "Load and Process GMST Data",
+          "Load and Compare NHT Reconstructions"
+        ],
+        "description": "Combine processed data and visualizations into a comprehensive figure for presentation. Export the top panel for inclusion in presentations.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Assemble Figure 1"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

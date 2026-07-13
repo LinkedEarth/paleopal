@@ -1,0 +1,119 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b43f2b6c04a4226a"
+  ],
+  "payload": {
+    "title": "PaMoDaCo: Working with measurements and model output",
+    "description": "This notebook integrates sparse measurement data with model outputs to assess the accuracy of model simulations of neodymium isotopes. It utilizes data from Poppelmeier et al., 2021, and the C-iTRACE simulation to analyze spatial distributions of $\\varepsilon$Nd. The notebook demonstrates loading and processing of datasets, plotting spatial distributions, and examining the uniqueness of measured values in the water column.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and process neodymium isotopes data from the C-iTRACE model, calculate $\\varepsilon$Nd, and select a time slice for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load C-iTRACE Model Output"
+      },
+      {
+        "cell_indices": [
+          16,
+          17,
+          18,
+          19,
+          21,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and preprocess the dataset from Poppelemeier et al., 2021, which includes LGM and Holocene $\\varepsilon$Nd values.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Poppelemeier et al., 2021 Dataset"
+      },
+      {
+        "cell_indices": [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32
+        ],
+        "code": "",
+        "dependencies": [
+          "Load C-iTRACE Model Output",
+          "Load Poppelemeier et al., 2021 Dataset"
+        ],
+        "description": "Create a surface plot with scatter overlay using the processed model and measurement data, focusing on a depth of 2000m.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Surface with Scatter Plot"
+      },
+      {
+        "cell_indices": [
+          34,
+          35,
+          36,
+          37,
+          38,
+          40
+        ],
+        "code": "",
+        "dependencies": [
+          "Surface with Scatter Plot"
+        ],
+        "description": "Select a depth transect and add empirical data to visualize the distribution along a section.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Section with Scatter Plot"
+      },
+      {
+        "cell_indices": [
+          43,
+          44,
+          46
+        ],
+        "code": "",
+        "dependencies": [
+          "Section with Scatter Plot"
+        ],
+        "description": "Analyze the uniqueness of $\\varepsilon$Nd measurements by examining the range of depths at a given location that fall within a specified uncertainty window.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Uniqueness Analysis"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

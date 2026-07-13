@@ -1,0 +1,204 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "dd3a2211ebf20885"
+  ],
+  "payload": {
+    "title": "Validating a Reconstruction",
+    "description": "This notebook validates a paleoclimate reconstruction by comparing it to the original LMRv2.1 reconstruction and multiple instrumental datasets. The validation process involves assessing global mean surface temperature comparisons, climate field skill metrics, and ensemble similarity using the plume distance framework.",
+    "phase": "validation",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Initialize the notebook environment and import necessary libraries for data manipulation and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the paleoclimate reconstruction data, focusing on global mean surface temperature and surface temperature climate field.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Reconstruction Data"
+      },
+      {
+        "cell_indices": [
+          7,
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the original LMRv2.1 data for comparison, focusing on global mean temperature.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load LMRv2.1 Data"
+      },
+      {
+        "cell_indices": [
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "description": "Visualize the comparison between the reproduced and original LMR global mean temperature.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Plot LMR Comparison"
+      },
+      {
+        "cell_indices": [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "description": "Apply the plume distance framework to quantitatively compare the original LMRv2.1 ensemble to the reproduced version.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Validate Using PENS"
+      },
+      {
+        "cell_indices": [
+          23,
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Validate the reconstruction against the GISS Surface Temperature Analysis dataset.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Validate Against GISTEMP"
+      },
+      {
+        "cell_indices": [
+          27,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Validate the reconstruction against the HadCRUT5 dataset.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Validate Against HadCRUT5"
+      },
+      {
+        "cell_indices": [
+          31,
+          32
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Validate the reconstruction against the Berkeley Earth Surface Temperature dataset.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Validate Against BEST"
+      },
+      {
+        "cell_indices": [
+          35,
+          36
+        ],
+        "code": "",
+        "dependencies": [
+          "6",
+          "7",
+          "8"
+        ],
+        "description": "Plot all validation datasets together and create a consensus time series.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Plot Consensus"
+      },
+      {
+        "cell_indices": [
+          40
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the original LMR climate field data and prepare it for comparison.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Load Field Reconstruction"
+      },
+      {
+        "cell_indices": [
+          42,
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Load and visualize the reproduced climate field data.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Load Reproduced Field"
+      },
+      {
+        "cell_indices": [
+          45
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the proxy database for overlay on climate field data.",
+        "step_number": 12,
+        "step_type": "computation",
+        "title": "Load Proxy Database"
+      },
+      {
+        "cell_indices": [
+          47,
+          48,
+          50
+        ],
+        "code": "",
+        "dependencies": [
+          "10",
+          "11"
+        ],
+        "description": "Validate the climate field reconstruction against the BEST dataset, calculating correlation and CE metrics.",
+        "step_number": 13,
+        "step_type": "computation",
+        "title": "Validate Climate Field Using BEST"
+      }
+    ],
+    "num_steps": 13,
+    "source": "llm:openai"
+  }
+}

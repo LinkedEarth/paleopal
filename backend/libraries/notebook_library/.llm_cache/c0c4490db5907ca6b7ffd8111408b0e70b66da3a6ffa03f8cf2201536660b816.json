@@ -1,0 +1,84 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "f2d7e41775d2ba1d"
+  ],
+  "payload": {
+    "title": "Hunting for solar-related cyclicities over the Holocene",
+    "summary": "This notebook explores the presence of solar-related cyclicities in Holocene paleoclimate records using spectral analysis. It retrieves temperature data from the Temperature 12k Database in LiPD format via SPARQL queries. The data is processed using the Pyleoclim library to perform spectral analysis and identify significant periodicities in the 800-3000 year range. The analysis reveals multiple spectral peaks, but no significant clustering by geography or archive type.",
+    "goals": [
+      "Estimate spectra from Holocene temperature records.",
+      "Identify significant periodicities in the 800-3000 year band.",
+      "Explore the potential solar influence on Holocene climate cycles."
+    ],
+    "libraries": [
+      "pandas",
+      "SPARQLWrapper",
+      "pyleoclim",
+      "numpy",
+      "matplotlib",
+      "pickle",
+      "ccrs",
+      "cfeature"
+    ],
+    "techniques": [
+      "Data retrieval using SPARQL",
+      "Spectral analysis using MTM method",
+      "Data visualization with histograms and scatter plots"
+    ],
+    "keywords": [
+      "Pyleoclim",
+      "LiPD",
+      "SPARQL",
+      "Holocene",
+      "Spectral Analysis"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the study of centennial to millennial quasi-periodic oscillations in Holocene paleoclimate records and the hypothesis of solar influence.",
+        "heading": "Hunting for solar-related cyclicities over the Holocene"
+      },
+      {
+        "blurb": "Data is retrieved from the LiPDGraph using SPARQL queries, focusing on temperature records from the Temperature 12k Database.",
+        "heading": "Data Retrieval"
+      },
+      {
+        "blurb": "The retrieved data is imported into Pyleoclim as MultipleGeoSeries objects for further analysis and mapping.",
+        "heading": "Importing into Pyleoclim"
+      },
+      {
+        "blurb": "Spectral analysis is performed using the MTM method to identify significant periodicities in the temperature records.",
+        "heading": "Spectral Analysis"
+      },
+      {
+        "blurb": "Random periodograms are generated to visualize the spectra, revealing some millennial-scale periodicities.",
+        "heading": "Chasing cyclicities over the Holocene."
+      },
+      {
+        "blurb": "Histograms and maps are created to visualize the distribution of significant periodicities across different sites.",
+        "heading": "Global view of significant millennial periodicities."
+      },
+      {
+        "blurb": "Scatter plots are used to analyze periodicities by latitude and archive type, showing no significant clustering.",
+        "heading": "Periodicities by latitude and archive"
+      },
+      {
+        "blurb": "The analysis concludes that while spectral peaks are present, there is no clear geographic or archive type pattern, suggesting further investigation is needed.",
+        "heading": "Conclusion"
+      }
+    ],
+    "inputs": [
+      "Temperature 12k Database in LiPD format",
+      "SPARQL queries for data retrieval"
+    ],
+    "outputs": [
+      "Spectral analysis results",
+      "Histograms of significant periodicities",
+      "Scatter plots of periodicities by latitude and archive"
+    ],
+    "source": "llm:openai"
+  }
+}

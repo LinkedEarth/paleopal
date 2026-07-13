@@ -1,0 +1,89 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2bab0b2beca77b1f"
+  ],
+  "payload": {
+    "title": "Assembling the proxy database from the LiPDGraph",
+    "description": "This workflow demonstrates how to query the LiPDGraph database to assemble a proxy database for data assimilation in climate research. It involves retrieving datasets from the PAGES2k, iso2k, and CoralHydro2k compilations using SPARQL queries.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation and querying the LiPDGraph.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Set up the URL for querying the LiPDGraph database.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Data Retrieval Setup"
+      },
+      {
+        "cell_indices": [
+          5,
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Retrieval Setup"
+        ],
+        "description": "Retrieve data from the PAGES2k compilation tagged for temperature analysis, including relevant metadata.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Querying the PAGES2k Datasets"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          13,
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Retrieval Setup"
+        ],
+        "description": "Perform a similar query for the iso2k compilation, focusing on temperature interpretations.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Querying the iso2k Dataset"
+      },
+      {
+        "cell_indices": [
+          18,
+          19,
+          21,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Retrieval Setup"
+        ],
+        "description": "Query the CoralHydro2k compilation, filtering for Sr/Ca and d18O records.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Querying the CoralHydro2k Database"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

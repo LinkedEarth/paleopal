@@ -1,0 +1,64 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "3e22307208ee7025"
+  ],
+  "payload": {
+    "title": "Holocene Ice Analysis",
+    "description": "This workflow analyzes climate dynamics during the Holocene using ice core records from Greenland and Antarctica. It employs proxies for temperature, such as oxygen and hydrogen isotope data, to infer past climate conditions. The workflow utilizes various scientific computing libraries to process and visualize the data, focusing on specific indices within the datasets.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load ice core data from Greenland and Antarctica using the LiPD library.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Data Loading"
+      },
+      {
+        "cell_indices": [
+          13,
+          14,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Loading"
+        ],
+        "description": "Specify indices of interest in each dataframe and prepare data for analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Data Processing"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

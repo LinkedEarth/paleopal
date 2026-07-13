@@ -62,7 +62,20 @@ This will:
 If you only want notebooks:
 ```bash
 cd /Users/varun/git/paleopal/backend/libraries
-python notebook_library/index_notebooks.py --keep-invalid --no-synth-imports notebook_library/my_notebooks
+python notebook_library/index_notebooks.py --keep-invalid --force-recreate notebook_library/my_notebooks
+# Optional LLM enrichment:
+# python notebook_library/index_notebooks.py --keep-invalid --force-recreate --llm openai notebook_library/my_notebooks
+#
+# After an LLM index, seed the disk cache from Qdrant so reindexes skip API calls:
+# python notebook_library/index_notebooks.py --bootstrap-llm-cache --llm openai
+```
+
+Full command reference (preview, index, search, LLM cache, agent context tests):
+see [`notebook_library/README.md`](notebook_library/README.md).
+
+Preview extraction without writing to Qdrant:
+```bash
+python notebook_library/preview_extraction.py --sample mixed --out /tmp/nb_preview.json
 ```
 
 ### Check collections and counts (optional)

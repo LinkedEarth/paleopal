@@ -1,0 +1,232 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "17e4def00a173879"
+  ],
+  "payload": {
+    "title": "PaMoDaCo: CMIP6 vs LMR",
+    "description": "This notebook compares climate model outputs from CMIP6 with reconstructions from the Last Millennium Reanalysis (LMR) project. It demonstrates how to access and process CMIP6 data from Google Cloud, plot LMR simulations alongside CMIP6 outputs, and visualize spatial variations in climate data. The notebook focuses on analyzing global-mean surface temperature and the climate response to major volcanic events over the past millennium.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and modules for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and process data from the Last Millennium Reanalysis Project.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load LMR Data"
+      },
+      {
+        "cell_indices": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Use intake to load and query CMIP6 data from Google Cloud.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Access CMIP6 Data from Google Cloud"
+      },
+      {
+        "cell_indices": [
+          27,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Access CMIP6 data using Pangeo-Forge.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Pangeo-Forge Data Access"
+      },
+      {
+        "cell_indices": [
+          30,
+          31,
+          32
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Define functions for climatology calculation, seasonality removal, and global mean calculation.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Data Processing Functions"
+      },
+      {
+        "cell_indices": [
+          34,
+          35,
+          37,
+          39,
+          40,
+          41,
+          43,
+          45,
+          46,
+          47,
+          48,
+          49
+        ],
+        "code": "",
+        "dependencies": [
+          "Pangeo-Forge Data Access",
+          "Data Processing Functions"
+        ],
+        "description": "Process MIROC model data to ensure correct time encoding and structure.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Process MIROC Data"
+      },
+      {
+        "cell_indices": [
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "code": "",
+        "dependencies": [
+          "Pangeo-Forge Data Access",
+          "Data Processing Functions"
+        ],
+        "description": "Process MRI model data and calculate anomalies.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Process MRI Data"
+      },
+      {
+        "cell_indices": [
+          59,
+          60,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67
+        ],
+        "code": "",
+        "dependencies": [
+          "Pangeo-Forge Data Access",
+          "Data Processing Functions"
+        ],
+        "description": "Process MPI model data, adjust time encoding, and calculate anomalies.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Process MPI Data"
+      },
+      {
+        "cell_indices": [
+          69
+        ],
+        "code": "",
+        "dependencies": [
+          "Load LMR Data",
+          "Process MIROC Data",
+          "Process MRI Data",
+          "Process MPI Data"
+        ],
+        "description": "Plot processed model output on top of LMR ensemble plot to compare simulations to reconstructions.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Compare Simulations to Reconstructions"
+      },
+      {
+        "cell_indices": [
+          72,
+          73
+        ],
+        "code": "",
+        "dependencies": [
+          "Compare Simulations to Reconstructions"
+        ],
+        "description": "Prepare for spatial visualization by selecting locations and time points.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Spatial Visualization Setup"
+      },
+      {
+        "cell_indices": [
+          75,
+          76,
+          77,
+          78
+        ],
+        "code": "",
+        "dependencies": [
+          "Spatial Visualization Setup"
+        ],
+        "description": "Load LMR spatial fields data for visualization.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Load LMR Spatial Data"
+      },
+      {
+        "cell_indices": [
+          80
+        ],
+        "code": "",
+        "dependencies": [
+          "Spatial Visualization Setup",
+          "Process MIROC Data",
+          "Process MRI Data",
+          "Process MPI Data"
+        ],
+        "description": "Prepare CMIP6 spatial data for visualization by selecting snapshots and time series.",
+        "step_number": 12,
+        "step_type": "computation",
+        "title": "CMIP6 Spatial Data Preparation"
+      },
+      {
+        "cell_indices": [],
+        "code": "",
+        "dependencies": [
+          "Load LMR Spatial Data",
+          "CMIP6 Spatial Data Preparation"
+        ],
+        "description": "Build the final figure combining spatial and temporal data visualizations.",
+        "step_number": 13,
+        "step_type": "computation",
+        "title": "Create Combined Figure"
+      }
+    ],
+    "num_steps": 13,
+    "source": "llm:openai"
+  }
+}

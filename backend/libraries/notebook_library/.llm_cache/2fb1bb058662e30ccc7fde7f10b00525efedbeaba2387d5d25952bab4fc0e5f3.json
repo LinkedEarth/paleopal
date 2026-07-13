@@ -1,0 +1,174 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "8593626788d22d52"
+  ],
+  "payload": {
+    "title": "[Figs. 6-8] Proximity Probability and Plume Distance",
+    "description": "This notebook presents a framework to evaluate the probability of observing a climate trace within an ensemble of trajectories, focusing on the proximity probability and plume distance metrics. It aims to assess the compatibility of climate reconstructions and model simulations. The notebook uses a new method involving the computation of q-norm distances and proximity probabilities, visualizing these metrics to define robust statistics of distance. The analysis includes comparisons between PMIP3 past1000 runs and LMRonline, and evaluates plume-to-plume distances.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and set up the environment for analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load and plot the LMRonline ensemble data for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load LMRonline Ensemble Data"
+      },
+      {
+        "cell_indices": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load PMIP3 GMST data, process it by removing unnecessary columns, and calculate ensemble means.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load and Process PMIP3 Data"
+      },
+      {
+        "cell_indices": [
+          12,
+          14,
+          15,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "Load LMRonline Ensemble Data",
+          "Load and Process PMIP3 Data"
+        ],
+        "description": "Compute and plot the proximity probability for HadCM3 and CCSM4 traces against the LMRonline ensemble.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Pathwise Approach: Proximity Probability"
+      },
+      {
+        "cell_indices": [
+          19,
+          20,
+          22,
+          23,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Pathwise Approach: Proximity Probability"
+        ],
+        "description": "Calculate plume distances for HadCM3 and CCSM4 and analyze the results.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Compute Plume Distance"
+      },
+      {
+        "cell_indices": [
+          27,
+          29,
+          31,
+          33
+        ],
+        "code": "",
+        "dependencies": [
+          "Compute Plume Distance"
+        ],
+        "description": "Explore the mathematical properties of the plume distance metric.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Mathematical Properties of Plume Distance"
+      },
+      {
+        "cell_indices": [
+          36
+        ],
+        "code": "",
+        "dependencies": [
+          "Mathematical Properties of Plume Distance"
+        ],
+        "description": "Update and plot Figure 7 to visualize proximity thresholds and plume distances.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Update Figure 7"
+      },
+      {
+        "cell_indices": [
+          38,
+          39,
+          40,
+          42,
+          43,
+          44,
+          46,
+          48,
+          49,
+          50,
+          51,
+          54
+        ],
+        "code": "",
+        "dependencies": [
+          "Update Figure 7"
+        ],
+        "description": "Analyze plume-to-plume distances between LMRoffline and LMRonline ensembles.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Plume-to-Plume Distance Analysis"
+      },
+      {
+        "cell_indices": [
+          56,
+          57,
+          59,
+          61,
+          62
+        ],
+        "code": "",
+        "dependencies": [
+          "Plume-to-Plume Distance Analysis"
+        ],
+        "description": "Calculate and export PMIP3 distances to LMRonline for further analysis.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "PMIP3 Distances to LMRonline"
+      },
+      {
+        "cell_indices": [
+          64
+        ],
+        "code": "",
+        "dependencies": [
+          "PMIP3 Distances to LMRonline"
+        ],
+        "description": "Visualize the tube around HadCM3 to illustrate proximity probability.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Illustrate Tube Around HadCM3"
+      }
+    ],
+    "num_steps": 10,
+    "source": "llm:openai"
+  }
+}

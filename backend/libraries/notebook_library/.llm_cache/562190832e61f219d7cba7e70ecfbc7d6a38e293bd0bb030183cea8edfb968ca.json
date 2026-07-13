@@ -1,0 +1,74 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "da1d5d49308a7ebf"
+  ],
+  "payload": {
+    "title": "LERM applied to synthetic ODP cores",
+    "description": "This notebook applies the Linear Empirical Response Model (LERM) to synthetic Ocean Drilling Program (ODP) cores, specifically recreating Figure 3 from a referenced publication. The workflow involves loading and processing data from multiple ODP sites, handling discontinuities, and visualizing results using various plotting libraries.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define group lists for easy loading of ODP site data. Handle discontinuities in the data, specifically excluding a discontinuity in ODP 927 around 4000 ka.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Define Group Lists and Handle Discontinuities"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Define Group Lists and Handle Discontinuities"
+        ],
+        "description": "Initialize line colors and other visualization parameters for plotting.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Initialize Visualization Parameters"
+      },
+      {
+        "cell_indices": [
+          9,
+          10,
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Initialize Visualization Parameters"
+        ],
+        "description": "Set the embedding dimension for the Linear Empirical Response Model (LERM) analysis.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Set Embedding Dimension"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

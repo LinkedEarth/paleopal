@@ -1,0 +1,196 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "af3a69b754fb0a2e"
+  ],
+  "payload": {
+    "title": "Working with multiple records: `MultipleSeries` and `EnsembleSeries`",
+    "description": "This notebook introduces the `MultipleSeries` and `EnsembleSeries` objects for analyzing and visualizing multiple time series in paleoclimate studies. It demonstrates how to load and manipulate datasets using the LiPD format, create stackplots, and customize visualizations. The notebook also covers creating and visualizing ensemble series from NetCDF files, including plotting traces, envelopes, and performing spectral analysis. The focus is on using the `pyleoclim` library to handle complex workflows with ease.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries for the analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          5,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          21,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load LiPD files from the Euro2k directory and create a list of time series.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load a Sample Dataset"
+      },
+      {
+        "cell_indices": [
+          24,
+          26,
+          28,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Load a Sample Dataset"
+        ],
+        "description": "Customize stackplot labels and colors for better visualization.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Tuning a Stackplot"
+      },
+      {
+        "cell_indices": [
+          32,
+          34,
+          36,
+          38,
+          40
+        ],
+        "code": "",
+        "dependencies": [
+          "Load a Sample Dataset"
+        ],
+        "description": "Use shorthands to create and manipulate MultipleSeries objects.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Using Shorthands"
+      },
+      {
+        "cell_indices": [
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "Using Shorthands"
+        ],
+        "description": "Add another series to an existing MultipleSeries object using the '+' operator.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Adding a Series to a MultipleSeries Object"
+      },
+      {
+        "cell_indices": [
+          45,
+          47,
+          49
+        ],
+        "code": "",
+        "dependencies": [
+          "Using Shorthands"
+        ],
+        "description": "Combine two MultipleSeries objects using the '+' operator.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Adding Two MultipleSeries Objects Together"
+      },
+      {
+        "cell_indices": [
+          52
+        ],
+        "code": "",
+        "dependencies": [
+          "Adding Two MultipleSeries Objects Together"
+        ],
+        "description": "Remove a series from a MultipleSeries collection using the '-' operator.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Removing a Series from a MultipleSeries Object"
+      },
+      {
+        "cell_indices": [
+          55,
+          56
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Create an EnsembleSeries from PAGES 2k reconstructions NetCDF file.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Creating an EnsembleSeries from a NetCDF File"
+      },
+      {
+        "cell_indices": [
+          58,
+          60
+        ],
+        "code": "",
+        "dependencies": [
+          "Creating an EnsembleSeries from a NetCDF File"
+        ],
+        "description": "Plot individual traces from the EnsembleSeries.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Plot Traces"
+      },
+      {
+        "cell_indices": [
+          62,
+          63
+        ],
+        "code": "",
+        "dependencies": [
+          "Creating an EnsembleSeries from a NetCDF File"
+        ],
+        "description": "Visualize the envelope of the EnsembleSeries to highlight distribution features.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Plot Envelope"
+      },
+      {
+        "cell_indices": [
+          65,
+          67,
+          69
+        ],
+        "code": "",
+        "dependencies": [
+          "Creating an EnsembleSeries from a NetCDF File"
+        ],
+        "description": "Perform spectral analysis on the EnsembleSeries.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Ensemble Spectrum"
+      },
+      {
+        "cell_indices": [
+          71,
+          73
+        ],
+        "code": "",
+        "dependencies": [
+          "Creating an EnsembleSeries from a NetCDF File"
+        ],
+        "description": "Check the distribution of the EnsembleSeries data using histograms.",
+        "step_number": 12,
+        "step_type": "computation",
+        "title": "Plot Distribution"
+      }
+    ],
+    "num_steps": 12,
+    "source": "llm:openai"
+  }
+}

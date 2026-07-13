@@ -1,0 +1,58 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "bd20265468f012f6"
+  ],
+  "payload": {
+    "title": "Figure 1",
+    "description": "This workflow analyzes emergent relationships in CMIP5 and CMIP6 climate model ensembles using scientific computing libraries. It includes data processing, detrending, autocorrelation calculation, and visualization steps.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Set the style guide for plots to ensure consistency in visual outputs.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Set Plot Styles"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Set Plot Styles"
+        ],
+        "description": "Define functions for detrending time series data and calculating autocorrelation. These functions are essential for analyzing the relationships within the climate model outputs.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Define Data Processing Functions"
+      },
+      {
+        "cell_indices": [
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Define Data Processing Functions"
+        ],
+        "description": "Use the defined functions to process climate model data from CMIP5 and CMIP6. Generate visualizations to compare emergent relationships across different climate model ensembles.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Data Analysis and Visualization"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

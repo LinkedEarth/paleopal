@@ -1,0 +1,71 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "bf5d8bbd8d888604"
+  ],
+  "payload": {
+    "title": "Working with ensembles in `PyLiPD`",
+    "description": "This Jupyter notebook demonstrates how to work with age ensembles using the `PyLiPD` library, which is designed for handling LiPD format data. The notebook focuses on reading and analyzing uncertainty ensembles, particularly age ensembles, from LiPD objects. It uses datasets from McCabe-Glynn et al. (2013) and Lawrence et al. (2006) to illustrate the process. The notebook includes methods for loading data, extracting ensemble tables, and working with specific datasets to analyze paleo data.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import the LiPD class from the pylipd library and load the datasets from McCabe-Glynn et al. (2013) and Lawrence et al. (2006) in LiPD format.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import LiPD and Load Data"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Retrieve and print all dataset names from the loaded LiPD object.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Retrieve Dataset Names"
+      },
+      {
+        "cell_indices": [
+          5,
+          8,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Extract ensemble tables from the LiPD object and display them. This step includes extracting all ensemble tables, as well as those specific to a dataset or variable.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Extract Ensemble Tables"
+      },
+      {
+        "cell_indices": [
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Focus on the Crystal Cave record by extracting ensemble tables and time series essentials for this specific dataset.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Work with Specific PaleoData"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

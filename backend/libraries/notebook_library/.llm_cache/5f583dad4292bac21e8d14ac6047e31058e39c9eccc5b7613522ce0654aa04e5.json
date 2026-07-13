@@ -1,0 +1,104 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "bb0f9961772ec999"
+  ],
+  "payload": {
+    "title": "[Fig. 10] Consistency of the PAGES 2k ensemble",
+    "description": "This workflow analyzes the consistency of the PAGES 2k (2019) ensemble of GMST reconstructions by applying inter and intra-ensemble distance metrics. It reproduces Figure 10 from the associated paper, using various statistical and visualization techniques to compare different reconstruction methods, including offline DA and LMRv2.1.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and the PAGES 2k 2019 reconstruction dataset.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Data Loading"
+      },
+      {
+        "cell_indices": [
+          6,
+          8,
+          10,
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Data Loading"
+        ],
+        "description": "Visualize and compare the offline DA reconstructions with LMRv2.1.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Compare Offline DA Reconstructions"
+      },
+      {
+        "cell_indices": [
+          14,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Compare Offline DA Reconstructions"
+        ],
+        "description": "Perform pairwise comparisons of the reconstructions, resampling the DA reconstruction as needed.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Pairwise Comparisons"
+      },
+      {
+        "cell_indices": [
+          17,
+          18,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Pairwise Comparisons"
+        ],
+        "description": "Visualize traces and HDI for different reconstruction methods.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Traces and HDI Visualization"
+      },
+      {
+        "cell_indices": [
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Traces and HDI Visualization"
+        ],
+        "description": "Create a combined figure for the paper, showing HDI plots for various methods.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Combined Figure for Paper"
+      },
+      {
+        "cell_indices": [
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Combined Figure for Paper"
+        ],
+        "description": "Plot the distribution of distances between reconstructions.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Distance Distribution Visualization"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

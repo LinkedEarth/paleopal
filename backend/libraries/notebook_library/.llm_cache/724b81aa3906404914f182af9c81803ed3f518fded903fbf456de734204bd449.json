@@ -1,0 +1,85 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "1079d068fb25ff9b"
+  ],
+  "payload": {
+    "title": "LERM Applied to ice cores",
+    "description": "This workflow applies the Linear Empirical Response Model (LERM) to ice core data over the Holocene, aiming to recreate Figure 5 from a referenced publication. The analysis involves loading data, applying LERM, and detecting transitions in climate data.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data analysis and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          4,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Load ice core data using the pyLiPD library and prepare it for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Prepare Data"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Load and Prepare Data"
+        ],
+        "description": "Apply the Linear Empirical Response Model (LERM) to the ice core data to analyze climate transitions over the Holocene.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Apply LERM to Ice Core Data"
+      },
+      {
+        "cell_indices": [
+          9,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Apply LERM to Ice Core Data"
+        ],
+        "description": "Use specified parameters to detect transitions in the climate data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Detect Transitions in Climate Data"
+      },
+      {
+        "cell_indices": [
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Detect Transitions in Climate Data"
+        ],
+        "description": "Create visualizations to represent the detected transitions and recreate Figure 5 from the original publication.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Visualize Results"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

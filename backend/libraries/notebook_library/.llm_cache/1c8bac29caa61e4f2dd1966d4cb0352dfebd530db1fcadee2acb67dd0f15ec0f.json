@@ -1,0 +1,77 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "02f160c237a4ef29"
+  ],
+  "payload": {
+    "title": "Retrieving textual information from LiPD files",
+    "description": "This notebook demonstrates how to use the PyLiPD Python package to extract specific information from LiPD formatted datasets. It focuses on retrieving dataset names, IDs, archive types, and variable names, as well as generating a bibliography in BibTeX format.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3,
+          4
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Initialize the LiPD object and load datasets from specified directories and paths.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Load LiPD Datasets"
+      },
+      {
+        "cell_indices": [
+          6,
+          7,
+          9,
+          10,
+          12,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Extract information about the datasets, including names, IDs, archive types, and locations.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Retrieve Dataset Information"
+      },
+      {
+        "cell_indices": [
+          16,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Get information about available variable names and variables in the datasets.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Retrieve Variable Information"
+      },
+      {
+        "cell_indices": [
+          21,
+          24,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Retrieve publication information from the datasets and export it to a BibTeX file.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Generate Bibliography"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

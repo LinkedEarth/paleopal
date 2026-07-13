@@ -1,0 +1,98 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "8593626788d22d52"
+  ],
+  "payload": {
+    "title": "[Figs. 6-8] Proximity Probability and Plume Distance",
+    "summary": "This notebook presents a framework to evaluate the probability of observing a climate trace within an ensemble of trajectories, focusing on the proximity and compatibility of different climate reconstructions and model simulations. It introduces a method to compute the proximity probability by measuring the q-norm distance between traces and ensemble members, and visualizes these probabilities as a function of a proximity threshold. The notebook also defines and explores the plume distance metric, which summarizes differences between ensembles. The analysis includes comparisons between PMIP3 simulations and LMRonline data, and evaluates the compatibility of LMRonline and LMRv2.1 ensembles.",
+    "goals": [
+      "Assess the distance and compatibility of climate reconstructions.",
+      "Compare model simulations to reconstruction ensembles.",
+      "Define robust statistics of distance using proximity probability.",
+      "Evaluate the plume distance metric for ensemble comparisons."
+    ],
+    "libraries": [
+      "numpy",
+      "pandas",
+      "pens",
+      "matplotlib",
+      "seaborn",
+      "pyleoclim",
+      "scipy"
+    ],
+    "techniques": [
+      "Proximity probability calculation",
+      "q-norm distance measurement",
+      "Plume distance metric",
+      "Kernel density estimation",
+      "CDF analysis"
+    ],
+    "keywords": [
+      "climate trace",
+      "ensemble trajectories",
+      "proximity probability",
+      "plume distance",
+      "PMIP3",
+      "LMRonline",
+      "q-norm distance"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the framework for assessing the probability of observing a climate trace within an ensemble, focusing on proximity and compatibility of reconstructions.",
+        "heading": "[Figs. 6-8] Proximity Probability and Plume Distance"
+      },
+      {
+        "blurb": "Analyzes the proximity of HadCM3 and CCSM4 past1000 GMST traces to the LMRonline ensemble, highlighting the uncertainty in historical estimations.",
+        "heading": "PMIP3 past1000 runs vs LMRonline"
+      },
+      {
+        "blurb": "Processes PMIP3 simulation data, calculates ensemble means, and evaluates the likelihood of trajectories under the ensemble's distribution.",
+        "heading": "PMIP3 simulations"
+      },
+      {
+        "blurb": "Computes and visualizes the distances between HadCM3, CCSM4 traces, and the LMRonline ensemble using different norms.",
+        "heading": "Pathwise Approach : proximity probability"
+      },
+      {
+        "blurb": "Defines the plume distance metric from CDFs to summarize differences between ensembles, and calculates the metric for HadCM3 and CCSM4.",
+        "heading": "Plume distance"
+      },
+      {
+        "blurb": "Explores the mathematical properties of the plume distance metric, including symmetry and computational efficiency.",
+        "heading": "Mathematical Properties of the Plume Distance"
+      },
+      {
+        "blurb": "Updates visualizations to include proximity density and threshold differences, enhancing the interpretation of ensemble comparisons.",
+        "heading": "Updated Fig 7"
+      },
+      {
+        "blurb": "Compares LMRonline and LMRv2.1 ensembles using plume-to-plume distance, and evaluates intra-ensemble distances for context.",
+        "heading": "Plume-to-plume distance"
+      },
+      {
+        "blurb": "Calculates and exports PMIP3 model distances to LMRonline and LMRv2.1 ensembles, providing benchmarks for model evaluation.",
+        "heading": "PMIP3 distances to LMRonline"
+      },
+      {
+        "blurb": "Visualizes the concept of a proximity tube around the HadCM3 trace, illustrating the method's application.",
+        "heading": "Illustrate tube around HadCM3"
+      }
+    ],
+    "inputs": [
+      "Climate trace data from PMIP3 and LMRonline",
+      "Ensemble trajectory data",
+      "Proximity threshold parameters"
+    ],
+    "outputs": [
+      "Proximity probability plots",
+      "Distance distribution graphs",
+      "Plume distance metrics",
+      "LaTeX table of PMIP3 distances"
+    ],
+    "source": "llm:openai"
+  }
+}

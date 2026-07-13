@@ -1,0 +1,118 @@
+{
+  "task": "project_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "presto2k_cfr_pb|0274e6b8e82f8a42|2bab0b2beca77b1f|4fc062148beae722|5ff759d7e010c2e4|87b8cf7e71ec7865|9606b2fae62c05fb|9ad9eca01866eaf8|e9de5ca8d97e1fe7"
+  ],
+  "payload": {
+    "title": "PReSto2k Climate Field Reconstruction Project",
+    "summary": "The PReSto2k Climate Field Reconstruction Project aims to assemble, assimilate, and validate paleoclimate data for climate reconstructions over the past two millennia. The project involves three main phases: data assembly, data assimilation, and validation. Each phase consists of specific tasks executed through Jupyter notebooks, leveraging various datasets and computational techniques to achieve comprehensive climate reconstructions.",
+    "phases": [
+      {
+        "phase": "data_assembly",
+        "notebook_paths": [
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assembly/C01_c_db_assembly_LiPDverse.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assembly/correlating_geoseries.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assembly/C01_d_db_assembly_LiPDGraph.ipynb"
+        ],
+        "role": "Assemble proxy databases from various sources, ensuring data quality and readiness for assimilation."
+      },
+      {
+        "phase": "data_assimilation",
+        "notebook_paths": [
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assimilation/plotting_gs_dashboard.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assimilation/C02_b_DA_with_individual_seasonality.ipynb"
+        ],
+        "role": "Integrate and process assembled data to produce climate field reconstructions using advanced statistical methods."
+      },
+      {
+        "phase": "validation",
+        "notebook_paths": [
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/validation/C03_b_proxydb_compare.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/validation/loading_from_verse.ipynb",
+          "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/validation/C03_a_validating_PReSto2k.ipynb"
+        ],
+        "role": "Evaluate and validate the reconstructed climate data against established baselines and instrumental records."
+      }
+    ],
+    "end_to_end_steps": [
+      {
+        "step_number": 1,
+        "phase": "data_assembly",
+        "title": "Assembling the proxy database from the LiPDVerse",
+        "description": "Assemble a proxy database from the LiPDVerse, focusing on data querying and cleaning.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assembly/C01_c_db_assembly_LiPDverse.ipynb"
+      },
+      {
+        "step_number": 2,
+        "phase": "data_assembly",
+        "title": "Correlating two GeoSeries",
+        "description": "Compute the correlation between two GeoSeries using the pyleoclim library.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assembly/correlating_geoseries.ipynb"
+      },
+      {
+        "step_number": 3,
+        "phase": "data_assembly",
+        "title": "Assembling the proxy database from the LiPDGraph",
+        "description": "Query the LiPDGraph database to assemble a proxy database for data assimilation.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assembly/C01_d_db_assembly_LiPDGraph.ipynb"
+      },
+      {
+        "step_number": 4,
+        "phase": "data_assimilation",
+        "title": "Plotting as a GeoSeries Dashboard",
+        "description": "Explore and visualize a subset of LiPD datasets using Pyleoclim.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assimilation/plotting_gs_dashboard.ipynb"
+      },
+      {
+        "step_number": 5,
+        "phase": "data_assimilation",
+        "title": "Run Data Assimilation (Individual Seasonality)",
+        "description": "Perform data assimilation for climate reconstruction using the LMRv2.1 framework.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/data_assimilation/C02_b_DA_with_individual_seasonality.ipynb"
+      },
+      {
+        "step_number": 6,
+        "phase": "validation",
+        "title": "Proxy Database Comparisons",
+        "description": "Compare proxy databases before and after interpolation to understand reconstruction differences.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/validation/C03_b_proxydb_compare.ipynb"
+      },
+      {
+        "step_number": 7,
+        "phase": "validation",
+        "title": "Loading LiPDverse Data and Plotting as GeoSeries",
+        "description": "Load paleoclimate datasets from the LiPDverse and create a Pyleoclim GeoSeries.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/validation/loading_from_verse.ipynb"
+      },
+      {
+        "step_number": 8,
+        "phase": "validation",
+        "title": "Validating PReSto2k",
+        "description": "Validate the PReSto2k reconstructions by comparing them against the LMRv2.1 baseline.",
+        "notebook": "notebook_library/my_notebooks/paleobooks_gallery/presto2k_cfr_pb/notebooks/validation/C03_a_validating_PReSto2k.ipynb"
+      }
+    ],
+    "keywords": [
+      "paleoclimate",
+      "data assembly",
+      "data assimilation",
+      "validation",
+      "LiPDVerse",
+      "LiPDGraph",
+      "GeoSeries",
+      "climate reconstruction",
+      "proxy database",
+      "PAGES2k",
+      "iso2k",
+      "CoralHydro2k",
+      "LMRv2.1",
+      "PReSto2k",
+      "Kalman Filter",
+      "instrumental datasets"
+    ],
+    "source": "llm:openai",
+    "project_id": "presto2k_cfr_pb"
+  }
+}

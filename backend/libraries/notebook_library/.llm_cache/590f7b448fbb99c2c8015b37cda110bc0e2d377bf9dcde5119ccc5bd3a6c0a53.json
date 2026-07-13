@@ -1,0 +1,111 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "18f93ef291416d3b"
+  ],
+  "payload": {
+    "title": "Using Surrogate Series with Pyleoclim",
+    "description": "This notebook provides an overview of the SurrogateSeries class in the Pyleoclim library, focusing on generating and visualizing surrogate data to assess the significance of various analyses. It covers both parametric and non-parametric surrogate generation methods, including autoregressive models and phase scrambling. The notebook demonstrates how to fit surrogates to specific datasets like the Southern Oscillation Index and LR04, and discusses their use in significance testing.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for the tutorial, including Pyleoclim, Matplotlib, Pandas, and Numpy.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          8,
+          10,
+          12,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Create parametric surrogate series using autoregressive models and plot the results.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Generate Parametric Surrogates"
+      },
+      {
+        "cell_indices": [
+          17,
+          19,
+          20,
+          22,
+          24,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the Southern Oscillation Index dataset, inspect its spectral properties, and fit surrogate series to it.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Fit Surrogates to Southern Oscillation Index"
+      },
+      {
+        "cell_indices": [
+          27
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Perform significance testing using the fitted surrogate series and plot the results.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Significance Testing"
+      },
+      {
+        "cell_indices": [
+          30,
+          32,
+          34,
+          36,
+          37,
+          40,
+          42
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Create non-parametric surrogate series using phase scrambling and other methods, and visualize the results.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Generate Non-parametric Surrogates"
+      },
+      {
+        "cell_indices": [
+          45,
+          47,
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Generate surrogate series that match the temporal pattern of observations in the original series and perform significance testing.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Unevenly-spaced Surrogates"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

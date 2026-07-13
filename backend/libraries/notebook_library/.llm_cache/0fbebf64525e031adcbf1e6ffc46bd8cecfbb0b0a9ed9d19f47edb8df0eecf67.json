@@ -1,0 +1,153 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4fc062148beae722"
+  ],
+  "payload": {
+    "title": "Run Data Assimilation (Individual Seasonality)",
+    "description": "This workflow performs data assimilation for climate reconstruction using the LMRv2.1 framework and the PReSto2k Proxy Database. It involves loading and processing climate data, calibrating Proxy System Models (PSMs) with individual proxy seasonality, and using the Kalman Filter for data assimilation to produce climate field reconstructions and ensemble time series.",
+    "phase": "data_assimilation",
+    "steps": [
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Set up the environment by loading necessary modules and checking the version of the cfr library.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Initialize Environment"
+      },
+      {
+        "cell_indices": [
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Initialize Environment"
+        ],
+        "description": "Load the proxy database from a pickle file and initialize the reconstruction job with the loaded proxy data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Proxies"
+      },
+      {
+        "cell_indices": [
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Proxies"
+        ],
+        "description": "Load the model prior data using CMIP5 CCSM4 past 1000 as the model prior.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Model Prior"
+      },
+      {
+        "cell_indices": [
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Model Prior"
+        ],
+        "description": "Load the calibration data sets including GISTEMPv4 temperature data and GPCCv6 precipitation data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Load Calibration Data"
+      },
+      {
+        "cell_indices": [
+          18,
+          19,
+          21
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Calibration Data"
+        ],
+        "description": "Calibrate Proxy System Models (PSMs) using individual proxy seasonality metadata.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calibrate PSMs"
+      },
+      {
+        "cell_indices": [
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Calibrate PSMs"
+        ],
+        "description": "Run the forward model (PSM) with the prior as inputs to generate model-derived pseudoproxies.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Run PSMs"
+      },
+      {
+        "cell_indices": [
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Run PSMs"
+        ],
+        "description": "Annualize and regrid the model prior fields to prepare for data assimilation.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Annualize and Regrid Model Prior Fields"
+      },
+      {
+        "cell_indices": [
+          27
+        ],
+        "code": "",
+        "dependencies": [
+          "Annualize and Regrid Model Prior Fields"
+        ],
+        "description": "Optionally save the job object for later reload.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Save Job Object"
+      },
+      {
+        "cell_indices": [
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Save Job Object"
+        ],
+        "description": "Execute the data assimilation solver using the Kalman Filter to produce climate field reconstructions.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Run DA Solver"
+      },
+      {
+        "cell_indices": [
+          32,
+          33,
+          34,
+          35
+        ],
+        "code": "",
+        "dependencies": [
+          "Run DA Solver"
+        ],
+        "description": "Perform figure checks to ensure the reconstructions exist and visualize the results.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Figure Checks"
+      }
+    ],
+    "num_steps": 10,
+    "source": "llm:openai"
+  }
+}

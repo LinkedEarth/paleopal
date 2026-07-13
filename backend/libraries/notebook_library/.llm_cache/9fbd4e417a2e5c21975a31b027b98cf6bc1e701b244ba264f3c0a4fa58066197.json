@@ -1,0 +1,65 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "f288ecf2c9528cec"
+  ],
+  "payload": {
+    "title": "Solar-climate connections over the Common Era",
+    "summary": "This Jupyter notebook investigates the hypothesis that variations in solar irradiance contribute to the variability in global mean surface temperature (GMST) over the Common Era. Using the Pyleoclim library, the notebook performs wavelet transform coherency analysis between solar irradiance and GMST reconstructions. It also quantifies phase relationships using phase statistics. The analysis reproduces a figure from the PAGES2k Consortium (2019) and provides insights into the phase coherence between the datasets.",
+    "goals": [
+      "Test the hypothesis of solar irradiance affecting GMST variability.",
+      "Perform wavelet transform coherency analysis.",
+      "Quantify phase relationships using phase statistics."
+    ],
+    "libraries": [
+      "pyleoclim",
+      "pandas",
+      "numpy",
+      "os",
+      "matplotlib",
+      "tqdm"
+    ],
+    "techniques": [
+      "Wavelet transform coherency analysis",
+      "Phase statistics calculation"
+    ],
+    "keywords": [
+      "solar irradiance",
+      "global mean surface temperature",
+      "wavelet transform",
+      "phase statistics",
+      "climate variability",
+      "Common Era"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the authors and the hypothesis that solar irradiance variations influence GMST variability over the last 2,000 years. Describes the use of Pyleoclim for wavelet transform coherency analysis and phase statistics.",
+        "heading": "Solar-climate connections over the Common Era"
+      },
+      {
+        "blurb": "Describes the loading and initial exploration of solar irradiance and GMST datasets using pandas. The data is prepared for analysis by importing it into Pyleoclim and plotting the timeseries.",
+        "heading": "Exploratory Data Analysis"
+      },
+      {
+        "blurb": "Details the application of Pyleoclim's wavelet coherence method to assess the relationship between solar irradiance and GMST. The analysis involves calculating coherence and plotting results for different reconstructions.",
+        "heading": "Wavelet coherency analysis"
+      },
+      {
+        "blurb": "Analyzes phase relationships between solar irradiance and GMST using phase statistics. The results suggest limited coherence with some indications of in-phase relationships, but no robust phase relationship is observed.",
+        "heading": "Phase Statistics"
+      }
+    ],
+    "inputs": [
+      "SATIRE-H solar irradiance dataset",
+      "PAGES2k GMST reconstruction dataset"
+    ],
+    "outputs": [
+      "Wavelet coherence plots",
+      "Phase statistics table"
+    ],
+    "source": "llm:openai"
+  }
+}

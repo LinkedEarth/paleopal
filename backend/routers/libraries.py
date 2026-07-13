@@ -25,7 +25,7 @@ try:
     from readthedocs_library.search_docs import search_docs
     from readthedocs_library.search_code import search_code
     from readthedocs_library.search_symbols import search_symbols
-    from notebook_library.search_snippets import search_snippets
+    from notebook_library.search_snippets import search_snippets, search_summaries
     from notebook_library.search_workflows import search_workflows
 except ImportError as e:
     logging.error(f"Failed to import library modules: {e}")
@@ -37,6 +37,7 @@ except ImportError as e:
     def search_code(*args, **kwargs): return []
     def search_symbols(*args, **kwargs): return []
     def search_snippets(*args, **kwargs): return []
+    def search_summaries(*args, **kwargs): return []
     def search_workflows(*args, **kwargs): return []
     def get_system_status(*args, **kwargs): return {"error": "Qdrant libraries not available"}
     def get_library_status(*args, **kwargs): return {"error": "Qdrant libraries not available"}
@@ -126,7 +127,7 @@ LIBRARY_CONFIGS = {
         "name": "Notebook Library", 
         "type": "workflow_library",
         "description": "Code snippets and workflows from Jupyter notebooks",
-        "collections": ["notebook_snippets", "notebook_workflows"],
+        "collections": ["notebook_snippets", "notebook_workflows", "notebook_summaries"],
         "search_function": search_snippets,  # Default search function
         "filters": {
             "workflow_type": ["data_analysis", "visualization", "preprocessing", "modeling"],
@@ -331,6 +332,13 @@ async def search_collection(
             )
         elif collection_name == "notebook_workflows":
             results = search_workflows(
+                query=search_request.query,
+                limit=search_request.limit,
+                collection_name=collection_name,
+                **(search_request.filters or {})
+            )
+        elif collection_name == "notebook_summaries":
+            results = search_summaries(
                 query=search_request.query,
                 limit=search_request.limit,
                 collection_name=collection_name,

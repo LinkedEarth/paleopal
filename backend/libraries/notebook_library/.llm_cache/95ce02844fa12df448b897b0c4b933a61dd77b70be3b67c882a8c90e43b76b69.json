@@ -1,0 +1,70 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b0aec6ae0966b05e"
+  ],
+  "payload": {
+    "title": "Toy_Data_Heuristic",
+    "summary": "This Jupyter notebook demonstrates the use of Pyleoclim to calculate correlations between insolation and toy data, highlighting challenges in distinguishing between seasonal and physical lag. The notebook defines a function to correlate series with large gaps, creates sinusoidal toy data, and uses climlab to define insolation curves. It calculates correlations between toy data and both shifted insolation curves and insolation from different months, culminating in a multi-panel figure illustrating the results.",
+    "goals": [
+      "Illustrate the difficulty in distinguishing between seasonal and physical lag in correlation analysis.",
+      "Demonstrate the use of Pyleoclim for calculating correlations with insolation data.",
+      "Create and analyze toy data to understand correlation patterns."
+    ],
+    "libraries": [
+      "Pyleoclim",
+      "Climlab",
+      "Numpy",
+      "Pandas",
+      "Seaborn",
+      "Matplotlib",
+      "Tqdm"
+    ],
+    "techniques": [
+      "Correlation analysis",
+      "Time series analysis",
+      "Data visualization",
+      "Handling data with large gaps"
+    ],
+    "keywords": [
+      "Pyleoclim",
+      "Insolation",
+      "Correlation",
+      "Toy data",
+      "Seasonal lag",
+      "Physical lag",
+      "Climlab"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook begins by importing necessary libraries and defining a function to correlate series with large gaps. It then creates sinusoidal toy data for analysis.",
+        "heading": "Creating Toy Data"
+      },
+      {
+        "blurb": "In this section, insolation curves for July at various latitudes are created, and correlations between these shifted insolation curves and the toy data are calculated.",
+        "heading": "Calculating correlations between toy data and shifted insolation curves"
+      },
+      {
+        "blurb": "This section calculates correlations between toy data and insolation data from different months, rather than using shifted insolation curves.",
+        "heading": "Calculating correlations using different months of insolation instead of different shifts"
+      },
+      {
+        "blurb": "The final section combines the results into a multi-panel figure, visualizing the correlations between toy data and insolation data across different scenarios.",
+        "heading": "Creating the multi-panel figure"
+      }
+    ],
+    "inputs": [
+      "Sinusoidal toy data",
+      "Insolation data from climlab",
+      "Orbital parameters"
+    ],
+    "outputs": [
+      "Correlations between toy data and insolation curves",
+      "Multi-panel figure illustrating correlation results"
+    ],
+    "source": "llm:openai"
+  }
+}

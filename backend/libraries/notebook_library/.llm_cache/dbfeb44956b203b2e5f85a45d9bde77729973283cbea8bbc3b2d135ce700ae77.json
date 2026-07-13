@@ -1,0 +1,70 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "11c7dd038005f3b2"
+  ],
+  "payload": {
+    "title": "Synthetic Data",
+    "description": "This notebook generates synthetic data for comparison and sensitivity tests in KDE plots. It substitutes real data with AR(1) noise and introduces synthetic events of specified magnitudes. The process involves sorting data by latitude, fitting an AR(1) model, and generating surrogate values.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load preprocessed series and ensemble dictionaries from pickle files.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load Data"
+      },
+      {
+        "cell_indices": [
+          4,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Load Data"
+        ],
+        "description": "Sort the data by latitude to prepare for synthetic data generation.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Sort Data by Latitude"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Sort Data by Latitude"
+        ],
+        "description": "Define a function to add a synthetic spike to a series, which will be used to introduce synthetic events.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Define Spike Function"
+      },
+      {
+        "cell_indices": [
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Define Spike Function"
+        ],
+        "description": "Set a signal to noise ratio for the synthetic data generation process.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Set Signal to Noise Ratio"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

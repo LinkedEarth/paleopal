@@ -1,0 +1,83 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b10e3227299117cf"
+  ],
+  "payload": {
+    "title": "Database Assembly using cfr's built in PAGES 2k database",
+    "description": "This notebook demonstrates the process of constructing a proxy database using the PAGES 2k (v2.0.0) records. It utilizes the 'cfr' library to fetch and filter proxy records based on temporal resolution and archive type, and saves the filtered data as NetCDF files for use in data assimilation workflows.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import the 'cfr' library to access its functionalities for fetching and filtering proxy records.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import cfr Library"
+      },
+      {
+        "cell_indices": [
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Import cfr Library"
+        ],
+        "description": "Use the 'cfr' library's fetch method to pull the PAGES 2k (v2.0.0) proxy records from the cloud, creating a ProxyDatabase object.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Fetch PAGES 2k Database"
+      },
+      {
+        "cell_indices": [
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Fetch PAGES 2k Database"
+        ],
+        "description": "Filter the ProxyDatabase to include only records with annual and subannual resolution (dt \u2264 1.2).",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Filter by Temporal Resolution"
+      },
+      {
+        "cell_indices": [
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Filter by Temporal Resolution"
+        ],
+        "description": "Further filter the records by archive type, selecting specific types such as coral, tree, bivalve, ice, and lake-related archives.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Optional: Filter by Archive Type"
+      },
+      {
+        "cell_indices": [
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Filter by Temporal Resolution",
+          "Optional: Filter by Archive Type"
+        ],
+        "description": "Save the filtered ProxyDatabase as NetCDF files for use in data assimilation workflows.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Save Filtered Database as NetCDF"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

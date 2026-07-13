@@ -1,0 +1,93 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "be189e905c93594d"
+  ],
+  "payload": {
+    "title": "[Table 1] Proximity of PMIP3 traces to LMR ensembles",
+    "summary": "This notebook applies the concept of plume distance to compare PMIP3 simulations with Last Millennium Reanalysis (LMR) ensembles, aiming to reproduce Table 1 from a related paper. It involves loading and processing climate data, calculating ensemble means, and resampling trajectories using various statistical models. The notebook uses libraries like pandas, numpy, and pyleoclim for data manipulation and visualization. Outputs include processed data tables and visualizations of ensemble trajectories and plume distances.",
+    "goals": [
+      "Apply plume distance concept to PMIP3 and LMR data",
+      "Reproduce Table 1 from the related paper",
+      "Analyze ensemble trajectories using statistical models"
+    ],
+    "libraries": [
+      "pandas",
+      "numpy",
+      "matplotlib.pyplot",
+      "seaborn",
+      "pyleoclim",
+      "pens"
+    ],
+    "techniques": [
+      "Data loading and processing",
+      "Ensemble mean calculation",
+      "Resampling using AR models",
+      "Fractional Gaussian noise modeling",
+      "Power-law behavior analysis",
+      "Plume distance calculation"
+    ],
+    "keywords": [
+      "PMIP3",
+      "LMR",
+      "plume distance",
+      "ensemble trajectories",
+      "climate data",
+      "statistical modeling"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the application of plume distance to PMIP3 and LMR data, aiming to reproduce a table from a related paper.",
+        "heading": "[Table 1] Proximity of PMIP3 traces to LMR ensembles"
+      },
+      {
+        "blurb": "Describes loading and plotting of LMR offline ensemble data, highlighting the probabilistic nature of time-varying series.",
+        "heading": "LMR offline"
+      },
+      {
+        "blurb": "Details the subsampling of LMR online data to align with offline data, including metadata for time and value axes.",
+        "heading": "LMRonline"
+      },
+      {
+        "blurb": "Covers the loading and processing of PMIP3 simulation data, including ensemble mean calculations for CESM and GISS.",
+        "heading": "PMIP3 simulations"
+      },
+      {
+        "blurb": "Explains the resampling of LMR offline ensemble using AR models, fractional Gaussian noise, and power-law behavior.",
+        "heading": "Resampled trajectories"
+      },
+      {
+        "blurb": "Discusses the use of AR model parameters fitted to LMR data for generating random paths and calculating plume distances.",
+        "heading": "AR model parameters"
+      },
+      {
+        "blurb": "Summarizes the effects of resampling on ensemble trajectories, contributing to the creation of a comprehensive table.",
+        "heading": "Effects of resampling: the Grand Table"
+      },
+      {
+        "blurb": "Describes the calculation of intra-ensemble distances and quantiles for benchmarking purposes.",
+        "heading": "Benchmarks:"
+      },
+      {
+        "blurb": "Details the calculation of plume distances for PMIP3 simulations, including exporting results to LaTeX format.",
+        "heading": "Plume Distances"
+      }
+    ],
+    "inputs": [
+      "PMIP3_GMST.txt",
+      "gmt_MCruns_ensemble_full_LMRv2.1.nc",
+      "gmt_MCruns_ensemble_full_LMRonline.nc",
+      "LMRonline_ARfit.csv"
+    ],
+    "outputs": [
+      "Processed data tables",
+      "Visualizations of ensemble trajectories",
+      "Plume distance metrics",
+      "LaTeX formatted tables"
+    ],
+    "source": "llm:openai"
+  }
+}

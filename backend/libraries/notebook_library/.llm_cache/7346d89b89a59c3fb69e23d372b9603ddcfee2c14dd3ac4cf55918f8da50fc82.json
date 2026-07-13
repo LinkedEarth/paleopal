@@ -1,0 +1,126 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "52907abcd45c9d56"
+  ],
+  "payload": {
+    "title": "ClimateDISK: Hockey stick",
+    "description": "This notebook follows the WINGS steps to reproduce the 'hockey stick' climate figure, allowing for updates with new data. It involves querying data, processing it to remove duplicates, slicing it for a specific time frame, Gaussianizing the values, and creating a composite plot.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Query the LiPDverse v3 graph to retrieve climate data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Data Query"
+      },
+      {
+        "cell_indices": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Query"
+        ],
+        "description": "Remove duplicate rows based on specific criteria to ensure data integrity.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Remove Duplicate Rows"
+      },
+      {
+        "cell_indices": [
+          17,
+          18,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Remove Duplicate Rows"
+        ],
+        "description": "Slice the data for the time frame of interest using Pyleoclim.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Slice for Time Frame"
+      },
+      {
+        "cell_indices": [
+          21,
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Slice for Time Frame"
+        ],
+        "description": "Gaussianize the sliced data to prepare it for further analysis.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Gaussianize Data"
+      },
+      {
+        "cell_indices": [
+          25,
+          27,
+          28,
+          29,
+          30,
+          32,
+          34,
+          35,
+          37,
+          39,
+          40,
+          42,
+          43,
+          44,
+          46,
+          47,
+          49,
+          50,
+          51,
+          52
+        ],
+        "code": "",
+        "dependencies": [
+          "Gaussianize Data"
+        ],
+        "description": "Create a composite by cleaning proxy/variable names, setting figure styles, and calibrating against instrumental data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Create Composite"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

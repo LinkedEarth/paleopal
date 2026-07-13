@@ -1,0 +1,186 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "56ca326d84def9e1"
+  ],
+  "payload": {
+    "title": "Lazy loading with Xarray",
+    "description": "This notebook demonstrates the use of Xarray for lazy loading of large datasets, which helps manage memory usage by loading data in smaller chunks. It covers loading data via URLs using Xarray and handling cases where URLs do not work directly using Kerchunk. The notebook also includes visualization techniques for climate data, such as plotting surface maps and sections with scatter plots.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          6,
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and define utility functions for memory size calculation.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports and Setup"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          13,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports and Setup"
+        ],
+        "description": "Demonstrate lazy loading of datasets using Xarray from a URL.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Xarray for Loading via URL"
+      },
+      {
+        "cell_indices": [
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports and Setup"
+        ],
+        "description": "Use Kerchunk to handle datasets that cannot be directly loaded via URL with Xarray.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Using Kerchunk"
+      },
+      {
+        "cell_indices": [
+          48,
+          49
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports and Setup"
+        ],
+        "description": "Apply a custom function using Xarray's apply_ufunc for data manipulation.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Intuition"
+      },
+      {
+        "cell_indices": [
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports and Setup"
+        ],
+        "description": "Load local NetCDF files using Xarray for C-iTRACE datasets.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "C-iTRACE Data Loading"
+      },
+      {
+        "cell_indices": [
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70
+        ],
+        "code": "",
+        "dependencies": [
+          "C-iTRACE Data Loading"
+        ],
+        "description": "Visualize surface data using longitude, latitude, and color mapping.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Surface Visualization"
+      },
+      {
+        "cell_indices": [
+          72
+        ],
+        "code": "",
+        "dependencies": [
+          "Surface Visualization"
+        ],
+        "description": "Create a map projection and plot data using Cartopy.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Shallow Grave Visualization"
+      },
+      {
+        "cell_indices": [
+          74,
+          75,
+          76,
+          77
+        ],
+        "code": "",
+        "dependencies": [
+          "Surface Visualization"
+        ],
+        "description": "Plot a section of data with scatter points for detailed analysis.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Section with Scatter"
+      },
+      {
+        "cell_indices": [
+          79
+        ],
+        "code": "",
+        "dependencies": [
+          "Section with Scatter"
+        ],
+        "description": "Discuss model grid construction and demonstrate data filtering based on grid coordinates.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Model Grids"
+      }
+    ],
+    "num_steps": 9,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "3f28be5e8b39366f"
+  ],
+  "payload": {
+    "title": "Correlation Analysis in Pyleoclim",
+    "description": "This Jupyter notebook demonstrates the use of the Pyleoclim library for correlation analysis in paleoclimatology. It focuses on comparing age-uncertain records and computing correlations between records and gridded fields. The notebook utilizes various statistical methods, including Pearson's R, Spearman's \u03c1, and Kendall's \u03c4, to assess correlations and significance. It also addresses the multiple comparisons problem and demonstrates the use of surrogate data for significance testing.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Initialize the environment and import necessary libraries.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble"
+      },
+      {
+        "cell_indices": [
+          4,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load and prepare the Hulu Cave and GISP2 datasets for correlation analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Age-uncertain Correlations"
+      },
+      {
+        "cell_indices": [
+          8,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Generate an age ensemble for the GISP2 dataset using Pyleoclim's random_time_axis function.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Create Age Ensemble"
+      },
+      {
+        "cell_indices": [
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Extract medians from the ensembles and explore their correlation using Pearson's product-moment correlation.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Correlating the Medians"
+      },
+      {
+        "cell_indices": [
+          15,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Assess the effect of nonlinearity by calculating Spearman's \u03c1 and Kendall's \u03c4 correlations.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Effect of Nonlinearity"
+      },
+      {
+        "cell_indices": [
+          19,
+          20,
+          21
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Perform correlation analysis on the ensemble using phase randomization and plot the results.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Multiple Comparison"
+      },
+      {
+        "cell_indices": [
+          23,
+          25,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Load the Ocn-Palmyra.Nurhati.2011 dataset and perform field correlation analysis.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Field Correlations"
+      },
+      {
+        "cell_indices": [
+          47
+        ],
+        "code": "",
+        "dependencies": [
+          "7"
+        ],
+        "description": "Summarize the capabilities of Pyleoclim in computing correlations and assessing significance.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Takeaways"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

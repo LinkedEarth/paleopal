@@ -1,0 +1,85 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "1d3a4a07101c9bdf"
+  ],
+  "payload": {
+    "title": "Proxy Database Forensics",
+    "summary": "This notebook aims to identify the differences and similarities between two proxy databases using the `cfr.ProxyDatabase` class. By comparing these databases, the notebook seeks to understand how variations in proxy data inputs can affect the quality of paleoclimate reconstructions. The analysis involves loading proxy databases, plotting their data, comparing record identifiers, and examining start times of records to pinpoint problematic records that may impact reconstruction outcomes.",
+    "goals": [
+      "Identify differences between two proxy databases.",
+      "Understand the impact of proxy data variations on paleoclimate reconstructions.",
+      "Pinpoint problematic records affecting reconstruction quality."
+    ],
+    "libraries": [
+      "cfr",
+      "numpy",
+      "pandas",
+      "matplotlib"
+    ],
+    "techniques": [
+      "Data loading and refreshing",
+      "Plotting and visual comparison",
+      "Set operations for record comparison",
+      "Data conversion to ProxyDatabase objects"
+    ],
+    "keywords": [
+      "proxy database",
+      "paleoclimate reconstruction",
+      "data comparison",
+      "cfr",
+      "PAGES2k",
+      "LMR"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the purpose of comparing proxy databases to trace differences in paleoclimate reconstructions using the `cfr.ProxyDatabase` class.",
+        "heading": "Proxy Database Forensics"
+      },
+      {
+        "blurb": "Describes loading two proxy databases from netCDF files and refreshing them to prepare for analysis.",
+        "heading": "Load in the two proxy databases as cfr.ProxyDatabase objects"
+      },
+      {
+        "blurb": "Explains how to visualize the proxy databases using plotting functions to get an overview of the data.",
+        "heading": "Plot the two ProxyDBs"
+      },
+      {
+        "blurb": "Details the process of comparing record identifiers between the two databases to identify differences.",
+        "heading": "Compare PID lists"
+      },
+      {
+        "blurb": "Describes converting differences in record identifiers into ProxyDatabase objects for further analysis.",
+        "heading": "Convert the differences into ProxyDatabase Objects"
+      },
+      {
+        "blurb": "Covers plotting records that are missing from each database to visually identify discrepancies.",
+        "heading": "Plot the missing ones"
+      },
+      {
+        "blurb": "Discusses plotting overlapping records to check if they contain the same data across databases.",
+        "heading": "Plot overlap to see if individual records are the same"
+      },
+      {
+        "blurb": "Explores plotting start times of records to identify differences that may affect reconstruction variability.",
+        "heading": "Plot start times for each proxydb"
+      },
+      {
+        "blurb": "Summarizes the use of `cfr` utilities to investigate differences between proxy databases and their impact on reconstructions.",
+        "heading": "Summary"
+      }
+    ],
+    "inputs": [
+      "Two proxy databases in netCDF format"
+    ],
+    "outputs": [
+      "Plots of proxy databases",
+      "Comparison of record identifiers",
+      "ProxyDatabase objects for missing and overlapping records"
+    ],
+    "source": "llm:openai"
+  }
+}

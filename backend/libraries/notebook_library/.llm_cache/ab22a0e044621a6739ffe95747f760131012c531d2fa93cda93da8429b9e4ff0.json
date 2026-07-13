@@ -1,0 +1,86 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "9f16e08821d63718"
+  ],
+  "payload": {
+    "title": "Wavelet Analysis with Pyleoclim",
+    "summary": "This Jupyter notebook demonstrates how to perform wavelet analysis and wavelet coherence using the Pyleoclim library. It focuses on analyzing the EPICA Dome C ice core record and its coherence with atmospheric CO2 data. The notebook covers loading and visualizing data, performing wavelet transforms, customizing frequency ranges, and conducting significance testing. It also explores the relationship between temperature proxies and CO2 levels through wavelet coherence analysis.",
+    "goals": [
+      "Perform wavelet analysis and wavelet coherence in Pyleoclim",
+      "Analyze wavelet and coherence for evenly- and unevenly-spaced data",
+      "Learn about Scalogram and Coherence classes",
+      "Establish significance of scalogram or coherence",
+      "Interpret results of wavelet and wavelet coherence analyses"
+    ],
+    "libraries": [
+      "pyleoclim",
+      "pandas",
+      "matplotlib",
+      "numpy"
+    ],
+    "techniques": [
+      "Wavelet Analysis",
+      "Wavelet Coherence",
+      "Significance Testing",
+      "Data Visualization"
+    ],
+    "keywords": [
+      "Wavelet Analysis",
+      "Wavelet Transform Coherency",
+      "Visualization"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook begins with an introduction to wavelet analysis and its relevance in climate timeseries analysis, particularly in the context of paleoclimate studies.",
+        "heading": "Notebook start"
+      },
+      {
+        "blurb": "Introduces the Pyleoclim library and sets up the environment by importing necessary libraries such as numpy, pandas, matplotlib, and pyleoclim.",
+        "heading": "Wavelet Analysis with Pyleoclim"
+      },
+      {
+        "blurb": "Demonstrates loading the deuterium dataset using Pyleoclim's utility functions, converting time units, and visualizing the data with metadata for proper labeling.",
+        "heading": "Loading and visualizing $\\delta D$ series"
+      },
+      {
+        "blurb": "Performs wavelet analysis on the standardized deuterium series to obtain a scalogram, which is then visualized to show spectral power changes over time.",
+        "heading": "Wavelet Analysis"
+      },
+      {
+        "blurb": "Focuses the wavelet analysis on specific frequency ranges to highlight oscillations in the 5-200kyr range, using customized frequency parameters.",
+        "heading": "Customizing the frequency range"
+      },
+      {
+        "blurb": "Explains methods for testing the significance of wavelet power using AR(1) benchmarks, including parametric and simulation-based approaches.",
+        "heading": "Significance Testing"
+      },
+      {
+        "blurb": "Loads and visualizes CO2 data from Antarctica, then compares it with the deuterium series to explore potential lead/lag relationships using wavelet coherence.",
+        "heading": "Temperature vs $CO_2$"
+      },
+      {
+        "blurb": "Analyzes the coherence between temperature proxies and CO2 levels, including phase statistics and significance testing of coherence results.",
+        "heading": "Wavelet Coherence"
+      },
+      {
+        "blurb": "Summarizes the capabilities of Pyleoclim for wavelet and wavelet coherence analysis, highlighting the handling of both evenly- and unevenly-spaced data.",
+        "heading": "Takeways"
+      }
+    ],
+    "inputs": [
+      "EPICA Dome C ice core deuterium data",
+      "Atmospheric CO2 data from Antarctica"
+    ],
+    "outputs": [
+      "Wavelet scalogram plots",
+      "Significance test results",
+      "Wavelet coherence plots",
+      "Phase statistics"
+    ],
+    "source": "llm:openai"
+  }
+}

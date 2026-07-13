@@ -1,0 +1,105 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "1d1f4e570f95e15e"
+  ],
+  "payload": {
+    "title": "Overview of Pyleoclim: Efficient & Flexible Timeseries Analysis",
+    "description": "This Jupyter notebook introduces the Pyleoclim package for timeseries analysis, focusing on creating Series objects from CSV files and performing spectral and wavelet analyses. It demonstrates how to use Pyleoclim's methods for plotting, standardizing, and analyzing timeseries data, specifically sea-surface temperature data from the NINO3 region. The notebook also highlights method cascading, allowing users to streamline workflows by chaining multiple analysis steps.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for the tutorial.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          8,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble"
+        ],
+        "description": "Read data from a CSV file into a Pandas DataFrame and create a Pyleoclim Series object. Plot the timeseries data and visualize it using stripes.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Create a Series object from a CSV file"
+      },
+      {
+        "cell_indices": [
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Create a Series object from a CSV file"
+        ],
+        "description": "Standardize the timeseries data and plot the original and standardized series.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Pre-processing"
+      },
+      {
+        "cell_indices": [
+          15,
+          17,
+          19,
+          21
+        ],
+        "code": "",
+        "dependencies": [
+          "Pre-processing"
+        ],
+        "description": "Perform spectral analysis using Lomb-Scargle and MTM methods. Plot the power spectral density and perform significance testing.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Spectral Analysis"
+      },
+      {
+        "cell_indices": [
+          25,
+          26,
+          28,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Pre-processing"
+        ],
+        "description": "Conduct wavelet analysis using the WWZ method. Plot the wavelet power spectrum and perform significance testing.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Wavelet Analysis"
+      },
+      {
+        "cell_indices": [
+          32,
+          34,
+          36
+        ],
+        "code": "",
+        "dependencies": [
+          "Spectral Analysis",
+          "Wavelet Analysis"
+        ],
+        "description": "Demonstrate method cascading by chaining multiple analysis steps into a single line of code.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Method Cascading"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

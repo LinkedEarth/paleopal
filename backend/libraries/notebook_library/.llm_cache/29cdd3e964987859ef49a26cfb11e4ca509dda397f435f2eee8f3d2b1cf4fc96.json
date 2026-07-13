@@ -1,0 +1,73 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "72f73637a3c18c28"
+  ],
+  "payload": {
+    "title": "Basic timeseries manipulation",
+    "summary": "This Jupyter notebook demonstrates basic timeseries manipulation using the Pyleoclim library. It focuses on preprocessing a timeseries by standardizing, gaussianizing, and slicing data. The notebook uses sea-surface temperature data from the NINO3 region and provides methods to view summary statistics, standardize, and gaussianize the data. The outputs include visualizations comparing the original, standardized, and gaussianized timeseries.",
+    "goals": [
+      "Learn to specify a slice of a `Series`",
+      "Learn to quickly view summary statistics of a `Series`",
+      "Learn to standardize a `Series`",
+      "Learn to gaussianize a `Series`"
+    ],
+    "libraries": [
+      "pyleoclim",
+      "pandas",
+      "seaborn"
+    ],
+    "techniques": [
+      "Timeseries slicing",
+      "Summary statistics calculation",
+      "Standardization",
+      "Gaussianization"
+    ],
+    "keywords": [
+      "Summary Statistics",
+      "Standardize",
+      "Gaussianize"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to basic timeseries manipulation using Pyleoclim, focusing on preprocessing techniques.",
+        "heading": "Basic timeseries manipulation"
+      },
+      {
+        "blurb": "Overview of the notebook's goals and relevant packages, including Pyleoclim, Pandas, and Seaborn.",
+        "heading": "Preamble"
+      },
+      {
+        "blurb": "Demonstrates how to slice a timeseries using specific date ranges with the `.sel()` method.",
+        "heading": "Slicing"
+      },
+      {
+        "blurb": "Shows how to obtain summary statistics of a timeseries using Pyleoclim and Pandas.",
+        "heading": "Stats"
+      },
+      {
+        "blurb": "Explains the process of standardizing a timeseries by subtracting the mean and dividing by the standard deviation.",
+        "heading": "Standardizing"
+      },
+      {
+        "blurb": "Describes how to map a timeseries to a standard Gaussian distribution using the `.gaussianize()` method.",
+        "heading": "Gaussianize"
+      },
+      {
+        "blurb": "Compares the original, standardized, and gaussianized timeseries using Seaborn for visualization.",
+        "heading": "Comparison"
+      }
+    ],
+    "inputs": [
+      "Sea-surface temperature data from the NINO3 region"
+    ],
+    "outputs": [
+      "Visualizations of original, standardized, and gaussianized timeseries",
+      "Summary statistics of the timeseries"
+    ],
+    "source": "llm:openai"
+  }
+}

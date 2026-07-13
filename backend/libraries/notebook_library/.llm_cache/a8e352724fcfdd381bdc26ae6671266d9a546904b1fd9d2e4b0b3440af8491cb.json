@@ -1,0 +1,136 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "9f16e08821d63718"
+  ],
+  "payload": {
+    "title": "Wavelet Analysis with Pyleoclim",
+    "description": "This notebook demonstrates the use of wavelet analysis and wavelet coherence in the Pyleoclim library, focusing on the EPICA Dome C ice core record. It covers loading and visualizing deuterium data, performing wavelet analysis, customizing frequency ranges, and conducting significance testing. Additionally, it explores the relationship between temperature proxies and atmospheric CO2 using wavelet coherence. The notebook provides insights into handling both evenly and unevenly spaced data.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and extensions for the analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          7,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load the deuterium dataset, convert time units, visualize the data, and standardize it.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Loading and Visualizing Deuterium Series"
+      },
+      {
+        "cell_indices": [
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Loading and Visualizing Deuterium Series"
+        ],
+        "description": "Perform wavelet analysis on the standardized deuterium series and plot the scalogram.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Wavelet Analysis"
+      },
+      {
+        "cell_indices": [
+          14,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Wavelet Analysis"
+        ],
+        "description": "Focus the wavelet analysis on specific frequency ranges and plot the results.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Customizing Frequency Range"
+      },
+      {
+        "cell_indices": [
+          18,
+          20,
+          22,
+          23,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Customizing Frequency Range"
+        ],
+        "description": "Conduct significance testing on the wavelet scalogram using different methods and plot the results.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Significance Testing"
+      },
+      {
+        "cell_indices": [
+          28,
+          30,
+          31,
+          33,
+          35
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load and prepare the CO2 composite data for analysis.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Temperature vs CO2 Data Wrangling"
+      },
+      {
+        "cell_indices": [
+          37,
+          39,
+          41,
+          42,
+          44
+        ],
+        "code": "",
+        "dependencies": [
+          "Temperature vs CO2 Data Wrangling"
+        ],
+        "description": "Perform wavelet coherence analysis between the deuterium and CO2 series, plot the results, and conduct significance testing.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Wavelet Coherence Analysis"
+      },
+      {
+        "cell_indices": [
+          47
+        ],
+        "code": "",
+        "dependencies": [
+          "Wavelet Coherence Analysis"
+        ],
+        "description": "Summarize the capabilities of Pyleoclim for wavelet and wavelet coherence analysis.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Takeaways"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

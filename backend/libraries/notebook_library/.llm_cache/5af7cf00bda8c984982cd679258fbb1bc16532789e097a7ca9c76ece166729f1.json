@@ -1,0 +1,67 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "db0bd979a236630b"
+  ],
+  "payload": {
+    "title": "Record Map",
+    "description": "This notebook is designed to reproduce a map figure from a research paper. It involves loading data from pickle files, sorting it by latitude, and visualizing it using the Basemap toolkit. The map includes features such as shaded relief, coastlines, and latitude and longitude lines.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary Python libraries for data handling and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load data from a pickle file containing a dictionary of series.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Data"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Data"
+        ],
+        "description": "Sort the data series by latitude to prepare for visualization.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Sort Data by Latitude"
+      },
+      {
+        "cell_indices": [
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Sort Data by Latitude"
+        ],
+        "description": "Create a map figure using Basemap, including shaded relief and geographic features.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Create Map Figure"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

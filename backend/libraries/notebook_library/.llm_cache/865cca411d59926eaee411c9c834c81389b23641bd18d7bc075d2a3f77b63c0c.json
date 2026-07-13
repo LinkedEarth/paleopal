@@ -1,0 +1,68 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "087d86887e222de4"
+  ],
+  "payload": {
+    "title": "Figure 4",
+    "description": "This workflow generates Figure 4, illustrating the emergent constraint from the last millennium relative to the full ensemble and the original Cox et al. (2018) constraint using the Bowman et al. (2018) method. It involves data processing, statistical analysis, and visualization.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Set the style guide for plots to ensure consistency in appearance.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Set Plot Style"
+      },
+      {
+        "cell_indices": [
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Set Plot Style"
+        ],
+        "description": "Load the ECS data from a CSV file and prepare it for analysis. Define colors for the plot.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Process Data"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Load and Process Data"
+        ],
+        "description": "Create a plot to visualize the emergent constraint and model ECS values. Customize the plot by adjusting spines, ticks, and adding error bars.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Create and Customize Plot"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Create and Customize Plot"
+        ],
+        "description": "Save the generated plot as 'figure_4.png' with high resolution.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Save Figure"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

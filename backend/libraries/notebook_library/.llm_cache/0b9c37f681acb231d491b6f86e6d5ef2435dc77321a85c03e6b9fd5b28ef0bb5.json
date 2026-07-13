@@ -1,0 +1,167 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "25b1b788c132202f"
+  ],
+  "payload": {
+    "title": "Loading data into Pyleoclim",
+    "description": "This workflow demonstrates how to load various types of paleoclimate data into the Pyleoclim library for analysis. It covers loading data from pre-loaded datasets, LiPD files, NetCDF files, CSV files, NOAA text files, and PANGAEA datasets. The notebook utilizes several Python libraries to handle different data formats and convert them into Pyleoclim Series objects for further analysis and visualization.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data loading and manipulation.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          5,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load and plot a pre-defined dataset available in Pyleoclim.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Pre-loaded Datasets"
+      },
+      {
+        "cell_indices": [
+          11,
+          13,
+          15,
+          17,
+          18,
+          20,
+          22,
+          24,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load a single LiPD file, extract variables, and convert to a Pandas DataFrame.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Single LiPD File"
+      },
+      {
+        "cell_indices": [
+          27,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load multiple LiPD files, extract temperature records, and convert to a list of Pyleoclim Series.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Load Multiple LiPD Files"
+      },
+      {
+        "cell_indices": [
+          41,
+          43,
+          45,
+          46,
+          48,
+          50,
+          52
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load data from a NetCDF file using Xarray and convert to a Pyleoclim Series.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Load NetCDF File"
+      },
+      {
+        "cell_indices": [
+          54,
+          55,
+          57,
+          58
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load data from a CSV file using Pandas and convert to a Pyleoclim Series.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Load CSV File"
+      },
+      {
+        "cell_indices": [
+          62,
+          63,
+          65
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Automatically load NOAA paleoclimate datasets using PyleoTUPS.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Load NOAA Dataset with PyleoTUPS"
+      },
+      {
+        "cell_indices": [
+          68,
+          70,
+          71,
+          73,
+          75,
+          76,
+          78,
+          79,
+          81
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load a dataset from PANGAEA using PangaeaPy and convert to a Pyleoclim Series.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Load PANGAEA Dataset"
+      },
+      {
+        "cell_indices": [
+          84,
+          85
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Summarize the workflow and display environment details using watermark.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Summary and Environment Details"
+      }
+    ],
+    "num_steps": 9,
+    "source": "llm:openai"
+  }
+}

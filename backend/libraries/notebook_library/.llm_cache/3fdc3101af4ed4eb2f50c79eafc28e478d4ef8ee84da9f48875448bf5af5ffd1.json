@@ -1,0 +1,169 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "37333fc6fda6ae4a"
+  ],
+  "payload": {
+    "title": "Outlier Detection with Pyleoclim",
+    "description": "This Jupyter notebook demonstrates outlier detection using clustering algorithms in the Pyleoclim library. It focuses on two main algorithms: k-means and DBSCAN, explaining their application and the diagnostic metrics they return. The notebook uses a dataset in LiPD format to illustrate the process of detecting outliers in paleoclimate data. It provides insights into parameter selection and the differences between the algorithms, offering a comprehensive guide to applying these techniques in unsupervised machine learning contexts.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the dataset in LiPD format.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load Data"
+      },
+      {
+        "cell_indices": [
+          10,
+          12,
+          14,
+          16,
+          18,
+          19,
+          21,
+          23,
+          25,
+          27,
+          29,
+          30,
+          31,
+          33,
+          35,
+          36,
+          37,
+          39,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Generate synthetic data using make_blobs and apply the DBSCAN clustering algorithm to detect clusters.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Generate Synthetic Data and Apply DBSCAN"
+      },
+      {
+        "cell_indices": [
+          45,
+          47
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Use the k-means clustering algorithm to detect clusters in the synthetic data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Apply k-means Clustering"
+      },
+      {
+        "cell_indices": [
+          49,
+          51
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Identify outliers based on their distance from the cluster centers using a threshold.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Identify Outliers Using Threshold"
+      },
+      {
+        "cell_indices": [
+          53,
+          54
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Use the Local Outlier Factor method to identify outliers in the data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Apply Local Outlier Factor (LOF)"
+      },
+      {
+        "cell_indices": [
+          56
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Apply outlier detection using Pyleoclim's built-in methods on timeseries data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Outlier Detection in Pyleoclim"
+      },
+      {
+        "cell_indices": [
+          58,
+          60,
+          62,
+          64
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Apply k-means outlier detection using Pyleoclim with different settings and log the results.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Outlier Detection Using k-means in Pyleoclim"
+      },
+      {
+        "cell_indices": [
+          67,
+          68,
+          70,
+          72,
+          74
+        ],
+        "code": "",
+        "dependencies": [
+          "7"
+        ],
+        "description": "Apply LOF outlier detection using Pyleoclim with different settings and log the results.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Outlier Detection Using LOF in Pyleoclim"
+      },
+      {
+        "cell_indices": [
+          76,
+          78,
+          80,
+          82,
+          83,
+          85,
+          86
+        ],
+        "code": "",
+        "dependencies": [
+          "8"
+        ],
+        "description": "Apply DBSCAN outlier detection using Pyleoclim and analyze the results using silhouette scores.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Outlier Detection Using DBSCAN in Pyleoclim"
+      }
+    ],
+    "num_steps": 9,
+    "source": "llm:openai"
+  }
+}

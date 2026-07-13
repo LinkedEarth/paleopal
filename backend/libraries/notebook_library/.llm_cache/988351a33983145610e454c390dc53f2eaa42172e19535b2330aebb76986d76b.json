@@ -1,0 +1,111 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2e0c099c5d354357"
+  ],
+  "payload": {
+    "title": "Orbital-scale variability over the last 1.5 Ma",
+    "description": "This workflow explores the orbital-scale variability over the last 1.5 million years using high-resolution stable oxygen isotope records from IODP Site U1385. It employs the Pyleoclim library for spectral, wavelet, and coherence analyses, and uses the pangaeapy package to access datasets from PANGAEA. The workflow compares planktonic and benthic records, performs coherence analysis, and examines the relationship between millennial-scale climate variability and orbital forcing. It also utilizes the climlab library to compute insolation curves for further analysis.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Initialize the notebook environment and import necessary libraries for the analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3,
+          5,
+          6,
+          8,
+          10,
+          15,
+          16,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the benthic stable oxygen isotope record from PANGAEA and create a GeoSeries object for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Benthic Record"
+      },
+      {
+        "cell_indices": [
+          20,
+          21,
+          23,
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the planktonic stable oxygen isotope record from PANGAEA and create a GeoSeries object for analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Planktonic Record"
+      },
+      {
+        "cell_indices": [
+          26,
+          27,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "description": "Perform wavelet coherence analysis between the planktonic and benthic records using the weighted wavelet Z transform.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Coherence Analysis"
+      },
+      {
+        "cell_indices": [
+          31,
+          33,
+          36,
+          39
+        ],
+        "code": "",
+        "dependencies": [
+          "1",
+          "3"
+        ],
+        "description": "Compute insolation curves using the climlab library and compare them with the planktonic record.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Comparison to Insolation"
+      },
+      {
+        "cell_indices": [
+          42,
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Analyze the modulation of millennial-scale climate variability by orbital forcing using high-pass and bandpass filtering techniques.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Millennial-Orbital Coupling"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

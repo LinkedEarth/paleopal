@@ -1,0 +1,107 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "eedd662a8a011635"
+  ],
+  "payload": {
+    "title": "Calculating Shifted Correlations",
+    "description": "This notebook demonstrates the use of Pyleoclim to calculate correlations between oxygen isotope data from Leviathan cave and insolation data across various latitudes and seasons. It includes defining a function to handle correlations in datasets with large gaps, creating insolation curves using Climlab, and calculating correlations between shifted insolation and isotope data. The notebook concludes with plotting the results to visualize the relationship.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation, analysis, and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Importing Relevant Packages"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the oxygen isotope data from Leviathan cave using pickle.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Importing the Data"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Extract the specific dataset for Leviathan cave from the loaded data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Extracting the Data"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Define a function to calculate correlations between records that contain large hiatuses.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Correlation Function for Series with Gaps"
+      },
+      {
+        "cell_indices": [
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Use Climlab to define insolation curves for various latitudes and seasons.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Creating Insolation Objects"
+      },
+      {
+        "cell_indices": [
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Calculate the correlation between shifted insolation and oxygen isotope data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Calculating Correlations"
+      },
+      {
+        "cell_indices": [
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Visualize the correlation results to understand the relationship between insolation and isotope data.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Plotting Results"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

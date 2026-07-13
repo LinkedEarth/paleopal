@@ -1,0 +1,99 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "52907abcd45c9d56"
+  ],
+  "payload": {
+    "title": "ClimateDISK: Hockey stick",
+    "summary": "This Jupyter notebook aims to reproduce the 'hockey stick' climate figure by following the WINGS steps. It involves querying data from the LiPDverse v3 graph, processing the data to remove duplicates, slicing it for a specific time frame, and Gaussianizing the values. The notebook then creates a composite by cleaning proxy/variable names, setting figure styles, and calibrating against instrumental data. The final output is a multi-proxy composite plot.",
+    "goals": [
+      "Reproduce the hockey stick climate figure",
+      "Allow for upgrades with new data",
+      "Create a multi-proxy composite plot"
+    ],
+    "libraries": [
+      "ast",
+      "cfr",
+      "io",
+      "json",
+      "numpy",
+      "pandas",
+      "pyleoclim",
+      "requests",
+      "seaborn",
+      "xarray"
+    ],
+    "techniques": [
+      "Data querying",
+      "Duplicate removal",
+      "Time slicing",
+      "Gaussianization",
+      "Proxy data calibration",
+      "Composite creation"
+    ],
+    "keywords": [
+      "hockey stick",
+      "climate data",
+      "proxy records",
+      "composite plot",
+      "data processing",
+      "Gaussianization"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook's purpose of reproducing the hockey stick figure using various data processing steps.",
+        "heading": "ClimateDISK: Hockey stick"
+      },
+      {
+        "blurb": "Queries data from the LiPDverse v3 graph to obtain necessary datasets for analysis.",
+        "heading": "Step 1: Data query"
+      },
+      {
+        "blurb": "Defines criteria for identifying and removing duplicate rows in the dataset.",
+        "heading": "Step 2: Remove duplicate rows"
+      },
+      {
+        "blurb": "Uses Pyleoclim to slice data for the desired time frame, focusing on the years 0 to 2000.",
+        "heading": "Step 4: Slice for the time frame of interest"
+      },
+      {
+        "blurb": "Applies Gaussianization to the sliced data to normalize the values.",
+        "heading": "Step 4: Gaussianize"
+      },
+      {
+        "blurb": "Involves cleaning proxy/variable names, setting figure styles, and creating a proxy database for composite generation.",
+        "heading": "Step 5: Create the composite"
+      },
+      {
+        "blurb": "Defines the color scheme and style for the figures based on proxy types.",
+        "heading": "Step 5b: Set the style for the figures"
+      },
+      {
+        "blurb": "Organizes proxy records into a database for further analysis and plotting.",
+        "heading": "Step 5c: Create the Proxy DataBase"
+      },
+      {
+        "blurb": "Calibrates proxy data against instrumental climate data using xarray.",
+        "heading": "Step 5d: Calibrate against instrumental data"
+      },
+      {
+        "blurb": "Generates the final multi-proxy composite plot, visualizing the processed climate data.",
+        "heading": "Step 5e: make the composite"
+      }
+    ],
+    "inputs": [
+      "LiPDverse v3 graph data",
+      "archiveType.csv",
+      "paleoData_variableName.csv",
+      "HadCRUT.5.0.1.0.analysis.anomalies.ensemble_mean.nc"
+    ],
+    "outputs": [
+      "Multi-proxy composite plot",
+      "Processed DataFrame with sliced and Gaussianized values"
+    ],
+    "source": "llm:openai"
+  }
+}

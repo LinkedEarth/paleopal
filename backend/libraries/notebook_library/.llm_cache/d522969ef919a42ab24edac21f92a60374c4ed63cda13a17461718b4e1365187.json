@@ -1,0 +1,112 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0d32e054b6fae542"
+  ],
+  "payload": {
+    "title": "Time Semantics",
+    "description": "This Jupyter notebook demonstrates how to handle time series data using Pandas and Pyleoclim. It involves loading CO2 concentration data from an Excel file, converting time columns to datetime format, and creating Pandas and Pyleoclim Series objects. The notebook also covers plotting these series and performing spectral analysis using the Lomb-Scargle method. The focus is on manipulating time intervals and visualizing data effectively.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import all necessary packages for data manipulation and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Necessary Packages"
+      },
+      {
+        "cell_indices": [
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Necessary Packages"
+        ],
+        "description": "Load the CO2 concentration data from an Excel file into a Pandas DataFrame and display the first few rows to understand the data format.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Dataset"
+      },
+      {
+        "cell_indices": [
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Dataset"
+        ],
+        "description": "Convert the 'Time' column in the DataFrame to datetime format to facilitate time series analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Convert Time Column to Datetime Format"
+      },
+      {
+        "cell_indices": [
+          14,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Convert Time Column to Datetime Format"
+        ],
+        "description": "Create a Pandas Series object with datetime as the index and CO2 ppm as the values. Plot the Pandas Series.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Create Pandas Series Object"
+      },
+      {
+        "cell_indices": [
+          17,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Pandas Series Object"
+        ],
+        "description": "Convert the Pandas Series to a Pyleoclim Series with appropriate metadata and plot it.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Create Pyleoclim Series"
+      },
+      {
+        "cell_indices": [
+          20,
+          21,
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Pyleoclim Series"
+        ],
+        "description": "Experiment with different plotting styles using Pyleoclim and plot the series.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Change Plotting Styles with Pyleoclim"
+      },
+      {
+        "cell_indices": [
+          25,
+          26
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Pyleoclim Series"
+        ],
+        "description": "Use the Pyleoclim Series to perform spectral analysis using the Lomb-Scargle method and plot the Power Spectral Density (PSD).",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Perform Spectral Analysis"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

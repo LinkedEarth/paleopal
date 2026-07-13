@@ -1,0 +1,75 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "8c9bc0723838c11f"
+  ],
+  "payload": {
+    "title": "Calculating Global Coherence as a function of Glacial/Interglacial cycles",
+    "summary": "This Jupyter notebook uses the Pyleoclim library to calculate global coherence between insolation and oxygen isotopes across glacial and interglacial cycles. It defines functions to handle records with large hiatuses, creates insolation curves using Climlab, and sets boundaries for glacial/interglacial periods based on LR04 data. The notebook analyzes data from the Sanbao cave, Buckeye Creek, and a marine sediment core from the Bay of Bengal, breaking them into glacial and interglacial components to assess coherence.",
+    "goals": [
+      "Calculate global coherence between insolation and oxygen isotopes.",
+      "Analyze glacial and interglacial cycles using Pyleoclim.",
+      "Use Climlab to define insolation curves.",
+      "Break down records into glacial and interglacial components."
+    ],
+    "libraries": [
+      "LiPD",
+      "OrbitalTable",
+      "daily_insolation",
+      "numpy",
+      "pandas",
+      "pickle",
+      "matplotlib.pyplot",
+      "pyleoclim"
+    ],
+    "techniques": [
+      "Global coherence calculation",
+      "Time series slicing",
+      "Data interpolation",
+      "Data visualization"
+    ],
+    "keywords": [
+      "global coherence",
+      "glacial cycles",
+      "interglacial cycles",
+      "insolation",
+      "oxygen isotopes",
+      "paleoclimate",
+      "Pyleoclim",
+      "Climlab"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook introduces the use of Pyleoclim to calculate global coherence between insolation and oxygen isotopes, focusing on glacial and interglacial cycles.",
+        "heading": "Calculating Global Coherence as a function of Glacial/Interglacial cycles"
+      },
+      {
+        "blurb": "This section creates glacial and interglacial series objects from the Sanbao cave data, calculates global coherence, and visualizes the results.",
+        "heading": "Sanbao Analysis"
+      },
+      {
+        "blurb": "The Buckeye Creek section involves creating glacial and interglacial series for oxygen isotope records, followed by coherence calculation and plotting.",
+        "heading": "Buckeye Creek"
+      },
+      {
+        "blurb": "This section loads U1446 marine sediment data, creates series objects for glacial and interglacial periods, and calculates coherence using TEX86 reconstruction data.",
+        "heading": "U1446"
+      }
+    ],
+    "inputs": [
+      "geo_ms_composite_dict.pkl",
+      "cmap_grouped.pkl",
+      "correlated_latitude.pkl",
+      "smooth_plotting_series_dict.pkl",
+      "U1446.IndianOcean.2021.lpd"
+    ],
+    "outputs": [
+      "Global coherence plots",
+      "Glacial and interglacial series objects"
+    ],
+    "source": "llm:openai"
+  }
+}

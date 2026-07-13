@@ -1,0 +1,123 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "23ec358d69fa48a2"
+  ],
+  "payload": {
+    "title": "Investigating interhemispheric precipitation changes over the past millennium",
+    "summary": "This Jupyter notebook explores interhemispheric precipitation changes over the past millennium by comparing paleoclimate model outputs with proxy observations. It employs Empirical Orthogonal Function (EOF) analysis to identify large-scale spatio-temporal patterns. The notebook utilizes various datasets, including the CESM Last Millennium Ensemble, and performs PCA analysis on both model and proxy data. The results are visualized through scree plots and EOF maps, facilitating a comprehensive model-data comparison.",
+    "goals": [
+      "Compare paleoclimate model output with proxy observations.",
+      "Identify large-scale spatio-temporal patterns using EOF analysis.",
+      "Perform PCA analysis on gridded and point datasets.",
+      "Facilitate model-data comparison in the paleoclimate domain."
+    ],
+    "libraries": [
+      "xarray",
+      "pandas",
+      "numpy",
+      "pyleoclim",
+      "eofs",
+      "cartopy",
+      "matplotlib",
+      "fsspec",
+      "s3fs"
+    ],
+    "techniques": [
+      "EOF analysis",
+      "PCA analysis",
+      "SPARQL querying",
+      "Data standardization",
+      "Visualization with Matplotlib and Cartopy"
+    ],
+    "keywords": [
+      "paleoclimate",
+      "precipitation changes",
+      "EOF analysis",
+      "PCA",
+      "model-data comparison",
+      "CESM",
+      "proxy data"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook with logos of Project Pythia and LinkedEarth.",
+        "heading": "Notebook start"
+      },
+      {
+        "blurb": "Title section introducing the main focus of the notebook.",
+        "heading": "Investigating interhemispheric precipitation changes over the past millennium"
+      },
+      {
+        "blurb": "Description of the notebook's purpose to compare model output and proxy observations using EOF analysis.",
+        "heading": "Overview"
+      },
+      {
+        "blurb": "List of necessary concepts and tools required to understand and execute the notebook.",
+        "heading": "Prerequisites"
+      },
+      {
+        "blurb": "Importing necessary libraries for data handling, analysis, and visualization.",
+        "heading": "Imports"
+      },
+      {
+        "blurb": "Performing PCA analysis on proxy datasets to identify patterns.",
+        "heading": "PCA analysis on proxy observations"
+      },
+      {
+        "blurb": "Using SPARQL to query the LinkedEarth Graph Database for relevant proxy datasets.",
+        "heading": "Query to remote database"
+      },
+      {
+        "blurb": "Standardizing data and running PCA analysis, including scree plots and mode plots.",
+        "heading": "Run PCA Analysis"
+      },
+      {
+        "blurb": "Conducting PCA analysis on CESM model data to extract significant patterns.",
+        "heading": "PCA analysis on the CESM Last Millennium Ensemble"
+      },
+      {
+        "blurb": "Retrieving and pre-processing CESM data from JetStream2 for analysis.",
+        "heading": "Get the CESM Last Millennium Ensemble data from JetStream2"
+      },
+      {
+        "blurb": "Focusing analysis on a specific geographic region and saving processed data.",
+        "heading": "Select the tropical Central and South America region"
+      },
+      {
+        "blurb": "Calculating isotopic composition of precipitation for further analysis.",
+        "heading": "Calculate Precipitation $\\delta^{18}$O"
+      },
+      {
+        "blurb": "Standardizing and performing EOF analysis on isotopic data, visualizing results.",
+        "heading": "Run PCA analysis"
+      },
+      {
+        "blurb": "Comparing model and proxy data by mapping EOFs and PCs.",
+        "heading": "Model-Data Comparison"
+      },
+      {
+        "blurb": "Concluding remarks on the PCA analysis and its applicability beyond paleoclimate.",
+        "heading": "Summary"
+      },
+      {
+        "blurb": "References and resources for further reading and data sources.",
+        "heading": "Resources and references"
+      }
+    ],
+    "inputs": [
+      "CESM Last Millennium Ensemble data",
+      "Proxy datasets from LinkedEarth Graph Database"
+    ],
+    "outputs": [
+      "Scree plots",
+      "EOF maps",
+      "PC time series plots",
+      "NetCDF files of processed data"
+    ],
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "15bf4484f5bf49d2"
+  ],
+  "payload": {
+    "title": "Basic timeseries manipulation",
+    "description": "This notebook demonstrates basic timeseries manipulation using the Pyleoclim library, focusing on pre-processing techniques such as slicing, standardizing, and gaussianizing a timeseries. It uses sea-surface temperature data from the NINO3 region to illustrate these methods.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2,
+          4,
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and the NINO3 dataset, then plot the original data.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble and Data Loading"
+      },
+      {
+        "cell_indices": [
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Slice the timeseries data to focus on a specific time period (1972-1998) and plot the sliced data against the original.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Slicing the Timeseries"
+      },
+      {
+        "cell_indices": [
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Calculate and display summary statistics of the original timeseries using both Pyleoclim and Pandas methods.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Summary Statistics"
+      },
+      {
+        "cell_indices": [
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Standardize the timeseries by subtracting the mean and dividing by the standard deviation, then plot the standardized data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Standardizing the Timeseries"
+      },
+      {
+        "cell_indices": [
+          18,
+          19,
+          21
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Transform the timeseries to follow a standard Gaussian distribution and plot the Gaussianized data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Gaussianizing the Timeseries"
+      },
+      {
+        "cell_indices": [
+          23,
+          24,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Standardizing the Timeseries",
+          "Gaussianizing the Timeseries"
+        ],
+        "description": "Compare the original, standardized, and Gaussianized timeseries using Seaborn for visual comparison.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Comparison of Data Treatments"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

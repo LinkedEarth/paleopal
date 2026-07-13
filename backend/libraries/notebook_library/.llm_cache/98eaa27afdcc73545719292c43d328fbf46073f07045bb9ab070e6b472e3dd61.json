@@ -1,0 +1,69 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "fd0eb0a05731fac4"
+  ],
+  "payload": {
+    "title": "Getting data into LiPD",
+    "description": "This workflow demonstrates the process of using PyLiPD to convert CSV-based chronology data into the LiPD data format. It involves generating unique identifiers, loading empty LiPD files, and exporting them to a Datasets object.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and classes for handling data conversion and manipulation.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Define a function to generate a random UUID and convert it to the required format.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Generate Unique Identifier"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Retrieve the list of empty LiPD files to be used for data conversion.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Empty LiPD Files"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Generate Unique Identifier",
+          "Load Empty LiPD Files"
+        ],
+        "description": "Convert CSV-based chronology data into the LiPD format and export it to a Datasets object.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Data Conversion and Export"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

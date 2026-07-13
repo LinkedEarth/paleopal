@@ -51,8 +51,8 @@ def search_workflows(
     if collection_name is None:
         collection_name = COLLECTION_NAMES["notebook_workflows"]
     
-    # Prepare filters
-    filters = {"content_type": "complete_workflow"}
+    # Prepare filters — accept legacy + new content types
+    filters: Dict[str, Any] = {}
     if complexity_filter:
         filters["complexity"] = complexity_filter
     if workflow_type_filter:
@@ -71,13 +71,27 @@ def search_workflows(
             )
             return []
 
+        # Search without hard content_type filter so notebook_workflow /
+        # project_workflow / complete_workflow all match. Prefer project + notebook.
         results = qdrant_manager.search(
             collection_name=collection_name,
             query=query,
-            limit=limit,
+            limit=limit * 2,  # over-fetch then filter
             filters=filters if filters else None,
             score_threshold=score_threshold
         )
+
+        allowed = {
+            "notebook_workflow",
+            "project_workflow",
+            "complete_workflow",  # legacy
+            None,
+            "",
+        }
+        results = [
+            r for r in results
+            if r.get("content_type") in allowed or "workflow" in str(r.get("content_type", ""))
+        ][:limit]
         
         # Apply additional filtering that's not directly supported by Qdrant
         if min_cell_count is not None:
@@ -100,10 +114,14 @@ def search_workflows(
                 "notebook_path": result.get("notebook_path", ""),
                 
                 # Content classification
-                "content_type": "complete_workflow",
+                "content_type": result.get("content_type") or "notebook_workflow",
                 "workflow_type": result.get("workflow_type", "general"),
                 "complexity": result.get("complexity", "simple"),
-                
+                "project_id": result.get("project_id"),
+                "phase": result.get("phase"),
+                "parent_summary": result.get("parent_summary", ""),
+                "relative_path": result.get("relative_path", ""),
+                "notebook_id": result.get("notebook_id"),                
                 # Workflow metadata
                 "num_steps": result.get("num_steps", 0),
                 "step_types": result.get("step_types", []),
@@ -210,7 +228,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Search notebook workflows")
     parser.add_argument("query", help="Natural language query describing the workflow")
     parser.add_argument("--collection", default=None, help="Collection name")
-    parser.add_argument("--k", type=int, default=5, help="Number of results to return")
+    parser.add_argument("-k", "--k", type=int, default=5, help="Number of results to return")
     parser.add_argument("--complexity", choices=["simple", "medium", "complex"], help="Filter by complexity")
     parser.add_argument("--has-imports", action="store_true", help="Filter workflows with imports")
     parser.add_argument("--min-cells", type=int, help="Minimum number of cells")

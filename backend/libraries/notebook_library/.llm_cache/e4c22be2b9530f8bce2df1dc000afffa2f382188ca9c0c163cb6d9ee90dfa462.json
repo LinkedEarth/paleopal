@@ -1,0 +1,166 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4416f3955554d49a"
+  ],
+  "payload": {
+    "title": "Visualizing the Climate Response to Explosive Volcanism",
+    "description": "This notebook demonstrates how to visualize the climate response to explosive volcanism using various plotting techniques. It focuses on creating visualizations such as Hovmuller diagrams and timeseries plots to analyze stratospheric aerosol optical depth (SAOD) and its impact on climate variables like surface temperature and precipitation. The notebook also guides users in building an interactive dashboard with widgets to explore data from volcanic events over the Common Era.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and modules for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and prepare the eVolv2k EVA AOD data for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Volcanic Aerosol Data"
+      },
+      {
+        "cell_indices": [
+          15,
+          17,
+          18,
+          20,
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Volcanic Aerosol Data"
+        ],
+        "description": "Set up components for plotting, including scalar mappable for color scales.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Prepare Plot Components"
+      },
+      {
+        "cell_indices": [
+          25,
+          26
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Volcanic Aerosol Data"
+        ],
+        "description": "Calculate and prepare the global average SAOD550 timeseries for visualization.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Global Average SAOD550 Timeseries"
+      },
+      {
+        "cell_indices": [
+          28,
+          29,
+          31,
+          33,
+          35,
+          36
+        ],
+        "code": "",
+        "dependencies": [
+          "Global Average SAOD550 Timeseries"
+        ],
+        "description": "Compute the weighted mean of SAOD550 using latitude weights.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate Weighted Mean"
+      },
+      {
+        "cell_indices": [
+          40,
+          41,
+          42,
+          43,
+          44
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and process data from the Last Millennium Reanalysis Project.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Load LMR Data"
+      },
+      {
+        "cell_indices": [
+          47,
+          49
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Define a list of significant volcanic events for analysis.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Volcanic Events List"
+      },
+      {
+        "cell_indices": [
+          52,
+          54
+        ],
+        "code": "",
+        "dependencies": [
+          "Load LMR Data"
+        ],
+        "description": "Precompute climate anomalies by subtracting rolling means.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Precompute Anomalies"
+      },
+      {
+        "cell_indices": [
+          57,
+          58,
+          59
+        ],
+        "code": "",
+        "dependencies": [
+          "Prepare Plot Components",
+          "Precompute Anomalies"
+        ],
+        "description": "Construct the interactive dashboard for visualizing climate responses.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Build Dashboard"
+      },
+      {
+        "cell_indices": [
+          62,
+          64,
+          67
+        ],
+        "code": "",
+        "dependencies": [
+          "Build Dashboard"
+        ],
+        "description": "Add interactive widgets to the dashboard for user input.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Add Widget Controls"
+      }
+    ],
+    "num_steps": 10,
+    "source": "llm:openai"
+  }
+}

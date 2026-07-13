@@ -1,0 +1,92 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "046273e28da8bea7"
+  ],
+  "payload": {
+    "title": "Database Assembly using the LMRv2.1 pickle file",
+    "summary": "This notebook details the process of constructing a ProxyDatabase object using PAGES 2k proxy records from LMRv2.1 pickle files. It involves filtering metadata and data for PAGES2kv2 records, standardizing proxy IDs, assigning proxy type labels, and filtering records by resolution and coverage. The final database is saved as a NetCDF file for use in paleoclimate data assimilation workflows.",
+    "goals": [
+      "Build a ProxyDatabase object with PAGES 2k records",
+      "Filter and standardize proxy records",
+      "Prepare data for paleoclimate data assimilation"
+    ],
+    "libraries": [
+      "cfr",
+      "pandas",
+      "numpy",
+      "pyleoclim",
+      "matplotlib.pyplot"
+    ],
+    "techniques": [
+      "Data filtering",
+      "ID standardization",
+      "Type labeling",
+      "Resolution filtering",
+      "Coverage validation"
+    ],
+    "keywords": [
+      "ProxyDatabase",
+      "PAGES2kv2",
+      "LMRv2.1",
+      "paleoclimate",
+      "data assimilation",
+      "NetCDF"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook's purpose of building a ProxyDatabase object using PAGES 2k proxy records.",
+        "heading": "Database Assembly using the LMRv2.1 pickle file"
+      },
+      {
+        "blurb": "Describes the initial step of combining metadata and data from pickle files.",
+        "heading": "Combining metadata and data pickle files"
+      },
+      {
+        "blurb": "Details the process of loading and filtering metadata and data for PAGES2kv2 records.",
+        "heading": "Loading metadata and data csv file and filtering only PAGES2kv2 data"
+      },
+      {
+        "blurb": "Explains the method for converting long-format PAGES2kv2 IDs into standardized short IDs.",
+        "heading": "Standardizing Proxy IDs (pid)"
+      },
+      {
+        "blurb": "Describes the assignment of proxy type labels based on archive and measurement metadata.",
+        "heading": "Assigning Proxy Type Labels (ptype)"
+      },
+      {
+        "blurb": "Covers the filtering of records by resolution to include only annual and subannual records.",
+        "heading": "Filtering by resolution (as done in LMR)"
+      },
+      {
+        "blurb": "Optional step to check and filter out records with insufficient temporal coverage.",
+        "heading": "(Optional) Check for sparse records that don't meet the 0.5 threshold."
+      },
+      {
+        "blurb": "Summarizes the criteria for the final ProxyDatabase object and its contents.",
+        "heading": "Final ProxyDatabase Object"
+      },
+      {
+        "blurb": "Instructions for saving the final ProxyDatabase object as a NetCDF file.",
+        "heading": "Save Proxydatabase as netCDF file"
+      },
+      {
+        "blurb": "Concludes with a summary of the constructed database and its readiness for data assimilation workflows.",
+        "heading": "Summary and Output"
+      }
+    ],
+    "inputs": [
+      "LMRv2.1 metadata pickle file",
+      "LMRv2.1 data pickle file",
+      "proxydb_meta.csv",
+      "proxydb_data.csv"
+    ],
+    "outputs": [
+      "NetCDF file containing filtered PAGES2kv2 records"
+    ],
+    "source": "llm:openai"
+  }
+}

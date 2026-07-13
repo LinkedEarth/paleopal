@@ -1,0 +1,109 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "ff8b3dbf1df3199d"
+  ],
+  "payload": {
+    "title": "Time Semantics",
+    "description": "This notebook demonstrates the process of loading, converting, and analyzing time series data using Pandas and Pyleoclim. It includes steps for loading CO2 concentration data, converting it into a Pandas Series, transforming it into a Pyleoclim Series, and performing spectral analysis.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import all the required libraries for data manipulation and analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Necessary Packages"
+      },
+      {
+        "cell_indices": [
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Necessary Packages"
+        ],
+        "description": "Load the CO2 concentration data from an Excel file into a Pandas DataFrame and display the first few rows to understand its structure.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Dataset"
+      },
+      {
+        "cell_indices": [
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Dataset"
+        ],
+        "description": "Ensure the 'Time' column in the DataFrame is in datetime format for accurate time series analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Convert Time Column to Datetime"
+      },
+      {
+        "cell_indices": [
+          14,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Convert Time Column to Datetime"
+        ],
+        "description": "Create a Pandas Series from the DataFrame with datetime as the index and CO2 ppm as the values, then plot the series.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Create Pandas Series"
+      },
+      {
+        "cell_indices": [
+          17,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Pandas Series"
+        ],
+        "description": "Convert the Pandas Series into a Pyleoclim Series with appropriate metadata and plot it.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Create Pyleoclim Series"
+      },
+      {
+        "cell_indices": [
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Pyleoclim Series"
+        ],
+        "description": "Modify the plotting style using Pyleoclim utilities and re-plot the Pyleoclim Series.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Change Plotting Styles"
+      },
+      {
+        "cell_indices": [
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Pyleoclim Series"
+        ],
+        "description": "Conduct spectral analysis on the Pyleoclim Series using the WWZ method and plot the power spectral density with significance testing.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Perform Spectral Analysis"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

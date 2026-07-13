@@ -1,0 +1,85 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "c0b70150f65a0f57"
+  ],
+  "payload": {
+    "title": "Regime transition probability on synthetic ensembles",
+    "description": "This notebook recreates Figure 7 from the original publication, analyzing LERM applied to synthetic ensembles. It produces a combined KDE figure for both abrupt and gradual regime transition examples.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load and process ODP record data for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load ODP Record"
+      },
+      {
+        "cell_indices": [
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load and process NGRIP record data using pylipd.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load NGRIP Record"
+      },
+      {
+        "cell_indices": [
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Define a function to calculate when transitions occur, although it is not used in this notebook.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Define Transition Detection Function"
+      },
+      {
+        "cell_indices": [
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports",
+          "Load ODP Record",
+          "Load NGRIP Record"
+        ],
+        "description": "Load pre-calculated transition data from pickle files and produce the combined KDE figure.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Plotting"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

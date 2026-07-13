@@ -1,0 +1,96 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2637fdef420c9f37"
+  ],
+  "payload": {
+    "title": "Sensitivity to resolution",
+    "description": "This workflow examines the sensitivity of the LERM model to changes in resolution by recreating Figure 4 from the original publication. It involves data processing, analysis, and visualization using various Python libraries.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define group lists for easy loading and process ODP 925 data by reading and formatting the time and d18O values.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Process ODP 925 Data"
+      },
+      {
+        "cell_indices": [
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Load stable series data, bin it, and prepare it for analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Process Stable Series Data"
+      },
+      {
+        "cell_indices": [
+          19,
+          20,
+          21,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Process Stable Series Data"
+        ],
+        "description": "Artificially coarsen the stable synthetic data by removing a percentage of values between specified bounds.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Artificial Data Coarsening"
+      },
+      {
+        "cell_indices": [
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "Load and Process ODP 925 Data",
+          "Artificial Data Coarsening"
+        ],
+        "description": "Set up the production figure with specified font sizes and generate the comprehensive figure illustrating sensitivity to resolution changes.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Generate Full Figure"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

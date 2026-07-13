@@ -1,0 +1,109 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "d9515834d77f0cb4"
+  ],
+  "payload": {
+    "title": "[Figs. 11-12] LMR v2.1 vs B\u00fcntgen et al ensemble",
+    "description": "This workflow compares the LMR v2.1 dataset with the ensemble from B\u00fcntgen et al., 2021, focusing on Northern Hemisphere summer temperatures. It quantifies the distance between these datasets and reproduces figures 11 and 12 from the study.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary Python libraries for data manipulation, visualization, and statistical analysis. Set the plotting style for consistency.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Set Styles"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the Northern Hemisphere summer temperature data from the LMR v2.1 dataset using the pens library.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load LMR v2.1 Data"
+      },
+      {
+        "cell_indices": [
+          8,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Define color schemes and plot settings for visualizations, including highlighting specific data points.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Define Colors and Plot Settings"
+      },
+      {
+        "cell_indices": [
+          13,
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "description": "Generate plots for the LMR v2.1 data, focusing on the Northern Hemisphere summer temperatures.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Plot LMR v2.1 Data"
+      },
+      {
+        "cell_indices": [
+          18,
+          20,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Load the B\u00fcntgen et al. ensemble data and compare it with the LMR v2.1 dataset. Quantify the distance between the datasets.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Load and Compare B\u00fcntgen et al. Ensemble"
+      },
+      {
+        "cell_indices": [
+          24,
+          25,
+          27,
+          29,
+          30,
+          32,
+          34
+        ],
+        "code": "",
+        "dependencies": [
+          "4",
+          "5"
+        ],
+        "description": "Create visualizations to illustrate the comparison between LMR v2.1 and B\u00fcntgen et al. ensemble, including statistical estimates and spectral analysis.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Visualize Comparison Results"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

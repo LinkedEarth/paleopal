@@ -1,0 +1,70 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "6bed7a0e3cb8138b"
+  ],
+  "payload": {
+    "title": "Loading data into Pyleoclim objects",
+    "description": "This workflow demonstrates the process of loading LiPD data into Pyleoclim objects and storing them as pickle files for easier access in future analyses. The process involves reading LiPD files from a specified directory, extracting essential time series data, and converting them into Pyleoclim GeoSeries objects.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and set up directories for storing pickle files.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup Environment"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup Environment"
+        ],
+        "description": "Load LiPD data from the specified directory and retrieve all dataset names.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load LiPD Data"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Load LiPD Data"
+        ],
+        "description": "Initialize dictionaries to store series and ensemble data for processing.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Initialize Data Structures"
+      },
+      {
+        "cell_indices": [
+          7,
+          9,
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Initialize Data Structures"
+        ],
+        "description": "Iterate over each record, load the data, and process time series data within specified Holocene bounds.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Process Time Series Data"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2e41077e6f7576d3"
+  ],
+  "payload": {
+    "title": "MPT Core Length Comparison",
+    "description": "This workflow analyzes the core length and timing of the Mid-Pleistocene Transition (MPT) using isotopic data. It involves importing and processing datasets from PANGAEA and other sources to compare core lengths and isotopic variations across different ocean drilling sites.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary Python libraries for data manipulation, visualization, and analysis. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define group lists for easy loading of LR04 core data. Process the data to extract time and isotopic values, excluding discontinuities.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Process LR04 Core Data (Full)"
+      },
+      {
+        "cell_indices": [
+          9,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define group lists for easy loading of sliced LR04 core data. Process the data similarly to the full dataset, focusing on specific time slices.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load and Process LR04 Core Data (Sliced)"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

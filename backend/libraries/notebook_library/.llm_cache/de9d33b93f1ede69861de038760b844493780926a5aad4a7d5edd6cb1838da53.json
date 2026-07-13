@@ -1,0 +1,149 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "1230a1161e0ba920"
+  ],
+  "payload": {
+    "title": "Chasing cyclicities",
+    "description": "This Jupyter notebook demonstrates the use of spectral and wavelet analysis features of Pyleoclim to explore periodicities in a 5-million-year sea surface temperature record from Site ODP846 in the Eastern Equatorial Pacific. The notebook imports data in the Linked Paleo Data Format and uses various detrending and spectral analysis techniques to identify periodic signals and their coherence with insolation. The analysis includes comparisons with the Benthic LR04 stack and examines the effect of age uncertainty on spectral results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the sea surface temperature data from Site ODP846 using the LiPD format.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Data Import and Setup"
+      },
+      {
+        "cell_indices": [
+          28,
+          30,
+          32,
+          33,
+          35,
+          36,
+          38,
+          39,
+          41,
+          43,
+          44,
+          46,
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Perform spectral and wavelet analysis on the benthic record using detrending and standardization methods.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Spectral and Wavelet Analysis of Benthic Record"
+      },
+      {
+        "cell_indices": [
+          50,
+          51
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Compare the spectral results of the benthic record with the Benthic LR04 stack to investigate the loss of power before 3 million years.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Comparison with Benthic LR04 Stack"
+      },
+      {
+        "cell_indices": [
+          54,
+          56,
+          58,
+          59,
+          61,
+          62,
+          64,
+          65,
+          67,
+          69,
+          70,
+          72
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Repeat the spectral and wavelet analysis process with the planktonic data, which is not orbitally tuned.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Spectral and Wavelet Analysis of Planktonic Record"
+      },
+      {
+        "cell_indices": [
+          75,
+          77,
+          79,
+          81,
+          83,
+          85
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Analyze the effect of age model uncertainty on the spectral results using ensemble age models from the LiPD file.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Effect of Age Uncertainty"
+      },
+      {
+        "cell_indices": [
+          88,
+          89,
+          91,
+          93,
+          94,
+          95,
+          96,
+          98,
+          99,
+          101,
+          102,
+          103,
+          104,
+          105,
+          107,
+          108
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Examine the relationship between the orbital periodicities observed in the SST record and insolation data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Relationship to Insolation"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

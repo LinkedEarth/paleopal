@@ -1,0 +1,126 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "e7a403d7d3a999e4"
+  ],
+  "payload": {
+    "title": "Temperature Scaling over the Holocene",
+    "description": "This notebook analyzes temperature scaling over the Holocene using spectral analysis techniques. It imports and processes the Temp12k database, performs spectral analysis using the Weighted Wavelet Z-Transform (WWZ) method, and estimates scaling exponents for temperature records. The notebook utilizes the Pyleoclim library for analysis and visualization, producing outputs such as Power Spectral Density (PSD) plots and scaling exponent estimates. The results are visualized through Kernel Density Estimation and spatial mapping.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation, analysis, and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Setup"
+      },
+      {
+        "cell_indices": [
+          4,
+          7,
+          10,
+          11,
+          13,
+          14,
+          16,
+          18,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Download the Temp12k database and extract the LiPD files for further analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Download and Extract Temp12k Database"
+      },
+      {
+        "cell_indices": [
+          23,
+          24,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Load the extracted timeseries data into a Pyleoclim MultipleGeoSeries object for analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Timeseries into Pyleoclim"
+      },
+      {
+        "cell_indices": [
+          32,
+          34,
+          36,
+          38,
+          40
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Conduct spectral analysis using the Weighted Wavelet Z-Transform (WWZ) method on the standardized MultipleGeoSeries object.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Perform Spectral Analysis"
+      },
+      {
+        "cell_indices": [
+          43,
+          45
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Calculate the scaling exponent (beta) for the Power Spectral Density (PSD) object over different frequency ranges.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Estimate Scaling Exponents"
+      },
+      {
+        "cell_indices": [
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Perform Kernel Density Estimation on the calculated scaling exponents to visualize their distribution.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Kernel Density Estimation"
+      },
+      {
+        "cell_indices": [
+          50,
+          52,
+          54,
+          56,
+          57,
+          59
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Visualize the spatial distribution of scaling exponents for different period ranges using Pyleoclim's mapping capabilities.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Spatial Visualization of Scaling Exponents"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

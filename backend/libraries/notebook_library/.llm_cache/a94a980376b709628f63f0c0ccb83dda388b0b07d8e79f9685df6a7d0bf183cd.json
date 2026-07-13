@@ -1,0 +1,74 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2637fdef420c9f37"
+  ],
+  "payload": {
+    "title": "Sensitivity to resolution",
+    "summary": "This Jupyter notebook examines the sensitivity of the LERM model to changes in resolution by recreating Figure 4 from the original publication. It utilizes various Python libraries to process and analyze paleoclimate data, focusing on the effects of noise and resolution on data interpretation. The notebook includes steps for loading and processing data, creating synthetic datasets, and visualizing results through a series of panels. The final output is a comprehensive figure illustrating the impact of resolution changes on the model's performance.",
+    "goals": [
+      "Recreate Figure 4 from the original publication.",
+      "Test LERM's sensitivity to resolution changes.",
+      "Analyze the effect of noise on data interpretation."
+    ],
+    "libraries": [
+      "pickle",
+      "random",
+      "pyleoclim",
+      "matplotlib",
+      "seaborn",
+      "numpy",
+      "ammonyte",
+      "warnings"
+    ],
+    "techniques": [
+      "Data binning",
+      "AR1 series creation",
+      "Noise series generation",
+      "Recurrence matrix density calculation",
+      "Data coarsening"
+    ],
+    "keywords": [
+      "LERM",
+      "resolution sensitivity",
+      "paleoclimate",
+      "data analysis",
+      "noise effect"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the notebook's purpose of testing LERM's sensitivity to resolution changes and lists the necessary imports.",
+        "heading": "Sensitivity to resolution"
+      },
+      {
+        "blurb": "Describes the process of loading and processing ODP 925 data, including handling discontinuities and creating synthetic datasets.",
+        "heading": "Top Panel"
+      },
+      {
+        "blurb": "Focuses on embedding dimension selection, mutual information analysis, and recurrence matrix density calculation for stable series data.",
+        "heading": "Middle panel"
+      },
+      {
+        "blurb": "Explains the method for artificially coarsening synthetic data by removing a percentage of values to simulate resolution changes.",
+        "heading": "Bottom panel"
+      },
+      {
+        "blurb": "Details the production of the final figure, including setting font sizes and plotting the results across multiple panels.",
+        "heading": "Full figure"
+      }
+    ],
+    "inputs": [
+      "ODP 925 data",
+      "Synthetic datasets",
+      "Stable series data"
+    ],
+    "outputs": [
+      "Figure illustrating sensitivity to resolution changes",
+      "Processed and coarsened datasets"
+    ],
+    "source": "llm:openai"
+  }
+}

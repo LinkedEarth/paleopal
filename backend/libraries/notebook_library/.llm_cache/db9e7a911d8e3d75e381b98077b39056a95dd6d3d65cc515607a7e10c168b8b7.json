@@ -1,0 +1,72 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "9ad9eca01866eaf8"
+  ],
+  "payload": {
+    "title": "Proxy Database Comparisons",
+    "summary": "This notebook, authored by Tanaya Gondhalekar, aims to compare proxy databases before and after interpolation to understand the differences in reconstructions. It utilizes the 'cfr' library to perform direct comparisons and identify discrepancies between interpolated and non-interpolated datasets. The analysis also includes a comparison between the original PAGES2k and PReSto2k databases, addressing challenges in matching due to naming conventions. Additionally, it examines metadata versus class-based seasonality in proxy records.",
+    "goals": [
+      "Compare proxy databases before and after interpolation.",
+      "Identify differences in reconstructions due to interpolation.",
+      "Compare original PAGES2k with PReSto2k databases.",
+      "Analyze metadata versus class-based seasonality in proxy records."
+    ],
+    "libraries": [
+      "cfr",
+      "numpy",
+      "pandas",
+      "pickle",
+      "matplotlib.pyplot",
+      "re"
+    ],
+    "techniques": [
+      "Data loading and manipulation",
+      "Direct dataset comparison",
+      "Proxy record matching",
+      "Seasonality analysis"
+    ],
+    "keywords": [
+      "proxy database",
+      "interpolation",
+      "PAGES2k",
+      "PReSto2k",
+      "seasonality",
+      "data comparison",
+      "paleoclimate"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the purpose of comparing proxy databases before and after interpolation to understand differences in reconstructions.",
+        "heading": "Proxy Database Comparisons"
+      },
+      {
+        "blurb": "Describes the process of using the 'cfr' library to directly compare interpolated and non-interpolated PReSto2k databases by identifying added records.",
+        "heading": "Comparing Interpolated vs. Non-Interpolated PReSto2k databases"
+      },
+      {
+        "blurb": "Discusses the challenges in comparing the original PAGES2k database with PReSto2k due to naming conventions and outlines the method for matching proxy records.",
+        "heading": "Comparing Original PAGES2k with PReSto2k"
+      },
+      {
+        "blurb": "Explores the differences between metadata-based and class-based seasonality in proxy records, focusing on records with and without seasonality metadata.",
+        "heading": "Comparing Metadata vs. Class-Based Seasonality"
+      }
+    ],
+    "inputs": [
+      "PReSto2k non-interpolated database (pickle file)",
+      "PReSto2k interpolated database (pickle file)",
+      "Original PAGES2k database (NetCDF file)",
+      "Class-based seasonality database (NetCDF file)"
+    ],
+    "outputs": [
+      "Difference plots between interpolated and non-interpolated records",
+      "Comparison results between original PAGES2k and PReSto2k",
+      "Plots showing differences in metadata versus class-based seasonality"
+    ],
+    "source": "llm:openai"
+  }
+}

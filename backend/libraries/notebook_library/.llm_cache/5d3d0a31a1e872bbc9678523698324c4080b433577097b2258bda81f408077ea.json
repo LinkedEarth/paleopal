@@ -1,0 +1,70 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "dae13cdb088b34d6"
+  ],
+  "payload": {
+    "title": "Filtering and Detrending with Pyleoclim",
+    "description": "This notebook demonstrates the use of the Pyleoclim library for filtering and detrending paleoclimate data. It covers various signal processing techniques applied to benthic foraminifera \u03b418O data from the LR04 benthic stack.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          3,
+          4
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the LR04 dataset using Pyleoclim.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble and Data Loading"
+      },
+      {
+        "cell_indices": [
+          6,
+          8,
+          10,
+          12,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Apply empirical mode decomposition (EMD) to detrend the data and visualize the results.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Detrending with Empirical Mode Decomposition"
+      },
+      {
+        "cell_indices": [
+          17,
+          20,
+          21,
+          23,
+          25,
+          27,
+          28,
+          30,
+          33,
+          34,
+          36,
+          37
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Apply Lanczos and Butterworth filters to the data and visualize the filtered results.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Filtering with Lanczos and Butterworth"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

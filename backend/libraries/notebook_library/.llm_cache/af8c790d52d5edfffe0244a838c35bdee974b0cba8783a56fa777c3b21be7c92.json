@@ -1,0 +1,77 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "bb0f9961772ec999"
+  ],
+  "payload": {
+    "title": "[Fig. 10] Consistency of the PAGES 2k ensemble",
+    "summary": "This Jupyter notebook analyzes the consistency of the PAGES 2k (2019) ensemble of GMST reconstructions by applying inter and intra-ensemble distance metrics. It reproduces Figure 10 from the associated paper. The notebook uses various statistical and visualization techniques to compare different reconstruction methods, including offline DA and LMRv2.1. The analysis involves loading reconstruction data, performing pairwise comparisons, and visualizing results through plots of ensemble traces and distance distributions.",
+    "goals": [
+      "Measure the consistency of the PAGES 2k ensemble using distance metrics.",
+      "Reproduce Figure 10 from the PAGES 2k (2019) paper.",
+      "Compare offline DA reconstructions with LMRv2.1.",
+      "Visualize ensemble traces and distance distributions."
+    ],
+    "libraries": [
+      "gaussian_kde",
+      "numpy",
+      "pens",
+      "matplotlib.pyplot",
+      "seaborn",
+      "xarray"
+    ],
+    "techniques": [
+      "Inter and intra-ensemble distance measurement",
+      "Pairwise comparison",
+      "Power-law modeling",
+      "Kernel density estimation"
+    ],
+    "keywords": [
+      "PAGES 2k",
+      "ensemble consistency",
+      "GMST reconstructions",
+      "distance metrics",
+      "offline DA",
+      "LMRv2.1"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the purpose of the notebook, which is to measure the consistency of the PAGES 2k ensemble using inter and intra-ensemble distance metrics, and to reproduce Figure 10 from the paper.",
+        "heading": "[Fig. 10] Consistency of the PAGES 2k ensemble"
+      },
+      {
+        "blurb": "Compares the PAGES 2k (2019) ensemble's offline DA reconstruction with LMRv2.1, highlighting differences in proxy sets and visualization of GMST traces.",
+        "heading": "Comparing offline DA reconstructions"
+      },
+      {
+        "blurb": "Conducts pairwise comparisons of reconstructions, focusing on the DA method's lack of temporal dependence and using power-law modeling for resampling.",
+        "heading": "Pairwise comparisons"
+      },
+      {
+        "blurb": "Visualizes ensemble traces and highest density intervals (HDI) for various reconstruction methods, preparing figures for presentations.",
+        "heading": "Traces + HDI only (for talks)"
+      },
+      {
+        "blurb": "Creates a comprehensive figure for publication, showing ensemble traces, HDI, and distance distributions, with annotations and color coding.",
+        "heading": "Combined figure (for paper)"
+      },
+      {
+        "blurb": "Focuses on visualizing distance distributions between reconstructions, estimating probabilities of positive change, and preparing figures for talks.",
+        "heading": "Distance distribution only (for talks)"
+      }
+    ],
+    "inputs": [
+      "PAGES 2k 2019 reconstruction files",
+      "Reconstruction data from pages2k_ngeo19_recons.nc"
+    ],
+    "outputs": [
+      "Plots of ensemble traces",
+      "Distance distribution plots",
+      "Figure 10 reproduction"
+    ],
+    "source": "llm:openai"
+  }
+}

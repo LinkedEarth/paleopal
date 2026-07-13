@@ -1,0 +1,76 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "597d4dbd2fd7eb9a"
+  ],
+  "payload": {
+    "title": "Holocene Ice Window Increment",
+    "description": "This workflow analyzes Holocene ice core data to study climate variations. It involves loading datasets, selecting indices, and visualizing data.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data analysis and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Setup"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Setup"
+        ],
+        "description": "Set the path to the ice core datasets and initialize the LiPD library to load all files from the specified directory.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Initialize Data Path and Load Files"
+      },
+      {
+        "cell_indices": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Initialize Data Path and Load Files"
+        ],
+        "description": "Manually specify indices of interest in each dataframe and select parameters using mutual information.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Data Processing and Index Selection"
+      },
+      {
+        "cell_indices": [
+          11,
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Processing and Index Selection"
+        ],
+        "description": "Visualize the processed climate data using matplotlib and seaborn.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Data Visualization"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

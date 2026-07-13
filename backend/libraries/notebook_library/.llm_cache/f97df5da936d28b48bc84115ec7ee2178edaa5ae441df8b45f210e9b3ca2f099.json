@@ -1,0 +1,168 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0af9551f3652b3ad"
+  ],
+  "payload": {
+    "title": "Visualizing multivariate, spatio-temporal information in the Cloud with widgets",
+    "description": "This notebook demonstrates how to visualize the relationship between volcanic activity and climate changes over the Common Era using interactive widgets. It focuses on plotting Hovmuller diagrams and global average time series of stratospheric aerosol optical depth (SAOD) using data from the eVolv2k dataset. The notebook also integrates data from the Last Millennium Reanalysis Project to explore climate responses to volcanic events. The final output is a dashboard that allows users to interactively explore these visualizations.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and modules for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and prepare the eVolv2k EVA AOD dataset for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Volcanic Aerosol Data"
+      },
+      {
+        "cell_indices": [
+          14,
+          16,
+          17,
+          19,
+          21,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Volcanic Aerosol Data"
+        ],
+        "description": "Set up components for plotting, including figure, gridspec, and scalar mappable for color mapping.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Prepare Visualization Components"
+      },
+      {
+        "cell_indices": [
+          24,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Volcanic Aerosol Data"
+        ],
+        "description": "Calculate and plot the global average SAOD550 variation timeseries.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Global Average SAOD550 Timeseries"
+      },
+      {
+        "cell_indices": [
+          27,
+          28,
+          30,
+          32,
+          34,
+          35
+        ],
+        "code": "",
+        "dependencies": [
+          "Global Average SAOD550 Timeseries"
+        ],
+        "description": "Compute the weighted mean of SAOD550 using latitude weights and prepare data for visualization.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate Weighted Mean"
+      },
+      {
+        "cell_indices": [
+          39,
+          40,
+          41,
+          42,
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and process data from the Last Millennium Reanalysis Project using Pangeo-Forge.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Load LMR Data"
+      },
+      {
+        "cell_indices": [
+          46,
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Volcanic Aerosol Data"
+        ],
+        "description": "Define a list of significant volcanic events for analysis.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Identify Volcanic Events"
+      },
+      {
+        "cell_indices": [
+          51,
+          53
+        ],
+        "code": "",
+        "dependencies": [
+          "Load LMR Data"
+        ],
+        "description": "Precompute climate anomalies by subtracting the rolling mean from a period prior to volcanic events.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Precompute Anomalies"
+      },
+      {
+        "cell_indices": [
+          56,
+          57,
+          58
+        ],
+        "code": "",
+        "dependencies": [
+          "Prepare Visualization Components",
+          "Precompute Anomalies"
+        ],
+        "description": "Create a dashboard layout and calculate scalar mappables for visualizing data.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Build Dashboard"
+      },
+      {
+        "cell_indices": [
+          61,
+          63,
+          66
+        ],
+        "code": "",
+        "dependencies": [
+          "Build Dashboard"
+        ],
+        "description": "Add interactive widget controls to the dashboard for selecting volcanic events and entering custom years.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Add Widget Controls"
+      }
+    ],
+    "num_steps": 10,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4c17c6579192a90b"
+  ],
+  "payload": {
+    "title": "Creating LiPD files from a tabular template",
+    "summary": "This Jupyter notebook demonstrates how to programmatically create LiPD files from an Excel template using the PyLiPD library. It involves reading metadata, paleo data, and chronology data from specified sheets in the Excel file, and then organizing this information into a structured LiPD dataset. The notebook also covers handling new standard terms and adding ensemble tables to the dataset. The final output is a LiPD file that encapsulates the dataset's metadata, paleo data, and chronology data.",
+    "goals": [
+      "Create a LiPD formatted Dataset from an Excel template",
+      "Add an ensemble table",
+      "Save the Dataset to a file"
+    ],
+    "libraries": [
+      "pylipd",
+      "pandas",
+      "uuid"
+    ],
+    "techniques": [
+      "Object-Oriented Programming",
+      "Data extraction from Excel",
+      "Handling metadata",
+      "Creating structured data objects"
+    ],
+    "keywords": [
+      "LiPD",
+      "LinkedEarth Ontology",
+      "Object-Oriented Programming"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to creating LiPD files using a tabular template, highlighting the use of PyLiPD and the structure of the Excel template.",
+        "heading": "Creating LiPD files from a tabular template"
+      },
+      {
+        "blurb": "Details the process of opening and reading the Excel template file, focusing on extracting relevant data from specific sheets.",
+        "heading": "Opening our template file"
+      },
+      {
+        "blurb": "Explains how to extract and set root metadata such as dataset name, archive type, and original data URL.",
+        "heading": "Root metadata"
+      },
+      {
+        "blurb": "Discusses handling new or misspelled standard terms in the dataset, including creating new archive types.",
+        "heading": "Dealing with new standard terms"
+      },
+      {
+        "blurb": "Covers the creation of Publication objects and setting authors, title, journal, and year for the dataset.",
+        "heading": "Publication metadata"
+      },
+      {
+        "blurb": "Describes adding geographical information to the dataset by creating and setting a Location object.",
+        "heading": "Location metadata"
+      },
+      {
+        "blurb": "Briefly mentions the inclusion of funding information in the dataset.",
+        "heading": "Funding metadata"
+      },
+      {
+        "blurb": "Details the creation of PaleoData objects and measurement tables, using Pandas DataFrames to organize data.",
+        "heading": "PaleoData"
+      },
+      {
+        "blurb": "Explains the creation of ChronData objects and the use of DataFrames to manage chronology data.",
+        "heading": "ChronData"
+      },
+      {
+        "blurb": "Describes the process of adding an ensemble table to the LiPD file, using additional CSV data.",
+        "heading": "Adding an ensemble table"
+      }
+    ],
+    "inputs": [
+      "Excel file with sheets: About, Guidelines, Metadata, paleo1measurementTable1, chron1measurementTable1, Lists",
+      "Oman.Tian.2023.chrondf.csv"
+    ],
+    "outputs": [
+      "LiPD file containing structured dataset"
+    ],
+    "source": "llm:openai"
+  }
+}

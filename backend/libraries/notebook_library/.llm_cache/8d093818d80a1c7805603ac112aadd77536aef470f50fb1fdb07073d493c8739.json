@@ -1,0 +1,105 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "54e6f5b31ed58305"
+  ],
+  "payload": {
+    "title": "Principal Component Analysis with Pyleoclim",
+    "description": "This notebook demonstrates the application of Principal Component Analysis (PCA) using the Pyleoclim library, focusing on data reduction techniques for geophysical timeseries. It includes data wrangling, standardization, PCA execution, and Monte Carlo PCA for age ensembles.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries for PCA analysis using Pyleoclim.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load and process the dataset using pylipd, filter relevant data, and prepare it for PCA.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Data Wrangling and Processing"
+      },
+      {
+        "cell_indices": [
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Wrangling and Processing"
+        ],
+        "description": "Standardize the data and perform PCA, generating scree plots and mode plots.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Perform Principal Component Analysis"
+      },
+      {
+        "cell_indices": [
+          47,
+          49,
+          51,
+          53,
+          55,
+          57,
+          59
+        ],
+        "code": "",
+        "dependencies": [
+          "Perform Principal Component Analysis"
+        ],
+        "description": "Conduct Monte Carlo PCA to account for age uncertainty using generated age ensembles.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Monte Carlo PCA"
+      },
+      {
+        "cell_indices": [
+          62
+        ],
+        "code": "",
+        "dependencies": [
+          "Monte Carlo PCA"
+        ],
+        "description": "Summarize the PCA and Monte Carlo PCA processes and their applications in Pyleoclim.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Conclusion"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

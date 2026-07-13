@@ -50,73 +50,84 @@ class NotebookExtractor(BaseExtractor):
             from notebook_library.index_notebooks import (
                 extract_snippets,
                 extract_complete_workflows,
-                cluster_notebook_cells
+                documents_from_extraction,
             )
+            from notebook_library.preview_extraction import extract_notebook, load_provenance
         except ImportError as e:
             raise ImportError(f"Notebook extraction dependencies not available: {e}")
         
         # Get parameters
         workflow_title = params.get('workflow_title')
-        hoist_imports = params.get('hoist_imports', True)
-        synth_imports = params.get('synth_imports', True)
         extract_snippets_flag = params.get('extract_snippets', True)
         extract_workflows_flag = params.get('extract_workflows', True)
+        extract_summaries_flag = params.get('extract_summaries', True)
+        llm = params.get('llm')
         
         extracted_data = []
-        
-        # Extract snippets if requested
-        if extract_snippets_flag:
-            try:
-                snippets = extract_snippets(
-                    file_path, 
-                    hoist_imports=hoist_imports, 
-                    synth_imports=synth_imports
-                )
-                
-                # Add metadata to snippets
+
+        try:
+            provenance = load_provenance()
+            doc = extract_notebook(
+                file_path,
+                provenance,
+                llm=llm,
+                truncate_sections=False,
+            )
+            summary_doc, snippet_docs, workflow_doc = documents_from_extraction(doc)
+
+            if extract_summaries_flag:
+                summary_doc.update({
+                    'source_file': str(file_path),
+                    'extraction_type': 'summary',
+                })
+                extracted_data.append(summary_doc)
+
+            if extract_snippets_flag:
+                for snippet in snippet_docs:
+                    snippet.update({
+                        'content_type': 'code_snippet',
+                        'source_file': str(file_path),
+                        'extraction_type': 'snippet',
+                    })
+                extracted_data.extend(snippet_docs)
+                self.logger.info(f"Extracted {len(snippet_docs)} code snippets")
+
+            if extract_workflows_flag:
+                if workflow_title and workflow_title.lower() not in (workflow_doc.get('title') or '').lower():
+                    self.logger.info(f"Skipping workflow (title filter): {workflow_doc.get('title')}")
+                else:
+                    workflow_doc.update({
+                        'source_file': str(file_path),
+                        'extraction_type': 'workflow',
+                    })
+                    extracted_data.append(workflow_doc)
+                    self.logger.info("Extracted 1 complete workflow")
+
+        except Exception as e:
+            self.logger.error(f"Primary extraction failed ({e}); falling back to legacy helpers")
+            if extract_snippets_flag:
+                snippets = extract_snippets(file_path)
                 for snippet in snippets:
                     snippet.update({
                         'content_type': 'code_snippet',
                         'source_file': str(file_path),
-                        'extraction_type': 'snippet'
+                        'extraction_type': 'snippet',
                     })
-                
                 extracted_data.extend(snippets)
-                self.logger.info(f"Extracted {len(snippets)} code snippets")
-                
-            except Exception as e:
-                self.logger.error(f"Failed to extract snippets: {e}")
-        
-        # Extract complete workflows if requested
-        if extract_workflows_flag:
-            try:
-                # First get snippets for workflow extraction
-                snippets_for_workflows = extract_snippets(
-                    file_path, 
-                    hoist_imports=hoist_imports, 
-                    synth_imports=synth_imports
-                )
-                
-                # Extract complete workflows
-                workflows = extract_complete_workflows(file_path, snippets_for_workflows)
-                
-                # Filter by workflow title if specified
+            if extract_workflows_flag:
+                workflows = extract_complete_workflows(file_path)
                 if workflow_title:
-                    workflows = [w for w in workflows if w.get('title', '').lower() == workflow_title.lower()]
-                
-                # Add metadata to workflows
+                    workflows = [
+                        w for w in workflows
+                        if w.get('title', '').lower() == workflow_title.lower()
+                    ]
                 for workflow in workflows:
                     workflow.update({
                         'content_type': 'complete_workflow',
                         'source_file': str(file_path),
-                        'extraction_type': 'workflow'
+                        'extraction_type': 'workflow',
                     })
-                
                 extracted_data.extend(workflows)
-                self.logger.info(f"Extracted {len(workflows)} complete workflows")
-                
-            except Exception as e:
-                self.logger.error(f"Failed to extract workflows: {e}")
         
         # Clean and return data
         cleaned_data = self._clean_extracted_data(extracted_data)

@@ -1,0 +1,97 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "14328baa285f9a31"
+  ],
+  "payload": {
+    "title": "Generate EC Data",
+    "description": "This notebook processes global mean annual temperature timeseries data from 18 paleoclimate models to produce datasets for analyzing temperature variability and its relationship with climate sensitivity.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation, statistical analysis, and visualization. Set matplotlib configurations for consistent plotting aesthetics.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Set Configurations"
+      },
+      {
+        "cell_indices": [
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Set Configurations"
+        ],
+        "description": "Define a function to convert sulfuric aerosol optical depth (SAOD) into radiative forcing values, which will be used in the regression analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Define Forcing Function"
+      },
+      {
+        "cell_indices": [
+          6,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Set Configurations"
+        ],
+        "description": "Load the global mean annual 'tas' temperature timeseries and SAOD data. Preprocess the data to ensure it is ready for analysis, including handling missing values and aligning datasets.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load and Preprocess Data"
+      },
+      {
+        "cell_indices": [
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Load and Preprocess Data",
+          "Define Forcing Function"
+        ],
+        "description": "Conduct linear regression to regress out the volcanic forcing from the temperature timeseries. Calculate residuals for further analysis.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Perform Regression Analysis"
+      },
+      {
+        "cell_indices": [
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Perform Regression Analysis"
+        ],
+        "description": "Compute temperature variability metrics from the residuals obtained after regression. These metrics will be used to analyze the relationship with ECS values.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate Temperature Variability Metrics"
+      },
+      {
+        "cell_indices": [
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate Temperature Variability Metrics"
+        ],
+        "description": "Save the calculated temperature variability metrics and residuals to 'ec_data.csv' and 'ts_rv.csv' respectively for further analysis.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Save Processed Data"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "be189e905c93594d"
+  ],
+  "payload": {
+    "title": "[Table 1] Proximity of PMIP3 traces to LMR ensembles",
+    "description": "This workflow applies the concept of plume distance to PMIP3 simulations and the offline Last Millennium Reanalysis (LMR) to reproduce Table 1 from a related paper. It involves loading and processing climate data from various sources, including PMIP3 and LMR datasets, and resampling ensemble trajectories using different statistical models. The workflow calculates and compares plume distances between different climate model outputs and presents the results in a structured format.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load and plot the LMR offline ensemble data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load LMR Offline Data"
+      },
+      {
+        "cell_indices": [
+          5,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load the LMR online data and subsample it to align with the LMR offline data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load and Subsample LMR Online Data"
+      },
+      {
+        "cell_indices": [
+          9,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load, process, and plot PMIP3 simulation data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Process PMIP3 Simulations"
+      },
+      {
+        "cell_indices": [
+          14,
+          15,
+          17,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries",
+          "Load LMR Offline Data",
+          "Load and Subsample LMR Online Data"
+        ],
+        "description": "Calculate autoregressive model parameters and generate random paths for analysis.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate AR Model Parameters"
+      },
+      {
+        "cell_indices": [
+          21,
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate AR Model Parameters"
+        ],
+        "description": "Calculate quantile benchmarks for intra-ensemble distances.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Calculate Benchmarks"
+      },
+      {
+        "cell_indices": [
+          25,
+          26,
+          28,
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate Benchmarks"
+        ],
+        "description": "Compute plume distances for PMIP3 simulations and export results to LaTeX.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Compute Plume Distances"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

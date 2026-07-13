@@ -1,0 +1,183 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "5ff759d7e010c2e4"
+  ],
+  "payload": {
+    "title": "Assembling the proxy database from the LiPDVerse",
+    "description": "This notebook demonstrates the process of assembling a proxy database from the LiPDVerse, focusing on data querying and cleaning. It utilizes datasets from PAGES2k, iso2k, and CoralHydro2k compilations, downloading and extracting data from specified URLs. The notebook employs various Python libraries to manipulate and analyze the data, including handling duplicates and special cases like the Palmyra record. The final output is a cleaned database stored in a pickle file.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Set up the environment by importing necessary libraries and define URLs for downloading datasets from LiPDVerse.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Initialize Environment and Download Data"
+      },
+      {
+        "cell_indices": [
+          5,
+          7,
+          8,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the PAGES2k dataset into a LiPD object and perform SPARQL queries to extract relevant data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Query PAGES2k Dataset"
+      },
+      {
+        "cell_indices": [
+          14,
+          15,
+          16,
+          17,
+          19,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the iso2k dataset into a LiPD object and perform SPARQL queries to extract relevant data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load and Query iso2k Dataset"
+      },
+      {
+        "cell_indices": [
+          23,
+          24,
+          25,
+          27,
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the CoralHydro2k dataset into a LiPD object and perform SPARQL queries to extract relevant data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Load and Query CoralHydro2k Dataset"
+      },
+      {
+        "cell_indices": [
+          33
+        ],
+        "code": "",
+        "dependencies": [
+          "2",
+          "3",
+          "4"
+        ],
+        "description": "Concatenate the queried data from PAGES2k, iso2k, and CoralHydro2k into a single DataFrame, removing duplicates.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Assemble Clean Database"
+      },
+      {
+        "cell_indices": [
+          36,
+          37,
+          38,
+          40,
+          42
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Load and query the Palmyra Coral record for special handling and updates.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Special Handling: Palmyra Record"
+      },
+      {
+        "cell_indices": [
+          44,
+          46,
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Identify potential duplicate records within the PAGES2k dataset using geographical proximity and handle them.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Identify and Handle Duplicates: Sr/Ca"
+      },
+      {
+        "cell_indices": [
+          50,
+          51
+        ],
+        "code": "",
+        "dependencies": [
+          "7"
+        ],
+        "description": "Perform correlation analysis to identify duplicate records based on similarity.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Correlation Analysis for Duplicates"
+      },
+      {
+        "cell_indices": [
+          53,
+          55
+        ],
+        "code": "",
+        "dependencies": [
+          "8"
+        ],
+        "description": "Use Dynamic Time Warping to further analyze potential duplicate records.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Dynamic Time Warping for Duplicates"
+      },
+      {
+        "cell_indices": [
+          58,
+          60,
+          62,
+          64
+        ],
+        "code": "",
+        "dependencies": [
+          "9"
+        ],
+        "description": "Apply PCA to identify and visualize potential duplicate records.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Principal Component Analysis for Duplicates"
+      },
+      {
+        "cell_indices": [],
+        "code": "",
+        "dependencies": [
+          "10"
+        ],
+        "description": "Analyze and handle duplicates specifically for \u03b418O records.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Handle Duplicates: \u03b418O"
+      }
+    ],
+    "num_steps": 11,
+    "source": "llm:openai"
+  }
+}

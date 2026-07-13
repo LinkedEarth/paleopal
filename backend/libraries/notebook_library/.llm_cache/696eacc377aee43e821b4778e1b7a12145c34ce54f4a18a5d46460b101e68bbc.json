@@ -1,0 +1,103 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "716ed4fa53747d09"
+  ],
+  "payload": {
+    "title": "Leveraging `Xarray` for spatiotemporal diagnostics",
+    "summary": "This notebook demonstrates the use of Xarray for calculating and visualizing global mean anomalies and spatial distributions of climate data. It utilizes CMIP6 data accessed via AWS and Google Cloud, and employs libraries such as Cartopy and Matplotlib for plotting. The notebook covers techniques like calculating anomalies, weighted means, and annualizing data, and includes methods for creating filled contour maps with custom color schemes. The outputs include time series of precipitation anomalies and spatial maps of these anomalies.",
+    "goals": [
+      "Calculate global mean anomalies using Xarray.",
+      "Visualize spatial distributions with custom color schemes.",
+      "Utilize Cartopy and Matplotlib for map projections and plotting."
+    ],
+    "libraries": [
+      "intake",
+      "numpy",
+      "cftime",
+      "matplotlib",
+      "cartopy",
+      "pyleoclim"
+    ],
+    "techniques": [
+      "Calculating anomalies",
+      "Weighted means",
+      "Annualizing data",
+      "Creating filled contour maps"
+    ],
+    "keywords": [
+      "Xarray",
+      "spatiotemporal diagnostics",
+      "global mean anomaly",
+      "Cartopy",
+      "Matplotlib",
+      "climate data",
+      "CMIP6"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to using Xarray for climate data analysis and visualization.",
+        "heading": "Leveraging `Xarray` for spatiotemporal diagnostics"
+      },
+      {
+        "blurb": "Discusses the purpose of calculating and plotting global mean anomalies and spatial distributions.",
+        "heading": "Overview"
+      },
+      {
+        "blurb": "Lists necessary and helpful concepts for understanding the notebook, such as Cartopy and NetCDF.",
+        "heading": "Prerequisites"
+      },
+      {
+        "blurb": "Imports necessary libraries including intake, numpy, cftime, matplotlib, cartopy, and pyleoclim.",
+        "heading": "Imports"
+      },
+      {
+        "blurb": "Describes the process of querying and loading CMIP6 data using intake.",
+        "heading": "Calculating global mean anomaly"
+      },
+      {
+        "blurb": "Explains how to calculate anomalies by comparing data to a climatology.",
+        "heading": "Calculating anomalies"
+      },
+      {
+        "blurb": "Details the method for applying weights to data before calculating means.",
+        "heading": "Calculating weighted means"
+      },
+      {
+        "blurb": "Covers the process of reducing high-frequency variability by annualizing data.",
+        "heading": "Annualizing"
+      },
+      {
+        "blurb": "Introduces the creation of spatial maps with filled contours using Cartopy.",
+        "heading": "Pcolor maps with Cartopy"
+      },
+      {
+        "blurb": "Demonstrates plotting global precipitation anomalies with filled contours and custom colorbars.",
+        "heading": "Global precipitation anomaly (filled contours)"
+      },
+      {
+        "blurb": "Shows how to add contour lines for additional variables on top of filled contour maps.",
+        "heading": "Global precip anomaly (filled contours) with precip contour lines"
+      },
+      {
+        "blurb": "Summarizes the capabilities of Xarray for climate data analysis and encourages further exploration.",
+        "heading": "Summary"
+      },
+      {
+        "blurb": "Provides citations and references for further reading and exploration.",
+        "heading": "Resources and references"
+      }
+    ],
+    "inputs": [
+      "CMIP6 climate data from AWS and Google Cloud"
+    ],
+    "outputs": [
+      "Time series of precipitation anomalies",
+      "Spatial maps of precipitation anomalies"
+    ],
+    "source": "llm:openai"
+  }
+}

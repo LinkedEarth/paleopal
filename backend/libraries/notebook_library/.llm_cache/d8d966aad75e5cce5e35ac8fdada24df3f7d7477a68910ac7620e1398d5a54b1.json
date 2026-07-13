@@ -1,0 +1,82 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "9ad9eca01866eaf8"
+  ],
+  "payload": {
+    "title": "Proxy Database Comparisons",
+    "description": "This notebook, authored by Tanaya Gondhalekar, aims to compare proxy databases before and after interpolation to understand the differences in reconstructions. It utilizes the 'cfr' library to perform direct comparisons and identify discrepancies between interpolated and non-interpolated datasets. The analysis also includes a comparison between the original PAGES2k and PReSto2k databases, addressing challenges in matching due to naming conventions. Additionally, it examines metadata versus class-based seasonality in proxy records.",
+    "phase": "validation",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the PReSto2k databases from pickle files and compare the interpolated and non-interpolated versions using the 'cfr' library.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Compare Interpolated vs. Non-Interpolated PReSto2k Databases"
+      },
+      {
+        "cell_indices": [
+          9,
+          11,
+          12,
+          13,
+          14,
+          16,
+          17,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the original PAGES2k database and compare it with the PReSto2k database, addressing challenges in matching due to naming conventions.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Compare Original PAGES2k with PReSto2k"
+      },
+      {
+        "cell_indices": [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "code": "",
+        "dependencies": [
+          "1",
+          "2"
+        ],
+        "description": "Run renaming and matching tests on metadata-based and class-based seasonality databases to identify differences.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Compare Metadata vs. Class-Based Seasonality"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

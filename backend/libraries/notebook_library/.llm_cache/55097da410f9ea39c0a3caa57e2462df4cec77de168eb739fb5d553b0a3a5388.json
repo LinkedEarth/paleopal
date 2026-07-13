@@ -1,0 +1,64 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "58ccd654b258a45c"
+  ],
+  "payload": {
+    "title": "Method overview",
+    "description": "This notebook recreates Figure 1 from the original publication, presenting an overview of the LERM analysis technique. It focuses on setting up the environment, configuring font sizes, and using Pyleoclim to load necessary data.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data visualization and analysis. Suppress warnings for presentation purposes, although this is not recommended as a best practice.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          7,
+          9,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Set default font sizes for various elements of the figure, including axes titles, labels, and tick labels, to ensure clarity and presentation quality.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Configure Font Sizes"
+      },
+      {
+        "cell_indices": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Utilize the Pyleoclim library to load the necessary data for recreating Figure 1.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Load Data Using Pyleoclim"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

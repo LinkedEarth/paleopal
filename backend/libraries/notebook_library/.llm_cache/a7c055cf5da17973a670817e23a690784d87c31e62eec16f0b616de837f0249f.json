@@ -1,0 +1,137 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "9254ce530135eb3a"
+  ],
+  "payload": {
+    "title": "Calibration of the Sr/Ca paleothermometer: A Bayesian approach",
+    "description": "This notebook demonstrates the calibration of the Sr/Ca paleothermometer using Bayesian linear regression. It utilizes the PyMC library to infer the posterior distribution of regression parameters, contrasting with a previous frequentist approach. The analysis is performed on coral data from DeLong et al. (2011), focusing on two coral species, *Siderastrea sidera* and *Montastraea faveolata*. The notebook highlights the advantages of Bayesian methods, such as handling uncertainty and incorporating prior knowledge, while also discussing potential pitfalls like the influence of priors.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and configure the environment for Bayesian calibration and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load the Sr/Ca data from DeLong et al. (2011) for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Loading the Data"
+      },
+      {
+        "cell_indices": [
+          7,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Loading the Data"
+        ],
+        "description": "Prepare data for *Siderastrea siderea* core A1 and set up the Bayesian model with priors and likelihood.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Siderastrea siderea - Core A1 Model Estimation"
+      },
+      {
+        "cell_indices": [
+          11,
+          13,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Siderastrea siderea - Core A1 Model Estimation"
+        ],
+        "description": "Analyze the posterior distribution of the model parameters for *Siderastrea siderea* core A1.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Siderastrea siderea - Model Analysis"
+      },
+      {
+        "cell_indices": [
+          17,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Loading the Data"
+        ],
+        "description": "Prepare data for *Montastraea faveolata* and set up the Bayesian model with priors and likelihood.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Montastraea faveolata Model Estimation"
+      },
+      {
+        "cell_indices": [
+          21,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Montastraea faveolata Model Estimation"
+        ],
+        "description": "Analyze the posterior distribution of the model parameters for *Montastraea faveolata*.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Montastraea faveolata - Model Analysis"
+      },
+      {
+        "cell_indices": [
+          25,
+          27,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "Siderastrea siderea - Model Analysis",
+          "Montastraea faveolata - Model Analysis"
+        ],
+        "description": "Discuss the benefits of using the Bayesian framework and perform additional analysis on split data.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Exploring Bayesian Framework Benefits"
+      },
+      {
+        "cell_indices": [
+          46,
+          47,
+          49,
+          50
+        ],
+        "code": "",
+        "dependencies": [
+          "Exploring Bayesian Framework Benefits"
+        ],
+        "description": "Investigate the impact of priors in Bayesian analysis and perform experiments with different data points.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Bayesian Pitfall: Encoding Priors"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

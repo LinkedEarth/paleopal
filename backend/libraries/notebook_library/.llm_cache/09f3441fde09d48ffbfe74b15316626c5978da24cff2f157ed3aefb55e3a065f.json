@@ -1,0 +1,103 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "17648d5598196af1"
+  ],
+  "payload": {
+    "title": "Accessing CMIP6 output with `intake`",
+    "summary": "This Jupyter notebook demonstrates how to access and query CMIP6 data using the `intake` library, focusing on data hosted by AWS and Google Cloud. It guides users through browsing the CMIP6 catalog, selecting data of interest, and concatenating experiments in time, including calendar conversions. The notebook emphasizes efficient data handling without local storage and addresses challenges like aligning calendars across datasets.",
+    "goals": [
+      "Browse the CMIP6 catalog",
+      "Select CMIP6 output of interest",
+      "Concatenate experiments in time",
+      "Convert calendars when required"
+    ],
+    "libraries": [
+      "intake",
+      "xarray",
+      "pandas",
+      "numpy",
+      "cftime",
+      "nc_time_axis",
+      "pyleoclim"
+    ],
+    "techniques": [
+      "Data querying",
+      "Data concatenation",
+      "Calendar conversion",
+      "Time series analysis"
+    ],
+    "keywords": [
+      "CMIP6",
+      "intake",
+      "climate data",
+      "data concatenation",
+      "calendar conversion",
+      "time series"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to accessing CMIP6 data using the `intake` library.",
+        "heading": "Accessing CMIP6 output with `intake`"
+      },
+      {
+        "blurb": "Description of the CMIP6 data hosting on AWS and Google Cloud and the notebook's objectives.",
+        "heading": "Overview"
+      },
+      {
+        "blurb": "Lists the necessary concepts and estimated time to learn the material.",
+        "heading": "Prerequisites"
+      },
+      {
+        "blurb": "Imports necessary libraries for data handling and analysis.",
+        "heading": "Imports"
+      },
+      {
+        "blurb": "Exploration of the CMIP6 catalog and its organization.",
+        "heading": "CMIP6 Catalog"
+      },
+      {
+        "blurb": "Methods to identify and rearrange data of interest from the catalog.",
+        "heading": "Identifying potential data of interest"
+      },
+      {
+        "blurb": "Instructions on forming a query dictionary to filter the data collection.",
+        "heading": "Pulling data"
+      },
+      {
+        "blurb": "Details on requesting data from cloud storage and organizing it for analysis.",
+        "heading": "Requesting from the cloud"
+      },
+      {
+        "blurb": "Steps to concatenate different experiment outputs into a single time series.",
+        "heading": "Making a single time series"
+      },
+      {
+        "blurb": "Guidance on converting calendars to ensure consistency across datasets.",
+        "heading": "Converting Calendars"
+      },
+      {
+        "blurb": "Concluding remarks on the efficiency and challenges of using `intake` for CMIP6 data.",
+        "heading": "Summary"
+      },
+      {
+        "blurb": "Additional resources and references for further reading.",
+        "heading": "Resources and references"
+      }
+    ],
+    "inputs": [
+      "CMIP6 catalog URLs",
+      "Experiment identifiers",
+      "Variable identifiers"
+    ],
+    "outputs": [
+      "Filtered CMIP6 datasets",
+      "Concatenated time series",
+      "Visualizations of time series"
+    ],
+    "source": "llm:openai"
+  }
+}

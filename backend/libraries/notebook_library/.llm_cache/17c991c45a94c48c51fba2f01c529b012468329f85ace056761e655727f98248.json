@@ -1,0 +1,150 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "69d2ee5b175976f3"
+  ],
+  "payload": {
+    "title": "Correlations at Sea",
+    "description": "This notebook explores the complexities of correlation analysis in paleoclimate studies, focusing on the pitfalls of persistence, time irregularities, age uncertainties, and multiple hypothesis testing. It reproduces a study by Hu et al. (2017) to demonstrate these issues using a paleoclimate record and sea-surface temperature data. The notebook employs various statistical techniques to assess the significance of correlations, considering the challenges posed by data characteristics and uncertainties.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3,
+          5,
+          7,
+          9
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries, set visual style, and load paleoclimate data.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Data Loading"
+      },
+      {
+        "cell_indices": [
+          11,
+          13,
+          15,
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Download and prepare sea-surface temperature data for analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Sea-surface Temperature Data"
+      },
+      {
+        "cell_indices": [
+          19,
+          21,
+          23,
+          25,
+          27,
+          29
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Examine persistence in the sea-surface temperature data and prepare it for correlation analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Analyze Persistence"
+      },
+      {
+        "cell_indices": [
+          31,
+          33,
+          35,
+          37
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Perform correlation analysis using different null models to assess significance.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Correlation Analysis with Null Models"
+      },
+      {
+        "cell_indices": [
+          39,
+          41,
+          43,
+          45,
+          47,
+          49,
+          51,
+          53,
+          55
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Align the paleoclimate and sea-surface temperature timeseries for comparison.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Align Timeseries"
+      },
+      {
+        "cell_indices": [
+          60,
+          61,
+          63,
+          65,
+          67,
+          70,
+          71,
+          73,
+          74,
+          76,
+          78,
+          80,
+          82
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Conduct correlation analysis across a field to address multiple hypothesis testing.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Multiple Hypothesis Testing"
+      },
+      {
+        "cell_indices": [
+          85,
+          86,
+          88,
+          90,
+          92,
+          94,
+          96,
+          98,
+          100,
+          102
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Incorporate age uncertainties into the correlation analysis using ensemble methods.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Address Age Uncertainties"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

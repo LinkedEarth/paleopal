@@ -1,0 +1,132 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "8ebad1f0fdc34bc4"
+  ],
+  "payload": {
+    "title": "PaMoDaCo: Contextualizing a downcore record in model-space",
+    "description": "This notebook integrates multiple paleoclimate datasets to provide context for downcore records in model-space, focusing on the abiotic component of radiocarbon data from iTRACE simulations. It compares model outputs with observational datasets such as Intcal20 and Marine20, and includes plotting calibration curves and comparing them with data from Marchitto et al., 2007.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data handling, visualization, and analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          9,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load radiocarbon data from the C-iTrace project using Xarray and convert depth from cm to m.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Data"
+      },
+      {
+        "cell_indices": [
+          13,
+          14,
+          16,
+          18,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Data"
+        ],
+        "description": "Generate plots to verify spatial and temporal grasp of the dataset by plotting sections from the Pacific and Atlantic.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Explore Data"
+      },
+      {
+        "cell_indices": [
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load the most recent Intcal compilation data for comparison.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Load Intcal20 Data"
+      },
+      {
+        "cell_indices": [
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load Marine20 dataset, a record of the average surface ocean radiocarbon age.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Load Marine20 Data"
+      },
+      {
+        "cell_indices": [
+          27,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Intcal20 Data",
+          "Load Marine20 Data"
+        ],
+        "description": "Plot calibration curves to compare Intcal09 and Intcal20 datasets.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Plot Calibration Curves"
+      },
+      {
+        "cell_indices": [
+          31,
+          33
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load and prepare data from Marchitto et al., 2007 for comparison.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Load Marchitto et al., 2007 Data"
+      },
+      {
+        "cell_indices": [
+          35,
+          37,
+          38
+        ],
+        "code": "",
+        "dependencies": [
+          "Explore Data",
+          "Load Marchitto et al., 2007 Data",
+          "Plot Calibration Curves"
+        ],
+        "description": "Query the C-iTrace output for specific locations and compare with Marchitto et al., 2007 data.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Combine and Compare Data"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "accb54fcc3deff0d"
+  ],
+  "payload": {
+    "title": "Working with `Pandas`",
+    "description": "This notebook explores the integration of Pandas with Pyleoclim for paleoclimate data analysis. It demonstrates how to export Pyleoclim Series to Pandas Series, perform unit conversions, select data based on time or value criteria, and handle CSV import/export. The notebook also covers resampling techniques and operations with MultipleSeries objects, showcasing the enhanced capabilities for data processing and visualization.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and initial datasets, including the Southern Oscillation Index (SOI) dataset.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Initial Data Load"
+      },
+      {
+        "cell_indices": [
+          14,
+          16,
+          18,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Convert a Pyleoclim Series to a Pandas Series and explore basic Pandas operations.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Export Pyleoclim Series to Pandas"
+      },
+      {
+        "cell_indices": [
+          22,
+          24,
+          26,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Convert time units of the SOI dataset and visualize the results.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Unit Conversions"
+      },
+      {
+        "cell_indices": [
+          31,
+          32,
+          33,
+          35,
+          37,
+          39,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the Dome C CO2 dataset and perform data selection based on time and value criteria.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Data Selection"
+      },
+      {
+        "cell_indices": [
+          45
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Export the CO2 dataset to a CSV file.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Exporting to CSV"
+      },
+      {
+        "cell_indices": [
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Import the CO2 dataset from a CSV file and verify its integrity.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Importing from CSV"
+      },
+      {
+        "cell_indices": [
+          51,
+          53,
+          55,
+          57,
+          60
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Resample the CO2 dataset to a different temporal resolution and visualize the results.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Resampling"
+      },
+      {
+        "cell_indices": [
+          62,
+          64,
+          65
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Create a MultipleSeries object and perform operations using Pandas.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Pandas Operations with MultipleSeries"
+      },
+      {
+        "cell_indices": [
+          67,
+          69
+        ],
+        "code": "",
+        "dependencies": [
+          "8"
+        ],
+        "description": "Export MultipleSeries to a Pandas DataFrame and visualize the data.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Exporting to Pandas DataFrame"
+      },
+      {
+        "cell_indices": [
+          72,
+          74,
+          76
+        ],
+        "code": "",
+        "dependencies": [
+          "9"
+        ],
+        "description": "Align MultipleSeries to a common time axis and visualize using Seaborn.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Aligning to a Common Axis"
+      },
+      {
+        "cell_indices": [
+          78
+        ],
+        "code": "",
+        "dependencies": [
+          "10"
+        ],
+        "description": "Summarize the integration of Pandas within Pyleoclim and its benefits for data processing and visualization.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Summary"
+      }
+    ],
+    "num_steps": 11,
+    "source": "llm:openai"
+  }
+}

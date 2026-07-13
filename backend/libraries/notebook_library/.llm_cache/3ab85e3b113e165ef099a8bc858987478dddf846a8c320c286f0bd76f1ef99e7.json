@@ -1,0 +1,58 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "14328baa285f9a31"
+  ],
+  "payload": {
+    "title": "Generate EC Data",
+    "summary": "This Jupyter notebook processes global mean annual temperature timeseries data from 18 paleoclimate models to produce two key outputs: 'ec_data.csv', which contains temperature variability metrics and ECS values, and 'ts_rv.csv', which includes residuals after regressing out volcanic forcing. The notebook employs statistical techniques such as linear regression and autocorrelation analysis, utilizing libraries like NumPy, Pandas, and Statsmodels. The primary goal is to analyze temperature variability and its relationship with climate sensitivity.",
+    "goals": [
+      "Analyze temperature variability metrics from paleoclimate models.",
+      "Determine the relationship between temperature variability and ECS values.",
+      "Produce datasets for further climate sensitivity analysis."
+    ],
+    "libraries": [
+      "adjust_text",
+      "matplotlib.pyplot",
+      "numpy",
+      "pandas",
+      "scipy.signal",
+      "scipy.stats",
+      "statsmodels.api",
+      "xarray"
+    ],
+    "techniques": [
+      "Linear regression",
+      "Autocorrelation analysis",
+      "Data transformation",
+      "Spatial averaging"
+    ],
+    "keywords": [
+      "paleoclimate",
+      "temperature variability",
+      "climate sensitivity",
+      "ECS",
+      "volcanic forcing",
+      "linear regression",
+      "autocorrelation"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook processes temperature timeseries data from paleoclimate models to generate datasets that analyze temperature variability and its correlation with climate sensitivity. It uses statistical methods to regress volcanic forcing and calculate residuals, producing outputs for further analysis.",
+        "heading": "Generate EC Data"
+      }
+    ],
+    "inputs": [
+      "Global mean annual 'tas' temperature timeseries from 18 models",
+      "Sulfuric aerosol optical depth (SAOD) timeseries"
+    ],
+    "outputs": [
+      "'ec_data.csv' - temperature variability metrics and ECS values",
+      "'ts_rv.csv' - residuals of temperature timeseries after regressing volcanic forcing"
+    ],
+    "source": "llm:openai"
+  }
+}

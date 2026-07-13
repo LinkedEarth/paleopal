@@ -1,0 +1,56 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0f6958c16fcaab1c"
+  ],
+  "payload": {
+    "title": "Figure 2",
+    "description": "This workflow compares climate models with a paleoclimate reconstruction over the last millennium. It involves importing necessary libraries, setting up plot styles, processing time series data by removing NaNs, detrending, and calculating autocorrelation to prepare for visualization.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization, including matplotlib, numpy, pandas, scipy, statsmodels, xarray, and zarr.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Configure the style guide for plots, setting the figure face color, DPI, and font size.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Set Plot Styles"
+      },
+      {
+        "cell_indices": [
+          3,
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries",
+          "Set Plot Styles"
+        ],
+        "description": "Process the time series data by removing NaNs, detrending, and calculating autocorrelation to prepare for visualization.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Data Processing"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

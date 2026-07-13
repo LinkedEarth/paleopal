@@ -1,0 +1,117 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2a0d51394cf05a74"
+  ],
+  "payload": {
+    "title": "Reading LiPD formatted datasets with `PyLiPD`",
+    "description": "This notebook demonstrates the use of the `PyLiPD` Python package for handling LiPD formatted datasets. It covers loading datasets from local files, URLs, directories, and a remote graph database. The notebook also illustrates how to load datasets in parallel and merge multiple LiPD objects. The primary focus is on reading and manipulating paleoclimate data using object-oriented programming.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Introduction to the `PyLiPD` package, which facilitates reading, manipulating, and writing LiPD formatted datasets.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Introduction to PyLiPD"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Introduction to PyLiPD"
+        ],
+        "description": "Create an empty LiPD object and load a dataset from a local file. Display the dataset names contained in the object.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Loading LiPD formatted datasets from a local file"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          13,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Introduction to PyLiPD"
+        ],
+        "description": "Load a LiPD dataset from a URL into a new LiPD object and display the dataset names. Also, load the dataset into an existing object.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Loading a LiPD formatted dataset from a URL"
+      },
+      {
+        "cell_indices": [
+          17,
+          18,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Introduction to PyLiPD"
+        ],
+        "description": "Load datasets from a directory into a LiPD object and display the dataset names. Append additional datasets to the object.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Loading from a directory"
+      },
+      {
+        "cell_indices": [
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "Introduction to PyLiPD"
+        ],
+        "description": "Load datasets from the remote LipdGraph database using SPARQL queries and display the dataset names.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Loading from the remote LipdGraph database"
+      },
+      {
+        "cell_indices": [
+          24,
+          26
+        ],
+        "code": "",
+        "dependencies": [
+          "Introduction to PyLiPD",
+          "Loading from a directory"
+        ],
+        "description": "Load multiple LiPD files in parallel using the `if __name__ == \"__main__\"` notation and display the dataset names.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Loading in parallel"
+      },
+      {
+        "cell_indices": [
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Loading in parallel",
+          "Loading a LiPD formatted dataset from a URL"
+        ],
+        "description": "Merge two LiPD objects together and display the merged dataset names.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Merging LiPD objects"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

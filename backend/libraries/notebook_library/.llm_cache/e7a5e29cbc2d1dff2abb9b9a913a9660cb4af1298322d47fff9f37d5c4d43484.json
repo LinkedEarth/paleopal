@@ -1,0 +1,79 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "8c9bc0723838c11f"
+  ],
+  "payload": {
+    "title": "Calculating Global Coherence as a function of Glacial/Interglacial cycles",
+    "description": "This notebook uses the Pyleoclim library to calculate global coherence between insolation and oxygen isotopes across glacial and interglacial cycles. It defines functions to handle records with large hiatuses, creates insolation curves using Climlab, and sets boundaries for glacial/interglacial periods based on LR04 data. The notebook analyzes data from the Sanbao cave, Buckeye Creek, and a marine sediment core from the Bay of Bengal, breaking them into glacial and interglacial components to assess coherence.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          4,
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load data for analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Data"
+      },
+      {
+        "cell_indices": [
+          8,
+          9,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Data"
+        ],
+        "description": "Create glacial and interglacial series objects for the Sanbao record and calculate global coherence.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Sanbao Analysis"
+      },
+      {
+        "cell_indices": [
+          13,
+          15,
+          16,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Data"
+        ],
+        "description": "Create glacial and interglacial series objects for Buckeye Creek oxygen isotope records and calculate global coherence.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Buckeye Creek Analysis"
+      },
+      {
+        "cell_indices": [
+          21,
+          23,
+          25,
+          26,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Data"
+        ],
+        "description": "Load U1446 marine sediment data, create glacial and interglacial series objects, and calculate global coherence.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "U1446 Marine Sediment Analysis"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

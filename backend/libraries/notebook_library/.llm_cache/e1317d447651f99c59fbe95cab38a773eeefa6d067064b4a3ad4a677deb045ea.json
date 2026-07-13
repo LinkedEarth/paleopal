@@ -1,0 +1,121 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b1701655e4b165f6"
+  ],
+  "payload": {
+    "title": "Investigating interhemispheric precipitation changes over the past millennium",
+    "summary": "This Jupyter notebook explores interhemispheric precipitation changes over the past millennium by comparing paleoclimate model outputs with proxy observations. It employs Empirical Orthogonal Function (EOF) analysis to identify large-scale spatio-temporal patterns. The notebook utilizes data from the CESM Last Millennium Ensemble and proxy datasets from the LinkedEarth database. The analysis includes PCA on both model and proxy data, followed by a model-data comparison to visualize the results.",
+    "goals": [
+      "Compare paleoclimate model output with proxy observations.",
+      "Identify large-scale spatio-temporal patterns using EOF analysis.",
+      "Perform PCA on gridded and point datasets for model-data comparison."
+    ],
+    "libraries": [
+      "s3fs",
+      "fsspec",
+      "xarray",
+      "pandas",
+      "numpy",
+      "json",
+      "requests",
+      "pyleoclim",
+      "eofs",
+      "cartopy",
+      "matplotlib",
+      "nc_time_axis"
+    ],
+    "techniques": [
+      "EOF analysis",
+      "PCA",
+      "SPARQL querying",
+      "Data standardization",
+      "Visualization with Cartopy and Matplotlib"
+    ],
+    "keywords": [
+      "paleoclimate",
+      "precipitation changes",
+      "EOF analysis",
+      "PCA",
+      "CESM",
+      "proxy data",
+      "model-data comparison"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook with logos from Project Pythia and LinkedEarth.",
+        "heading": "Notebook start"
+      },
+      {
+        "blurb": "Title section introducing the main focus of the notebook.",
+        "heading": "Investigating interhemispheric precipitation changes over the past millennium"
+      },
+      {
+        "blurb": "Description of the notebook's purpose to compare model output and proxy observations using EOF analysis.",
+        "heading": "Overview"
+      },
+      {
+        "blurb": "List of necessary concepts and tools required to understand and execute the notebook.",
+        "heading": "Prerequisites"
+      },
+      {
+        "blurb": "Importing necessary libraries for data handling, analysis, and visualization.",
+        "heading": "Imports"
+      },
+      {
+        "blurb": "Performing PCA on proxy datasets to analyze spatio-temporal patterns.",
+        "heading": "PCA analysis on proxy observations"
+      },
+      {
+        "blurb": "Using SPARQL to query the LinkedEarth database for relevant proxy datasets.",
+        "heading": "Query to remote database"
+      },
+      {
+        "blurb": "Standardizing data and running PCA to generate scree and mode plots.",
+        "heading": "Run PCA Analysis"
+      },
+      {
+        "blurb": "Conducting PCA on CESM model data to compare with proxy observations.",
+        "heading": "PCA analysis on the CESM Last Millennium Ensemble"
+      },
+      {
+        "blurb": "Retrieving and processing CESM data for the specified region and time period.",
+        "heading": "Get the CESM Last Millennium Ensemble data from JetStream2 and select the tropical Central and South America region"
+      },
+      {
+        "blurb": "Calculating precipitation isotope ratios from CESM data for analysis.",
+        "heading": "Calculate Precipitation $\\delta^{18}O$"
+      },
+      {
+        "blurb": "Executing PCA on standardized CESM data and visualizing the leading EOF.",
+        "heading": "Run PCA analysis"
+      },
+      {
+        "blurb": "Comparing model and proxy data by mapping EOFs and PCs.",
+        "heading": "Model-Data Comparison"
+      },
+      {
+        "blurb": "Concluding remarks on the PCA analysis and its applicability beyond paleoclimate studies.",
+        "heading": "Summary"
+      },
+      {
+        "blurb": "References and resources for further reading and data sources used in the notebook.",
+        "heading": "Resources and references"
+      }
+    ],
+    "inputs": [
+      "CESM Last Millennium Ensemble data",
+      "Proxy datasets from LinkedEarth database"
+    ],
+    "outputs": [
+      "EOF scree plots",
+      "EOF mode plots",
+      "Covariance maps",
+      "Model-data comparison visualizations"
+    ],
+    "source": "llm:openai"
+  }
+}

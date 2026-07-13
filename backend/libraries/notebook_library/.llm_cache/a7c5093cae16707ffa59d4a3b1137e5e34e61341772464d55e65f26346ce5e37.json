@@ -1,0 +1,115 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "f2d7e41775d2ba1d"
+  ],
+  "payload": {
+    "title": "Hunting for solar-related cyclicities over the Holocene",
+    "description": "This notebook explores the presence of solar-related cyclicities in Holocene paleoclimate records using spectral analysis. It retrieves temperature data from the Temperature 12k Database in LiPD format via SPARQL queries. The data is processed using the Pyleoclim library to perform spectral analysis and identify significant periodicities in the 800-3000 year range. The analysis reveals multiple spectral peaks, but no significant clustering by geography or archive type.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2,
+          4,
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Retrieve temperature data from the Temperature 12k Database using SPARQL queries.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Data Retrieval"
+      },
+      {
+        "cell_indices": [
+          10,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Import the retrieved data into a MultipleGeoSeries object for mapping purposes.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Importing into Pyleoclim"
+      },
+      {
+        "cell_indices": [
+          14,
+          15,
+          17,
+          19,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform spectral analysis using the MTM method to identify period peaks in the records.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Spectral Analysis"
+      },
+      {
+        "cell_indices": [
+          22,
+          23,
+          25,
+          26,
+          28,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Visualize the spectra generated from the spectral analysis to identify millennial-scale periodicities.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Chasing Cyclicities over the Holocene"
+      },
+      {
+        "cell_indices": [
+          32,
+          34,
+          36,
+          37,
+          38,
+          39
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Create histograms of identified peaks and analyze the contribution of different sites.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Global View of Significant Millennial Periodicities"
+      },
+      {
+        "cell_indices": [
+          41,
+          42,
+          44,
+          45
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Visualize periodicities by latitude and archive type using color to indicate peak significance.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Periodicities by Latitude and Archive"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

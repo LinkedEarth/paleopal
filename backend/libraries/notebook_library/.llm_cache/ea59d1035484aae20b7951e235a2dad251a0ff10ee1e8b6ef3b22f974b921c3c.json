@@ -1,0 +1,84 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "ab9ca4e762cc409e"
+  ],
+  "payload": {
+    "title": "Creating Murmuration Plots for Glacial Data",
+    "description": "This notebook demonstrates the use of the Pyleoclim library to calculate correlations between speleothem oxygen isotope data and insolation at various latitudes, focusing on glacial periods. It includes defining a function to handle correlations in records with large hiatuses, creating insolation curves using Climlab, and generating glacial period-specific data records. The notebook culminates in the creation of murmuration plots to visualize these correlations.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3,
+          5
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and define a function to correlate series with large gaps by segmenting and smoothing the time series.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Define Correlation Function"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Use the Climlab library to define insolation curves for various latitudes.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Define Insolation Curves"
+      },
+      {
+        "cell_indices": [
+          10,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Generate versions of each record that are comprised only of data from glacial periods.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Create Glacial Period Data Records"
+      },
+      {
+        "cell_indices": [
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Calculate the correlation between insolation at various latitudes and the glacial records.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Calculate Correlations"
+      },
+      {
+        "cell_indices": [
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Create murmuration plots to visualize the correlations between speleothem data and insolation.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Plot Murmuration Results"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

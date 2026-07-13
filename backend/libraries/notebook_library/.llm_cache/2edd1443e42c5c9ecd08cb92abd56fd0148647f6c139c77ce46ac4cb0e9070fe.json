@@ -1,0 +1,130 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "046273e28da8bea7"
+  ],
+  "payload": {
+    "title": "Database Assembly using the LMRv2.1 pickle file",
+    "description": "This workflow details the process of constructing a ProxyDatabase object using PAGES 2k proxy records from LMRv2.1 pickle files. It involves filtering metadata and data for PAGES2kv2 records, standardizing proxy IDs, assigning proxy type labels, and filtering records by resolution and coverage. The final database is saved as a NetCDF file for use in paleoclimate data assimilation workflows.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          5,
+          6,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load metadata and data from CSV files and filter for PAGES2kv2 records.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Filter Metadata and Data"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          13,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "Load and Filter Metadata and Data"
+        ],
+        "description": "Standardize proxy IDs to a short format suitable for the ProxyDatabase object.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Standardize Proxy IDs"
+      },
+      {
+        "cell_indices": [
+          17,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Standardize Proxy IDs"
+        ],
+        "description": "Assign standardized proxy type labels based on archive and measurement types.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Assign Proxy Type Labels"
+      },
+      {
+        "cell_indices": [
+          21,
+          22,
+          23,
+          25,
+          26,
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "Assign Proxy Type Labels"
+        ],
+        "description": "Filter records by resolution to include only annual and subannual records.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Filter by Resolution"
+      },
+      {
+        "cell_indices": [
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Filter by Resolution"
+        ],
+        "description": "Optionally check for and remove sparse records that do not meet the 0.5 coverage threshold.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Check for Sparse Records"
+      },
+      {
+        "cell_indices": [
+          32
+        ],
+        "code": "",
+        "dependencies": [
+          "Check for Sparse Records"
+        ],
+        "description": "Create the final ProxyDatabase object containing filtered PAGES2kv2 records.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Create Final ProxyDatabase Object"
+      },
+      {
+        "cell_indices": [
+          34
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Final ProxyDatabase Object"
+        ],
+        "description": "Save the final ProxyDatabase object as a NetCDF file for future use.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Save ProxyDatabase as NetCDF"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

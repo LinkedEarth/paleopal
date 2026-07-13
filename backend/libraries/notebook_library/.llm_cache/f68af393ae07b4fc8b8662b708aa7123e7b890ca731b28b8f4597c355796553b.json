@@ -1,0 +1,81 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "28e2b10dabb06f42"
+  ],
+  "payload": {
+    "title": "Laplacian Eigenmaps for Recurrence Matrices (LERM)",
+    "description": "This notebook reproduces figures from a Laplacian Eigenmaps for Recurrence Matrices (LERM) analysis, based on computations performed on CARC machines. It requires pre-existing pickle files containing preprocessed data. The notebook uses various Python libraries to load data, sort it by latitude, and generate visualizations of the LERM analysis. The outputs include figures that display the ensemble median and confidence intervals.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary Python libraries for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load preprocessed ensemble and series data from pickle files.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Preprocessed Data"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Preprocessed Data"
+        ],
+        "description": "Sort the data by latitude to prepare for visualization.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Sort Data by Latitude"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Sort Data by Latitude"
+        ],
+        "description": "Create a figure with a specified size and set up plot parameters.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Setup Plot Parameters"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup Plot Parameters"
+        ],
+        "description": "Iterate over each pair in the preprocessed series dictionary to generate visualizations.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Iterate Over Data for Visualization"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

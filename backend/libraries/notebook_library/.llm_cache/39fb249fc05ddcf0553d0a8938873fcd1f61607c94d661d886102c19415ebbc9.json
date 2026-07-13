@@ -1,0 +1,87 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "e904768b4818894d"
+  ],
+  "payload": {
+    "title": "[Fig. 2] Na\u00efve sampling",
+    "description": "This workflow involves analyzing climate data using na\u00efve sampling techniques. It calculates the Mean Squared Error (MSE) between a target series and ensemble trajectories, performs spectral analysis, and visualizes the results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and climate model data. Set up the plotting style and load the ensemble time series data from a NetCDF file.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Data Loading and Initial Setup"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Loading and Initial Setup"
+        ],
+        "description": "Create a new pandas DataFrame to store processed data, remove unnecessary columns, calculate ensemble means, and display the processed data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Data Processing"
+      },
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Processing"
+        ],
+        "description": "Compute the Mean Squared Error between the target series and all possible trajectories within the ensemble.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Mean Squared Error Calculation"
+      },
+      {
+        "cell_indices": [
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Mean Squared Error Calculation"
+        ],
+        "description": "Perform spectral analysis on the original and resampled data using the multitaper method. Generate and anti-alias the power spectral density (PSD) objects.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Spectral Analysis"
+      },
+      {
+        "cell_indices": [
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Spectral Analysis"
+        ],
+        "description": "Create visualizations of the analysis results, including the closest match and na\u00efve resampling plots.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Visualization"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

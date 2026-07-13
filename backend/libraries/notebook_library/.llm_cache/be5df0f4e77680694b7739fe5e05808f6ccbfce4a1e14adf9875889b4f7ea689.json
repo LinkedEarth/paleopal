@@ -1,0 +1,126 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4a37ee699c3e2343"
+  ],
+  "payload": {
+    "title": "Filtering and Detrending with Pyleoclim",
+    "description": "This Jupyter notebook introduces users to filtering and detrending methods using the Pyleoclim library. It demonstrates how to load and visualize benthic foraminifera \u03b418O data from the LR04 benthic stack. The notebook covers various detrending techniques such as Empirical Mode Decomposition (EMD) and Savitzky-Golay, and filtering methods including Lanczos and Butterworth filters. The outputs include visualizations of the original and processed data, showcasing the effects of different signal processing techniques.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          3,
+          4
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the LR04 dataset using Pyleoclim. Plot the initial data to visualize the benthic foraminifera \u03b418O data.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble and Data Loading"
+      },
+      {
+        "cell_indices": [
+          6,
+          8,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Apply Empirical Mode Decomposition (EMD) to detrend the data. Visualize the original and detrended data using EMD.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Detrending with EMD"
+      },
+      {
+        "cell_indices": [
+          12,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Use the Savitzky-Golay method to detrend the data. Plot the results to compare with the original data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Detrending with Savitzky-Golay"
+      },
+      {
+        "cell_indices": [
+          17,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Apply a Lanczos low-pass filter to the data with a cutoff scale of 80. Visualize the filtered data alongside the original data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Filtering with Lanczos"
+      },
+      {
+        "cell_indices": [
+          21
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Perform a wavelet transform on the original data using the WWZ method and plot the results.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Wavelet Transform of Original Data"
+      },
+      {
+        "cell_indices": [
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Filtering with Lanczos"
+        ],
+        "description": "Perform a wavelet transform on the Lanczos filtered data using the WWZ method and plot the results.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Wavelet Transform of Filtered Data"
+      },
+      {
+        "cell_indices": [
+          25,
+          27
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Apply a Butterworth bandpass filter to the data with cutoff scales of 10 and 80. Visualize the bandpass filtered data alongside the original data.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Filtering with Butterworth"
+      },
+      {
+        "cell_indices": [
+          28,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Filtering with Butterworth"
+        ],
+        "description": "Perform a wavelet transform on the Butterworth bandpass filtered data using the WWZ method and plot the results.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Wavelet Transform of Bandpass Filtered Data"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

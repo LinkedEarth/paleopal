@@ -1,0 +1,115 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4ca5a22d7bf5d4c9"
+  ],
+  "payload": {
+    "title": "Custom queries on LiPD objects",
+    "description": "This Jupyter notebook demonstrates how to create custom SPARQL queries on LiPD objects using the PyLiPD Python package. It guides users through constructing queries to extract specific information from LiPD datasets, such as dataset names, variables, and geospatial data. The goal is to enhance the user's ability to perform specific data retrieval tasks in paleoclimatology.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          4
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Initialize the LiPD object and load datasets from a specified directory.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Load LiPD Datasets"
+      },
+      {
+        "cell_indices": [
+          7,
+          9,
+          11,
+          14,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Construct a basic SPARQL query to retrieve dataset names and execute the query.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Construct Basic SPARQL Query"
+      },
+      {
+        "cell_indices": [
+          19,
+          20,
+          21,
+          23,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Pop out a dataset into a new LiPD object and load an additional dataset for demonstration purposes.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Manipulate LiPD Objects"
+      },
+      {
+        "cell_indices": [
+          28,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Construct a query to retrieve distinct predicates from the dataset.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Query for Predicates"
+      },
+      {
+        "cell_indices": [
+          32,
+          33,
+          35,
+          37,
+          39,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Execute a geospatial query to retrieve dataset names along with their latitude and longitude.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Perform Geospatial Query"
+      },
+      {
+        "cell_indices": [
+          44,
+          45,
+          47,
+          48,
+          50,
+          52,
+          54
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Create and execute a query to retrieve all unique variable names and filter datasets by specific variable names.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Filter by Variable Name"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

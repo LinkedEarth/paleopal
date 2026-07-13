@@ -1,0 +1,70 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "bfe27cda106644ba"
+  ],
+  "payload": {
+    "title": "Resolution changes on real data",
+    "description": "This notebook explores the effects of resolution changes on marine sediment core U1308 by applying the LERM method. It aims to recreate Figure 8 from a referenced publication. The analysis involves loading oxygen isotope data from Pangaea and performing LERM analysis on the data binned to different resolutions.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Load the U1308 oxygen isotope data from Pangaea using the PanDataSet class.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load U1308 Oxygen Isotope Data"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define a function to detect transitions in the data series.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Define Transition Detection Function"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Load U1308 Oxygen Isotope Data",
+          "Define Transition Detection Function"
+        ],
+        "description": "Apply LERM analysis on the data binned to different resolutions to explore resolution effects.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Perform LERM Analysis"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

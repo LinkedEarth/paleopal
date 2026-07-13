@@ -97,7 +97,64 @@ class SearchIntegrationService:
         """
         try:
             # Import and call the Qdrant-backed search function directly
-            from libraries.notebook_library.search_snippets import search_snippets as _search_snippets
+            from libraries.notebook_library.search_snippets import (
+                search_snippets as _search_snippets,
+                search_with_parent_context as _search_parent_child,
+            )
+
+            # Prefer parent-child context: summaries select notebooks, then children
+            try:
+                pc = _search_parent_child(
+                    query,
+                    summary_limit=max(2, top_k),
+                    snippets_per_parent=2,
+                    direct_snippet_limit=top_k,
+                )
+                enhanced_results = []
+                seen_ids = set()
+                # Flatten: prefer direct needle hits, then children from parents
+                for result in pc.get("direct_snippets") or []:
+                    rid = result.get("id")
+                    if rid in seen_ids:
+                        continue
+                    seen_ids.add(rid)
+                    enhanced = result.copy()
+                    enhanced["snippet_type"] = "code"
+                    enhanced["retrieval"] = "direct_child"
+                    enhanced["similarity_score"] = result.get("score", result.get("similarity_score", 0.0))
+                    if "code" in result:
+                        enhanced["code_preview"] = (
+                            result["code"][:200] + "..."
+                            if len(result["code"]) > 200
+                            else result["code"]
+                        )
+                    enhanced_results.append(enhanced)
+
+                for block in pc.get("parents") or []:
+                    parent = block.get("parent") or {}
+                    for result in block.get("children") or []:
+                        rid = result.get("id")
+                        if rid in seen_ids:
+                            continue
+                        seen_ids.add(rid)
+                        enhanced = result.copy()
+                        enhanced["snippet_type"] = "code"
+                        enhanced["retrieval"] = "via_parent"
+                        enhanced["parent_title"] = parent.get("title") or enhanced.get("parent_title", "")
+                        enhanced["parent_summary"] = parent.get("summary") or enhanced.get("parent_summary", "")
+                        enhanced["similarity_score"] = result.get("score", 0.0)
+                        if "code" in result:
+                            enhanced["code_preview"] = (
+                                result["code"][:200] + "..."
+                                if len(result["code"]) > 200
+                                else result["code"]
+                            )
+                        enhanced_results.append(enhanced)
+
+                if enhanced_results:
+                    return enhanced_results[:top_k]
+            except Exception as e:
+                logger.warning(f"Parent-child snippet search failed, falling back: {e}")
 
             raw_results = _search_snippets(query, limit=top_k)
 
@@ -428,9 +485,18 @@ Return ONLY a JSON array of the extracted terms:
         """
         # Search workflows with higher weight
         workflows = await self.search_notebook_workflows(user_query, top_k=3)
+
+        # Also surface parent notebook/project summaries for planning context
+        summaries: List[Dict[str, Any]] = []
+        try:
+            from libraries.notebook_library.search_snippets import search_summaries as _search_summaries
+            summaries = _search_summaries(user_query, limit=3)
+        except Exception as e:
+            logger.warning(f"Notebook summary search failed: {e}")
         
         return {
             "workflows": workflows,
+            "summaries": summaries,
             "methods": [],
             "query": user_query
         }
@@ -647,6 +713,22 @@ Return ONLY a JSON array of the extracted terms:
             sections.append("--------\n")
         
         # Add workflow context (high weight)
+        if context.get("summaries"):
+            sections.append("## RELEVANT NOTEBOOK / PROJECT SUMMARIES (Use to select context):\n")
+            for i, summary in enumerate(context["summaries"], 1):
+                sections.append(
+                    f"### Summary {i}: {summary.get('title', 'Unknown')} "
+                    f"[{summary.get('content_type', 'notebook_summary')}]"
+                )
+                sections.append(f"**Similarity**: {summary.get('similarity_score', summary.get('score', 0)):.3f}")
+                if summary.get("phase"):
+                    sections.append(f"**Phase**: {summary.get('phase')}")
+                if summary.get("project_id"):
+                    sections.append(f"**Project**: {summary.get('project_id')}")
+                if summary.get("summary"):
+                    sections.append(f"**Summary**: {summary['summary'][:600]}")
+                sections.append("")
+
         if context.get("workflows"):
             sections.append("## RELEVANT WORKFLOW EXAMPLES (High Priority - Follow These Patterns):\n")
             for i, workflow in enumerate(context["workflows"], 1):
@@ -662,7 +744,7 @@ Return ONLY a JSON array of the extracted terms:
                     sections.append("**Step Breakdown**:")
                     for step in workflow_steps:
                         # Handle different step formats - some have step_number, description, etc.
-                        step_desc = step.get("description", step.get("step_description", ""))
+                        step_desc = step.get("description", step.get("step_description", step.get("title", "")))
                         step_num = step.get("step_number", "")
                         step_type = step.get("step_type", "")
                         if step_num:
@@ -823,9 +905,19 @@ Return ONLY a JSON array of the extracted terms:
         if context.get("snippets"):
             sections.append("## RELEVANT CODE SNIPPETS (High Priority - Adapt These Patterns):\n")
             for i, snippet in enumerate(context["snippets"], 1):
-                sections.append(f"### Snippet {i}: {snippet.get('notebook', 'Unknown')}")
+                sections.append(f"### Snippet {i}: {snippet.get('title') or snippet.get('notebook', 'Unknown')}")
                 sections.append(f"**Similarity**: {snippet.get('similarity_score', 0):.3f}")
-                
+                if snippet.get("parent_summary"):
+                    sections.append(
+                        f"**Notebook context**: {snippet.get('parent_title', '')} — "
+                        f"{snippet['parent_summary'][:300]}"
+                    )
+                if snippet.get("markdown") or snippet.get("markdown_context"):
+                    md = snippet.get("markdown") or snippet.get("markdown_context")
+                    sections.append(f"**Section**: {md[:250]}")
+                if snippet.get("comments"):
+                    sections.append(f"**Comments**: {'; '.join(snippet['comments'][:5])}")
+
                 if snippet.get("code"):
                     sections.append("**Code**:")
                     sections.append("```python")

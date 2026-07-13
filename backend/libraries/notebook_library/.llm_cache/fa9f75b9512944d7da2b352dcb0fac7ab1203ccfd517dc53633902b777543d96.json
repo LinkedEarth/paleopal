@@ -1,0 +1,96 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0274e6b8e82f8a42"
+  ],
+  "payload": {
+    "title": "Validating PReSto2k",
+    "summary": "This Jupyter notebook aims to validate the PReSto2k reconstructions by comparing them against the LMRv2.1 baseline and instrumental datasets. It loads three PReSto2k reconstructions with different seasonality approaches and compares them to LMRv2.1 using various statistical techniques. The notebook employs visualization and statistical analysis to assess the differences and similarities between reconstructions and validate them against instrumental datasets like GISTEMP, HADCRUT5, and BEST.",
+    "goals": [
+      "Evaluate the skill of PReSto2k reconstructions.",
+      "Compare PReSto2k reconstructions against LMRv2.1.",
+      "Validate reconstructions using instrumental datasets."
+    ],
+    "libraries": [
+      "cfr",
+      "numpy",
+      "pandas",
+      "xarray",
+      "matplotlib",
+      "cartopy",
+      "pens",
+      "seaborn"
+    ],
+    "techniques": [
+      "Data loading and preprocessing",
+      "Time series analysis",
+      "Statistical comparison",
+      "Visualization",
+      "Instrumental validation"
+    ],
+    "keywords": [
+      "PReSto2k",
+      "LMRv2.1",
+      "climate reconstruction",
+      "instrumental validation",
+      "GMST",
+      "climate data analysis"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the notebook's purpose of validating PReSto2k reconstructions by comparing them to LMRv2.1 and instrumental datasets.",
+        "heading": "Validating PReSto2k"
+      },
+      {
+        "blurb": "Describes loading three PReSto2k reconstructions with different seasonality approaches and the LMRv2.1 dataset for comparison.",
+        "heading": "Load the Reconstructions"
+      },
+      {
+        "blurb": "Plots GMST ensembles for all reconstructions to visually assess differences and similarities in variability.",
+        "heading": "GMST plots"
+      },
+      {
+        "blurb": "Creates difference plots of ensemble means to identify specific instances of warming/cooling differences between reconstructions.",
+        "heading": "Difference Plots"
+      },
+      {
+        "blurb": "Uses the plume framework to compare climate trajectories and calculate inter-ensemble and plume distances.",
+        "heading": "Pens"
+      },
+      {
+        "blurb": "Validates PReSto2k reconstructions against instrumental datasets like GISTEMP, HADCRUT5, and BEST to establish skill.",
+        "heading": "Instrumental Validation"
+      },
+      {
+        "blurb": "Compares reconstructions to GISTEMP, HADCRUT5, and BEST datasets, calculating validation statistics like correlation and CE.",
+        "heading": "GMST comparisons"
+      },
+      {
+        "blurb": "Loads and processes the HADCRUT5 dataset for comparison with PReSto2k reconstructions.",
+        "heading": "HADCRUT5"
+      },
+      {
+        "blurb": "Processes the BEST dataset for validation and comparison with PReSto2k reconstructions.",
+        "heading": "Berkeley Earth Surface Temperature (BEST)"
+      },
+      {
+        "blurb": "Combines all instrumental datasets to create a consensus time series for comprehensive validation.",
+        "heading": "Consensus"
+      }
+    ],
+    "inputs": [
+      "PReSto2k reconstructions",
+      "LMRv2.1 dataset",
+      "Instrumental datasets (GISTEMP, HADCRUT5, BEST)"
+    ],
+    "outputs": [
+      "Global Mean Surface Temperature (GMST) plots",
+      "Difference plots",
+      "Validation statistics (correlation, CE)"
+    ],
+    "source": "llm:openai"
+  }
+}

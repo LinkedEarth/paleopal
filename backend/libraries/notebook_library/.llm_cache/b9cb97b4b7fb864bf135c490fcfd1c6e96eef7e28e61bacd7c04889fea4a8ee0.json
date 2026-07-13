@@ -1,0 +1,99 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4ab30cf9db5bfa03"
+  ],
+  "payload": {
+    "title": "Supplement",
+    "description": "This Jupyter notebook provides supplementary figures and analyses for a scientific study. It utilizes various Python libraries to process and visualize data, focusing on climate-related metrics. The notebook includes code for generating multiple supplemental figures, each illustrating different aspects of the data analysis, such as regression models, autocorrelation functions, and weighted means. The figures are created using data from CSV files and involve statistical techniques like linear regression and detrending.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and configure matplotlib settings.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Create the first supplemental figure using climate data from a CSV file. Perform linear regression and plot the results.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Generate Supplemental Figure 1 (S1)"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Create the second supplemental figure. Define a function to calculate forcing from SAOD timeseries and perform data visualization.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Generate Supplemental Figure 2 (S2)"
+      },
+      {
+        "cell_indices": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Create the third supplemental figure. Perform operations on a cartesian geographical grid and compute the Cox metric.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Generate Supplemental Figure 3 (S3)"
+      },
+      {
+        "cell_indices": [
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Create the fourth supplemental figure. Read timeseries data and visualize the ECS Emergent Relationship.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Generate Supplemental Figure 4 (S4)"
+      },
+      {
+        "cell_indices": [
+          17,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Create the sixth supplemental figure. Define functions to handle dataset coordinates and calculate weighted means.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Generate Supplemental Figure 6 (S6)"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "6a9849fdf2c6fef4"
+  ],
+  "payload": {
+    "title": "Filtering through queries",
+    "description": "This Jupyter notebook demonstrates the use of the PyLiPD Python package to filter LiPD formatted datasets based on various criteria such as archive types, location, variable names, time intervals, proxies, and resolution. The notebook provides a step-by-step guide on how to load datasets, apply different filtering methods, and manipulate data using the LiPD and LiPDSeries objects. The Euro2k database is used as a sample dataset to illustrate these filtering techniques.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Initialize the LiPD object and load datasets from the specified directory.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Load LiPD Datasets"
+      },
+      {
+        "cell_indices": [
+          3,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Retrieve all dataset names and archive types from the loaded LiPD datasets.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Explore Dataset Names and Archive Types"
+      },
+      {
+        "cell_indices": [
+          7,
+          9,
+          11,
+          12,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Filter datasets by specific archive types such as speleothem, marine, and sediment.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Filter by Archive Type"
+      },
+      {
+        "cell_indices": [
+          16,
+          18,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Filter datasets using a bounding box to select records within specified geographical coordinates.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Filter by Location"
+      },
+      {
+        "cell_indices": [
+          22,
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Filter datasets based on a specific time interval and record length.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Filter by Time Interval"
+      },
+      {
+        "cell_indices": [
+          27,
+          29,
+          31,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Expand the LiPD object into a LiPDSeries object and filter by specific variable names.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Filter on LiPDSeries Object by Variable Names"
+      },
+      {
+        "cell_indices": [
+          44,
+          46
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Filter datasets by the proxy field to select records associated with specific proxies.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Filter by Proxy"
+      },
+      {
+        "cell_indices": [
+          48,
+          50,
+          52
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Filter datasets based on the resolution of variables, using mean or median resolution.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Filter by Resolution"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

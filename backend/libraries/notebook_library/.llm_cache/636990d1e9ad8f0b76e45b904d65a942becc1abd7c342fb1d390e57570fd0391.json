@@ -1,0 +1,143 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "5049ed3b2772234e"
+  ],
+  "payload": {
+    "title": "Exploring the Dry Tortugas Sr/Ca data",
+    "description": "This notebook explores the calibration of coral Sr/Ca measurements to sea surface temperature (SST) in the Dry Tortugas, using data from NOAA NCEI and various Python libraries for data analysis and visualization.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary Python libraries for data analysis and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load coral Sr/Ca data from NOAA NCEI into the workspace using pandas.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Data"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Plot the Sr/Ca measurements for different coral cores over time.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Visualize Coral Sr/Ca Data"
+      },
+      {
+        "cell_indices": [
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Plot the instrumental sea surface temperature data from different locations over time.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Visualize Instrumental SST Data"
+      },
+      {
+        "cell_indices": [
+          9,
+          11,
+          13,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "3",
+          "4"
+        ],
+        "description": "Compare Sr/Ca measurements with SST data for Siderastrea siderea using time series plots.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Compare Sr/Ca and SST for Siderastrea siderea"
+      },
+      {
+        "cell_indices": [
+          17,
+          19,
+          21
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Compute Pearson's correlation between Siderastrea siderea Sr/Ca measurements and SST data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Correlation Analysis for Siderastrea siderea"
+      },
+      {
+        "cell_indices": [
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "3",
+          "4"
+        ],
+        "description": "Compare Sr/Ca measurements with SST data for Montastraea faveolata using time series plots.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Compare Sr/Ca and SST for Montastraea faveolata"
+      },
+      {
+        "cell_indices": [
+          27,
+          29,
+          31
+        ],
+        "code": "",
+        "dependencies": [
+          "7"
+        ],
+        "description": "Compute Pearson's correlation between Montastraea faveolata Sr/Ca measurements and SST data.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Correlation Analysis for Montastraea faveolata"
+      },
+      {
+        "cell_indices": [
+          34,
+          36
+        ],
+        "code": "",
+        "dependencies": [
+          "6",
+          "8"
+        ],
+        "description": "Create scatter plots to visualize the relationship between Sr/Ca and SST, including seasonal variations.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Scatter Plot Analysis"
+      }
+    ],
+    "num_steps": 9,
+    "source": "llm:openai"
+  }
+}

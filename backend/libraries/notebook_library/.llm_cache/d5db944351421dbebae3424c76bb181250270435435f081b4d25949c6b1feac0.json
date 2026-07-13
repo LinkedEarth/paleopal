@@ -1,0 +1,140 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "5b60871da1d98356"
+  ],
+  "payload": {
+    "title": "Uniform time sampling with Pyleoclim",
+    "description": "This notebook demonstrates methods for placing paleoclimate records on a uniform time axis using the Pyleoclim library. It addresses the common issue of uneven time spacing in paleosciences by exploring interpolation, binning, resampling, and Gaussian kernel coarsening techniques.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2,
+          4,
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the EDC-dD dataset, converting its time unit to 'ky BP'.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Preamble and Data Loading"
+      },
+      {
+        "cell_indices": [
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Preamble and Data Loading"
+        ],
+        "description": "Examine the resolution of the dataset to understand the distribution and sequence of its time increments.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Inspecting Resolution"
+      },
+      {
+        "cell_indices": [
+          13,
+          15,
+          17,
+          19,
+          20,
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Inspecting Resolution"
+        ],
+        "description": "Apply interpolation to project the data onto an evenly spaced time axis using different methods and step sizes.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Interpolation"
+      },
+      {
+        "cell_indices": [
+          26,
+          27,
+          29,
+          30,
+          31
+        ],
+        "code": "",
+        "dependencies": [
+          "Inspecting Resolution"
+        ],
+        "description": "Average the series values over uniform bins with different bin sizes.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Binning"
+      },
+      {
+        "cell_indices": [
+          33,
+          35
+        ],
+        "code": "",
+        "dependencies": [
+          "Inspecting Resolution"
+        ],
+        "description": "Use the pandas resampler to aggregate the data on a 5ka grid.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Resampling"
+      },
+      {
+        "cell_indices": [
+          38,
+          40,
+          42,
+          44,
+          46
+        ],
+        "code": "",
+        "dependencies": [
+          "Inspecting Resolution"
+        ],
+        "description": "Coarsen the series using a Gaussian kernel to smooth the data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Gaussian Kernel Coarsening"
+      },
+      {
+        "cell_indices": [
+          48
+        ],
+        "code": "",
+        "dependencies": [
+          "Interpolation",
+          "Binning",
+          "Resampling",
+          "Gaussian Kernel Coarsening"
+        ],
+        "description": "Compare the effectiveness of different methods on a 5ka grid.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Comparison of Methods"
+      },
+      {
+        "cell_indices": [
+          51
+        ],
+        "code": "",
+        "dependencies": [
+          "Comparison of Methods"
+        ],
+        "description": "Summarize the methods available in Pyleoclim for placing a timeseries on a uniform time axis.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Summary"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

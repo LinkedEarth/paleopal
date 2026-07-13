@@ -1,0 +1,91 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "808d157f71714f0e"
+  ],
+  "payload": {
+    "title": "Run Data Assimilation",
+    "summary": "This Jupyter notebook executes a data assimilation process to reproduce the LMRv2.1 climate reconstruction as described by Tardif et al. 2019. It utilizes the _cfr_ codebase without modifications, running on high-performance computing resources. The notebook involves loading climate data, calibrating proxy system models (PSMs), and running a Kalman Filter-based data assimilation solver. The outputs include climate field reconstructions and ensemble time series for temperature and precipitation variables.",
+    "goals": [
+      "Reproduce LMRv2.1 climate reconstruction using _cfr_ codebase.",
+      "Run data assimilation on high-performance computing resources.",
+      "Calibrate and apply proxy system models (PSMs).",
+      "Generate climate field reconstructions and ensemble time series."
+    ],
+    "libraries": [
+      "cfr",
+      "numpy"
+    ],
+    "techniques": [
+      "Data assimilation",
+      "Kalman Filter",
+      "Proxy system model calibration",
+      "Climate data regridding"
+    ],
+    "keywords": [
+      "data assimilation",
+      "climate reconstruction",
+      "Kalman Filter",
+      "proxy system models",
+      "climate data",
+      "LMRv2.1",
+      "Tardif et al. 2019"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook aims to reproduce the LMRv2.1 climate reconstruction using the _cfr_ codebase without modifications.",
+        "heading": "Run Data Assimilation"
+      },
+      {
+        "blurb": "Data required for reconstruction includes model output, instrumental climate data, and proxy data.",
+        "heading": "Load Data"
+      },
+      {
+        "blurb": "Proxy data is loaded and processed to fit the _cfr_ ProxyDatabase format, filtering by proxy type.",
+        "heading": "Load proxies"
+      },
+      {
+        "blurb": "The CMIP5 CCSM4 past 1000 simulation is used as the model prior for the reconstruction.",
+        "heading": "Load model prior"
+      },
+      {
+        "blurb": "Calibration data includes GISTEMPv4 for temperature and GPCCv6 for precipitation.",
+        "heading": "Load calibration data"
+      },
+      {
+        "blurb": "Proxy system models are calibrated to establish relationships between proxy data and climate variables.",
+        "heading": "Calibrate PSMs"
+      },
+      {
+        "blurb": "The forward model is run with the prior data to generate pseudoproxies for data assimilation.",
+        "heading": "Run PSMs"
+      },
+      {
+        "blurb": "Model prior fields are annualized and regridded to match the required spatial resolution.",
+        "heading": "Annualize and Regrid model prior fields"
+      },
+      {
+        "blurb": "The Kalman Filter-based DA solver is executed to adjust model estimates using proxy data.",
+        "heading": "Run DA solver"
+      },
+      {
+        "blurb": "Post-processing checks ensure the existence of climate field reconstructions and ensemble time series.",
+        "heading": "Figure checks"
+      }
+    ],
+    "inputs": [
+      "CMIP5 CCSM4 climate model data",
+      "GISTEMPv4 temperature data",
+      "GPCCv6 precipitation data",
+      "PAGES2k proxy data"
+    ],
+    "outputs": [
+      "Climate field reconstructions",
+      "Ensemble time series for temperature and precipitation"
+    ],
+    "source": "llm:openai"
+  }
+}

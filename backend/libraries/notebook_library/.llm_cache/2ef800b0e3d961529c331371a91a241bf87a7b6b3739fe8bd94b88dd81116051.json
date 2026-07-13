@@ -1,0 +1,137 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "3a703236c7a7780f"
+  ],
+  "payload": {
+    "title": "Atmospheric Data: Nino 3 SST Index",
+    "description": "This notebook analyzes the Nino 3 Sea Surface Temperature (SST) Index using wavelet analysis to generate power and phase spectra. It involves downloading and organizing SST data, applying wavelet transforms, and visualizing the results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for accessing data, working with arrays and dataframes, and plotting.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Download the Nino 3 SST data from geocat-datafiles.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Download Nino 3 SST Data"
+      },
+      {
+        "cell_indices": [
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Download Nino 3 SST Data"
+        ],
+        "description": "Visualize the downloaded SST data to understand its structure and content.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Plot and View Data"
+      },
+      {
+        "cell_indices": [
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Plot and View Data"
+        ],
+        "description": "Convert the default X-axis from time steps to actual years for better readability.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Update the X-Axis"
+      },
+      {
+        "cell_indices": [
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Update the X-Axis"
+        ],
+        "description": "Define the input values required for wavelet analysis, including sampling period and scale parameters.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Wavelet Input Values"
+      },
+      {
+        "cell_indices": [
+          21,
+          23,
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "Wavelet Input Values"
+        ],
+        "description": "Define complex Morlet wavelets with different bandwidths and center frequencies for analysis.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Define Complex Morlet"
+      },
+      {
+        "cell_indices": [
+          27
+        ],
+        "code": "",
+        "dependencies": [
+          "Define Complex Morlet"
+        ],
+        "description": "Apply the wavelet transform to the SST data using the defined wavelets.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Applying Wavelets"
+      },
+      {
+        "cell_indices": [
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Applying Wavelets"
+        ],
+        "description": "Calculate and plot the power spectrum from the wavelet coefficients.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Power Spectrum"
+      },
+      {
+        "cell_indices": [
+          33,
+          34
+        ],
+        "code": "",
+        "dependencies": [
+          "Applying Wavelets"
+        ],
+        "description": "Calculate and plot the phase spectrum from the wavelet coefficients.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Phase Spectrum"
+      }
+    ],
+    "num_steps": 9,
+    "source": "llm:openai"
+  }
+}

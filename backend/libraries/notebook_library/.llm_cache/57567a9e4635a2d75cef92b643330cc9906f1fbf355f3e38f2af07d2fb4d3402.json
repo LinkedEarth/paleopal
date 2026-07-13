@@ -1,0 +1,177 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0274e6b8e82f8a42"
+  ],
+  "payload": {
+    "title": "Validating PReSto2k",
+    "description": "This notebook validates the PReSto2k reconstructions by comparing them against the LMRv2.1 baseline and instrumental datasets. It involves loading reconstructions, plotting GMST, computing differences, and validating against instrumental datasets.",
+    "phase": "validation",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and set up the environment for the analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Load the PReSto2k reconstructions with different seasonality approaches and the LMRv2.1 dataset.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Reconstructions"
+      },
+      {
+        "cell_indices": [
+          9,
+          11,
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Reconstructions"
+        ],
+        "description": "Plot the Global Mean Surface Temperature (GMST) ensembles for all reconstructions to identify differences.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Plot GMST Ensembles"
+      },
+      {
+        "cell_indices": [
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Plot GMST Ensembles"
+        ],
+        "description": "Compute the ensemble means and plot the differences between reconstructions.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Compute and Plot Differences"
+      },
+      {
+        "cell_indices": [
+          19,
+          20,
+          21,
+          22,
+          23
+        ],
+        "code": "",
+        "dependencies": [
+          "Compute and Plot Differences"
+        ],
+        "description": "Use the plume framework with the pens package to compare reconstructions.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Pens Framework"
+      },
+      {
+        "cell_indices": [
+          26
+        ],
+        "code": "",
+        "dependencies": [
+          "Pens Framework"
+        ],
+        "description": "Validate PReSto2k reconstructions against instrumental datasets like GISTEMP, HADCRUT5, and BEST.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Instrumental Validation"
+      },
+      {
+        "cell_indices": [
+          28,
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Instrumental Validation"
+        ],
+        "description": "Validate reconstructions using the GISTEMP dataset.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "GISTEMP Validation"
+      },
+      {
+        "cell_indices": [
+          32,
+          33,
+          34
+        ],
+        "code": "",
+        "dependencies": [
+          "GISTEMP Validation"
+        ],
+        "description": "Validate reconstructions using the HADCRUT5 dataset.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "HADCRUT5 Validation"
+      },
+      {
+        "cell_indices": [
+          36,
+          37,
+          38
+        ],
+        "code": "",
+        "dependencies": [
+          "HADCRUT5 Validation"
+        ],
+        "description": "Validate reconstructions using the Berkeley Earth Surface Temperature (BEST) dataset.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "BEST Validation"
+      },
+      {
+        "cell_indices": [
+          40,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "BEST Validation"
+        ],
+        "description": "Combine all instrumental datasets to calculate a consensus time series and compare it with reconstructions.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Consensus Analysis"
+      },
+      {
+        "cell_indices": [
+          45
+        ],
+        "code": "",
+        "dependencies": [
+          "Consensus Analysis"
+        ],
+        "description": "Load proxy databases for overlay and further analysis.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Load Proxy Database"
+      }
+    ],
+    "num_steps": 11,
+    "source": "llm:openai"
+  }
+}

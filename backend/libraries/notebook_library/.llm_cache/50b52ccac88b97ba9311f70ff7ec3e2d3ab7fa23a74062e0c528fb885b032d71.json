@@ -1,0 +1,132 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "80dd00eb04844f6e"
+  ],
+  "payload": {
+    "title": "pyODV",
+    "description": "This Jupyter notebook demonstrates how to visualize oceanographic data using Python, similar to the Ocean Data Viewer software. It focuses on loading and processing gridded data from the World Ocean Atlas, specifically using xarray and fsspec to handle data from Zarr files. The notebook includes methods for creating various types of plots, such as surface, section, profile, and scatter plots, to analyze oceanographic variables like salinity and isotopic compositions. The final output is a dashboard that integrates these visualizations to provide a comprehensive view of the data.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and modules for data processing and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          12,
+          14,
+          15,
+          17,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Load oceanographic data from Zarr files using xarray and fsspec. Merge multiple datasets into a single xarray dataset.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Data"
+      },
+      {
+        "cell_indices": [
+          21,
+          22,
+          23,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Data"
+        ],
+        "description": "Create a surface plot to visualize the geographic distribution of a variable on a plane, focusing on a specific depth and region.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Surface Plot: Longitude vs Latitude"
+      },
+      {
+        "cell_indices": [
+          36,
+          37,
+          39,
+          40
+        ],
+        "code": "",
+        "dependencies": [
+          "Surface Plot: Longitude vs Latitude"
+        ],
+        "description": "Generate a section plot to visualize depth transects with latitude or longitude as the x-axis and depth as the y-axis.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Section Plot: Latitude or Longitude vs Depth"
+      },
+      {
+        "cell_indices": [
+          42,
+          43,
+          44
+        ],
+        "code": "",
+        "dependencies": [
+          "Section Plot: Latitude or Longitude vs Depth"
+        ],
+        "description": "Create a profile plot to analyze how a variable changes with depth, using a regular grid for querying dimensions.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Profile Plot: Variable vs Depth"
+      },
+      {
+        "cell_indices": [
+          48,
+          50,
+          52,
+          54,
+          55,
+          56,
+          57
+        ],
+        "code": "",
+        "dependencies": [
+          "Profile Plot: Variable vs Depth"
+        ],
+        "description": "Develop a scatter plot to explore relationships between two variables, with a third variable represented by color.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Scatter Plot: Variable Relationships"
+      },
+      {
+        "cell_indices": [
+          59
+        ],
+        "code": "",
+        "dependencies": [
+          "Scatter Plot: Variable Relationships"
+        ],
+        "description": "Integrate all visualizations into a comprehensive dashboard to provide an overview of the oceanographic data.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Dashboard"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

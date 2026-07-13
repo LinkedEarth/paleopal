@@ -1,0 +1,64 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "60c3345d42f12541"
+  ],
+  "payload": {
+    "title": "Holocene Ice Window Increment",
+    "description": "This workflow analyzes Holocene ice core data to study climate variations. It involves importing data from LiPD files, processing it using scientific computing libraries, and visualizing the results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data processing and visualization. Suppress warnings for presentation purposes.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Suppress Warnings"
+      },
+      {
+        "cell_indices": [
+          6,
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Suppress Warnings"
+        ],
+        "description": "Define a color palette for visualizations and specify the path to the LiPD files containing the ice core data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Set Up Color Palette and File Path"
+      },
+      {
+        "cell_indices": [
+          9,
+          10,
+          11,
+          12,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Set Up Color Palette and File Path"
+        ],
+        "description": "Initialize the LiPD file handler to load and process the ice core data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Initialize LiPD File Handling"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

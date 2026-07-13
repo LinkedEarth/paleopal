@@ -1,0 +1,121 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0374fbdedbc260ee"
+  ],
+  "payload": {
+    "title": "Model-Data Confrontation in the Spectral Domain",
+    "description": "This notebook demonstrates the use of spectral analysis features in Pyleoclim to compare climate variability across scales between climate models and proxy records, reproducing results from Zhu et al. (2019).",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary packages and set the visual style for the analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Data Exploration"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Exploration"
+        ],
+        "description": "Load and preprocess PMIP3 last millennium simulations data by removing specific ensemble members and calculating ensemble means.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "PMIP3 Last Millennium Simulations"
+      },
+      {
+        "cell_indices": [
+          23,
+          25,
+          27,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39
+        ],
+        "code": "",
+        "dependencies": [
+          "Data Exploration"
+        ],
+        "description": "Load and preprocess data for proxies, LMR, and deglacial simulations from a NetCDF file.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Proxies, LMR, and Deglacial Simulations"
+      },
+      {
+        "cell_indices": [
+          44,
+          45,
+          46,
+          47,
+          49,
+          51
+        ],
+        "code": "",
+        "dependencies": [
+          "PMIP3 Last Millennium Simulations",
+          "Proxies, LMR, and Deglacial Simulations"
+        ],
+        "description": "Perform spectral analysis on time series using the WWZ method and store results in a NetCDF file.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Spectral Analysis"
+      },
+      {
+        "cell_indices": [
+          55,
+          56,
+          58,
+          60
+        ],
+        "code": "",
+        "dependencies": [
+          "Spectral Analysis"
+        ],
+        "description": "Visualize the power spectral densities (PSDs) using defined colormaps and colors for each dataset.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Visualization of the PSDs"
+      },
+      {
+        "cell_indices": [
+          63,
+          65,
+          67,
+          69
+        ],
+        "code": "",
+        "dependencies": [
+          "Spectral Analysis"
+        ],
+        "description": "Estimate scaling exponents for various datasets using the PSD.beta_est() method.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Estimation of the Scaling Exponents"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

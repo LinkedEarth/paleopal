@@ -1,0 +1,132 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "17648d5598196af1"
+  ],
+  "payload": {
+    "title": "Accessing CMIP6 output with `intake`",
+    "description": "This workflow demonstrates how to access and query CMIP6 data using the `intake` library, focusing on data hosted by AWS and Google Cloud. It guides users through browsing the CMIP6 catalog, selecting data of interest, and concatenating experiments in time, including calendar conversions.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          6
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data handling and analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          9,
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Imports"
+        ],
+        "description": "Open the CMIP6 catalog using `intake` to explore available datasets.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Access CMIP6 Catalog"
+      },
+      {
+        "cell_indices": [
+          15,
+          16,
+          17,
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Access CMIP6 Catalog"
+        ],
+        "description": "Filter the catalog to identify experiments and sources of interest.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Identify Potential Data of Interest"
+      },
+      {
+        "cell_indices": [
+          21,
+          22,
+          23,
+          25,
+          26,
+          27
+        ],
+        "code": "",
+        "dependencies": [
+          "Identify Potential Data of Interest"
+        ],
+        "description": "Create a query dictionary to filter the collection based on selected criteria.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Form Query Dictionary"
+      },
+      {
+        "cell_indices": [
+          29,
+          31,
+          32
+        ],
+        "code": "",
+        "dependencies": [
+          "Form Query Dictionary"
+        ],
+        "description": "Request datasets from the cloud and organize them by institution, source, and experiment.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Request Data from Cloud"
+      },
+      {
+        "cell_indices": [
+          34,
+          35,
+          38,
+          39,
+          41,
+          43,
+          44
+        ],
+        "code": "",
+        "dependencies": [
+          "Request Data from Cloud"
+        ],
+        "description": "Concatenate selected experiments into a single time series for analysis.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Create Single Time Series"
+      },
+      {
+        "cell_indices": [
+          48,
+          49,
+          51,
+          52,
+          53,
+          54,
+          55,
+          57,
+          58
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Single Time Series"
+        ],
+        "description": "Ensure experiments are on the same calendar before concatenation.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Convert Calendars"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

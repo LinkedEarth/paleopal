@@ -1,0 +1,88 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "764b748b9afd330d"
+  ],
+  "payload": {
+    "title": "[Fig. 9] Schematic for the Plume Distance",
+    "summary": "This Jupyter notebook aims to enhance the understanding of the plume distance metric by providing a schematic illustration that integrates multiple steps of the process. It involves loading and processing climate ensemble data from LMRonline and LMRv2.1 datasets, resampling data according to a power law, and calculating the plume distance. The notebook uses various visualization techniques to plot proximity probabilities and densities, ultimately combining these into a comprehensive schematic. The outputs include visual plots that depict intra- and inter-ensemble distances and the calculated plume distance.",
+    "goals": [
+      "Illustrate the plume distance metric with a schematic.",
+      "Integrate multiple steps of the process into a single visualization.",
+      "Enhance understanding of intra- vs inter-ensemble distances."
+    ],
+    "libraries": [
+      "numpy",
+      "pandas",
+      "pens",
+      "matplotlib.pyplot",
+      "seaborn",
+      "matplotlib.patches"
+    ],
+    "techniques": [
+      "Data loading",
+      "Data resampling",
+      "Distance calculation",
+      "Visualization"
+    ],
+    "keywords": [
+      "plume distance",
+      "ensemble data",
+      "climate modeling",
+      "visualization",
+      "intra-ensemble distance",
+      "inter-ensemble distance"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduces the need for a schematic to better illustrate the plume distance metric, as suggested by a reviewer.",
+        "heading": "[Fig. 9] Schematic for the Plume Distance"
+      },
+      {
+        "blurb": "Loads the LMRonline dataset and prepares it for analysis by setting labels and units.",
+        "heading": "Loading data"
+      },
+      {
+        "blurb": "Loads the LMRv2.1 dataset, slices it to a common time frame, and prepares it for comparison with LMRonline.",
+        "heading": "LMRv2.1"
+      },
+      {
+        "blurb": "Resamples the LMRv2.1 data using a power-law model and calculates inter-ensemble distances.",
+        "heading": "Resample according to a power law"
+      },
+      {
+        "blurb": "Calculates the plume distance between the resampled LMRv2.1 data and the LMRonline data.",
+        "heading": "Find the plume distance"
+      },
+      {
+        "blurb": "Creates a schematic plot to visualize intra- and inter-ensemble distances, including the plume distance.",
+        "heading": "Plot schematic"
+      },
+      {
+        "blurb": "Plots the proximity probability, showing the relationship between proximity threshold and probability.",
+        "heading": "Proximity Probability"
+      },
+      {
+        "blurb": "Plots proximity densities for different datasets, highlighting the plume distance with a dashed line.",
+        "heading": "Proximity Densities"
+      },
+      {
+        "blurb": "Combines various plots into a single comprehensive schematic to illustrate the plume distance metric.",
+        "heading": "Combine into one"
+      }
+    ],
+    "inputs": [
+      "LMRonline dataset",
+      "LMRv2.1 dataset"
+    ],
+    "outputs": [
+      "Plots of proximity probabilities",
+      "Plots of proximity densities",
+      "Schematic of plume distance"
+    ],
+    "source": "llm:openai"
+  }
+}

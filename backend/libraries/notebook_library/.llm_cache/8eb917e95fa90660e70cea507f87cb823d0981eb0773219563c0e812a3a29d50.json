@@ -1,0 +1,145 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "d9dfae1dc569ec95"
+  ],
+  "payload": {
+    "title": "Calibration of the Sr/Ca paleothermometer: a frequentist approach",
+    "description": "This notebook demonstrates the calibration of coral Sr/Ca measurements to sea surface temperature (SST) using a frequentist approach, specifically Ordinary Least Squares (OLS) and Weighted Least Squares (WLS) regression. The data used for calibration is sourced from DeLong et al. (2011) and involves coral samples from Dry Tortugas.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation, visualization, and statistical analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the Sr/Ca data from DeLong et al. (2011) for calibration.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Data"
+      },
+      {
+        "cell_indices": [
+          7,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform OLS regression for Siderastrea sidera using different coral cores and SST data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Ordinary Least Squares Regression for Siderastrea sidera"
+      },
+      {
+        "cell_indices": [
+          24,
+          26,
+          28,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform OLS regression for Montastraea faveolata using different SST data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Ordinary Least Squares Regression for Montastraea faveolata"
+      },
+      {
+        "cell_indices": [
+          32,
+          33
+        ],
+        "code": "",
+        "dependencies": [
+          "3",
+          "4"
+        ],
+        "description": "Summarize the OLS regression results in a tabular format using Great Tables.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Summarize OLS Results"
+      },
+      {
+        "cell_indices": [
+          35,
+          37,
+          39,
+          41,
+          43,
+          45,
+          47,
+          49
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform WLS regression for Siderastrea sidera using different coral cores and SST data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Weighted Least Squares Regression for Siderastrea sidera"
+      },
+      {
+        "cell_indices": [
+          51,
+          53,
+          55,
+          57
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform WLS regression for Montastraea faveolata using different SST data.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Weighted Least Squares Regression for Montastraea faveolata"
+      },
+      {
+        "cell_indices": [
+          59,
+          60,
+          62
+        ],
+        "code": "",
+        "dependencies": [
+          "6",
+          "7"
+        ],
+        "description": "Summarize the WLS regression results in a tabular format using Great Tables.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Summarize WLS Results"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

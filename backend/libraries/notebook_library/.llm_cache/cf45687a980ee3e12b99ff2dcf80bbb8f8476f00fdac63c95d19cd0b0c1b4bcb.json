@@ -1,0 +1,209 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "0c093fff02ab022f"
+  ],
+  "payload": {
+    "title": "Singular Spectrum Analysis with Pyleoclim",
+    "description": "This notebook demonstrates the application of Singular Spectrum Analysis (SSA) using the Pyleoclim library, focusing on short and noisy time series data analysis.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the NINO3 dataset.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Data Loading"
+      },
+      {
+        "cell_indices": [
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Data Loading"
+        ],
+        "description": "Standardize the NINO3 dataset and plot the standardized time series.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Standardize and Plot Data"
+      },
+      {
+        "cell_indices": [
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "Standardize and Plot Data"
+        ],
+        "description": "Apply Singular Spectrum Analysis (SSA) to the standardized dataset with a window length of 60.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Perform SSA"
+      },
+      {
+        "cell_indices": [
+          10,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "Perform SSA"
+        ],
+        "description": "Generate a scree plot to visualize the variance explained by each SSA mode and calculate the cumulative variance for modes beyond the 15th.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Scree Plot and Variance Calculation"
+      },
+      {
+        "cell_indices": [
+          15,
+          17,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Perform SSA"
+        ],
+        "description": "Apply Monte Carlo SSA with 1000 iterations and plot the scree plot.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Monte-Carlo SSA"
+      },
+      {
+        "cell_indices": [
+          22,
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "Monte-Carlo SSA"
+        ],
+        "description": "Perform spectral analysis using MTM and WWZ methods and plot the results.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "SSA Pre-filtering"
+      },
+      {
+        "cell_indices": [
+          26,
+          28,
+          30,
+          32,
+          33,
+          35,
+          37
+        ],
+        "code": "",
+        "dependencies": [
+          "SSA Pre-filtering"
+        ],
+        "description": "Plot selected SSA modes to analyze their characteristics.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Mode Plotting"
+      },
+      {
+        "cell_indices": [
+          39,
+          40,
+          42,
+          43,
+          45,
+          47,
+          49,
+          51,
+          52
+        ],
+        "code": "",
+        "dependencies": [
+          "Mode Plotting"
+        ],
+        "description": "Introduce missing values into the dataset, perform SSA, and plot the results.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "SSA with Missing Values"
+      },
+      {
+        "cell_indices": [
+          55
+        ],
+        "code": "",
+        "dependencies": [
+          "SSA with Missing Values"
+        ],
+        "description": "Use different truncation methods (Kaiser, MC SSA, Variance, Knee) for SSA approximation.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "SSA Approximation"
+      },
+      {
+        "cell_indices": [
+          58,
+          60
+        ],
+        "code": "",
+        "dependencies": [
+          "SSA Approximation"
+        ],
+        "description": "Apply the Kaiser method for SSA truncation and plot the reconstructed series.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Kaiser Method"
+      },
+      {
+        "cell_indices": [
+          63,
+          65
+        ],
+        "code": "",
+        "dependencies": [
+          "Kaiser Method"
+        ],
+        "description": "Apply variance thresholding for SSA truncation and plot the reconstructed series.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Variance Thresholding Method"
+      },
+      {
+        "cell_indices": [
+          68,
+          70,
+          73,
+          75
+        ],
+        "code": "",
+        "dependencies": [
+          "Variance Thresholding Method"
+        ],
+        "description": "Apply the knee finding method for SSA truncation and plot the reconstructed series.",
+        "step_number": 12,
+        "step_type": "computation",
+        "title": "Knee Finding Method"
+      },
+      {
+        "cell_indices": [
+          77,
+          78
+        ],
+        "code": "",
+        "dependencies": [
+          "Knee Finding Method"
+        ],
+        "description": "Summarize the capabilities of SSA and its applications.",
+        "step_number": 13,
+        "step_type": "computation",
+        "title": "Summary"
+      }
+    ],
+    "num_steps": 13,
+    "source": "llm:openai"
+  }
+}

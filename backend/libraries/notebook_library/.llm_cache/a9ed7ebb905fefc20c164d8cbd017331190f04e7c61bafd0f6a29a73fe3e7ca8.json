@@ -1,0 +1,56 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "11c7dd038005f3b2"
+  ],
+  "payload": {
+    "title": "Synthetic Data",
+    "summary": "This Jupyter notebook is designed to generate synthetic data for comparison and sensitivity tests in KDE plots. It relies on pre-existing pickle files containing preprocessed data, which must be created by running other notebooks in the 'Loading Data' folder. The notebook substitutes real data with AR(1) noise and introduces synthetic events of specified magnitudes. The process involves sorting data by latitude, fitting an AR(1) model, and generating surrogate values.",
+    "goals": [
+      "Create synthetic data for comparison purposes.",
+      "Conduct sensitivity tests in KDE plots.",
+      "Substitute real data with AR(1) noise and synthetic events."
+    ],
+    "libraries": [
+      "pickle",
+      "os",
+      "pyleoclim",
+      "numpy",
+      "matplotlib",
+      "seaborn",
+      "matplotlib.transforms",
+      "matplotlib.ticker",
+      "pylipd"
+    ],
+    "techniques": [
+      "AR(1) noise generation",
+      "Data sorting by latitude",
+      "Synthetic event introduction"
+    ],
+    "keywords": [
+      "synthetic data",
+      "AR(1) noise",
+      "KDE plots",
+      "sensitivity tests",
+      "paleoclimate"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook's primary function is to generate synthetic data for comparison and sensitivity testing in KDE plots. It requires pre-existing pickle files and involves sorting data by latitude, fitting an AR(1) model, and generating surrogate values with synthetic events.",
+        "heading": "Synthetic Data"
+      }
+    ],
+    "inputs": [
+      "Preprocessed series dictionary (pickle file)",
+      "Preprocessed ensemble dictionary (pickle file)"
+    ],
+    "outputs": [
+      "Synthetic data with AR(1) noise",
+      "Sorted data by latitude"
+    ],
+    "source": "llm:openai"
+  }
+}

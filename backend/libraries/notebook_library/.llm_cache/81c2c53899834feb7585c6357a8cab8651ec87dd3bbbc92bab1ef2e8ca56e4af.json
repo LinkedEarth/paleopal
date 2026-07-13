@@ -1,0 +1,137 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "b1701655e4b165f6"
+  ],
+  "payload": {
+    "title": "Investigating interhemispheric precipitation changes over the past millennium",
+    "description": "This Jupyter notebook explores interhemispheric precipitation changes over the past millennium by comparing paleoclimate model outputs with proxy observations. It employs Empirical Orthogonal Function (EOF) analysis to identify large-scale spatio-temporal patterns. The notebook utilizes data from the CESM Last Millennium Ensemble and proxy datasets from the LinkedEarth database. The analysis includes PCA on both model and proxy data, followed by a model-data comparison to visualize the results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data handling, analysis, and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Imports"
+      },
+      {
+        "cell_indices": [
+          10,
+          12,
+          14,
+          16,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27,
+          29,
+          31,
+          33,
+          35,
+          37,
+          39,
+          41,
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Query the LinkedEarth Graph Database for relevant datasets using SPARQL.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Query to Remote Database"
+      },
+      {
+        "cell_indices": [
+          45,
+          46,
+          48,
+          50,
+          52,
+          54
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Standardize the proxy data and perform PCA analysis to generate scree and mode plots.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Run PCA Analysis on Proxy Data"
+      },
+      {
+        "cell_indices": [
+          58,
+          60,
+          61,
+          63
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Retrieve and select the CESM Last Millennium Ensemble data for the tropical Central and South America region.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Get CESM Last Millennium Ensemble Data"
+      },
+      {
+        "cell_indices": [
+          65
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Calculate precipitation \u03b418O from the CESM data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Calculate Precipitation \u03b418O"
+      },
+      {
+        "cell_indices": [
+          67,
+          69,
+          71,
+          73,
+          75,
+          76
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Standardize the model data, perform EOF analysis, and plot the leading EOF.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Run PCA Analysis on Model Data"
+      },
+      {
+        "cell_indices": [
+          78
+        ],
+        "code": "",
+        "dependencies": [
+          "3",
+          "6"
+        ],
+        "description": "Compare the first EOF for the model and data, and plot the first PC.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Model-Data Comparison"
+      }
+    ],
+    "num_steps": 7,
+    "source": "llm:openai"
+  }
+}

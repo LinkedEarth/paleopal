@@ -1,0 +1,94 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "98b68263c6da1d24"
+  ],
+  "payload": {
+    "title": "Oceanographic Data Analysis in the Atlantic Ocean",
+    "description": "This workflow analyzes oceanographic data to study water mass distributions and mixing in the Atlantic Ocean. It involves data visualization, statistical analysis, and the application of mixing models to understand water mass extent and connectedness.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          0,
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and set up plotting parameters.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Setup and Imports"
+        ],
+        "description": "Produce section views of oceanographic tracer data along a specified line of longitude.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Tracer Data Visualization"
+      },
+      {
+        "cell_indices": [
+          12,
+          13,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Tracer Data Visualization"
+        ],
+        "description": "Analyze the statistical differences between North Atlantic Deep Water (NADW) and Antarctic Bottom Water (AABW) using tracer data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Statistical Analysis of Water Masses"
+      },
+      {
+        "cell_indices": [
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "Tracer Data Visualization"
+        ],
+        "description": "Apply a two end-member mixing model to the Atlantic Ocean to understand the extent of Southern Ocean source water.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Two End-Member Mixing Model"
+      },
+      {
+        "cell_indices": [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "code": "",
+        "dependencies": [
+          "Two End-Member Mixing Model"
+        ],
+        "description": "Assess the connectedness in the Atlantic Ocean by analyzing tracer data over short trajectories at specified depths.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Connectedness Assessment"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

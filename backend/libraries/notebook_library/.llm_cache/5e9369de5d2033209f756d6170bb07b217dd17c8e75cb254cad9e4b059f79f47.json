@@ -1,0 +1,56 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "a8adf7953764243e"
+  ],
+  "payload": {
+    "title": "Figure 3",
+    "description": "This workflow illustrates the emergent constraint for temperature variability metrics within a paleomodel ensemble. It involves importing data, applying statistical methods to compute autocorrelation, and visualizing the results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary scientific computing libraries and configure the style settings for plots.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Set Plot Style"
+      },
+      {
+        "cell_indices": [
+          2,
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Set Plot Style"
+        ],
+        "description": "Define a function to compute the autocorrelation of temperature variability metrics using the statsmodels library.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Compute Autocorrelation"
+      },
+      {
+        "cell_indices": [
+          4,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Compute Autocorrelation"
+        ],
+        "description": "Select the 1-lag autocorrelation value and take its absolute value for further analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Select and Process Autocorrelation Values"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

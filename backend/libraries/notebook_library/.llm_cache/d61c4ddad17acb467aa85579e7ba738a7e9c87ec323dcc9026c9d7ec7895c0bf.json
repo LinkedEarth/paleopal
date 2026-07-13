@@ -1,0 +1,123 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "1d3a4a07101c9bdf"
+  ],
+  "payload": {
+    "title": "Proxy Database Forensics",
+    "description": "This notebook aims to identify the differences and similarities between two proxy databases using the `cfr.ProxyDatabase` class. By comparing these databases, the notebook seeks to understand how variations in proxy data inputs can affect the quality of paleoclimate reconstructions.",
+    "phase": "validation",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for proxy database analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          3,
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries"
+        ],
+        "description": "Load the two proxy databases as `cfr.ProxyDatabase` objects and refresh them to ensure data integrity.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Proxy Databases"
+      },
+      {
+        "cell_indices": [
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Proxy Databases"
+        ],
+        "description": "Plot the two proxy databases to visualize their data distribution.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Plot Proxy Databases"
+      },
+      {
+        "cell_indices": [
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Proxy Databases"
+        ],
+        "description": "Compare the PID lists of the two databases to identify overlapping and missing records.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Compare Record Identifiers"
+      },
+      {
+        "cell_indices": [
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Compare Record Identifiers"
+        ],
+        "description": "Convert the differences in record identifiers into `ProxyDatabase` objects for further analysis.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Convert Differences to ProxyDatabase Objects"
+      },
+      {
+        "cell_indices": [
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "Convert Differences to ProxyDatabase Objects"
+        ],
+        "description": "Plot the records that are missing in each database to visually identify discrepancies.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Plot Missing Records"
+      },
+      {
+        "cell_indices": [
+          15,
+          16
+        ],
+        "code": "",
+        "dependencies": [
+          "Convert Differences to ProxyDatabase Objects"
+        ],
+        "description": "Plot overlapping records to check if individual records are the same across both databases.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Plot Overlapping Records"
+      },
+      {
+        "cell_indices": [
+          18,
+          19
+        ],
+        "code": "",
+        "dependencies": [
+          "Load Proxy Databases"
+        ],
+        "description": "Plot the start times for each proxy database to identify differences in record initiation times.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Plot Start Times"
+      }
+    ],
+    "num_steps": 8,
+    "source": "llm:openai"
+  }
+}

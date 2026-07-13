@@ -1,0 +1,103 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "97f64fe20591b84e"
+  ],
+  "payload": {
+    "title": "Working with Age Ensembles",
+    "description": "This notebook demonstrates how to handle age ensembles in paleoclimate studies, focusing on quantifying chronological uncertainties. It uses the PyLiPD package to load data from LiPD files and illustrates how to create EnsembleSeries objects to represent dating uncertainty. The notebook also shows how to export ensemble information to Numpy arrays and Pandas DataFrames, and provides examples using data from LiPD and NOAA. The goal is to leverage age ensembles for more robust analysis of paleoclimate records.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Load necessary libraries and extensions for the notebook.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Setup and Imports"
+      },
+      {
+        "cell_indices": [
+          4,
+          6,
+          8,
+          10,
+          11,
+          13,
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load and process data from a LiPD file using the PyLiPD package. Extract ensemble tables and paleo data into dataframes.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load Data from LiPD"
+      },
+      {
+        "cell_indices": [
+          17
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Export ensemble information to Numpy arrays and Pandas DataFrames for further analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Export Ensemble Information"
+      },
+      {
+        "cell_indices": [
+          20,
+          22,
+          24,
+          25,
+          27,
+          29,
+          31,
+          32,
+          34,
+          36,
+          38
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load and process ensemble tables from NOAA data sources. Handle missing values and prepare data for analysis.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Load Data from NOAA"
+      },
+      {
+        "cell_indices": [
+          40,
+          41,
+          43,
+          44,
+          45,
+          47,
+          49,
+          50
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Create an EnsembleGeoSeries object to represent uncertainty in paleo data using variations in the value axis.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Create Ensemble Series"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

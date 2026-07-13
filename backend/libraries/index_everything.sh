@@ -4,8 +4,10 @@ python sparql_library/index_queries.py --queries-dir sparql_library/queries
 # Index Ontology Library
 python ontology_library/index_ontology.py --data-file ontology_library/ontology/indexing_data.json
 
-# Index Notebooks
-python notebook_library/index_notebooks.py --keep-invalid --no-synth-imports notebook_library/my_notebooks
+# Index Notebooks (hierarchical: summaries / snippets / workflows)
+# Add --llm openai (or grok) to enable LLM summaries + workflow extraction
+# Add --force-recreate to rebuild collections from scratch
+python notebook_library/index_notebooks.py --keep-invalid --force-recreate notebook_library/my_notebooks
 
 # Index ReadtheDocs documentation for Pyleoclim and PyliPD
 python readthedocs_library/index_docs.py readthedocs_library/my_docs_simple

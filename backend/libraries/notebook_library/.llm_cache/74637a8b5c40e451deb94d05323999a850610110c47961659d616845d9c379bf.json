@@ -1,0 +1,109 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4416f3955554d49a"
+  ],
+  "payload": {
+    "title": "Visualizing the Climate Response to Explosive Volcanism",
+    "summary": "This Jupyter notebook demonstrates how to visualize the climate response to explosive volcanism using various plotting techniques. It focuses on creating visualizations such as Hovmuller diagrams and timeseries plots to analyze stratospheric aerosol optical depth (SAOD) and its impact on climate variables like surface temperature and precipitation. The notebook also guides users in building an interactive dashboard with widgets to explore data from volcanic events over the Common Era.",
+    "goals": [
+      "Plot Hovmuller diagram of stratospheric aerosol optical depth (SAOD).",
+      "Plot timeseries of global average SAOD.",
+      "Compose a dashboard aggregating snapshots of climate forcing and response.",
+      "Make the dashboard navigable with widgets."
+    ],
+    "libraries": [
+      "xarray",
+      "numpy",
+      "cftime",
+      "os",
+      "matplotlib",
+      "cartopy",
+      "ipywidgets"
+    ],
+    "techniques": [
+      "Data visualization",
+      "Interactive dashboard creation",
+      "Time-series analysis",
+      "Spatial data analysis"
+    ],
+    "keywords": [
+      "climate response",
+      "explosive volcanism",
+      "stratospheric aerosol optical depth",
+      "data visualization",
+      "interactive dashboard"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook's purpose of visualizing climate responses to volcanic events.",
+        "heading": "Visualizing the Climate Response to Explosive Volcanism"
+      },
+      {
+        "blurb": "Discusses the need for geoscientists to analyze climate behavior in response to volcanism and outlines the notebook's objectives.",
+        "heading": "Overview"
+      },
+      {
+        "blurb": "Lists necessary and helpful concepts for understanding the notebook, such as Cartopy and NetCDF.",
+        "heading": "Prerequisites"
+      },
+      {
+        "blurb": "Imports essential libraries for data manipulation, visualization, and interactive widgets.",
+        "heading": "Imports"
+      },
+      {
+        "blurb": "Describes the use of eVolv2k EVA AOD data to investigate volcanic aerosol properties.",
+        "heading": "Optical properties of volcanic aerosols"
+      },
+      {
+        "blurb": "Explains the creation of a Hovm\u00fcller diagram to visualize SAOD variations over time and latitude.",
+        "heading": "Hovm\u00fcller diagram:`pcolor` plot"
+      },
+      {
+        "blurb": "Details the process of plotting a timeseries of global average SAOD to summarize volcanic impacts.",
+        "heading": "Global average SAOD550 variation timeseries"
+      },
+      {
+        "blurb": "Describes the calculation of weighted means for latitude-wise and global yearly averages.",
+        "heading": "Weighted Mean"
+      },
+      {
+        "blurb": "Introduces the LMR dataset and its use in analyzing climate variables affected by volcanism.",
+        "heading": "The Last Millennium Reanalysis Project (LMR)"
+      },
+      {
+        "blurb": "Outlines the goal of creating a dashboard to visualize climate responses to volcanic events.",
+        "heading": "Dashboard"
+      },
+      {
+        "blurb": "Provides a list of significant volcanic events for investigation based on specific criteria.",
+        "heading": "Non-exhaustive list of volcanic events"
+      },
+      {
+        "blurb": "Explains the precomputation of climate anomalies to focus on responses to volcanic events.",
+        "heading": "Precompute anomalies"
+      },
+      {
+        "blurb": "Describes the process of constructing the dashboard with visualizations for climate analysis.",
+        "heading": "Building the dashboard"
+      },
+      {
+        "blurb": "Details the addition of interactive widgets to enhance dashboard navigation and data exploration.",
+        "heading": "Adding widget control to the dashboard"
+      }
+    ],
+    "inputs": [
+      "eVolv2k EVA AOD data",
+      "Last Millennium Reanalysis Project (LMR) data"
+    ],
+    "outputs": [
+      "Hovmuller diagrams",
+      "Global average SAOD timeseries",
+      "Interactive dashboard with climate visualizations"
+    ],
+    "source": "llm:openai"
+  }
+}

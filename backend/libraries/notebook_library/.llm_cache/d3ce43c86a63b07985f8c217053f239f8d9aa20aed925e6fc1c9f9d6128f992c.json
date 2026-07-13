@@ -1,0 +1,83 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "2e0c099c5d354357"
+  ],
+  "payload": {
+    "title": "Orbital-scale variability over the last 1.5 Ma",
+    "summary": "This Jupyter notebook explores the orbital-scale variability over the last 1.5 million years using high-resolution stable oxygen isotope records from IODP Site U1385. The notebook employs the Pyleoclim library for spectral, wavelet, and coherence analyses, and uses the pangaeapy package to access datasets from PANGAEA. It compares planktonic and benthic records, performs coherence analysis, and examines the relationship between millennial-scale climate variability and orbital forcing. The notebook also utilizes the climlab library to compute insolation curves for further analysis.",
+    "goals": [
+      "Access datasets stored on PANGAEA using the pangaeapy package.",
+      "Apply and interpret spectral analysis using Pyleoclim.",
+      "Apply and interpret wavelet analysis using Pyleoclim.",
+      "Apply and interpret Wavelet Transform Coherency analysis."
+    ],
+    "libraries": [
+      "pyleoclim",
+      "pangaeapy",
+      "climlab",
+      "numpy",
+      "pandas",
+      "matplotlib",
+      "scipy"
+    ],
+    "techniques": [
+      "Spectral analysis",
+      "Wavelet analysis",
+      "Wavelet Transform Coherency",
+      "High-pass filtering",
+      "Bandpass filtering",
+      "Hilbert transform"
+    ],
+    "keywords": [
+      "Orbital-scale variability",
+      "Pleistocene",
+      "Stable oxygen isotopes",
+      "Spectral analysis",
+      "Wavelet analysis",
+      "Coherence analysis",
+      "Insolation"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook introduces the study of orbital-scale variability using stable oxygen isotope records from the Shackleton Site, focusing on the Middle Pleistocene Transition.",
+        "heading": "Orbital-scale variability over the last 1.5 Ma"
+      },
+      {
+        "blurb": "This section loads and explores the benthic stable oxygen isotope record from PANGAEA, creating a GeoSeries object for further analysis and visualization.",
+        "heading": "Exploratory analysis"
+      },
+      {
+        "blurb": "The planktonic record is accessed and visualized alongside the benthic record, using a MultipleGeoSeries object to facilitate comparison.",
+        "heading": "Planktonic record"
+      },
+      {
+        "blurb": "Coherence analysis is performed between planktonic and benthic records using the weighted wavelet Z transform, with significance testing to assess coherence.",
+        "heading": "Coherence Analysis"
+      },
+      {
+        "blurb": "Insolation curves are computed using the climlab library, and compared with the planktonic stable oxygen isotope record to explore potential relationships.",
+        "heading": "Comparison to insolation"
+      },
+      {
+        "blurb": "The section investigates the modulation of millennial-scale climate variability by orbital forcing, using high-pass and bandpass filtering, and Hilbert transform for amplitude envelope analysis.",
+        "heading": "Millennial-Orbital Coupling"
+      }
+    ],
+    "inputs": [
+      "Stable oxygen isotope records from IODP Site U1385",
+      "Orbital parameters for insolation computation"
+    ],
+    "outputs": [
+      "Spectral analysis plots",
+      "Wavelet coherence plots",
+      "Comparison plots of planktonic and benthic records",
+      "Insolation curves",
+      "Millennial-scale climate variability analysis"
+    ],
+    "source": "llm:openai"
+  }
+}

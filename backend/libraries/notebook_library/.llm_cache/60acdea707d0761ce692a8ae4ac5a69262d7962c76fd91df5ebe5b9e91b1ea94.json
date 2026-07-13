@@ -1,0 +1,61 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "99d81283e6d35ac3"
+  ],
+  "payload": {
+    "title": "Visualizing Cluster Centers with Geographical Features",
+    "description": "This notebook visualizes cluster centers on geographical maps by connecting to a PostgreSQL database, preprocessing data, and applying clustering algorithms.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          0
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data manipulation and visualization, including matplotlib, numpy, and mpl_toolkits. Set up configurations for plot appearance.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Setup"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Define a function to connect to a PostgreSQL database using SQLAlchemy, which returns a connection and a metadata object.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Connect to PostgreSQL Database"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Preprocess data using scaling techniques and apply clustering algorithms to identify patterns in the data.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Data Preprocessing and Clustering"
+      }
+    ],
+    "num_steps": 3,
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "87b8cf7e71ec7865"
+  ],
+  "payload": {
+    "title": "Correlating two GeoSeries",
+    "description": "This workflow computes the correlation between two GeoSeries using paleoclimate data. It involves fetching data using SPARQL queries, processing it, and performing correlation analysis.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data fetching, processing, and analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Set up the SPARQL endpoint URL and define the necessary namespaces for querying the paleoclimate data.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Define SPARQL Endpoint and Namespaces"
+      },
+      {
+        "cell_indices": [
+          3
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Create a SPARQL query to fetch the required paleoclimate datasets from the specified endpoint.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Construct SPARQL Query"
+      },
+      {
+        "cell_indices": [
+          4
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Execute the SPARQL query to retrieve the paleoclimate data.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Fetch Data"
+      },
+      {
+        "cell_indices": [
+          5,
+          6
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Process the fetched data and convert it into a format suitable for correlation analysis.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Process and Convert Data"
+      },
+      {
+        "cell_indices": [
+          7,
+          8
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Compute the correlation between the two GeoSeries using the processed data.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Perform Correlation Analysis"
+      }
+    ],
+    "num_steps": 6,
+    "source": "llm:openai"
+  }
+}

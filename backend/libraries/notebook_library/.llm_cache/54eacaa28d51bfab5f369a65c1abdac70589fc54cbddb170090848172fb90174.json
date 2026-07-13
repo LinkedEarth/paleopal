@@ -1,0 +1,225 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "6e5fa0d27a58db84"
+  ],
+  "payload": {
+    "title": "Spectral Analysis with Pyleoclim",
+    "description": "This Jupyter notebook demonstrates the use of Pyleoclim for spectral analysis of paleoclimate data. It covers various spectral methods such as periodogram, Welch, MTM, Lomb-Scargle, and WWZ, and discusses the impact of pre-processing techniques like detrending and regridding on spectral analysis. The notebook uses the LR04 dataset, a Pliocene-Pleistocene stack of benthic \u03b418O records, to illustrate these methods. Outputs include plots of spectral density and significance tests to determine the significance of spectral peaks.",
+    "phase": "tutorial",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the LR04 dataset for analysis.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load Dataset"
+      },
+      {
+        "cell_indices": [
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Illustrate various spectral methods available in Pyleoclim and their application to the dataset.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Spectral Methods Overview"
+      },
+      {
+        "cell_indices": [
+          12
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform spectral analysis using the periodogram method with different window settings.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Periodogram Analysis"
+      },
+      {
+        "cell_indices": [
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Apply Welch's method for spectral analysis with varying segment and overlap settings.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Welch Method Analysis"
+      },
+      {
+        "cell_indices": [
+          18
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Conduct spectral analysis using the MTM method with different time-bandwidth products.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "MTM Analysis"
+      },
+      {
+        "cell_indices": [
+          22
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Explore the impact of different frequency vectors on spectral analysis using the Lomb-Scargle method.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Frequency Vector Analysis"
+      },
+      {
+        "cell_indices": [
+          25
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Investigate the effect of segmentation on spectral analysis using the Lomb-Scargle method.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Segmentation Effect"
+      },
+      {
+        "cell_indices": [
+          28
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Examine the impact of different window functions on spectral analysis.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Window Effect"
+      },
+      {
+        "cell_indices": [
+          32,
+          34,
+          36
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Apply the WWZ method for spectral analysis using two different approaches.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "WWZ Method Analysis"
+      },
+      {
+        "cell_indices": [
+          39,
+          41,
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "9"
+        ],
+        "description": "Determine the significance of spectral peaks using significance tests.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Significance Testing"
+      },
+      {
+        "cell_indices": [
+          46,
+          48,
+          50
+        ],
+        "code": "",
+        "dependencies": [
+          "10"
+        ],
+        "description": "Assess the scaling behavior of the dataset using spectral analysis.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Scaling Behavior Assessment"
+      },
+      {
+        "cell_indices": [
+          52,
+          54
+        ],
+        "code": "",
+        "dependencies": [
+          "11"
+        ],
+        "description": "Analyze the effect of aliasing on spectral analysis and apply anti-aliasing techniques.",
+        "step_number": 12,
+        "step_type": "computation",
+        "title": "Aliasing Effect"
+      },
+      {
+        "cell_indices": [
+          57,
+          59,
+          61
+        ],
+        "code": "",
+        "dependencies": [
+          "11"
+        ],
+        "description": "Evaluate the impact of detrending on spectral analysis results.",
+        "step_number": 13,
+        "step_type": "computation",
+        "title": "Detrending Effect"
+      },
+      {
+        "cell_indices": [
+          64,
+          66,
+          67
+        ],
+        "code": "",
+        "dependencies": [
+          "11"
+        ],
+        "description": "Investigate the effect of different regridding methods on spectral analysis.",
+        "step_number": 14,
+        "step_type": "computation",
+        "title": "Regridding Effect"
+      },
+      {
+        "cell_indices": [
+          69,
+          70
+        ],
+        "code": "",
+        "dependencies": [
+          "14"
+        ],
+        "description": "Summarize the findings and conclusions from the spectral analysis.",
+        "step_number": 15,
+        "step_type": "computation",
+        "title": "Summary and Conclusion"
+      }
+    ],
+    "num_steps": 15,
+    "source": "llm:openai"
+  }
+}

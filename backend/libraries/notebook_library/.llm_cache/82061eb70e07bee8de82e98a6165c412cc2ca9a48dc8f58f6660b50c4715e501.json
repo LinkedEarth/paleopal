@@ -1,0 +1,84 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "18f93ef291416d3b"
+  ],
+  "payload": {
+    "title": "Using Surrogate Series with Pyleoclim",
+    "summary": "This Jupyter notebook provides an overview of the SurrogateSeries class in the Pyleoclim library, focusing on generating and visualizing surrogate data to assess the significance of various analyses. It covers both parametric and non-parametric surrogate generation methods, including autoregressive models and phase scrambling. The notebook demonstrates how to fit surrogates to specific datasets like the Southern Oscillation Index and LR04, and discusses their use in significance testing. The notebook concludes with a discussion on the application of surrogates in non-parametric tests.",
+    "goals": [
+      "Learn general concepts about surrogates",
+      "Learn how to generate and visualize surrogates with Pyleoclim",
+      "Learn how to use surrogates to assess the significance of various analyses"
+    ],
+    "libraries": [
+      "pyleoclim",
+      "pandas",
+      "matplotlib",
+      "numpy",
+      "scipy.stats",
+      "seaborn"
+    ],
+    "techniques": [
+      "Surrogate data generation",
+      "Autoregressive modeling",
+      "Phase scrambling",
+      "Significance testing",
+      "Spectral analysis"
+    ],
+    "keywords": [
+      "Surrogates",
+      "Autoregressive model",
+      "Long-memory models",
+      "Phase scrambling"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook begins with an introduction to the Pyleoclim library and its capabilities for generating surrogate series.",
+        "heading": "Notebook start"
+      },
+      {
+        "blurb": "This section introduces the SurrogateSeries class and the general concept of surrogates, explaining their importance in significance testing.",
+        "heading": "Using Surrogate Series with Pyleoclim"
+      },
+      {
+        "blurb": "Explains the generation of parametric surrogates using Gaussian white noise and autoregressive models, demonstrating how to sample from models and visualize results.",
+        "heading": "Parametric Surrogates"
+      },
+      {
+        "blurb": "Demonstrates how to fit surrogate models to specific datasets like the Southern Oscillation Index, using spectral analysis to determine appropriate null models.",
+        "heading": "Fitting surrogates to a target: the Southern Oscillation Index"
+      },
+      {
+        "blurb": "Discusses the application of surrogate series in evaluating the significance of statistical analyses, comparing different surrogate methods.",
+        "heading": "Uses for significance testing"
+      },
+      {
+        "blurb": "Introduces non-parametric surrogate generation methods, highlighting their advantages when no clear parametric model is available.",
+        "heading": "Non-parametric surrogates"
+      },
+      {
+        "blurb": "Covers the generation of surrogates that match the temporal pattern of unevenly spaced observations, using AR(1) models as an example.",
+        "heading": "Unevenly-spaced surrogates"
+      },
+      {
+        "blurb": "Summarizes the key points about the use of surrogates in non-parametric tests and the capabilities of the Pyleoclim library in generating and analyzing surrogate data.",
+        "heading": "Takeways"
+      }
+    ],
+    "inputs": [
+      "Southern Oscillation Index dataset",
+      "LR04 dataset"
+    ],
+    "outputs": [
+      "Synthetic surrogate series",
+      "Plots of surrogate series",
+      "Spectral analysis plots",
+      "Significance test results"
+    ],
+    "source": "llm:openai"
+  }
+}

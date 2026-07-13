@@ -1,0 +1,73 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "f288ecf2c9528cec"
+  ],
+  "payload": {
+    "title": "Solar-climate connections over the Common Era",
+    "description": "This notebook investigates the hypothesis that variations in solar irradiance contribute to the variability in global mean surface temperature (GMST) over the Common Era. Using the Pyleoclim library, the notebook performs wavelet transform coherency analysis between solar irradiance and GMST reconstructions. It also quantifies phase relationships using phase statistics.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries for data analysis and visualization.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Load Packages"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5,
+          7,
+          8,
+          9
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Load the solar irradiance and GMST reconstruction datasets. Display the first few rows of each dataset to understand their structure.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Load and Explore Data"
+      },
+      {
+        "cell_indices": [
+          11,
+          13
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Perform wavelet transform coherency analysis using Pyleoclim to evaluate the coherence between solar irradiance and GMST reconstructions.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Wavelet Coherency Analysis"
+      },
+      {
+        "cell_indices": [
+          15
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Calculate phase statistics to quantify the phase relationships between the datasets, identifying any significant phase coherence.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Phase Statistics Calculation"
+      }
+    ],
+    "num_steps": 4,
+    "source": "llm:openai"
+  }
+}

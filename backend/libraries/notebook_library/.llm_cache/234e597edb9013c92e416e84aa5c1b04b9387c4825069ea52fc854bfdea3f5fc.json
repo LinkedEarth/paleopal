@@ -1,0 +1,217 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "16c4e8423cbfc2ea"
+  ],
+  "payload": {
+    "title": "Creating LiPD files from a tabular template",
+    "description": "This workflow demonstrates how to programmatically create LiPD files from an Excel template using the PyLiPD library. It involves reading metadata, paleo data, and chronology data from specified sheets in the Excel file, organizing this information into a structured LiPD dataset, handling new standard terms, adding ensemble tables, and saving the dataset to a LiPD file.",
+    "phase": "data_assembly",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary classes from the PyLiPD library to handle various components of a LiPD dataset.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import necessary classes"
+      },
+      {
+        "cell_indices": [
+          3,
+          4,
+          5,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "1"
+        ],
+        "description": "Open the Excel template file and read metadata from the 'Metadata' sheet.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Open template file and read metadata"
+      },
+      {
+        "cell_indices": [
+          9,
+          11,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "2"
+        ],
+        "description": "Extract and set root metadata such as dataset name, archive type, and original data URL.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Process root metadata"
+      },
+      {
+        "cell_indices": [
+          16,
+          18,
+          21,
+          23,
+          24
+        ],
+        "code": "",
+        "dependencies": [
+          "3"
+        ],
+        "description": "Manage new standard terms and handle potential ValueErrors when setting archive types.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Handle new standard terms"
+      },
+      {
+        "cell_indices": [
+          27,
+          29,
+          31,
+          33,
+          35
+        ],
+        "code": "",
+        "dependencies": [
+          "4"
+        ],
+        "description": "Create a Publication object and process publication metadata.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Process publication metadata"
+      },
+      {
+        "cell_indices": [
+          37,
+          38,
+          39,
+          41
+        ],
+        "code": "",
+        "dependencies": [
+          "5"
+        ],
+        "description": "Create a Location object and add geographical information to the dataset.",
+        "step_number": 6,
+        "step_type": "computation",
+        "title": "Process location metadata"
+      },
+      {
+        "cell_indices": [
+          43
+        ],
+        "code": "",
+        "dependencies": [
+          "6"
+        ],
+        "description": "Extract and process funding metadata.",
+        "step_number": 7,
+        "step_type": "computation",
+        "title": "Process funding metadata"
+      },
+      {
+        "cell_indices": [
+          45,
+          47,
+          49,
+          51,
+          53,
+          54,
+          56,
+          58,
+          60,
+          62,
+          64,
+          66,
+          68,
+          70
+        ],
+        "code": "",
+        "dependencies": [
+          "7"
+        ],
+        "description": "Create a PaleoData object and process paleo data from the 'paleo1measurementTable1' sheet.",
+        "step_number": 8,
+        "step_type": "computation",
+        "title": "Process PaleoData"
+      },
+      {
+        "cell_indices": [
+          72,
+          74,
+          76,
+          78,
+          79,
+          81,
+          83,
+          85,
+          87
+        ],
+        "code": "",
+        "dependencies": [
+          "8"
+        ],
+        "description": "Create a ChronData object and process chronology data from the 'chron1measurementTable1' sheet.",
+        "step_number": 9,
+        "step_type": "computation",
+        "title": "Process ChronData"
+      },
+      {
+        "cell_indices": [
+          89,
+          91,
+          93,
+          95,
+          97,
+          98,
+          100,
+          102
+        ],
+        "code": "",
+        "dependencies": [
+          "9"
+        ],
+        "description": "Add ensemble table data from 'Oman.Tian.2023.chrondf.csv' to the dataset.",
+        "step_number": 10,
+        "step_type": "computation",
+        "title": "Add ensemble table"
+      },
+      {
+        "cell_indices": [
+          105
+        ],
+        "code": "",
+        "dependencies": [
+          "10"
+        ],
+        "description": "Write the dataset to a LiPD file.",
+        "step_number": 11,
+        "step_type": "computation",
+        "title": "Write LiPD file"
+      },
+      {
+        "cell_indices": [
+          107,
+          109,
+          110
+        ],
+        "code": "",
+        "dependencies": [
+          "11"
+        ],
+        "description": "Open the created LiPD file and verify its contents.",
+        "step_number": 12,
+        "step_type": "computation",
+        "title": "Open and verify LiPD file"
+      }
+    ],
+    "num_steps": 12,
+    "source": "llm:openai"
+  }
+}

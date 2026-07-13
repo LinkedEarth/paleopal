@@ -1,0 +1,92 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "96a406c7c7a0fb34"
+  ],
+  "payload": {
+    "title": "MC-PCA on non-detrended speleothem data",
+    "description": "This workflow performs an analysis of speleothem oxygen isotope data using the Monte Carlo Principal Component Analysis (MC-PCA) method. It involves loading pre-existing data, separating records into sets, creating a geoseries object, applying MC-PCA, and visualizing the results.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1,
+          2
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary libraries and load the speleothem data from pickle files.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load Data"
+      },
+      {
+        "cell_indices": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Load Data"
+        ],
+        "description": "Separate speleothem records into two sets for analysis, excluding certain records based on criteria such as length.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Separate Speleothem Records"
+      },
+      {
+        "cell_indices": [
+          8,
+          10,
+          11
+        ],
+        "code": "",
+        "dependencies": [
+          "Separate Speleothem Records"
+        ],
+        "description": "Create a multiple ensemble geoseries object by slicing each timeseries at 3000 and 5000 years BP.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Create Multiple Ensemble Geoseries Object"
+      },
+      {
+        "cell_indices": [
+          12,
+          13,
+          14
+        ],
+        "code": "",
+        "dependencies": [
+          "Create Multiple Ensemble Geoseries Object"
+        ],
+        "description": "Apply the Monte Carlo Principal Component Analysis (MC-PCA) to the multiple ensemble geoseries object.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Apply MC-PCA"
+      },
+      {
+        "cell_indices": [
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "code": "",
+        "dependencies": [
+          "Apply MC-PCA"
+        ],
+        "description": "Plot the results of the MC-PCA analysis to visualize the findings.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Visualize MC-PCA Results"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

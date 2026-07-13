@@ -1,0 +1,122 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "180fe0e677d847d2"
+  ],
+  "payload": {
+    "title": "Paleoclimate Model Data-Comparison: CMIP6 vs LMR",
+    "summary": "This Jupyter notebook compares climate model outputs from CMIP6 with reconstructions from the Last Millennium Reanalysis (LMR) project. It demonstrates how to access and process CMIP6 data from Google Cloud, plot LMR simulations alongside CMIP6 outputs, and visualize spatial variations in climate data. The notebook focuses on analyzing global-mean surface temperature and the climate response to major volcanic events over the past millennium.",
+    "goals": [
+      "Compare CMIP6 model outputs with LMR reconstructions.",
+      "Visualize climate responses to volcanic events.",
+      "Demonstrate data access and processing techniques for CMIP6 data."
+    ],
+    "libraries": [
+      "os",
+      "pathlib",
+      "collections",
+      "pandas",
+      "numpy",
+      "xarray",
+      "cftime",
+      "matplotlib",
+      "pyleoclim",
+      "cartopy",
+      "intake"
+    ],
+    "techniques": [
+      "Data retrieval from cloud storage",
+      "Data processing and cleaning",
+      "Climatology calculation",
+      "Seasonality removal",
+      "Global mean calculation",
+      "Data visualization"
+    ],
+    "keywords": [
+      "Paleoclimate",
+      "CMIP6",
+      "Last Millennium Reanalysis",
+      "Climate modeling",
+      "Volcanic events",
+      "Data visualization"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "Introduction to the notebook's purpose of comparing CMIP6 model outputs with LMR reconstructions.",
+        "heading": "Paleoclimate Model Data-Comparison: CMIP6 vs LMR"
+      },
+      {
+        "blurb": "Describes the notebook's focus on comparing past climate models and reconstructions, particularly in response to volcanic events.",
+        "heading": "Overview"
+      },
+      {
+        "blurb": "Lists necessary and helpful concepts for understanding the notebook, including Cartopy and NetCDF.",
+        "heading": "Prerequisites"
+      },
+      {
+        "blurb": "Details the libraries used for data processing, visualization, and analysis.",
+        "heading": "Imports"
+      },
+      {
+        "blurb": "Focuses on comparing global-mean surface temperature data from models and reconstructions.",
+        "heading": "Data-model comparison of global-mean surface temperature"
+      },
+      {
+        "blurb": "Explains the LMR project's approach to reconstructing past climates using data assimilation.",
+        "heading": "Last Millennium Reanalysis Project (LMR)"
+      },
+      {
+        "blurb": "Describes the CMIP6 and PMIP4 projects and their role in organizing climate simulations.",
+        "heading": "CMIP6 & PMIP4"
+      },
+      {
+        "blurb": "Discusses the availability of CMIP6 data for download and analysis from cloud platforms.",
+        "heading": "Cloud-ready data"
+      },
+      {
+        "blurb": "Details the process of retrieving CMIP6 data from Google Cloud using the intake library.",
+        "heading": "Pulling Data"
+      },
+      {
+        "blurb": "Explains how to use intake to query and pull CMIP6 data from Google Cloud.",
+        "heading": "Google Cloud"
+      },
+      {
+        "blurb": "Describes accessing CMIP6 data through Pangeo-Forge cloud pointers.",
+        "heading": "Pangeo-Forge"
+      },
+      {
+        "blurb": "Covers data processing steps, including climatology calculation and seasonality removal.",
+        "heading": "Processing data"
+      },
+      {
+        "blurb": "Details processing steps specific to the MIROC model data, including time adjustments.",
+        "heading": "MIROC"
+      },
+      {
+        "blurb": "Describes processing MRI model data, including climatology and anomaly calculations.",
+        "heading": "MRI"
+      },
+      {
+        "blurb": "Explains processing MPI model data, including time adjustments and climatology calculations.",
+        "heading": "MPI"
+      },
+      {
+        "blurb": "Final comparison of processed model outputs with LMR reconstructions, focusing on volcanic events.",
+        "heading": "Comparing simulations to reconstructions"
+      }
+    ],
+    "inputs": [
+      "CMIP6 model data from Google Cloud",
+      "LMR reconstruction data"
+    ],
+    "outputs": [
+      "Plots comparing CMIP6 and LMR data",
+      "Visualizations of climate responses to volcanic events"
+    ],
+    "source": "llm:openai"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "task": "notebook_workflow",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "08eaffebf56ec754"
+  ],
+  "payload": {
+    "title": "KDE Plots",
+    "description": "This notebook reproduces figures from an interval statistics analysis using BChron age models, focusing on median interval values. It requires pre-existing pickle files and utilizes various Python libraries to load data, sort it by latitude, and apply interval statistic techniques. The outputs include visualizations of the interval statistics using Kernel Density Estimation (KDE) plots.",
+    "phase": "analysis",
+    "steps": [
+      {
+        "cell_indices": [
+          1
+        ],
+        "code": "",
+        "dependencies": [],
+        "description": "Import necessary Python libraries and load pre-existing pickle files containing series data.",
+        "step_number": 1,
+        "step_type": "computation",
+        "title": "Import Libraries and Load Data"
+      },
+      {
+        "cell_indices": [
+          2
+        ],
+        "code": "",
+        "dependencies": [
+          "Import Libraries and Load Data"
+        ],
+        "description": "Sort the loaded series data by latitude to prepare for further analysis.",
+        "step_number": 2,
+        "step_type": "computation",
+        "title": "Sort Data by Latitude"
+      },
+      {
+        "cell_indices": [
+          3,
+          5
+        ],
+        "code": "",
+        "dependencies": [
+          "Sort Data by Latitude"
+        ],
+        "description": "Apply detrending techniques and collect d18O values at different intervals for analysis.",
+        "step_number": 3,
+        "step_type": "computation",
+        "title": "Detrending and Collecting d18O Values"
+      },
+      {
+        "cell_indices": [
+          6,
+          7
+        ],
+        "code": "",
+        "dependencies": [
+          "Detrending and Collecting d18O Values"
+        ],
+        "description": "Calculate the z-score normalization of the detrended d18O values.",
+        "step_number": 4,
+        "step_type": "computation",
+        "title": "Calculate Detrended Z-score Values"
+      },
+      {
+        "cell_indices": [
+          8,
+          9,
+          10
+        ],
+        "code": "",
+        "dependencies": [
+          "Calculate Detrended Z-score Values"
+        ],
+        "description": "Use Kernel Density Estimation (KDE) to visualize the interval statistics of the processed data.",
+        "step_number": 5,
+        "step_type": "computation",
+        "title": "Visualize Interval Statistics with KDE Plots"
+      }
+    ],
+    "num_steps": 5,
+    "source": "llm:openai"
+  }
+}

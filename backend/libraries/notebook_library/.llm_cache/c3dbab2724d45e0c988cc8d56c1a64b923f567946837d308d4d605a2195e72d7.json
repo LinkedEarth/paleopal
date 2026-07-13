@@ -1,0 +1,79 @@
+{
+  "task": "notebook_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "4fc062148beae722"
+  ],
+  "payload": {
+    "title": "Run Data Assimilation (Individual Seasonality)",
+    "summary": "This Jupyter notebook is designed to perform data assimilation for climate reconstruction using the LMRv2.1 framework and the PReSto2k Proxy Database. The process involves loading and processing climate data, including model prior, calibration, and proxy data, followed by calibrating Proxy System Models (PSMs) with individual proxy seasonality. The notebook utilizes the Kalman Filter for data assimilation and produces climate field reconstructions and ensemble time series for temperature and precipitation variables. The entire process is executed on USC's CARC HPC servers.",
+    "goals": [
+      "Perform data assimilation for climate reconstruction.",
+      "Utilize individual proxy seasonality in PSM calibration.",
+      "Generate climate field reconstructions and ensemble time series."
+    ],
+    "libraries": [
+      "cfr",
+      "numpy",
+      "pickle",
+      "tqdm"
+    ],
+    "techniques": [
+      "Data assimilation",
+      "Kalman Filter",
+      "Proxy System Model calibration",
+      "Climate data processing"
+    ],
+    "keywords": [
+      "data assimilation",
+      "climate reconstruction",
+      "proxy data",
+      "Kalman Filter",
+      "PSM calibration",
+      "seasonality"
+    ],
+    "section_outline": [],
+    "section_blurbs": [
+      {
+        "blurb": "The notebook aims to perform data assimilation for climate reconstruction using the LMRv2.1 framework and PReSto2k Proxy Database.",
+        "heading": "Run Data Assimilation (Individual Seasonality)"
+      },
+      {
+        "blurb": "Data required for reconstruction includes model prior, calibration, and proxy data, sourced from CMIP5, GISTEMPv4, GPCCv6, and PAGES2k.",
+        "heading": "Load Data"
+      },
+      {
+        "blurb": "Proxy data is loaded and processed to fit the format of the CFR's ProxyDatabase class, using individual proxy seasonality.",
+        "heading": "Load proxies"
+      },
+      {
+        "blurb": "The CMIP5 CCSM4 past 1000 simulation is used as the model prior, with data loaded and checked for completeness.",
+        "heading": "Load model prior"
+      },
+      {
+        "blurb": "PSM calibration is performed using individual proxy seasonality metadata, allowing for more accurate proxy modeling.",
+        "heading": "Calibrate PSMs"
+      },
+      {
+        "blurb": "The Kalman Filter is used as the DA solver to adjust model estimates based on observed proxy data and forward model-derived pseudoproxies.",
+        "heading": "Run DA solver"
+      },
+      {
+        "blurb": "Post-processing checks ensure the existence of climate field reconstructions and ensemble time series for temperature and precipitation.",
+        "heading": "Figure checks"
+      }
+    ],
+    "inputs": [
+      "CMIP5 CCSM4 model output",
+      "GISTEMPv4 temperature data",
+      "GPCCv6 precipitation data",
+      "PAGES2k proxy data"
+    ],
+    "outputs": [
+      "Climate field reconstructions",
+      "Ensemble time series for temperature and precipitation"
+    ],
+    "source": "llm:openai"
+  }
+}
