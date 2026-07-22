@@ -15,6 +15,8 @@ Parent-child retrieval: search summaries to select notebooks/projects, then expa
 ## Prerequisites
 
 ```bash
+docker compose up -d qdrant
+
 cd backend/libraries
 # Activate your paleopal env
 # Qdrant must be running (default localhost:6333)
