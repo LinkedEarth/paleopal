@@ -1,0 +1,80 @@
+{
+  "task": "project_summary",
+  "provider": "openai",
+  "model": "gpt-4o",
+  "parts": [
+    "reproduce_lmr_pb|046273e28da8bea7|808d157f71714f0e|b10e3227299117cf|dd3a2211ebf20885"
+  ],
+  "payload": {
+    "title": "Reproducing LMRv2.1 Paleoclimate Reconstruction",
+    "summary": "The 'Reproducing LMRv2.1 Paleoclimate Reconstruction' project aims to replicate the Last Millennium Reanalysis (LMR) version 2.1 climate reconstruction. The project is divided into three phases: data assembly, data assimilation, and validation. Each phase involves specific tasks, from constructing proxy databases to running data assimilation processes and validating the results against instrumental datasets. The project utilizes various computational tools and libraries to ensure accurate and efficient processing of paleoclimate data.",
+    "phases": [
+      {
+        "phase": "data_assembly",
+        "notebook_paths": [
+          "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_a_db_assembly_Tardif2019_pickle.ipynb",
+          "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_b_db_assembly_cfr_PAGES2k.ipynb"
+        ],
+        "role": "Construct proxy databases using PAGES 2k records for use in data assimilation workflows."
+      },
+      {
+        "phase": "data_assimilation",
+        "notebook_paths": [
+          "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assimilation/C02_a_DA_with_class_based_seasonality.ipynb"
+        ],
+        "role": "Execute data assimilation to reproduce LMRv2.1 climate reconstruction."
+      },
+      {
+        "phase": "validation",
+        "notebook_paths": [
+          "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/C03_a_validation.ipynb"
+        ],
+        "role": "Validate the paleoclimate reconstruction against original LMRv2.1 and instrumental datasets."
+      }
+    ],
+    "end_to_end_steps": [
+      {
+        "step_number": 1,
+        "phase": "data_assembly",
+        "title": "Database Assembly using the LMRv2.1 pickle file",
+        "description": "Construct a ProxyDatabase object using PAGES 2k proxy records from LMRv2.1 pickle files, filter metadata and data, standardize proxy IDs, assign proxy type labels, and filter records by resolution and coverage. Save the final database as a NetCDF file.",
+        "notebook": "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_a_db_assembly_Tardif2019_pickle.ipynb"
+      },
+      {
+        "step_number": 2,
+        "phase": "data_assembly",
+        "title": "Database Assembly using cfr's built in PAGES 2k database",
+        "description": "Construct a proxy database using the PAGES 2k (v2.0.0) records with the 'cfr' library, filter proxy records based on temporal resolution and archive type, and save the filtered data as NetCDF files.",
+        "notebook": "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assembly/C01_b_db_assembly_cfr_PAGES2k.ipynb"
+      },
+      {
+        "step_number": 3,
+        "phase": "data_assimilation",
+        "title": "Run Data Assimilation",
+        "description": "Execute a data assimilation process to reproduce the LMRv2.1 climate reconstruction using the _cfr_ codebase. Load climate data, calibrate proxy system models, and run a Kalman Filter-based data assimilation solver to produce climate field reconstructions and ensemble time series.",
+        "notebook": "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/data_assimilation/C02_a_DA_with_class_based_seasonality.ipynb"
+      },
+      {
+        "step_number": 4,
+        "phase": "validation",
+        "title": "Validating a Reconstruction",
+        "description": "Validate the paleoclimate reconstruction by comparing it to the original LMRv2.1 reconstruction and multiple instrumental datasets. Assess global mean surface temperature comparisons, climate field skill metrics, and ensemble similarity using the plume distance framework.",
+        "notebook": "/Users/deborahkhider/Documents/GitHub/PaleoPAL/backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/reproduce_lmr_pb/notebooks/validation/C03_a_validation.ipynb"
+      }
+    ],
+    "keywords": [
+      "Paleoclimate",
+      "LMRv2.1",
+      "Data Assembly",
+      "Data Assimilation",
+      "Validation",
+      "Proxy Database",
+      "Climate Reconstruction",
+      "PAGES 2k",
+      "Kalman Filter",
+      "Instrumental Datasets"
+    ],
+    "source": "llm:openai",
+    "project_id": "reproduce_lmr_pb"
+  }
+}
