@@ -1,0 +1,735 @@
+# =============================================================================
+# PaleoPAL workflow definition: spectral analysis
+# -----------------------------------------------------------------------------
+# Status : DRAFT v0.1 — derived from the PaleoTS/autoTS planner design.
+# Purpose: Prescriptive encoding of how LinkedEarth does spectral analysis.
+#          This is NOT documentation of what Pyleoclim can do; it is a statement
+#          of what PaleoPAL should recommend. Where the two disagree, this wins.
+#
+# All API paths below were verified against all_symbols_full.txt.
+# =============================================================================
+
+schema_version: 0.1
+
+usage_warning: >
+  Field names in this document describe the SCHEMA. They are not Python
+  arguments. Emit only the literals given in `core_arg` / `core_api` fields.
+  Observed failure: a field named `null_model:` was copied into generated code
+  as signif_test(null_model=...), which is a TypeError - the parameter is
+  `method`.
+
+workflow:
+  id: spectral_analysis
+  title: Spectral analysis of a paleoclimate time series
+  goal: >
+    Estimate the power spectral density of a paleoclimate time series and,
+    depending on the scientific objective, either identify periodicities
+    distinguishable from noise or characterise the scaling behaviour.
+  authority: curated          # curated | indexed
+  applies_to:
+    # NOTE: this is the union across objectives. Applicability is genuinely a
+    # per-objective property — see each objective's own `applies_to`. The API
+    # permits MultipleSeries everywhere; practicality does not.
+    - pyleoclim.core.series.Series
+    - pyleoclim.core.multipleseries.MultipleSeries
+
+  # Subclasses inherit this workflow. Wherever `Series` appears below, GeoSeries
+  # is included; wherever `MultipleSeries` appears, MultipleGeoSeries is too.
+  type_hierarchy:
+    pyleoclim.core.series.Series:
+      - pyleoclim.core.geoseries.GeoSeries            # adds lat/lon/elevation
+    pyleoclim.core.multipleseries.MultipleSeries:
+      - pyleoclim.core.multiplegeoseries.MultipleGeoSeries
+      - pyleoclim.core.ensembleseries.EnsembleSeries  # see ensemble_is_not_a_collection
+    note: >
+      Geo variants carry spatial metadata and change nothing about the spectral
+      pipeline itself — but they are what makes the scaling_exponent objective
+      interesting, since beta can then be related to latitude or archive type.
+
+  # Wavelet and coherence are related COMPUTATIONALLY but not scientifically.
+  # What they share is the preprocessing pipeline and the rules registry; what
+  # they do not share is objectives, interpretation, or method standing.
+  related_workflows:
+    - id: wavelet_analysis
+      shares:
+        steps: [detrend, remove_outliers, regrid, standardize]
+        rules:
+          - uneven_spacing_requires_regridding
+          - multiseries_common_parameters
+          - matplotlib_is_continuation_not_fallback
+      differs:
+        objectives: >
+          Time-localised variability and non-stationarity — when in time a
+          periodicity is present, not merely whether it is.
+        methods: >
+          Draws on pyleoclim.utils.wavelet (cwt, wwz). NOTE: cwt is `excluded`
+          in the spectral method_registry below but is a primary method here.
+          See method_status_is_workflow_scoped.
+        significance: >
+          Scalogram.signif_test exists, so significance is available for a
+          single scalogram in a way it is not for a MultiplePSD.
+      returns: pyleoclim.core.scalograms.Scalogram
+
+    - id: coherence_analysis
+      shares:
+        steps: [detrend, remove_outliers, regrid, standardize]
+        rules:
+          - uneven_spacing_requires_regridding
+          - matplotlib_is_continuation_not_fallback
+      differs:
+        objectives: >
+          The relationship between two records — shared variability, and
+          whether it is stable in time.
+        input_shape: >
+          Series.wavelet_coherence(target_series, ...) takes a PAIR of series.
+          `applies_to` is therefore a relation, not a type — the schema as
+          written cannot express this and will need extending.
+        interpretation: >
+          Coherence and phase carry meaning that has no analogue in a PSD.
+      regrid_differs:
+        note: >
+          The `regrid` step in this file asks whether ONE series is evenly
+          spaced. Coherence asks something else: the two records must be placed
+          on a COMMON time axis — identical start, step and end — for the cwt
+          method. That is not linear interpolation applied twice with separate
+          parameters; it is a joint alignment. Do not reuse this file's regrid
+          step or its rule for coherence.
+        api: Series.wavelet_coherence(..., common_time_kwargs=...)
+
+# -----------------------------------------------------------------------------
+# OBJECTIVES
+# What the user is trying to learn. Determines which steps are required, which
+# methods are valid, AND which object types make scientific sense.
+# Resolved BEFORE the pipeline is planned.
+# -----------------------------------------------------------------------------
+objectives:
+  - id: peak_detection
+    description: Identify periodicities distinguishable from a noise null model.
+    requires_steps: [significance]
+    applies_to: [pyleoclim.core.series.Series]
+    discouraged_for:
+      pyleoclim.core.multipleseries.MultipleSeries:
+        rule: multiseries_impractical_for_peaks
+
+  - id: scaling_exponent
+    description: Estimate the spectral slope (beta) over a frequency band.
+    requires_steps: [beta_estimate]
+    applies_to:
+      - pyleoclim.core.series.Series
+      - pyleoclim.core.multipleseries.MultipleSeries   # the valid multi-record case
+    # Significance testing is NOT required here — the claim is about slope,
+    # not about individual peaks.
+    # This is the objective that motivates comparing many records at once
+    # (e.g. beta against latitude across an archive collection).
+
+  - id: exploratory
+    description: First look at frequency content. No inferential claim made.
+    requires_steps: []
+    applies_to: [pyleoclim.core.series.Series]
+    discouraged_for:
+      pyleoclim.core.multipleseries.MultipleSeries:
+        rule: multiseries_impractical_for_peaks
+
+# -----------------------------------------------------------------------------
+# RULES
+# Shared registry. Referenced by id from workflows and steps. Rules are
+# retrievable independently — they are "how the science works" knowledge.
+#
+# severity:
+#   prohibited  — following this path produces a wrong or biased result.
+#                 PaleoPAL should refuse and explain.
+#   discouraged — the result would be defensible, but the approach is
+#                 impractical or needlessly constraining. Offer the better
+#                 path; comply if the user insists.
+#   advisory    — guidance the user should see; no restriction implied.
+# -----------------------------------------------------------------------------
+rules:
+  - id: uneven_spacing_requires_regridding
+    severity: prohibited
+    statement: >
+      Paleoclimate time series are typically unevenly spaced. Spectral methods
+      that assume even sampling require regridding first. WWZ and Lomb-Scargle
+      tolerate uneven sampling and do not.
+    applies_to_steps: [regrid]
+    also_used_by: [wavelet_analysis, coherence_analysis]
+
+  - id: peaks_require_null_model
+    severity: prohibited
+    statement: >
+      A PSD peak is not interpretable without a null model. Significance testing
+      against an appropriate noise process is required when the objective is
+      peak detection. It is not required for exploratory work or for estimating
+      scaling exponents.
+    applies_to_objectives: [peak_detection]
+
+  - id: lomb_scargle_high_frequency_bias
+    severity: prohibited
+    statement: >
+      Lomb-Scargle has a known spectral bias: amplitudes at the high-frequency
+      end of the spectrum are often over-estimated. This biases slope estimates,
+      so it must not be used to estimate scaling exponents.
+    applies_to_methods: [lomb_scargle]
+
+  - id: preprocessing_order_is_fixed
+    severity: prohibited
+    statement: >
+      Preprocessing steps must be applied in this order:
+        detrend -> remove_outliers -> regrid -> standardize
+      The order is scientific, not stylistic. Steps may be SKIPPED when not
+      required, but the relative order of those that do run must be preserved.
+    canonical_order: [detrend, remove_outliers, regrid, standardize]
+    checkable: true
+    ordering_rationale:
+      - step: remove_outliers
+        after: detrend
+        reason: >
+          A trend makes its own extremes look like outliers. Detrending first
+          keeps outlier detection from flagging points that are only extreme
+          because of an unremoved trend.
+      - step: regrid
+        after: remove_outliers
+        reason: >
+          Interpolating or binning across an outlier smears it into
+          neighbouring samples. Outliers must be removed before the grid
+          changes, or the contamination spreads to points that were originally
+          clean.
+      - step: standardize
+        after: regrid
+        reason: >
+          Binning or interpolation changes the variance of the series.
+          Standardizing before regridding would compute a scaling that regrid
+          then invalidates, so standardize must run last.
+
+  - id: prefer_chaining_over_rebinding
+    severity: discouraged
+    statement: >
+      Build pipelines by chaining, and never rebind a variable the user owns.
+      Writing `ts = ts.interp()` destroys the user's object in the live kernel:
+      the original is unrecoverable without re-loading, and any later cell that
+      referenced it now silently sees different data. Chaining is the
+      LinkedEarth notebook idiom and sidesteps the problem entirely.
+    correct: |
+      psd = ts.detrend().interp().standardize().spectral(method='mtm')
+    also_acceptable: |
+      ts_prepped = ts.detrend().interp().standardize()
+    incorrect: |
+      ts = ts.detrend()
+      ts = ts.interp()
+    checkable: true
+    context: >
+      Specific to the notebook setting: PaleoPAL operates on objects that
+      already exist in a user's kernel, not on data it loaded itself.
+
+  - id: exploratory_result_is_not_interpretable
+    severity: prohibited
+    kind: disclosure          # constrains what must be SAID, not what is done
+    statement: >
+      Exploratory work produces a spectrum, not a finding. A user who sees peaks
+      in an untested PSD may reasonably assume they are real. When the objective
+      resolves to exploratory, PaleoPAL must not silently hand back a spectrum:
+      it must state that significance testing is required before any peak is
+      interpreted.
+    do_not: >
+      Run signif_test anyway. The user asked for a quick look; doing unrequested
+      work is its own failure and may be expensive.
+    must_say: >
+      I treated this as a first look at the spectrum. The peaks shown here have
+      not been tested for significance, so some of them may simply be noise and
+      they can't be interpreted yet. Would you like me to add a significance
+      test?
+    applies_to_objectives: [exploratory]
+    related: peaks_require_null_model
+
+  - id: regrid_unnecessary_for_tolerant_methods
+    severity: discouraged
+    kind: disclosure
+    statement: >
+      The user asked to regrid before a method that tolerates uneven sampling.
+      Before regridding, say that it is not needed and ask whether they still
+      want it. Users may have a reason, such as comparing methods on identical
+      preprocessing.
+    applies_to_methods: [lomb_scargle, wwz]
+    applies_to_steps: [regrid]
+    must_say: >
+      Although not technically incorrect, Lomb-Scargle and WWZ do not require
+      regridding. Regridding may cause loss of information when using a binning
+      method, or create information not present in the time series when using
+      an interpolation method, especially if an extrapolation step is needed.
+      I recommend no regridding for these methods.
+    related: uneven_spacing_requires_regridding
+
+  - id: multiseries_impractical_for_peaks
+    severity: discouraged
+    statement: >
+      Analysing a collection through MultipleSeries requires common
+      preprocessing parameters (see multiseries_common_parameters), which forces
+      every record onto a shared time axis. For peak detection and exploratory
+      work that constraint buys nothing: each record has its own null model and
+      its own peaks, so there is no comparison that requires a common grid — and
+      restricting records to a shared timeframe needlessly discards data. It is
+      also impractical to read many significance bands on one figure, which is
+      why MultiplePSD carries no significance test.
+
+      Prefer analysing records individually for these objectives. The cost of a
+      common grid is only justified when comparability across records IS the
+      question — that is, scaling-exponent estimation.
+    applies_to_objectives: [peak_detection, exploratory]
+    note: >
+      The API permits this and the code runs. Whether it is worth doing is a
+      judgement about practicality and about what the analysis is for. It cannot
+      be derived from the codebase and must be curated.
+
+  - id: ensemble_is_not_a_collection
+    severity: advisory
+    status: out_of_scope            # not a PaleoPAL concern in this cycle
+    statement: >
+      EnsembleSeries is a child of MultipleSeries and exposes the same methods,
+      but means something different: the same measurements on different time
+      axes, representing age-model uncertainty for a single record — not a
+      collection of distinct records. Recorded here so the shared method surface
+      is not mistaken for shared semantics. Ensemble handling is deferred.
+    applies_to:
+      - pyleoclim.core.ensembleseries.EnsembleSeries
+
+  - id: method_status_is_workflow_scoped
+    severity: advisory
+    statement: >
+      A method's paleopal_status is a property of the (method, workflow) pair,
+      never of the method alone. cwt is excluded for spectral estimation but is
+      a primary method for wavelet analysis. When the method registry is
+      eventually shared across workflows, status must be keyed by workflow or
+      the exclusion will leak and suppress a correct recommendation.
+    applies_to_methods: [cwt]
+
+  - id: matplotlib_is_continuation_not_fallback
+    severity: discouraged
+    statement: >
+      Pyleoclim plotting methods return matplotlib handles (fig, ax). Further
+      customisation through those handles is the correct and intended path —
+      matplotlib is downstream of Pyleoclim, not an alternative to it. What is
+      wrong is reaching matplotlib by dismantling the domain object: extracting
+      .time / .value (or .frequency / .amplitude) and calling plt directly when
+      a method exists. The discriminator is the provenance of the data being
+      plotted, not which library is called.
+    correct: |
+      fig, ax = psd.plot(in_loglog=True)
+      ax.set_xlim(1e3, 1e4)
+    incorrect: |
+      plt.loglog(psd.frequency, psd.amplitude)
+    applies_to_steps: [visualize]
+    checkable: true
+    # This rule is machine-verifiable via AST: flag any path where a domain
+    # object is decomposed into arrays that then flow into a pyplot call while
+    # an equivalent method exists on the object.
+
+  - id: multiseries_common_parameters
+    severity: prohibited
+    statement: >
+      When preparing several records for comparison, the same preprocessing
+      parameters must be applied across all of them. Spectra computed on
+      differing time axes are not commensurable. Pyleoclim implements the
+      MultipleSeries methods specifically to enforce this — use them rather
+      than mapping per-series parameters over the collection.
+    applies_to: [pyleoclim.core.multipleseries.MultipleSeries]
+
+# -----------------------------------------------------------------------------
+# TERMINOLOGY
+# Words that mean something different in a user's request than in the API.
+# Resolve these BEFORE method selection — a misread here silently changes the
+# analysis and produces no error.
+# -----------------------------------------------------------------------------
+terminology:
+  - term: periodogram
+    user_means: >
+      The PSD object itself. "Periodogram" is a common name for a power
+      spectral density in paleoclimate usage, referring to the RESULT.
+    api_collision: "method='periodogram'"
+    disambiguation: >
+      Read as the PSD object unless the user is clearly naming an estimator
+      (e.g. "use the periodogram method", "periodogram vs multitaper"). Reading
+      it as the method silently changes the estimator AND introduces an
+      even-spacing requirement the user never asked for. When genuinely
+      ambiguous, ask.
+    severity: prohibited      # a silent misread produces the wrong analysis
+
+# -----------------------------------------------------------------------------
+# METHOD REGISTRY
+# Methods are first-class objects, not properties of a step, because the same
+# method appears in several workflows.
+#
+# paleopal_status: preferred | acceptable | excluded
+#   preferred  — recommend freely
+#   acceptable — works, but not the best choice; do not volunteer it
+#   excluded   — exists in Pyleoclim; PaleoPAL should not generate it
+# -----------------------------------------------------------------------------
+method_registry:
+  - id: lomb_scargle
+    core_arg: "method='lomb_scargle'"     # verified
+    kwargs_source: pyleoclim.utils.spectral.lomb_scargle
+    requires_even_spacing: false
+    valid_for_objectives: [peak_detection, exploratory]
+    invalid_for:
+      scaling_exponent:
+        rule: lomb_scargle_high_frequency_bias
+    paleopal_status: preferred
+
+  - id: wwz
+    core_arg: "method='wwz'"              # verified
+    kwargs_source: pyleoclim.utils.spectral.wwz_psd
+    requires_even_spacing: false
+    valid_for_objectives: [peak_detection, exploratory, scaling_exponent]
+    paleopal_status: preferred
+    cost: high
+
+  - id: mtm
+    core_arg: "method='mtm'"
+    kwargs_source: pyleoclim.utils.spectral.mtm
+    requires_even_spacing: true
+    valid_for_objectives: [peak_detection, exploratory, scaling_exponent]
+    paleopal_status: preferred
+
+  - id: welch
+    core_arg: "method='welch'"
+    kwargs_source: pyleoclim.utils.spectral.welch
+    requires_even_spacing: true
+    valid_for_objectives: [peak_detection, exploratory, scaling_exponent]
+    paleopal_status: acceptable
+
+  - id: periodogram
+    core_arg: "method='periodogram'"
+    kwargs_source: pyleoclim.utils.spectral.periodogram
+    requires_even_spacing: true
+    valid_for_objectives: [peak_detection, exploratory, scaling_exponent]
+    paleopal_status: acceptable
+
+  - id: cwt
+    core_arg: "method='cwt'"
+    kwargs_source: pyleoclim.utils.spectral.cwt_psd
+    requires_even_spacing: true
+    paleopal_status: discouraged
+    status_scope: spectral_analysis     # NOT global — cwt is primary for wavelet
+    discouraged_reason: >
+      The cwt method does not resolve sharp peaks well compared with other
+      spectral methods. Do not offer it as a first choice for spectral
+      estimation.
+    admissible_when: >
+      The user is also running a wavelet analysis and wants the spectral
+      estimate computed by the same method for consistency of comparison.
+      In that context cwt is the reasonable choice.
+    # See rule method_status_is_workflow_scoped — cwt is primary for wavelet.
+
+# -----------------------------------------------------------------------------
+# METHOD SELECTION
+# Resolved BEFORE the step list is built, because the choice determines whether
+# regridding is needed. This is the backward dependency that a flat step list
+# cannot express.
+# -----------------------------------------------------------------------------
+method_selection:
+  defaults_by_objective:
+    peak_detection:   lomb_scargle
+    exploratory:      lomb_scargle
+    scaling_exponent: wwz
+      # Tolerates uneven spacing (no regridding) and, with no significance
+      # test under this objective, runs only once — so its cost is acceptable.
+
+  determines: [regrid.required]
+
+  clarify_when:
+    - condition: user names no method and objective is peak_detection
+      reason: The default is debatable; the choice is scientifically material.
+    - condition: user requests a method whose valid_for_objectives excludes
+                 the resolved objective
+      reason: Refuse and explain, citing the relevant rule.
+
+# -----------------------------------------------------------------------------
+# INTERACTIONS
+# Costs and cautions that live in the (method, step) pair rather than in either
+# one alone.
+# -----------------------------------------------------------------------------
+interactions:
+  - when: {method: wwz, step: significance}
+    severity: warning
+    clarify: true
+    message: >
+      Significance testing re-runs the estimator once per surrogate. With WWZ
+      this is computationally expensive. Confirm before proceeding.
+
+# -----------------------------------------------------------------------------
+# INSPECTION
+# Data properties that must be read from the object, not inferred from the
+# prompt. Only gating checks belong here.
+# -----------------------------------------------------------------------------
+inspection:
+  emit_conditionals: false
+  emit_conditionals_reason: >
+    Resolved at plan time, not in the generated code. PaleoPAL has the live
+    kernel and can evaluate this itself before writing anything. The generated
+    code must be a straight-line pipeline with the step either present or
+    absent - never a runtime `if`. A conditional forces two rule violations at
+    once: it puts regrid before detrend (breaking the fixed order) and rebinds
+    the user's object (breaking the chaining rule).
+  checks:
+    - id: even_spacing
+      call: pyleoclim.core.series.Series.is_evenly_spaced
+      applies_to: [pyleoclim.core.series.Series]
+      feeds: gating                   # regrid.required, decided BEFORE codegen
+      # Not performed for MultipleSeries: if any member is unevenly spaced the
+      # collection must be regridded anyway, so the check earns nothing.
+
+# -----------------------------------------------------------------------------
+# STEPS
+# Ordered. `requiredness` values:
+#   required             — always run
+#   recommended          — run by default; user may decline
+#   available_not_default— offer only; never insert silently
+#   determined_by(...)   — resolved from a decision or an inspection result
+#   required_for(...)    — depends on the objective
+# -----------------------------------------------------------------------------
+steps:
+  - id: detrend
+    order: 1
+    requiredness: recommended
+    core_api: pyleoclim.core.series.Series.detrend
+    container_api: pyleoclim.core.multipleseries.MultipleSeries.detrend
+    kwargs_source: pyleoclim.utils.tsutils.detrend
+    method_guidance:
+      decision: user_judgement_required
+      note: >
+        autoTS carried a rule criterion here and it was never reliable. There is
+        no code that objectively decides whether a trend is linear or non-linear,
+        so PaleoPAL must not pretend to. Advise the user; do not choose silently.
+      advice: >
+        If the trend does not look linear, do not use the linear method. EMD is
+        then the method of choice.
+      caution_double_detrending: >
+        The utils spectral and wavelet functions accept their own `detrend`
+        (and `standardize`, `gaussianize`) arguments. If detrending is done as
+        a pipeline step AND passed again through `settings`, it is applied
+        twice. Do one or the other, never both.
+
+  - id: remove_outliers
+    order: 2
+    requiredness: available_not_default
+    core_api: pyleoclim.core.series.Series.outliers
+    container_api: null               # absent on MultipleSeries
+    container_strategy: map_over_elements
+    kwargs_source:
+      - pyleoclim.utils.tsutils.detect_outliers_DBSCAN
+      - pyleoclim.utils.tsutils.detect_outliers_kmeans
+    container_resolution: map_over_elements
+    # Confirmed: map over each element. This does not conflict with
+    # multiseries_common_parameters, because outlier removal does not place
+    # records on a shared time axis — comparability is unaffected.
+
+  - id: segment_on_gaps
+    order: 2                          # same tier as outliers
+    requiredness: available_not_default
+    core_api: pyleoclim.core.series.Series.segment
+    container_api: null
+    rationale: >
+      A record with a large hiatus may not be meaningfully analysed as a single
+      series. Rare, but possible. Offer; never apply by default.
+
+  - id: regrid
+    order: 3
+    requiredness: determined_by(method_selection.requires_even_spacing
+                                AND NOT inspection.even_spacing)
+    rule: uneven_spacing_requires_regridding
+    core_api:
+      - pyleoclim.core.series.Series.interp
+      - pyleoclim.core.series.Series.bin
+    container_api:
+      - pyleoclim.core.multipleseries.MultipleSeries.interp
+      - pyleoclim.core.multipleseries.MultipleSeries.bin
+    kwargs_source:
+      - pyleoclim.utils.tsutils.interp
+      - pyleoclim.utils.tsutils.bin
+    method_guidance:
+      default: interp                 # linear interpolation
+      interp_when: >
+        The sampling grid is uneven but not drastically so. Linear
+        interpolation is a good default.
+      bin_when: >
+        Resolution changes drastically over the record. Binning is preferred
+        because interpolation across a large resolution change fabricates
+        structure where the record has little support.
+
+  - id: standardize
+    order: 4
+    requiredness: required
+    core_api: pyleoclim.core.series.Series.standardize
+    container_api: pyleoclim.core.multipleseries.MultipleSeries.standardize
+    kwargs_source: pyleoclim.utils.tsutils.standardize
+    rationale: >
+      Required by all the underlying spectral methods, even though this is not
+      made explicit. Pyleoclim never transforms data without the user knowing,
+      so the utils functions set standardize to False even though it should be
+      done. Especially important when comparing results across methods or when
+      testing significance. Run it immediately before the spectral step: this
+      is the final series, after detrending and the other preprocessing steps
+      that can change its mean and standard deviation.
+
+  - id: spectral_estimate
+    order: 5
+    requiredness: required
+    core_api: pyleoclim.core.series.Series.spectral
+    container_api: pyleoclim.core.multipleseries.MultipleSeries.spectral
+    returns: pyleoclim.core.psds.PSD
+    # settings= is the passthrough to the chosen method's utils function.
+    # The core signature alone is insufficient to fill it — always retrieve
+    # the kwargs_source docstring for the selected method.
+    # freq / freq_method / freq_kwargs: Pyleoclim defaults are acceptable for
+    # now to get PaleoPAL started. DEFERRED — revisit once basic behaviour is
+    # working.
+
+  - id: significance
+    order: 6
+    requiredness: required_for(peak_detection)
+    rule: peaks_require_null_model
+    core_api: pyleoclim.core.psds.PSD.signif_test
+    # NOTE ON NAMING: the keys below are SCHEMA field names, not API arguments.
+    # The null model is passed as PSD.signif_test(method=...). Do not invent a
+    # kwarg from a field name here.
+    signif_method:
+      core_arg: "method='ar1sim'"        # the literal to emit
+      default: ar1sim
+      default_reason: Works with all spectral methods currently supported.
+      alternatives:
+        - id: ar1asym
+          core_arg: "method='ar1asym'"
+          valid_for_methods: [mtm, periodogram, welch]
+          note: Asymptotic; cheaper than ar1sim where applicable.
+        - id: uar1
+          core_arg: "method='uar1'"
+          paleopal_status: discouraged
+          reason: >
+            Still under testing on the LinkedEarth side. Do not recommend by
+            default until validated.
+    valid_kwargs: [method, number, seed, qs, settings, scalogram]
+
+  - id: beta_estimate
+    order: 6
+    requiredness: required_for(scaling_exponent)
+    core_api: pyleoclim.core.psds.PSD.beta_est
+    parameters:
+      fmin: null                      # Pyleoclim's None default computes these
+      fmax: null                      # correctly; set only if the user's
+                                      # prompt specifies a band.
+    band_selection:
+      default_fmin: Rayleigh frequency (1 / record length)
+      default_fmax: Nyquist frequency (1 / (2 * mean sampling interval))
+      default_reason: >
+        Pyleoclim's None defaults already compute the full resolvable band
+        correctly. Leave fmin/fmax unset unless the user is targeting a
+        specific spectral regime.
+      override_when: >
+        The user is interested in a specific regime — typically identified
+        visually, after looking at the full-band PSD and seeing where the
+        scaling behaviour changes or a feature of interest sits. A band may
+        also be stated in prose rather than requested interactively — e.g. a
+        markdown cell describing the record's known periodicities or the
+        regime the study is targeting.
+      decision: user_judgement_required
+      context_sources:
+        - kind: session_history
+          note: >
+            A prior visualize step in this session that the user then
+            referenced (e.g. "use that band").
+        - kind: notebook_markdown
+          note: >
+            Narrative cells in the notebook, which may state a band or
+            regime of interest and may predate this PaleoPAL session
+            entirely — the researcher's stated intent, not something
+            PaleoPAL produced.
+      context_sources_reason: >
+        Neither source is a live-kernel property (see `inspection`), so
+        neither resolves the way even_spacing does. PaleoPAL must check both
+        the session/plan history AND the notebook's markdown cells for a
+        stated or implied band before deciding whether to ask, rather than
+        prompting cold on every scaling_exponent request.
+
+  - id: visualize
+    order: 7
+    requiredness: recommended
+    rule: matplotlib_is_continuation_not_fallback
+    core_api: pyleoclim.core.psds.PSD.plot
+    container_api: pyleoclim.core.psds.MultiplePSD.plot
+    returns: "fig, ax"
+    # What gets plotted depends on the objective — and on which upstream steps
+    # actually ran. Significance bands cannot be drawn if signif_test did not
+    # run; plot_beta is meaningless if beta_est did not run.
+    parameters_by_objective:
+      peak_detection:
+        depends_on_step: significance
+        params: [signif_clr, signif_linestyles, signif_linewidth]
+      scaling_exponent:
+        depends_on_step: beta_estimate
+        params: [plot_beta, beta_kwargs]
+      exploratory:
+        params: []
+    defaults:
+      in_loglog: true
+      in_loglog_reason: >
+        Conventional for spectra and required to read a slope by eye.
+      in_period: true
+      in_period_reason: >
+        Periods are easier to read and interpret than frequencies.
+    container_gap:
+      note: >
+        MultiplePSD.plot exposes neither plot_beta/beta_kwargs nor the signif_*
+        styling arguments that PSD.plot has. The missing significance styling is
+        intentional, not an oversight — see rule multiseries_invalid_for_peaks.
+        Since peak_detection and exploratory should not use MultipleSeries at
+        all, nothing is lost there.
+      remaining_question: >
+        For scaling_exponent — the one objective where MultipleSeries is valid —
+        MultiplePSD.beta_est exists but MultiplePSD.plot has no plot_beta. So
+        betas can be computed across records but not overlaid via the container.
+      status: confirmed_pyleoclim_gap
+      workaround: >
+        Plot the PSDs one at a time onto a shared matplotlib axis, using the
+        Pyleoclim plot methods and their returned handles (see rule
+        matplotlib_is_continuation_not_fallback). Examples of this pattern
+        exist in the notebook corpus.
+      reference_pattern:
+        path: paleobooks_gallery/FreqFun/notebooks/02c-spectral_analysis_peaks_temp12k.ipynb
+        cell: 23
+        summary: >
+          Builds a 3x3 matplotlib subplot grid, loops over a list of PSDs and
+          calls psd.plot(ax=ax[i,j]) for each — one PSD per panel rather than
+          overlaid, which is consistent with multiseries_impractical_for_peaks.
+        why_cited: >
+          PaleoPAL should reproduce this verified pattern rather than invent a
+          multi-PSD layout of its own.
+
+# -----------------------------------------------------------------------------
+# CONTAINER SEMANTICS
+# Generated from the codebase, not authored. Rule: if a method exists on the
+# container, call it. If it exists only on the element type, map over elements.
+# Never dismantle the container into arrays to reach a function.
+# -----------------------------------------------------------------------------
+container_semantics:
+  container: pyleoclim.core.multipleseries.MultipleSeries
+  element: pyleoclim.core.series.Series
+  element_accessor: series_list
+  prefer: container_native            # see rule multiseries_common_parameters
+  capability_matrix: generated_at_index_time
+
+# -----------------------------------------------------------------------------
+# INSTANCES
+# Illustrative only. Never authoritative for how to call an API.
+# -----------------------------------------------------------------------------
+instances:
+  - url: https://linked.earth/PyleoclimPaper/OrbitalCycles/Chasing_orbital_cyclicities.html
+    kind: worked_study
+    note: >
+      Covers spectral AND wavelet/coherence together — the reference example
+      for the cwt admissible_when case.
+  - url: https://linked.earth/FreqFun/epicadomec-explore/
+    kind: worked_study
+  - path: pyleoclim_tutorials/notebooks/L2_spectral_analysis.ipynb
+    kind: tutorial
+  - path: paleobooks_gallery/FreqFun/notebooks/02b-spectral_analysis_temp12k.ipynb
+    kind: worked_study
+  - path: paleobooks_gallery/FreqFun/notebooks/02c-spectral_analysis_peaks_temp12k.ipynb
+    kind: worked_study
