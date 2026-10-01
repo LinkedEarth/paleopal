@@ -26,6 +26,64 @@ matplotlib cells than Pyleoclim cells indexed, parent/child retrieval
 silently disabled. Fixing this is Phase 1 Item 4, separate from the
 schema work below.
 
+## Objectives we design against (from the NSF proposal; agreed 2026-10-01)
+
+Source: Deborah's NSF CAIG proposal (kept outside the repo; ask her for
+it). Paraphrased — PaleoPAL performs five tasks, alone or combined:
+1. **Data search** — find datasets (e.g. by region, time, archive) via the
+   graph (SPARQL) or vector search.
+2. **Paleoclimate method search** — recommend suitable methods, from a
+   method catalog.
+3. **Standard method search** — everyday non-paleo tasks (e.g. reading a
+   CSV with pandas), answered from the LLM's own knowledge. This is the
+   LLM-only fallback.
+4. **Workflow creation** — build notebook workflows, adapt as the
+   researcher explores, and track variable names and object types.
+5. **Explanation** — explain methods and why a step or method was chosen.
+It recognises the task type, uses all available context, and asks for
+clarification until it reaches consensus with the researcher.
+**Success criterion:** not producing the "best" workflow, but working
+with a researcher the way another researcher would — including
+disagreements, compromises and a rationale for choices.
+
+**Caveats vs the proposal:**
+1. *Interface:* the proposal promised a JupyterLab extension with cell
+   magics. **Decided (Deborah, 2026-10-01): VS Code is the interface going
+   forward; JupyterLab is dropped.** Recommended (not yet confirmed):
+   keep all reasoning in the backend (plan step, checker, workflow files,
+   gap rules) and the extension thin (display, yes/no, cell edits).
+2. *Science themes (Deborah, 2026-10-01).* **Now: complete the first
+   redesign for T1.** T1 priority = **spectral, wavelet and coherence**
+   (most of Pyleoclim); more Pyleoclim later. T1 also has a **synthesis
+   step**: run several spectral methods and present conflicting results —
+   requested by the user or suggested by PaleoPAL. T2 (tipping points) and
+   T3 (BayGMST) come later, likely January 2027. T2 will use Ammonyte
+   (being redesigned now) and should be close to the T1 design. T3 is
+   mostly model *configuration* (inputs, priors, noise, scenarios), not
+   ordered steps — needs its own design later.
+3. *Data sources (agreed 2026-10-01).* The first redesign's data phase
+   (and `data_loading.yml`) covers: **the LiPDGraph (SPARQL), LiPD files
+   (PyLiPD), NOAA and PANGAEA (via PyleoTUPS), and the user's own files.**
+   PaleoJump, emission scenarios and model output (CMIP6-PMIP4) stay in
+   the LLM-only fallback until T2/T3.
+4. *Literature and interpretation (Deborah, 2026-10-01).*
+   - The literature library caused many problems; **the workflow YAML
+     files are what replace it.** Not part of the redesign.
+   - **Interpretation knowledge** (GitHub issue #1) is needed for T1 and
+     belongs in this redesign — the explanation objective and the
+     synthesis step depend on it — **but only after some of the pipeline
+     is wired and shown to work.** It isn't in current PaleoPAL. Candidate
+     home: an `interpretation` section per workflow file, keyed by
+     objective. One thing at a time.
+5. *Learning from the scientist across sessions (Deborah, 2026-10-01).*
+   Partly built but not plugged in: the idea was a vector database of
+   each user's preferences (e.g. prefers binning; always compares
+   Lomb-Scargle with WWZ). It lives in the Docker container, so data stays
+   local. **Not in the first redesign, but a close second step.** Note
+   for then: preferences are user-specific *rules*; retrieving them by
+   similarity alone risks the same relevance-vs-authority problem the
+   redesign exists to fix.
+
 ## Agents and their scope (Deborah, 2026-10-01)
 
 PaleoPAL has several distinct problems; earlier redesign work mixed them
@@ -211,6 +269,80 @@ web-session summary — repo audit, A/B results, proposed pipeline, phase
 plan). It predates the agent-scope framing above and assumes every
 request is a full workflow. Older web-session context may be missing;
 when in doubt, ask Deborah.
+
+**Plan step = the single front door (agreed 2026-10-01).** Every request
+goes through one plan step that decides both *where it goes* (graph /
+data / analysis — replacing manual agent selection) and, for analysis:
+the level, the objective (default exploratory), which series, facts about
+the data (from the kernel), and the user's earlier choices. Reason:
+requests span concerns, e.g. "open `jh.lpd` and run a spectral analysis on
+the sea surface temperature timeseries" = data loading + choosing a
+variable inside the dataset + analysis, planned together.
+Choosing a variable inside a dataset (agreed): if exactly one variable
+matches, use it and say which ("using `SST` (Mg/Ca), age in years BP");
+if several match (different proxies, calibrations, time axes or age
+models), list them briefly and ask.
+
+**Where a user starts (Deborah, 2026-10-01) — basis for planning
+scenarios; start abstract:**
+1. *From scratch.*
+   - 1a. Blank notebook, no preamble, just a request — the user and
+     PaleoPAL build things together.
+   - 1b. Blank notebook with a preamble, which may state the scientific
+     question and guide the analysis (PaleoPAL might even suggest one).
+     Connects to GitHub issue #5 (notebook markdown as planning context).
+   Expect a lot of back-and-forth; the planned workflow gets edited along
+   the way. Idea: **the planner sorts out the data problem first, then
+   plans the rest of the analysis.**
+   - *Filed for later:* PaleoPAL only writes code cells today; it may need
+     to write markdown too (create sections, state the intent).
+2. *Data already loaded* (from the graph, LiPD files, or the user's own
+   files) — planning starts at the analysis.
+3. *Established workflow* — changing a few steps (the edit flow).
+**Plan structure (agreed 2026-10-01): data phase → analysis phase.** The
+batches are where the user *enters*: from scratch = both phases; data
+loaded = analysis phase (data phase = recognising what's loaded); established
+workflow = edit flow + downstream. `data_loading.yml` is the knowledge for
+the data phase, as `spectral_full.yml` is for analysis.
+**Data → analysis can repeat in one notebook:** data enters and is
+analysed; later new data enters and is either analysed on its own or
+combined with the earlier data and analysed together. Data → analysis
+stays the planning unit each time.
+- **Combined, same analysis** → redo A and B together with common
+  parameters (`MultipleSeries`; rule `multiseries_common_parameters`),
+  proposed through the edit flow since it changes A's earlier results.
+- **Separate** → B gets its own data → analysis cycle, independent of A.
+  Example (Deborah): the PaleoPCA paleobook
+  (`backend/libraries/notebook_library/my_notebooks/paleobooks_gallery/PaleoPCA/notebooks/paleoPCA.ipynb`)
+  — proxy PCA via Pyleoclim (`mgs_common.pca()`), then CESM model PCA
+  via xarray + `eofs`, each its own cycle; then a "Model-Data
+  Comparison" section brings the two *results* together.
+
+**Coverage and fallback (Deborah, 2026-10-01).** The focus is LinkedEarth
+tools first, so PaleoPAL may not do well on e.g. climate-model data yet.
+Principle: **if it's not in the knowledge base (RAG/workflow files), use
+the LLM's own answer — still inside PaleoPAL.** Example: "help me change
+something in this DataFrame" is pandas — the LLM is good at it, but it
+doesn't go through the RAG pipeline the checker is part of.
+- **Always tell the user** when an answer is pure LLM generation, not
+  through the RAG pipeline: a gentle note that it has fewer checks than
+  LinkedEarth workflows.
+- No library-specific checks are attempted for fallback answers — too
+  many libraries.
+- **Don't call the fallback "general help"** (Deborah). Conversational
+  requests can still go through the LinkedEarth pipeline: "not sure what
+  to do with these data, help me plan next steps" (chatbot), or "do you
+  have data covering the past 1000 years on the graph?" (a SPARQL query
+  under the hood, but the answer is conversational). So *conversational
+  vs code* and *covered by LinkedEarth knowledge vs LLM-only* are separate
+  axes. Name for the fallback still to be chosen.
+- **Model-data comparison, for now:** the data side gets its workflow file
+  for processing; the rest falls back to the LLM.
+
+No good real use cases exist yet: the paleobooks in this repo are the
+closest to scientific workflows but are written after the fact, not as
+the work happens. Plan: do our best abstractly, then Deborah does real
+scientific work with PaleoPAL to see where it breaks.
 
 **The redesign is deeper than adding pieces to the existing agents** — the
 current three-agent split may not survive it. The direction is being
@@ -468,6 +600,14 @@ Integration branch: `redesign/phase1` for Items 1–3.
   as a whole (high level). Then wait for her go-ahead.
 
 ## Ways of working
+
+- **Python: use the `paleopal` conda environment**
+  (`~/anaconda3/envs/paleopal/bin/python`, Python 3.11). It's outdated:
+  as of 2026-10-01 it lacks 15 of the 28 packages in
+  `backend/requirements.txt` (LangChain/LangGraph, FastAPI, the LLM SDKs…).
+  Update it when a task needs them — ask before installing.
+- **Pushing:** this Claude session has no GitHub credentials; Deborah
+  pushes from GitHub Desktop.
 
 - Understand architectural reasoning before touching code — don't jump to
   implementation.
