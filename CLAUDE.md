@@ -29,7 +29,14 @@ schema work below.
 ## Deadline
 
 Deborah has an accepted conference abstract for **December 2026**; goal:
-most of what's needed for T1 working by then. Working pace: 1–2 days a
+most of what's needed for T1 working by then.
+
+**How to treat it (Deborah, 2026-10-01): the demo is a motivator, not an
+absolute goal.** The real priority is **getting PaleoPAL up and running
+sooner rather than later**, demo or not; the demo gets built around
+whatever works. Claude's job is to say plainly when something should wait
+because something else needs to be tested first — not to cut corners to
+hit December. Working pace: 1–2 days a
 week. Rough estimate (2026-10-01): ~14–23 working days of T1 work vs
 ~10–20 available — tight; only works with a fixed scope.
 
@@ -706,6 +713,35 @@ Integration branch: `redesign/phase1` for Items 1–3.
   Update it when a task needs them — ask before installing.
 - **Pushing:** this Claude session has no GitHub credentials; Deborah
   pushes from GitHub Desktop.
+- **Docker: never touch the existing stack Varun set up for Deborah.**
+  The redesign gets its own stack (planned 2026-10-01, not built yet).
+  Why it's needed: `docker-compose.yml` hard-codes container names
+  (`paleopal-qdrant`, `-backend`, `-execution-service`, `-frontend`), the
+  network name (`paleopal-network`) and host ports (6333/6334, 8000, 8001,
+  3000), and the Compose project name comes from the folder — which is
+  the same on every branch. So a plain `docker compose up` on this branch
+  would **replace Varun's containers and reuse his volumes, including the
+  Qdrant index.** Plan: an override file run under a separate project name
+  (e.g. `-p paleopal-redesign`) that keeps the *service* names (so
+  `qdrant`, `backend`, `execution-service` hostnames still work) but gives
+  new container names, network, host ports and volumes. Each stack's
+  execution service reserves 24 GB, so don't run both at once.
+  The container names must differ from Varun's (Deborah confirmed that's
+  what she meant by "the same name" — it can't be kept).
+  The new stack starts with an empty Qdrant index, so the libraries must
+  be rebuilt — which makes **the corpus cleanup (Phase 1 Item 4) a higher
+  priority** (Deborah, 2026-10-01): rebuild clean rather than rebuild the
+  broken corpus.
+- **Next session order (agreed 2026-10-01):** (1) build the redesign
+  Docker stack; (2) copy Varun's Qdrant index once, read-only, into it;
+  (3) **smoke test** — 2–3 requests to confirm the new stack works (not a
+  baseline comparison: the alpha had no consistent scientific tests, so a
+  before/after comparison wouldn't mean much); (4) corpus cleanup and
+  rebuild; (5) demo story / planning scenarios.
+- **Held-out scientific tests:** Deborah is designing high-level
+  scientific tests separately, with another AI, so Claude doesn't see
+  them in advance. **Don't go looking for them**; she'll bring them in
+  when it's time to run them.
 
 - Understand architectural reasoning before touching code — don't jump to
   implementation.
