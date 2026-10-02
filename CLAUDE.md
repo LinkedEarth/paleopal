@@ -26,6 +26,35 @@ matplotlib cells than Pyleoclim cells indexed, parent/child retrieval
 silently disabled. Fixing this is Phase 1 Item 4, separate from the
 schema work below.
 
+## Deadline
+
+Deborah has an accepted conference abstract for **December 2026**; goal:
+most of what's needed for T1 working by then. Working pace: 1–2 days a
+week. Rough estimate (2026-10-01): ~14–23 working days of T1 work vs
+~10–20 available — tight; only works with a fixed scope.
+
+**December scope (Deborah, 2026-10-01): a live demo in a notebook** —
+- *Must have:* spectral and wavelet analysis, with the data loading
+  attached (data phase → analysis phase).
+- *Nice to have:* synthesis (comparing methods).
+- *Coherence:* stretch — "see how well we are doing".
+- *Format:* a **poster** — Deborah demos, and visitors also **play with it
+  themselves**, understood as a prototype. So unscripted requests will
+  happen: graceful failure (the "still learning" message, the LLM-only
+  note) matters as much as the demo path.
+- **Demo mode needed:** PaleoPAL must not remember preferences set during
+  the demo (each visitor starts fresh; nothing persists).
+A live demo rewards reliability over breadth: a known demo path that
+works every time matters more than covering every case.
+
+## Reminders for the user docs / tutorials
+
+Remind Deborah of these when we get to writing PaleoPAL's docs:
+- The "LLM-only" vs "LinkedEarth-covered" terminology, and the two labels
+  every request gets (how it's asked; its coverage).
+- What kernel access is for and why PaleoPAL asks for it (read-only
+  inspection checks only).
+
 ## Objectives we design against (from the NSF proposal; agreed 2026-10-01)
 
 Source: Deborah's NSF CAIG proposal (kept outside the repo; ask her for
@@ -49,9 +78,54 @@ disagreements, compromises and a rationale for choices.
 **Caveats vs the proposal:**
 1. *Interface:* the proposal promised a JupyterLab extension with cell
    magics. **Decided (Deborah, 2026-10-01): VS Code is the interface going
-   forward; JupyterLab is dropped.** Recommended (not yet confirmed):
-   keep all reasoning in the backend (plan step, checker, workflow files,
-   gap rules) and the extension thin (display, yes/no, cell edits).
+   forward; JupyterLab is dropped.** **Architecture rule (agreed
+   2026-10-01): all reasoning lives in the backend** (plan step, checker,
+   workflow files, gap rules, demo mode); **the extension is thin** — it
+   shows what the backend sends, collects the user's answers, and
+   reads/writes the notebook (cells, kernel variables, input history) on
+   request. Cost: the extension must send enough notebook context each
+   time.
+   **What the VS Code extension does today** (read 2026-10-01, ~620 lines
+   in `vscode-extension/src/`):
+   - *Routing is manual:* a quick-pick (Code / SPARQL / Workflow / Chat),
+     or a markdown cell starting `@agent code|sparql|workflow …`; the
+     result is inserted below that cell.
+   - *Context sent:* only cell **text**. Markdown cells become "user"
+     messages, code cells become "assistant" code. `notebook_context` is
+     sent **empty** — no kernel variables, no outputs, no input history.
+     The backend's variable context (`_create_comprehensive_variable_context`)
+     comes from its *own* execution service (the web flow), and execution
+     is off by default in the extension — so **in VS Code the backend
+     can't see the user's kernel at all today.**
+   - **Feasibility checked 2026-10-01 — it can be done.** The Jupyter
+     extension (`ms-toolsai.jupyter`, npm types `@vscode/jupyter-extension`)
+     exposes `kernels.getKernel(notebookUri)` → `Kernel.executeCode(code,
+     token)`, which "executes code in the kernel without affecting the
+     execution count & execution history" and streams back outputs (MIME
+     items, so JSON works). Limits: only kernels the user has already
+     started, for open notebooks. The user is prompted once to grant the
+     extension kernel access (revocable via "Jupyter: Manage Access To
+     Jupyter Kernels"); granting it lets the extension run *any* code in
+     the kernel. Input history is reachable the same way (IPython `_ih`).
+     Pre-grant access on the poster demo machine.
+   - **Firm rule (agreed 2026-10-01): code run silently in the user's
+     kernel is limited to a small, fixed set of hand-written, reviewed,
+     read-only inspection snippets** (e.g. is this series evenly spaced,
+     what columns does this DataFrame have, input history). Never
+     LLM-generated code. Snippets must leave no trace in the user's
+     namespace. Everything the LLM writes goes into a visible cell.
+   - **Tell the user** what kernel access is for when they're first
+     prompted. The prompt itself belongs to the Jupyter extension and its
+     wording can't be changed, so PaleoPAL shows its own short explanation
+     just before triggering it (only read-only checks; never runs code
+     without showing it). **Reminder for Deborah:** put this in the user
+     docs too.
+   - *Markdown as "user" messages* mixes a preamble with conversation
+     turns — conflicts with the locked decision to keep notebook markdown
+     separate from session history.
+   - Each request is stateless (new conversation id every time).
+   - Can insert, delete and **replace** cells; has a webview panel for
+     clarification questions.
 2. *Science themes (Deborah, 2026-10-01).* **Now: complete the first
    redesign for T1.** T1 priority = **spectral, wavelet and coherence**
    (most of Pyleoclim); more Pyleoclim later. T1 also has a **synthesis
@@ -197,9 +271,9 @@ Series that was never standardized):
   **Decided interim:** show current code, proposed code and the reason in
   the PaleoPAL panel and ask "apply this?"; only on yes does PaleoPAL
   replace the code in the cell. Nothing in the notebook changes before
-  the user agrees. Unverified: whether the extension can replace an
-  existing cell's contents (vs only insert) — check extension code or ask
-  Varun when we get there.
+  the user agrees. Verified 2026-10-01: the extension can replace a
+  cell's contents (`updateCellText` in `vscode-extension/src/notebook.ts`),
+  and its webview panel (`clarifyPanel.ts`) can host the before/after view.
 - **Downstream effects of an edit:** point out later code that uses the
   changed result and needs re-running (e.g. a `psd.signif_test()` cell
   after the spectral method changes).
@@ -238,8 +312,12 @@ directly when the source of truth is ambiguous. (Ties to keeping
 explanations are made of.) Note: the code agent already has a
 clarification step (`detect_clarification_node` in
 `agents/code/handlers.py`). Per Deborah: PaleoPAL was first built with a
-web interface; clarification works there but never worked well, and was
-never implemented in the notebook/VS Code flow.
+web interface, where clarification never worked well. Correction from
+reading the code (2026-10-01): the VS Code extension *does* have a
+clarification flow — a webview panel with questions (choices or free
+text) and Submit/Cancel, re-sending the request with the answers
+(`showClarificationPanel` in `vscode-extension/src/clarifyPanel.ts`). How
+well it works in practice is unknown.
 
 **Data provenance decides whether PaleoPAL can interpret a DataFrame
 (Deborah, 2026-10-01).** This is the provenance axis `data_loading.yml`
@@ -324,6 +402,12 @@ Principle: **if it's not in the knowledge base (RAG/workflow files), use
 the LLM's own answer — still inside PaleoPAL.** Example: "help me change
 something in this DataFrame" is pandas — the LLM is good at it, but it
 doesn't go through the RAG pipeline the checker is part of.
+- **Naming (agreed 2026-10-01): "LLM-only" vs "LinkedEarth-covered"** —
+  the coverage axis. Every request has two labels: how it's asked
+  (conversational / code) and its coverage. "Standard method search" (the
+  proposal's term) stays the name of one *task* type, usually LLM-only.
+  **Reminder for Deborah:** put this terminology in the user docs when we
+  write PaleoPAL tutorials.
 - **Always tell the user** when an answer is pure LLM generation, not
   through the RAG pipeline: a gentle note that it has fewer checks than
   LinkedEarth workflows.
@@ -474,11 +558,22 @@ provisional.
       keep, quietly repaired (user explicitly asking for CWT → user
       choice, ask-and-wait). `correct_object`: keep, but needs the
       intended series from the plan step — waits for that.
-      `plot_in_loglog`: **bug — fix later.** `PSD.plot()` is already
-      log-log by default (Deborah); the check currently requires an
-      explicit `in_loglog=True` and so flags correct `psd.plot()`. It
-      should only flag `in_loglog=False`. A user override follows the
-      ask-and-wait rules. (The rule predates checking the default.)
+      `plot_in_loglog`: **fixed 2026-10-01.** `PSD.plot()` is already
+      log-log by default (Deborah), so only an explicit `in_loglog=False`
+      is flagged. **If the user set it to False, assume it's deliberate
+      and leave it** — no ask-and-wait (Deborah). Mechanism: confirmed
+      user choices go to `gate(findings, user_overrides=...)` and are
+      reported as overridden, not repaired.
+    - **`gate()` rewritten 2026-10-01:** repairs every violation in
+      PaleoPAL's own code regardless of severity, except user overrides.
+      Tests: `backend/agents/code/test_verification.py` (stdlib
+      `unittest`; run `python agents/code/test_verification.py` from
+      `backend/` in the `paleopal` env). `check_disclosures()` is kept
+      but marked as being retired.
+    - **Chatbot capability (Deborah):** answer "what parameters are
+      available?" by producing a help cell (e.g. `help(psd.plot)`). A
+      parameter the user then sets explicitly is a deliberate choice —
+      acknowledge it, don't "correct" it.
   - **Check-by-check review** (workflow-context checks), agreed
     2026-10-01 — all run on notebook + new code, quietly repaired in
     PaleoPAL's code:
@@ -525,9 +620,12 @@ provisional.
        internal back-and-forth at all.
        - **Keep the repair history for PaleoPAL, not the user:** build a
          history/library of these internal repairs that can feed back
-         into improving PaleoPAL. Analogue: the web UI already records
-         user corrections for PaleoPAL to take into account later (not
-         yet reviewed in code; not in the notebook flow).
+         into improving PaleoPAL. Analogue: the web UI's "index as
+         learned" action (`POST /messages/{id}/index-as-learned` in
+         `backend/routers/messages.py`) stores user-approved code / SPARQL
+         in Qdrant collections `learned_code` / `learned_sparql`. Not in
+         the VS Code flow. Note: these are approved *examples*
+         (instances) retrieved by similarity, not rules.
        - **When repair fails** (still violating a prohibited rule after
          `MAX_REFINEMENTS` = 3 tries): show the code with a clear warning
          naming the problem and what to do — never withhold it, never

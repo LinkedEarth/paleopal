@@ -36,6 +36,9 @@ plan step must assemble it before generation, from these sources:
                           | whose `applies_to_objectives` includes the
                           | resolved objective. Currently only
                           | exploratory_result_is_not_interpretable.
+    user_overrides        | rule ids of choices the user explicitly made
+    (passed to gate())    | or confirmed (e.g. plot_in_loglog after asking
+                          | for linear axes). Not repaired.
 
 ------------------------------------------------------------------------------
 CONTRACT: the `code` argument
@@ -330,12 +333,9 @@ def extract_facts(code: str) -> CodeFacts:
 # ---------------------------------------------------------------------------
 
 # Disclosure checks read the assistant's PROSE, not its code. They are keyword
-# heuristics and therefore weaker than the AST checks — treat a violation as
-# "worth reading by hand", not as a verdict. Whether that's strong enough to
-# actually BLOCK on (vs. only warn) is an open call — see gate() below, which
-# currently treats prohibited-severity disclosure violations the same as any
-# other prohibited violation. Revisit if false positives/negatives show up in
-# practice.
+# heuristics and therefore weaker than the AST checks. Being retired: PaleoPAL
+# now adds required statements itself from the workflow YAML's `must_say`, so
+# the model is no longer responsible for them. Kept until that is wired.
 SIGNIF_TERMS = ("signif", "significance", "null model", "red noise",
                 "noise model", "ar1", "not significant", "interpret")
 
@@ -581,11 +581,15 @@ def run_checks(code: str, task: dict) -> list[Finding]:
             ))
 
     # --- plotting defaults (advisory) ---------------------------------------
+    # PSD.plot() is already log-log by default, so a plain psd.plot() is
+    # fine; only an explicit in_loglog=False departs from it. When the USER
+    # asked for that, it's deliberate — pass it in task["user_overrides"]
+    # and gate() will not repair it.
     if task.get("expects_plot"):
         loglog = facts.plot_kwargs.get("in_loglog")
         out.append(Finding(
             "plot_in_loglog", "advisory",
-            "ok" if loglog is True else "violated",
+            "violated" if loglog is False else "ok",
             f"in_loglog={loglog!r}",
         ))
 
@@ -599,32 +603,30 @@ def run_checks(code: str, task: dict) -> list[Finding]:
 # across many saved completions; it never needed to decide what to DO about a
 # single generation, because nothing downstream consumed its output live.
 # gate() replaces that job: given one generation's findings, decide whether
-# PaleoPAL should block and trigger REPAIR, warn but proceed, or just note
-# something for explainability. Mirrors the severity semantics documented in
-# spectral_full.yml's `rules` section docstring.
+# PaleoPAL's own code goes back for REPAIR.
+#
+# Every violation in PaleoPAL's own code is repaired quietly, whatever its
+# severity. Severity only governs how PaleoPAL treats the USER's gaps and
+# choices (corrected snippet vs ask-and-wait), which is handled upstream, not
+# here. The one exception is a choice the user explicitly confirmed (e.g.
+# "regrid anyway", "linear axes"): its rule id goes in `user_overrides` and
+# the violation is reported as overridden instead of repaired.
 # ---------------------------------------------------------------------------
 
-def gate(findings: list[Finding]) -> dict:
+def gate(findings: list[Finding], user_overrides=()) -> dict:
     """
-    severity -> action:
-        prohibited  — any violation blocks. Caller should feed
-                      `blocking_violations` back into REPAIR rather than
-                      surface the generation as-is.
-        discouraged — does not block. Caller should surface `warnings`
-                      to the user alongside the generation.
-        advisory    — does not block, does not warn. Available in
-                      `advisories` for explanation if asked.
+    Returns:
+        repair      — True if any violation must go back to the model.
+        violations  — findings to feed into REPAIR (any severity).
+        overridden  — violations the user explicitly chose; leave them.
+    Every repair should also be recorded in the internal repair history.
     """
-    blocking = [f for f in findings
-                if f.severity == "prohibited" and f.status == "violated"]
-    warnings = [f for f in findings
-                if f.severity == "discouraged" and f.status == "violated"]
-    advisories = [f for f in findings
-                  if f.severity == "advisory" and f.status == "violated"]
+    violated = [f for f in findings if f.status == "violated"]
+    overridden = [f for f in violated if f.rule in user_overrides]
+    to_repair = [f for f in violated if f.rule not in user_overrides]
     return {
-        "blocked": bool(blocking),
-        "blocking_violations": blocking,
-        "warnings": warnings,
-        "advisories": advisories,
+        "repair": bool(to_repair),
+        "violations": to_repair,
+        "overridden": overridden,
     }
 
