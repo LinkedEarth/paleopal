@@ -24,6 +24,8 @@ AUTHORSHIP_CODE = "# Written by PaleoPAL"
 
 _SNIPPETS_PER_STEP = 2
 _SNIPPET_CHARS = 800
+_CONTEXT_CHARS = 400
+_NO_MARKDOWN = "Notebook start"  # the indexer's placeholder for a section with no text
 _SPECTRAL_STEP = "spectral_estimate"
 
 _SYSTEM_PROMPT = """You write the code for one paleoclimate workflow, step by step, for a notebook.
@@ -39,8 +41,9 @@ Rules for the code:
 {method_rule}
 - Field names in the step definitions describe a schema. They are not Python arguments.
 
-Examples are labelled per step. They only show how to write that step. They may contain other
-steps and other parameters: ignore those. They never add a step.
+Examples are labelled per step. They show how to write that step, and their arguments can guide
+yours, because Pyleoclim's defaults aren't always the scientifically right choice. They may also
+contain other steps: ignore those. An example never adds a step.
 
 For each step's "explanation", write 1-3 plain sentences in the first person, speaking directly
 to the reader as "you", saying what the step does and why, for someone new to paleoclimate. Base
@@ -138,8 +141,11 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
         source = source_text(step, plan, workflow)
         parts.append(f"Source text: {source or 'none. Say only what this step does.'}")
         for example in _examples_for(step, snippets):
-            parts.append(f"Example for {step['id']}:\n```python\n"
-                         f"{example.get('code', '')[:_SNIPPET_CHARS]}\n```")
+            context = " ".join((example.get("markdown_context") or "").split())
+            context = "" if context == _NO_MARKDOWN else context[:_CONTEXT_CHARS]
+            parts.append(f"Example for {step['id']}:\n"
+                         + (f"Its notebook's text: {context}\n" if context else "")
+                         + f"```python\n{example.get('code', '')[:_SNIPPET_CHARS]}\n```")
     return "\n\n".join(parts)
 
 

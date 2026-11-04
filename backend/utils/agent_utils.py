@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional
 from agents.base_agent import AgentRequest, AgentResponse, AgentStatus
 from services.agent_registry import agent_registry
 from agents.sparql.sparql_generation_agent import SparqlGenerationAgent
-from agents.code import CodeGenerationAgent
+from agents.code import CodeGenerationAgent, planning_flow
 # Remove the import to avoid circular dependency - import locally when needed
 # from agents.workflow import WorkflowGenerationAgent
 
@@ -47,7 +47,15 @@ async def route_agent_request_with_custom_config(request: AgentRequest) -> Agent
     """
     try:
         logger.info(f"Routing agent request: {request.agent_type}.{request.capability}")
-        
+
+        # New planning flow. Returns None for anything it doesn't cover yet.
+        if request.agent_type in ("code", "workflow_generation") and planning_flow.is_enabled():
+            response = await planning_flow.handle(request)
+            if response is not None:
+                logger.info("Handled by the planning flow")
+                return response
+            logger.info("Not covered by the planning flow, using the existing agent")
+
         # Check if this is a SPARQL agent request with clarification config
         if request.agent_type == "sparql":
             # Extract clarification configuration from metadata

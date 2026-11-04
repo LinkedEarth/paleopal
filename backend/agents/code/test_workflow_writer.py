@@ -137,6 +137,17 @@ class SourceTests(unittest.TestCase):
         text = json.dumps({"steps": [{"id": i, "code": "x = 1"} for i in STEPS]})
         self.assertEqual(len(write(text).problems), len(STEPS))
 
+    def test_examples_carry_their_notebook_text(self):
+        examples = [{"markdown_context": "We keep the mean so the axis stays in permil.",
+                     "code": "lr04.detrend(preserve_mean=True)"}]
+        message = w.build_user_message(lr04_plan(), WORKFLOW, {"detrend": examples})
+        self.assertIn("Its notebook's text: We keep the mean", message)
+
+    def test_the_indexer_placeholder_is_not_sent_as_text(self):
+        examples = [{"markdown_context": "Notebook start", "code": "lr04.detrend()"}]
+        message = w.build_user_message(lr04_plan(), WORKFLOW, {"detrend": examples})
+        self.assertNotIn("Notebook start", message)
+
     def test_prompt_gives_the_source_but_not_a_duplicate_rationale(self):
         message = w.build_user_message(lr04_plan(), WORKFLOW, {})
         self.assertIn("Source text: I removed the long-term trend", message)

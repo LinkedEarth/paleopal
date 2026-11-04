@@ -429,7 +429,31 @@ names the examples given to the model, in a collapsible section (agreed by
 Deborah; built). Deborah-approved source text is in the YAML for detrend,
 standardize, visualize and Lomb-Scargle. WWZ and MTM have none yet, and Python
 says so in the cell. This makes unsupported claims visible; it doesn't prevent
-them. For the demo: long series can take a long
+them. Example found 2026-11-04: `preserve_mean=True` (Pyleoclim's default is
+False, per Deborah) appears in both detrend examples the model received.
+**Don't limit arguments to the YAML (Deborah, 2026-11-04):** Pyleoclim defaults
+may be computationally cheap but not scientifically correct, and examples are
+meant to carry the expert choice of arguments. So examples do have authority
+over arguments, though not over steps. That raises the bar for the corpus
+rebuild: an indexed example can teach arguments, so its quality matters, not
+just its uniqueness. Don't encode science-dependent arguments as YAML rules either,
+since the right value depends on the application (Deborah, 2026-11-04); the
+chatbot should explain a parameter and point to where it appears as an example.
+Indexing check (2026-11-04): `index_notebooks.py` already embeds markdown context
+with code, and 404 of the 430 indexed snippets have real markdown. But the writer
+only sends the model the code, so that context isn't used yet. Keep markdown with
+code in the corpus rebuild (Deborah).
+**Connection:** `planning_flow.py` connects the pieces, called first from
+`route_agent_request_with_custom_config` for code and workflow requests when
+`USE_PLANNING_FLOW=true` (set only in `docker-compose.redesign.yml`). Requests
+it doesn't cover return None and use the old pipeline. It returns `cells` plus
+one combined `generated_code`; the extension doesn't read `cells` yet. Confirmed
+from VS Code on 2026-11-04: the LR04 request got detrend, standardize, spectral
+and plot, and the code ran and produced the plot (Deborah). `@agent code` is now
+only the way in; later, the plan step as front door should remove agent choice.
+**For the chatbot, part two of the redesign
+(Deborah):** a researcher should be able to ask where a piece of text or an
+argument came from, so PaleoPAL must keep what each cell was given. For the demo: long series can take a long
 time to compute (seen with `cenogrid_d13C` on 2026-11-04), so choose demo
 records with that in mind; the file records a cost only for WWZ so far.
 The chain was run by a test script, not the backend, on the LR04 request with

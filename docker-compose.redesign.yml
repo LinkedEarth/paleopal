@@ -24,6 +24,8 @@ services:
     container_name: paleopal-redesign-backend
     ports: !override
       - "18000:8000"
+    environment:
+      - USE_PLANNING_FLOW=true
 
   # The web app isn't part of the redesign. Start it only with --profile web.
   frontend:
