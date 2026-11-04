@@ -447,7 +447,15 @@ code in the corpus rebuild (Deborah).
 `route_agent_request_with_custom_config` for code and workflow requests when
 `USE_PLANNING_FLOW=true` (set only in `docker-compose.redesign.yml`). Requests
 it doesn't cover return None and use the old pipeline. It returns `cells` plus
-one combined `generated_code`; the extension doesn't read `cells` yet. Confirmed
+one combined `generated_code`. Extension 0.1.3 inserts `cells` with one undo, a
+hidden `metadata.paleopal` label and the visible authorship line, and leaves
+PaleoPAL's markdown out of the history it sends. Tested by Deborah 2026-11-04: 9
+cells, one undo, the `sst` question; the label saves as cell `metadata.paleopal`
+with the step id. **Open (Deborah, 2026-11-04):** PaleoPAL may need to read its
+own explanations, and what happens when a human edits a PaleoPAL cell isn't
+worked out, including what the authorship line means then. Dropping that
+markdown from the history is only a stopgap. Build it with Node 23
+(`~/.nvm/versions/node/v23.7.0/bin`), since the default Node 10 is too old. Confirmed
 from VS Code on 2026-11-04: the LR04 request got detrend, standardize, spectral
 and plot, and the code ran and produced the plot (Deborah). `@agent code` is now
 only the way in; later, the plan step as front door should remove agent choice.

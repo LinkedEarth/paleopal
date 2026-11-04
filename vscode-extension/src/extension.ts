@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { randomUUID } from 'crypto';
-import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCell, appendCodeCell, runAllNotebookCells, buildHistoryUpToCell, getActiveCellIndex, insertLoadingCell, updateCellText, deleteCell, insertMarkdownCellAt } from './notebook';
+import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCell, appendCodeCell, runAllNotebookCells, buildHistoryUpToCell, getActiveCellIndex, insertLoadingCell, updateCellText, deleteCell, insertMarkdownCellAt, insertAgentCells, AgentCell } from './notebook';
 import { showClarificationPanel, ClarificationQuestion } from './clarifyPanel';
 import { AgentCellStatusBarProvider } from './statusbar';
 
@@ -84,6 +84,15 @@ async function callChat(messages: ChatMessage[]) {
   return res.json();
 }
 
+// The backend's planning flow returns ready-made cells. Returns false if it didn't.
+async function insertReturnedCells(response: any, afterIndex?: number): Promise<boolean> {
+  const cells: AgentCell[] | undefined = response?.result?.cells;
+  if (!Array.isArray(cells) || cells.length === 0) return false;
+  const count = vscode.window.activeNotebookEditor?.notebook.cellCount ?? 0;
+  await insertAgentCells(afterIndex ?? count - 1, cells);
+  return true;
+}
+
 async function newConversation() {
   await createNotebook('PaleoPal Conversation');
   vscode.window.showInformationMessage('PaleoPal: New notebook conversation created.');
@@ -126,6 +135,7 @@ async function askAgent() {
   };
 
   const response = await callAgentsRequest(body);
+  if (await insertReturnedCells(response)) return;
   const code: string | undefined = response?.result?.generated_code;
   const msg: string = response?.message || 'Agent responded.';
   // Handle clarifications
@@ -256,6 +266,10 @@ async function runAgentForCell() {
   const loadingIdx = await insertLoadingCell(idx);
   try {
     const response = await callAgentsRequest(body);
+    if (response?.result?.cells) {
+      if (loadingIdx !== undefined) await deleteCell(loadingIdx);
+      if (await insertReturnedCells(response, idx)) return;
+    }
     // Clarifications
     if (response?.status === 'needs_clarification' || response?.result?.clarification_questions) {
       const qs: ClarificationQuestion[] = (response?.result?.clarification_questions || response?.clarification_questions || []).map((q: any, i: number) => ({
