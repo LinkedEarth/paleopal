@@ -366,6 +366,25 @@ def check_disclosures(raw_response: str, task: dict) -> list[Finding]:
     return out
 
 
+# These judge only the code they're given, so in a notebook they apply to what
+# PaleoPAL just wrote. The user's earlier cells are the user's own choices.
+CODE_ONLY_CHECKS = {
+    "code_parses", "api_methods_exist", "api_kwargs_valid", "method_literal_valid",
+    "object_not_dismantled", "no_user_variable_rebinding", "no_discarded_results",
+    "result_displayed", "uses_core_api", "no_runtime_data_branching",
+    "cwt_not_first_choice", "correct_object", "plot_in_loglog",
+}
+
+
+def check_new_code(notebook_cells: list[str], new_code: str, task: dict) -> list[Finding]:
+    """Check new code in a notebook: code-only checks on the new code, and workflow
+    checks on the workflow as it will be once the new code is added."""
+    combined = run_checks("\n\n".join([*notebook_cells, new_code]), task)
+    alone = run_checks(new_code, task)
+    return ([f for f in alone if f.rule in CODE_ONLY_CHECKS]
+            + [f for f in combined if f.rule not in CODE_ONLY_CHECKS])
+
+
 def run_checks(code: str, task: dict) -> list[Finding]:
     """See the module docstring's `task` CONTRACT before calling this live —
     every field below must come from the plan step, not be guessed here."""

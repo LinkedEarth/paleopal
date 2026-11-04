@@ -132,6 +132,94 @@ class AsksInsteadOfGuessingTests(unittest.TestCase):
         self.assert_asks(run(model(SPECTRAL, steps=STEPS[:2])), "still learning")
 
 
+BAD_PLOT = dict(GOOD_CODE, visualize="plt.loglog(psd.frequency, psd.amplitude)")
+
+
+def scripted(*writes):
+    """A stand-in whose writer replies follow a script, repeating the last one."""
+    calls = []
+
+    def call(system, user):
+        if system.startswith("You read one request"):
+            return json.dumps(SPECTRAL)
+        calls.append(user)
+        code = writes[min(len(calls) - 1, len(writes) - 1)]
+        return json.dumps({"steps": [{"id": s, "explanation": "Text.", "code": code[s]} for s in STEPS]})
+    call.calls = calls
+    return call
+
+
+class RepairTests(unittest.TestCase):
+    def setUp(self):
+        self.history = []
+
+    def run_flow(self, call, hist=LR04):
+        return asyncio.run(flow.run("run spectral analysis on lr04", hist, WORKFLOW, call,
+                                    [no_search], on_repair=self.history.append))
+
+    def test_a_mistake_is_fixed_quietly(self):
+        result = self.run_flow(scripted(BAD_PLOT, GOOD_CODE))
+        self.assertEqual(result["repairs"], 1)
+        self.assertEqual(result["checker_findings"], [])
+        self.assertIn("psd.plot()", result["generated_code"])
+        self.assertNotIn("plt.loglog", result["generated_code"])
+        self.assertFalse(any("still learning" in c["text"] for c in result["cells"]))
+
+    def test_the_model_is_told_what_to_fix(self):
+        call = scripted(BAD_PLOT, GOOD_CODE)
+        self.run_flow(call)
+        self.assertNotIn("Problems to fix", call.calls[0])
+        self.assertIn("Problems to fix", call.calls[1])
+        self.assertIn("object_not_dismantled", call.calls[1])
+        self.assertIn("plt.loglog", call.calls[1])
+
+    def test_each_repair_is_recorded(self):
+        self.run_flow(scripted(BAD_PLOT, GOOD_CODE))
+        self.assertEqual(self.history[0]["attempt"], 1)
+        self.assertEqual(self.history[-1]["outcome"], "repaired")
+
+    def test_clean_code_makes_no_repair(self):
+        call = scripted(GOOD_CODE)
+        self.assertEqual(self.run_flow(call)["repairs"], 0)
+        self.assertEqual(len(call.calls), 1)
+        self.assertEqual(self.history, [])
+
+    def test_after_three_repairs_the_code_is_shown_with_a_warning(self):
+        call = scripted(BAD_PLOT)
+        result = self.run_flow(call)
+        self.assertEqual(len(call.calls), 4)
+        self.assertIn("still learning", result["cells"][0]["text"])
+        self.assertIn("object_not_dismantled", result["cells"][0]["text"])
+        self.assertIn("plt.loglog", result["generated_code"])
+        self.assertEqual(self.history[-1]["outcome"], "failed")
+
+    def test_the_users_own_plot_is_not_blamed_on_paleopal(self):
+        hist = LR04 + history("import matplotlib.pyplot as plt", "plt.plot(lr04.time, lr04.value)")
+        call = scripted(GOOD_CODE)
+        result = self.run_flow(call, hist)
+        self.assertEqual(result["repairs"], 0)
+        self.assertEqual(len(call.calls), 1)
+
+    def test_a_repeated_import_is_repaired(self):
+        bad = dict(GOOD_CODE, detrend="import pyleoclim as pyleo\na = lr04.detrend(method='emd')")
+        result = self.run_flow(scripted(bad, GOOD_CODE))
+        self.assertEqual(result["repairs"], 1)
+        self.assertNotIn("import", result["generated_code"])
+
+    def test_an_unusable_repair_keeps_the_earlier_code(self):
+        replies = iter([json.dumps(SPECTRAL),
+                        json.dumps({"steps": [{"id": s, "explanation": "T.", "code": BAD_PLOT[s]} for s in STEPS]})])
+
+        def call(system, user):
+            return next(replies, "not json")
+        result = self.run_flow(call)
+        self.assertIn("plt.loglog", result["generated_code"])
+        self.assertIn("still learning", result["cells"][0]["text"])
+
+    def test_history_problems_never_reach_the_user(self):
+        flow.record_repair({"x": 1}, path="/nonexistent-dir/history.jsonl")
+
+
 class OldPipelineTests(unittest.TestCase):
     def test_no_loaded_series(self):
         self.assertIsNone(run(model(SPECTRAL), history("import pyleoclim as pyleo")))

@@ -74,6 +74,7 @@ class Cell:
 class WriteResult:
     cells: list[Cell] = field(default_factory=list)
     problems: list[str] = field(default_factory=list)
+    reply: str = ""  # the model's raw reply, needed to ask it for a repair
 
 
 def build_plan(state, workflow: dict, objective: str | None = None,
@@ -169,16 +170,31 @@ def _code_problems(step_id: str, code: str) -> list[str]:
     return []
 
 
+def _repair_request(previous: str, problems: list[str]) -> str:
+    listed = "\n".join(f"- {p}" for p in problems)
+    return (f"\n\n## Your previous reply\n{previous}\n\n## Problems to fix\n{listed}\n\n"
+            "Reply with the complete corrected JSON, for all the steps. "
+            "Change only what these problems require.")
+
+
 def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
-                   call_model: Callable[[str, str], str]) -> WriteResult:
-    """`call_model(system_prompt, user_message)` returns the model's text reply."""
+                   call_model: Callable[[str, str], str], previous: str | None = None,
+                   problems: list[str] | None = None) -> WriteResult:
+    """`call_model(system_prompt, user_message)` returns the model's text reply.
+
+    Pass `previous` and `problems` to ask the model to repair an earlier reply.
+    """
     result = WriteResult()
     system = _SYSTEM_PROMPT.format(
         series=plan.series,
         method_rule=f"- In the spectral step, use method='{plan.method}'.",
     )
+    message = build_user_message(plan, workflow, snippets)
+    if previous is not None:
+        message += _repair_request(previous, problems or [])
     try:
-        written = _parse_reply(call_model(system, build_user_message(plan, workflow, snippets)))
+        result.reply = call_model(system, message)
+        written = _parse_reply(result.reply)
     except ValueError as exc:
         result.problems.append(f"couldn't read the model's reply: {exc}")
         return result

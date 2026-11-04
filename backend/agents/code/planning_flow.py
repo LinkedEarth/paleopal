@@ -7,8 +7,9 @@ planning_flow.py — the new path for a request, connecting the planning pieces.
 First version: only a spectral analysis on a notebook with a loaded series and no
 analysis yet. Anything else returns None and goes to the old pipeline. When a
 request can't be resolved, such as a series that isn't in the notebook, PaleoPAL
-asks rather than guessing. The checker reports findings; its repair loop isn't
-built yet.
+asks rather than guessing. PaleoPAL's own mistakes go back to the model and are
+fixed quietly; each repair is recorded for improving PaleoPAL, not shown to the
+user. If they survive the last repair, the code is shown with a warning.
 
 Off unless USE_PLANNING_FLOW=true.
 """
@@ -16,10 +17,12 @@ Off unless USE_PLANNING_FLOW=true.
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import os
 from dataclasses import asdict
-from typing import Awaitable, Callable
+from datetime import datetime, timezone
+from typing import Callable
 
 from . import request_interpreter, step_snippets, verification, workflow_detector, workflow_writer
 
@@ -36,6 +39,34 @@ def code_cells_from_history(history: list[dict]) -> list[str]:
             if m.get("role") == "assistant" and m.get("generated_content")]
 
 
+def record_repair(entry: dict, path: str | None = None) -> None:
+    """Append to the internal repair history. A failure here must never affect the user."""
+    path = path or os.getenv("REPAIR_HISTORY_PATH", "data/repair_history.jsonl")
+    try:
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"time": datetime.now(timezone.utc).isoformat(), **entry}) + "\n")
+    except OSError as exc:
+        logger.warning("Couldn't record the repair: %s", exc)
+
+
+def _problems_with(written, cells: list[str], task: dict, user_overrides: set[str]) -> list[str]:
+    """Everything that should go back to the model, as text it can act on."""
+    problems = list(written.problems)
+    if written.cells:
+        code = "\n\n".join(c.text for c in written.cells if c.kind == "code")
+        gate = verification.gate(verification.check_new_code(cells, code, task), user_overrides)
+        problems += [f"{v.rule}: {v.detail}" if v.detail else v.rule for v in gate["violations"]]
+    return problems
+
+
+def _warning_cell(problems: list[str]) -> dict:
+    listed = "\n".join(f"- {p}" for p in problems)
+    return {"kind": "markdown", "step": None,
+            "text": "I'm still learning and can't get this right yet, but I'm learning! Please "
+                    f"check the code below, because these problems remain:\n\n{listed}\n\n"
+                    f"{workflow_writer.AUTHORSHIP_MARKDOWN}"}
+
+
 def _ask(*questions: str) -> dict:
     text = " ".join(questions) + f"\n\n{workflow_writer.AUTHORSHIP_MARKDOWN}"
     return {"generated_code": "", "cells": [{"kind": "markdown", "text": text, "step": None}],
@@ -43,7 +74,8 @@ def _ask(*questions: str) -> dict:
 
 
 async def run(user_input: str, history: list[dict], workflow: dict,
-              call_model: Callable[[str, str], str], searches: list) -> dict | None:
+              call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
+              on_repair: Callable[[dict], None] | None = None) -> dict | None:
     """Return the cells for this request, or None if it isn't covered yet."""
     cells = code_cells_from_history(history)
     series = workflow_detector.detect(cells, workflow).series
@@ -74,22 +106,42 @@ async def run(user_input: str, history: list[dict], workflow: dict,
     plan = workflow_writer.build_plan(state, workflow, meaning.objective, meaning.method)
     snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)
                 for step in plan.steps}
+    # A method the user named is their choice, not PaleoPAL's mistake.
+    overrides = {"cwt_not_first_choice"} if meaning.method == "cwt" else set()
+    task = {"objective": plan.objective, "expected_object": plan.series, "expects_plot": True}
+
     written = await asyncio.to_thread(
         workflow_writer.write_workflow, plan, workflow, snippets, call_model)
-    if written.problems or not written.cells:
-        logger.warning("Planning flow couldn't write the workflow: %s", written.problems)
+    problems = _problems_with(written, cells, task, overrides)
+    repairs = 0
+    while problems and repairs < max_repairs:
+        repairs += 1
+        if on_repair:
+            on_repair({"request": user_input, "plan": [s["id"] for s in plan.steps],
+                       "attempt": repairs, "problems": problems, "reply": written.reply})
+        logger.info("Planning flow repair %d: %s", repairs, problems)
+        previous = written
+        written = await asyncio.to_thread(
+            workflow_writer.write_workflow, plan, workflow, snippets, call_model,
+            previous.reply, problems)
+        if not written.cells and previous.cells:
+            written.cells = previous.cells  # an unusable repair must not lose the code
+        problems = _problems_with(written, cells, task, overrides)
+    if repairs and on_repair:
+        on_repair({"request": user_input, "outcome": "failed" if problems else "repaired",
+                   "repairs": repairs, "problems": problems, "reply": written.reply})
+
+    if not written.cells:
+        logger.warning("Planning flow couldn't write the workflow: %s", problems)
         return _ask("I'm still learning and can't get this right yet, but I'm learning! "
                     "I wasn't able to write this workflow, so please try rephrasing your request.")
 
     code = "\n\n".join(c.text for c in written.cells if c.kind == "code")
-    findings = verification.run_checks(
-        "\n\n".join([*cells, code]),
-        {"objective": plan.objective, "expected_object": plan.series, "expects_plot": True})
-    violations = [asdict(f) for f in findings if f.status == "violated"]
-    if violations:
-        logger.warning("Planning flow checker findings: %s", violations)
-    return {"generated_code": code, "cells": [asdict(c) for c in written.cells],
-            "needs_user_input": False, "checker_findings": violations,
+    new_cells = [asdict(c) for c in written.cells]
+    if problems:
+        new_cells.insert(0, _warning_cell(problems))
+    return {"generated_code": code, "cells": new_cells,
+            "needs_user_input": False, "checker_findings": problems, "repairs": repairs,
             "plan": {"series": plan.series, "objective": plan.objective, "method": plan.method,
                      "steps": [s["id"] for s in plan.steps]}}
 
@@ -97,6 +149,7 @@ async def run(user_input: str, history: list[dict], workflow: dict,
 async def handle(request):
     """Adapter for the agent router. Returns an AgentResponse, or None for the old pipeline."""
     from agents.base_agent import AgentResponse, AgentStatus
+    from agents.base_state import MAX_REFINEMENTS
     from langchain_core.messages import HumanMessage, SystemMessage
     from services.search_integration_service import search_service
     from services.service_manager import service_manager
@@ -110,7 +163,8 @@ async def handle(request):
 
     result = await run(request.user_input, (request.context or {}).get("conversation_history", []),
                        workflow_detector.load_workflow(), call_model,
-                       [search_service.search_snippets, search_service.search_code_examples])
+                       [search_service.search_snippets, search_service.search_code_examples],
+                       max_repairs=MAX_REFINEMENTS, on_repair=record_repair)
     if result is None:
         return None
     message = ("I need one more detail from you." if result["needs_user_input"]

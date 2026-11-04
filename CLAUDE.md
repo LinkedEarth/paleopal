@@ -451,14 +451,28 @@ one combined `generated_code`. Extension 0.1.3 inserts `cells` with one undo, a
 hidden `metadata.paleopal` label and the visible authorship line, and leaves
 PaleoPAL's markdown out of the history it sends. Tested by Deborah 2026-11-04: 9
 cells, one undo, the `sst` question; the label saves as cell `metadata.paleopal`
-with the step id. **Open (Deborah, 2026-11-04):** PaleoPAL may need to read its
-own explanations, and what happens when a human edits a PaleoPAL cell isn't
-worked out, including what the authorship line means then. Dropping that
-markdown from the history is only a stopgap. Build it with Node 23
+with the step id. **Who wrote a cell (agreed 2026-11-04, not built yet; needed for
+"next step" and "edit a step"):** PaleoPAL reads every cell knowing its author. A
+researcher's cell is their words and code. An unchanged PaleoPAL cell is its own
+earlier note, which it can explain but which isn't an instruction. An edited
+PaleoPAL cell counts as the researcher's: their edit wins and changed arguments
+are deliberate. Detect edits with a fingerprint of the text stored in the label
+and compared by the backend. On the next run, change the line to "Written by
+PaleoPAL, edited by the researcher"; never remove it. Dropping PaleoPAL's markdown
+from the history is a stopgap until then. Build it with Node 23
 (`~/.nvm/versions/node/v23.7.0/bin`), since the default Node 10 is too old. Confirmed
 from VS Code on 2026-11-04: the LR04 request got detrend, standardize, spectral
 and plot, and the code ran and produced the plot (Deborah). `@agent code` is now
 only the way in; later, the plan step as front door should remove agent choice.
+**Repair loop built (2026-11-04):** problems go back to the model up to
+`MAX_REFINEMENTS` times, quietly; after that the code is shown with the "still
+learning" warning. Repairs append to `data/repair_history.jsonl` in the backend
+data volume. Code-only checks now run on new code only (`check_new_code`), so a
+researcher's earlier code isn't blamed on PaleoPAL. Seen with `gpt-5.5` fixing a
+forced `plt.loglog` draft. **Build order agreed 2026-11-04, keeping the spectral
+example:** next step, then kernel reads, editing a step, several series. Decide
+in the next session whether data loading (its own YAML) jumps ahead; Deborah's
+held-out tests come after, since most need data loading.
 **For the chatbot, part two of the redesign
 (Deborah):** a researcher should be able to ask where a piece of text or an
 argument came from, so PaleoPAL must keep what each cell was given. For the demo: long series can take a long

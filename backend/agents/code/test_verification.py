@@ -62,6 +62,27 @@ class PlotInLoglogTests(unittest.TestCase):
         self.assertEqual(_finding(findings, "plot_in_loglog").status, "violated")
 
 
+class CheckNewCodeTests(unittest.TestCase):
+    task = {"objective": "peak_detection", "expects_plot": True}
+    good = "b = a.standardize().spectral(method='lomb_scargle').signif_test()\nb.plot()"
+
+    def status(self, cells, code, rule):
+        return _finding(v.check_new_code(cells, code, self.task), rule).status
+
+    def test_a_users_earlier_plot_does_not_count_against_new_code(self):
+        cells = ["plt.plot(a.time, a.value)"]
+        self.assertEqual(self.status(cells, self.good, "object_not_dismantled"), "ok")
+
+    def test_new_code_is_still_checked(self):
+        self.assertEqual(self.status([], "plt.plot(a.time, a.value)", "object_not_dismantled"), "violated")
+
+    def test_workflow_checks_see_steps_in_earlier_cells(self):
+        cells = ["b = a.standardize()"]
+        code = "c = b.spectral(method='lomb_scargle').signif_test()\nc.plot()"
+        self.assertEqual(self.status(cells, code, "required_steps_present"), "ok")
+        self.assertEqual(self.status([], code, "required_steps_present"), "violated")
+
+
 class GateTests(unittest.TestCase):
     def test_clean_code_needs_no_repair(self):
         findings = v.run_checks(GOOD.format(kwargs=""),
