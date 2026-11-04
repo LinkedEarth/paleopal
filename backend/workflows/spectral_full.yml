@@ -367,6 +367,10 @@ method_registry:
     core_arg: "method='lomb_scargle'"     # verified
     kwargs_source: pyleoclim.utils.spectral.lomb_scargle
     requires_even_spacing: false
+    rationale: >
+      I estimated the power spectrum of the standardized series using
+      Lomb-Scargle. I chose it because it works directly on unevenly spaced
+      records, so your data doesn't need regridding.
     valid_for_objectives: [peak_detection, exploratory]
     invalid_for:
       scaling_exponent:
@@ -492,6 +496,11 @@ steps:
     core_api: pyleoclim.core.series.Series.detrend
     container_api: pyleoclim.core.multipleseries.MultipleSeries.detrend
     kwargs_source: pyleoclim.utils.tsutils.detrend
+    rationale: >
+      I removed the long-term trend so that slow background changes don't
+      dominate the spectrum. I used EMD, which is the preferred choice as it
+      would handle nonlinear and linear trends. Please check the result against
+      your record, since no automatic test can tell which detrending suits it.
     method_guidance:
       decision: user_judgement_required
       note: >
@@ -652,6 +661,10 @@ steps:
     order: 7
     requiredness: recommended
     rule: matplotlib_is_continuation_not_fallback
+    rationale: >
+      I plotted the spectrum using its own plotting method, with log-log axes
+      and period on the horizontal axis. These are conventional and easier to
+      interpret for paleoclimate spectra.
     core_api: pyleoclim.core.psds.PSD.plot
     container_api: pyleoclim.core.psds.MultiplePSD.plot
     returns: "fig, ax"

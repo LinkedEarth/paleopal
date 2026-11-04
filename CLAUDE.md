@@ -404,6 +404,38 @@ that step as `propose`.
 `extract_facts`; the two must merge so gap detection and the checks share one
 logic. PyYAML is only installed indirectly, so add it to
 `backend/requirements.txt` when connecting the detector.
+The request interpreter is also built and not connected
+(`request_interpreter.py`, tests in `test_request_interpreter.py`): the LLM
+picks the analysis, series, objective and method from the workflow file's
+lists, and Python rejects anything else. Tried on 10 phrasings with
+`gpt-5.5`. **When connecting:** if `problems` is non-empty, ask the user; the
+detector's single-series fallback must not run, or a request for a missing
+`sst` would silently analyse `lr04`. When no series is named and exactly one
+is loaded, use that one (Deborah, 2026-11-04).
+Per-step snippet search is built and not connected (`step_snippets.py`, tests
+in `test_step_snippets.py`): one query per method named in the YAML, keeping
+only snippets that call that method. Tried on the copied index: no kept
+snippet dismantled a series, but quality is uneven. Regrid has only 2 weak
+results, one a `utils` call the checker discourages. The filter is loose, since
+`.plot(` also matches plots of a series. Snippets can show extra steps, so the
+writing prompt must say they don't add steps.
+The writer is built and not connected (`workflow_writer.py`, tests in
+`test_workflow_writer.py`). Python chooses the steps, defaults the method from
+the YAML, and rejects replies that change the steps or repeat an import. A
+model writes each explanation in its own words because that flows more naturally
+(Deborah, 2026-11-04), speaking to the reader as "you". Required statements stay
+fixed. Sources don't depend on the model: Python adds the exact YAML text and
+names the examples given to the model, in a collapsible section (agreed by
+Deborah; built). Deborah-approved source text is in the YAML for detrend,
+standardize, visualize and Lomb-Scargle. WWZ and MTM have none yet, and Python
+says so in the cell. This makes unsupported claims visible; it doesn't prevent
+them. For the demo: long series can take a long
+time to compute (seen with `cenogrid_d13C` on 2026-11-04), so choose demo
+records with that in mind; the file records a cost only for WWZ so far.
+The chain was run by a test script, not the backend, on the LR04 request with
+`gpt-5.5` (report: `~/Documents/PaleoPAL/smoke_tests/2026-11-04/first_flow_lr04.md`).
+It wrote detrend, standardize, spectral, plot and the significance proposal,
+with no checker findings, and the code ran in the `pyleo` environment.
 
 **Plan step = the single front door (agreed 2026-10-01).** Every request
 goes through one plan step that decides both *where it goes* (graph /
@@ -763,6 +795,11 @@ Integration branch: `redesign/phase1` for Items 1–3.
   Update it when a task needs them — ask before installing.
 - **Pushing:** this Claude session has no GitHub credentials; Deborah
   pushes from GitHub Desktop.
+- **Gemini (tried 2026-11-04, not working yet):** the backend's default
+  `gemini-2.5-pro` returns 404 for new users, and `gemini-3.1-pro-preview`
+  returned free-tier quota errors on the first request, so the key may not
+  be drawing on Deborah's credits. Results so far are all from `gpt-5.5`.
+  Don't mix models when judging results.
 - **Docker: never touch the existing stack Varun set up for Deborah.**
   The redesign gets its own stack: `docker-compose.redesign.yml` (images
   built 2026-11-04; Varun's Qdrant index copied read-only into
