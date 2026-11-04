@@ -170,8 +170,15 @@ disagreements, compromises and a rationale for choices.
 PaleoPAL has several distinct problems; earlier redesign work mixed them
 together. Keep them separate. Today there are three agents:
 
-1. **SPARQL** — queries the knowledge graph. Performing well. Do not try to
-   improve it now; first see whether changes help the other agents.
+1. **SPARQL** — queries the knowledge graph. Do not try to improve it now;
+   first see whether changes help the other agents. Update (Deborah,
+   2026-11-04): a smoke-test query (marine/ocean datasets with temperature
+   variables) wouldn't work as written, so SPARQL generation does need work
+   in the redesign, possibly after December. The problem is vocabulary: the
+   LinkedEarth Ontology has separate modules, and `archiveType` is a
+   **controlled vocabulary**, so user terms must be matched to it (marine /
+   ocean → `MarineSediment`), not searched as text. Synonyms already exist
+   in the PyLiPD codebase and PaleoPAL would need to read them.
 2. **Code** — returns a *snippet* for a single request, not a multi-step
    process. "Use Lomb-Scargle" should yield essentially
    `spectral(method='lomb_scargle')`. It assumes preprocessing (e.g.
@@ -192,9 +199,9 @@ preprocessing steps means "just give the spectral call", not the whole
 workflow. With no preprocessing present and a request that also asks for
 data etc., the full workflow is appropriate.
 
-**Mode (agreed 2026-10-01): design first, no code changes** until the
-design below is worked out with Deborah, one piece at a time, and written
-into this file as we go.
+**Mode (updated 2026-11-04): building the agreed first version**, one piece
+at a time. Anything outside its scope stays design-first: work it out with
+Deborah and write it into this file before changing code.
 
 **How much to produce is a central open question.** Three levels
 (confirmed by Deborah):
@@ -354,6 +361,49 @@ web-session summary — repo audit, A/B results, proposed pipeline, phase
 plan). It predates the agent-scope framing above and assumes every
 request is a full workflow. Older web-session context may be missing;
 when in doubt, ask Deborah.
+
+**Hierarchical retrieval is the intended flow (Deborah, 2026-11-04).** First
+find the relevant workflow file (e.g. the spectral analysis YAML), put it in
+context together with the notebook history, then decide what to do next and
+call the code agent or the workflow agent. Worked example: "run spectral
+analysis on lr04" with no earlier analysis should be detected as needing the
+whole spectral workflow, not an improvised script. In that test the notebook
+held only the Pyleoclim import and the LR04 load. PaleoPAL should read those
+cells, recognise both as done (today it re-imports in every generated cell),
+find the instructions in the YAML, and only then use vector search to gather
+code snippets. Agreed order (2026-11-04): build a small version of this flow
+before the corpus cleanup.
+**Who does what (agreed 2026-11-04):** the LLM interprets the request;
+model-free Python reads the cells, looks up the YAML's steps, compares them
+and picks the level; vector search gathers snippets for those steps; the LLM
+writes the code, then the checker runs. Snippets show how to write a step and
+cannot add steps. When the Python reader isn't sure what a cell does, it asks.
+**When PaleoPAL builds a workflow, each step goes in its own cell (Deborah,
+2026-11-04).** It still can't assume this of the user's own cells. All steps
+arrive at once as ready-to-run code cells, not `@agent` instruction cells,
+and nothing runs on its own. Each code cell has a **markdown cell above it**
+explaining what the step does and why. This brings forward the "PaleoPAL
+writes markdown" item. The extension sends markdown cells as "user" messages,
+so PaleoPAL's own markdown must be marked (e.g. in cell metadata) or later
+requests will read it as the researcher's words. **The authorship must also
+be visible in the cells themselves** (Deborah, 2026-11-04), as good practice
+for showing what the AI did.
+**First version (agreed 2026-11-04), scope is the LR04 case only:** notebook
+has an import and a loaded series, request is a spectral analysis. In: LLM
+interprets the request; reader finds the import and series; Python finds the
+missing steps from `spectral_full.yml`; vector search gathers snippets; LLM
+writes the steps without repeating import or load; extension inserts a
+markdown + code cell pair per step. Out for now: snippet-level requests,
+edits, multi-series tracing, kernel reads, the repair loop, wavelet.
+When the objective is unstated, a whole workflow stops at the spectrum and
+**proposes** the significance test (Deborah, 2026-11-04); the detector reports
+that step as `propose`.
+**Progress:** the detector is built and tested but not connected
+(`backend/agents/code/workflow_detector.py`, tests in
+`test_workflow_detector.py`). It has its own reader, separate from
+`extract_facts`; the two must merge so gap detection and the checks share one
+logic. PyYAML is only installed indirectly, so add it to
+`backend/requirements.txt` when connecting the detector.
 
 **Plan step = the single front door (agreed 2026-10-01).** Every request
 goes through one plan step that decides both *where it goes* (graph /
@@ -714,7 +764,27 @@ Integration branch: `redesign/phase1` for Items 1–3.
 - **Pushing:** this Claude session has no GitHub credentials; Deborah
   pushes from GitHub Desktop.
 - **Docker: never touch the existing stack Varun set up for Deborah.**
-  The redesign gets its own stack (planned 2026-10-01, not built yet).
+  The redesign gets its own stack: `docker-compose.redesign.yml` (images
+  built 2026-11-04; Varun's Qdrant index copied read-only into
+  `paleopal-redesign_qdrant-data` and verified by checksum; started and
+  smoke-tested 2026-11-04 by calling the backend directly). The smoke test
+  exercises the **old pipeline**: nothing calls the checker or reads the
+  workflow YAML yet. For tests, send with clarification **off** (Deborah,
+  2026-11-04; extension setting `paleopal.enableClarification`). The
+  extension path reached the backend and returned code on 2026-11-04.
+  Request "runn spectral analysis on lr04" produced far more than asked,
+  rated "really not what we wanted" by Deborah: an unrequested 0-3000 ka
+  slice, both Lomb-Scargle and WWZ, and a summary plot. The system prompt
+  in `agents/code/handlers.py` tells the model to "Try to use the code
+  snippets and examples to generate the code as much as possible", and the
+  output cites "established LR04 spectral-analysis examples" (retrieved
+  examples not yet inspected). Still unverified: running generated code,
+  and whether the extension's clarification answers (`{id, answer}`) reach
+  the SPARQL agent, which reads `question`/`response`. Always run it with
+  `docker compose -f docker-compose.yml -f docker-compose.redesign.yml …`.
+  Host ports: backend 18000, execution 18001, Qdrant 16333/16334. The
+  frontend only starts with `--profile web`. The extension's
+  `paleopal.backendUrl` must point to `http://localhost:18000`.
   Why it's needed: `docker-compose.yml` hard-codes container names
   (`paleopal-qdrant`, `-backend`, `-execution-service`, `-frontend`), the
   network name (`paleopal-network`) and host ports (6333/6334, 8000, 8001,
@@ -724,14 +794,18 @@ Integration branch: `redesign/phase1` for Items 1–3.
   Qdrant index.** Plan: an override file run under a separate project name
   (e.g. `-p paleopal-redesign`) that keeps the *service* names (so
   `qdrant`, `backend`, `execution-service` hostnames still work) but gives
-  new container names, network, host ports and volumes. Each stack's
-  execution service reserves 24 GB, so don't run both at once.
+  new container names, network, host ports and volumes. The execution
+  service's `mem_limit: 24g` is a cap, not a reservation, but Docker
+  Desktop currently has only about 8 GB in total, so don't run both stacks
+  at once.
   The container names must differ from Varun's (Deborah confirmed that's
   what she meant by "the same name" — it can't be kept).
   The new stack starts with an empty Qdrant index, so the libraries must
   be rebuilt — which makes **the corpus cleanup (Phase 1 Item 4) a higher
   priority** (Deborah, 2026-10-01): rebuild clean rather than rebuild the
-  broken corpus.
+  broken corpus. For the rebuild (Deborah, 2026-11-04): `literature_methods`
+  will be removed during this redesign; `learned_code` is an intentionally
+  empty placeholder for a future "remember this and learn" feature.
 - **Next session order (agreed 2026-10-01):** (1) build the redesign
   Docker stack; (2) copy Varun's Qdrant index once, read-only, into it;
   (3) **smoke test** — 2–3 requests to confirm the new stack works (not a

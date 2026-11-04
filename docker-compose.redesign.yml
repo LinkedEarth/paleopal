@@ -1,0 +1,37 @@
+# Separate stack for the redesign. Layered on docker-compose.yml, which stays
+# unchanged. The project name below gives this stack its own images and volumes,
+# so the original stack's containers and data are never touched.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.redesign.yml up -d --build backend
+#
+# Starting `backend` also starts qdrant and execution-service. Always pass both
+# -f flags: a plain `docker compose` here means the original stack.
+name: paleopal-redesign
+
+services:
+  qdrant:
+    container_name: paleopal-redesign-qdrant
+    ports: !override
+      - "16333:6333"
+      - "16334:6334"
+
+  execution-service:
+    container_name: paleopal-redesign-execution-service
+    ports: !override
+      - "18001:8001"
+
+  backend:
+    container_name: paleopal-redesign-backend
+    ports: !override
+      - "18000:8000"
+
+  # The web app isn't part of the redesign. Start it only with --profile web.
+  frontend:
+    container_name: paleopal-redesign-frontend
+    profiles: [web]
+    ports: !override
+      - "13000:80"
+
+networks:
+  default:
+    name: paleopal-redesign-network
