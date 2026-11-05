@@ -4,8 +4,8 @@ planning_flow.py — the new path for a request, connecting the planning pieces.
     interpret the request -> read the notebook -> compare with the workflow file
     -> gather snippets per step -> write markdown + code cells -> run the checker
 
-First version: only a spectral analysis on a notebook with a loaded series and no
-analysis yet. Anything else returns None and goes to the old pipeline. When a
+Covers a spectral analysis on a notebook with a loaded series, whether it needs the
+whole workflow or a next step. Anything else returns None and goes to the old pipeline. When a
 request can't be resolved, such as a series that isn't in the notebook, PaleoPAL
 asks rather than guessing. PaleoPAL's own mistakes go back to the model and are
 fixed quietly; each repair is recorded for improving PaleoPAL, not shown to the
@@ -27,6 +27,10 @@ from typing import Callable
 from . import request_interpreter, step_snippets, verification, workflow_detector, workflow_writer
 
 logger = logging.getLogger(__name__)
+
+# The check that demands each step, which a plan stopping short of that step must not trigger.
+_CHECK_DEMANDING = {"significance": "significance_tested", "beta_estimate": "beta_estimated",
+                    "spectral_estimate": "required_steps_present"}
 
 
 def is_enabled() -> bool:
@@ -67,6 +71,15 @@ def _warning_cell(problems: list[str]) -> dict:
                     f"{workflow_writer.AUTHORSHIP_MARKDOWN}"}
 
 
+def decisions_from_history(history: list[dict]) -> dict[str, str]:
+    """Yes/no answers recorded on PaleoPAL's earlier cells, so it doesn't ask twice."""
+    found = {}
+    for message in history or []:
+        for decision in message.get("decisions") or []:
+            found[decision["step"]] = decision["answer"]
+    return found
+
+
 def _ask(*questions: str) -> dict:
     text = " ".join(questions) + f"\n\n{workflow_writer.AUTHORSHIP_MARKDOWN}"
     return {"generated_code": "", "cells": [{"kind": "markdown", "text": text, "step": None}],
@@ -75,7 +88,8 @@ def _ask(*questions: str) -> dict:
 
 async def run(user_input: str, history: list[dict], workflow: dict,
               call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
-              on_repair: Callable[[dict], None] | None = None) -> dict | None:
+              on_repair: Callable[[dict], None] | None = None,
+              answers: dict[str, str] | None = None) -> dict | None:
     """Return the cells for this request, or None if it isn't covered yet."""
     cells = code_cells_from_history(history)
     series = workflow_detector.detect(cells, workflow).series
@@ -88,10 +102,14 @@ async def run(user_input: str, history: list[dict], workflow: dict,
         return None
     if meaning.problems:
         logger.info("Planning flow asking the user: %s", meaning.problems)
+    if any(p.startswith("series") for p in meaning.problems):
         return _ask(f"I couldn't find that series in your notebook. The series I can see are: "
                     f"{', '.join(f'`{s}`' for s in series)}. Which one should I use?")
+    if meaning.problems:
+        return _ask("I'm not sure I understood that request. Could you rephrase it?")
 
-    objective = meaning.objective or "exploratory"
+    by_id = {s["id"]: s for s in workflow["steps"]}
+    objective = workflow_writer._objective_for([by_id[i] for i in meaning.steps], meaning.objective)
     state = workflow_detector.detect(cells, workflow, target=meaning.series, objective=objective)
     if state.uncertain:
         return _ask("I'm not sure what some of your code does, so I'd rather check before "
@@ -100,19 +118,42 @@ async def run(user_input: str, history: list[dict], workflow: dict,
     if state.level == "unclear":
         return _ask(f"Your notebook has several series: {', '.join(f'`{s}`' for s in series)}. "
                     "Which one should I analyze?")
-    if state.level != "whole_workflow":
+    if state.level == "whole_workflow":
+        plan = workflow_writer.build_plan(state, workflow, objective, meaning.method)
+        plan.start = state.current
+    elif state.level == "next_step":
+        all_answers = {**decisions_from_history(history), **(answers or {})}
+        next_step = workflow_writer.plan_next_step(
+            state, workflow, meaning.steps, meaning.objective, meaning.method, all_answers)
+        if next_step.question:
+            return {"generated_code": "", "needs_user_input": True,
+                    "clarification_questions": [next_step.question]}
+        if next_step.message:
+            return _ask(next_step.message)
+        plan = next_step.plan
+    else:
         return None
+    plan.notebook_code = cells
 
-    plan = workflow_writer.build_plan(state, workflow, meaning.objective, meaning.method)
     snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)
                 for step in plan.steps}
     # A method the user named is their choice, not PaleoPAL's mistake.
     overrides = {"cwt_not_first_choice"} if meaning.method == "cwt" else set()
-    task = {"objective": plan.objective, "expected_object": plan.series, "expects_plot": True}
+    # A next-step snippet is one call in a longer analysis; it needn't display its result.
+    if state.level == "next_step":
+        overrides.add("result_displayed")
+    # The checker can't demand a step the plan leaves for later, as in "just standardize it".
+    planned = {s["id"] for s in plan.steps}
+    overrides.update(rule for step_id, rule in _CHECK_DEMANDING.items() if step_id not in planned)
+    # New code continues from `start`, which may be derived from the series the user named.
+    task = {"objective": plan.objective, "expected_object": plan.start or plan.series,
+            "expects_plot": True}
 
     written = await asyncio.to_thread(
         workflow_writer.write_workflow, plan, workflow, snippets, call_model)
-    problems = _problems_with(written, cells, task, overrides)
+    # A fresh chain isn't judged against the steps it deliberately starts over from.
+    checked_cells = [] if plan.fresh_chain else cells
+    problems = _problems_with(written, checked_cells, task, overrides)
     repairs = 0
     while problems and repairs < max_repairs:
         repairs += 1
@@ -126,7 +167,7 @@ async def run(user_input: str, history: list[dict], workflow: dict,
             previous.reply, problems)
         if not written.cells and previous.cells:
             written.cells = previous.cells  # an unusable repair must not lose the code
-        problems = _problems_with(written, cells, task, overrides)
+        problems = _problems_with(written, checked_cells, task, overrides)
     if repairs and on_repair:
         on_repair({"request": user_input, "outcome": "failed" if problems else "repaired",
                    "repairs": repairs, "problems": problems, "reply": written.reply})
@@ -164,10 +205,15 @@ async def handle(request):
     result = await run(request.user_input, (request.context or {}).get("conversation_history", []),
                        workflow_detector.load_workflow(), call_model,
                        [search_service.search_snippets, search_service.search_code_examples],
-                       max_repairs=MAX_REFINEMENTS, on_repair=record_repair)
+                       max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
+                       answers={r["id"]: r["answer"]
+                                for r in metadata.get("clarification_responses") or []})
     if result is None:
         return None
     message = ("I need one more detail from you." if result["needs_user_input"]
-               else "Built the workflow from the PaleoPAL workflow file.")
-    return AgentResponse(status=AgentStatus.SUCCESS, result=result, message=message,
-                         conversation_id=request.conversation_id)
+               else "Built from the PaleoPAL workflow file.")
+    questions = result.get("clarification_questions")
+    return AgentResponse(
+        status=AgentStatus.NEEDS_CLARIFICATION if questions else AgentStatus.SUCCESS,
+        result=result, message=message, clarification_questions=questions,
+        conversation_id=request.conversation_id)

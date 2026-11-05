@@ -19,10 +19,14 @@ _SYSTEM_PROMPT = """You read one request from a paleoclimate researcher working 
 Report only what the request states. Never infer a goal the researcher did not express.
 Reply with one JSON object and nothing else, with exactly these keys:
 
-"analysis": "{analysis_id}" if the request asks for this analysis ({analysis_title}), otherwise null.
+"analysis": "{analysis_id}" if the request asks for this analysis ({analysis_title}) or any of its steps, otherwise null.
+"steps": a list of the steps below that the request explicitly asks for, otherwise []. A request for the whole analysis, or naming only a method, is [].
 "series": the series the request refers to, from {series}. If it names something that is not in that list, return the name as written. If it names no series and doesn't point to one, null.
-"objective": one of the objectives below if the request states that goal, otherwise null.
+"objective": one of the objectives below if the request matches how it is asked for, otherwise null.
 "method": one of {methods} if the request names that estimator, otherwise null.
+
+Steps:
+{steps}
 
 Objectives:
 {objectives}
@@ -37,18 +41,22 @@ class Interpretation:
     series: str | None = None
     objective: str | None = None
     method: str | None = None
+    steps: list[str] = field(default_factory=list)
     # Why a value was dropped. The planner should ask rather than guess.
     problems: list[str] = field(default_factory=list)
 
 
 def build_system_prompt(workflow: dict, series_names: list[str]) -> str:
-    objectives = "\n".join(f"- {o['id']}: {o['description']}" for o in workflow["objectives"])
+    objectives = "\n".join(
+        f"- {o['id']}: {o['description']}" + (f" Asked for as: {o['asked_as']}" if o.get("asked_as") else "")
+        for o in workflow["objectives"])
     terminology = "\n".join(f"- {t['term']}: {t['disambiguation'].strip()}"
                             for t in workflow.get("terminology", []))
     return _SYSTEM_PROMPT.format(
         analysis_id=workflow["workflow"]["id"],
         analysis_title=workflow["workflow"]["title"],
         series=json.dumps(series_names),
+        steps=", ".join(s["id"] for s in workflow["steps"]),
         methods=json.dumps([m["id"] for m in workflow["method_registry"]]),
         objectives=objectives,
         terminology=terminology,
@@ -89,4 +97,12 @@ def interpret_request(request: str, workflow: dict, series_names: list[str],
             setattr(result, key, value)
         else:
             result.problems.append(f"{key} {value!r} isn't one of {sorted(values)}")
+
+    known_steps = {s["id"] for s in workflow["steps"]}
+    steps = reply.get("steps") or []
+    for step in steps if isinstance(steps, list) else [steps]:
+        if step in known_steps:
+            result.steps.append(step)
+        else:
+            result.problems.append(f"step {step!r} isn't one of {sorted(known_steps)}")
     return result

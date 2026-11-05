@@ -6,7 +6,7 @@ import { AgentCellStatusBarProvider } from './statusbar';
 
 type Role = 'system' | 'user' | 'assistant';
 
-interface ChatMessage { role: Role; content: string; agent_type?: string; generated_content?: string; }
+interface ChatMessage { role: Role; content: string; agent_type?: string; generated_content?: string; decisions?: any; }
 
 interface AgentRequestBody {
   agent_type: string;
@@ -158,6 +158,7 @@ async function askAgent() {
           }
         };
         const resp2 = await callAgentsRequest(body2);
+        if (await insertReturnedCells(resp2)) return;
         const code2: string | undefined = resp2?.result?.generated_code;
         const msg2: string = resp2?.message || 'Agent responded.';
         if (msg2 && agentType !== 'workflow_generation') {
@@ -287,6 +288,7 @@ async function runAgentForCell() {
           };
           const resp2 = await callAgentsRequest(body2);
           if (loadingIdx !== undefined) await deleteCell(loadingIdx);
+          if (await insertReturnedCells(resp2, idx)) return;
           const code2: string | undefined = resp2?.result?.generated_code;
           if (agentType === 'workflow_generation' && code2) {
             await insertWorkflowFromJson(code2, idx);

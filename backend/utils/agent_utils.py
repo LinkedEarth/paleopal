@@ -56,6 +56,11 @@ async def route_agent_request_with_custom_config(request: AgentRequest) -> Agent
                 return response
             logger.info("Not covered by the planning flow, using the existing agent")
 
+        # The old clarification step isn't reliable yet, so while the planning flow
+        # is on, its questions stay off whatever the extension's setting says.
+        if planning_flow.is_enabled():
+            request.metadata["enable_clarification"] = False
+
         # Check if this is a SPARQL agent request with clarification config
         if request.agent_type == "sparql":
             # Extract clarification configuration from metadata

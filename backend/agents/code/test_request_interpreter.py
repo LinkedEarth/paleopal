@@ -53,6 +53,14 @@ class ValidReplyTests(unittest.TestCase):
         self.assertIsNone(result.method)
         self.assertEqual(result.problems, [])
 
+    def test_requested_steps_are_kept(self):
+        self.assertEqual(interpret({"steps": ["significance"]}).steps, ["significance"])
+
+    def test_an_invented_step_is_dropped(self):
+        result = interpret({"steps": ["make_it_pretty"]})
+        self.assertEqual(result.steps, [])
+        self.assertEqual(len(result.problems), 1)
+
     def test_json_inside_a_code_fence_is_read(self):
         result = interpret('```json\n{"analysis": "spectral_analysis", "series": "lr04"}\n```')
         self.assertEqual(result.series, "lr04")
@@ -89,7 +97,8 @@ class RejectedReplyTests(unittest.TestCase):
 class PromptTests(unittest.TestCase):
     def test_prompt_comes_from_the_workflow_file(self):
         prompt = r.build_system_prompt(WORKFLOW, ["lr04"])
-        for expected in ("spectral_analysis", "peak_detection", "lomb_scargle", "periodogram", "lr04"):
+        for expected in ("spectral_analysis", "peak_detection", "lomb_scargle", "periodogram", "lr04",
+                         "periodicities, cycles, peaks"):
             self.assertIn(expected, prompt)
 
 

@@ -473,6 +473,35 @@ forced `plt.loglog` draft. **Build order agreed 2026-11-04, keeping the spectral
 example:** next step, then kernel reads, editing a step, several series. Decide
 in the next session whether data loading (its own YAML) jumps ahead; Deborah's
 held-out tests come after, since most need data loading.
+**"Next step" design (agreed 2026-11-04):** yes/no gap questions use the
+extension's panel, resending the request with the answer. A researcher must be
+able to find a record of these choices (Deborah); where is still open. The old
+clarification step isn't reliable and needs its own work, so with the planning
+flow on, the backend forces it off whatever `paleopal.enableClarification` says.
+The panel itself doesn't depend on that setting. **Record of choices (agreed):**
+a visible line in the affected cell's markdown, written by Python, with the
+answer also stored in the cell label so it isn't asked again.
+**Next step built 2026-11-04** (`plan_next_step` in `workflow_writer.py`;
+extension 0.1.4; panel not yet tried by Deborah). A missing required step is
+added with the reason; a missing recommended step asks only before the spectrum
+is computed. On yes, a step that belongs before ones already run starts a new
+chain from the series, leaving the user's cells alone. Regridding after a later
+step is explained, not attempted, until the edit flow or kernel reads exist. Code
+continues from the newest variable, and `correct_object` checks that variable:
+checking the named series made repairs discard earlier detrending. A next-step
+snippet needn't display its result. PaleoPAL's markdown is now sent as its own
+note with its decisions; edit detection (the fingerprint) isn't built yet.
+`ask_reason` on detrend approved by Deborah. Panel Yes/No tested by Deborah.
+**Objective wording (Deborah, 2026-11-04):** requests about periodicities, cycles
+or peaks count as peak detection, so the test is added unless the work is
+described as preliminary; this nuance isn't settled, and the wording is in the
+YAML's `asked_as`. A step's code calling another step's method is flagged and
+repaired, after the model chained `signif_test` into the spectral step. A plain
+"run spectral analysis on lr04" keeps proposing the test rather than adding it
+(Deborah, 2026-11-04). A stated goal also brings its required step into a next-step
+plan, and the checker doesn't demand steps a plan leaves for later.
+**Idea under discussion (Deborah, 2026-11-04):** when a cell sets parameters, add
+their definitions from the Pyleoclim docs to its markdown.
 **For the chatbot, part two of the redesign
 (Deborah):** a researcher should be able to ask where a piece of text or an
 argument came from, so PaleoPAL must keep what each cell was given. For the demo: long series can take a long

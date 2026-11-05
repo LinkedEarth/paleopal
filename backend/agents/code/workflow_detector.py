@@ -49,6 +49,8 @@ class NotebookState:
     imports: set[str] = field(default_factory=set)
     series: list[str] = field(default_factory=list)
     target: str | None = None
+    # The newest variable derived from the target, where the next step continues from.
+    current: str | None = None
     steps: list[StepStatus] = field(default_factory=list)
     # whole_workflow | next_step | needs_data | unclear
     level: str = "unclear"
@@ -105,6 +107,7 @@ class _Reader:
         self.lineage: dict[str, list[str]] = {}  # variable -> steps applied to it
         self.origin: dict[str, str] = {}         # variable -> series it came from
         self.done: dict[str, set[str]] = {}      # series -> steps run on anything from it
+        self.latest: dict[str, str] = {}         # series -> newest variable derived from it
 
     def read_cell(self, number: int, cell: str) -> None:
         try:
@@ -176,6 +179,7 @@ class _Reader:
         if target:
             self.lineage[target] = steps
             self.origin[target] = origin
+            self.latest[origin] = target
         return steps
 
 
@@ -221,6 +225,7 @@ def detect(cells: list[str], workflow: dict, target: str | None = None,
         state.uncertain.append(f"can't find a series called `{target}` in the cells")
         target = None
     state.target = target
+    state.current = reader.latest.get(target, target)
 
     done = reader.done.get(target, set())
     to_propose = _rules_to_propose(workflow, objective)

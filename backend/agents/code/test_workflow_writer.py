@@ -40,7 +40,7 @@ def lr04_plan(objective=None, method=None):
     return w.build_plan(state, WORKFLOW, objective, method)
 
 
-def reply(ids=STEPS, code="x = lr04.standardize()"):
+def reply(ids=STEPS, code="x = 1"):
     return json.dumps({"steps": [{"id": i, "explanation": "Model text.", "code": code} for i in ids]})
 
 
@@ -168,6 +168,20 @@ class RejectionTests(unittest.TestCase):
 
     def test_reordered_steps_are_rejected(self):
         self.assert_rejected(list(reversed(STEPS)))
+
+    def test_chaining_another_steps_method_is_flagged(self):
+        codes = dict.fromkeys(STEPS, "x = 1")
+        codes["spectral_estimate"] = "x = lr04.spectral(method='lomb_scargle').signif_test()"
+        text = json.dumps({"steps": [{"id": i, "explanation": "T.", "code": codes[i]} for i in STEPS]})
+        problems = write(text).problems
+        self.assertEqual(len(problems), 1)
+        self.assertIn("also calls `signif_test`", problems[0])
+
+    def test_a_step_may_call_its_own_methods(self):
+        codes = dict.fromkeys(STEPS, "x = 1")
+        codes["spectral_estimate"] = "x = lr04.spectral(method='lomb_scargle')"
+        text = json.dumps({"steps": [{"id": i, "explanation": "T.", "code": codes[i]} for i in STEPS]})
+        self.assertEqual(write(text).problems, [])
 
     def test_a_repeated_import_is_flagged(self):
         result = write(reply(code="import pyleoclim as pyleo"))

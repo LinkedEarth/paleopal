@@ -99,6 +99,11 @@ class StepRecognitionTests(unittest.TestCase):
         cells = [IMPORT, LOAD, "psd = lr04.spectral()", "fig, ax = psd.plot()"]
         self.assertEqual(statuses(d.detect(cells, WORKFLOW))["visualize"], "done")
 
+    def test_current_is_the_newest_variable_from_the_target(self):
+        cells = [IMPORT, LOAD, "s = lr04.standardize()", "psd = s.spectral()", "fig, ax = psd.plot()"]
+        self.assertEqual(d.detect(cells, WORKFLOW).current, "psd")
+        self.assertEqual(d.detect([IMPORT, LOAD], WORKFLOW).current, "lr04")
+
     def test_notebook_magics_are_ignored(self):
         state = d.detect(["%matplotlib inline\n" + IMPORT, LOAD], WORKFLOW)
         self.assertEqual(state.uncertain, [])

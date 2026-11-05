@@ -6,14 +6,18 @@ export interface AgentCell {
   kind: 'markdown' | 'code';
   text: string;
   step?: string | null;
+  decisions?: { step: string; answer: string }[];
+}
+
+function paleoPalLabel(cell: vscode.NotebookCell): any {
+  const meta = cell.metadata as any;
+  return meta?.metadata?.paleopal ?? meta?.custom?.metadata?.paleopal ?? meta?.paleopal;
 }
 
 // PaleoPAL's own explanations must not come back to the backend as the researcher's words.
 // The visible authorship line is a backup in case the metadata is lost, e.g. by another editor.
 function isPaleoPalMarkdown(cell: vscode.NotebookCell): boolean {
-  const meta = cell.metadata as any;
-  return Boolean(meta?.metadata?.paleopal || meta?.custom?.metadata?.paleopal)
-    || cell.document.getText().includes(AUTHORSHIP_MARKDOWN);
+  return Boolean(paleoPalLabel(cell)) || cell.document.getText().includes(AUTHORSHIP_MARKDOWN);
 }
 
 export async function createNotebook(title?: string) {
@@ -35,20 +39,27 @@ export async function createNotebook(title?: string) {
   await vscode.window.showNotebookDocument(doc);
 }
 
+// PaleoPAL's own markdown goes back as its own earlier note, never as the researcher's words.
+function paleoPalNote(cell: vscode.NotebookCell, text: string): any {
+  return { role: 'assistant', content: text, agent_type: 'paleopal_note', decisions: paleoPalLabel(cell)?.decisions };
+}
+
 export function getActiveNotebookEditor(): vscode.NotebookEditor | undefined {
   const editor = vscode.window.activeNotebookEditor;
   return editor;
 }
 
-export function buildConversationHistoryFromNotebook(): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; }[] {
+export function buildConversationHistoryFromNotebook(): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] {
   const editor = getActiveNotebookEditor();
-  const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; }[] = [];
+  const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] = [];
   if (!editor) return messages;
 
   for (const cell of editor.notebook.getCells()) {
     if (cell.kind === vscode.NotebookCellKind.Markup) {
       const text = cell.document.getText();
-      if (text.trim().length > 0 && !isPaleoPalMarkdown(cell)) {
+      if (isPaleoPalMarkdown(cell)) {
+        messages.push(paleoPalNote(cell, text));
+      } else if (text.trim().length > 0) {
         messages.push({ role: 'user', content: text });
       }
     } else if (cell.kind === vscode.NotebookCellKind.Code) {
@@ -61,16 +72,17 @@ export function buildConversationHistoryFromNotebook(): { role: 'user' | 'assist
   return messages;
 }
 
-export function buildHistoryUpToCell(targetIndex: number): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; }[] {
+export function buildHistoryUpToCell(targetIndex: number): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] {
   const editor = getActiveNotebookEditor();
-  const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; }[] = [];
+  const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] = [];
   if (!editor) return messages;
   const cells = editor.notebook.getCells();
   for (let i = 0; i < Math.min(targetIndex, cells.length); i++) {
     const cell = cells[i];
     if (cell.kind === vscode.NotebookCellKind.Markup) {
       const text = cell.document.getText();
-      if (text.trim().length > 0 && !isPaleoPalMarkdown(cell)) messages.push({ role: 'user', content: text });
+      if (isPaleoPalMarkdown(cell)) messages.push(paleoPalNote(cell, text));
+      else if (text.trim().length > 0) messages.push({ role: 'user', content: text });
     } else if (cell.kind === vscode.NotebookCellKind.Code) {
       const code = cell.document.getText();
       if (code.trim().length > 0) messages.push({ role: 'assistant', content: '', agent_type: 'code', generated_content: code });
@@ -150,7 +162,7 @@ export async function insertAgentCells(afterIndex: number, cells: AgentCell[]): 
       cell.text,
       isCode ? 'python' : 'markdown'
     );
-    cellData.metadata = { metadata: { paleopal: { generated: true, step: cell.step ?? null } } };
+    cellData.metadata = { metadata: { paleopal: { generated: true, step: cell.step ?? null, decisions: cell.decisions ?? [] } } };
     return cellData;
   });
   const ws = new vscode.WorkspaceEdit();

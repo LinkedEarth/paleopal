@@ -105,6 +105,7 @@ workflow:
 objectives:
   - id: peak_detection
     description: Identify periodicities distinguishable from a noise null model.
+    asked_as: periodicities, cycles, peaks, or significance, unless the work is described as preliminary.
     requires_steps: [significance]
     applies_to: [pyleoclim.core.series.Series]
     discouraged_for:
@@ -124,6 +125,7 @@ objectives:
 
   - id: exploratory
     description: First look at frequency content. No inferential claim made.
+    asked_as: a quick look, a first look, or preliminary work.
     requires_steps: []
     applies_to: [pyleoclim.core.series.Series]
     discouraged_for:
@@ -496,6 +498,9 @@ steps:
     core_api: pyleoclim.core.series.Series.detrend
     container_api: pyleoclim.core.multipleseries.MultipleSeries.detrend
     kwargs_source: pyleoclim.utils.tsutils.detrend
+    ask_reason: >
+      Detrending removes the long-term trend so that slow background changes
+      don't dominate the spectrum.
     rationale: >
       I removed the long-term trend so that slow background changes don't
       dominate the spectrum. I used EMD, which is the preferred choice as it
