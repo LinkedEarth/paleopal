@@ -101,6 +101,71 @@ You can delete this cell once you've read it.
 {workflow_writer.AUTHORSHIP_MARKDOWN}"""
 
 
+_REGRID_STEP = "regrid"
+
+
+def _resolve_regrid(meaning, state, workflow: dict, objective: str, answers: dict[str, str]) -> dict:
+    """Settle regridding against the method before planning. May change `meaning`.
+
+    A regrid asked for before a method that doesn't need it is explained and asked about.
+    A regrid already in the researcher's cells is their choice, and with no method named,
+    the guide picks a method that uses it.
+    """
+    registry = {m["id"]: m for m in workflow["method_registry"]}
+    selection = workflow["method_selection"]
+    done = {s.id for s in state.steps if s.status == "done"}
+    method = meaning.method or selection["defaults_by_objective"][objective]
+    found: dict = {"overrides": set()}
+
+    if _REGRID_STEP in done:
+        found["overrides"] |= {"no_unnecessary_regrid", "method_suits_uneven_data"}
+        already = selection.get("when_already_regridded") or {}
+        notes = already.get("must_say_by_default") or {}
+        if meaning.method is None and method in notes:
+            meaning.method = already["method"]
+            found["method_note"] = " ".join(notes[method].split())
+        return found
+
+    if _REGRID_STEP not in meaning.steps or registry[method]["requires_even_spacing"]:
+        return found
+    rule = next(r for r in workflow["rules"] if r["id"] == "regrid_unnecessary_for_tolerant_methods")
+    # Only this request's answer counts: a choice to insist is asked each time for now.
+    answer = (answers.get(_REGRID_STEP) or "").strip().lower()
+    if not answer:
+        found["question"] = {
+            "id": _REGRID_STEP, "choices": ["Yes", "No"],
+            "question": f"`{method}` doesn't need regridding. Do you still want me to regrid "
+                        f"`{state.target}` first?",
+            "context": " ".join(rule["must_say"].split())}
+    elif answer.startswith("y"):
+        found["overrides"].add("no_unnecessary_regrid")
+        found["decision"] = {"step": _REGRID_STEP, "answer": "yes", "method": method}
+    else:
+        meaning.steps.remove(_REGRID_STEP)
+        found["decision"] = {"step": _REGRID_STEP, "answer": "no", "method": method}
+    return found
+
+
+def _note_regrid(plan, regrid: dict) -> None:
+    """Record the regrid choice where the researcher will see it."""
+    spectral = workflow_writer._SPECTRAL_STEP
+    if regrid.get("method_note"):
+        plan.notes.setdefault(spectral, []).insert(0, regrid["method_note"])
+    decision = regrid.get("decision")
+    if not decision:
+        return
+    plan.decisions.append({"step": decision["step"], "answer": decision["answer"]})
+    method = f"`{decision['method']}`"
+    if decision["answer"] == "yes":
+        plan.notes.setdefault(_REGRID_STEP, []).append(
+            f"I regridded because you confirmed it, after I explained that {method} doesn't need it.")
+    else:
+        # This replaces the general note that the method tolerates uneven sampling.
+        notes = [n for n in plan.notes.get(spectral, []) if "tolerates uneven sampling" not in n]
+        plan.notes[spectral] = notes + [
+            f"You chose not to regrid, after I explained that {method} doesn't need it."]
+
+
 def step_settings(workflow: dict, reference: dict) -> dict[str, list[str]]:
     """Argument names each step's functions take, from the Pyleoclim parameter reference.
 
@@ -186,6 +251,12 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
     if state.level == "unclear":
         return _ask(f"Your notebook has several series: {', '.join(f'`{s}`' for s in series)}. "
                     "Which one should I analyze?")
+
+    regrid = _resolve_regrid(meaning, state, workflow, objective, answers or {})
+    if regrid.get("question"):
+        return {"generated_code": "", "needs_user_input": True,
+                "clarification_questions": [regrid["question"]]}
+
     if state.level == "whole_workflow":
         plan = workflow_writer.build_plan(state, workflow, objective, meaning.method, meaning.steps)
         plan.start = state.current
@@ -211,11 +282,13 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         return None
     plan.notebook_code = cells
     plan.request = user_input
+    _note_regrid(plan, regrid)
 
     snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)
                 for step in plan.steps}
     # A method the user named is their choice, not PaleoPAL's mistake.
     overrides = {"cwt_not_first_choice"} if meaning.method == "cwt" else set()
+    overrides |= regrid.get("overrides", set())
     # A next-step snippet is one call in a longer analysis; it needn't display its result.
     if state.level == "next_step":
         overrides.add("result_displayed")

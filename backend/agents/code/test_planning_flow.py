@@ -323,9 +323,10 @@ def writing_chain(meaning):
             return json.dumps(meaning)
         ids = [line.split("## Step: ")[1] for line in user.splitlines() if line.startswith("## Step: ")]
         current = system.split("Start from `")[1].split("`")[0]
+        method = system.split("use method='")[1].split("'")[0]
         calls = {"slice": "slice([0, 500])", "detrend": "detrend(method='linear')", "regrid": "interp()",
-                 "standardize": "standardize()", "spectral_estimate": "spectral(method='lomb_scargle')",
-                 "significance": "signif_test()", "visualize": "plot()"}
+                 "standardize": "standardize()", "spectral_estimate": f"spectral(method='{method}')",
+                 "significance": "signif_test()", "beta_estimate": "beta_est()", "visualize": "plot()"}
         steps = []
         for number, step in enumerate(ids):
             name = f"v{number}"
@@ -392,6 +393,64 @@ class SliceTests(unittest.TestCase):
             cells, "x = lr04.detrend().slice([0, 500]).standardize().spectral()", {"objective": "exploratory"})
         failed = {f.rule for f in findings if f.status == "violated"}
         self.assertIn("preprocessing_order", failed)
+
+
+class UnnecessaryRegridTests(unittest.TestCase):
+    """Asking to regrid before a method that doesn't need it is explained and waits for yes or no."""
+
+    def flow(self, notebook, meaning, answers=None):
+        return asyncio.run(flow.run("a request", notebook, WORKFLOW, writing_chain(meaning),
+                                    [no_search], answers=answers or {}))
+
+    REGRID_LS = {**SPECTRAL, "method": "lomb_scargle", "steps": ["regrid"], "whole_analysis": True}
+
+    def test_it_asks_first_with_the_guides_reason(self):
+        result = self.flow(LR04, self.REGRID_LS)
+        question = result["clarification_questions"][0]
+        self.assertEqual((question["id"], question["choices"]), ("regrid", ["Yes", "No"]))
+        self.assertIn("`lomb_scargle` doesn't need regridding", question["question"])
+        self.assertIn("Lomb-Scargle and WWZ do not require regridding", question["context"])
+        self.assertEqual(result["generated_code"], "")
+
+    def test_yes_regrids_and_records_the_choice(self):
+        result = self.flow(LR04, self.REGRID_LS, {"regrid": "Yes"})
+        self.assertIn("regrid", result["plan"]["steps"])
+        self.assertEqual((result["repairs"], result["checker_findings"]), (0, []))
+        self.assertIn("I regridded because you confirmed it", texts(result))
+        self.assertIn({"step": "regrid", "answer": "yes"},
+                      [d for c in result["cells"] for d in c.get("decisions", [])])
+
+    def test_no_skips_it_and_says_so_once(self):
+        result = self.flow(LR04, self.REGRID_LS, {"regrid": "No"})
+        self.assertNotIn("regrid", result["plan"]["steps"])
+        self.assertIn("You chose not to regrid", texts(result))
+        self.assertNotIn("tolerates uneven sampling", texts(result))
+
+    def test_a_method_that_needs_it_is_not_asked_about(self):
+        result = self.flow(LR04, {**self.REGRID_LS, "method": "mtm"}, {"detrend": "No"})
+        self.assertIn("regrid", result["plan"]["steps"])
+        self.assertNotIn("clarification_questions", result)
+
+    REGRIDDED = LR04 + history("even = lr04.interp()")
+
+    def test_already_regridded_with_no_method_uses_mtm_and_says_why(self):
+        result = self.flow(self.REGRIDDED, {**SPECTRAL, "whole_analysis": True}, {"detrend": "No"})
+        self.assertEqual(result["plan"]["method"], "mtm")
+        self.assertIn("spectral(method='mtm')", result["generated_code"])
+        self.assertIn("Since your data are already regridded, I used MTM.", texts(result))
+        self.assertEqual(result["checker_findings"], [])
+
+    def test_already_regridded_slope_uses_mtm_instead_of_wwz(self):
+        result = self.flow(self.REGRIDDED, {**SLOPE, "whole_analysis": True}, {"detrend": "No"})
+        self.assertEqual(result["plan"]["method"], "mtm")
+        self.assertIn("My default method for estimating the slope is WWZ", texts(result))
+
+    def test_already_regridded_with_lomb_scargle_named_keeps_it_quietly(self):
+        result = self.flow(self.REGRIDDED, {**SPECTRAL, "method": "lomb_scargle", "whole_analysis": True},
+                           {"detrend": "No"})
+        self.assertEqual(result["plan"]["method"], "lomb_scargle")
+        self.assertNotIn("already regridded", texts(result))
+        self.assertEqual(result["checker_findings"], [])
 
 
 class AskedForEarlierStepTests(unittest.TestCase):

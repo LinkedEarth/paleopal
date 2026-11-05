@@ -118,7 +118,8 @@ def build_plan(state, workflow: dict, objective: str | None = None,
         wanted = status[step["id"]] == "to_do" or (
             status[step["id"]] == "optional" and step["id"] in (requested or []))
         if status[step["id"]] == "depends_on_method" and step["id"] == "regrid":
-            wanted = registry[method]["requires_even_spacing"]
+            # A regrid the researcher confirmed after being told it isn't needed is their choice.
+            wanted = registry[method]["requires_even_spacing"] or "regrid" in (requested or [])
             if not wanted:
                 plan.notes.setdefault(_SPECTRAL_STEP, []).append(
                     f"`{method}` tolerates uneven sampling, so I did not include a regridding step."

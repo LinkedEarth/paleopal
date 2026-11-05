@@ -447,6 +447,16 @@ method_selection:
 
   determines: [regrid.required]
 
+  when_already_regridded:
+    method: mtm
+    must_say_by_default:
+      lomb_scargle: >
+        My default method is Lomb-Scargle, which doesn't require regridding.
+        Since your data are already regridded, I used MTM.
+      wwz: >
+        My default method for estimating the slope is WWZ, which doesn't
+        require regridding. Since your data are already regridded, I used MTM.
+
   clarify_when:
     - condition: user names no method and objective is peak_detection
       reason: The default is debatable; the choice is scientifically material.

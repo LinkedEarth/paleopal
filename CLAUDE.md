@@ -580,6 +580,15 @@ so the interpreter now gets each step's setting names from `pyleoclim_parameters
 `savefig_settings={'path': './', 'filename': ..., 'format': 'pdf'}`, which raises a `TypeError`;
 `{'path': 'lr04_spectrum.pdf'}` works. Patched with a rule in the writer prompt. The general fix,
 not built: send the writer the definitions of the settings a request touches.
+**Unnecessary regrid built 2026-11-05:** asking to regrid before Lomb-Scargle or WWZ gets a yes/no
+panel question with the `regrid_unnecessary_for_tolerant_methods` `must_say` as the reason. Yes
+regrids and records "I regridded because you confirmed it…"; no skips it and records "You chose
+not to regrid…". Only that request's answer counts: the agreed "ask twice, then offer to keep the
+answer for the session" rule isn't built. **Regrid already in the researcher's cells (Deborah,
+2026-11-05):** with no method named, the default switches from Lomb-Scargle to MTM, with her
+wording (`method_selection.when_already_regridded` in the YAML). The WWZ default for the
+slope (scaling exponent) also switches to MTM on regridded data (Deborah, 2026-11-05). A named Lomb-Scargle
+is kept without comment, and the researcher's own regrid is never flagged by the checker.
 **Filed (Deborah, 2026-11-05): an optional plot of the series at the start of the
 spectral workflow, if it hasn't been plotted yet.** Detrending isn't always
 necessary, and people may want to look at the series before deciding on it. Deborah
