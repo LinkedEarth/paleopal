@@ -53,6 +53,10 @@ week. Rough estimate (2026-10-01): ~14–23 working days of T1 work vs
   the demo (each visitor starts fresh; nothing persists).
 A live demo rewards reliability over breadth: a known demo path that
 works every time matters more than covering every case.
+**Focus for AGU (Deborah, 2026-11-05):** after a meeting with Julien, who was
+impressed by how the new design works with a scientist, put as much as
+possible into the human interaction. The chatbot would be valuable even if it
+only covers the spectral workflow.
 
 ## Reminders for the user docs / tutorials
 
@@ -513,6 +517,17 @@ When the API check is revisited: `api_validation.py` reading an installed Pyleoc
 only a method's signature, so it rejects valid `**kwargs` like `bin(bin_size=...)`.
 **Later activity, not now:** fix errors in the Pyleoclim documentation; don't work
 around them in PaleoPAL.
+**Wording in cells (Deborah, 2026-11-05):** researchers see "PaleoPAL's guide", not
+"workflow file"; "Code examples I was shown"; "the latest Pyleoclim documentation" for a
+`b` version until kernel reads give the real version.
+**No source (Deborah, 2026-11-05), two different cases:** (1) a workflow file exists but
+doesn't cover this step: "No source text provided." (2) No workflow file fits the request
+(e.g. a pandas question): the LLM answers, and PaleoPAL must say no guide matches and the
+code comes from the underlying model only. Case 2 isn't built.
+**Intro cell (Deborah, 2026-11-05, not built):** people rarely read docs, so PaleoPAL
+explains itself in the notebook. Add it once per notebook, when it has no PaleoPAL cells,
+**right after the request**, not at the top, since a researcher may call PaleoPAL halfway
+through and wouldn't see it there. It tells them they can delete it.
 **Filed for later (Deborah, 2026-11-04):** Varun's library of notebooks and functions is
 reachable in Qdrant. Link the Sources section to it so people can retrieve what a cell
 drew on.
@@ -940,6 +955,11 @@ Integration branch: `redesign/phase1` for Items 1–3.
   baseline comparison: the alpha had no consistent scientific tests, so a
   before/after comparison wouldn't mean much); (4) corpus cleanup and
   rebuild; (5) demo story / planning scenarios.
+- **Docker cleanup (Deborah, 2026-11-05):** she's new to Docker and asked to be reminded
+  to clean up. Rebuilds leave images and build cache behind, and the 59 GB disk filled up on
+  2026-11-05, which blocked rebuilds. Check `docker system df` after rebuilding or when
+  finishing a session, say what's there, and ask before deleting. Never remove Varun's images
+  or volumes.
 - **Held-out scientific tests:** Deborah is designing high-level
   scientific tests separately, with another AI, so Claude doesn't see
   them in advance. **Don't go looking for them**; she'll bring them in

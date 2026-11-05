@@ -52,7 +52,10 @@ def history(*code):
     return [{"role": "assistant", "content": "", "generated_content": c} for c in code]
 
 
-LR04 = history("import pyleoclim as pyleo", "lr04 = pyleo.utils.load_dataset('LR04')")
+NEW_NOTEBOOK = history("import pyleoclim as pyleo", "lr04 = pyleo.utils.load_dataset('LR04')")
+# Most tests aren't about the intro cell, so PaleoPAL has already been here.
+EARLIER_NOTE = [{"role": "assistant", "content": "An earlier note.", "agent_type": "paleopal_note"}]
+LR04 = EARLIER_NOTE + NEW_NOTEBOOK
 
 
 def model(meaning, steps=STEPS):
@@ -120,8 +123,8 @@ class AsksInsteadOfGuessingTests(unittest.TestCase):
         self.assertIn("`lr04`", result["cells"][0]["text"])
 
     def test_several_series_and_none_named_asks(self):
-        hist = history("import pyleoclim as pyleo", "a = pyleo.utils.load_dataset('LR04')",
-                       "b = pyleo.utils.load_dataset('SOI')")
+        hist = EARLIER_NOTE + history("import pyleoclim as pyleo", "a = pyleo.utils.load_dataset('LR04')",
+                                      "b = pyleo.utils.load_dataset('SOI')")
         self.assert_asks(run(model({**SPECTRAL, "series": None}), hist), "several series")
 
     def test_unfamiliar_helper_asks(self):
@@ -390,6 +393,39 @@ class NamedMethodTests(unittest.TestCase):
         result = asyncio.run(flow.run("use lomb-scargle", STANDARDIZED, WORKFLOW, writing_chain(meaning),
                                       [no_search], answers={"detrend": "No"}))
         self.assertEqual(result["plan"]["steps"], ["spectral_estimate"])
+
+
+class IntroTests(unittest.TestCase):
+    def assert_intro(self, hist, expected):
+        result = run(writing_goal(SPECTRAL), hist)
+        self.assertEqual(result["cells"][0]["text"].startswith("**Working with PaleoPAL**"), expected)
+
+    def test_a_notebook_with_no_paleopal_cells_gets_it_first(self):
+        self.assert_intro(NEW_NOTEBOOK, True)
+
+    def test_it_says_it_can_be_deleted(self):
+        self.assertIn("You can delete this cell", run(writing_goal(SPECTRAL), NEW_NOTEBOOK)["cells"][0]["text"])
+
+    def test_a_paleopal_note_means_no_intro(self):
+        self.assert_intro(NEW_NOTEBOOK + EARLIER_NOTE, False)
+
+    def test_a_paleopal_code_cell_means_no_intro(self):
+        self.assert_intro(NEW_NOTEBOOK + history("# Written by PaleoPAL\nd = lr04.detrend()"), False)
+
+    def test_the_researchers_markdown_does_not_count(self):
+        self.assert_intro([{"role": "user", "content": "# My title"}, *NEW_NOTEBOOK], True)
+
+    def test_a_question_in_a_cell_gets_it_too(self):
+        result = run(model({**SPECTRAL, "series": "sst"}), NEW_NOTEBOOK)
+        self.assertTrue(result["cells"][0]["text"].startswith("**Working with PaleoPAL**"))
+
+    def test_a_panel_question_adds_no_cell(self):
+        result = run(writing_goal(SPECTRAL), STANDARDIZED)
+        self.assertNotIn("cells", result)
+
+    def test_the_intro_is_not_code_and_not_a_step(self):
+        cell = run(writing_goal(SPECTRAL), NEW_NOTEBOOK)["cells"][0]
+        self.assertEqual((cell["kind"], cell["step"]), ("markdown", None))
 
 
 class StatedGoalTests(unittest.TestCase):

@@ -21,7 +21,8 @@ from typing import Callable
 
 import yaml
 
-AUTHORSHIP_MARKDOWN = "*Written by PaleoPAL*"
+# The extension recognises PaleoPAL's markdown by the starred text, so keep it intact.
+AUTHORSHIP_MARKDOWN = "*Written by PaleoPAL*, an AI assistant."
 AUTHORSHIP_CODE = "# Written by PaleoPAL"
 
 _SNIPPETS_PER_STEP = 2
@@ -287,13 +288,14 @@ def _sources_block(step: dict, plan: Plan, workflow: dict, snippets: dict[str, l
     source = source_text(step, plan, workflow)
     lines = ["<details><summary>Sources</summary>", ""]
     if source:
-        lines += [f"**PaleoPAL workflow file, `{step['id']}`:**", "", f"> {source}", ""]
+        analysis = workflow["workflow"]["id"].replace("_", " ")
+        lines += [f"**PaleoPAL's guide to {analysis}, on the {_title(step)} step:**", "", f"> {source}", ""]
     else:
-        lines += ["The workflow file has no source text for this step yet.", ""]
+        lines += ["No source text provided.", ""]
     names = [str(e.get("notebook") or e.get("symbol") or "unnamed example").rsplit("/", 1)[-1]
              for e in _examples_for(step, snippets)]
     if names:
-        lines += ["**Code examples given to the model:** "
+        lines += ["**Code examples I was shown:** "
                   + ", ".join(f"`{n}`" for n in names), ""]
     return "\n".join(lines + ["</details>"])
 
@@ -367,9 +369,12 @@ def _parameters_block(step: dict, code: str, reference: dict | None = None) -> s
 
     links = reference.get("links", {})
     linked = [f"[`{label}`]({links[label]})" for label in dict.fromkeys(labels) if label in links]
+    version = reference["pyleoclim_version"]
+    # A beta's links go to the latest pages, so say the same here.
+    documentation = "the latest Pyleoclim documentation" if "b" in version \
+        else f"the Pyleoclim {version} documentation"
     return "\n".join(["<details><summary>Parameters</summary>", "",
-                      f"From the documentation of Pyleoclim {reference['pyleoclim_version']}. "
-                      "Your installed version may differ.", "", *lines, "",
+                      f"Quoted from {documentation}. Your installed version may differ.", "", *lines, "",
                       *([f"Full documentation: {', '.join(linked)}", ""] if linked else []),
                       "</details>"])
 
@@ -474,7 +479,9 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         parameters = _parameters_block(step, code)
         lines = [f"### {title}", explanation, *plan.notes.get(step["id"], []),
                  *([parameters] if parameters else []),
-                 _sources_block(step, plan, workflow, snippets), AUTHORSHIP_MARKDOWN]
+                 _sources_block(step, plan, workflow, snippets),
+                 f"{AUTHORSHIP_MARKDOWN} {'Sources and Parameters are' if parameters else 'Sources are'} "
+                 "quoted directly, not written by the AI."]
         decisions = plan.decisions if step is plan.steps[0] else []
         result.cells.append(Cell("markdown", "\n\n".join(lines), step["id"], decisions))
         result.cells.append(Cell("code", f"{AUTHORSHIP_CODE}\n{code}", step["id"]))

@@ -87,11 +87,45 @@ def _ask(*questions: str) -> dict:
             "needs_user_input": True}
 
 
+_INTRO = f"""**Working with PaleoPAL**
+
+I'm PaleoPAL, an AI assistant for paleoclimate analysis from the LinkedEarth project. I'm still learning, so please check my work.
+
+- **Nothing runs on its own.** I add cells to your notebook, and you decide what to run, change or delete. One undo removes everything I just added.
+- **Each step has an explanation above its code**, saying what it does and why.
+- **I follow a guide for the steps.** It decides which steps an analysis needs and in what order. Code examples only show me how to write them.
+- **Under each explanation, you can open two sections.** *Parameters* quotes the Pyleoclim documentation for the settings I used. *Sources* quotes the guide and names the examples I was shown. Those are quoted directly, and I wrote the explanations.
+
+You can delete this cell once you've read it.
+
+{workflow_writer.AUTHORSHIP_MARKDOWN}"""
+
+
+def _has_paleopal_cells(history: list[dict]) -> bool:
+    return any(m.get("agent_type") == "paleopal_note"
+               or workflow_writer.AUTHORSHIP_CODE in (m.get("generated_content") or "")
+               for m in history or [])
+
+
 async def run(user_input: str, history: list[dict], workflow: dict,
               call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
               on_repair: Callable[[dict], None] | None = None,
               answers: dict[str, str] | None = None) -> dict | None:
-    """Return the cells for this request, or None if it isn't covered yet."""
+    """Return the cells for this request, or None if it isn't covered yet.
+
+    People rarely read the docs, so a notebook's first cells from PaleoPAL explain how to read them.
+    """
+    result = await _plan_and_write(user_input, history, workflow, call_model, searches,
+                                   max_repairs, on_repair, answers)
+    if result and result.get("cells") and not _has_paleopal_cells(history):
+        result["cells"].insert(0, {"kind": "markdown", "text": _INTRO, "step": None})
+    return result
+
+
+async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
+                          call_model: Callable[[str, str], str], searches: list, max_repairs: int,
+                          on_repair: Callable[[dict], None] | None,
+                          answers: dict[str, str] | None) -> dict | None:
     cells = code_cells_from_history(history)
     series = workflow_detector.detect(cells, workflow).series
     if not series:
@@ -222,7 +256,7 @@ async def handle(request):
     if result is None:
         return None
     message = ("I need one more detail from you." if result["needs_user_input"]
-               else "Built from the PaleoPAL workflow file.")
+               else "Built from PaleoPAL's guide.")
     questions = result.get("clarification_questions")
     return AgentResponse(
         status=AgentStatus.NEEDS_CLARIFICATION if questions else AgentStatus.SUCCESS,

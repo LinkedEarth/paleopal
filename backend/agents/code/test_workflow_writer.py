@@ -124,7 +124,7 @@ class SourceTests(unittest.TestCase):
         plan = lr04_plan(method="wwz")
         result = write(reply(), plan)
         spectral = next(c for c in result.cells if c.step == "spectral_estimate")
-        self.assertIn("has no source text for this step yet", spectral.text)
+        self.assertIn("No source text provided.", spectral.text)
 
     def test_only_examples_sent_to_the_model_are_named(self):
         examples = [{"notebook": f"lib/nb{i}.ipynb", "code": "lr04.detrend()"} for i in range(3)]
@@ -204,8 +204,25 @@ class ParameterTests(unittest.TestCase):
     def test_no_arguments_means_no_section(self):
         self.assertIsNone(self.block("a = lr04.detrend()"))
 
-    def test_the_version_is_shown(self):
-        self.assertIn("Pyleoclim 9.9", self.block("a = lr04.detrend('emd')"))
+    def test_a_release_names_its_version(self):
+        self.assertIn("Quoted from the Pyleoclim 9.9 documentation.", self.block("a = lr04.detrend('emd')"))
+
+    def test_a_beta_says_latest_like_its_links(self):
+        block = w._parameters_block(DETREND, "a = lr04.detrend('emd')", {**REFERENCE, "pyleoclim_version": "1.3.2b0"})
+        self.assertIn("Quoted from the latest Pyleoclim documentation.", block)
+
+    def test_the_closing_line_says_what_is_quoted(self):
+        def closing(code):
+            cell = next(c for c in write(reply(code=code)).cells if c.step == "detrend")
+            return cell.text.splitlines()[-1]
+        self.assertIn("*Written by PaleoPAL*", closing("a = lr04.detrend(preserve_mean=True)"))
+        self.assertIn("Sources and Parameters are quoted directly", closing("a = lr04.detrend(preserve_mean=True)"))
+        self.assertIn("Sources are quoted directly", closing("x = 1"))
+
+    def test_sources_name_the_guide_not_the_file(self):
+        cell = next(c for c in write(reply()).cells if c.step == "detrend")
+        self.assertIn("PaleoPAL's guide to spectral analysis, on the detrend step:", cell.text)
+        self.assertNotIn("workflow file", cell.text)
 
     def test_another_objects_arguments_are_not_defined_here(self):
         self.assertIsNone(self.block("a = lr04.slice(start=1)"))
