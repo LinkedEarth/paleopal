@@ -34,7 +34,8 @@ _PARAMETERS_FILE = pathlib.Path(__file__).parents[2] / "workflows" / "pyleoclim_
 
 _SYSTEM_PROMPT = """You write the code for one paleoclimate workflow, step by step, for a notebook.
 The steps are already decided. Write exactly these steps, in this order, one entry each.
-Add nothing else: no slicing, no extra methods, no extra plots, no printing, no saving.
+Add nothing else: no slicing unless it is one of these steps, no extra methods, no extra plots,
+no printing, no saving.
 
 Rules for the code:
 - `{series}` is already loaded and pyleoclim is already imported. Never import or load anything.
@@ -100,8 +101,11 @@ class WriteResult:
 
 
 def build_plan(state, workflow: dict, objective: str | None = None,
-               method: str | None = None) -> Plan:
-    """Choose the steps to write from the detector's report and the workflow file."""
+               method: str | None = None, requested: list[str] | None = None) -> Plan:
+    """Choose the steps to write from the detector's report and the workflow file.
+
+    A step that is only available, like slicing, is included when the request asks for it.
+    """
     objective = objective or "exploratory"
     method = method or workflow["method_selection"]["defaults_by_objective"][objective]
     registry = {m["id"]: m for m in workflow["method_registry"]}
@@ -109,7 +113,8 @@ def build_plan(state, workflow: dict, objective: str | None = None,
     plan = Plan(series=state.target, objective=objective, method=method)
 
     for step in workflow["steps"]:
-        wanted = status[step["id"]] == "to_do"
+        wanted = status[step["id"]] == "to_do" or (
+            status[step["id"]] == "optional" and step["id"] in (requested or []))
         if status[step["id"]] == "depends_on_method" and step["id"] == "regrid":
             wanted = registry[method]["requires_even_spacing"]
             if not wanted:
@@ -400,6 +405,52 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
     return "\n\n".join(parts)
 
 
+def _slice_note(code: str) -> str | None:
+    """Say how the range was read, with the numbers taken from the code itself.
+
+    The notebook doesn't say what units the series uses, so the model's reading of a range
+    like "the first 5000 years" can't be checked here. Kernel reads will settle that.
+    """
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return None
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "slice":
+            span = node.args[0] if node.args else next(
+                (k.value for k in node.keywords if k.arg == "timespan"), None)
+            if isinstance(span, (ast.List, ast.Tuple)) and len(span.elts) == 2:
+                start, end = (ast.unparse(e) for e in span.elts)
+                return (f"I read your range as {start} to {end} in the series' time units. Please check "
+                        "that this matches your series, including which end of the record you meant, "
+                        "before running the next steps. If it's incorrect, change the numbers given "
+                        "to `timespan`.")
+    return None
+
+
+def _skip_note(code: str, next_code: str) -> str | None:
+    """How to skip a recommended step without breaking the next cell, which uses its result.
+
+    A stopgap until a step can be edited out and the cells after it rewired.
+    """
+    try:
+        tree, later = ast.parse(code), ast.parse(next_code)
+    except SyntaxError:
+        return None
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
+                and isinstance(node.targets[0], ast.Name) and isinstance(node.value, ast.Call):
+            result = node.targets[0].id
+            root = node.value
+            while isinstance(root, (ast.Attribute, ast.Call, ast.Subscript)):
+                root = root.func if isinstance(root, ast.Call) else root.value
+            used_next = any(isinstance(n, ast.Name) and n.id == result for n in ast.walk(later))
+            if isinstance(root, ast.Name) and used_next:
+                return (f"If you'd rather skip this step, don't run this cell, and change "
+                        f"`{result}` to `{root.id}` in the next cell.")
+    return None
+
+
 def _parse_reply(reply: str) -> list[dict]:
     match = re.search(r"\{.*\}", reply, re.DOTALL)
     if not match:
@@ -467,8 +518,9 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         result.problems.append(f"expected steps {expected}, got {received}")
         return result
 
-    for step, reply in zip(plan.steps, written):
-        code = str(reply.get("code", "")).strip()
+    codes = [str(reply.get("code", "")).strip() for reply in written]
+    for number, (step, reply) in enumerate(zip(plan.steps, written)):
+        code = codes[number]
         result.problems.extend(_code_problems(step, code, workflow))
         explanation = " ".join(str(reply.get("explanation", "")).split())
         if not explanation:
@@ -477,7 +529,11 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         if step["requiredness"] == "recommended":
             title += " (recommended)"
         parameters = _parameters_block(step, code)
+        range_note = _slice_note(code) if step["id"] == "slice" else None
+        skip_note = (_skip_note(code, codes[number + 1])
+                     if step["requiredness"] == "recommended" and number + 1 < len(codes) else None)
         lines = [f"### {title}", explanation, *plan.notes.get(step["id"], []),
+                 *([range_note] if range_note else []), *([skip_note] if skip_note else []),
                  *([parameters] if parameters else []),
                  _sources_block(step, plan, workflow, snippets),
                  f"{AUTHORSHIP_MARKDOWN} {'Sources and Parameters are' if parameters else 'Sources are'} "

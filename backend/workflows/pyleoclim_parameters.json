@@ -9,6 +9,7 @@
   "Series.interp": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.interp",
   "Series.outliers": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.outliers",
   "Series.segment": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.segment",
+  "Series.slice": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.slice",
   "Series.spectral": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.spectral",
   "Series.standardize": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.standardize",
   "spectral.cwt_psd": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.cwt_psd",
@@ -523,6 +524,16 @@
      "type": "bool",
      "definition": "If True, will print warning messages if there is any",
      "default": "False"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.slice": {
+   "parameters": [
+    {
+     "name": "timespan",
+     "type": "tuple or list",
+     "definition": "The list of time points for slicing, whose length must be even. When there are n time points, the output Series includes n/2 segments. For example, if timespan = [a, b], then the sliced output includes one segment [a, b]; if timespan = [a, b, c, d], then the sliced output includes segment [a, b] and segment [c, d].",
+     "default": null
     }
    ]
   },

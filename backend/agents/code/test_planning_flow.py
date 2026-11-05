@@ -323,16 +323,75 @@ def writing_chain(meaning):
             return json.dumps(meaning)
         ids = [line.split("## Step: ")[1] for line in user.splitlines() if line.startswith("## Step: ")]
         current = system.split("Start from `")[1].split("`")[0]
-        calls = {"detrend": "detrend(method='linear')", "regrid": "interp()",
+        calls = {"slice": "slice([0, 500])", "detrend": "detrend(method='linear')", "regrid": "interp()",
                  "standardize": "standardize()", "spectral_estimate": "spectral(method='lomb_scargle')",
                  "significance": "signif_test()", "visualize": "plot()"}
         steps = []
         for number, step in enumerate(ids):
             name = f"v{number}"
+            name = "fig, ax" if step == "visualize" else name  # a plot displays the result
             steps.append({"id": step, "explanation": "T.", "code": f"{name} = {current}.{calls[step]}"})
             current = name
         return json.dumps({"steps": steps})
     return call
+
+
+class SliceTests(unittest.TestCase):
+    """"Spectral analysis on part of the record" is a slice, then the workflow on that part."""
+
+    def flow(self, notebook, meaning, answers=None):
+        return asyncio.run(flow.run("a request", notebook, WORKFLOW, writing_chain(meaning),
+                                    [no_search], answers=answers or {}))
+
+    def test_slicing_comes_first_on_a_clean_notebook(self):
+        result = self.flow(LR04, {**SPECTRAL, "steps": ["slice"], "whole_analysis": True})
+        self.assertEqual(result["plan"]["steps"], ["slice", "detrend", "standardize",
+                                                   "spectral_estimate", "visualize"])
+        self.assertEqual((result["repairs"], result["checker_findings"]), (0, []))
+        self.assertIn("v0 = lr04.slice([0, 500])", result["generated_code"])
+        self.assertIn("I read your range as 0 to 500 in the series' time units.", texts(result))
+        self.assertIn("change the numbers given to `timespan`", texts(result))
+
+    def test_a_recommended_step_says_how_to_skip_it(self):
+        result = self.flow(LR04, {**SPECTRAL, "steps": ["slice"], "whole_analysis": True})
+        detrend = next(c["text"] for c in result["cells"]
+                       if c["kind"] == "markdown" and c["step"] == "detrend")
+        self.assertIn("don't run this cell, and change `v1` to `v0` in the next cell.", detrend)
+        others = [c["text"] for c in result["cells"] if c["step"] in ("slice", "standardize", "visualize")]
+        self.assertFalse(any("rather skip" in t for t in others))
+
+    def test_no_skip_line_when_the_next_cell_does_not_use_the_result(self):
+        self.assertIsNone(_pkg.workflow_writer._skip_note("a = lr04.detrend()", "b = lr04.standardize()"))
+        self.assertIsNone(_pkg.workflow_writer._skip_note("fig, ax = psd.plot()", "x = fig"))
+
+    def test_the_range_note_uses_the_numbers_in_the_code(self):
+        note = _pkg.workflow_writer._slice_note("part = lr04.slice(timespan=(10, 800))")
+        self.assertIn("as 10 to 800", note)
+        self.assertIsNone(_pkg.workflow_writer._slice_note("part = lr04.slice(bounds)"))
+
+    def test_no_slicing_unless_asked(self):
+        result = self.flow(LR04, {**SPECTRAL, "whole_analysis": True})
+        self.assertNotIn("slice", result["plan"]["steps"])
+
+    def test_slicing_after_detrending_starts_a_new_chain(self):
+        result = self.flow(DETRENDED, {**SPECTRAL, "steps": ["slice"], "whole_analysis": True})
+        self.assertEqual(result["plan"]["steps"], ["slice", "detrend", "standardize",
+                                                   "spectral_estimate", "visualize"])
+        self.assertEqual(result["checker_findings"], [])
+        self.assertIn("started a new chain from `lr04`", texts(result))
+
+    def test_a_slice_already_in_the_notebook_is_built_on(self):
+        sliced = LR04 + history("part = lr04.slice([0, 500])")
+        result = self.flow(sliced, {**SPECTRAL, "whole_analysis": True}, {"detrend": "No"})
+        self.assertEqual(result["plan"]["steps"], ["standardize", "spectral_estimate", "visualize"])
+        self.assertIn("v0 = part.standardize()", result["generated_code"])
+
+    def test_the_checker_flags_slicing_after_detrending(self):
+        cells = ["import pyleoclim as pyleo", "lr04 = pyleo.utils.load_dataset('LR04')"]
+        findings = _pkg.verification.check_new_code(
+            cells, "x = lr04.detrend().slice([0, 500]).standardize().spectral()", {"objective": "exploratory"})
+        failed = {f.rule for f in findings if f.status == "violated"}
+        self.assertIn("preprocessing_order", failed)
 
 
 class AskedForEarlierStepTests(unittest.TestCase):

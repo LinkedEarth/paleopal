@@ -477,6 +477,13 @@ forced `plt.loglog` draft. **Build order agreed 2026-11-04, keeping the spectral
 example:** next step, then kernel reads, editing a step, several series. Decide
 in the next session whether data loading (its own YAML) jumps ahead; Deborah's
 held-out tests come after, since most need data loading.
+**Build order revised (Deborah, 2026-11-05), for the AGU focus on human
+interaction:** (1) stop dropping requests without a word, including explain-and-wait
+for an unnecessary regrid; (2) a first chatbot that explains PaleoPAL's own cells
+and answers "what other parameters does this function take?"; (3) kernel reads,
+and maybe the corpus. Editing a step is also wanted: remind Deborah when we get
+to it, since she'd forgotten it. Data loading and the wavelet workflow move down
+the list.
 **"Next step" design (agreed 2026-11-04):** yes/no gap questions use the
 extension's panel, resending the request with the answer. A researcher must be
 able to find a record of these choices (Deborah); where is still open. The old
@@ -533,6 +540,38 @@ reachable in Qdrant. Link the Sources section to it so people can retrieve what 
 drew on.
 **Still to fix (2026-11-04):** requests PaleoPAL doesn't act on are dropped without a word
 (e.g. ARIMA, slicing), and asking for an unnecessary regrid should explain and wait.
+The ARIMA and slicing example came from Claude's own test request, "use lomb-scargle
+on lr04 and also fit an ARIMA model and slice to the last 500 kyr". PaleoPAL wrote
+the spectral workflow and silently left out the other two parts.
+Deborah (2026-11-05): ARIMA belongs with significance testing, not as a fit, so that
+request was badly worded. (Fact: Pyleoclim 1.3.1b0's `PSD.signif_test` offers only
+`ar1sim`, `ar1asym` and `uar1`; ARIMA appears only in `utils/tsmodel.py`.) Slicing
+must be covered as a step of the spectral workflow, included only when the request
+asks for it ("perform spectral analysis on the first 5000 years of the record").
+PaleoPAL should read such a request as slice, then the workflow, not refuse part of
+it. **Slicing goes first (Deborah, 2026-11-05):** preprocessing should only be done
+on the part of the record being analysed, which includes detrending, removing
+outliers, regridding and standardizing. ARIMA is tabled; Deborah isn't sure where
+it would come from either.
+**Slice built 2026-11-05.** The model reads the range from the request, e.g. "the first
+5000 years" became `lr04.slice([0, 5])`, because it knew from memory that LR04 is in ky BP.
+Until kernel reads exist, Python adds a fixed note under the slice cell, with the numbers
+taken from the code: it says how the range was read, asks the researcher to check the units
+and which end of the record was meant, and to change the numbers given to `timespan` if
+wrong (wording approved by Deborah). **For kernel reads:** Pyleoclim Series carry their
+time units (`time_unit`), so read them; also count the points left after slicing (0–5 ka
+of LR04 is only 6 points, too few for a spectrum).
+**Skipping a recommended step (Deborah, 2026-11-05):** each cell continues from the previous
+cell's variable, so deleting or not running a recommended step (e.g. detrend) breaks the next
+cell with a `NameError`. Stopgap built: Python adds a line under a recommended step whose
+result the next cell uses, "If you'd rather skip this step, don't run this cell, and change
+`lr04_detrended` to `lr04` in the next cell", with names from the code. The proper fix is the
+edit flow (rewire the later cells); kernel reads can also spot a cell that wasn't run.
+**Filed (Deborah, 2026-11-05): an optional plot of the series at the start of the
+spectral workflow, if it hasn't been plotted yet.** Detrending isn't always
+necessary, and people may want to look at the series before deciding on it. Deborah
+expects this to come with kernel reads. Note that "already plotted" can be partly read
+from cell text, but whether the plot was actually run and seen can't.
 **For the chatbot, part two of the redesign
 (Deborah):** a researcher should be able to ask where a piece of text or an
 argument came from, so PaleoPAL must keep what each cell was given. For the demo: long series can take a long

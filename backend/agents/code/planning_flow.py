@@ -155,7 +155,7 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         return _ask(f"Your notebook has several series: {', '.join(f'`{s}`' for s in series)}. "
                     "Which one should I analyze?")
     if state.level == "whole_workflow":
-        plan = workflow_writer.build_plan(state, workflow, objective, meaning.method)
+        plan = workflow_writer.build_plan(state, workflow, objective, meaning.method, meaning.steps)
         plan.start = state.current
     elif state.level == "next_step":
         all_answers = {**decisions_from_history(history), **(answers or {})}

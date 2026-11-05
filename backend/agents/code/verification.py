@@ -97,8 +97,8 @@ REGRID_CALLS = {"interp", "bin"}
 
 # Canonical preprocessing order (rule: preprocessing_order_is_fixed).
 # Steps may be skipped; those that run must keep this relative order.
-PREPROC_ORDER = ["detrend", "outliers", "regrid", "standardize"]
-PREPROC_ALIASES = {"detrend": "detrend", "outliers": "outliers",
+PREPROC_ORDER = ["slice", "detrend", "outliers", "regrid", "standardize"]
+PREPROC_ALIASES = {"slice": "slice", "detrend": "detrend", "outliers": "outliers",
                    "interp": "regrid", "bin": "regrid",
                    "standardize": "standardize"}
 PLOTTING_MODULES = {"plt", "pyplot", "pylab"}
@@ -268,7 +268,7 @@ def extract_facts(code: str) -> CodeFacts:
             name = func.attr
 
             # which variable is this method chain rooted at?
-            if name in {"spectral", "interp", "bin", "detrend", "standardize",
+            if name in {"slice", "spectral", "interp", "bin", "detrend", "standardize",
                         "outliers", "wavelet"}:
                 root = func.value
                 while isinstance(root, (ast.Attribute, ast.Call, ast.Subscript)):

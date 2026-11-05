@@ -176,12 +176,19 @@ rules:
     severity: prohibited
     statement: >
       Preprocessing steps must be applied in this order:
-        detrend -> remove_outliers -> regrid -> standardize
+        slice -> detrend -> remove_outliers -> regrid -> standardize
       The order is scientific, not stylistic. Steps may be SKIPPED when not
       required, but the relative order of those that do run must be preserved.
-    canonical_order: [detrend, remove_outliers, regrid, standardize]
+    canonical_order: [slice, detrend, remove_outliers, regrid, standardize]
     checkable: true
     ordering_rationale:
+      - step: detrend
+        after: slice
+        reason: >
+          Preprocessing should only be done on the part of the record being
+          analyzed. Slicing first means that detrending, removing outliers,
+          regridding and standardizing are all computed from that part alone,
+          not from the whole record.
       - step: remove_outliers
         after: detrend
         reason: >
@@ -492,6 +499,16 @@ inspection:
 #   required_for(...)    — depends on the objective
 # -----------------------------------------------------------------------------
 steps:
+  - id: slice
+    order: 0
+    requiredness: available_not_default
+    core_api: pyleoclim.core.series.Series.slice
+    container_api: null
+    rationale: >
+      I kept only the part of the record you asked to analyze, and did this
+      before any other step, so that detrending, outlier removal, regridding
+      and standardization are computed from that part alone.
+
   - id: detrend
     order: 1
     requiredness: recommended
