@@ -56,6 +56,11 @@ class ValidReplyTests(unittest.TestCase):
     def test_requested_steps_are_kept(self):
         self.assertEqual(interpret({"steps": ["significance"]}).steps, ["significance"])
 
+    def test_whole_analysis_is_read_and_defaults_to_false(self):
+        self.assertTrue(interpret({"whole_analysis": True}).whole_analysis)
+        self.assertFalse(interpret({}).whole_analysis)
+        self.assertFalse(interpret({"whole_analysis": "yes"}).whole_analysis)
+
     def test_an_invented_step_is_dropped(self):
         result = interpret({"steps": ["make_it_pretty"]})
         self.assertEqual(result.steps, [])

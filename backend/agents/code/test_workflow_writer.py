@@ -148,10 +148,182 @@ class SourceTests(unittest.TestCase):
         message = w.build_user_message(lr04_plan(), WORKFLOW, {"detrend": examples})
         self.assertNotIn("Notebook start", message)
 
+    def test_the_request_reaches_the_writer_before_the_steps(self):
+        plan = lr04_plan()
+        plan.request = "use lomb-scargle with n50=4"
+        message = w.build_user_message(plan, WORKFLOW, {})
+        self.assertIn("## The researcher's request\nuse lomb-scargle with n50=4", message)
+        self.assertLess(message.index("n50=4"), message.index("## Step: detrend"))
+
+    def test_a_request_asking_for_an_extra_step_is_still_rejected(self):
+        plan = lr04_plan()
+        plan.request = "and also run a significance test"
+        self.assertEqual(write(reply(STEPS + ["significance"]), plan).cells, [])
+
     def test_prompt_gives_the_source_but_not_a_duplicate_rationale(self):
         message = w.build_user_message(lr04_plan(), WORKFLOW, {})
         self.assertIn("Source text: I removed the long-term trend", message)
         self.assertNotIn("rationale:", message)
+
+
+REFERENCE = {"pyleoclim_version": "9.9",
+             "links": {"Series.detrend": "http://docs/detrend", "tsutils.detrend": "http://docs/ts",
+                       "Series.spectral": "http://docs/spectral", "spectral.mtm": "http://docs/mtm"},
+             "methods": {
+    "pyleoclim.core.series.Series.spectral": {
+        "parameters": [{"name": "method", "type": None, "definition": "The estimator.", "default": "'lomb_scargle'"},
+                       {"name": "settings", "type": "dict", "definition": "Method arguments.", "default": "None"}],
+        "settings_by_method": {
+            "mtm": [{"name": "NW", "type": "float", "definition": "Time-bandwidth.", "default": "None",
+                     "source": "spectral.mtm"}],
+            "lomb_scargle": [{"name": "n50", "type": "int", "definition": "Segments.", "default": "3",
+                              "source": "spectral.lomb_scargle"}]}},
+    "pyleoclim.core.series.Series.detrend": {
+     "passes_to": [{"name": "n", "type": "int", "definition": "Modes to remove.", "default": "1",
+                    "source": "tsutils.detrend"}],
+     "parameters": [
+        {"name": "method", "type": "str, optional", "definition": "The method for detrending.", "default": "'emd'"},
+        {"name": "preserve_mean", "type": "boolean", "definition": "Keeps the mean.", "default": "False"},
+        {"name": "keep_log", "type": None, "definition": None, "default": "False"}]}}}
+DETREND = next(s for s in WORKFLOW["steps"] if s["id"] == "detrend")
+SPECTRAL_STEP = next(s for s in WORKFLOW["steps"] if s["id"] == "spectral_estimate")
+
+
+class ParameterTests(unittest.TestCase):
+    def block(self, code):
+        return w._parameters_block(DETREND, code, REFERENCE)
+
+    def test_only_arguments_the_code_sets_are_defined(self):
+        block = self.block("a = lr04.detrend(preserve_mean=True)")
+        self.assertIn("`preserve_mean=True`: (boolean) Keeps the mean. *(default: False)*", block)
+        self.assertNotIn("`method", block)
+
+    def test_a_positional_argument_is_matched_to_its_parameter(self):
+        self.assertIn("`method='emd'`", self.block("a = lr04.detrend('emd')"))
+
+    def test_no_arguments_means_no_section(self):
+        self.assertIsNone(self.block("a = lr04.detrend()"))
+
+    def test_the_version_is_shown(self):
+        self.assertIn("Pyleoclim 9.9", self.block("a = lr04.detrend('emd')"))
+
+    def test_another_objects_arguments_are_not_defined_here(self):
+        self.assertIsNone(self.block("a = lr04.slice(start=1)"))
+
+    def test_an_undocumented_argument_says_so(self):
+        for code in ("a = lr04.detrend(keep_log=True)", "a = lr04.detrend(unknown=1)"):
+            self.assertIn("I couldn't find a definition", self.block(code))
+
+    def test_a_missing_reference_file_means_no_section(self):
+        self.assertIsNone(w._parameters_block(DETREND, "a = lr04.detrend('emd')", {}))
+
+    def test_the_real_file_covers_every_workflow_method_and_appears_in_the_cell(self):
+        for step in WORKFLOW["steps"]:
+            apis = step.get("core_api") or []
+            for api in apis if isinstance(apis, list) else [apis]:
+                self.assertIn(api, w._parameter_reference()["methods"])
+        result = write(reply(code="a = lr04.detrend(preserve_mean=True)"))
+        text = next(c.text for c in result.cells if c.step == "detrend")
+        self.assertIn("<details><summary>Parameters</summary>", text)
+        self.assertLess(text.index("Parameters"), text.index("Sources"))
+
+    def test_an_argument_passed_along_is_defined_and_its_function_linked(self):
+        block = self.block("a = lr04.detrend(n=2)")
+        self.assertIn("`n=2`: (int) Modes to remove. *(default: 1)*", block)
+        self.assertIn("[`Series.detrend`](http://docs/detrend), [`tsutils.detrend`](http://docs/ts)", block)
+
+    def test_the_method_is_linked_without_a_function_it_did_not_use(self):
+        block = self.block("a = lr04.detrend(preserve_mean=True)")
+        self.assertIn("[`Series.detrend`](http://docs/detrend)", block)
+        self.assertNotIn("tsutils", block)
+
+    def test_settings_keys_use_the_chosen_method(self):
+        code = "p = s.spectral(method='mtm', settings={'NW': 4})"
+        block = w._parameters_block(SPECTRAL_STEP, code, REFERENCE)
+        self.assertIn("`settings={'NW': 4}`", block)
+        self.assertIn("  - `NW=4`: (float) Time-bandwidth.", block)
+        self.assertIn("[`spectral.mtm`](http://docs/mtm)", block)
+
+    def test_settings_keys_use_the_default_method_when_none_is_named(self):
+        block = w._parameters_block(SPECTRAL_STEP, "p = s.spectral(settings={'n50': 5})", REFERENCE)
+        self.assertIn("`n50=5`: (int) Segments.", block)
+
+    def test_a_setting_of_another_method_says_it_has_no_definition(self):
+        code = "p = s.spectral(method='mtm', settings={'n50': 5})"
+        self.assertIn("`n50=5`: I couldn't find", w._parameters_block(SPECTRAL_STEP, code, REFERENCE))
+
+    def test_settings_held_in_a_variable_still_defines_settings(self):
+        block = w._parameters_block(SPECTRAL_STEP, "p = s.spectral(settings=mine)", REFERENCE)
+        self.assertIn("`settings=mine`: (dict) Method arguments.", block)
+
+    def test_a_missing_link_is_left_out(self):
+        reference = {**REFERENCE, "links": {}}
+        self.assertNotIn("Full documentation", w._parameters_block(DETREND, "a = lr04.detrend(n=2)", reference))
+
+    def _build(self):
+        spec = importlib.util.spec_from_file_location(
+            "build_parameters", _HERE.parents[1] / "scripts" / "build_pyleoclim_parameters.py")
+        build = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build)
+        return build
+
+    def test_a_beta_links_to_latest_and_a_release_to_its_own_pages(self):
+        build = self._build()
+        self.assertEqual(build.docs_version("1.3.1b0"), "latest")
+        self.assertEqual(build.docs_version("1.3.2b"), "latest")
+        self.assertEqual(build.docs_version("1.3.1"), "v1.3.1")
+
+    def test_only_links_with_a_real_target_are_kept(self):
+        page = '<dt id="pyleoclim.core.series.Series.bin">'
+        links = self._build().build_links(
+            ["pyleoclim.core.series.Series.bin", "pyleoclim.core.series.Series.interp"], "1.3.1", lambda url: page)
+        self.assertEqual(list(links), ["Series.bin"])
+        self.assertIn("/v1.3.1/core/api.html#pyleoclim.core.series.Series.bin", links["Series.bin"])
+
+    def test_an_unreachable_page_means_no_links_not_a_crash(self):
+        def down(url):
+            raise OSError("no network")
+        self.assertEqual(self._build().build_links(["pyleoclim.core.series.Series.bin"], "1.3.1", down), {})
+
+    def test_unevenly_indented_parameters_are_separate_entries(self):
+        parsed = self._build().parse_parameters("""Title
+
+        Parameters
+        ----------
+        detrend : str
+              Which detrending.
+          sg_kwargs : dict
+              The filter parameters.
+              note : not a parameter, just text.
+        """, {"detrend", "sg_kwargs"})
+        self.assertEqual(parsed["detrend"]["definition"], "Which detrending.")
+        self.assertEqual(parsed["sg_kwargs"]["definition"],
+                         "The filter parameters. note : not a parameter, just text.")
+
+    def test_docstring_parsing(self):
+        parsed = self._build().parse_parameters("""Title
+
+        Parameters
+        ----------
+        method : str; {'a','b'}
+
+            First line
+            second line.
+
+        x, y : float
+            Both.
+        bare
+            No type.
+
+        Returns
+        -------
+        z : int
+            Not a parameter.
+        """)
+        self.assertEqual(parsed["method"], {"type": "str; {'a','b'}", "definition": "First line second line."})
+        self.assertEqual(parsed["y"]["definition"], "Both.")
+        self.assertEqual(parsed["bare"], {"type": None, "definition": "No type."})
+        self.assertNotIn("z", parsed)
 
 
 class RejectionTests(unittest.TestCase):

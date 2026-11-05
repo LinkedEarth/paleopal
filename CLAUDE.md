@@ -500,8 +500,24 @@ repaired, after the model chained `signif_test` into the spectral step. A plain
 "run spectral analysis on lr04" keeps proposing the test rather than adding it
 (Deborah, 2026-11-04). A stated goal also brings its required step into a next-step
 plan, and the checker doesn't demand steps a plan leaves for later.
-**Idea under discussion (Deborah, 2026-11-04):** when a cell sets parameters, add
-their definitions from the Pyleoclim docs to its markdown.
+**Parameter definitions (Deborah, 2026-11-04):** when a cell sets parameters, add
+their definitions from the Pyleoclim docs to its markdown. A reference file built
+once is enough for now, but definitions and defaults depend on the Pyleoclim in each
+researcher's kernel, so in reality this must follow the kernel and be per-user.
+Built: a collapsible "Parameters" section, from `workflows/pyleoclim_parameters.json`
+(`scripts/build_pyleoclim_parameters.py`, run in the `pyleo` environment), including
+arguments passed on to `pyleoclim.utils` and `settings` keys. Links go to Read the
+Docs: a released version to its `v…` pages, a `b` version always to `latest`
+(Deborah). The execution container has Pyleoclim 1.2.1, her kernel 1.3.1b0.
+When the API check is revisited: `api_validation.py` reading an installed Pyleoclim sees
+only a method's signature, so it rejects valid `**kwargs` like `bin(bin_size=...)`.
+**Later activity, not now:** fix errors in the Pyleoclim documentation; don't work
+around them in PaleoPAL.
+**Filed for later (Deborah, 2026-11-04):** Varun's library of notebooks and functions is
+reachable in Qdrant. Link the Sources section to it so people can retrieve what a cell
+drew on.
+**Still to fix (2026-11-04):** requests PaleoPAL doesn't act on are dropped without a word
+(e.g. ARIMA, slicing), and asking for an unnecessary regrid should explain and wait.
 **For the chatbot, part two of the redesign
 (Deborah):** a researcher should be able to ask where a piece of text or an
 argument came from, so PaleoPAL must keep what each cell was given. For the demo: long series can take a long

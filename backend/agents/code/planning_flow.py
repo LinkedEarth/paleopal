@@ -28,6 +28,7 @@ from . import request_interpreter, step_snippets, verification, workflow_detecto
 
 logger = logging.getLogger(__name__)
 
+_PLOT_STEP = "visualize"
 # The check that demands each step, which a plan stopping short of that step must not trigger.
 _CHECK_DEMANDING = {"significance": "significance_tested", "beta_estimate": "beta_estimated",
                     "spectral_estimate": "required_steps_present"}
@@ -98,7 +99,8 @@ async def run(user_input: str, history: list[dict], workflow: dict,
 
     meaning = await asyncio.to_thread(
         request_interpreter.interpret_request, user_input, workflow, series, call_model)
-    if meaning.analysis is None and not meaning.problems:
+    # The method list comes from the workflow file, so naming one means this analysis.
+    if meaning.analysis is None and meaning.method is None and not meaning.problems:
         return None
     if meaning.problems:
         logger.info("Planning flow asking the user: %s", meaning.problems)
@@ -123,8 +125,16 @@ async def run(user_input: str, history: list[dict], workflow: dict,
         plan.start = state.current
     elif state.level == "next_step":
         all_answers = {**decisions_from_history(history), **(answers or {})}
+        # "Run the analysis with a linear detrend" wants that step, the spectrum and, as on a
+        # clean notebook, its plot. Naming an estimator alongside a step asks for the spectrum.
+        also = []
+        if meaning.whole_analysis:
+            also = [workflow_writer._SPECTRAL_STEP, _PLOT_STEP]
+        elif meaning.method and meaning.steps:
+            also = [workflow_writer._SPECTRAL_STEP]
+        requested = meaning.steps + [s for s in also if s not in meaning.steps]
         next_step = workflow_writer.plan_next_step(
-            state, workflow, meaning.steps, meaning.objective, meaning.method, all_answers)
+            state, workflow, requested, meaning.objective, meaning.method, all_answers)
         if next_step.question:
             return {"generated_code": "", "needs_user_input": True,
                     "clarification_questions": [next_step.question]}
@@ -134,6 +144,7 @@ async def run(user_input: str, history: list[dict], workflow: dict,
     else:
         return None
     plan.notebook_code = cells
+    plan.request = user_input
 
     snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)
                 for step in plan.steps}

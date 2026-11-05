@@ -1,0 +1,1113 @@
+{
+ "pyleoclim_version": "1.3.1b0",
+ "links": {
+  "PSD.beta_est": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.beta_est",
+  "PSD.plot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.plot",
+  "PSD.signif_test": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.signif_test",
+  "Series.bin": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.bin",
+  "Series.detrend": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.detrend",
+  "Series.interp": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.interp",
+  "Series.outliers": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.outliers",
+  "Series.segment": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.segment",
+  "Series.spectral": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.spectral",
+  "Series.standardize": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.standardize",
+  "spectral.cwt_psd": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.cwt_psd",
+  "spectral.lomb_scargle": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.lomb_scargle",
+  "spectral.mtm": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.mtm",
+  "spectral.periodogram": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.periodogram",
+  "spectral.welch": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.welch",
+  "spectral.wwz_psd": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.wwz_psd",
+  "tsutils.detrend": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.tsutils.detrend",
+  "tsutils.interp": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.tsutils.interp",
+  "tsutils.standardize": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.tsutils.standardize"
+ },
+ "methods": {
+  "pyleoclim.core.psds.PSD.beta_est": {
+   "parameters": [
+    {
+     "name": "fmin",
+     "type": "float, optional",
+     "definition": "the minimum frequency edge for beta estimation; the default is the minimum of the frequency vector of the PSD obj",
+     "default": "None"
+    },
+    {
+     "name": "fmax",
+     "type": "float, optional",
+     "definition": "the maximum frequency edge for beta estimation; the default is the maximum of the frequency vector of the PSD obj",
+     "default": "None"
+    },
+    {
+     "name": "logf_binning_step",
+     "type": "str, {'max', 'first'}",
+     "definition": "if 'max', then the maximum spacing of log(f) will be used as the binning step if 'first', then the 1st spacing of log(f) will be used as the binning step",
+     "default": "'max'"
+    },
+    {
+     "name": "verbose",
+     "type": "bool; {True, False}",
+     "definition": "If True, will print warning messages if there is any",
+     "default": "False"
+    }
+   ]
+  },
+  "pyleoclim.core.psds.PSD.plot": {
+   "parameters": [
+    {
+     "name": "in_loglog",
+     "type": "bool; {True, False}, optional",
+     "definition": "Plot on loglog axis. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "in_period",
+     "type": "bool; {True, False}, optional",
+     "definition": "Plot the x-axis as periodicity rather than frequency. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "label",
+     "type": "str, optional",
+     "definition": "label for the series. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "xlabel",
+     "type": "str, optional",
+     "definition": "Label for the x-axis. The default is None. Will guess based on Series",
+     "default": "None"
+    },
+    {
+     "name": "ylabel",
+     "type": "str, optional",
+     "definition": "Label for the y-axis. The default is 'PSD'.",
+     "default": "'PSD'"
+    },
+    {
+     "name": "title",
+     "type": "str, optional",
+     "definition": "Plot title. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "marker",
+     "type": "str, optional",
+     "definition": "marker to use. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "markersize",
+     "type": "int, optional",
+     "definition": "size of the marker. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "color",
+     "type": "str, optional",
+     "definition": "Line color. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "linestyle",
+     "type": "str, optional",
+     "definition": "linestyle. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "linewidth",
+     "type": "float, optional",
+     "definition": "Width of the line. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "transpose",
+     "type": "bool; {True, False}, optional",
+     "definition": "Plot periodicity on y-. The default is False.",
+     "default": "False"
+    },
+    {
+     "name": "xlim",
+     "type": "list, optional",
+     "definition": "x-axis limits. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "ylim",
+     "type": "list, optional",
+     "definition": "y-axis limits. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "figsize",
+     "type": "list, optional",
+     "definition": "Figure size. The default is [10, 4].",
+     "default": "[10, 4]"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict, optional",
+     "definition": "save settings options. The default is None. the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
+    },
+    {
+     "name": "ax",
+     "type": "ax, optional",
+     "definition": "The matplotlib.Axes object onto which to return the plot. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "legend",
+     "type": "bool; {True, False}, optional",
+     "definition": "whether to plot the legend. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "lgd_kwargs",
+     "type": "dict, optional",
+     "definition": "Arguments for the legend. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "xticks",
+     "type": "list, optional",
+     "definition": "xticks to use. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "yticks",
+     "type": "list, optional",
+     "definition": "yticks to use. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "alpha",
+     "type": "float, optional",
+     "definition": "Transparency setting. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "zorder",
+     "type": "int, optional",
+     "definition": "Order for the plot. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "plot_kwargs",
+     "type": "dict, optional",
+     "definition": "Other plotting argument. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "signif_clr",
+     "type": "str, optional",
+     "definition": "Color for the significance line. The default is 'red'.",
+     "default": "'red'"
+    },
+    {
+     "name": "signif_linestyles",
+     "type": "list of str, optional",
+     "definition": "Linestyles for significance. The default is ['--', '-.', ':'].",
+     "default": "['--', '-.', ':']"
+    },
+    {
+     "name": "signif_linewidth",
+     "type": "float, optional",
+     "definition": "width of the significance line. The default is 1.",
+     "default": "1"
+    },
+    {
+     "name": "plot_beta",
+     "type": "bool; {True, False}, optional",
+     "definition": "If True and self.beta_est_res is not None, then the scaling slope line will be plotted",
+     "default": "True"
+    },
+    {
+     "name": "beta_kwargs",
+     "type": "dict, optional",
+     "definition": "The visualization keyword arguments for the scaling slope",
+     "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.psds.PSD.signif_test": {
+   "parameters": [
+    {
+     "name": "method",
+     "type": "str; {'ar1asym','ar1sim','uar1'}",
+     "definition": "Method to generate surrogates. AR1sim uses simulated timeseries with similar persistence. AR1asymp represents the closed form solution. The default is AR1sim",
+     "default": "'ar1sim'"
+    },
+    {
+     "name": "number",
+     "type": "int, optional",
+     "definition": "Number of surrogate series to generate for significance testing. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "seed",
+     "type": "int, optional",
+     "definition": "Option to set the seed for reproducibility. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "qs",
+     "type": "list, optional",
+     "definition": "Significance levels to return. The default is [0.95].",
+     "default": "[0.95]"
+    },
+    {
+     "name": "settings",
+     "type": "dict, optional",
+     "definition": "Parameters for the specific significance test. The default is None. Note that the default value for the asymptotic solution is `time-average`",
+     "default": "None"
+    },
+    {
+     "name": "scalogram",
+     "type": "pyleoclim.Scalogram object, optional",
+     "definition": "Scalogram containing signif_scals exported during significance testing of scalogram. If number is None and signif_scals are present, will use length of scalogram list as number of significance tests",
+     "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.bin": {
+   "parameters": [
+    {
+     "name": "keep_log",
+     "type": "Boolean",
+     "definition": "if True, adds this step and its parameters to the series log.",
+     "default": "False"
+    }
+   ],
+   "passes_to": [
+    {
+     "name": "bin_size",
+     "type": "float",
+     "definition": "The size of the bins. Default is the maximum resolution if no_nans is True.",
+     "default": "None",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "start",
+     "type": "float",
+     "definition": "Where/when to start binning. Default is the minimum.",
+     "default": "None",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "stop",
+     "type": "float",
+     "definition": "When/where to stop binning. Default is the maximum.",
+     "default": "None",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "step_style",
+     "type": "str; {'min','mean','median','max'}",
+     "definition": "Step style to use when determining the size of the interval between points. Default is None.",
+     "default": "None",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "evenly_spaced",
+     "type": "{True,False}",
+     "definition": "Makes the series evenly-spaced. This option is ignored if bin_size is set to float. This option is being deprecated, no_nans should be used instead.",
+     "default": "False",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "statistic",
+     "type": "str",
+     "definition": "Statistic to calculate and return in values. Default is 'mean'. See scipy.stats.binned_statistic for other options.",
+     "default": "'mean'",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "bin_edges",
+     "type": "np.ndarray",
+     "definition": "The edge of bins to use for binning. E.g. if bins = [1,2,3,4], bins will be [1,2), [2,3), [3,4]. See scipy.stats.binned_statistic for details. Start, stop, bin_size, step_style, and time_axis will be ignored if this is passed.",
+     "default": "None",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "time_axis",
+     "type": "np.ndarray",
+     "definition": "The time axis to use for binning. If passed, bin_edges will be set as the midpoints between times. The first time will be used as the left most edge, the last time will be used as the right most edge. Start, stop, bin_size, and step_style will be ignored if this is passed.",
+     "default": "None",
+     "source": "tsutils.bin"
+    },
+    {
+     "name": "no_nans",
+     "type": "bool; {True,False}",
+     "definition": "Sets the step_style to max, ensuring that the resulting series contains no empty values (nans). Default is True.",
+     "default": "True",
+     "source": "tsutils.bin"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.detrend": {
+   "parameters": [
+    {
+     "name": "method",
+     "type": "str, optional",
+     "definition": "The method for detrending. The default is 'emd'. Options include: * \"linear\": the result of a n ordinary least-squares stright line fit to y is subtracted. * \"constant\": only the mean of data is subtracted. * \"savitzky-golay\", y is filtered using the Savitzky-Golay filters and the resulting filtered series is subtracted from y. * \"emd\" (default): Empirical mode decomposition. The last mode is assumed to be the trend and removed from the series",
+     "default": "'emd'"
+    },
+    {
+     "name": "keep_log",
+     "type": "boolean",
+     "definition": "if True, adds the removed trend and method parameters to the series log.",
+     "default": "False"
+    },
+    {
+     "name": "preserve_mean",
+     "type": "boolean",
+     "definition": "if True, ensures that the mean of the series is preserved despite the detrending",
+     "default": "False"
+    }
+   ],
+   "passes_to": [
+    {
+     "name": "n",
+     "type": "int",
+     "definition": "Works only if `method == 'emd'`. The number of smoothest modes to remove.",
+     "default": "1",
+     "source": "tsutils.detrend"
+    },
+    {
+     "name": "sg_kwargs",
+     "type": "dict",
+     "definition": "The parameters for the Savitzky-Golay filters.",
+     "default": "None",
+     "source": "tsutils.detrend"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.interp": {
+   "parameters": [
+    {
+     "name": "method",
+     "type": "{\u2018linear\u2019, \u2018nearest\u2019, \u2018zero\u2019, \u2018slinear\u2019, \u2018quadratic\u2019, \u2018cubic\u2019, \u2018previous\u2019, \u2018next\u2019}",
+     "definition": "where \u2018zero\u2019, \u2018slinear\u2019, \u2018quadratic\u2019 and \u2018cubic\u2019 refer to a spline interpolation of zeroth, first, second or third order; \u2018previous\u2019 and \u2018next\u2019 simply return the previous or next value of the point) or as an integer specifying the order of the spline interpolator to use. Default is \u2018linear\u2019.",
+     "default": "'linear'"
+    },
+    {
+     "name": "keep_log",
+     "type": "Boolean",
+     "definition": "if True, adds the method name and its parameters to the series log.",
+     "default": "False"
+    }
+   ],
+   "passes_to": [
+    {
+     "name": "step",
+     "type": "float",
+     "definition": "The interpolation step. Default is mean spacing between consecutive points. Step_style will be ignored if this is passed.",
+     "default": "None",
+     "source": "tsutils.interp"
+    },
+    {
+     "name": "start",
+     "type": "float",
+     "definition": "Where/when to start the interpolation. Default is the minimum.",
+     "default": "None",
+     "source": "tsutils.interp"
+    },
+    {
+     "name": "stop",
+     "type": "float",
+     "definition": "Where/when to stop the interpolation. Default is the maximum.",
+     "default": "None",
+     "source": "tsutils.interp"
+    },
+    {
+     "name": "step_style",
+     "type": "str; {'min','mean','median','max'}",
+     "definition": "Step style to use when determining the size of the interval between points. Default is None.",
+     "default": "None",
+     "source": "tsutils.interp"
+    },
+    {
+     "name": "time_axis",
+     "type": "np.ndarray",
+     "definition": "Time axis onto which the series will be interpolated. Start, stop, step, and step_style will be ignored if this is passed",
+     "default": "None",
+     "source": "tsutils.interp"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.outliers": {
+   "parameters": [
+    {
+     "name": "method",
+     "type": "str, {'kmeans','DBSCAN'}, optional",
+     "definition": "The clustering method to use. The default is 'kmeans'.",
+     "default": "'kmeans'"
+    },
+    {
+     "name": "remove",
+     "type": "bool, optional",
+     "definition": "If True, removes the outliers. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "settings",
+     "type": "dict, optional",
+     "definition": "Specific arguments for the clustering functions. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "fig_outliers",
+     "type": "bool, optional",
+     "definition": "Whether to display the timeseries showing the outliers. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "figsize_outliers",
+     "type": "list, optional",
+     "definition": "The dimensions of the outliers figure. The default is [10,4].",
+     "default": "[10, 4]"
+    },
+    {
+     "name": "plotoutliers_kwargs",
+     "type": "dict, optional",
+     "definition": "Arguments for the plot displaying the outliers. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "savefigoutliers_settings",
+     "type": "dict, optional",
+     "definition": "Saving options for the outlier plot. The default is None. - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
+    },
+    {
+     "name": "fig_clusters",
+     "type": "bool, optional",
+     "definition": "Whether to display the clusters. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "figsize_clusters",
+     "type": "list, optional",
+     "definition": "The dimensions of the cluster figures. The default is [10,4].",
+     "default": "[10, 4]"
+    },
+    {
+     "name": "plotclusters_kwargs",
+     "type": "dict, optional",
+     "definition": "Arguments for the cluster plot. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "savefigclusters_settings",
+     "type": "dict, optional",
+     "definition": "Saving options for the cluster plot. The default is None. - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
+    },
+    {
+     "name": "keep_log",
+     "type": "Boolean",
+     "definition": "if True, adds the previous method parameters to the series log.",
+     "default": "False"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.segment": {
+   "parameters": [
+    {
+     "name": "factor",
+     "type": "float",
+     "definition": "The factor that adjusts the threshold for gap detection",
+     "default": "10"
+    },
+    {
+     "name": "verbose",
+     "type": "bool",
+     "definition": "If True, will print warning messages if there is any",
+     "default": "False"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.spectral": {
+   "parameters": [
+    {
+     "name": "method",
+     "type": "str;",
+     "definition": "{'wwz', 'mtm', 'lomb_scargle', 'welch', 'periodogram', 'cwt'} Default is Lomb-Scargle, because it can handle unevenly spaced series, and is fast. However, for evenly spaced data mtm would almost surely be a better choice.",
+     "default": "'lomb_scargle'"
+    },
+    {
+     "name": "freq",
+     "type": "str or array, optional",
+     "definition": "Information to produce the frequency vector. This can be 'log','scale', 'nfft', 'lomb_scargle' or 'welch' or a NumPy array. If a string, will use make_freq_vector with the specified frequency-generating method. If an array, this will be passed directly to the spectral method. If None (default), will use 'log' for WWZ and 'lomb_scargle' for Lomb-Scargle. This parameter is highly consequential for the WWZ and Lomb-Scargle methods, but is otherwise ignored, as other spectral methods generate their frequency vector internally.",
+     "default": "None"
+    },
+    {
+     "name": "freq_kwargs",
+     "type": "dict",
+     "definition": "Arguments for frequency vector",
+     "default": "None"
+    },
+    {
+     "name": "settings",
+     "type": "dict",
+     "definition": "Arguments for the specific spectral method",
+     "default": "None"
+    },
+    {
+     "name": "label",
+     "type": "str",
+     "definition": "Label for the PSD object",
+     "default": "None"
+    },
+    {
+     "name": "scalogram",
+     "type": "pyleoclim.core.series.Series.Scalogram",
+     "definition": "The return of the wavelet analysis; effective only when the method is 'wwz' or 'cwt'",
+     "default": "None"
+    },
+    {
+     "name": "verbose",
+     "type": "bool",
+     "definition": "If True, will print warning messages if there is any",
+     "default": "False"
+    }
+   ],
+   "settings_by_method": {
+    "lomb_scargle": [
+     {
+      "name": "freq",
+      "type": "str or array",
+      "definition": "vector of frequency. If string, uses the following method:",
+      "default": "None",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "freq_method",
+      "type": "str",
+      "definition": "Method to generate the frequency vector if not set directly. The following options are avialable: - log - lomb_scargle (default) - welch - scale - nfft See utils.wavelet.make_freq_vector for details",
+      "default": "'lomb_scargle'",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "freq_kwargs",
+      "type": "dict",
+      "definition": "Arguments for the method chosen in freq_method. See specific functions in utils.wavelet for details By default, uses dt=median(ts), ofac=4 and hifac=1 for Lomb-Scargle",
+      "default": "None",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "n50",
+      "type": "int",
+      "definition": "The number of 50% overlapping segment to apply",
+      "default": "3",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "window",
+      "type": "str or tuple",
+      "definition": "Desired window to use. Possible values: - boxcar - triang - blackman - hamming - hann (default) - bartlett - flattop - parzen - bohman - blackmanharris - nuttail - barthann - kaiser (needs beta) - gaussian (needs standard deviation) - general_gaussian (needs power, width) - slepian (needs width) - dpss (needs normalized half-bandwidth) - chebwin (needs attenuation) - exponential (needs decay scale) - tukey (needs taper fraction) If the window requires no parameters, then window can be a string. If the window requires parameters, then window must be a tuple with the first argument the string name of the window, and the next arguments the needed parameters. If window is a floating point number, it is interpreted as the beta parameter of the kaiser window.",
+      "default": "'hann'",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "detrend",
+      "type": "str",
+      "definition": "If None, no detrending is applied. Available detrending methods: - None - no detrending will be applied (default); - linear - a linear least-squares fit to `ys` is subtracted; - constant - the mean of `ys` is subtracted - savitzy-golay - ys is filtered using the Savitzky-Golay filters and the resulting filtered series is subtracted from y. - emd - Empirical mode decomposition",
+      "default": "None",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "sg_kwargs",
+      "type": "dict",
+      "definition": "The parameters for the Savitzky-Golay filters. see pyleoclim.utils.filter.savitzy_golay for details.",
+      "default": "None",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "gaussianize",
+      "type": "bool",
+      "definition": "If True, gaussianizes the timeseries",
+      "default": "False",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "standardize",
+      "type": "bool",
+      "definition": "If True, standardizes the timeseriesprep_args : dict",
+      "default": "True",
+      "source": "spectral.lomb_scargle"
+     },
+     {
+      "name": "average",
+      "type": "{'mean','median'}",
+      "definition": "Method to use when averaging periodograms. Defaults to \u2018mean\u2019.",
+      "default": "'mean'",
+      "source": "spectral.lomb_scargle"
+     }
+    ],
+    "mtm": [
+     {
+      "name": "NW",
+      "type": "float",
+      "definition": "The time-bandwidth product NW governs the width (and therefore, height) of a peak, which can take the values [2, 5/2, 3, 7/2, 4]. This product controls the classical bias-variance tradeoff inherent to spectral estimation: a large product limits the variance but increases leakage out of harmonic line. In other words, small values of NW mean high spectral resolution, low bias, but high variance. Large values of the parameter mean lower resolution, higher bias, but reduced variance. There is no automated way to choose this parameter, and the default (NW=4) corresponds to a conservative choice with low variance. For a demonstration on the effect of this parameter, see the spectral analysis notebook in our tutorials: https://pyleoclim-util.readthedocs.io/en/master/tutorials.html.",
+      "default": "None",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "BW",
+      "type": "float",
+      "definition": "The sampling-relative bandwidth of the data tapers",
+      "default": "None",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "detrend",
+      "type": "str",
+      "definition": "If None, no detrending is applied. Available detrending methods: - None - no detrending will be applied (default); - linear - a linear least-squares fit to `ys` is subtracted; - constant - the mean of `ys` is subtracted - savitzy-golay - ys is filtered using the Savitzky-Golay filters and the resulting filtered series is subtracted from y. - emd - Empirical mode decomposition",
+      "default": "None",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "sg_kwargs",
+      "type": "dict",
+      "definition": "The parameters for the Savitzky-Golay filters. see pyleoclim.utils.filter.savitzy_golay for details.",
+      "default": "None",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "gaussianize",
+      "type": "bool",
+      "definition": "If True, gaussianizes the timeseries",
+      "default": "False",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "standardize",
+      "type": "bool",
+      "definition": "If True, standardizes the timeseries",
+      "default": "True",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "adaptive",
+      "type": "{True/False}",
+      "definition": "Use an adaptive weighting routine to combine the PSD estimates of different tapers.",
+      "default": "False",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "jackknife",
+      "type": "{True/False}",
+      "definition": "Use the jackknife method to make an estimate of the PSD variance at each point.",
+      "default": "True",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "low_bias",
+      "type": "{True/False}",
+      "definition": "Rather than use 2NW tapers, only use the tapers that have better than 90% spectral concentration within the bandwidth (still using a maximum of 2NW tapers)",
+      "default": "True",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "sides",
+      "type": "str (optional)   [ 'default' | 'onesided' | 'twosided' ]",
+      "definition": "This determines which sides of the spectrum to return. For complex-valued inputs, the default is two-sided, for real-valued inputs, default is one-sided Indicates whether to return a one-sided or two-sided",
+      "default": "'default'",
+      "source": "spectral.mtm"
+     },
+     {
+      "name": "nfft",
+      "type": null,
+      "definition": null,
+      "default": "None",
+      "source": "spectral.mtm"
+     }
+    ],
+    "wwz": [
+     {
+      "name": "freq",
+      "type": "array",
+      "definition": "vector of frequency",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "freq_method",
+      "type": "str, {'log', 'lomb_scargle', 'welch', 'scale', 'nfft'}",
+      "definition": "Method to generate the frequency vector if not set directly. The following options are avialable: - 'log' (default) - 'lomb_scargle' - 'welch' - 'scale' - 'nfft' See :func:`pyleoclim.utils.wavelet.make_freq_vector` for details",
+      "default": "'log'",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "freq_kwargs",
+      "type": "dict",
+      "definition": "Arguments for the method chosen in freq_method. See specific functions in pyleoclim.utils.wavelet for details",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "tau",
+      "type": "array",
+      "definition": "the evenly-spaced time vector for the analysis, namely the time shift for wavelet analysis",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "c",
+      "type": "float",
+      "definition": "the decay constant that will determine the analytical resolution of frequency for analysis, the smaller the higher resolution; the default value 1e-3 is good for most of the spectral analysis cases",
+      "default": "0.001",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "nproc",
+      "type": "int",
+      "definition": "the number of processes for multiprocessing",
+      "default": "8",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "detrend",
+      "type": "str, {None, 'linear', 'constant', 'savitzy-golay'}",
+      "definition": "Methods for detrending include: - None: the original time series is assumed to have no trend; - 'linear': a linear least-squares fit to `ys` is subtracted; - 'constant': the mean of `ys` is subtracted - 'savitzy-golay': ys is filtered using the Savitzky-Golay filters and the resulting filtered series is subtracted from y.",
+      "default": "False",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "sg_kwargs",
+      "type": "dict",
+      "definition": "The parameters for the Savitzky-Golay filters. See :func:`pyleoclim.utils.filter.savitzky_golay()` for details.",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "gaussianize",
+      "type": "bool",
+      "definition": "If True, gaussianizes the timeseries",
+      "default": "False",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "standardize",
+      "type": "bool",
+      "definition": "If True, standardizes the timeseries",
+      "default": "True",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "Neff_threshold",
+      "type": "int",
+      "definition": "threshold for the effective number of points",
+      "default": "3",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "anti_alias",
+      "type": "bool",
+      "definition": "If True, uses anti-aliasing",
+      "default": "False",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "avgs",
+      "type": "int",
+      "definition": "flag for whether spectrum is derived from instantaneous point measurements (avgs<>1) OR from measurements averaged over each sampling interval (avgs==1)",
+      "default": "2",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "method",
+      "type": "string, {'Foster', 'Kirchner', 'Kirchner_f2py', 'Kirchner_numba'}",
+      "definition": "Available specific implementation of WWZ include: - 'Foster': the original WWZ method; - 'Kirchner': the method Kirchner adapted from Foster; - 'Kirchner_f2py':  the method Kirchner adapted from Foster, implemented with f2py for acceleration; - 'Kirchner_numba':  the method Kirchner adapted from Foster, implemented with Numba for acceleration (default);",
+      "default": "'Kirchner_numba'",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "wwa",
+      "type": "array",
+      "definition": "the weighted wavelet amplitude, returned from pyleoclim.utils.wavelet.wwz",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "wwz_Neffs",
+      "type": "array",
+      "definition": "the matrix of effective number of points in the time-scale coordinates, returned from pyleoclim.utils.wavelet.wwz",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     },
+     {
+      "name": "wwz_freq",
+      "type": "array",
+      "definition": "the returned frequency vector from pyleoclim.utils.wavelet.wwz",
+      "default": "None",
+      "source": "spectral.wwz_psd"
+     }
+    ],
+    "welch": [
+     {
+      "name": "window",
+      "type": "string or tuple",
+      "definition": "Desired window to use. Possible values: - boxcar - triang - blackman - hamming - hann (default) - bartlett - flattop - parzen - bohman - blackmanharris - nuttail - barthann - kaiser (needs beta) - gaussian (needs standard deviation) - general_gaussian (needs power, width) - slepian (needs width) - dpss (needs normalized half-bandwidth) - chebwin (needs attenuation) - exponential (needs decay scale) - tukey (needs taper fraction) If the window requires no parameters, then window can be a string. If the window requires parameters, then window must be a tuple with the first argument the string name of the window, and the next arguments the needed parameters. If window is a floating point number, it is interpreted as the beta parameter of the kaiser window.",
+      "default": "'hann'",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "nperseg",
+      "type": "int",
+      "definition": "Length of each segment. If none, nperseg=len(ys)/2. Default to None This will give three segments with 50% overlap",
+      "default": "None",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "noverlap",
+      "type": "int",
+      "definition": "Number of points to overlap. If None, noverlap=nperseg//2. Defaults to None, represents 50% overlap",
+      "default": "None",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "nfft",
+      "type": "int",
+      "definition": "Length of the FFT used, if a zero padded FFT is desired. If None, the FFT length is nperseg",
+      "default": "None",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "return_onesided",
+      "type": "bool",
+      "definition": "If True, return a one-sided spectrum for real data. If False return a two-sided spectrum. Defaults to True, but for complex data, a two-sided spectrum is always returned.",
+      "default": "True",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "detrend",
+      "type": "str",
+      "definition": "If None, no detrending is applied. Available detrending methods: - None - no detrending will be applied (default); - linear - a linear least-squares fit to `ys` is subtracted; - constant - the mean of `ys` is subtracted - savitzy-golay - ys is filtered using the Savitzky-Golay filters and the resulting filtered series is subtracted from y. - emd - Empirical mode decomposition",
+      "default": "None",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "sg_kwargs",
+      "type": "dict",
+      "definition": "The parameters for the Savitzky-Golay filters. see pyleoclim.utils.filter.savitzy_golay for details.",
+      "default": "None",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "gaussianize",
+      "type": "bool",
+      "definition": "If True, gaussianizes the timeseries",
+      "default": "False",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "standardize",
+      "type": "bool",
+      "definition": "If True, standardizes the timeseries",
+      "default": "True",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "scaling",
+      "type": "{\"density,\"spectrum}",
+      "definition": "Selects between computing the power spectral density (\u2018density\u2019) where Pxx has units of V**2/Hz and computing the power spectrum (\u2018spectrum\u2019) where Pxx has units of V**2, if x is measured in V and fs is measured in Hz. Defaults to \u2018density'",
+      "default": "'density'",
+      "source": "spectral.welch"
+     },
+     {
+      "name": "average",
+      "type": "{'mean','median'}",
+      "definition": "Method to use when combining periodograms. Defaults to \u2018mean\u2019.",
+      "default": "'mean'",
+      "source": "spectral.welch"
+     }
+    ],
+    "periodogram": [
+     {
+      "name": "window",
+      "type": "string or tuple",
+      "definition": "Desired window to use. Possible values: - boxcar (default) - triang - blackman - hamming - hann - bartlett - flattop - parzen - bohman - blackmanharris - nuttail - barthann - kaiser (needs beta) - gaussian (needs standard deviation) - general_gaussian (needs power, width) - slepian (needs width) - dpss (needs normalized half-bandwidth) - chebwin (needs attenuation) - exponential (needs decay scale) - tukey (needs taper fraction) If the window requires no parameters, then window can be a string. If the window requires parameters, then window must be a tuple with the first argument the string name of the window, and the next arguments the needed parameters. If window is a floating point number, it is interpreted as the beta parameter of the kaiser window.",
+      "default": "'hann'",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "nfft",
+      "type": "int",
+      "definition": "Length of the FFT used, if a zero padded FFT is desired. If None, the FFT length is nperseg",
+      "default": "None",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "return_onesided",
+      "type": "bool",
+      "definition": "If True, return a one-sided spectrum for real data. If False return a two-sided spectrum. Defaults to True, but for complex data, a two-sided spectrum is always returned.",
+      "default": "True",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "detrend",
+      "type": "str",
+      "definition": "If None, no detrending is applied. Available detrending methods: - None - no detrending will be applied (default); - linear - a linear least-squares fit to `ys` is subtracted; - constant - the mean of `ys` is subtracted - savitzy-golay - ys is filtered using the Savitzky-Golay filters and the resulting filtered series is subtracted from y. - emd - Empirical mode decomposition",
+      "default": "None",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "sg_kwargs",
+      "type": "dict",
+      "definition": "The parameters for the Savitzky-Golay filters. see pyleoclim.utils.filter.savitzy_golay for details.",
+      "default": "None",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "gaussianize",
+      "type": "bool",
+      "definition": "If True, gaussianizes the timeseries",
+      "default": "False",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "standardize",
+      "type": "bool",
+      "definition": "If True, standardizes the timeseries",
+      "default": "True",
+      "source": "spectral.periodogram"
+     },
+     {
+      "name": "scaling",
+      "type": "{\"density,\"spectrum}",
+      "definition": "Selects between computing the power spectral density (\u2018density\u2019) where Pxx has units of V**2/Hz and computing the power spectrum (\u2018spectrum\u2019) where Pxx has units of V**2, if x is measured in V and fs is measured in Hz. Defaults to \u2018density'",
+      "default": "'density'",
+      "source": "spectral.periodogram"
+     }
+    ],
+    "cwt": [
+     {
+      "name": "freq",
+      "type": "numpy.array, optional",
+      "definition": "The frequency vector. The default is None, which will prompt the use of one the underlying functions",
+      "default": "None",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "freq_method",
+      "type": "string, optional",
+      "definition": "The method by which to obtain the frequency vector. The default is 'log'. Options are 'log' (default), 'nfft', 'lomb_scargle', 'welch', and 'scale'",
+      "default": "'log'",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "freq_kwargs",
+      "type": "dict, optional",
+      "definition": "Optional parameters for the choice of the frequency vector. See make_freq_vector and additional methods for details. The default is {}.",
+      "default": "None",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "scale",
+      "type": "numpy.array",
+      "definition": "Optional scale vector in place of a frequency vector. Default is None. If scale is not None, frequency method and attached arguments will be ignored.",
+      "default": "None",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "detrend",
+      "type": "bool, string, {'linear', 'constant', 'savitzy-golay', 'emd'}",
+      "definition": "Whether to detrend and with which option. The default is False.",
+      "default": "False",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "sg_kwargs",
+      "type": "dict, optional",
+      "definition": "Additional parameters for the savitzy-golay method. The default is {}.",
+      "default": "{}",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "gaussianize",
+      "type": "bool, optional",
+      "definition": "Whether to gaussianize. The default is False.",
+      "default": "False",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "standardize",
+      "type": "bool, optional",
+      "definition": "Whether to standardize. The default is True.",
+      "default": "True",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "pad",
+      "type": "bool, optional",
+      "definition": "Whether or not to pad the timeseries. with zeroes to get N up to the next higher power of 2. This prevents wraparound from the end of the time series to the beginning, and also speeds up the FFT's used to do the wavelet transform. This will not eliminate all edge effects. The default is False.",
+      "default": "False",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "mother",
+      "type": "string, optional",
+      "definition": "the mother wavelet function. The default is 'MORLET'. Options are: 'MORLET', 'PAUL', or 'DOG'",
+      "default": "'MORLET'",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "param",
+      "type": "flaot, option",
+      "definition": "the mother wavelet parameter. The default is None since it varies for each mother - For 'MORLET' this is k0 (wavenumber), default is 6. - For 'PAUL' this is m (order), default is 4. - For 'DOG' this is m (m-th derivative), default is 2.",
+      "default": "None",
+      "source": "spectral.cwt_psd"
+     },
+     {
+      "name": "cwt_res",
+      "type": "dict",
+      "definition": "Results from pyleoclim.utils.wavelet.cwt",
+      "default": "None",
+      "source": "spectral.cwt_psd"
+     }
+    ]
+   }
+  },
+  "pyleoclim.core.series.Series.standardize": {
+   "parameters": [
+    {
+     "name": "keep_log",
+     "type": null,
+     "definition": null,
+     "default": "False"
+    },
+    {
+     "name": "scale",
+     "type": "real",
+     "definition": "A scale factor used to scale a record to a match a given variance",
+     "default": "1",
+     "source": "tsutils.standardize"
+    }
+   ],
+   "passes_to": [
+    {
+     "name": "axis",
+     "type": "int or None",
+     "definition": "axis along which to operate, if None, compute over the whole array",
+     "default": "0",
+     "source": "tsutils.standardize"
+    },
+    {
+     "name": "ddof",
+     "type": "int",
+     "definition": "degress of freedom correction in the calculation of the standard deviation",
+     "default": "0",
+     "source": "tsutils.standardize"
+    },
+    {
+     "name": "eps",
+     "type": "real",
+     "definition": "a threshold to determine if the standard deviation is too close to zero",
+     "default": "0.001",
+     "source": "tsutils.standardize"
+    }
+   ]
+  }
+ }
+}

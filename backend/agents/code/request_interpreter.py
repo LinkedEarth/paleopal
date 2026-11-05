@@ -21,6 +21,7 @@ Reply with one JSON object and nothing else, with exactly these keys:
 
 "analysis": "{analysis_id}" if the request asks for this analysis ({analysis_title}) or any of its steps, otherwise null.
 "steps": a list of the steps below that the request explicitly asks for, otherwise []. A request for the whole analysis, or naming only a method, is [].
+"whole_analysis": true if the request asks for the analysis itself, even when it also specifies a step ("run a spectral analysis with a linear detrend"); false if it only asks for particular steps ("detrend this record").
 "series": the series the request refers to, from {series}. If it names something that is not in that list, return the name as written. If it names no series and doesn't point to one, null.
 "objective": one of the objectives below if the request matches how it is asked for, otherwise null.
 "method": one of {methods} if the request names that estimator, otherwise null.
@@ -42,6 +43,7 @@ class Interpretation:
     objective: str | None = None
     method: str | None = None
     steps: list[str] = field(default_factory=list)
+    whole_analysis: bool = False
     # Why a value was dropped. The planner should ask rather than guess.
     problems: list[str] = field(default_factory=list)
 
@@ -98,6 +100,7 @@ def interpret_request(request: str, workflow: dict, series_names: list[str],
         else:
             result.problems.append(f"{key} {value!r} isn't one of {sorted(values)}")
 
+    result.whole_analysis = reply.get("whole_analysis") is True
     known_steps = {s["id"] for s in workflow["steps"]}
     steps = reply.get("steps") or []
     for step in steps if isinstance(steps, list) else [steps]:

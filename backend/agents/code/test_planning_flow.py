@@ -300,6 +300,98 @@ def run_with(meaning, hist, answers):
                                 answers=answers))
 
 
+class RequestReachesWriterTests(unittest.TestCase):
+    def test_the_writer_sees_the_researchers_words(self):
+        seen = []
+
+        def call(system, user):
+            if system.startswith("You read one request"):
+                return json.dumps(SPECTRAL)
+            seen.append(user)
+            return model(SPECTRAL)(system, user)
+        run(call, request="use lomb-scargle with n50=4")
+        self.assertIn("use lomb-scargle with n50=4", seen[0])
+
+
+def writing_chain(meaning):
+    """A stand-in writer that follows the plan's chain from `start`, wherever that is."""
+    def call(system, user):
+        if system.startswith("You read one request"):
+            return json.dumps(meaning)
+        ids = [line.split("## Step: ")[1] for line in user.splitlines() if line.startswith("## Step: ")]
+        current = system.split("Start from `")[1].split("`")[0]
+        calls = {"detrend": "detrend(method='linear')", "regrid": "interp()",
+                 "standardize": "standardize()", "spectral_estimate": "spectral(method='lomb_scargle')",
+                 "significance": "signif_test()", "visualize": "plot()"}
+        steps = []
+        for number, step in enumerate(ids):
+            name = f"v{number}"
+            steps.append({"id": step, "explanation": "T.", "code": f"{name} = {current}.{calls[step]}"})
+            current = name
+        return json.dumps({"steps": steps})
+    return call
+
+
+class AskedForEarlierStepTests(unittest.TestCase):
+    """Regression: "run spectral analysis with a linear detrend" after standardizing failed all repairs."""
+
+    def flow(self, meaning, answers=None):
+        return asyncio.run(flow.run("a request", STANDARDIZED, WORKFLOW, writing_chain(meaning),
+                                    [no_search], answers=answers or {}))
+
+    def test_analysis_with_a_detrend_starts_a_new_chain_with_the_spectrum(self):
+        result = self.flow({**SPECTRAL, "steps": ["detrend"], "whole_analysis": True})
+        self.assertEqual(result["plan"]["steps"], ["detrend", "standardize", "spectral_estimate", "visualize"])
+        self.assertEqual((result["repairs"], result["checker_findings"]), (0, []))
+        self.assertIn("lr04.detrend(method='linear')", result["generated_code"])
+        self.assertIn("started a new chain from `lr04`", texts(result))
+
+    def test_only_the_step_stays_only_the_step(self):
+        result = self.flow({**SPECTRAL, "steps": ["detrend"], "whole_analysis": False})
+        self.assertEqual(result["plan"]["steps"], ["detrend"])
+        self.assertEqual((result["repairs"], result["checker_findings"]), (0, []))
+        self.assertIn("started a new chain", texts(result))
+
+    def test_asked_for_regrid_with_mtm_starts_a_new_chain(self):
+        meaning = {**SPECTRAL, "method": "mtm", "steps": ["regrid"], "whole_analysis": True}
+        result = self.flow(meaning, {"detrend": "No"})
+        self.assertEqual(result["plan"]["steps"], ["regrid", "standardize", "spectral_estimate", "visualize"])
+        self.assertEqual(result["checker_findings"], [])
+
+    def test_the_whole_analysis_partway_includes_the_plot(self):
+        result = self.flow({**SPECTRAL, "whole_analysis": True}, {"detrend": "No"})
+        self.assertEqual(result["plan"]["steps"], ["spectral_estimate", "visualize"])
+
+    def test_only_naming_an_estimator_stays_a_snippet(self):
+        result = self.flow({**SPECTRAL, "method": "lomb_scargle"}, {"detrend": "No"})
+        self.assertEqual(result["plan"]["steps"], ["spectral_estimate"])
+
+    def test_naming_an_estimator_asks_for_the_spectrum_too(self):
+        meaning = {**SPECTRAL, "method": "lomb_scargle", "steps": ["detrend"], "whole_analysis": False}
+        self.assertIn("spectral_estimate", self.flow(meaning)["plan"]["steps"])
+
+    def test_a_step_without_a_spectrum_says_nothing_about_one(self):
+        result = self.flow({**SPECTRAL, "steps": ["detrend"], "whole_analysis": False})
+        self.assertNotIn("first look at the spectrum", texts(result))
+
+    def test_mtm_without_asking_for_regrid_still_explains(self):
+        result = self.flow({**SPECTRAL, "method": "mtm"})
+        self.assertIn("needs evenly spaced data", texts(result))
+
+    def test_a_later_step_does_not_start_a_new_chain(self):
+        result = run(writing(SIGNIF), LR04_DONE, "add the significance test")
+        self.assertNotIn("started a new chain", texts(result))
+
+
+class NamedMethodTests(unittest.TestCase):
+    def test_naming_an_estimator_stays_in_the_flow_even_if_the_analysis_is_missed(self):
+        """Regression: "use lomb-scargle" sometimes fell through to the old pipeline."""
+        meaning = {**SPECTRAL, "analysis": None, "method": "lomb_scargle"}
+        result = asyncio.run(flow.run("use lomb-scargle", STANDARDIZED, WORKFLOW, writing_chain(meaning),
+                                      [no_search], answers={"detrend": "No"}))
+        self.assertEqual(result["plan"]["steps"], ["spectral_estimate"])
+
+
 class StatedGoalTests(unittest.TestCase):
     """Regression: the plan left out the test, so repairs swung between two checks and failed."""
 

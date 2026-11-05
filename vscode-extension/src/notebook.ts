@@ -91,6 +91,17 @@ export function buildHistoryUpToCell(targetIndex: number): { role: 'user' | 'ass
   return messages;
 }
 
+// An edit goes to the notebook the request came from, which may no longer be the active tab.
+function notebookOrActive(notebook?: vscode.NotebookDocument): vscode.NotebookDocument | undefined {
+  return notebook ?? getActiveNotebookEditor()?.notebook;
+}
+
+async function applyOrWarn(edit: vscode.WorkspaceEdit): Promise<boolean> {
+  const applied = await vscode.workspace.applyEdit(edit);
+  if (!applied) vscode.window.showErrorMessage("PaleoPAL couldn't update the notebook. Is it still open?");
+  return applied;
+}
+
 export function getActiveCellIndex(): number {
   const editor = getActiveNotebookEditor();
   if (!editor) return -1;
@@ -98,29 +109,29 @@ export function getActiveCellIndex(): number {
   return sel ? sel.start : -1;
 }
 
-export async function insertLoadingCell(afterIndex: number): Promise<number | undefined> {
-  return insertMarkdownCellAt(afterIndex, '⏳ Running agent... (history from above cells)');
+export async function insertLoadingCell(afterIndex: number, notebook?: vscode.NotebookDocument): Promise<number | undefined> {
+  return insertMarkdownCellAt(afterIndex, '⏳ Running agent... (history from above cells)', notebook);
 }
 
-export async function updateCellText(cellIndex: number, text: string) {
-  const editor = getActiveNotebookEditor();
-  if (!editor) return;
-  const cell = editor.notebook.cellAt(cellIndex);
+export async function updateCellText(cellIndex: number, text: string, notebook?: vscode.NotebookDocument) {
+  const target = notebookOrActive(notebook);
+  if (!target) return;
+  const cell = target.cellAt(cellIndex);
   const edit = new vscode.WorkspaceEdit();
   const fullRange = new vscode.Range(0, 0, cell.document.lineCount, 0);
   edit.replace(cell.document.uri, fullRange, text);
   await vscode.workspace.applyEdit(edit);
 }
 
-export async function deleteCell(cellIndex: number) {
-  const editor = getActiveNotebookEditor();
-  if (!editor) return;
-  const start = Math.max(0, Math.min(cellIndex, editor.notebook.cellCount - 1));
+export async function deleteCell(cellIndex: number, notebook?: vscode.NotebookDocument) {
+  const target = notebookOrActive(notebook);
+  if (!target) return;
+  const start = Math.max(0, Math.min(cellIndex, target.cellCount - 1));
   // Use NotebookEdit.replaceCells to remove the cell at index
   const range = new vscode.NotebookRange(start, start + 1);
   const we = new vscode.WorkspaceEdit();
-  we.set(editor.notebook.uri, [vscode.NotebookEdit.replaceCells(range, [])]);
-  await vscode.workspace.applyEdit(we);
+  we.set(target.uri, [vscode.NotebookEdit.replaceCells(range, [])]);
+  await applyOrWarn(we);
 }
 
 export async function appendMarkdownCell(text: string) {
@@ -139,22 +150,22 @@ export async function runAllNotebookCells() {
   await vscode.commands.executeCommand('jupyter.runAllCells');
 }
 
-export async function insertMarkdownCellAt(afterIndex: number, text: string): Promise<number | undefined> {
-  const editor = getActiveNotebookEditor();
-  if (!editor) return;
-  const insertIndex = Math.min(afterIndex + 1, editor.notebook.cellCount);
+export async function insertMarkdownCellAt(afterIndex: number, text: string, notebook?: vscode.NotebookDocument): Promise<number | undefined> {
+  const target = notebookOrActive(notebook);
+  if (!target) return;
+  const insertIndex = Math.min(afterIndex + 1, target.cellCount);
   const ws = new vscode.WorkspaceEdit();
   const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Markup, text, 'markdown');
-  ws.set(editor.notebook.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), [cell])]);
-  await vscode.workspace.applyEdit(ws);
+  ws.set(target.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), [cell])]);
+  await applyOrWarn(ws);
   return insertIndex;
 }
 
 // One edit, so a single undo removes everything PaleoPAL just added.
-export async function insertAgentCells(afterIndex: number, cells: AgentCell[]): Promise<void> {
-  const editor = getActiveNotebookEditor();
-  if (!editor) return;
-  const insertIndex = Math.min(afterIndex + 1, editor.notebook.cellCount);
+export async function insertAgentCells(afterIndex: number, cells: AgentCell[], notebook?: vscode.NotebookDocument): Promise<void> {
+  const target = notebookOrActive(notebook);
+  if (!target) return;
+  const insertIndex = Math.min(afterIndex + 1, target.cellCount);
   const data = cells.map(cell => {
     const isCode = cell.kind === 'code';
     const cellData = new vscode.NotebookCellData(
@@ -166,18 +177,18 @@ export async function insertAgentCells(afterIndex: number, cells: AgentCell[]): 
     return cellData;
   });
   const ws = new vscode.WorkspaceEdit();
-  ws.set(editor.notebook.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), data)]);
-  await vscode.workspace.applyEdit(ws);
+  ws.set(target.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), data)]);
+  await applyOrWarn(ws);
 }
 
-export async function insertCodeCellAt(afterIndex: number, code: string, language: string = 'python'): Promise<number | undefined> {
-  const editor = getActiveNotebookEditor();
-  if (!editor) return;
-  const insertIndex = Math.min(afterIndex + 1, editor.notebook.cellCount);
+export async function insertCodeCellAt(afterIndex: number, code: string, language: string = 'python', notebook?: vscode.NotebookDocument): Promise<number | undefined> {
+  const target = notebookOrActive(notebook);
+  if (!target) return;
+  const insertIndex = Math.min(afterIndex + 1, target.cellCount);
   const ws = new vscode.WorkspaceEdit();
   const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, code, language);
-  ws.set(editor.notebook.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), [cell])]);
-  await vscode.workspace.applyEdit(ws);
+  ws.set(target.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), [cell])]);
+  await applyOrWarn(ws);
   return insertIndex;
 }
 

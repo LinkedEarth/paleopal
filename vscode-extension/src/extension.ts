@@ -85,11 +85,11 @@ async function callChat(messages: ChatMessage[]) {
 }
 
 // The backend's planning flow returns ready-made cells. Returns false if it didn't.
-async function insertReturnedCells(response: any, afterIndex?: number): Promise<boolean> {
+async function insertReturnedCells(response: any, afterIndex?: number, notebook?: vscode.NotebookDocument): Promise<boolean> {
   const cells: AgentCell[] | undefined = response?.result?.cells;
   if (!Array.isArray(cells) || cells.length === 0) return false;
-  const count = vscode.window.activeNotebookEditor?.notebook.cellCount ?? 0;
-  await insertAgentCells(afterIndex ?? count - 1, cells);
+  const count = (notebook ?? vscode.window.activeNotebookEditor?.notebook)?.cellCount ?? 0;
+  await insertAgentCells(afterIndex ?? count - 1, cells, notebook);
   return true;
 }
 
@@ -264,12 +264,14 @@ async function runAgentForCell() {
     }
   };
 
-  const loadingIdx = await insertLoadingCell(idx);
+  // The researcher may move to another tab while waiting, so remember this notebook.
+  const notebook = vscode.window.activeNotebookEditor?.notebook;
+  const loadingIdx = await insertLoadingCell(idx, notebook);
   try {
     const response = await callAgentsRequest(body);
     if (response?.result?.cells) {
-      if (loadingIdx !== undefined) await deleteCell(loadingIdx);
-      if (await insertReturnedCells(response, idx)) return;
+      if (loadingIdx !== undefined) await deleteCell(loadingIdx, notebook);
+      if (await insertReturnedCells(response, idx, notebook)) return;
     }
     // Clarifications
     if (response?.status === 'needs_clarification' || response?.result?.clarification_questions) {
@@ -287,8 +289,8 @@ async function runAgentForCell() {
             metadata: { ...body.metadata, clarification_responses: answers.map(a => ({ id: a.id, answer: a.answer })) }
           };
           const resp2 = await callAgentsRequest(body2);
-          if (loadingIdx !== undefined) await deleteCell(loadingIdx);
-          if (await insertReturnedCells(resp2, idx)) return;
+          if (loadingIdx !== undefined) await deleteCell(loadingIdx, notebook);
+          if (await insertReturnedCells(resp2, idx, notebook)) return;
           const code2: string | undefined = resp2?.result?.generated_code;
           if (agentType === 'workflow_generation' && code2) {
             await insertWorkflowFromJson(code2, idx);
@@ -299,7 +301,7 @@ async function runAgentForCell() {
         }
       }
     }
-    if (loadingIdx !== undefined) await deleteCell(loadingIdx);
+    if (loadingIdx !== undefined) await deleteCell(loadingIdx, notebook);
     const code: string | undefined = response?.result?.generated_code;
     if (agentType === 'workflow_generation' && code) {
       await insertWorkflowFromJson(code, idx);
@@ -307,7 +309,7 @@ async function runAgentForCell() {
       await insertCodeBelowIndex(idx, code);
     }
   } catch (e: any) {
-    if (loadingIdx !== undefined) await updateCellText(loadingIdx, `❌ ${e?.message || e}`);
+    if (loadingIdx !== undefined) await updateCellText(loadingIdx, `❌ ${e?.message || e}`, notebook);
   }
 }
 
