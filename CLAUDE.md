@@ -567,6 +567,19 @@ cell with a `NameError`. Stopgap built: Python adds a line under a recommended s
 result the next cell uses, "If you'd rather skip this step, don't run this cell, and change
 `lr04_detrended` to `lr04` in the next cell", with names from the code. The proper fix is the
 edit flow (rewire the later cells); kernel reads can also spot a cell that wasn't run.
+**Uncovered parts of a request (built 2026-11-05, temporary until the model-only path):** the
+interpreter lists them in the researcher's words (`not_covered`; settings of a step don't count),
+and Python puts a note first (after the intro): "I haven't done this part of your request, because
+my guide to spectral analysis doesn't cover it yet: … I'd rather tell you than guess. Everything
+below follows the guide." (wording approved by Deborah). Live with `gpt-5.5`: listed comparing with
+insolation, an ARIMA fit and "tell me what causes them" (interpretation, issue #1); listed nothing
+for a slice range, a linear detrend, an interpolation step or a significance test. Saving a figure
+was first listed too, but Deborah pointed out it's a setting of the plot step (`savefig_settings`),
+so the interpreter now gets each step's setting names from `pyleoclim_parameters.json`.
+**Gap found:** the writer never sees parameter definitions, so it guessed
+`savefig_settings={'path': './', 'filename': ..., 'format': 'pdf'}`, which raises a `TypeError`;
+`{'path': 'lr04_spectrum.pdf'}` works. Patched with a rule in the writer prompt. The general fix,
+not built: send the writer the definitions of the settings a request touches.
 **Filed (Deborah, 2026-11-05): an optional plot of the series at the start of the
 spectral workflow, if it hasn't been plotted yet.** Detrending isn't always
 necessary, and people may want to look at the series before deciding on it. Deborah

@@ -25,6 +25,7 @@ Reply with one JSON object and nothing else, with exactly these keys:
 "series": the series the request refers to, from {series}. If it names something that is not in that list, return the name as written. If it names no series and doesn't point to one, null.
 "objective": one of the objectives below if the request matches how it is asked for, otherwise null.
 "method": one of {methods} if the request names that estimator, otherwise null.
+"not_covered": a list of the parts of the request that are none of the above, each in the researcher's own words ("save the figure as a PDF"), otherwise []. Anything a step's settings can do is covered, so never list it: a bin size, a detrending method, a time range, or saving a plot (visualize's savefig_settings). Check the steps' settings before listing anything.
 
 Steps:
 {steps}
@@ -44,11 +45,24 @@ class Interpretation:
     method: str | None = None
     steps: list[str] = field(default_factory=list)
     whole_analysis: bool = False
+    # Parts of the request outside this analysis, in the researcher's words. Python can't check
+    # these, only repeat them, so they are never acted on.
+    not_covered: list[str] = field(default_factory=list)
     # Why a value was dropped. The planner should ask rather than guess.
     problems: list[str] = field(default_factory=list)
 
 
-def build_system_prompt(workflow: dict, series_names: list[str]) -> str:
+def _steps_text(workflow: dict, settings: dict[str, list[str]] | None) -> str:
+    """Each step with the settings its functions take, so a setting isn't mistaken for a new task."""
+    if not settings:
+        return ", ".join(s["id"] for s in workflow["steps"])
+    return "\n".join(f"- {s['id']}" + (f" (settings: {', '.join(settings[s['id']])})"
+                                       if settings.get(s["id"]) else "")
+                     for s in workflow["steps"])
+
+
+def build_system_prompt(workflow: dict, series_names: list[str],
+                        settings: dict[str, list[str]] | None = None) -> str:
     objectives = "\n".join(
         f"- {o['id']}: {o['description']}" + (f" Asked for as: {o['asked_as']}" if o.get("asked_as") else "")
         for o in workflow["objectives"])
@@ -58,7 +72,7 @@ def build_system_prompt(workflow: dict, series_names: list[str]) -> str:
         analysis_id=workflow["workflow"]["id"],
         analysis_title=workflow["workflow"]["title"],
         series=json.dumps(series_names),
-        steps=", ".join(s["id"] for s in workflow["steps"]),
+        steps=_steps_text(workflow, settings),
         methods=json.dumps([m["id"] for m in workflow["method_registry"]]),
         objectives=objectives,
         terminology=terminology,
@@ -76,11 +90,15 @@ def _parse_reply(reply: str) -> dict:
 
 
 def interpret_request(request: str, workflow: dict, series_names: list[str],
-                      call_model: Callable[[str, str], str]) -> Interpretation:
-    """`call_model(system_prompt, user_message)` returns the model's text reply."""
+                      call_model: Callable[[str, str], str],
+                      settings: dict[str, list[str]] | None = None) -> Interpretation:
+    """`call_model(system_prompt, user_message)` returns the model's text reply.
+
+    `settings` maps a step id to the argument names its functions take.
+    """
     result = Interpretation()
     try:
-        reply = _parse_reply(call_model(build_system_prompt(workflow, series_names), request))
+        reply = _parse_reply(call_model(build_system_prompt(workflow, series_names, settings), request))
     except ValueError as exc:
         result.problems.append(f"couldn't read the model's reply: {exc}")
         return result
@@ -101,6 +119,9 @@ def interpret_request(request: str, workflow: dict, series_names: list[str],
             result.problems.append(f"{key} {value!r} isn't one of {sorted(values)}")
 
     result.whole_analysis = reply.get("whole_analysis") is True
+    not_covered = reply.get("not_covered") or []
+    result.not_covered = [" ".join(p.split()) for p in (not_covered if isinstance(not_covered, list) else [])
+                          if isinstance(p, str) and p.strip()]
     known_steps = {s["id"] for s in workflow["steps"]}
     steps = reply.get("steps") or []
     for step in steps if isinstance(steps, list) else [steps]:

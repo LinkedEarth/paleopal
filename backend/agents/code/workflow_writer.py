@@ -35,7 +35,9 @@ _PARAMETERS_FILE = pathlib.Path(__file__).parents[2] / "workflows" / "pyleoclim_
 _SYSTEM_PROMPT = """You write the code for one paleoclimate workflow, step by step, for a notebook.
 The steps are already decided. Write exactly these steps, in this order, one entry each.
 Add nothing else: no slicing unless it is one of these steps, no extra methods, no extra plots,
-no printing, no saving.
+no printing, and no saving unless the request asks for it. To save a plot, use the plot call's own
+`savefig_settings={{'path': '<file name with its suffix, e.g. lr04_spectrum.pdf>'}}`, never `fig.savefig`
+or pyplot. `path` is the only key it needs.
 
 Rules for the code:
 - `{series}` is already loaded and pyleoclim is already imported. Never import or load anything.

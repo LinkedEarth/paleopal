@@ -454,6 +454,37 @@ class NamedMethodTests(unittest.TestCase):
         self.assertEqual(result["plan"]["steps"], ["spectral_estimate"])
 
 
+class NotCoveredTests(unittest.TestCase):
+    """Part of a request the guide doesn't cover is named, never dropped silently."""
+
+    def test_the_note_comes_first_and_lists_the_parts(self):
+        result = run(writing_goal({**SPECTRAL, "not_covered": ["save the figure as a PDF"]}))
+        first = result["cells"][0]["text"]
+        self.assertTrue(first.startswith("I haven't done this part of your request, because my guide "
+                                         "to spectral analysis doesn't cover it yet:"))
+        self.assertIn("- save the figure as a PDF", first)
+        self.assertIn("I'd rather tell you than guess. Everything below follows the guide.", first)
+        self.assertNotIn("save the figure", result["generated_code"])
+
+    def test_it_follows_the_intro(self):
+        result = run(writing_goal({**SPECTRAL, "not_covered": ["save the figure as a PDF"]}), NEW_NOTEBOOK)
+        self.assertTrue(result["cells"][0]["text"].startswith("**Working with PaleoPAL**"))
+        self.assertTrue(result["cells"][1]["text"].startswith("I haven't done this part"))
+
+    def test_the_interpreter_is_told_that_plots_can_be_saved(self):
+        settings = flow.step_settings(WORKFLOW, _pkg.workflow_writer._parameter_reference())
+        self.assertIn("savefig_settings", settings["visualize"])
+        self.assertIn("timespan", settings["slice"])
+        self.assertIn("method", settings["detrend"])
+
+    def test_no_note_when_everything_is_covered(self):
+        self.assertFalse(any("I haven't done" in c["text"] for c in run(writing_goal(SPECTRAL))["cells"]))
+
+    def test_no_note_on_a_question(self):
+        result = run(model({**SPECTRAL, "series": "sst", "not_covered": ["save it"]}))
+        self.assertFalse(any("I haven't done" in c["text"] for c in result["cells"]))
+
+
 class IntroTests(unittest.TestCase):
     def assert_intro(self, hist, expected):
         result = run(writing_goal(SPECTRAL), hist)

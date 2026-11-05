@@ -61,6 +61,19 @@ class ValidReplyTests(unittest.TestCase):
         self.assertFalse(interpret({}).whole_analysis)
         self.assertFalse(interpret({"whole_analysis": "yes"}).whole_analysis)
 
+    def test_uncovered_parts_are_kept_as_written_and_never_cause_a_problem(self):
+        result = interpret({"not_covered": ["save the figure  as a PDF", 3, "", None]})
+        self.assertEqual(result.not_covered, ["save the figure as a PDF"])
+        self.assertEqual(result.problems, [])
+        self.assertEqual(interpret({"not_covered": "oops"}).not_covered, [])
+        self.assertEqual(interpret({}).not_covered, [])
+
+    def test_the_prompt_lists_each_steps_settings_when_given(self):
+        prompt = r.build_system_prompt(WORKFLOW, ["lr04"], {"visualize": ["savefig_settings", "title"]})
+        self.assertIn("- visualize (settings: savefig_settings, title)", prompt)
+        self.assertIn("- detrend\n", prompt)
+        self.assertIn("detrend, ", r.build_system_prompt(WORKFLOW, ["lr04"]))
+
     def test_an_invented_step_is_dropped(self):
         result = interpret({"steps": ["make_it_pretty"]})
         self.assertEqual(result.steps, [])

@@ -101,6 +101,33 @@ You can delete this cell once you've read it.
 {workflow_writer.AUTHORSHIP_MARKDOWN}"""
 
 
+def step_settings(workflow: dict, reference: dict) -> dict[str, list[str]]:
+    """Argument names each step's functions take, from the Pyleoclim parameter reference.
+
+    Saving a figure is a setting of the plot step, not a task the guide lacks.
+    """
+    methods = reference.get("methods", {})
+    found = {}
+    for step in workflow["steps"]:
+        apis = step.get("core_api") or []
+        names = [p["name"] for api in (apis if isinstance(apis, list) else [apis])
+                 for p in [*methods.get(api, {}).get("parameters", []),
+                           *methods.get(api, {}).get("passes_to", [])]]
+        if names:
+            found[step["id"]] = list(dict.fromkeys(names))
+    return found
+
+
+def _not_covered_cell(parts: list[str], workflow: dict) -> dict:
+    """Never drop part of a request silently. Temporary: the model-only path will answer these."""
+    analysis = workflow["workflow"]["id"].replace("_", " ")
+    listed = "\n".join(f"- {p}" for p in parts)
+    return {"kind": "markdown", "step": None,
+            "text": f"I haven't done this part of your request, because my guide to {analysis} "
+                    f"doesn't cover it yet:\n\n{listed}\n\nI'd rather tell you than guess. "
+                    f"Everything below follows the guide.\n\n{workflow_writer.AUTHORSHIP_MARKDOWN}"}
+
+
 def _has_paleopal_cells(history: list[dict]) -> bool:
     return any(m.get("agent_type") == "paleopal_note"
                or workflow_writer.AUTHORSHIP_CODE in (m.get("generated_content") or "")
@@ -115,8 +142,11 @@ async def run(user_input: str, history: list[dict], workflow: dict,
 
     People rarely read the docs, so a notebook's first cells from PaleoPAL explain how to read them.
     """
+    seen: dict = {}
     result = await _plan_and_write(user_input, history, workflow, call_model, searches,
-                                   max_repairs, on_repair, answers)
+                                   max_repairs, on_repair, answers, seen)
+    if result and result.get("cells") and not result["needs_user_input"] and seen.get("not_covered"):
+        result["cells"].insert(0, _not_covered_cell(seen["not_covered"], workflow))
     if result and result.get("cells") and not _has_paleopal_cells(history):
         result["cells"].insert(0, {"kind": "markdown", "text": _INTRO, "step": None})
     return result
@@ -125,14 +155,16 @@ async def run(user_input: str, history: list[dict], workflow: dict,
 async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
                           call_model: Callable[[str, str], str], searches: list, max_repairs: int,
                           on_repair: Callable[[dict], None] | None,
-                          answers: dict[str, str] | None) -> dict | None:
+                          answers: dict[str, str] | None, seen: dict) -> dict | None:
     cells = code_cells_from_history(history)
     series = workflow_detector.detect(cells, workflow).series
     if not series:
         return None
 
     meaning = await asyncio.to_thread(
-        request_interpreter.interpret_request, user_input, workflow, series, call_model)
+        request_interpreter.interpret_request, user_input, workflow, series, call_model,
+        step_settings(workflow, workflow_writer._parameter_reference()))
+    seen["not_covered"] = meaning.not_covered
     # The method list comes from the workflow file, so naming one means this analysis.
     if meaning.analysis is None and meaning.method is None and not meaning.problems:
         return None
