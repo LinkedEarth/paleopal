@@ -365,6 +365,40 @@ class SliceTests(unittest.TestCase):
         self.assertIsNone(_pkg.workflow_writer._skip_note("a = lr04.detrend()", "b = lr04.standardize()"))
         self.assertIsNone(_pkg.workflow_writer._skip_note("fig, ax = psd.plot()", "x = fig"))
 
+    KERNEL = {"pyleoclim_version": "1.3.1b0", "series": [
+        {"name": "lr04", "type": "Series", "time_unit": "ky BP", "time_name": "Age", "n_points": 30,
+         "time_min": 0.0, "time_max": 5320.0, "evenly_spaced": False,
+         "time_values": [float(t) for t in range(0, 501, 20)] + [1000.0, 2000.0, 3000.0, 5320.0]}]}
+
+    def test_the_kernel_gives_the_units_and_the_points_left(self):
+        result = asyncio.run(flow.run("a request", LR04, WORKFLOW,
+                                      writing_chain({**SPECTRAL, "steps": ["slice"], "whole_analysis": True}),
+                                      [no_search], kernel=self.KERNEL))
+        self.assertIn("I read your range as 0 to 500 ky BP, `lr04`'s time unit. That leaves 26 of the 30 "
+                      "points in `lr04`.", texts(result))
+
+    def test_too_few_points_stops_the_analysis_with_the_reason(self):
+        short = {"series": [{**self.KERNEL["series"][0], "time_values": [0.0, 1.0, 2.0, 600.0, 5320.0]}]}
+        result = asyncio.run(flow.run("a request", LR04, WORKFLOW,
+                                      writing_chain({**SPECTRAL, "steps": ["slice"], "whole_analysis": True}),
+                                      [no_search], kernel=short))
+        self.assertEqual(result["generated_code"], "")
+        self.assertTrue(result["needs_user_input"])
+        self.assertIn("leaves only 3 of the 5 points in `lr04`. I need at least 20 points", texts(result))
+
+    def test_the_time_axis_never_reaches_the_model(self):
+        sent = []
+        writer = writing_chain({**SPECTRAL, "steps": ["slice"], "whole_analysis": True})
+
+        def call(system, user):
+            sent.append(system + user)
+            return writer(system, user)
+        asyncio.run(flow.run("a request", LR04, WORKFLOW, call, [no_search], kernel=self.KERNEL))
+        self.assertTrue(sent)
+        self.assertFalse(any("5320" in m or "time_values" in m for m in sent))
+        writing = [m for m in sent if "## Step: " in m]
+        self.assertTrue(any("`lr04` has its time as Age, in ky BP" in m for m in writing))
+
     def test_the_range_note_uses_the_numbers_in_the_code(self):
         note = _pkg.workflow_writer._slice_note("part = lr04.slice(timespan=(10, 800))")
         self.assertIn("as 10 to 800", note)

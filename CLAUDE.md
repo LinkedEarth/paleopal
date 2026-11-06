@@ -370,6 +370,33 @@ run…"), note and collapsible Sources; PaleoPAL's offer and the "Add summary to
 insert the summary cells below the `@agent chat` cell with one undo. VS Code can't keep a panel
 open, so closing without a summary asks right after, while the conversation is still in memory.
 The old `/agents/chat` call was removed from the extension (the backend route stays).
+**Kernel reads, first piece (agreed 2026-11-05):** one fixed, reviewed snippet runs before each
+`@agent code` request (`vscode-extension/src/kernelFacts.ts`, approved by Deborah). It runs in a
+private namespace, never imports, and for each Pyleoclim Series reports name, type, time unit and
+name, number of points, time range, even spacing, and the time axis; plus the Pyleoclim version.
+Sent in `notebook_context.kernel`; on any failure (no kernel, no access, busy) the request goes ahead
+without it. Tested under IPython: leaves nothing in the namespace. **Where the age model may go
+(Deborah, 2026-11-05):** the age model is data too, so the line is drawn by recipient: the time axis
+may reach PaleoPAL's backend (local machine or server) for Python's own checks, but is **never put
+in a prompt to the AI model**. No measured values are read. The explanation shown before VS Code's
+access prompt says this, naming "your local machine or server". First use: the slicing note (exact
+units, points left after the slice).
+**Built 2026-11-05 (0.1.7 tested by Deborah; 0.1.8 adds the block and the general wording):** the slicing note gives the series' own unit
+and the points left. **A slice leaving fewer than 20 points stops the analysis** (Deborah, "for now":
+the real criterion is more complicated than a point count and needs revisiting); the threshold is
+`min_points` on the slice step in the YAML, and PaleoPAL asks for a wider range instead of writing
+cells. **The explanation is general (Deborah, 2026-11-05)**, since packages other than Pyleoclim will
+be read later: "a small set of fixed, read-only checks… descriptions of your data… the versions of
+the packages I work with". Its "already shown" flag is versioned, so a wording change shows it again.
+**Kernel read working end to end (Deborah, 2026-11-05, extension 0.1.9–0.1.10):** "the first 5000
+years" was stopped for too few points. Found on the way: the Jupyter API's `getKernel` returns
+nothing unless the researcher started the kernel by running a cell **in this window**; "Developer:
+Reload Window" disconnects it even though old execution numbers still show. **For the poster:** after
+any reload, run a cell before asking PaleoPAL. The extension logs each step of the read (never data)
+to the "PaleoPAL" output panel. The writer now gets the series' time unit and time name from the
+kernel (never the time axis), after the model read "5000 years" as `[0, 5000]` in ky BP without it.
+**Next session:** the other uses of the kernel read (even spacing for regridding, the Pyleoclim version
+for parameter docs, cells not run), or the corpus; then the visualization guide.
 **Visualization guide (Deborah, 2026-11-05, after kernel reads):** plots deserve their own guide.
 The plot rules (object's own `.plot()`, matplotlib only as continuation via `fig, ax`, no
 dismantling, PSD log-log by default) don't change between analyses, so they'd live there once.

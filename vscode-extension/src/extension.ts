@@ -3,6 +3,10 @@ import { randomUUID } from 'crypto';
 import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCell, appendCodeCell, runAllNotebookCells, buildHistoryUpToCell, getActiveCellIndex, insertLoadingCell, updateCellText, deleteCell, insertMarkdownCellAt, insertAgentCells, AgentCell } from './notebook';
 import { showClarificationPanel, ClarificationQuestion } from './clarifyPanel';
 import { openChatPanel } from './chatPanel';
+import { readKernelFacts } from './kernelFacts';
+
+// Remembers that the kernel-access explanation was shown.
+let extensionState: vscode.Memento;
 import { AgentCellStatusBarProvider } from './statusbar';
 
 type Role = 'system' | 'user' | 'assistant';
@@ -108,13 +112,14 @@ async function askAgent() {
   }
 
   const capability = agentType === 'sparql' ? 'generate_query' : (agentType === 'workflow_generation') ? 'generate_workflow' : 'generate_code';
+  const kernel = await readKernelFacts(vscode.window.activeNotebookEditor?.notebook, extensionState);
   const body: AgentRequestBody = {
     agent_type: agentType,
     capability,
     conversation_id: convId,
     user_input: prompt,
     context: { conversation_history: history },
-    notebook_context: {},
+    notebook_context: kernel ? { kernel } : {},
     metadata: {
       stateless: true,
       enable_execution: enableExecution,
@@ -188,6 +193,7 @@ async function runNotebook() {
 // Markdown/code insertion now handled via notebook helpers
 
 export function activate(context: vscode.ExtensionContext) {
+  extensionState = context.globalState;
   context.subscriptions.push(
     vscode.notebooks.registerNotebookCellStatusBarItemProvider('jupyter-notebook', new AgentCellStatusBarProvider())
   );
@@ -248,13 +254,14 @@ async function runAgentForCell() {
   const { provider, model, enableClarification, clarificationThreshold, enableExecution } = getConfig();
 
   const capability = agentType === 'sparql' ? 'generate_query' : (agentType === 'workflow_generation') ? 'generate_workflow' : 'generate_code';
+  const kernel = await readKernelFacts(editor.notebook, extensionState);
   const body: AgentRequestBody = {
     agent_type: agentType,
     capability,
     conversation_id: convId,
     user_input: userText,
     context: { conversation_history: history },
-    notebook_context: {},
+    notebook_context: kernel ? { kernel } : {},
     metadata: {
       stateless: true,
       enable_execution: enableExecution,

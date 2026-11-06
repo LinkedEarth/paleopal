@@ -166,6 +166,23 @@ def _note_regrid(plan, regrid: dict) -> None:
             f"You chose not to regrid, after I explained that {method} doesn't need it."]
 
 
+def _slice_too_short(written, plan, workflow: dict) -> str | None:
+    """A slice the kernel shows to be too short for the analysis stops it, with the reason.
+
+    Only the kernel's time axis can tell; without it, the slicing note asks the researcher to check.
+    """
+    step = next((s for s in workflow["steps"] if s["id"] == "slice"), None)
+    minimum = (step or {}).get("min_points")
+    code = next((c.text for c in written.cells if c.kind == "code" and c.step == "slice"), None)
+    reading = workflow_writer.read_slice(code, plan.kernel, plan.series) if code and minimum else None
+    if reading is None or reading.kept is None or reading.kept >= minimum:
+        return None
+    unit = f" {reading.unit}" if reading.unit else ""
+    return (f"I read your range as {reading.start} to {reading.end}{unit}, which leaves only {reading.kept} "
+            f"of the {reading.total} points in `{reading.name}`. I need at least {minimum} points for a "
+            f"spectral analysis, so I haven't written it. Could you give a wider range?")
+
+
 def step_settings(workflow: dict, reference: dict) -> dict[str, list[str]]:
     """Argument names each step's functions take, from the Pyleoclim parameter reference.
 
@@ -202,14 +219,14 @@ def _has_paleopal_cells(history: list[dict]) -> bool:
 async def run(user_input: str, history: list[dict], workflow: dict,
               call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
               on_repair: Callable[[dict], None] | None = None,
-              answers: dict[str, str] | None = None) -> dict | None:
+              answers: dict[str, str] | None = None, kernel: dict | None = None) -> dict | None:
     """Return the cells for this request, or None if it isn't covered yet.
 
     People rarely read the docs, so a notebook's first cells from PaleoPAL explain how to read them.
     """
     seen: dict = {}
     result = await _plan_and_write(user_input, history, workflow, call_model, searches,
-                                   max_repairs, on_repair, answers, seen)
+                                   max_repairs, on_repair, answers, seen, kernel)
     if result and result.get("cells") and not result["needs_user_input"] and seen.get("not_covered"):
         result["cells"].insert(0, _not_covered_cell(seen["not_covered"], workflow))
     if result and result.get("cells") and not _has_paleopal_cells(history):
@@ -220,7 +237,8 @@ async def run(user_input: str, history: list[dict], workflow: dict,
 async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
                           call_model: Callable[[str, str], str], searches: list, max_repairs: int,
                           on_repair: Callable[[dict], None] | None,
-                          answers: dict[str, str] | None, seen: dict) -> dict | None:
+                          answers: dict[str, str] | None, seen: dict,
+                          kernel: dict | None = None) -> dict | None:
     cells = code_cells_from_history(history)
     series = workflow_detector.detect(cells, workflow).series
     if not series:
@@ -282,6 +300,7 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         return None
     plan.notebook_code = cells
     plan.request = user_input
+    plan.kernel = kernel
     _note_regrid(plan, regrid)
 
     snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)
@@ -326,6 +345,10 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         logger.warning("Planning flow couldn't write the workflow: %s", problems)
         return _ask("I'm still learning and can't get this right yet, but I'm learning! "
                     "I wasn't able to write this workflow, so please try rephrasing your request.")
+
+    too_short = _slice_too_short(written, plan, workflow)
+    if too_short:
+        return _ask(too_short)
 
     code = "\n\n".join(c.text for c in written.cells if c.kind == "code")
     new_cells = [asdict(c) for c in written.cells]
@@ -388,7 +411,8 @@ async def handle(request):
                        [search_service.search_snippets, search_service.search_code_examples],
                        max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
                        answers={r["id"]: r["answer"]
-                                for r in metadata.get("clarification_responses") or []})
+                                for r in metadata.get("clarification_responses") or []},
+                       kernel=(request.notebook_context or {}).get("kernel"))
     if result is None:
         result = await answer_uncovered(request.user_input, history, workflow,
                                         workflow_writer._parameter_reference(), call_model)

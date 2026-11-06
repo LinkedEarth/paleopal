@@ -77,6 +77,9 @@ class Plan:
     fresh_chain: bool = False
     decisions: list[dict] = field(default_factory=list)  # the user's yes/no answers
     request: str = ""  # the researcher's words, which can set arguments but not steps
+    # Facts read from the researcher's kernel. Its time axes are for Python's checks only and
+    # must never reach a prompt.
+    kernel: dict | None = None
 
 
 @dataclass
@@ -391,6 +394,12 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
     parts = []
     if plan.request:
         parts.append(f"## The researcher's request\n{plan.request}")
+    # Only the unit and the name of the time axis go to the model, never the time values.
+    facts = _kernel_series(plan.kernel, plan.start, plan.series)
+    if facts and facts.get("time_unit"):
+        parts.append(f"## From the researcher's session\n`{plan.series}` has its time as "
+                     f"{facts.get('time_name') or 'time'}, in {facts['time_unit']}. Give any time range "
+                     "in these units.")
     if plan.notebook_code:
         parts.append("## Code already in the notebook. Reuse its variable names.\n```python\n"
                      + "\n\n".join(plan.notebook_code) + "\n```")
@@ -408,12 +417,24 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
     return "\n\n".join(parts)
 
 
-def _slice_note(code: str) -> str | None:
-    """Say how the range was read, with the numbers taken from the code itself.
+def _kernel_series(kernel: dict | None, *names: str | None) -> dict | None:
+    """The kernel's facts for the first of these variables it knows."""
+    by_name = {s.get("name"): s for s in (kernel or {}).get("series") or []}
+    return next((by_name[n] for n in names if n in by_name), None)
 
-    The notebook doesn't say what units the series uses, so the model's reading of a range
-    like "the first 5000 years" can't be checked here. Kernel reads will settle that.
-    """
+
+@dataclass
+class SliceReading:
+    """How a slice in the code reads, checked against the kernel when it's available."""
+    start: str
+    end: str
+    unit: str | None = None
+    name: str | None = None
+    kept: int | None = None  # points inside the range, counted from the time axis
+    total: int | None = None
+
+
+def read_slice(code: str, kernel: dict | None = None, series: str | None = None) -> SliceReading | None:
     try:
         tree = ast.parse(code)
     except SyntaxError:
@@ -423,12 +444,36 @@ def _slice_note(code: str) -> str | None:
             span = node.args[0] if node.args else next(
                 (k.value for k in node.keywords if k.arg == "timespan"), None)
             if isinstance(span, (ast.List, ast.Tuple)) and len(span.elts) == 2:
-                start, end = (ast.unparse(e) for e in span.elts)
-                return (f"I read your range as {start} to {end} in the series' time units. Please check "
-                        "that this matches your series, including which end of the record you meant, "
-                        "before running the next steps. If it's incorrect, change the numbers given "
-                        "to `timespan`.")
+                reading = SliceReading(*(ast.unparse(e) for e in span.elts))
+                root = node.func.value
+                while isinstance(root, (ast.Attribute, ast.Call, ast.Subscript)):
+                    root = root.func if isinstance(root, ast.Call) else root.value
+                facts = _kernel_series(kernel, getattr(root, "id", None), series) or {}
+                reading.unit, reading.name = facts.get("time_unit"), facts.get("name")
+                times = facts.get("time_values")
+                bounds = [e.value for e in span.elts if isinstance(e, ast.Constant)]
+                if times and len(bounds) == 2 and all(isinstance(b, (int, float)) for b in bounds):
+                    low, high = sorted(bounds)
+                    reading.kept, reading.total = sum(low <= t <= high for t in times), len(times)
+                return reading
     return None
+
+
+def _slice_note(code: str, kernel: dict | None = None, series: str | None = None) -> str | None:
+    """Say how the range was read, with the numbers taken from the code itself.
+
+    With the researcher's kernel, the units are the series' own and the points left are counted
+    from its time axis; without it, PaleoPAL can only ask them to check the units.
+    """
+    r = read_slice(code, kernel, series)
+    if r is None:
+        return None
+    read = (f"I read your range as {r.start} to {r.end} {r.unit}, `{r.name}`'s time unit." if r.unit
+            else f"I read your range as {r.start} to {r.end} in the series' time units.")
+    count = f" That leaves {r.kept} of the {r.total} points in `{r.name}`." if r.kept is not None else ""
+    return (f"{read}{count} Please check that this matches your series, including which end "
+            "of the record you meant, before running the next steps. If it's incorrect, "
+            "change the numbers given to `timespan`.")
 
 
 def _skip_note(code: str, next_code: str) -> str | None:
@@ -532,7 +577,7 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         if step["requiredness"] == "recommended":
             title += " (recommended)"
         parameters = _parameters_block(step, code)
-        range_note = _slice_note(code) if step["id"] == "slice" else None
+        range_note = _slice_note(code, plan.kernel, plan.series) if step["id"] == "slice" else None
         skip_note = (_skip_note(code, codes[number + 1])
                      if step["requiredness"] == "recommended" and number + 1 < len(codes) else None)
         lines = [f"### {title}", explanation, *plan.notes.get(step["id"], []),
