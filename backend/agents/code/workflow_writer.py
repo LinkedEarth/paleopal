@@ -105,8 +105,12 @@ class WriteResult:
     reply: str = ""  # the model's raw reply, needed to ask it for a repair
 
 
+_ALREADY_EVEN = "Your series is already evenly spaced, so I did not include a regridding step."
+
+
 def build_plan(state, workflow: dict, objective: str | None = None,
-               method: str | None = None, requested: list[str] | None = None) -> Plan:
+               method: str | None = None, requested: list[str] | None = None,
+               evenly_spaced: bool = False) -> Plan:
     """Choose the steps to write from the detector's report and the workflow file.
 
     A step that is only available, like slicing, is included when the request asks for it.
@@ -122,8 +126,11 @@ def build_plan(state, workflow: dict, objective: str | None = None,
             status[step["id"]] == "optional" and step["id"] in (requested or []))
         if status[step["id"]] == "depends_on_method" and step["id"] == "regrid":
             # A regrid the researcher confirmed after being told it isn't needed is their choice.
-            wanted = registry[method]["requires_even_spacing"] or "regrid" in (requested or [])
-            if not wanted:
+            wanted = (registry[method]["requires_even_spacing"] and not evenly_spaced) \
+                or "regrid" in (requested or [])
+            if not wanted and evenly_spaced and registry[method]["requires_even_spacing"]:
+                plan.notes.setdefault(_SPECTRAL_STEP, []).append(_ALREADY_EVEN)
+            elif not wanted:
                 plan.notes.setdefault(_SPECTRAL_STEP, []).append(
                     f"`{method}` tolerates uneven sampling, so I did not include a regridding step."
                 )
@@ -167,7 +174,8 @@ def _add_proposals(plan: Plan, workflow: dict, done: set[str]) -> None:
 
 
 def plan_next_step(state, workflow: dict, requested_ids: list[str], objective: str | None = None,
-                   method: str | None = None, answers: dict[str, str] | None = None) -> NextStep:
+                   method: str | None = None, answers: dict[str, str] | None = None,
+                   evenly_spaced: bool = False) -> NextStep:
     """Apply the gap rules to a request made partway through a workflow.
 
     A missing required step is added with the reason. A missing recommended step is
@@ -201,7 +209,7 @@ def plan_next_step(state, workflow: dict, requested_ids: list[str], objective: s
     added, skipped = [], []
 
     # Checked first: if the record can't be regridded in place, asking about other steps is moot.
-    if before_spectrum and registry[method]["requires_even_spacing"]:
+    if before_spectrum and registry[method]["requires_even_spacing"] and not evenly_spaced:
         regrid = next((s for s in workflow["steps"] if s["requiredness"].startswith("determined_by")), None)
         asked_for_it = regrid in wanted  # then there's no doubt that the record needs it
         if regrid and not asked_for_it and regrid["id"] not in done \
@@ -220,7 +228,9 @@ def plan_next_step(state, workflow: dict, requested_ids: list[str], objective: s
         if requiredness == "required":
             added.append(step)
         elif requiredness.startswith("determined_by") and before_spectrum:
-            if not registry[method]["requires_even_spacing"]:
+            if evenly_spaced and registry[method]["requires_even_spacing"]:
+                plan.notes.setdefault(_SPECTRAL_STEP, []).append(_ALREADY_EVEN)
+            elif not registry[method]["requires_even_spacing"]:
                 plan.notes.setdefault(_SPECTRAL_STEP, []).append(
                     f"`{method}` tolerates uneven sampling, so I did not include a regridding step.")
             else:

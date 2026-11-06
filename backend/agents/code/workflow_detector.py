@@ -56,6 +56,8 @@ class NotebookState:
     level: str = "unclear"
     # Things the reader can't interpret. PaleoPAL should ask, not guess.
     uncertain: list[str] = field(default_factory=list)
+    # The method each series' spectrum used, from the cells; None means Pyleoclim's default.
+    spectral_methods: dict[str, str | None] = field(default_factory=dict)
 
 
 def _as_list(value) -> list:
@@ -90,6 +92,12 @@ def _call_chain(call: ast.Call) -> tuple[str | None, list[str]]:
     while isinstance(node, ast.Attribute):
         node = node.value
     return (node.id if isinstance(node, ast.Name) else None), methods
+
+
+def _method_literal(call: ast.Call) -> str | None:
+    """`spectral(method='mtm')` or `spectral('mtm')` -> 'mtm'; None when not written as a literal."""
+    value = call.args[0] if call.args else next((k.value for k in call.keywords if k.arg == "method"), None)
+    return value.value if isinstance(value, ast.Constant) and isinstance(value.value, str) else None
 
 
 def _parse_cell(cell: str) -> ast.Module:
@@ -175,6 +183,11 @@ class _Reader:
             step_id, needs_spectrum = self.steps_by_method.get(method, (None, False))
             if step_id and (not needs_spectrum or _SPECTRAL_STEP in steps):
                 steps.append(step_id)
+        if _SPECTRAL_STEP in steps:
+            for node in ast.walk(call):
+                if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
+                        and self.steps_by_method.get(node.func.attr, (None,))[0] == _SPECTRAL_STEP:
+                    self.state.spectral_methods[origin] = _method_literal(node)
         self.done[origin].update(steps)
         if target:
             self.lineage[target] = steps

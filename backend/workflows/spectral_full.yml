@@ -373,6 +373,7 @@ terminology:
 # -----------------------------------------------------------------------------
 method_registry:
   - id: lomb_scargle
+    name: Lomb-Scargle
     core_arg: "method='lomb_scargle'"     # verified
     kwargs_source: pyleoclim.utils.spectral.lomb_scargle
     requires_even_spacing: false
@@ -387,6 +388,7 @@ method_registry:
     paleopal_status: preferred
 
   - id: wwz
+    name: WWZ
     core_arg: "method='wwz'"              # verified
     kwargs_source: pyleoclim.utils.spectral.wwz_psd
     requires_even_spacing: false
@@ -395,6 +397,7 @@ method_registry:
     cost: high
 
   - id: mtm
+    name: MTM
     core_arg: "method='mtm'"
     kwargs_source: pyleoclim.utils.spectral.mtm
     requires_even_spacing: true
@@ -402,6 +405,7 @@ method_registry:
     paleopal_status: preferred
 
   - id: welch
+    name: Welch
     core_arg: "method='welch'"
     kwargs_source: pyleoclim.utils.spectral.welch
     requires_even_spacing: true
@@ -409,6 +413,7 @@ method_registry:
     paleopal_status: acceptable
 
   - id: periodogram
+    name: Periodogram
     core_arg: "method='periodogram'"
     kwargs_source: pyleoclim.utils.spectral.periodogram
     requires_even_spacing: true
@@ -416,6 +421,7 @@ method_registry:
     paleopal_status: acceptable
 
   - id: cwt
+    name: CWT
     core_arg: "method='cwt'"
     kwargs_source: pyleoclim.utils.spectral.cwt_psd
     requires_even_spacing: true
@@ -456,6 +462,17 @@ method_selection:
       wwz: >
         My default method for estimating the slope is WWZ, which doesn't
         require regridding. Since your data are already regridded, I used MTM.
+
+  when_evenly_spaced:
+    method: mtm
+    must_say_by_default:
+      lomb_scargle: >
+        My default method is Lomb-Scargle, which doesn't require evenly spaced
+        data. Your series is already evenly spaced, so I used MTM.
+      wwz: >
+        My default method for estimating the slope is WWZ, which doesn't
+        require evenly spaced data. Your series is already evenly spaced, so I
+        used MTM.
 
   clarify_when:
     - condition: user names no method and objective is peak_detection

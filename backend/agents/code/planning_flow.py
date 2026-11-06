@@ -104,18 +104,40 @@ You can delete this cell once you've read it.
 _REGRID_STEP = "regrid"
 
 
-def _resolve_regrid(meaning, state, workflow: dict, objective: str, answers: dict[str, str]) -> dict:
-    """Settle regridding against the method before planning. May change `meaning`.
+_COMPARISON = "comparison_method"
+# Pyleoclim's own default when a spectrum is written without a method.
+_PYLEOCLIM_SPECTRAL_DEFAULT = "lomb_scargle"
+
+
+def _resolve_regrid(meaning, state, workflow: dict, objective: str, answers: dict[str, str],
+                    kernel: dict | None = None) -> dict:
+    """Settle regridding and the method before planning. May change `meaning`.
 
     A regrid asked for before a method that doesn't need it is explained and asked about.
     A regrid already in the researcher's cells is their choice, and with no method named,
-    the guide picks a method that uses it.
+    the guide picks a method that uses it; so does a series the kernel shows to be evenly
+    spaced. When another series' spectrum used a different method, the researcher decides.
     """
     registry = {m["id"]: m for m in workflow["method_registry"]}
     selection = workflow["method_selection"]
     done = {s.id for s in state.steps if s.status == "done"}
     method = meaning.method or selection["defaults_by_objective"][objective]
     found: dict = {"overrides": set()}
+    facts = workflow_writer._kernel_series(kernel, state.current, state.target) or {}
+    found["evenly_spaced"] = _REGRID_STEP not in done and facts.get("evenly_spaced") is True
+
+    comparison = _resolve_comparison(meaning, state, workflow, method, found, answers)
+    if comparison:
+        return comparison
+    method = meaning.method or method
+
+    if found["evenly_spaced"]:
+        found["overrides"] |= {"regrid_before_even_spacing_method", "method_suits_uneven_data"}
+        even = selection.get("when_evenly_spaced") or {}
+        notes = even.get("must_say_by_default") or {}
+        if meaning.method is None and method in notes:
+            meaning.method = even["method"]
+            found["method_note"] = " ".join(notes[method].split())
 
     if _REGRID_STEP in done:
         found["overrides"] |= {"no_unnecessary_regrid", "method_suits_uneven_data"}
@@ -146,11 +168,59 @@ def _resolve_regrid(meaning, state, workflow: dict, objective: str, answers: dic
     return found
 
 
+def _name(workflow: dict, method: str) -> str:
+    return next((m.get("name") or m["id"] for m in workflow["method_registry"] if m["id"] == method), method)
+
+
+def _resolve_comparison(meaning, state, workflow, method, found, answers) -> dict | None:
+    """Another series' spectrum used a different method: ask whether to match it.
+
+    Returns the question when one is needed. On an answer, sets the method and records it.
+    """
+    if meaning.method is not None:
+        return None
+    others = {name: m or _PYLEOCLIM_SPECTRAL_DEFAULT
+              for name, m in state.spectral_methods.items() if name != state.target}
+    used = set(others.values())
+    if len(used) != 1:
+        return None
+    earlier = used.pop()
+    selection = workflow["method_selection"]
+    natural = (selection.get("when_evenly_spaced") or {}).get("method") \
+        if found["evenly_spaced"] and method in (selection.get("when_evenly_spaced") or {}).get(
+            "must_say_by_default", {}) else method
+    if earlier == natural:
+        return None
+    series = ", ".join(f"`{n}`" for n in others)
+    answer = (answers.get(_COMPARISON) or "").strip().lower()
+    if not answer:
+        spacing = "evenly spaced" if found["evenly_spaced"] else "unevenly spaced"
+        found["question"] = {
+            "id": _COMPARISON, "choices": ["Yes", "No"],
+            "question": f"Your spectrum of {series} uses {_name(workflow, earlier)}. You're about to "
+                        f"process `{state.target}`, which is {spacing}. Would you still like to use "
+                        f"{_name(workflow, earlier)} for comparison?",
+            "context": f"If not, I'll use {_name(workflow, natural)} for `{state.target}`."}
+        return found
+    if answer.startswith("y"):
+        meaning.method = earlier
+        found["comparison"] = (f"I used {_name(workflow, earlier)}, as you chose, so `{state.target}` can "
+                               f"be compared with {series}.")
+    else:
+        found["comparison"] = (f"You chose {_name(workflow, natural)} rather than "
+                               f"{_name(workflow, earlier)}, the method used for {series}.")
+    found["comparison_answer"] = "yes" if answer.startswith("y") else "no"
+    return None
+
+
 def _note_regrid(plan, regrid: dict) -> None:
     """Record the regrid choice where the researcher will see it."""
     spectral = workflow_writer._SPECTRAL_STEP
     if regrid.get("method_note"):
         plan.notes.setdefault(spectral, []).insert(0, regrid["method_note"])
+    if regrid.get("comparison"):
+        plan.notes.setdefault(spectral, []).append(regrid["comparison"])
+        plan.decisions.append({"step": _COMPARISON, "answer": regrid["comparison_answer"]})
     decision = regrid.get("decision")
     if not decision:
         return
@@ -270,13 +340,14 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         return _ask(f"Your notebook has several series: {', '.join(f'`{s}`' for s in series)}. "
                     "Which one should I analyze?")
 
-    regrid = _resolve_regrid(meaning, state, workflow, objective, answers or {})
+    regrid = _resolve_regrid(meaning, state, workflow, objective, answers or {}, kernel)
     if regrid.get("question"):
         return {"generated_code": "", "needs_user_input": True,
                 "clarification_questions": [regrid["question"]]}
 
     if state.level == "whole_workflow":
-        plan = workflow_writer.build_plan(state, workflow, objective, meaning.method, meaning.steps)
+        plan = workflow_writer.build_plan(state, workflow, objective, meaning.method, meaning.steps,
+                                          regrid["evenly_spaced"])
         plan.start = state.current
     elif state.level == "next_step":
         all_answers = {**decisions_from_history(history), **(answers or {})}
@@ -289,7 +360,8 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
             also = [workflow_writer._SPECTRAL_STEP]
         requested = meaning.steps + [s for s in also if s not in meaning.steps]
         next_step = workflow_writer.plan_next_step(
-            state, workflow, requested, meaning.objective, meaning.method, all_answers)
+            state, workflow, requested, meaning.objective, meaning.method, all_answers,
+            regrid["evenly_spaced"])
         if next_step.question:
             return {"generated_code": "", "needs_user_input": True,
                     "clarification_questions": [next_step.question]}

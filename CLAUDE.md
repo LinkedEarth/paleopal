@@ -49,8 +49,8 @@ week. Rough estimate (2026-10-01): ~14–23 working days of T1 work vs
   themselves**, understood as a prototype. So unscripted requests will
   happen: graceful failure (the "still learning" message, the LLM-only
   note) matters as much as the demo path.
-- **Demo mode needed:** PaleoPAL must not remember preferences set during
-  the demo (each visitor starts fresh; nothing persists).
+- ~~Demo mode~~ **dropped (Deborah, 2026-11-06):** the poster runs on her
+  laptop with one PaleoPAL, so no separate demo mode is needed.
 A live demo rewards reliability over breadth: a known demo path that
 works every time matters more than covering every case.
 **Focus for AGU (Deborah, 2026-11-05):** after a meeting with Julien, who was
@@ -395,8 +395,29 @@ Reload Window" disconnects it even though old execution numbers still show. **Fo
 any reload, run a cell before asking PaleoPAL. The extension logs each step of the read (never data)
 to the "PaleoPAL" output panel. The writer now gets the series' time unit and time name from the
 kernel (never the time axis), after the model read "5000 years" as `[0, 5000]` in ky BP without it.
-**Next session:** the other uses of the kernel read (even spacing for regridding, the Pyleoclim version
-for parameter docs, cells not run), or the corpus; then the visualization guide.
+**Stale kernel seen 2026-11-06:** in a notebook reused from Nov 4, the read reached an older kernel
+(it held `lr04`; the cells' kernel held `had`), so PaleoPAL used Lomb-Scargle on HadCRUT5. Cause not
+found in the Jupyter extension's code; a window reload fixed it. Extension 0.1.11 logs which notebook
+was asked about and the kernel's status. **For the poster:** start from a fresh window and kernel.
+**Order (Deborah, 2026-11-06):** the other uses of the kernel read (even spacing for regridding, the
+Pyleoclim version for parameter docs, cells not run), then discuss the corpus cleanup and rebuild.
+**Even spacing (Deborah, 2026-11-06):** Lomb-Scargle works on evenly spaced data but isn't the best
+method there. For uneven data the trade-off is interpolating vs Lomb-Scargle's known problems; for
+evenly spaced data MTM makes more sense. **Caveat, several series:** if one record is evenly spaced
+and another isn't, most people want the same method for both, so throw it back to the researcher,
+e.g. "I used Lomb-Scargle for LR04. You're about to process model data, which is evenly spaced.
+Would you still like to use Lomb-Scargle for comparison?" **Version check (item 2): ask Deborah to
+clarify a few things before building it** (she sees a testing issue).
+**Built 2026-11-06 (backend only, agreed a/b/c by Deborah):** (a) a series the kernel shows evenly
+spaced, no method named → MTM instead of the Lomb-Scargle or WWZ default, with
+`method_selection.when_evenly_spaced` wording; (b) a method needing even spacing on evenly spaced data
+gets no regrid step ("Your series is already evenly spaced, so I did not include a regridding step.")
+and the checker doesn't demand one; (c) when another series' spectrum used a different method (read
+from the cells; the detector now records `spectral_methods`), a yes/no panel question: "Your spectrum
+of `lr04` uses Lomb-Scargle. You're about to process `had`, which is evenly spaced. Would you still
+like to use Lomb-Scargle for comparison?", with the answer recorded on the cell. A named method is
+never questioned. Methods now carry display `name`s in the YAML. Test data (Deborah has no model
+data): Pyleoclim's `NINO3`, `AIR` and `HadCRUT5` are evenly spaced; `SOI` isn't.
 **Visualization guide (Deborah, 2026-11-05, after kernel reads):** plots deserve their own guide.
 The plot rules (object's own `.plot()`, matplotlib only as continuation via `fig, ax`, no
 dismantling, PSD log-log by default) don't change between analyses, so they'd live there once.

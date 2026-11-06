@@ -145,5 +145,19 @@ class CantTellTests(unittest.TestCase):
         self.assertEqual(len(state.uncertain), 1)
 
 
+
+class SpectralMethodTests(unittest.TestCase):
+    def test_each_series_records_the_method_its_spectrum_used(self):
+        cells = ["import pyleoclim as pyleo", "lr04 = pyleo.utils.load_dataset('LR04')",
+                 "had = pyleo.utils.load_dataset('HadCRUT5')",
+                 "psd = lr04.standardize().spectral(method='lomb_scargle')",
+                 "p2 = had.standardize().spectral('mtm')"]
+        state = d.detect(cells, WORKFLOW, target="had")
+        self.assertEqual(state.spectral_methods, {"lr04": "lomb_scargle", "had": "mtm"})
+
+    def test_an_unwritten_method_is_none(self):
+        cells = ["import pyleoclim as pyleo", "lr04 = pyleo.utils.load_dataset('LR04')", "p = lr04.spectral()"]
+        self.assertEqual(d.detect(cells, WORKFLOW).spectral_methods, {"lr04": None})
+
 if __name__ == "__main__":
     unittest.main()

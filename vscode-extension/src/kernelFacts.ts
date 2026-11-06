@@ -84,8 +84,14 @@ export async function readKernelFacts(notebook: vscode.NotebookDocument | undefi
     const kernels = jupyter.exports?.kernels;
     if (!kernels?.getKernel) { log.appendLine('Kernel read: the Jupyter extension has no kernels API.'); return undefined; }
     if (!(await explainOnce(state))) { log.appendLine('Kernel read: skipped, access not granted this session.'); return undefined; }
+    // Which notebook was asked about, and how many open copies share its path (file names only).
+    const fileName = notebook.uri.path.split('/').pop();
+    const copies = vscode.workspace.notebookDocuments.filter(d => d.uri.toString() === notebook.uri.toString()).length;
+    const openNotebooks = vscode.workspace.notebookDocuments.map(d => d.uri.path.split('/').pop()).join(', ');
+    log.appendLine(`Kernel read: asking for the kernel of ${fileName} (${copies} open with this path; open notebooks: ${openNotebooks}).`);
     const kernel = await kernels.getKernel(notebook.uri); // undefined until the researcher starts one
     if (!kernel) { log.appendLine('Kernel read: no kernel started in this window. Run a cell in the notebook first (reloading the window disconnects the kernel).'); return undefined; }
+    log.appendLine(`Kernel read: got a ${kernel.language ?? 'unknown'} kernel, status ${kernel.status ?? 'unknown'}.`);
 
     const source = new vscode.CancellationTokenSource();
     const timer = setTimeout(() => source.cancel(), TIMEOUT_MS);

@@ -487,6 +487,67 @@ class UnnecessaryRegridTests(unittest.TestCase):
         self.assertEqual(result["checker_findings"], [])
 
 
+class EvenSpacingTests(unittest.TestCase):
+    """The kernel says a series is evenly spaced: MTM by default, no regrid, and comparisons asked."""
+
+    HAD = {"name": "had", "type": "Series", "time_unit": "year C.E.", "time_name": "Time", "n_points": 173,
+           "time_min": 1850.0, "time_max": 2022.0, "evenly_spaced": True,
+           "time_values": [float(t) for t in range(1850, 2023)]}
+    ONLY_HAD = EARLIER_NOTE + history("import pyleoclim as pyleo", "had = pyleo.utils.load_dataset('HadCRUT5')")
+    BOTH = LR04 + history("had = pyleo.utils.load_dataset('HadCRUT5')",
+                          "lr04_psd = lr04.standardize().spectral(method='lomb_scargle')")
+    ASK = {**SPECTRAL, "series": "had", "whole_analysis": True}
+
+    def flow(self, notebook, meaning, answers=None):
+        return asyncio.run(flow.run("a request", notebook, WORKFLOW, writing_chain(meaning), [no_search],
+                                    answers=answers or {}, kernel={"series": [self.HAD]}))
+
+    def test_an_evenly_spaced_series_gets_mtm_and_the_reason(self):
+        result = self.flow(self.ONLY_HAD, self.ASK)
+        self.assertEqual(result["plan"]["method"], "mtm")
+        self.assertNotIn("regrid", result["plan"]["steps"])
+        self.assertIn("Your series is already evenly spaced, so I used MTM.", texts(result))
+        self.assertEqual(result["checker_findings"], [])
+
+    def test_mtm_named_on_evenly_spaced_data_needs_no_regrid(self):
+        result = self.flow(self.ONLY_HAD, {**self.ASK, "method": "mtm"})
+        self.assertNotIn("regrid", result["plan"]["steps"])
+        self.assertIn("Your series is already evenly spaced, so I did not include a regridding step.",
+                      texts(result))
+        self.assertNotIn("I used MTM", texts(result))
+        self.assertEqual(result["checker_findings"], [])
+
+    def test_a_different_method_from_another_series_is_asked_about(self):
+        result = self.flow(self.BOTH, self.ASK)
+        question = result["clarification_questions"][0]
+        self.assertEqual(question["id"], "comparison_method")
+        self.assertEqual(question["question"], "Your spectrum of `lr04` uses Lomb-Scargle. You're about to "
+                         "process `had`, which is evenly spaced. Would you still like to use Lomb-Scargle "
+                         "for comparison?")
+        self.assertEqual(question["context"], "If not, I'll use MTM for `had`.")
+
+    def test_yes_keeps_the_earlier_method_and_records_it(self):
+        result = self.flow(self.BOTH, self.ASK, {"comparison_method": "Yes"})
+        self.assertEqual(result["plan"]["method"], "lomb_scargle")
+        self.assertIn("I used Lomb-Scargle, as you chose, so `had` can be compared with `lr04`.", texts(result))
+        self.assertNotIn("I used MTM", texts(result))
+        self.assertIn({"step": "comparison_method", "answer": "yes"},
+                      [d for c in result["cells"] for d in c.get("decisions", [])])
+
+    def test_no_uses_mtm_and_records_it(self):
+        result = self.flow(self.BOTH, self.ASK, {"comparison_method": "No"})
+        self.assertEqual(result["plan"]["method"], "mtm")
+        self.assertIn("You chose MTM rather than Lomb-Scargle, the method used for `lr04`.", texts(result))
+
+    def test_a_named_method_is_never_questioned(self):
+        result = self.flow(self.BOTH, {**self.ASK, "method": "lomb_scargle"})
+        self.assertNotIn("clarification_questions", result)
+
+    def test_without_the_kernel_nothing_changes(self):
+        result = asyncio.run(flow.run("a request", self.ONLY_HAD, WORKFLOW, writing_chain(self.ASK), [no_search]))
+        self.assertEqual(result["plan"]["method"], "lomb_scargle")
+
+
 class AskedForEarlierStepTests(unittest.TestCase):
     """Regression: "run spectral analysis with a linear detrend" after standardizing failed all repairs."""
 
