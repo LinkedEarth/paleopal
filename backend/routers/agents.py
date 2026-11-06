@@ -442,6 +442,43 @@ async def handle_agent_request_streaming(request: AgentRequest):
         logger.error(f"Error handling streaming agent request: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/chat_session")
+async def chat_session(request_data: Dict[str, Any]):
+    """
+    A conversation about the notebook, for `@agent chat`. Nothing is stored.
+    Body: {"action": "reply" | "summarize", "notebook": [cells as the extension sends them],
+           "messages": [{"role": "user" | "assistant", "content": "...", "sources": [...], "note": ...}],
+           "llm_provider": "openai", "model": "..."}
+    """
+    import asyncio
+    from agents.code import chat_session as chat_module, workflow_detector, workflow_writer
+    from services.service_manager import service_manager
+    from langchain_core.messages import HumanMessage, SystemMessage
+
+    messages = request_data.get("messages") or []
+    if not messages:
+        raise HTTPException(status_code=400, detail="messages array is required")
+    llm = service_manager.get_llm_provider(
+        provider=request_data.get("llm_provider") or "openai", model=request_data.get("model"))
+
+    def call_model(system: str, user: str) -> str:
+        return llm._call([SystemMessage(content=system), HumanMessage(content=user)])
+
+    notebook = request_data.get("notebook") or []
+    try:
+        if request_data.get("action") == "summarize":
+            return await asyncio.to_thread(
+                chat_module.summarize, notebook, messages, workflow_detector.load_workflow(),
+                workflow_writer._parameter_reference(), call_model)
+        result = await asyncio.to_thread(
+            chat_module.reply, notebook, messages, workflow_detector.load_workflow(),
+            workflow_writer._parameter_reference(), call_model)
+        return chat_module.as_dict(result)
+    except Exception as e:
+        logger.error(f"Error in /agents/chat_session: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.post("/chat")
 async def chat(request_data: Dict[str, Any]):
     """

@@ -49,12 +49,12 @@ export function getActiveNotebookEditor(): vscode.NotebookEditor | undefined {
   return editor;
 }
 
-export function buildConversationHistoryFromNotebook(): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] {
-  const editor = getActiveNotebookEditor();
+export function buildConversationHistoryFromNotebook(notebook?: vscode.NotebookDocument): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] {
+  const target = notebookOrActive(notebook);
   const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] = [];
-  if (!editor) return messages;
+  if (!target) return messages;
 
-  for (const cell of editor.notebook.getCells()) {
+  for (const cell of target.getCells()) {
     if (cell.kind === vscode.NotebookCellKind.Markup) {
       const text = cell.document.getText();
       if (isPaleoPalMarkdown(cell)) {

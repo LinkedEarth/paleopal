@@ -164,8 +164,12 @@ def _fetch(url: str) -> str:
         return reply.read().decode("utf-8", "replace")
 
 
+# Methods the chat is asked about that no guide step uses yet. The visualization guide will own these.
+_ALSO_DESCRIBED = ["pyleoclim.core.series.Series.plot"]
+
+
 def workflow_methods(workflow: dict) -> list[str]:
-    apis: list[str] = []
+    apis: list[str] = list(_ALSO_DESCRIBED)
     for step in workflow["steps"]:
         core = step.get("core_api") or []
         apis += core if isinstance(core, list) else [core]

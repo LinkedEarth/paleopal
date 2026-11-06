@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { randomUUID } from 'crypto';
 import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCell, appendCodeCell, runAllNotebookCells, buildHistoryUpToCell, getActiveCellIndex, insertLoadingCell, updateCellText, deleteCell, insertMarkdownCellAt, insertAgentCells, AgentCell } from './notebook';
 import { showClarificationPanel, ClarificationQuestion } from './clarifyPanel';
+import { openChatPanel } from './chatPanel';
 import { AgentCellStatusBarProvider } from './statusbar';
 
 type Role = 'system' | 'user' | 'assistant';
@@ -68,22 +69,6 @@ async function callAgentsRequest(body: AgentRequestBody) {
   return res.json();
 }
 
-async function callChat(messages: ChatMessage[]) {
-  const { baseUrl, provider, model } = getConfig();
-  const apiBase = buildApiBase(baseUrl);
-  const url = `${apiBase}/agents/chat`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages, llm_provider: provider, model })
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Chat failed: ${res.status} ${text}. Check PaleoPal backend URL setting (paleopal.backendUrl).`);
-  }
-  return res.json();
-}
-
 // The backend's planning flow returns ready-made cells. Returns false if it didn't.
 async function insertReturnedCells(response: any, afterIndex?: number, notebook?: vscode.NotebookDocument): Promise<boolean> {
   const cells: AgentCell[] | undefined = response?.result?.cells;
@@ -110,9 +95,15 @@ async function askAgent() {
   const { provider, model, enableClarification, clarificationThreshold, enableExecution } = getConfig();
 
   if (agentType === 'chat') {
-    const messages: ChatMessage[] = [...history, { role: 'user', content: prompt }];
-    const reply = await callChat(messages);
-    await appendMarkdownCell(`**Assistant**\n\n${reply.content}`);
+    const editor = vscode.window.activeNotebookEditor;
+    if (!editor) {
+      vscode.window.showErrorMessage('Open a notebook to chat with PaleoPAL about it.');
+      return;
+    }
+    const index = getActiveCellIndex();
+    openChatPanel({ question: prompt, notebook: editor.notebook,
+                    anchor: index >= 0 ? editor.notebook.cellAt(index) : undefined,
+                    apiBase: buildApiBase(getConfig().baseUrl), provider, model });
     return;
   }
 
@@ -242,6 +233,16 @@ async function runAgentForCell() {
   const agentType = (agentTypeRaw === 'workflow' ? 'workflow_generation' : agentTypeRaw) as any;
   const combined = [inlineRequest, restBody].filter(Boolean).join('\n').trim();
   const userText = combined;
+  if (agentType === 'chat') {
+    if (!userText) {
+      vscode.window.showErrorMessage('Write your question after @agent chat.');
+      return;
+    }
+    const { baseUrl, provider, model } = getConfig();
+    openChatPanel({ question: userText, notebook: editor.notebook, anchor: cell,
+                    apiBase: buildApiBase(baseUrl), provider, model });
+    return;
+  }
   const convId = `client_${randomUUID()}`;
   const history = buildHistoryUpToCell(idx);
   const { provider, model, enableClarification, clarificationThreshold, enableExecution } = getConfig();

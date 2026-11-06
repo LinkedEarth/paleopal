@@ -8,6 +8,7 @@
   "Series.detrend": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.detrend",
   "Series.interp": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.interp",
   "Series.outliers": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.outliers",
+  "Series.plot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.plot",
   "Series.segment": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.segment",
   "Series.slice": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.slice",
   "Series.spectral": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.spectral",
@@ -507,6 +508,136 @@
      "name": "keep_log",
      "type": "Boolean",
      "definition": "if True, adds the previous method parameters to the series log.",
+     "default": "False"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.plot": {
+   "parameters": [
+    {
+     "name": "figsize",
+     "type": "list",
+     "definition": "a list of two integers indicating the figure size",
+     "default": "[10, 4]"
+    },
+    {
+     "name": "marker",
+     "type": "str",
+     "definition": "e.g., 'o' for dots See [matplotlib.markers](https://matplotlib.org/stable/api/markers_api.html) for details",
+     "default": "None"
+    },
+    {
+     "name": "markersize",
+     "type": "float",
+     "definition": "the size of the marker",
+     "default": "None"
+    },
+    {
+     "name": "color",
+     "type": "str, list",
+     "definition": "the color for the line plot e.g., 'r' for red See [matplotlib colors](https://matplotlib.org/stable/gallery/color/color_demo.html) for details",
+     "default": "None"
+    },
+    {
+     "name": "linestyle",
+     "type": "str",
+     "definition": "e.g., '--' for dashed line See [matplotlib.linestyles](https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html) for details",
+     "default": "None"
+    },
+    {
+     "name": "linewidth",
+     "type": "float",
+     "definition": "the width of the line",
+     "default": "None"
+    },
+    {
+     "name": "xlim",
+     "type": null,
+     "definition": null,
+     "default": "None"
+    },
+    {
+     "name": "ylim",
+     "type": null,
+     "definition": null,
+     "default": "None"
+    },
+    {
+     "name": "label",
+     "type": "str",
+     "definition": "the label for the line",
+     "default": "None"
+    },
+    {
+     "name": "xlabel",
+     "type": "str",
+     "definition": "the label for the x-axis",
+     "default": "None"
+    },
+    {
+     "name": "ylabel",
+     "type": "str",
+     "definition": "the label for the y-axis",
+     "default": "None"
+    },
+    {
+     "name": "title",
+     "type": "str",
+     "definition": "the title for the figure",
+     "default": "None"
+    },
+    {
+     "name": "zorder",
+     "type": "int",
+     "definition": "The default drawing order for all lines on the plot",
+     "default": "None"
+    },
+    {
+     "name": "legend",
+     "type": "{True, False}",
+     "definition": "plot legend or not",
+     "default": "True"
+    },
+    {
+     "name": "plot_kwargs",
+     "type": "dict",
+     "definition": "the dictionary of keyword arguments for ax.plot() See [matplotlib.pyplot.plot](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html) for details",
+     "default": "None"
+    },
+    {
+     "name": "lgd_kwargs",
+     "type": "dict",
+     "definition": "the dictionary of keyword arguments for ax.legend() See [matplotlib.pyplot.legend](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html) for details",
+     "default": "None"
+    },
+    {
+     "name": "alpha",
+     "type": "float",
+     "definition": "Transparency setting",
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
+    },
+    {
+     "name": "ax",
+     "type": "matplotlib.axis, optional",
+     "definition": "the axis object from matplotlib See [matplotlib.axes](https://matplotlib.org/api/axes_api.html) for details.",
+     "default": "None"
+    },
+    {
+     "name": "invert_xaxis",
+     "type": "bool, optional",
+     "definition": "if True, the x-axis of the plot will be inverted",
+     "default": "False"
+    },
+    {
+     "name": "invert_yaxis",
+     "type": "bool, optional",
+     "definition": "same for the y-axis",
      "default": "False"
     }
    ]

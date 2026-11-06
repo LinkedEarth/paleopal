@@ -322,6 +322,65 @@ Series that was never standardized):
   on their own; asked to finish the workflow, PaleoPAL must recognise and
   use that DataFrame as the data source rather than start over.
 
+**Chatbot design (Deborah, 2026-11-05), design-first, nothing built:** the existing Chat option
+(quick-pick → `/agents/chat`) is a bare model call: no system prompt, no guide, code cells dropped
+(their text is in `generated_content`, which it ignores), answer appended at the notebook's end as
+"**Assistant**" with no authorship line. Don't build on it. Instead: an `@agent chat` cell opens a
+separate conversation (a panel), so a whole back-and-forth can happen, like Deborah's sessions with
+Claude. Once a decision is reached, PaleoPAL writes a simple markdown cell summarising the
+discussion, plus the resulting code if any, below the `@agent chat` cell. Example to design
+against: loaded LR04, ask for a plot, then ask what other parameters there are or how to do
+something else (which may reach the not-covered path and matplotlib).
+**Ending a chat (agreed 2026-11-05):** both sides can. PaleoPAL offers when it thinks there's
+agreement ("Shall I add this to your notebook?", showing the summary and code it would write), and
+the researcher can end it any time with a panel button ("Add summary to notebook"). Nothing is
+written until the researcher agrees; the cells arrive like other PaleoPAL cells (authorship line,
+label, one undo, nothing runs).
+**What the chat answers from (agreed 2026-11-05):** the whole notebook, not just the cells above
+(code included, with each cell's author), PaleoPAL's guide, the Pyleoclim parameter reference, and
+the chat so far. Each reply says whether it came from the guide/documentation or from the model
+alone (with the fewer-checks note). Proposed code is shown in the panel, goes through the checker,
+and reaches the notebook only through the agreed summary.
+**Target names (agreed 2026-11-05):** inside PaleoPAL, three concerns: **data** (SPARQL plus loading:
+graph, LiPD, PyleoTUPS, own files), **analysis** (the workflow guides; today's code agent, which now
+leads to the planning flow) and **chat** (the conversation). Outside, two ways to ask: a request
+cell, or a chat. The old workflow agent is made redundant by the redesign. Rename the code when the
+plan step (single front door) arrives, not before; researchers keep using `@agent code` until then,
+plus the new `@agent chat`.
+**Chat v1 (agreed 2026-11-05):** `@agent chat <question>` opens a panel with the first answer;
+back-and-forth there, each reply labelled by source; summary offered by PaleoPAL or via the button;
+written below the `@agent chat` cell as "Summary of our discussion" (asked, decided, why) plus a code
+cell if code was agreed. The conversation isn't kept once the panel closes (the summary is the
+record; also suits demo mode); closing without a summary asks first. Chat code gets the code-only
+checks; workflow planning from the chat comes later. Out: kernel reads, editing cells from the
+chat, several chats at once.
+**Chat v1, piece 1 built 2026-11-05 (backend, not committed):** `agents/code/chat_session.py`,
+endpoint `POST /api/agents/chat_session` (`action` reply | summarize; nothing stored), tests in
+`test_chat_session.py`. The model answers and names the guide steps and parameters it relied on;
+Python quotes their exact text and drops names not in the files. The model also reports whether it
+went beyond them (`beyond_sources`); it can't be checked, so any doubt keeps a note. Proposed code
+gets the code-only checks with up to 2 quiet repairs. `Series.plot` was added to the parameter
+reference (`_ALSO_DESCRIBED` in the build script) until the visualization guide owns it. Live LR04
+chat with `gpt-5.5`: plotted with `lr04.plot()`, listed the real parameters, saved via
+`savefig_settings`, offered the summary on agreement.
+**Chat v1, piece 2 built 2026-11-05 (extension 0.1.6; tried by Deborah, who likes the interaction):**
+`vscode-extension/src/chatPanel.ts`. `@agent chat <question>` (and the menu's Chat) opens a panel
+beside the notebook; the whole notebook is sent each turn; replies show their code (marked "Not
+run…"), note and collapsible Sources; PaleoPAL's offer and the "Add summary to notebook" button
+insert the summary cells below the `@agent chat` cell with one undo. VS Code can't keep a panel
+open, so closing without a summary asks right after, while the conversation is still in memory.
+The old `/agents/chat` call was removed from the extension (the backend route stays).
+**Visualization guide (Deborah, 2026-11-05, after kernel reads):** plots deserve their own guide.
+The plot rules (object's own `.plot()`, matplotlib only as continuation via `fig, ax`, no
+dismantling, PSD log-log by default) don't change between analyses, so they'd live there once.
+Plot types: series and intermediate series (`Series.plot`), spectrum (`PSD.plot`), wavelet
+(`Scalogram.plot`), dashboard (`Series.summary_plot(psd, scalogram)`, needing two analyses), and
+"plot on the same figure" (`ax=` on all of these; `MultipleSeries.plot` overlays). Checked in
+Pyleoclim 1.3.1b0. A plot of the series is good practice as part of an analysis anyway. Needs
+PaleoPAL to plan with two guides at once, the same problem data loading brings, so it's the smaller
+place to solve it first.
+**Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
+→ data loading. Editing a step: remind Deborah when we get there.
 **Chatbot / explanation (planned, never built):** a conversational mode
 where a researcher asks "why did you choose this method?" or "explain this
 part of the query". Deborah's idea: the same channel can ask the user
@@ -527,6 +586,10 @@ around them in PaleoPAL.
 **Wording in cells (Deborah, 2026-11-05):** researchers see "PaleoPAL's guide", not
 "workflow file"; "Code examples I was shown"; "the latest Pyleoclim documentation" for a
 `b` version until kernel reads give the real version.
+**Old-pipeline fallback seen again (2026-11-05):** `@agent code plot the timeseries` isn't in
+the spectral guide, so it fell to the old pipeline, which reloaded LR04, converted it to pandas and
+plotted with matplotlib. Proposed next (after the chat): when no guide matches, answer like the chat,
+model-only with the note and the code-only checks, instead of the old pipeline.
 **No source (Deborah, 2026-11-05), two different cases:** (1) a workflow file exists but
 doesn't cover this step: "No source text provided." (2) No workflow file fits the request
 (e.g. a pandas question): the LLM answers, and PaleoPAL must say no guide matches and the
