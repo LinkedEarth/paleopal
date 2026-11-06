@@ -195,11 +195,21 @@ def _code_problems(history: list[dict], code: str) -> list[str]:
     return [f"{v.rule}: {v.detail}" if v.detail else v.rule for v in gate["violations"]]
 
 
+_REQUEST_CELL = """
+
+## This is a request written in a notebook cell, not a conversation
+Answer it directly: in "reply", 1-3 sentences saying what the code does and why, then the code.
+Ask nothing back and don't offer a summary. Never import or load what the notebook already has."""
+
+
 def reply(history: list[dict], messages: list[dict], workflow: dict, reference: dict,
-          call_model: Callable[[str, str], str]) -> ChatReply:
-    """Answer the researcher's latest message. `messages` alternate user and assistant turns."""
+          call_model: Callable[[str, str], str], request_cell: bool = False) -> ChatReply:
+    """Answer the researcher's latest message. `messages` alternate user and assistant turns.
+
+    With `request_cell`, the message is an `@agent code` request no guide covers, answered once.
+    """
     system = build_system_prompt(workflow, reference)
-    user = _conversation(history, messages)
+    user = _conversation(history, messages) + (_REQUEST_CELL if request_cell else "")
     result = ChatReply()
     try:
         parsed = _parse(call_model(system, user))

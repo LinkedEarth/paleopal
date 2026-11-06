@@ -588,8 +588,16 @@ around them in PaleoPAL.
 `b` version until kernel reads give the real version.
 **Old-pipeline fallback seen again (2026-11-05):** `@agent code plot the timeseries` isn't in
 the spectral guide, so it fell to the old pipeline, which reloaded LR04, converted it to pandas and
-plotted with matplotlib. Proposed next (after the chat): when no guide matches, answer like the chat,
-model-only with the note and the code-only checks, instead of the old pipeline.
+plotted with matplotlib. **Built 2026-11-05 (case 2 below):** with the planning flow on, an
+`@agent code` request no guide covers never reaches the old pipeline, including data loading on an
+empty notebook (Deborah: the old pipeline will be removed, so don't work around it). It's answered by
+`chat_session.reply` in a request-cell mode (`answer_uncovered` in `planning_flow.py`): explanation,
+then Python's fixed note "None of my guides covers this request yet, so this answer comes from the
+underlying AI model only. It has had fewer checks than LinkedEarth workflows, so please check it before
+relying on it.", any quoted Pyleoclim parameters, the authorship line, then the code after the
+code-only checks and quiet repairs. Live: "plot the timeseries" → `lr04.plot(title=...)`; "load the
+LR04 dataset" on an empty notebook → `pyleo.utils.load_dataset('LR04')`. PyLiPD calls aren't flagged as
+unknown by the code-only checks.
 **No source (Deborah, 2026-11-05), two different cases:** (1) a workflow file exists but
 doesn't cover this step: "No source text provided." (2) No workflow file fits the request
 (e.g. a pandas question): the LLM answers, and PaleoPAL must say no guide matches and the

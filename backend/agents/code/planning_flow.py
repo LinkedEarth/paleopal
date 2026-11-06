@@ -337,6 +337,36 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
                      "steps": [s["id"] for s in plan.steps]}}
 
 
+NO_GUIDE_NOTE = ("None of my guides covers this request yet, so this answer comes from the underlying "
+                 "AI model only. It has had fewer checks than LinkedEarth workflows, so please check it "
+                 "before relying on it.")
+
+
+async def answer_uncovered(user_input: str, history: list[dict], workflow: dict, reference: dict,
+                           call_model: Callable[[str, str], str]) -> dict:
+    """A request no guide covers, answered by the model with the note, never by the old pipeline."""
+    from . import chat_session
+    answer = await asyncio.to_thread(
+        chat_session.reply, history, [{"role": "user", "content": user_input}], workflow, reference,
+        call_model, True)
+    parts = [answer.reply, NO_GUIDE_NOTE]
+    if answer.problems:
+        listed = "\n".join(f"- {p}" for p in answer.problems)
+        parts.append("I'm still learning and can't get this right yet, but I'm learning! Please check "
+                     f"the code below, because these problems remain:\n\n{listed}")
+    block = chat_session._sources_block([asdict(s) for s in answer.sources])
+    parts += [*([block] if block else []), workflow_writer.AUTHORSHIP_MARKDOWN
+              + (" Sources are quoted directly, not written by the AI." if block else "")]
+    cells = [{"kind": "markdown", "text": "\n\n".join(p for p in parts if p), "step": None}]
+    if answer.code:
+        cells.append({"kind": "code", "text": f"{workflow_writer.AUTHORSHIP_CODE}\n{answer.code}",
+                      "step": None})
+    if not _has_paleopal_cells(history):
+        cells.insert(0, {"kind": "markdown", "text": _INTRO, "step": None})
+    return {"generated_code": answer.code, "cells": cells, "needs_user_input": False,
+            "checker_findings": answer.problems, "model_only": True}
+
+
 async def handle(request):
     """Adapter for the agent router. Returns an AgentResponse, or None for the old pipeline."""
     from agents.base_agent import AgentResponse, AgentStatus
@@ -352,15 +382,18 @@ async def handle(request):
     def call_model(system: str, user: str) -> str:
         return llm._call([SystemMessage(content=system), HumanMessage(content=user)])
 
-    result = await run(request.user_input, (request.context or {}).get("conversation_history", []),
-                       workflow_detector.load_workflow(), call_model,
+    history = (request.context or {}).get("conversation_history", [])
+    workflow = workflow_detector.load_workflow()
+    result = await run(request.user_input, history, workflow, call_model,
                        [search_service.search_snippets, search_service.search_code_examples],
                        max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
                        answers={r["id"]: r["answer"]
                                 for r in metadata.get("clarification_responses") or []})
     if result is None:
-        return None
+        result = await answer_uncovered(request.user_input, history, workflow,
+                                        workflow_writer._parameter_reference(), call_model)
     message = ("I need one more detail from you." if result["needs_user_input"]
+               else "Answered by the underlying AI model only." if result.get("model_only")
                else "Built from PaleoPAL's guide.")
     questions = result.get("clarification_questions")
     return AgentResponse(

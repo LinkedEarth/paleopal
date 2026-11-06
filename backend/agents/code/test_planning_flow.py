@@ -35,7 +35,7 @@ def _load(name):
 
 
 for _name in ("api_validation", "verification", "workflow_detector", "request_interpreter",
-              "step_snippets", "workflow_writer"):
+              "step_snippets", "workflow_writer", "chat_session"):
     _load(_name)
 flow = _load("planning_flow")
 WORKFLOW = _pkg.workflow_detector.load_workflow()
@@ -542,6 +542,48 @@ class NotCoveredTests(unittest.TestCase):
     def test_no_note_on_a_question(self):
         result = run(model({**SPECTRAL, "series": "sst", "not_covered": ["save it"]}))
         self.assertFalse(any("I haven't done" in c["text"] for c in result["cells"]))
+
+
+class NoGuideTests(unittest.TestCase):
+    """A request no guide covers gets the model's answer with the note, never the old pipeline."""
+
+    def answer(self, *replies, hist=LR04):
+        queue = [json.dumps(r) for r in replies]
+        seen = []
+
+        def call(system, user):
+            seen.append(user)
+            return queue.pop(0)
+        result = asyncio.run(flow.answer_uncovered("plot the timeseries", hist, WORKFLOW,
+                                                   _pkg.workflow_writer._parameter_reference(), call))
+        return result, seen
+
+    def test_explanation_note_then_code(self):
+        result, seen = self.answer({"reply": "I plot the series with its own method.", "code": "fig, ax = lr04.plot()"})
+        markdown, code = result["cells"]
+        self.assertTrue(markdown["text"].startswith("I plot the series with its own method.\n\nNone of my guides"))
+        self.assertIn(flow.NO_GUIDE_NOTE, markdown["text"])
+        self.assertTrue(markdown["text"].endswith("*Written by PaleoPAL*, an AI assistant."))
+        self.assertEqual(code["text"], "# Written by PaleoPAL\nfig, ax = lr04.plot()")
+        self.assertTrue(result["model_only"])
+        self.assertIn("This is a request written in a notebook cell", seen[0])
+
+    def test_dismantling_is_repaired_before_it_is_shown(self):
+        bad = {"reply": "x", "code": "import matplotlib.pyplot as plt\nplt.plot(lr04.time, lr04.value)"}
+        result, _ = self.answer(bad, {"reply": "x", "code": "fig, ax = lr04.plot()"})
+        self.assertEqual(result["generated_code"], "fig, ax = lr04.plot()")
+        self.assertEqual(result["checker_findings"], [])
+
+    def test_quoted_parameters_appear_as_sources(self):
+        result, _ = self.answer({"reply": "x", "code": "fig, ax = lr04.plot(title='LR04')", "parameters": [
+            {"method": "pyleoclim.core.series.Series.plot", "names": ["title"]}]})
+        self.assertIn("parameter `title`", result["cells"][0]["text"])
+        self.assertIn(flow.NO_GUIDE_NOTE, result["cells"][0]["text"])
+
+    def test_a_new_notebook_gets_the_intro_first(self):
+        result, _ = self.answer({"reply": "x", "code": ""}, hist=NEW_NOTEBOOK)
+        self.assertTrue(result["cells"][0]["text"].startswith("**Working with PaleoPAL**"))
+        self.assertEqual(len(result["cells"]), 2)  # no code means no code cell
 
 
 class IntroTests(unittest.TestCase):
