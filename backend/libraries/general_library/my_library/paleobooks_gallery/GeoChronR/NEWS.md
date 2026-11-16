@@ -1,3 +1,16 @@
+# geoChronR 2.0.0
+
+* geoChronR is now a thin wrapper. Age modeling moved to agemodelR, ensemble methods to ens, and plotting and mapping to lipdViz. `library(geoChronR)` re-exports all of them, so code written for 1.x keeps working. To work with fewer dependencies, use the sub-packages directly.
+* All 1.1.19 fixes are carried over to the new packages.
+* The tutorials remain on the package website. They are no longer installed with the package.
+* The original single package stays available at tag `v1.1.19` and on the `monolith-1.x` branch.
+
+# geoChronR 1.1.19
+
+* Fixed `plotTimeseriesStack()` failing under ggplot2 >= 4.0 with `Can't convert x <double[,1]> to <double>`. Using `invert.var` created a single-column matrix that ggplot2 4 no longer accepts. [See issue 91](https://github.com/nickmckay/GeoChronR/issues/91).
+* `plotTimeseriesStack()` now accepts TS lists and wide `lipd_ts_tibble` objects (one row per timeseries), converting them to long format with `tidyTs()` internally, rather than failing in `scale()`. Rows with non-finite time values are also dropped. Thanks @georgyfalster for the bug report and suggested fix.
+* Fixed `runBacon()` failing with `undefined columns selected` under rbacon 4.0.0, which renamed the columns in Bacon's `_ages.txt` output (`depths`, `qmin`, `qmax`). `loadBaconOutput()` now matches the column names used by any rbacon version.
+
 # geoChronR 1.1.18
 
 * Fixed a bug in `loadOxcalOutput()`/`getModelParametersFromOxcalText()` where dates flagged with a bare `Outlier();` (no model or probability, i.e. fully excluded from OxCal's posterior) caused a column-count mismatch against `MCMC_Sample.csv`, throwing `"undefined columns selected"` during OxCal's live-update plotting.
