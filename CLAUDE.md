@@ -414,6 +414,12 @@ differs from the reference file's, the first Parameters section in a notebook sa
 has Pyleoclim X, so some definitions may differ. The links go to your version's documentation."),
 then stays quiet (Deborah: say it once; detected from PaleoPAL's earlier cells). Wording approved.
 An editable install reports a new version only after reinstalling (`pip install -e .`).
+**Cells not run (Deborah, 2026-11-17; extension 0.1.12):** the snippet now also lists every
+variable's name and type name, never values (approved). When the series a request builds on, or the
+newest variable derived from it, is created in the cells but missing from the kernel, PaleoPAL
+**stops and asks** (Deborah's choice over going ahead with a note): "The cell that creates `had`
+hasn't been run, so I couldn't check its data. Could you run it, then ask me again?" With no kernel
+read, or an older extension, it goes ahead as before.
 **Built 2026-11-06 (backend only, agreed a/b/c by Deborah):** (a) a series the kernel shows evenly
 spaced, no method named → MTM instead of the Lomb-Scargle or WWZ default, with
 `method_selection.when_evenly_spaced` wording; (b) a method needing even spacing on evenly spaced data

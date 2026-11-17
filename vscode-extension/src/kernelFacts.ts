@@ -5,12 +5,17 @@ import * as vscode from 'vscode';
 // this way, and never code written by a model. If anything fails, the request goes ahead
 // without the facts, as before.
 
-// Reviewed text: change it only with Deborah's approval. It runs in a private namespace, never
-// imports anything into the kernel, reads only Pyleoclim Series, and reads no measured values.
+// Reviewed text: change it only with Deborah's approval (variable names and types approved
+// 2026-11-17). It runs in a private namespace, never imports anything into the kernel, lists the
+// researcher's variables by name and type only, describes Pyleoclim Series, and reads no measured values.
 // The time axis (the age model) is for the backend's own checks and must never go into a prompt.
 export const INSPECTION_SNIPPET = `exec(compile('''
 import json, sys, warnings
-facts = {"pyleoclim_version": None, "series": []}
+facts = {"pyleoclim_version": None, "series": [], "variables": {}}
+# Names and type names of the researcher's variables: no values.
+for name, obj in list(user_ns.items()):
+    if not name.startswith("_") and name not in ("In", "Out", "exit", "quit", "get_ipython"):
+        facts["variables"][name] = type(obj).__name__
 pyleo = sys.modules.get("pyleoclim")  # never imports it: only reads what is already loaded
 if pyleo is not None:
     facts["pyleoclim_version"] = getattr(pyleo, "__version__", None)
@@ -39,6 +44,7 @@ const EXPLAINED_KEY = 'paleopal.kernelAccessExplained.v2';
 
 export interface KernelFacts {
   pyleoclim_version: string | null;
+  variables?: Record<string, string>; // name -> type name, no values
   series: { name: string; type: string; time_unit?: string; time_name?: string; n_points?: number;
             time_min?: number; time_max?: number; evenly_spaced?: boolean }[];
 }

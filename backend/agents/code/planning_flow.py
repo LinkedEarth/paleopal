@@ -236,6 +236,21 @@ def _note_regrid(plan, regrid: dict) -> None:
             f"You chose not to regrid, after I explained that {method} doesn't need it."]
 
 
+def _not_run(state, kernel: dict | None) -> str | None:
+    """A variable the request builds on that the cells create but the kernel doesn't have.
+
+    The cell text says which steps happened; the kernel says whether they ran. Without a kernel
+    read, or from an extension too old to list variables, there's nothing to compare.
+    """
+    variables = (kernel or {}).get("variables")
+    if variables is None:
+        return None
+    for name in dict.fromkeys(n for n in (state.target, state.current) if n):
+        if name not in variables:
+            return name
+    return None
+
+
 def _slice_too_short(written, plan, workflow: dict) -> str | None:
     """A slice the kernel shows to be too short for the analysis stops it, with the reason.
 
@@ -346,6 +361,11 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
     if state.level == "unclear":
         return _ask(f"Your notebook has several series: {', '.join(f'`{s}`' for s in series)}. "
                     "Which one should I analyze?")
+
+    missing = _not_run(state, kernel)
+    if missing:
+        return _ask(f"The cell that creates `{missing}` hasn't been run, so I couldn't check its data. "
+                    "Could you run it, then ask me again?")
 
     regrid = _resolve_regrid(meaning, state, workflow, objective, answers or {}, kernel)
     if regrid.get("question"):

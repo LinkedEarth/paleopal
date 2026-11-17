@@ -844,5 +844,37 @@ class VersionNoteTests(unittest.TestCase):
         self.assertFalse(flow._version_noted([]))
 
 
+class NotRunTests(unittest.TestCase):
+    """A variable the cells create but the kernel lacks stops the request, with the reason."""
+
+    HAD = EvenSpacingTests.HAD
+    ASK = EvenSpacingTests.ASK
+    NOTEBOOK = EvenSpacingTests.ONLY_HAD
+
+    def flow(self, notebook, kernel):
+        return asyncio.run(flow.run("a request", notebook, WORKFLOW, writing_chain(self.ASK), [no_search],
+                                    kernel=kernel))
+
+    def test_a_series_whose_cell_was_not_run_stops_and_asks(self):
+        result = self.flow(self.NOTEBOOK, {"series": [], "variables": {"pyleo": "module"}})
+        self.assertTrue(result["needs_user_input"])
+        self.assertIn("The cell that creates `had` hasn't been run, so I couldn't check its data. "
+                      "Could you run it, then ask me again?", texts(result))
+        self.assertNotIn("plan", result)
+
+    def test_a_later_step_that_was_not_run_is_named(self):
+        notebook = self.NOTEBOOK + history("had_detrended = had.detrend()")
+        result = self.flow(notebook, {"series": [self.HAD], "variables": {"pyleo": "module", "had": "Series"}})
+        self.assertIn("The cell that creates `had_detrended` hasn't been run", texts(result))
+
+    def test_variables_that_ran_go_ahead(self):
+        result = self.flow(self.NOTEBOOK, {"series": [self.HAD], "variables": {"pyleo": "module", "had": "Series"}})
+        self.assertEqual(result["plan"]["method"], "mtm")
+
+    def test_no_kernel_read_or_an_older_extension_goes_ahead(self):
+        for kernel in (None, {"series": [self.HAD]}):
+            self.assertIn("plan", self.flow(self.NOTEBOOK, kernel))
+
+
 if __name__ == "__main__":
     unittest.main()
