@@ -280,6 +280,13 @@ def _not_covered_cell(parts: list[str], workflow: dict) -> dict:
                     f"Everything below follows the guide.\n\n{workflow_writer.AUTHORSHIP_MARKDOWN}"}
 
 
+def _version_noted(history: list[dict]) -> bool:
+    """Whether one of PaleoPAL's cells already said the session's Pyleoclim differs."""
+    return any(m.get("agent_type") == "paleopal_note"
+               and workflow_writer.VERSION_NOTE in (m.get("content") or "")
+               for m in history or [])
+
+
 def _has_paleopal_cells(history: list[dict]) -> bool:
     return any(m.get("agent_type") == "paleopal_note"
                or workflow_writer.AUTHORSHIP_CODE in (m.get("generated_content") or "")
@@ -373,6 +380,7 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
     plan.notebook_code = cells
     plan.request = user_input
     plan.kernel = kernel
+    plan.version_noted = _version_noted(history)
     _note_regrid(plan, regrid)
 
     snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)

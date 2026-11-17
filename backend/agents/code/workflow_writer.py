@@ -80,6 +80,8 @@ class Plan:
     # Facts read from the researcher's kernel. Its time axes are for Python's checks only and
     # must never reach a prompt.
     kernel: dict | None = None
+    # An earlier PaleoPAL cell already said the session's Pyleoclim differs from the reference's.
+    version_noted: bool = False
 
 
 @dataclass
@@ -363,7 +365,8 @@ def _describe_call(call: ast.Call, method: dict) -> tuple[list[str], list[str]]:
     return lines, [s for s in sources if s]
 
 
-def _parameters_block(step: dict, code: str, reference: dict | None = None) -> str | None:
+def _parameters_block(step: dict, code: str, reference: dict | None = None,
+                      session_version: str | None = None, explain_version: bool = True) -> str | None:
     """A collapsed section defining the arguments the code sets, copied from Pyleoclim's docs."""
     reference = _parameter_reference() if reference is None else reference
     if not reference:
@@ -388,16 +391,45 @@ def _parameters_block(step: dict, code: str, reference: dict | None = None) -> s
     if not lines:
         return None
 
-    links = reference.get("links", {})
-    linked = [f"[`{label}`]({links[label]})" for label in dict.fromkeys(labels) if label in links]
     version = reference["pyleoclim_version"]
-    # A beta's links go to the latest pages, so say the same here.
-    documentation = "the latest Pyleoclim documentation" if "b" in version \
-        else f"the Pyleoclim {version} documentation"
+    shown = session_version or version
+    # Links follow the researcher's Pyleoclim: a beta (b) to the latest pages, a release to its own.
+    links = {label: _docs_link(url, shown) for label, url in reference.get("links", {}).items()}
+    linked = [f"[`{label}`]({links[label]})" for label in dict.fromkeys(labels) if label in links]
     return "\n".join(["<details><summary>Parameters</summary>", "",
-                      f"Quoted from {documentation}. Your installed version may differ.", "", *lines, "",
+                      _quoted_from(version, session_version, explain_version), "", *lines, "",
                       *([f"Full documentation: {', '.join(linked)}", ""] if linked else []),
                       "</details>"])
+
+
+VERSION_NOTE = "so some definitions may differ. The links go to your version's documentation."
+
+
+def _documentation(version: str) -> str:
+    # A beta's links go to the latest pages, so say the same here.
+    return "the latest Pyleoclim documentation" if "b" in version \
+        else f"the Pyleoclim {version} documentation"
+
+
+def _quoted_from(version: str, session_version: str | None, explain_version: bool) -> str:
+    if not session_version:
+        return f"Quoted from {_documentation(version)}. Your installed version may differ."
+    if session_version == version:
+        return f"Quoted from {_documentation(version)}, matching the Pyleoclim in your session."
+    if explain_version:
+        return (f"Quoted from the documentation of Pyleoclim {version}. Your session has Pyleoclim "
+                f"{session_version}, {VERSION_NOTE}")
+    return f"Quoted from the documentation of Pyleoclim {version}."
+
+
+def _docs_link(url: str, version: str) -> str:
+    """The same page in the documentation for this version."""
+    target = "latest" if "b" in version else f"v{version}"
+    return re.sub(r"/en/[^/]+/", f"/en/{target}/", url, count=1)
+
+
+def session_pyleoclim(kernel: dict | None) -> str | None:
+    return (kernel or {}).get("pyleoclim_version") or None
 
 
 def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict]]) -> str:
@@ -577,6 +609,7 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         return result
 
     codes = [str(reply.get("code", "")).strip() for reply in written]
+    version_noted = plan.version_noted  # said once per notebook, then quiet
     for number, (step, reply) in enumerate(zip(plan.steps, written)):
         code = codes[number]
         result.problems.extend(_code_problems(step, code, workflow))
@@ -586,7 +619,9 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         title = step["id"].replace("_", " ").capitalize()
         if step["requiredness"] == "recommended":
             title += " (recommended)"
-        parameters = _parameters_block(step, code)
+        parameters = _parameters_block(step, code, session_version=session_pyleoclim(plan.kernel),
+                                       explain_version=not version_noted)
+        version_noted = version_noted or bool(parameters and VERSION_NOTE in parameters)
         range_note = _slice_note(code, plan.kernel, plan.series) if step["id"] == "slice" else None
         skip_note = (_skip_note(code, codes[number + 1])
                      if step["requiredness"] == "recommended" and number + 1 < len(codes) else None)

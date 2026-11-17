@@ -836,5 +836,13 @@ class NextStepTests(unittest.TestCase):
         self.assertIn("Start from `psd`", prompts[-1])
 
 
+class VersionNoteTests(unittest.TestCase):
+    def test_the_version_note_is_found_only_in_paleopals_own_cells(self):
+        note = f"Your session has Pyleoclim 1.2.1, {flow.workflow_writer.VERSION_NOTE}"
+        self.assertTrue(flow._version_noted([{"agent_type": "paleopal_note", "content": note}]))
+        self.assertFalse(flow._version_noted([{"role": "user", "content": note}]))
+        self.assertFalse(flow._version_noted([]))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -406,8 +406,14 @@ method there. For uneven data the trade-off is interpolating vs Lomb-Scargle's k
 evenly spaced data MTM makes more sense. **Caveat, several series:** if one record is evenly spaced
 and another isn't, most people want the same method for both, so throw it back to the researcher,
 e.g. "I used Lomb-Scargle for LR04. You're about to process model data, which is evenly spaced.
-Would you still like to use Lomb-Scargle for comparison?" **Version check (item 2): ask Deborah to
-clarify a few things before building it** (she sees a testing issue).
+Would you still like to use Lomb-Scargle for comparison?"
+**Pyleoclim version (Deborah, 2026-11-17):** a `b` suffix means an install from main, whose docs are
+`latest`; a PyPI release has its own `v…` docs. Someone on main who doesn't bump the version can't be
+detected (accepted: a small miss). **Built:** Parameters links follow the kernel's version; when it
+differs from the reference file's, the first Parameters section in a notebook says so ("…Your session
+has Pyleoclim X, so some definitions may differ. The links go to your version's documentation."),
+then stays quiet (Deborah: say it once; detected from PaleoPAL's earlier cells). Wording approved.
+An editable install reports a new version only after reinstalling (`pip install -e .`).
 **Built 2026-11-06 (backend only, agreed a/b/c by Deborah):** (a) a series the kernel shows evenly
 spaced, no method named → MTM instead of the Lomb-Scargle or WWZ default, with
 `method_selection.when_evenly_spaced` wording; (b) a method needing even spacing on evenly spaced data

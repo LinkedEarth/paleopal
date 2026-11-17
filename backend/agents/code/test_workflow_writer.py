@@ -211,6 +211,29 @@ class ParameterTests(unittest.TestCase):
         block = w._parameters_block(DETREND, "a = lr04.detrend('emd')", {**REFERENCE, "pyleoclim_version": "1.3.2b0"})
         self.assertIn("Quoted from the latest Pyleoclim documentation.", block)
 
+    def test_the_sessions_version_decides_the_links(self):
+        rtd = {**REFERENCE, "pyleoclim_version": "1.3.2b0",
+               "links": {"Series.detrend": "https://x.io/en/latest/core/api.html#detrend"}}
+        code = "a = lr04.detrend('emd')"
+        released = w._parameters_block(DETREND, code, rtd, session_version="1.2.1")
+        self.assertIn("https://x.io/en/v1.2.1/core/api.html#detrend", released)
+        beta = w._parameters_block(DETREND, code, {**rtd, "pyleoclim_version": "1.2.1"}, session_version="1.3.2b0")
+        self.assertIn("https://x.io/en/latest/core/api.html#detrend", beta)
+
+    def test_a_different_version_is_explained_once(self):
+        code = "a = lr04.detrend('emd')"
+        first = w._parameters_block(DETREND, code, REFERENCE, session_version="1.2.1")
+        self.assertIn("Quoted from the documentation of Pyleoclim 9.9. Your session has Pyleoclim 1.2.1, "
+                      "so some definitions may differ.", first)
+        later = w._parameters_block(DETREND, code, REFERENCE, session_version="1.2.1", explain_version=False)
+        self.assertIn("Quoted from the documentation of Pyleoclim 9.9.", later)
+        self.assertNotIn("Your session has", later)
+
+    def test_the_same_version_says_it_matches(self):
+        block = w._parameters_block(DETREND, "a = lr04.detrend('emd')", REFERENCE, session_version="9.9")
+        self.assertIn("matching the Pyleoclim in your session", block)
+        self.assertNotIn("may differ", block)
+
     def test_the_closing_line_says_what_is_quoted(self):
         def closing(code):
             cell = next(c for c in write(reply(code=code)).cells if c.step == "detrend")
