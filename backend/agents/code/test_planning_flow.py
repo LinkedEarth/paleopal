@@ -324,9 +324,11 @@ def writing_chain(meaning):
         ids = [line.split("## Step: ")[1] for line in user.splitlines() if line.startswith("## Step: ")]
         current = system.split("Start from `")[1].split("`")[0]
         method = system.split("use method='")[1].split("'")[0]
+        number = system.split("use number=")[1].split(" ")[0] if "use number=" in system else None
         calls = {"slice": "slice([0, 500])", "detrend": "detrend(method='linear')", "regrid": "interp()",
                  "standardize": "standardize()", "spectral_estimate": f"spectral(method='{method}')",
-                 "significance": "signif_test()", "beta_estimate": "beta_est()", "visualize": "plot()"}
+                 "significance": f"signif_test(number={number})" if number else "signif_test()",
+                 "beta_estimate": "beta_est()", "visualize": "plot()"}
         steps = []
         for number, step in enumerate(ids):
             name = f"v{number}"
@@ -637,6 +639,39 @@ class NotCoveredTests(unittest.TestCase):
     def test_no_note_on_a_question(self):
         result = run(model({**SPECTRAL, "series": "sst", "not_covered": ["save it"]}))
         self.assertFalse(any("I haven't done" in c["text"] for c in result["cells"]))
+
+
+class SurrogateTests(unittest.TestCase):
+    """1,000 surrogates when the goal is finding peaks, the default otherwise, and a note saying which."""
+
+    USED = "I used 1,000 surrogate series"
+    DEFAULT = "I used Pyleoclim's default of 200 surrogate series"
+
+    def test_finding_peaks_uses_1000_and_says_why(self):
+        result = asyncio.run(flow.run("find the periodicities in lr04", LR04, WORKFLOW,
+                                      writing_chain({**PEAKS, "whole_analysis": True}), [no_search]))
+        self.assertIn("signif_test(number=1000)", texts(result))
+        self.assertIn(self.USED, texts(result))
+        self.assertNotIn(self.DEFAULT, texts(result))
+
+    def run_on_a_spectrum(self, meaning):
+        hist = LR04 + history("lr04_psd = lr04.standardize().spectral(method='lomb_scargle')")
+        return texts(asyncio.run(flow.run("a request", hist, WORKFLOW, writing_chain(meaning), [no_search])))
+
+    def test_asking_for_the_test_means_finding_peaks_so_1000(self):
+        text = self.run_on_a_spectrum({**SPECTRAL, "steps": ["significance"]})
+        self.assertIn("signif_test(number=1000)", text)
+        self.assertIn(self.USED, text)
+
+    def test_a_preliminary_test_uses_the_default_and_says_1000_is_better(self):
+        meaning = {**SPECTRAL, "steps": ["significance"], "objective": "exploratory"}
+        hist = LR04 + history("lr04_psd = lr04.standardize().spectral(method='lomb_scargle')")
+        result = asyncio.run(flow.run("a quick significance test", hist, WORKFLOW, writing_chain(meaning), [no_search]))
+        self.assertEqual(result["checker_findings"], [])  # asked for, so not "unrequested"
+        text = texts(result)
+        self.assertIn("signif_test()", text)
+        self.assertIn(self.DEFAULT, text)
+        self.assertIn("you can set `number=1000`", text)
 
 
 class StepOnlyTests(unittest.TestCase):

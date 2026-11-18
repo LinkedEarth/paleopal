@@ -150,7 +150,13 @@ def _title(step: dict) -> str:
 
 
 def _objective_for(requested: list[dict], objective: str | None) -> str:
-    """Asking for a step only some objectives need, like the significance test, states that goal."""
+    """Asking for a step only some objectives need, like the significance test, states that goal.
+
+    Unless the researcher said the work is preliminary: "a quick significance test" stays a first
+    look, so the test uses Pyleoclim's quicker default (Deborah, 2026-11-18).
+    """
+    if objective == "exploratory":
+        return objective
     for step in requested:
         match = re.fullmatch(r"required_for\((\w+)\)", step["requiredness"])
         if match:
@@ -495,7 +501,7 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
         parts.append("## Code already in the notebook. Reuse its variable names.\n```python\n"
                      + "\n\n".join(plan.notebook_code) + "\n```")
     for step in plan.steps:
-        definition = {k: v for k, v in step.items() if k not in ("container_api", "rationale")}
+        definition = {k: v for k, v in step.items() if k not in ("container_api", "rationale", "surrogates")}
         parts.append(f"## Step: {step['id']}\n{yaml.safe_dump(definition, sort_keys=False)}")
         source = source_text(step, plan, workflow)
         parts.append(f"Source text: {source or 'none. Say only what this step does.'}")
@@ -628,6 +634,36 @@ def _repair_request(previous: str, problems: list[str]) -> str:
             "Change only what these problems require.")
 
 
+def surrogate_count(plan: Plan, workflow: dict) -> int | None:
+    """1,000 surrogates when the goal is finding peaks; otherwise Pyleoclim's quicker default (Deborah)."""
+    step = next((s for s in workflow["steps"] if s["id"] == "significance"), {})
+    surrogates = step.get("surrogates") or {}
+    return surrogates.get("number") if plan.objective == surrogates.get("for_objective") else None
+
+
+def _surrogate_note(step: dict, code: str) -> str | None:
+    """Say how many surrogates the code uses, and why, read from the code itself.
+
+    A number the researcher asked for is theirs, so it gets no note.
+    """
+    surrogates = step.get("surrogates") or {}
+    try:
+        calls = [n for n in ast.walk(ast.parse(code))
+                 if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr == "signif_test"]
+    except SyntaxError:
+        return None
+    if not calls or not surrogates:
+        return None
+    given = next((k.value for c in calls for k in c.keywords if k.arg == "number"), None)
+    if given is None:
+        text = surrogates.get("must_say_when_default")
+    elif isinstance(given, ast.Constant) and given.value == surrogates.get("number"):
+        text = surrogates.get("must_say_when_used")
+    else:
+        return None
+    return " ".join(text.split()) if text else None
+
+
 def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
                    call_model: Callable[[str, str], str], previous: str | None = None,
                    problems: list[str] | None = None) -> WriteResult:
@@ -636,10 +672,16 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
     Pass `previous` and `problems` to ask the model to repair an earlier reply.
     """
     result = WriteResult()
+    rules = [f"- In the spectral step, use method='{plan.method}'."]
+    count = surrogate_count(plan, workflow)
+    if any(s["id"] == "significance" for s in plan.steps):
+        rules.append(f"- In the significance step, use number={count} unless the researcher's request gives a number."
+                     if count else "- In the significance step, leave `number` at Pyleoclim's default "
+                     "unless the researcher's request gives one.")
     system = _SYSTEM_PROMPT.format(
         series=plan.series,
         start=plan.start or plan.series,
-        method_rule=f"- In the spectral step, use method='{plan.method}'.",
+        method_rule="\n".join(rules),
     )
     message = build_user_message(plan, workflow, snippets)
     if previous is not None:
@@ -671,7 +713,8 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         parameters = _parameters_block(step, code, session_version=session_pyleoclim(plan.kernel),
                                        explain_version=not version_noted)
         version_noted = version_noted or bool(parameters and VERSION_NOTE in parameters)
-        range_note = _slice_note(code, plan.kernel, plan.series) if step["id"] == "slice" else None
+        range_note = (_slice_note(code, plan.kernel, plan.series) if step["id"] == "slice"
+                      else _surrogate_note(step, code) if step["id"] == "significance" else None)
         skip_note = (_skip_note(code, codes[number + 1])
                      if step["requiredness"] == "recommended" and number + 1 < len(codes) else None)
         lines = [f"### {title}", explanation, *plan.notes.get(step["id"], []),

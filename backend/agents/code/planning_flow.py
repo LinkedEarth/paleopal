@@ -423,6 +423,9 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
     # The checker can't demand a step the plan leaves for later, as in "just standardize it".
     planned = {s["id"] for s in plan.steps}
     overrides.update(rule for step_id, rule in _CHECK_DEMANDING.items() if step_id not in planned)
+    # A significance test the plan holds was asked for, even in a first look ("a quick significance test").
+    if "significance" in planned:
+        overrides.add("no_unrequested_significance")
     # New code continues from `start`, which may be derived from the series the user named.
     task = {"objective": plan.objective, "expected_object": plan.start or plan.series,
             "expects_plot": True}

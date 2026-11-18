@@ -433,6 +433,22 @@ Savitzky-Golay), examples using it are preferred; otherwise the guide's choice a
 those examples are skipped or marked "don't copy this argument". Found: today only the spectral
 method is pinned in the writer, and the example search ignores the request (fixed query per
 method). The review then asks only whether a choice should be taught even unasked.
+**Review verdicts so far:** `detrend(method='savitzky-golay')`: keep, used only when asked.
+`detrend(preserve_mean=True)` (only in the tutorial `L1_filtering_and_detrending`): application-
+dependent, not taught unasked; doesn't matter before standardizing in the spectral workflow (Deborah).
+**Tutorials (Deborah):** they bridge the docs (which define functions) and full science: they show
+how to use the code, so a tutorial's arguments are demonstrations, not scientific practice.
+`signif_test(qs=[0.90, 0.95, 0.99])`: application-dependent, 0.95 is enough most of the time; the
+tutorial showcases computing several levels. Not taught unasked. `signif_test(number=1000)`: needed
+for a representative distribution of surrogates, but costly (Pyleoclim's default is 200, `psds.py`),
+so it ties to exploratory vs not. **Built (Deborah chose b, wording approved):** when the goal is
+finding peaks, the test uses `number=1000` with "I used 1,000 surrogate series…"; otherwise the
+default with "I used Pyleoclim's default of 200 surrogate series… you can set `number=1000`…" (texts
+in the significance step's `surrogates`, added by Python from the code; a number the researcher chose
+gets no note). Asking for the test counts as finding peaks (Deborah: yes), unless the request says
+the work is preliminary, which now keeps the goal exploratory; a requested test is never flagged as
+`no_unrequested_significance`.
+For the Pyleoclim docs list: `signif_test`'s docstring example names `psd_1000` but uses `number=100`.
 **Parameters section always shown (Deborah, 2026-11-18; built):** set arguments first, then
 "Everything else uses Pyleoclim's defaults. You can also set:" with each other parameter, its default
 and definition (for `settings`, only the chosen method's keys). No model cost. The chat now leaves

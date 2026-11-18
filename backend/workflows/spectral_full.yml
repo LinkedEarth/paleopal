@@ -665,6 +665,18 @@ steps:
             Still under testing on the LinkedEarth side. Do not recommend by
             default until validated.
     valid_kwargs: [method, number, seed, qs, settings, scalogram]
+    surrogates:
+      for_objective: peak_detection
+      number: 1000
+      must_say_when_used: >
+        I used 1,000 surrogate series, which gives a representative distribution
+        of surrogates for judging which peaks are significant. It takes longer to
+        run than Pyleoclim's default of 200.
+      must_say_when_default: >
+        I used Pyleoclim's default of 200 surrogate series, which is quicker to
+        compute. A representative distribution of surrogates needs about 1,000
+        simulations, so for results you plan to interpret, you can set
+        `number=1000`. It takes longer to run.
 
   - id: beta_estimate
     order: 6

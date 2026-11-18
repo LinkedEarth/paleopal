@@ -189,6 +189,17 @@ DETREND = next(s for s in WORKFLOW["steps"] if s["id"] == "detrend")
 SPECTRAL_STEP = next(s for s in WORKFLOW["steps"] if s["id"] == "spectral_estimate")
 
 
+class SurrogateNoteTests(unittest.TestCase):
+    STEP = next(s for s in WORKFLOW["steps"] if s["id"] == "significance")
+
+    def test_the_note_follows_the_code(self):
+        self.assertIn("I used 1,000 surrogate series", w._surrogate_note(self.STEP, "s = p.signif_test(number=1000)"))
+        self.assertIn("default of 200", w._surrogate_note(self.STEP, "s = p.signif_test()"))
+
+    def test_a_number_the_researcher_chose_gets_no_note(self):
+        self.assertIsNone(w._surrogate_note(self.STEP, "s = p.signif_test(number=500)"))
+
+
 class ParameterTests(unittest.TestCase):
     def block(self, code):
         return w._parameters_block(DETREND, code, REFERENCE)
