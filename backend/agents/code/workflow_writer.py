@@ -332,12 +332,49 @@ def _parameter_reference() -> dict:
         return {}
 
 
-def _argument_line(entry: dict | None, name: str, value: str, indent: str = "") -> str:
+def _argument_line(entry: dict | None, name: str, value: str | None, indent: str = "") -> str:
+    """One parameter's definition; `value` is what the code sets, or None for one left at its default."""
     entry = entry or {}
     words = " ".join(w for w in (entry.get("type") and f"({entry['type']})", entry.get("definition")) if w)
     words = words or "I couldn't find a definition for this in the Pyleoclim documentation."
     default = f" *(default: {entry['default']})*" if entry.get("default") else ""
-    return f"{indent}- `{name}={value}`: {words}{default}"
+    shown = name if value is None else f"{name}={value}"
+    return f"{indent}- `{shown}`: {words}{default}"
+
+
+def _unset_lines(call: ast.Call, method: dict) -> tuple[list[str], list[str]]:
+    """The parameters a call leaves at Pyleoclim's defaults, and where their definitions came from.
+
+    For `settings`, only the keys of the method the call uses (e.g. MTM's), not every method's.
+    """
+    parameters = method.get("parameters", [])
+    given = {p["name"] for p, _ in zip(parameters, call.args)} | {k.arg for k in call.keywords if k.arg}
+    chosen = next((k.value for k in call.keywords if k.arg == "method"), None)
+    if chosen is None and parameters and parameters[0]["name"] == "method" and call.args:
+        chosen = call.args[0]
+    default = next((p.get("default") for p in parameters if p["name"] == "method"), None) or "None"
+    estimator = chosen.value if isinstance(chosen, ast.Constant) else default.strip("'")
+    settings_set = set()
+    for k in call.keywords:
+        if k.arg == "settings" and isinstance(k.value, ast.Dict):
+            settings_set = {key.value for key in k.value.keys if isinstance(key, ast.Constant)}
+
+    lines, sources = [], []
+    for entry in [*parameters, *method.get("passes_to", [])]:
+        if entry["name"] in given and entry["name"] != "settings":
+            continue
+        if entry["name"] == "settings":
+            keys = [s for s in method.get("settings_by_method", {}).get(estimator, [])
+                    if s["name"] not in settings_set]
+            if keys:
+                lines.append(f"- `settings` for {estimator}:")
+                for key in keys:
+                    lines.append(_argument_line(key, key["name"], None, "  "))
+                    sources.append(key.get("source"))
+            continue
+        lines.append(_argument_line(entry, entry["name"], None))
+        sources.append(entry.get("source"))
+    return lines, [s for s in sources if s]
 
 
 def _describe_call(call: ast.Call, method: dict) -> tuple[list[str], list[str]]:
@@ -384,12 +421,24 @@ def _parameters_block(step: dict, code: str, reference: dict | None = None,
     # Calls end in the order they run, so a chain reads left to right.
     for call in sorted(calls, key=lambda c: (c.end_lineno, c.end_col_offset)):
         api = by_name[call.func.attr]
-        found, sources = _describe_call(call, reference.get("methods", {}).get(api, {}))
+        method = reference.get("methods", {}).get(api)
+        if not method:
+            continue
+        label = ".".join(api.rsplit(".", 2)[-2:])
+        found, sources = _describe_call(call, method)
+        others, other_sources = _unset_lines(call, method)
+        if len(calls) > 1:
+            lines += [f"**`{label}`**", ""]
         if found:
-            lines += found
-            labels += [".".join(api.rsplit(".", 2)[-2:]), *sources]
+            lines += ["Set in this cell:", "", *found, ""]
+        if others:
+            lines += ["Everything else uses Pyleoclim's defaults. You can also set:" if found
+                      else "This cell uses Pyleoclim's defaults. You can set:", "", *others, ""]
+        labels += [label, *sources, *other_sources]
     if not lines:
         return None
+    while lines and lines[-1] == "":
+        lines.pop()
 
     version = reference["pyleoclim_version"]
     shown = session_version or version

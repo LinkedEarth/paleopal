@@ -118,9 +118,19 @@ def notebook_text(history: list[dict]) -> str:
             author = "PaleoPAL" if workflow_writer.AUTHORSHIP_CODE in text else "the researcher"
             lines.append(f"### Cell {number}: code, written by {author}\n```python\n{text}\n```")
         elif message.get("content"):
-            author = "PaleoPAL" if message.get("agent_type") == "paleopal_note" else "the researcher"
-            lines.append(f"### Cell {number}: markdown, written by {author}\n{message['content']}")
+            mine = message.get("agent_type") == "paleopal_note"
+            text = _without_quoted_sections(message["content"]) if mine else message["content"]
+            lines.append(f"### Cell {number}: markdown, written by {'PaleoPAL' if mine else 'the researcher'}\n{text}")
     return "\n\n".join(lines) or "(empty notebook)"
+
+
+_QUOTED = re.compile(r"\n*<details><summary>(Sources|Parameters)</summary>.*?</details>", re.S)
+
+
+def _without_quoted_sections(text: str) -> str:
+    """PaleoPAL's Sources and Parameters are copies of the guide and the docs, which the chat
+    already has, so they're left out of the notebook it reads (each would cost tokens every turn)."""
+    return _QUOTED.sub("", text)
 
 
 def _reference_text(reference: dict) -> str:

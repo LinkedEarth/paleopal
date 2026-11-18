@@ -193,16 +193,23 @@ class ParameterTests(unittest.TestCase):
     def block(self, code):
         return w._parameters_block(DETREND, code, REFERENCE)
 
-    def test_only_arguments_the_code_sets_are_defined(self):
+    def test_set_arguments_come_first_then_the_defaults_and_what_else_can_be_set(self):
         block = self.block("a = lr04.detrend(preserve_mean=True)")
-        self.assertIn("`preserve_mean=True`: (boolean) Keeps the mean. *(default: False)*", block)
-        self.assertNotIn("`method", block)
+        set_part, rest = block.split("Everything else uses Pyleoclim's defaults. You can also set:")
+        self.assertIn("Set in this cell:", set_part)
+        self.assertIn("`preserve_mean=True`: (boolean) Keeps the mean. *(default: False)*", set_part)
+        self.assertIn("- `method`: (str, optional) The method for detrending. *(default: 'emd')*", rest)
+        self.assertIn("- `n`: (int) Modes to remove. *(default: 1)*", rest)
+        self.assertNotIn("preserve_mean", rest)
 
     def test_a_positional_argument_is_matched_to_its_parameter(self):
         self.assertIn("`method='emd'`", self.block("a = lr04.detrend('emd')"))
 
-    def test_no_arguments_means_no_section(self):
-        self.assertIsNone(self.block("a = lr04.detrend()"))
+    def test_no_arguments_still_lists_what_can_be_set(self):
+        block = self.block("a = lr04.detrend()")
+        self.assertIn("This cell uses Pyleoclim's defaults. You can set:", block)
+        self.assertIn("- `method`: (str, optional)", block)
+        self.assertNotIn("Set in this cell", block)
 
     def test_a_release_names_its_version(self):
         self.assertIn("Quoted from the Pyleoclim 9.9 documentation.", self.block("a = lr04.detrend('emd')"))
@@ -272,10 +279,20 @@ class ParameterTests(unittest.TestCase):
         self.assertIn("`n=2`: (int) Modes to remove. *(default: 1)*", block)
         self.assertIn("[`Series.detrend`](http://docs/detrend), [`tsutils.detrend`](http://docs/ts)", block)
 
-    def test_the_method_is_linked_without_a_function_it_did_not_use(self):
+    def test_the_functions_whose_parameters_are_listed_are_linked(self):
         block = self.block("a = lr04.detrend(preserve_mean=True)")
         self.assertIn("[`Series.detrend`](http://docs/detrend)", block)
-        self.assertNotIn("tsutils", block)
+        self.assertIn("[`tsutils.detrend`](http://docs/ts)", block)  # `n` comes from it
+
+    def test_only_the_chosen_methods_settings_are_offered(self):
+        block = w._parameters_block(SPECTRAL_STEP, "p = s.spectral(method='mtm')", REFERENCE)
+        self.assertIn("- `settings` for mtm:", block)
+        self.assertIn("  - `NW`: (float) Time-bandwidth.", block)
+        self.assertNotIn("n50", block)
+
+    def test_a_setting_already_given_is_not_offered_again(self):
+        block = w._parameters_block(SPECTRAL_STEP, "p = s.spectral(method='mtm', settings={'NW': 4})", REFERENCE)
+        self.assertNotIn("`settings` for mtm", block)
 
     def test_settings_keys_use_the_chosen_method(self):
         code = "p = s.spectral(method='mtm', settings={'NW': 4})"

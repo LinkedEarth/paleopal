@@ -340,8 +340,13 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         request_interpreter.interpret_request, user_input, workflow, series, call_model,
         step_settings(workflow, workflow_writer._parameter_reference()))
     seen["not_covered"] = meaning.not_covered
-    # The method list comes from the workflow file, so naming one means this analysis.
-    if meaning.analysis is None and meaning.method is None and not meaning.problems:
+    # How the request was read, never any data: when a request goes to the wrong path, this says why.
+    logger.info("Planning flow read the request as: analysis=%s steps=%s whole=%s method=%s problems=%s",
+                meaning.analysis, meaning.steps, meaning.whole_analysis, meaning.method, meaning.problems)
+    # The method and step lists come from the workflow file, so naming one means this analysis,
+    # even when the model doesn't also name the analysis ("detrend lr04").
+    if meaning.analysis is None and meaning.method is None and not meaning.steps and not meaning.problems:
+        logger.info("Planning flow: no guide covers this request")
         return None
     if meaning.problems:
         logger.info("Planning flow asking the user: %s", meaning.problems)
@@ -372,11 +377,14 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         return {"generated_code": "", "needs_user_input": True,
                 "clarification_questions": [regrid["question"]]}
 
-    if state.level == "whole_workflow":
+    # A request for particular steps ("detrend lr04") gets those steps, even on a notebook with only
+    # the data loaded; the whole workflow is for a request for the analysis itself (Deborah, 2026-11-18).
+    steps_only = bool(meaning.steps) and not meaning.whole_analysis
+    if state.level == "whole_workflow" and not steps_only:
         plan = workflow_writer.build_plan(state, workflow, objective, meaning.method, meaning.steps,
                                           regrid["evenly_spaced"])
         plan.start = state.current
-    elif state.level == "next_step":
+    elif state.level in ("next_step", "whole_workflow"):
         all_answers = {**decisions_from_history(history), **(answers or {})}
         # "Run the analysis with a linear detrend" wants that step, the spectrum and, as on a
         # clean notebook, its plot. Naming an estimator alongside a step asks for the spectrum.
@@ -408,8 +416,9 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
     # A method the user named is their choice, not PaleoPAL's mistake.
     overrides = {"cwt_not_first_choice"} if meaning.method == "cwt" else set()
     overrides |= regrid.get("overrides", set())
-    # A next-step snippet is one call in a longer analysis; it needn't display its result.
-    if state.level == "next_step":
+    # A next-step snippet is one call in a longer analysis; it needn't display its result. Nor does a
+    # step asked for on its own: "detrend lr04" gets the detrend, not a plot (Deborah, 2026-11-18).
+    if state.level == "next_step" or steps_only:
         overrides.add("result_displayed")
     # The checker can't demand a step the plan leaves for later, as in "just standardize it".
     planned = {s["id"] for s in plan.steps}

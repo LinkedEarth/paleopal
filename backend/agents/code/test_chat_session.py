@@ -184,5 +184,18 @@ class SummaryTests(unittest.TestCase):
         self.assertTrue(result["problems"])
 
 
+class NotebookTextTests(unittest.TestCase):
+    def test_paleopals_quoted_sections_are_left_out_but_the_researchers_markdown_is_kept(self):
+        mine = ("### Detrend\n\nI remove the trend.\n\n<details><summary>Parameters</summary>\n\n- `n`: x\n\n"
+                "</details>\n\n<details><summary>Sources</summary>\n\n> guide\n\n</details>\n\n*Written by PaleoPAL*")
+        theirs = "<details><summary>Parameters</summary>my notes</details>"
+        text = chat.notebook_text([{"agent_type": "paleopal_note", "content": mine}, {"role": "user", "content": theirs}])
+        self.assertIn("I remove the trend.", text)
+        self.assertIn("*Written by PaleoPAL*", text)
+        self.assertNotIn("- `n`: x", text)
+        self.assertNotIn("> guide", text)
+        self.assertIn("my notes", text)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

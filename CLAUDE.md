@@ -427,6 +427,26 @@ the sources is mostly on non-Pyleoclim data (fine, per Deborah); only 4 examples
 Pyleoclim object, all onto its own axes, so the old index's matplotlib problem came from how it was
 built. **Review (Deborah):** by recurring non-default choice, not example by example, and **one choice
 at a time** rather than a table.
+**Rule for examples' arguments (agreed 2026-11-18, not built yet):** an example's non-default
+arguments are used only when the request asks for them; when the researcher names a value (e.g.
+Savitzky-Golay), examples using it are preferred; otherwise the guide's choice applies (EMD) and
+those examples are skipped or marked "don't copy this argument". Found: today only the spectral
+method is pinned in the writer, and the example search ignores the request (fixed query per
+method). The review then asks only whether a choice should be taught even unasked.
+**Parameters section always shown (Deborah, 2026-11-18; built):** set arguments first, then
+"Everything else uses Pyleoclim's defaults. You can also set:" with each other parameter, its default
+and definition (for `settings`, only the chosen method's keys). No model cost. The chat now leaves
+PaleoPAL's collapsed Sources and Parameters out of the notebook it sends, since it reads the guide and
+the reference directly. **Cheap test (Deborah):** "detrend lr04", one cell.
+**Step-only requests (Deborah, 2026-11-18):** a request for particular steps ("detrend lr04") gets
+just those steps (plus any required earlier step, by the next-step rules), even on a notebook with
+only data loaded; the whole workflow is for a request for the analysis itself. Also: a request naming
+a guide step counts as covered even if the model doesn't name the analysis (one live run of "detrend
+Lr04" went to the model-only path; not reproduced in two interpreter calls). The flow now logs how it
+read each request (never data). **No plot for a step request (Deborah):** the checker's
+`result_displayed` rule is off for step requests, as for next steps ("detrend lr04" had gained a plot
+of the detrended series to satisfy it). Live test 2026-11-18: guide path, EMD, Parameters shown;
+`preserve_mean=True` was copied from examples (to be fixed by the examples rule).
 **Action fixed 2026-11-18:** the PaleoBooks source now has `exclude` rules for build folders, and
 `update_notebooks.py` applies them, copies source folders before built ones, and skips a notebook
 whose code matches one already copied (recorded under `also_found_at` in `notebooks.json`). Test run:

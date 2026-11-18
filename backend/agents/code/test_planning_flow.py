@@ -639,6 +639,32 @@ class NotCoveredTests(unittest.TestCase):
         self.assertFalse(any("I haven't done" in c["text"] for c in result["cells"]))
 
 
+class StepOnlyTests(unittest.TestCase):
+    """A request naming one of the guide's steps is the guide's, even when the analysis isn't named."""
+
+    def test_a_step_without_the_analysis_named_is_still_covered(self):
+        meaning = {"analysis": None, "series": "lr04", "steps": ["detrend"], "whole_analysis": False,
+                   "method": None, "objective": None}
+        result = asyncio.run(flow.run("detrend Lr04", LR04, WORKFLOW, writing_chain(meaning), [no_search]))
+        self.assertIsNotNone(result)
+        self.assertIn("detrend", result["plan"]["steps"])
+
+    def test_a_step_on_a_notebook_with_only_data_gives_just_that_step(self):
+        meaning = {"analysis": "spectral_analysis", "series": "lr04", "steps": ["detrend"],
+                   "whole_analysis": False, "method": None, "objective": None}
+        for notebook in (LR04, NEW_NOTEBOOK):
+            result = asyncio.run(flow.run("detrend lr04", notebook, WORKFLOW, writing_chain(meaning), [no_search]))
+            self.assertEqual(result["plan"]["steps"], ["detrend"])
+            self.assertNotIn("significance test", texts(result))
+            # Just the step: nothing asks it to show (plot) its result.
+            self.assertEqual(result["checker_findings"], [])
+
+    def test_the_whole_analysis_still_gets_the_whole_workflow(self):
+        result = asyncio.run(flow.run("run spectral analysis on lr04", LR04, WORKFLOW,
+                                      writing_chain({**SPECTRAL, "whole_analysis": True}), [no_search]))
+        self.assertIn("spectral_estimate", result["plan"]["steps"])
+
+
 class NoGuideTests(unittest.TestCase):
     """A request no guide covers gets the model's answer with the note, never the old pipeline."""
 
