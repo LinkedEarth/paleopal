@@ -427,12 +427,18 @@ the sources is mostly on non-Pyleoclim data (fine, per Deborah); only 4 examples
 Pyleoclim object, all onto its own axes, so the old index's matplotlib problem came from how it was
 built. **Review (Deborah):** by recurring non-default choice, not example by example, and **one choice
 at a time** rather than a table.
-**Rule for examples' arguments (agreed 2026-11-18, not built yet):** an example's non-default
+**Rule for examples' arguments (agreed 2026-11-18; built the same day):** an example's non-default
 arguments are used only when the request asks for them; when the researcher names a value (e.g.
 Savitzky-Golay), examples using it are preferred; otherwise the guide's choice applies (EMD) and
 those examples are skipped or marked "don't copy this argument". Found: today only the spectral
 method is pinned in the writer, and the example search ignores the request (fixed query per
 method). The review then asks only whether a choice should be taught even unasked.
+**How it's built (Python, no model calls):** defaults come from `pyleoclim_parameters.json`; examples
+using a value the request names (by argument name, or a word value like Savitzky-Golay; a paraphrase
+such as "keep the mean" doesn't match) go first; each example shown to the writer lists its own
+unasked choices ("don't copy them unless the researcher asks"); a choice copied anyway is removed
+from the code afterwards (`WriteResult.removed`, logged). The plan's own choices (spectral `method`,
+significance `number`) are never touched. Keys inside `settings={...}` aren't removed yet.
 **Review verdicts so far:** `detrend(method='savitzky-golay')`: keep, used only when asked.
 `detrend(preserve_mean=True)` (only in the tutorial `L1_filtering_and_detrending`): application-
 dependent, not taught unasked; doesn't matter before standardizing in the spectral workflow (Deborah).
@@ -448,6 +454,28 @@ in the significance step's `surrogates`, added by Python from the code; a number
 gets no note). Asking for the test counts as finding peaks (Deborah: yes), unless the request says
 the work is preliminary, which now keeps the goal exploratory; a requested test is never flagged as
 `no_unrequested_significance`.
+`spectral(settings={'standardize': False})` (Pyleoclim paper notebooks): not set by PaleoPAL. Deborah:
+people should use the API functions and be in charge of what's done to their data, so the guide keeps
+its visible standardize step, and the spectral functions' own `standardize=True` stays as a safety net
+(harmless twice, catches sequence errors). Not taught unasked.
+`signif_test(method='CN')` (tutorials `L2_wavelet_analysis` on a coherence, `L1_time_semanics` on a
+spectrum). **Answer (Deborah, 2026-11-18, from whoever added it):** AR(1) is a good default but not
+the best in every situation. **Colored noise (`CN`)** is for a prior other than AR(1): on orbital
+timescales the background is scaled, where AR(1) may not be appropriate; it first needs a background
+spectrum to be estimated, then used in the test. **Phase randomization (`phaseran`)** preserves the
+spectrum: useful for correlation and coherence, not relevant for spectrum and wavelet. Not yet in
+the guide (`CN` needs its own design: the background-estimation step).
+**Exploring parameters that matter (Julien, via Deborah, 2026-11-18):** PaleoPAL should explore
+parameters when they matter, e.g. a sweep of MTM's `NW` (as in the tutorial): know that MTM results
+depend on it and offer to vary it to evaluate the robustness of the results. Not built; design first.
+**Review closed 2026-11-18:** the other choices are tutorial demonstrations (`window`,
+`NW`, `n50`, `nperseg` in `L2_spectral_analysis` etc.), the paper's `n50=5`, or application-dependent
+(`beta_est` `fmin`/`fmax`): default rule, not copied unasked. **But people should be aware of these
+settings (Deborah): a chat problem.** The tutorials explain each setting's effect in markdown kept with
+the code (e.g. MTM's `NW`: "usually set between 2 and 4… 4 is the most conservative choice…"), so the
+chat should search tutorial examples with their markdown when asked about a parameter, quote the
+explanation, show and link the example. **Not built; after the corpus rebuild** (the chat doesn't
+search the corpus today).
 For the Pyleoclim docs list: `signif_test`'s docstring example names `psd_1000` but uses `number=100`.
 **Parameters section always shown (Deborah, 2026-11-18; built):** set arguments first, then
 "Everything else uses Pyleoclim's defaults. You can also set:" with each other parameter, its default
@@ -730,8 +758,9 @@ The ARIMA and slicing example came from Claude's own test request, "use lomb-sca
 on lr04 and also fit an ARIMA model and slice to the last 500 kyr". PaleoPAL wrote
 the spectral workflow and silently left out the other two parts.
 Deborah (2026-11-05): ARIMA belongs with significance testing, not as a fit, so that
-request was badly worded. (Fact: Pyleoclim 1.3.1b0's `PSD.signif_test` offers only
-`ar1sim`, `ar1asym` and `uar1`; ARIMA appears only in `utils/tsmodel.py`.) Slicing
+request was badly worded. (Fact, corrected 2026-11-18: `PSD.signif_test`'s docstring lists only
+`ar1sim`, `ar1asym` and `uar1`, but its code also accepts `CN` and `phaseran`, a docs mismatch for
+Deborah's Pyleoclim list; ARIMA appears only in `utils/tsmodel.py`.) Slicing
 must be covered as a step of the spectral workflow, included only when the request
 asks for it ("perform spectral analysis on the first 5000 years of the record").
 PaleoPAL should read such a request as slice, then the workflow, not refuse part of

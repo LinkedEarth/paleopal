@@ -105,6 +105,7 @@ class WriteResult:
     cells: list[Cell] = field(default_factory=list)
     problems: list[str] = field(default_factory=list)
     reply: str = ""  # the model's raw reply, needed to ask it for a repair
+    removed: list[str] = field(default_factory=list)  # examples' choices taken back out of the code
 
 
 _ALREADY_EVEN = "Your series is already evenly spaced, so I did not include a regridding step."
@@ -508,9 +509,12 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
         for example in _examples_for(step, snippets):
             context = " ".join((example.get("markdown_context") or "").split())
             context = "" if context == _NO_MARKDOWN else context[:_CONTEXT_CHARS]
+            own = unasked_choices(step, example.get("code", ""), plan.request)
             parts.append(f"Example for {step['id']}:\n"
                          + (f"Its notebook's text: {context}\n" if context else "")
-                         + f"```python\n{example.get('code', '')[:_SNIPPET_CHARS]}\n```")
+                         + f"```python\n{example.get('code', '')[:_SNIPPET_CHARS]}\n```"
+                         + ("\nThis example's own choices; don't copy them unless the researcher asks: "
+                            + ", ".join(f"`{n}={v}`" for n, v in own) if own else ""))
     return "\n\n".join(parts)
 
 
@@ -634,6 +638,110 @@ def _repair_request(previous: str, problems: list[str]) -> str:
             "Change only what these problems require.")
 
 
+# --- examples' own choices (Deborah, 2026-11-18) ----------------------------------------------
+# An example's non-default arguments are that notebook's choices. They're used only when the
+# researcher asks for them; otherwise the guide's choice (or Pyleoclim's default) applies.
+
+# Choices the plan itself makes, which an example can't override or take away.
+_PLAN_CHOICES = {"spectral_estimate": {"method"}, "significance": {"number"}}
+
+
+def _normal(text: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", text.lower())
+
+
+def _step_calls(step: dict, tree) -> list[tuple[ast.Call, str]]:
+    apis = step.get("core_api") or []
+    by_name = {api.rsplit(".", 1)[-1]: api for api in (apis if isinstance(apis, list) else [apis])}
+    return [(n, by_name[n.func.attr]) for n in ast.walk(tree)
+            if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr in by_name]
+
+
+def example_choices(step: dict, code: str, reference: dict | None = None) -> list[tuple[str, str]]:
+    """The step's arguments this code sets to something other than Pyleoclim's default."""
+    reference = _parameter_reference() if reference is None else reference
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return []
+    found = []
+    for call, api in _step_calls(step, tree):
+        method = (reference or {}).get("methods", {}).get(api, {})
+        defaults = {p["name"]: p.get("default") for p in [*method.get("parameters", []), *method.get("passes_to", [])]}
+        for kw in call.keywords:
+            if kw.arg and kw.arg in defaults and kw.arg != "settings":
+                value = ast.unparse(kw.value)
+                default = defaults[kw.arg]
+                if default is None or not _same_value(value, default):
+                    found.append((kw.arg, value))
+    return list(dict.fromkeys(found))
+
+
+def _same_value(value: str, default: str) -> bool:
+    try:
+        return ast.literal_eval(value) == ast.literal_eval(default)
+    except Exception:
+        return _normal(value) == _normal(default)
+
+
+def asked_for(name: str, value: str, request: str) -> bool:
+    """Whether the request names this argument, or its value when that's a word (e.g. Savitzky-Golay)."""
+    asked = _normal(request or "")
+    if _normal(name) and _normal(name) in asked:
+        return True
+    try:
+        literal = ast.literal_eval(value)
+    except Exception:
+        return False
+    return isinstance(literal, str) and len(_normal(literal)) > 2 and _normal(literal) in asked
+
+
+def unasked_choices(step: dict, code: str, request: str, reference: dict | None = None) -> list[tuple[str, str]]:
+    keep = _PLAN_CHOICES.get(step["id"], set())
+    return [(n, v) for n, v in example_choices(step, code, reference)
+            if n not in keep and not asked_for(n, v, request)]
+
+
+def prefer_asked(step: dict, examples: list[dict], request: str, reference: dict | None = None) -> list[dict]:
+    """Examples using a value the researcher asked for come first; the order is otherwise kept."""
+    def asked(example):
+        return any(asked_for(n, v, request) for n, v in example_choices(step, example.get("code", ""), reference))
+    return sorted(examples, key=lambda e: not asked(e))
+
+
+def _remove_arguments(step: dict, code: str, unwanted: set[tuple[str, str]]) -> tuple[str, list[str]]:
+    """Take examples' unasked choices back out of PaleoPAL's code, leaving the rest as written."""
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return code, []
+    lines = code.splitlines(keepends=True)
+    starts = [0]
+    for line in lines:
+        starts.append(starts[-1] + len(line))
+    spans, removed = [], []
+    for call, _ in _step_calls(step, tree):
+        for kw in call.keywords:
+            if kw.arg and (kw.arg, _normal(ast.unparse(kw.value))) in unwanted:
+                start = starts[kw.lineno - 1] + kw.col_offset
+                end = starts[kw.end_lineno - 1] + kw.end_col_offset
+                before = code[:start].rstrip()
+                if before.endswith(","):  # `f(a, x=1)` -> `f(a)`
+                    start = len(before) - 1
+                else:  # `f(x=1, a)` -> `f(a)`
+                    rest = code[end:]
+                    end += len(rest) - len(rest.lstrip().lstrip(",").lstrip()) if rest.lstrip().startswith(",") else 0
+                spans.append((start, end))
+                removed.append(f"{kw.arg}={ast.unparse(kw.value)}")
+    for start, end in sorted(spans, reverse=True):
+        code = code[:start] + code[end:]
+    try:
+        ast.parse(code)
+    except SyntaxError:
+        return "".join(lines), []
+    return code, removed
+
+
 def surrogate_count(plan: Plan, workflow: dict) -> int | None:
     """1,000 surrogates when the goal is finding peaks; otherwise Pyleoclim's quicker default (Deborah)."""
     step = next((s for s in workflow["steps"] if s["id"] == "significance"), {})
@@ -700,6 +808,13 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         return result
 
     codes = [str(reply.get("code", "")).strip() for reply in written]
+    # An argument only an example chose, which the researcher didn't ask for, comes back out.
+    for number, step in enumerate(plan.steps):
+        unwanted = {(n, _normal(v)) for example in _examples_for(step, snippets)
+                    for n, v in unasked_choices(step, example.get("code", ""), plan.request)}
+        if unwanted:
+            codes[number], removed = _remove_arguments(step, codes[number], unwanted)
+            result.removed += [f"{step['id']}: {r}" for r in removed]
     version_noted = plan.version_noted  # said once per notebook, then quiet
     for number, (step, reply) in enumerate(zip(plan.steps, written)):
         code = codes[number]

@@ -48,6 +48,13 @@ def write(text, plan=None, snippets=None):
     return w.write_workflow(plan or lr04_plan(), WORKFLOW, snippets or {}, lambda system, user: text)
 
 
+def plan_for(steps, request):
+    plan = lr04_plan()
+    plan.steps = [s for s in WORKFLOW["steps"] if s["id"] in steps]
+    plan.request = request
+    return plan
+
+
 class PlanTests(unittest.TestCase):
     def test_lr04_steps_come_from_the_workflow_file(self):
         self.assertEqual([s["id"] for s in lr04_plan().steps], STEPS)
@@ -187,6 +194,58 @@ REFERENCE = {"pyleoclim_version": "9.9",
         {"name": "keep_log", "type": None, "definition": None, "default": "False"}]}}}
 DETREND = next(s for s in WORKFLOW["steps"] if s["id"] == "detrend")
 SPECTRAL_STEP = next(s for s in WORKFLOW["steps"] if s["id"] == "spectral_estimate")
+
+
+class ExampleChoiceTests(unittest.TestCase):
+    """An example's non-default arguments are used only when the researcher asks for them."""
+
+    EXAMPLE = {"code": "ts = lr04.detrend(method='emd', preserve_mean=True)", "notebook": "L1.ipynb"}
+
+    def test_only_non_default_arguments_are_an_examples_choices(self):
+        self.assertEqual(w.example_choices(DETREND, self.EXAMPLE["code"], REFERENCE), [("preserve_mean", "True")])
+
+    def test_asking_names_the_argument_or_its_value(self):
+        self.assertTrue(w.asked_for("method", "'savitzky-golay'", "detrend lr04 with Savitzky-Golay"))
+        self.assertTrue(w.asked_for("preserve_mean", "True", "detrend lr04 with preserve_mean"))
+        self.assertFalse(w.asked_for("preserve_mean", "True", "detrend lr04"))
+        self.assertFalse(w.asked_for("keep_log", "True", "detrend lr04 and keep it"))  # True isn't a word to match
+
+    def test_examples_with_an_asked_value_come_first(self):
+        emd = {"code": "a = lr04.detrend(method='emd')"}
+        sg = {"code": "a = lr04.detrend(method='savitzky-golay')"}
+        self.assertEqual(w.prefer_asked(DETREND, [emd, sg], "use savitzky-golay", REFERENCE), [sg, emd])
+        self.assertEqual(w.prefer_asked(DETREND, [emd, sg], "detrend lr04", REFERENCE), [emd, sg])
+
+    def test_the_writer_is_told_which_choices_not_to_copy(self):
+        plan = lr04_plan()
+        plan.request = "detrend lr04"
+        message = w.build_user_message(plan, WORKFLOW, {"detrend": [self.EXAMPLE]})
+        self.assertIn("This example's own choices; don't copy them unless the researcher asks: `preserve_mean=True`", message)
+        plan.request = "detrend lr04 with preserve_mean"
+        self.assertNotIn("own choices", w.build_user_message(plan, WORKFLOW, {"detrend": [self.EXAMPLE]}))
+
+    def test_a_copied_choice_is_taken_back_out(self):
+        result = write(reply(["detrend"], "d = lr04.detrend(method='emd', preserve_mean=True)"),
+                       plan_for(["detrend"], "detrend lr04"), {"detrend": [self.EXAMPLE]})
+        self.assertIn("d = lr04.detrend(method='emd')\n", "\n".join(c.text for c in result.cells) + "\n")
+        self.assertEqual(result.removed, ["detrend: preserve_mean=True"])
+
+    def test_a_choice_the_researcher_asked_for_stays(self):
+        result = write(reply(["detrend"], "d = lr04.detrend(preserve_mean=True)"),
+                       plan_for(["detrend"], "detrend lr04 with preserve_mean"), {"detrend": [self.EXAMPLE]})
+        self.assertIn("lr04.detrend(preserve_mean=True)", "\n".join(c.text for c in result.cells))
+        self.assertEqual(result.removed, [])
+
+    def test_removal_keeps_the_rest_of_the_call(self):
+        unwanted = {("preserve_mean", "true")}
+        for code, expected in [("d = lr04.detrend(preserve_mean=True, method='emd')", "d = lr04.detrend(method='emd')"),
+                               ("d = lr04.detrend(preserve_mean=True)", "d = lr04.detrend()"),
+                               ("d = lr04.detrend(\n    method='emd',\n    preserve_mean=True,\n)", "d = lr04.detrend(\n    method='emd',\n)")]:
+            self.assertEqual(w._remove_arguments(DETREND, code, unwanted)[0], expected)
+
+    def test_the_plans_own_choices_are_never_taken_out(self):
+        spectral = next(s for s in WORKFLOW["steps"] if s["id"] == "spectral_estimate")
+        self.assertEqual(w.unasked_choices(spectral, "p = s.spectral(method='mtm')", "run it", REFERENCE), [])
 
 
 class SurrogateNoteTests(unittest.TestCase):

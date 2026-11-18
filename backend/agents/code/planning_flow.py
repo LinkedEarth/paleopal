@@ -411,7 +411,9 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
     plan.version_noted = _version_noted(history)
     _note_regrid(plan, regrid)
 
-    snippets = {step["id"]: await step_snippets.find_step_snippets(step, searches)
+    # Examples using a value the researcher asked for (e.g. Savitzky-Golay) come first.
+    snippets = {step["id"]: workflow_writer.prefer_asked(
+                    step, await step_snippets.find_step_snippets(step, searches), user_input)
                 for step in plan.steps}
     # A method the user named is their choice, not PaleoPAL's mistake.
     overrides = {"cwt_not_first_choice"} if meaning.method == "cwt" else set()
@@ -449,6 +451,8 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         if not written.cells and previous.cells:
             written.cells = previous.cells  # an unusable repair must not lose the code
         problems = _problems_with(written, checked_cells, task, overrides)
+    if written.removed:
+        logger.info("Planning flow removed examples' unasked choices: %s", written.removed)
     if repairs and on_repair:
         on_repair({"request": user_input, "outcome": "failed" if problems else "repaired",
                    "repairs": repairs, "problems": problems, "reply": written.reply})
