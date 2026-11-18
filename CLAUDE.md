@@ -468,6 +468,21 @@ the guide (`CN` needs its own design: the background-estimation step).
 **Exploring parameters that matter (Julien, via Deborah, 2026-11-18):** PaleoPAL should explore
 parameters when they matter, e.g. a sweep of MTM's `NW` (as in the tutorial): know that MTM results
 depend on it and offer to vary it to evaluate the robustness of the results. Not built; design first.
+**Waits for Julien (Deborah, 2026-11-18):** she doesn't know the answer for the `NW` tutorial, and
+there's enough interactivity for AGU. **Order (Deborah, 2026-11-18): corpus rebuild, then the
+visualization guide as soon as possible** (it makes the demo better and forces the cross-guide
+problem).
+**Corpus rebuild (2026-11-18):** `my_notebooks/` regenerated on this branch (132 notebooks). The new
+index goes into separate `clean_notebook_*` collections in the redesign stack's Qdrant, built inside
+the redesign backend container, with no `--llm`. **Later (Deborah):** once the redesign is accepted,
+remove the old collections (including in Varun's Qdrant) and reuse the plain names, so the names make
+sense to people. Ask before deleting anything there.
+**Switched 2026-11-18:** `NOTEBOOK_COLLECTION_PREFIX=clean_notebook` in `docker-compose.redesign.yml`
+(read by `qdrant_config.py`; default `notebook` keeps Varun's names). **Gotcha:** the backend reads
+`backend/libraries/` from its own volume (`backend-libraries`), so rebuilding the image does not update
+that code; copy a changed file in with `docker cp`. The clean index was built from a copy in the
+container's `/tmp/clean`. Missing or weak examples (segment, slice, interp, a plain significance test)
+go in a GitHub issue Deborah opens.
 **Review closed 2026-11-18:** the other choices are tutorial demonstrations (`window`,
 `NW`, `n50`, `nperseg` in `L2_spectral_analysis` etc.), the paper's `n50=5`, or application-dependent
 (`beta_est` `fmin`/`fmax`): default rule, not copied unasked. **But people should be aware of these

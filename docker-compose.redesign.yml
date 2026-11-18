@@ -26,6 +26,8 @@ services:
       - "18000:8000"
     environment:
       - USE_PLANNING_FLOW=true
+      # Read the rebuilt notebook corpus (clean_notebook_*), not the copied old index.
+      - NOTEBOOK_COLLECTION_PREFIX=clean_notebook
 
   # The web app isn't part of the redesign. Start it only with --profile web.
   frontend:

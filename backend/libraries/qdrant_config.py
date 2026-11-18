@@ -48,14 +48,18 @@ MODEL_CACHE_DIR = os.getenv(
 # Ensure cache directory exists
 Path(MODEL_CACHE_DIR).mkdir(parents=True, exist_ok=True)
 
+# Notebook collections are named "<prefix>_snippets" etc. The redesign stack sets
+# NOTEBOOK_COLLECTION_PREFIX=clean_notebook to read the rebuilt corpus.
+NOTEBOOK_COLLECTION_PREFIX = os.getenv("NOTEBOOK_COLLECTION_PREFIX", "notebook")
+
 # Collection names for each library
 COLLECTION_NAMES = {
     "sparql": "sparql_queries",
     "ontology": "ontology_entities",
-    "notebook_snippets": "notebook_snippets",
-    "notebook_workflows": "notebook_workflows",
+    "notebook_snippets": f"{NOTEBOOK_COLLECTION_PREFIX}_snippets",
+    "notebook_workflows": f"{NOTEBOOK_COLLECTION_PREFIX}_workflows",
     # Parent documents for hierarchical retrieval (notebook + project summaries)
-    "notebook_summaries": "notebook_summaries",
+    "notebook_summaries": f"{NOTEBOOK_COLLECTION_PREFIX}_summaries",
     "literature": "literature_methods",
     "readthedocs_docs": "readthedocs_docs",
     "readthedocs_code": "readthedocs_code",
