@@ -414,6 +414,25 @@ differs from the reference file's, the first Parameters section in a notebook sa
 has Pyleoclim X, so some definitions may differ. The links go to your version's documentation."),
 then stays quiet (Deborah: say it once; detected from PaleoPAL's earlier cells). Wording approved.
 An editable install reports a new version only after reinstalling (`pip install -e .`).
+**On the list (Deborah, 2026-11-18):** rebuild `pyleoclim_api.json` (the "will it run?" checks; a fixed
+snapshot ported 2026-10-01, never read from a researcher's kernel) and `pyleoclim_parameters.json`
+whenever a new Pyleoclim version is released on GitHub.
+**Corpus report (2026-11-18):** `backend/scripts/corpus_report.py` (no model, changes nothing; report
+in `~/Documents/PaleoPAL/corpus_report/`), run against the manifest's 270 notebooks with an API export
+from Pyleoclim 1.3.1b0. Findings: 138 of the 270 are copies (125 in `_build/`, `_sources/`,
+`.virtual_documents/`; 9 in `pens/docs/` duplicating `pens/docsrc/`; 4 notebooks shared between
+PaleoBooks); the gallery part of `update_notebooks.py` ignores the manifest's `exclude` (Deborah owns
+the Action and agreed to fix it). API drift is nearly absent (one `add_GTS(time_units=)`). Matplotlib in
+the sources is mostly on non-Pyleoclim data (fine, per Deborah); only 4 examples plot arrays from a
+Pyleoclim object, all onto its own axes, so the old index's matplotlib problem came from how it was
+built. **Review (Deborah):** by recurring non-default choice, not example by example, and **one choice
+at a time** rather than a table.
+**Action fixed 2026-11-18:** the PaleoBooks source now has `exclude` rules for build folders, and
+`update_notebooks.py` applies them, copies source folders before built ones, and skips a notebook
+whose code matches one already copied (recorded under `also_found_at` in `notebooks.json`). Test run:
+132 notebooks. The Action runs on `main` only, by design. **`my_notebooks/` on this branch still holds
+the old 270 and must be cleaned up before the rebuild** (Deborah: deleting on this branch is fine; main
+keeps the old copy, and re-integrating main brings it back if needed).
 **Cells not run (Deborah, 2026-11-17; extension 0.1.12):** the snippet now also lists every
 variable's name and type name, never values (approved). When the series a request builds on, or the
 newest variable derived from it, is created in the cells but missing from the kernel, PaleoPAL

@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import hashlib
 import json
 import shutil
 import subprocess
@@ -198,6 +199,55 @@ def clone_repo_with_fallback(repo_url: str, branch: str, clone_dir: Path) -> str
 
         return "default"
 
+def code_fingerprint(notebook_path: Path) -> str | None:
+    """A fingerprint of a notebook's code cells, ignoring outputs and whitespace.
+
+    A built copy (with saved outputs) and its source give the same fingerprint.
+    Returns None when the notebook can't be read, so it is never treated as a copy.
+    """
+    try:
+        cells = json.loads(notebook_path.read_text(encoding="utf-8")).get("cells", [])
+    except (OSError, ValueError):
+        return None
+    code = [
+        " ".join("".join(cell.get("source", [])).split())
+        for cell in cells
+        if cell.get("cell_type") == "code"
+    ]
+    if not any(code):
+        return None
+    return hashlib.sha256("\n".join(code).encode("utf-8")).hexdigest()
+
+
+class Deduplicator:
+    """Keeps one copy of each notebook across all sources, recording where the others were."""
+
+    def __init__(self) -> None:
+        self.kept: dict[str, dict[str, Any]] = {}
+        self.skipped = 0
+        self._pending: str | None = None
+
+    def copy_of(self, notebook_path: Path, location: str) -> bool:
+        """True if this notebook's code was already copied; the kept record notes this location."""
+        fingerprint = code_fingerprint(notebook_path)
+        if fingerprint is None or fingerprint not in self.kept:
+            self._pending = fingerprint
+            return False
+        self.kept[fingerprint].setdefault("also_found_at", []).append(location)
+        self.skipped += 1
+        return True
+
+    def keep(self, record: dict[str, Any]) -> None:
+        """Register the record of the notebook just checked by copy_of."""
+        if self._pending is not None:
+            self.kept[self._pending] = record
+
+
+def source_first(paths) -> list[Path]:
+    """Order notebooks so a source copy comes before a built one (e.g. docsrc/ before docs/)."""
+    return sorted(paths, key=lambda p: ("docs" in p.parts, len(p.parts), p.as_posix()))
+
+
 def should_include_file(
     relative_path: str,
     include_patterns: list[str],
@@ -213,6 +263,7 @@ def copy_repo_folder_source(
     source: dict[str, Any],
     output_dir: Path,
     temp_root: Path,
+    dedup: Deduplicator,
 ) -> list[dict[str, Any]]:
     """
     Copy notebooks from a source repository folder into the output directory.
@@ -235,10 +286,17 @@ def copy_repo_folder_source(
 
     copied_records: list[dict[str, Any]] = []
 
-    for notebook_path in clone_dir.rglob("*.ipynb"):
+    for notebook_path in source_first(clone_dir.rglob("*.ipynb")):
         relative_path = notebook_path.relative_to(clone_dir).as_posix()
 
         if not should_include_file(relative_path, include_patterns, exclude_patterns):
+            continue
+
+        source_url = (
+            f"https://github.com/{source['owner']}/{source['repository']}"
+            f"/blob/{commit_sha}/{relative_path}"
+        )
+        if dedup.copy_of(notebook_path, source_url):
             continue
 
         output_path = destination_dir / relative_path
@@ -247,11 +305,6 @@ def copy_repo_folder_source(
         # Later, if you prefer dropping the leading notebooks/ folder, we can adjust this.
         output_path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(notebook_path, output_path)
-
-        source_url = (
-            f"https://github.com/{source['owner']}/{source['repository']}"
-            f"/blob/{commit_sha}/{relative_path}"
-        )
 
         copied_records.append(
             {
@@ -269,6 +322,7 @@ def copy_repo_folder_source(
                 "license": source.get("license"),
             }
         )
+        dedup.keep(copied_records[-1])
 
     print(f"Copied {len(copied_records)} notebook(s) from {name}.")
     return copied_records
@@ -277,6 +331,7 @@ def copy_gallery_csv_source(
     source: dict[str, Any],
     output_dir: Path,
     temp_root: Path,
+    dedup: Deduplicator,
 ) -> list[dict[str, Any]]:
     """
     Copy notebooks from repositories listed in a PaleoBooks-style gallery CSV.
@@ -297,6 +352,8 @@ def copy_gallery_csv_source(
     branch = source.get("branch", "main")
     csv_path = source["csv_path"]
     destination_path = source["destination_path"]
+    # Matched against each notebook's path inside its own repository.
+    exclude_patterns = source.get("exclude", ["**/.ipynb_checkpoints/**"])
 
     gallery_clone_dir = temp_root / name
     destination_dir = clean_generated_source_folder(output_dir, destination_path)
@@ -377,23 +434,26 @@ def copy_gallery_csv_source(
 
             repo_notebook_count = 0
 
-            for notebook_path in search_root.rglob("*.ipynb"):
+            for notebook_path in source_first(search_root.rglob("*.ipynb")):
                 relative_to_search_root = notebook_path.relative_to(search_root).as_posix()
-
-                if ".ipynb_checkpoints" in notebook_path.parts:
-                    continue
-
-                output_path = repo_destination_dir / relative_to_search_root
-                output_path.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(notebook_path, output_path)
-
                 # The source path inside the full cloned repository.
                 source_relative_path = notebook_path.relative_to(notebook_clone_dir).as_posix()
+
+                if ".ipynb_checkpoints" in notebook_path.parts or not should_include_file(
+                    source_relative_path, ["*"], exclude_patterns
+                ):
+                    continue
 
                 source_url = (
                     f"https://github.com/{parsed['owner']}/{parsed['repository']}"
                     f"/blob/{notebook_commit_sha}/{source_relative_path}"
                 )
+                if dedup.copy_of(notebook_path, source_url):
+                    continue
+
+                output_path = repo_destination_dir / relative_to_search_root
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(notebook_path, output_path)
 
                 copied_records.append(
                     {
@@ -419,6 +479,7 @@ def copy_gallery_csv_source(
                         "license": source.get("license"),
                     }
                 )
+                dedup.keep(copied_records[-1])
 
                 repo_notebook_count += 1
 
@@ -456,6 +517,8 @@ def update_notebooks(manifest_path: Path, output_dir: Path) -> None:
     ensure_output_dir(output_dir)
 
     all_records: list[dict[str, Any]] = []
+    # One notebook copied once, even when several folders or repositories hold it.
+    dedup = Deduplicator()
 
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_root = Path(temp_dir)
@@ -465,11 +528,11 @@ def update_notebooks(manifest_path: Path, output_dir: Path) -> None:
             source_name = source.get("name", "unnamed_source")
 
             if source_type == "repo_folder":
-                records = copy_repo_folder_source(source, output_dir, temp_root)
+                records = copy_repo_folder_source(source, output_dir, temp_root, dedup)
                 all_records.extend(records)
 
             elif source_type == "gallery_csv":
-                records = copy_gallery_csv_source(source, output_dir, temp_root)
+                records = copy_gallery_csv_source(source, output_dir, temp_root, dedup)
                 all_records.extend(records)
 
             else:
@@ -479,6 +542,8 @@ def update_notebooks(manifest_path: Path, output_dir: Path) -> None:
                     f"Supported source types: {supported}"
                 )
 
+    print(f"Skipped {dedup.skipped} notebook(s) whose code matched one already copied "
+          "(listed under 'also_found_at' in notebooks.json).")
     write_metadata(output_dir, all_records)
 
     print("Notebook update complete.")

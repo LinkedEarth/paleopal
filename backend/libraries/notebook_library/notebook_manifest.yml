@@ -38,4 +38,13 @@ sources:
     branch: main
     csv_path: doc/cookbook_gallery.csv
     destination_path: paleobooks_gallery
+    # Build folders hold copies of the books' notebooks (Jupyter Book, Sphinx, JupyterLab).
+    # Matched against each notebook's path inside its own repository.
+    exclude:
+      - "_build/*"
+      - "*/_build/*"
+      - "_sources/*"
+      - "*/_sources/*"
+      - "*/.virtual_documents/*"
+      - "*/.ipynb_checkpoints/*"
     license: mixed  
