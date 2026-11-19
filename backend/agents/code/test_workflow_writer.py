@@ -137,7 +137,9 @@ class SourceTests(unittest.TestCase):
         examples = [{"notebook": f"lib/nb{i}.ipynb", "code": "lr04.detrend()"} for i in range(3)]
         result = write(reply(), snippets={"detrend": examples})
         detrend = next(c for c in result.cells if c.step == "detrend")
-        self.assertIn("`nb0.ipynb`, `nb1.ipynb`", detrend.text)
+        self.assertIn("- `nb0.ipynb`:", detrend.text)
+        self.assertIn("- `nb1.ipynb`:", detrend.text)
+        self.assertIn("  ```python\n  lr04.detrend()\n  ```", detrend.text)  # the cell is quoted
         self.assertNotIn("nb2.ipynb", detrend.text)
 
     def test_a_missing_explanation_is_flagged(self):
@@ -505,6 +507,17 @@ class SourceLinkTests(unittest.TestCase):
         block = w._sources_block(step, plan, {"workflow": {"id": "spectral_analysis"}, "steps": [step],
                                                             "rules": [], "method_registry": []}, snippets)
         self.assertIn("[`L1.ipynb`](https://github.com/LinkedEarth/PyleoTutorials/blob/abc/notebooks/L1.ipynb)", block)
+
+    def test_the_section_is_named_and_long_cells_are_cut(self):
+        step = {"id": "detrend", "requiredness": "recommended", "core_api": "pyleoclim.core.series.Series.detrend"}
+        plan = w.Plan(series="lr04", objective="exploratory", method="lomb_scargle", steps=[step])
+        code = "\n".join(f"x{i} = lr04.detrend()" for i in range(30))
+        snippets = {"detrend": [{"code": code, "notebook": "a/L1.ipynb", "heading": "Detrending"}]}
+        block = w._sources_block(step, plan, {"workflow": {"id": "spectral_analysis"}, "steps": [step],
+                                              "rules": [], "method_registry": []}, snippets)
+        self.assertIn('- `L1.ipynb`, section "Detrending":', block)
+        self.assertIn("x14 = lr04.detrend()", block)
+        self.assertNotIn("x15 = lr04.detrend()", block)
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ AUTHORSHIP_CODE = "# Written by PaleoPAL"
 
 _SNIPPETS_PER_STEP = 2
 _SNIPPET_CHARS = 800
+_QUOTED_LINES = 15  # of an example cell, in Sources
 _CONTEXT_CHARS = 400
 _NO_MARKDOWN = "Notebook start"  # the indexer's placeholder for a section with no text
 _SPECTRAL_STEP = "spectral_estimate"
@@ -326,14 +327,18 @@ def _sources_block(step: dict, plan: Plan, workflow: dict, snippets: dict[str, l
         lines += [f"**PaleoPAL's guide to {analysis}{where}:**", "", f"> {source}", ""]
     else:
         lines += ["No source text provided.", ""]
-    names = []
+    shown = []
     for example in _examples_for(step, snippets):
         name = f"`{str(example.get('notebook') or example.get('symbol') or 'unnamed example').rsplit('/', 1)[-1]}`"
         # A link lets the researcher open the notebook the example came from.
-        names.append(f"[{name}]({example['url']})" if example.get("url") else name)
-    names = list(dict.fromkeys(names))
-    if names:
-        lines += ["**Code examples I was shown:** " + ", ".join(names), ""]
+        entry = f"[{name}]({example['url']})" if example.get("url") else name
+        if example.get("heading"):
+            entry += f", section \"{example['heading']}\""
+        # The cell itself, so the researcher sees exactly what I was shown.
+        code = "\n".join(str(example.get("code", "")).strip().splitlines()[:_QUOTED_LINES])
+        shown.append(f"- {entry}:\n\n  ```python\n" + "\n".join(f"  {l}" for l in code.splitlines()) + "\n  ```")
+    if shown:
+        lines += ["**Code examples I was shown:**", "", *shown, ""]
     return "\n".join(lines + ["</details>"])
 
 

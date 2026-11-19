@@ -661,6 +661,14 @@ the old snippet search and the Read the Docs examples. Sources link each example
 GitHub (`source_url`). Live: "detrend lr04 with savitzky-golay" → the tutorial's Savitzky-Golay cell
 first, `lr04.detrend(method='savitzky-golay')` (no `preserve_mean` copied), no repairs. Not yet: at
 most one or two examples per notebook (several results often come from one tutorial).
+**Refinement wanted (Deborah, 2026-11-18):** link a Sources entry to the actual snippet, not just the
+notebook. GitHub's notebook view has no per-cell anchors; options are quoting the cell in Sources, and
+linking to the rendered Jupyter Book page at the cell's section heading. **Deborah chose both.**
+**Quote built 2026-11-18 (tested by Deborah):** each example in Sources is listed with its
+notebook link, its section heading, and the cell itself (first 15 lines). **Next session:** the link
+to the section on the rendered pages (find each source's web address, e.g.
+`linked.earth/PyleoTutorials/notebooks/<name>.html`, and check how its heading anchors are formed;
+fall back to the GitHub link), then the per-notebook cap on examples, then the PyLiPD design.
 **Reminder for Deborah:** add `add_GTS` (geologic time scale on a plot) to the plot guide as an
 example of what PaleoPAL can do.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
