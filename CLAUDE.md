@@ -604,6 +604,28 @@ the router's order. A question from the analysis comes first (the plot is planne
 plot question goes under the analysis. Live: "run spectral analysis on lr04 and plot the detrended
 series" → detrend, plot of `lr04_detrended`, standardize, spectrum, its plot, the significance offer;
 one repair, because the spectral writer first put a plot in the detrend step (it sees the whole request).
+Fixed the same day: the spectral writer is told too (`Plan.also_planned`). Tested by Deborah; committed.
+**Before data loading (Deborah, 2026-11-18): maintenance tools first**, which researchers never run
+but Claude reminds Deborah to run periodically: (1) an API reference per package (PyLiPD 1.5.1 and
+PyleoTUPS 0.0.2b0 are installed, editable, in the `pyleo` env); (2) integrate one data source at a
+time (recommended: LiPD files via PyLiPD, then the graph, then PyleoTUPS); (3) rethink the corpus as a
+model-free catalog per code cell (packages, methods called on which object types, guide steps shown,
+tutorial vs science), so examples are found by exact lookup and ranked by similarity. Clean index
+today: 510 snippets from PaleoBooks, 138 from 19 Pyleoclim tutorials, 56 from 10 PyLiPD tutorials, 2
+mentioning PyleoTUPS. **PyleoTUPS has tutorials** (Deborah); they aren't in the manifest yet. Order:
+reference script, then catalog design, then PyLiPD.
+**Reference script built 2026-11-18:** `backend/scripts/build_api_reference.py <package>` (run in the
+`pyleo` env) writes `backend/references/<package>_api.json`: classes with their methods (arguments,
+defaults, `accepts_kwargs`, the return type read from the docstring's Returns section), and module
+functions. Pyleoclim 1.3.1b0: 27 classes, 354 methods, 193 functions, 162 return types. Compared with
+the old hand-ported file: 5 names gone from Pyleoclim (`corr_isopersist`, `corr_isospec`, `corr_sig`,
+`phaseran2`, the typo `hightlight_intervals`), new ones it lacked (`add_GTS`, `highlight_intervals`,
+`from_pandas`…), and 19 methods whose `**kwargs` it listed as an argument named `kwargs` (why
+`bin(bin_size=…)` was rejected). Inherited methods name the parent's type (`GeoSeries.detrend` says
+`Series`): read it as "the receiver's type". **Switched (Deborah, 2026-11-18):** `api_validation.py`
+reads the new file (still by method name; class-aware later); the old file is removed.
+**Reminder for Deborah:** add `add_GTS` (geologic time scale on a plot) to the plot guide as an
+example of what PaleoPAL can do.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
 → data loading. Editing a step: remind Deborah when we get there.
 **Chatbot / explanation (planned, never built):** a conversational mode

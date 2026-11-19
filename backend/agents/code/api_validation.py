@@ -10,21 +10,19 @@ runs". Two failures it catches that nothing else does:
 Both look plausible. Both raise on the first line. Neither is visible to a
 structural check.
 
-Symbol source, in order of preference:
-  1. the installed pyleoclim, introspected live (authoritative, tracks your
-     version)
-  2. pyleoclim_api.json bundled next to this file (fallback for environments
-     without pyleoclim)
+The symbols come from references/pyleoclim_api.json, built from an installed Pyleoclim by
+scripts/build_api_reference.py and rebuilt when Pyleoclim releases a new version. (The backend
+doesn't have Pyleoclim installed, and a researcher's kernel may hold another version.) Names are
+matched by method, not yet by class.
 """
 
 from __future__ import annotations
 
 import ast
-import inspect
 import json
 import pathlib
 
-_BUNDLED = pathlib.Path(__file__).parent / "pyleoclim_api.json"
+_REFERENCE = pathlib.Path(__file__).resolve().parents[2] / "references" / "pyleoclim_api.json"
 
 # Method names that legitimately belong to other libraries and should not be
 # validated against Pyleoclim.
@@ -36,36 +34,21 @@ _FOREIGN = {
 }
 
 
-def _from_installed() -> dict | None:
-    try:
-        import pyleoclim  # noqa: F401
-    except Exception:
-        return None
-
-    import pyleoclim as pyleo
-
-    methods: dict[str, set[str]] = {}
-    for cls_name in dir(pyleo):
-        cls = getattr(pyleo, cls_name, None)
-        if not inspect.isclass(cls):
+def _load(path: pathlib.Path = _REFERENCE) -> dict:
+    """Method and function names, each with its argument names and whether it takes extra
+    keyword settings. A name defined in several classes gets the union of their arguments."""
+    reference = json.loads(path.read_text(encoding="utf-8"))
+    methods: dict[str, dict] = {}
+    entries = [(name, d) for c in reference["classes"].values() for name, d in c["methods"].items()]
+    entries += [(path_.rsplit(".", 1)[-1], d) for path_, d in reference["functions"].items()]
+    for name, described in entries:
+        if name.startswith("_"):
             continue
-        for meth_name, meth in inspect.getmembers(cls, callable):
-            if meth_name.startswith("_"):
-                continue
-            try:
-                sig = inspect.signature(meth)
-            except (ValueError, TypeError):
-                continue
-            params = {p for p in sig.parameters if p != "self"}
-            methods.setdefault(meth_name, set()).update(params)
-    return {"methods": {k: sorted(v) for k, v in methods.items()},
-            "source": f"installed pyleoclim {getattr(pyleo, '__version__', '?')}"}
-
-
-def _from_bundle() -> dict:
-    data = json.loads(_BUNDLED.read_text(encoding="utf-8"))
-    data["source"] = f"bundled {_BUNDLED.name}"
-    return data
+        known = methods.setdefault(name, {"params": set(), "accepts_kwargs": False})
+        known["params"] |= {p["name"] for p in described["params"]}
+        known["accepts_kwargs"] |= described["accepts_kwargs"]
+    return {"methods": methods,
+            "source": f"{path.name} (Pyleoclim {reference.get('version')}, built {reference.get('built')})"}
 
 
 _API_CACHE: dict | None = None
@@ -74,7 +57,7 @@ _API_CACHE: dict | None = None
 def get_api() -> dict:
     global _API_CACHE
     if _API_CACHE is None:
-        _API_CACHE = _from_installed() or _from_bundle()
+        _API_CACHE = _load()
     return _API_CACHE
 
 
@@ -109,7 +92,11 @@ def validate(code: str) -> tuple[list[str], list[str], str]:
                 )
             continue
 
-        valid = set(known[name])
+        # Extra keyword settings are passed on to pyleoclim.utils (e.g. bin(bin_size=...)), so a
+        # method that accepts them can't have its keywords judged by name.
+        if known[name]["accepts_kwargs"]:
+            continue
+        valid = known[name]["params"]
         if not valid:
             continue
         for kw in node.keywords:
