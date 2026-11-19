@@ -669,6 +669,15 @@ notebook link, its section heading, and the cell itself (first 15 lines). **Next
 to the section on the rendered pages (find each source's web address, e.g.
 `linked.earth/PyleoTutorials/notebooks/<name>.html`, and check how its heading anchors are formed;
 fall back to the GitHub link), then the per-notebook cap on examples, then the PyLiPD design.
+**Release watcher (Deborah chose (a), 2026-11-18; committed):**
+`.github/workflows/check-package-releases.yml` runs weekly (and by hand), runs
+`backend/scripts/check_package_releases.py` (PyPI's latest release vs each reference's `version`; a
+release beats a `b` build of the same number) and opens one issue per new release, assigned to
+`khider`, so GitHub emails her; never twice for the same release. Scheduled Actions run only from
+`main`, so it starts once the redesign is merged; until then Claude reminds her. First run found
+PyPI Pyleoclim 1.3.1 vs the reference's 1.3.1b0: her editable install reports 1.3.1b0 although the
+source says 1.3.2b0 (not reinstalled since the bump). **Fixed the same day:** reinstalled with `pip install -e . --no-deps`; both Pyleoclim references
+rebuilt from 1.3.2b0 (content unchanged apart from the version); the check now finds nothing.
 **Reminder for Deborah:** add `add_GTS` (geologic time scale on a plot) to the plot guide as an
 example of what PaleoPAL can do.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide

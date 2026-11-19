@@ -1,0 +1,60 @@
+name: Check package releases
+
+# Once a week, compare the latest releases of Pyleoclim, PyLiPD and PyleoTUPS on PyPI with the
+# versions PaleoPAL's references were built from (backend/references/*_api.json). For each newer
+# release, open one issue assigned to the maintainer, so GitHub emails them. Never twice for the
+# same release, even after the issue is closed.
+
+on:
+  schedule:
+    - cron: "0 14 * * 1"   # Mondays, 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  ASSIGNEE: khider
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install packaging
+
+      - name: Compare releases with the references
+        id: compare
+        run: python backend/scripts/check_package_releases.py > releases.jsonl
+
+      - name: Open an issue for each new release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            package=$(echo "$line" | jq -r .package)
+            released=$(echo "$line" | jq -r .released)
+            built=$(echo "$line" | jq -r .built)
+            title="Rebuild PaleoPAL references: ${package} ${released} released"
+            if gh issue list --state all --search "in:title \"${title}\"" --json title --jq '.[].title' | grep -Fxq "$title"; then
+              echo "Already reported: $title"
+              continue
+            fi
+            {
+              echo "${package} ${released} is on PyPI. PaleoPAL's references were built from ${built}."
+              echo
+              echo "Rebuild, in an environment with ${package} ${released} installed:"
+              echo "$line" | jq -r '.rebuild[] | "- " + .'
+              echo
+              echo "Then commit the new files. Close this issue when done."
+            } > body.md
+            gh issue create --title "$title" --body-file body.md --assignee "$ASSIGNEE"
+          done < releases.jsonl
