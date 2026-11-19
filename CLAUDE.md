@@ -634,6 +634,33 @@ as text so far; data loading will want them. **Deborah:** the generated ontology
 PyleoTUPS's returns are mostly `pandas.DataFrame`. Each data source's functionality gets the same
 step-by-step discussion as spectral did, before building. **Docs versioning (Deborah):** PyLiPD and PyleoTUPS follow
 Pyleoclim's rule: a `b` version is main, documented as `latest` on Read the Docs.
+**Example catalog (agreed 2026-11-18):** the unit is **one code cell**, with its section heading, the
+markdown above it, links to its neighbours and its lineage. Today's indexer joins all code under a
+markdown heading into one snippet (138 from 19 Pyleoclim tutorials; the writer sees 800 characters),
+built so PaleoPAL could infer workflows from notebooks. Deborah: reading notebooks whole wasn't the
+fix for matplotlib or step order, so the section unit no longer makes sense; the guides carry the
+workflow. The corpus's jobs now: show how one step is written and which arguments experts choose;
+the markdown explaining a setting (for the chat); where something came from. The "workflows"
+collection is no longer needed. Plan: (1) a model-free catalog builder and summary for review;
+(2) review; (3) index cells with their facts as filters; (4) example search = exact lookup, then
+ranked by similarity.
+**Catalog built 2026-11-18** (`backend/scripts/build_example_catalog.py`; output and summary in
+`~/Documents/PaleoPAL/example_catalog/`): 2,515 code cells from 132 notebooks; Pyleoclim in 272,
+PyLiPD in 109, PyleoTUPS in 2. Types are followed with the API references; IPython lines (`%load_ext`)
+are blanked so a cell still parses (without that, most tutorials were lost). Cells per guide step
+range from 86 (plot the series) to 2 (scree plot); detrend 12, regrid 21, significance 21. Lineage
+found 13 spectra standardized *before* regridding (12 in `L2_spectral_analysis`, e.g.
+`lr04_s.standardize().interp().spectral(...)`). **Deborah: it doesn't really matter** (that's why the
+spectral call standardizes again in case it was done out of order), so **the guide decides the order
+and the tutorials serve as examples.**
+**Indexed and switched 2026-11-18:** `scripts/index_example_catalog.py` (run inside the backend
+container) put the 747 cells that call one of the packages into `clean_examples`, with the facts as
+payload (`call_names`, `steps`, `kind`…). `agents/code/example_search.py` does an exact lookup per
+step method (`call_names` = "Series.detrend") ranked by the researcher's request; it replaces both
+the old snippet search and the Read the Docs examples. Sources link each example to its notebook on
+GitHub (`source_url`). Live: "detrend lr04 with savitzky-golay" → the tutorial's Savitzky-Golay cell
+first, `lr04.detrend(method='savitzky-golay')` (no `preserve_mean` copied), no repairs. Not yet: at
+most one or two examples per notebook (several results often come from one tutorial).
 **Reminder for Deborah:** add `add_GTS` (geologic time scale on a plot) to the plot guide as an
 example of what PaleoPAL can do.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide

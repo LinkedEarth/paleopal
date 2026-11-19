@@ -39,4 +39,6 @@ async def find_step_snippets(step: dict, searches: list[Search], top_k: int = 5)
         for search in searches:
             results.extend(await search(query, top_k=top_k))
     kept = [r for r in results if calls_step(r.get("code", ""), step)]
-    return sorted(kept, key=lambda r: r.get("similarity_score", 0), reverse=True)
+    # The same cell can match two of a step's methods; keep it once.
+    unique = {(r.get("example_id") or r.get("code")): r for r in kept}
+    return sorted(unique.values(), key=lambda r: r.get("similarity_score", 0), reverse=True)

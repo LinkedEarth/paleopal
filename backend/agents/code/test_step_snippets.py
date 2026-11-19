@@ -69,5 +69,16 @@ class SearchTests(unittest.TestCase):
         self.assertEqual([k["code"] for k in kept], ["a.standardize()", "ts.standardize()"])
 
 
+class CatalogDedupeTests(unittest.TestCase):
+    def test_a_cell_matching_two_methods_is_kept_once(self):
+        step = {"id": "regrid", "core_api": ["pyleoclim.core.series.Series.interp", "pyleoclim.core.series.Series.bin"]}
+        cell = {"code": "x = ts.interp().bin()", "example_id": "nb#3", "similarity_score": 0.5}
+
+        async def search(query, top_k=5):
+            return [dict(cell)]
+        found = asyncio.run(s.find_step_snippets(step, [search]))
+        self.assertEqual(len(found), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

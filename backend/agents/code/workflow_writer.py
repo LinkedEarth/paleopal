@@ -326,11 +326,14 @@ def _sources_block(step: dict, plan: Plan, workflow: dict, snippets: dict[str, l
         lines += [f"**PaleoPAL's guide to {analysis}{where}:**", "", f"> {source}", ""]
     else:
         lines += ["No source text provided.", ""]
-    names = [str(e.get("notebook") or e.get("symbol") or "unnamed example").rsplit("/", 1)[-1]
-             for e in _examples_for(step, snippets)]
+    names = []
+    for example in _examples_for(step, snippets):
+        name = f"`{str(example.get('notebook') or example.get('symbol') or 'unnamed example').rsplit('/', 1)[-1]}`"
+        # A link lets the researcher open the notebook the example came from.
+        names.append(f"[{name}]({example['url']})" if example.get("url") else name)
+    names = list(dict.fromkeys(names))
     if names:
-        lines += ["**Code examples I was shown:** "
-                  + ", ".join(f"`{n}`" for n in names), ""]
+        lines += ["**Code examples I was shown:** " + ", ".join(names), ""]
     return "\n".join(lines + ["</details>"])
 
 

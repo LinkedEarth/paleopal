@@ -565,7 +565,6 @@ async def handle(request):
     from agents.base_agent import AgentResponse, AgentStatus
     from agents.base_state import MAX_REFINEMENTS
     from langchain_core.messages import HumanMessage, SystemMessage
-    from services.search_integration_service import search_service
     from services.service_manager import service_manager
 
     metadata = request.metadata or {}
@@ -580,7 +579,10 @@ async def handle(request):
     guides = guide_router.load_guides()
     workflow = guides["spectral_analysis"]
     kernel = (request.notebook_context or {}).get("kernel")
-    searches = [search_service.search_snippets, search_service.search_code_examples]
+    # Examples come from the example catalog: an exact lookup per step method, ranked by the request.
+    from functools import partial
+    from . import example_search
+    searches = [partial(example_search.search, request=request.user_input)]
     objects = {name: item.type for name, item in plot_flow.plottable(
         code_cells_from_history(history), guides["visualization"], kernel).items()}
     route = await asyncio.to_thread(guide_router.route_request, request.user_input, guides, call_model,

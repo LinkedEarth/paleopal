@@ -496,5 +496,16 @@ class RejectionTests(unittest.TestCase):
         self.assertEqual(len(result.problems), 1)
 
 
+class SourceLinkTests(unittest.TestCase):
+    def test_an_example_with_a_url_is_linked(self):
+        step = {"id": "detrend", "requiredness": "recommended", "core_api": "pyleoclim.core.series.Series.detrend"}
+        plan = w.Plan(series="lr04", objective="exploratory", method="lomb_scargle", steps=[step])
+        snippets = {"detrend": [{"code": "x = lr04.detrend()", "notebook": "pyleoclim_tutorials/notebooks/L1.ipynb",
+                                 "url": "https://github.com/LinkedEarth/PyleoTutorials/blob/abc/notebooks/L1.ipynb"}]}
+        block = w._sources_block(step, plan, {"workflow": {"id": "spectral_analysis"}, "steps": [step],
+                                                            "rules": [], "method_registry": []}, snippets)
+        self.assertIn("[`L1.ipynb`](https://github.com/LinkedEarth/PyleoTutorials/blob/abc/notebooks/L1.ipynb)", block)
+
+
 if __name__ == "__main__":
     unittest.main()
