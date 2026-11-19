@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { randomUUID } from 'crypto';
-import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCell, appendCodeCell, runAllNotebookCells, buildHistoryUpToCell, getActiveCellIndex, insertLoadingCell, updateCellText, deleteCell, insertMarkdownCellAt, insertAgentCells, AgentCell } from './notebook';
+import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCell, appendCodeCell, runAllNotebookCells, buildHistoryUpToCell, getActiveCellIndex, insertLoadingCell, updateCellText, deleteCell, insertMarkdownCellAt, insertAgentCells, moveRequestAndInsert, AgentCell } from './notebook';
 import { showClarificationPanel, ClarificationQuestion } from './clarifyPanel';
 import { openChatPanel } from './chatPanel';
 import { readKernelFacts } from './kernelFacts';
@@ -79,7 +79,12 @@ async function insertReturnedCells(response: any, afterIndex?: number, notebook?
   const cells: AgentCell[] | undefined = response?.result?.cells;
   if (!Array.isArray(cells) || cells.length === 0) return false;
   const count = (notebook ?? vscode.window.activeNotebookEditor?.notebook)?.cellCount ?? 0;
-  await insertAgentCells(afterIndex ?? count - 1, cells, notebook);
+  const anchor = response?.result?.place_after_cell;
+  if (typeof anchor === 'number' && typeof afterIndex === 'number') {
+    await moveRequestAndInsert(afterIndex, anchor, cells, notebook);
+  } else {
+    await insertAgentCells(afterIndex ?? count - 1, cells, notebook);
+  }
   return true;
 }
 

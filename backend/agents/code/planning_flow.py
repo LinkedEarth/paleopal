@@ -540,7 +540,10 @@ async def handle(request):
     workflow = guides["spectral_analysis"]
     kernel = (request.notebook_context or {}).get("kernel")
     searches = [search_service.search_snippets, search_service.search_code_examples]
-    route = await asyncio.to_thread(guide_router.route_request, request.user_input, guides, call_model)
+    objects = {name: item.type for name, item in plot_flow.plottable(
+        code_cells_from_history(history), guides["visualization"], kernel).items()}
+    route = await asyncio.to_thread(guide_router.route_request, request.user_input, guides, call_model,
+                                    objects)
     logger.info("Guide router chose %s (problems=%s)", route.guides, route.problems)
     # An unreadable reply keeps today's behaviour: the spectral guide reads the request.
     chosen = ["spectral_analysis"] if route.failed else route.guides

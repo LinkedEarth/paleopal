@@ -72,20 +72,21 @@ export function buildConversationHistoryFromNotebook(notebook?: vscode.NotebookD
   return messages;
 }
 
-export function buildHistoryUpToCell(targetIndex: number): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] {
+export function buildHistoryUpToCell(targetIndex: number): { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; cell_index?: number; }[] {
   const editor = getActiveNotebookEditor();
-  const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; }[] = [];
+  const messages: { role: 'user' | 'assistant'; content: string; agent_type?: string; generated_content?: string; decisions?: any; cell_index?: number; }[] = [];
   if (!editor) return messages;
   const cells = editor.notebook.getCells();
+  // Each message carries its cell's position, so the backend can say where new cells belong.
   for (let i = 0; i < Math.min(targetIndex, cells.length); i++) {
     const cell = cells[i];
     if (cell.kind === vscode.NotebookCellKind.Markup) {
       const text = cell.document.getText();
-      if (isPaleoPalMarkdown(cell)) messages.push(paleoPalNote(cell, text));
-      else if (text.trim().length > 0) messages.push({ role: 'user', content: text });
+      if (isPaleoPalMarkdown(cell)) messages.push({ ...paleoPalNote(cell, text), cell_index: i });
+      else if (text.trim().length > 0) messages.push({ role: 'user', content: text, cell_index: i });
     } else if (cell.kind === vscode.NotebookCellKind.Code) {
       const code = cell.document.getText();
-      if (code.trim().length > 0) messages.push({ role: 'assistant', content: '', agent_type: 'code', generated_content: code });
+      if (code.trim().length > 0) messages.push({ role: 'assistant', content: '', agent_type: 'code', generated_content: code, cell_index: i });
     }
   }
   return messages;
@@ -166,7 +167,13 @@ export async function insertAgentCells(afterIndex: number, cells: AgentCell[], n
   const target = notebookOrActive(notebook);
   if (!target) return;
   const insertIndex = Math.min(afterIndex + 1, target.cellCount);
-  const data = cells.map(cell => {
+  const ws = new vscode.WorkspaceEdit();
+  ws.set(target.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), agentCellData(cells))]);
+  await applyOrWarn(ws);
+}
+
+function agentCellData(cells: AgentCell[]): vscode.NotebookCellData[] {
+  return cells.map(cell => {
     const isCode = cell.kind === 'code';
     const cellData = new vscode.NotebookCellData(
       isCode ? vscode.NotebookCellKind.Code : vscode.NotebookCellKind.Markup,
@@ -176,8 +183,27 @@ export async function insertAgentCells(afterIndex: number, cells: AgentCell[], n
     cellData.metadata = { metadata: { paleopal: { generated: true, step: cell.step ?? null, decisions: cell.decisions ?? [] } } };
     return cellData;
   });
+}
+
+// The request cell moves to just after `anchorIndex`, followed by PaleoPAL's new cells: one edit, so
+// one undo. Used when a plot belongs next to the cell that creates what it shows.
+export async function moveRequestAndInsert(requestIndex: number, anchorIndex: number, cells: AgentCell[],
+                                           notebook?: vscode.NotebookDocument): Promise<void> {
+  const target = notebookOrActive(notebook);
+  if (!target || anchorIndex >= requestIndex - 1 || requestIndex >= target.cellCount) {
+    await insertAgentCells(requestIndex, cells, notebook);
+    return;
+  }
+  const request = target.cellAt(requestIndex);
+  const moved = new vscode.NotebookCellData(request.kind, request.document.getText(), request.document.languageId);
+  moved.metadata = request.metadata;
   const ws = new vscode.WorkspaceEdit();
-  ws.set(target.uri, [vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(insertIndex, insertIndex), data)]);
+  // The request is below the anchor, so removing it doesn't shift the insertion point.
+  ws.set(target.uri, [
+    vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(requestIndex, requestIndex + 1), []),
+    vscode.NotebookEdit.replaceCells(new vscode.NotebookRange(anchorIndex + 1, anchorIndex + 1),
+                                     [moved, ...agentCellData(cells)]),
+  ]);
   await applyOrWarn(ws);
 }
 

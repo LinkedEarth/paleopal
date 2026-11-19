@@ -220,5 +220,43 @@ class FlowTests(unittest.TestCase):
         self.assertEqual(result["checker_findings"], [])
 
 
+class PlacementTests(unittest.TestCase):
+    def indexed(self, *cells):
+        return [{"role": "assistant", "generated_content": c, "cell_index": i} for i, c in enumerate(cells)]
+
+    def test_plot_goes_after_the_cell_that_creates_it(self):
+        history = self.indexed(LOAD, "lr04_detrended = lr04.detrend()", "psd = lr04_detrended.spectral()")
+        self.assertEqual(plot_flow.placement(history, "lr04_detrended"), 1)
+
+    def test_no_move_when_the_creator_is_just_above(self):
+        history = self.indexed(LOAD, "lr04_detrended = lr04.detrend()")
+        self.assertIsNone(plot_flow.placement(history, "lr04_detrended"))
+
+    def test_the_last_creation_counts(self):
+        history = self.indexed(LOAD, "d = lr04.detrend()", "d = lr04.detrend(method='linear')", "x = 1")
+        self.assertEqual(plot_flow.placement(history, "d"), 2)
+
+    def test_markdown_between_still_moves(self):
+        history = self.indexed(LOAD, "d = lr04.detrend()") + [{"role": "user", "content": "notes", "cell_index": 2}]
+        self.assertEqual(plot_flow.placement(history, "d"), 1)
+
+    def test_old_extension_never_moves(self):
+        self.assertIsNone(plot_flow.placement(history(LOAD, "d = lr04.detrend()", "x = 1"), "d"))
+
+    def test_flow_says_it_moved_and_where(self):
+        cells = [LOAD, "lr04_detrended = lr04.detrend()", "psd = lr04_detrended.spectral()"]
+        indexed = [{"role": "assistant", "generated_content": c, "cell_index": i} for i, c in enumerate(cells)]
+        call = model({"object": "lr04_detrended", "plot": None})
+        result = asyncio.run(plot_flow.run("plot the detrended series", indexed, GUIDE, call, [no_search]))
+        self.assertEqual(result["place_after_cell"], 1)
+        markdown = next(c["text"] for c in result["cells"] if c.get("step") == "plot_series" and c["kind"] == "markdown")
+        self.assertIn("right after the cell that creates `lr04_detrended`", markdown)
+
+    def test_flow_without_a_move_says_nothing(self):
+        result, _ = run("plot lr04", [LOAD], {"object": "lr04", "plot": None})
+        self.assertNotIn("place_after_cell", result)
+        self.assertNotIn("I placed this plot", json.dumps(result))
+
+
 if __name__ == "__main__":
     unittest.main()

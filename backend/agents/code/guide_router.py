@@ -30,10 +30,16 @@ Each guide covers one kind of work in a paleoclimate notebook. Reply with one JS
 - List a guide only if the request asks for something it covers.
 - An analysis guide already plots its own result: "run a spectral analysis and plot it" needs only that analysis guide.
 - The visualization guide is for plots on their own ("plot lr04", "plot the spectrum", "make a dashboard"), and for plots an analysis doesn't make ("plot the series, then run a spectral analysis" needs both).
+- Plotting something that already exists in the notebook needs only the visualization guide, even when its
+name mentions an analysis step: "plot the detrended series" is a plot of an existing detrended series, not a
+request to detrend. Use an analysis guide only when the request asks for something to be computed.
 - If no guide covers the request, reply {{"guides": []}}.
 
 Guides:
-{guides}"""
+{guides}
+
+Objects already in the notebook (name and type):
+{objects}"""
 
 
 @dataclass
@@ -67,16 +73,20 @@ def describe(guide: dict) -> str:
             f"  Covers: {'; '.join(entries)}")
 
 
-def build_system_prompt(guides: dict[str, dict]) -> str:
-    return _SYSTEM_PROMPT.format(guides="\n".join(describe(g) for g in guides.values()))
+def build_system_prompt(guides: dict[str, dict], objects: dict[str, str] | None = None) -> str:
+    listed = "\n".join(f"- {name} ({kind})" for name, kind in (objects or {}).items()) or "(none)"
+    return _SYSTEM_PROMPT.format(guides="\n".join(describe(g) for g in guides.values()), objects=listed)
 
 
 def route_request(request: str, guides: dict[str, dict],
-                  call_model: Callable[[str, str], str]) -> Route:
-    """`call_model(system_prompt, user_message)` returns the model's text reply."""
+                  call_model: Callable[[str, str], str], objects: dict[str, str] | None = None) -> Route:
+    """`call_model(system_prompt, user_message)` returns the model's text reply.
+
+    `objects` maps the notebook's Pyleoclim objects to their type names (never values), so a request to
+    plot an existing object isn't mistaken for a request to compute it."""
     route = Route()
     try:
-        match = re.search(r"\{.*\}", call_model(build_system_prompt(guides), request), re.DOTALL)
+        match = re.search(r"\{.*\}", call_model(build_system_prompt(guides, objects), request), re.DOTALL)
         if not match:
             raise ValueError("no JSON object in the reply")
         chosen = json.loads(match.group(0)).get("guides")

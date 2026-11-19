@@ -577,6 +577,25 @@ guides are approved. For the Pyleoclim list: `Series.plot`'s docstring doesn't d
 <question>` opens the chat. Under `@paleopal` only `chat` is a keyword ("@paleopal plot lr04" is a
 request). `@agent code|sparql|workflow|chat` keep working for older notebooks; SPARQL moves into the
 front door with the data work. Parser in `vscode-extension/src/trigger.ts`.
+**Case 3 design (agreed 2026-11-18, not built):** both guides in one request: the analysis is
+planned first, then the plot guide plans against the notebook plus the new analysis cells (the
+not-run check skips those); the spectral interpreter is told plots belong to the plot guide, so they
+aren't listed as uncovered; one intro, one undo; the interim "can't yet combine" note goes away.
+**Placement (Deborah): a plot goes as close as possible to the object it shows**, i.e. right after
+the cell that creates it, **even when asked later in the notebook** (e.g. the spectral analysis is
+finished, then "plot the detrended series" is asked at the end: the plot goes after the detrend
+cell). A plot of an object that existed before the request follows the request's order. Deborah:
+"try to have both cells migrate": **the request cell moves with the plot** (confirmed), so the request
+stays right above its answer, and the explanation says it was moved.
+**Placement built 2026-11-18 (extension 0.1.14):** the extension sends each history message's
+`cell_index`; `plot_flow.placement` finds the cell that last creates the plotted object and returns
+`place_after_cell`; the extension moves the request there with the new cells (one undo); Python adds
+"I placed this plot, and your request, right after the cell that creates `…`, so the plot sits next
+to what it shows." **Use case (Deborah): a workflow written by hand**, outside PaleoPAL (also saves
+credits). First try failed: the router, blind to the notebook, read "plot the detrended series" as
+spectral steps (detrend + visualize) and plotted the PSD. Fixed: the router now gets the notebook's
+objects (names and types, never values) and a rule that plotting an existing object needs only the
+plot guide. Replayed live on her notebook: plot guide only, `lr04_detrended.plot()`, placed after cell 2.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
 → data loading. Editing a step: remind Deborah when we get there.
 **Chatbot / explanation (planned, never built):** a conversational mode

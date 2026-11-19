@@ -94,5 +94,17 @@ class RouteTests(unittest.TestCase):
             self.assertEqual(route.guides, [])
 
 
+class ObjectsTests(unittest.TestCase):
+    def test_objects_reach_the_prompt(self):
+        call = model('{"guides": ["visualization"]}')
+        guide_router.route_request("plot the detrended series", GUIDES, call,
+                                   {"lr04": "Series", "lr04_detrended": "Series", "psd": "PSD"})
+        self.assertIn("- lr04_detrended (Series)", call.calls[0][0])
+        self.assertIn("plot the detrended series\" is a plot of an existing", call.calls[0][0])
+
+    def test_no_objects(self):
+        self.assertIn("(none)", guide_router.build_system_prompt(GUIDES))
+
+
 if __name__ == "__main__":
     unittest.main()

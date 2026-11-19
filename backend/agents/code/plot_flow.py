@@ -322,15 +322,52 @@ async def run(user_input: str, history: list[dict], guide: dict,
                                   "I wasn't able to write this plot, so please try rephrasing your request.")
 
     code = next(c.text for c in written.cells if c.kind == "code")
-    _add_statements(written.cells[0], statements_for(entry, plotted_objects(code, entry, objects), guide))
+    sentences = statements_for(entry, plotted_objects(code, entry, objects), guide)
+    # A plot goes right after the cell that creates what it shows, with the request moved along
+    # (Deborah, 2026-11-18). Only the extension can move cells; this says where.
+    anchor = placement(history, item.name)
+    if anchor is not None:
+        sentences.append(MOVED_NOTE.format(name=item.name))
+    _add_statements(written.cells[0], sentences)
     new_cells = [asdict(c) for c in written.cells]
     if problems:
         new_cells.insert(0, planning_flow._warning_cell(problems))
     if not planning_flow._has_paleopal_cells(history):
         new_cells.insert(0, {"kind": "markdown", "text": planning_flow._INTRO, "step": None})
-    return {"generated_code": code, "cells": new_cells, "needs_user_input": False,
-            "checker_findings": problems, "repairs": repairs,
-            "plan": {"series": item.name, "steps": [entry["id"]]}}
+    result = {"generated_code": code, "cells": new_cells, "needs_user_input": False,
+              "checker_findings": problems, "repairs": repairs,
+              "plan": {"series": item.name, "steps": [entry["id"]]}}
+    if anchor is not None:
+        result["place_after_cell"] = anchor
+    return result
+
+
+MOVED_NOTE = ("I placed this plot, and your request, right after the cell that creates `{name}`, "
+              "so the plot sits next to what it shows.")
+
+
+def _creates(code: str, name: str) -> bool:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return False
+    return any(isinstance(s, ast.Assign) and any(isinstance(t, ast.Name) and t.id == name for t in s.targets)
+               for s in tree.body)
+
+
+def placement(history: list[dict], name: str) -> int | None:
+    """The notebook index of the cell that last creates `name`, when it isn't the last cell above the
+    request (then the plot goes there). None when no move is needed, or the extension is too old to
+    send cell positions."""
+    indexed = [m for m in history or [] if isinstance(m.get("cell_index"), int)]
+    if not indexed:
+        return None
+    creator = None
+    for message in indexed:
+        if message.get("generated_content") and _creates(message["generated_content"], name):
+            creator = message["cell_index"]
+    last = max(m["cell_index"] for m in indexed)
+    return creator if creator is not None and creator != last else None
 
 
 def _problems(written, task: dict) -> list[str]:
