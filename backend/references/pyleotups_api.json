@@ -1,0 +1,1688 @@
+{
+ "package": "pyleotups",
+ "version": "1.1.0",
+ "built": "2026-11-19",
+ "classes": {
+  "pyleotups.core.BaseDataset.BaseDataset": {
+   "bases": [
+    "abc.ABC"
+   ],
+   "methods": {
+    "get_data": {
+     "params": [],
+     "accepts_kwargs": true,
+     "accepts_args": true,
+     "returns": null,
+     "defined_in": "pyleotups.core.BaseDataset.BaseDataset"
+    },
+    "get_funding": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.core.BaseDataset.BaseDataset"
+    },
+    "get_geo": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.core.BaseDataset.BaseDataset"
+    },
+    "get_publications": {
+     "params": [],
+     "accepts_kwargs": true,
+     "accepts_args": true,
+     "returns": null,
+     "defined_in": "pyleotups.core.BaseDataset.BaseDataset"
+    },
+    "get_summary": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.core.BaseDataset.BaseDataset"
+    },
+    "search_studies": {
+     "params": [],
+     "accepts_kwargs": true,
+     "accepts_args": true,
+     "returns": null,
+     "defined_in": "pyleotups.core.BaseDataset.BaseDataset"
+    }
+   }
+  },
+  "pyleotups.core.NOAADataset.NOAADataset": {
+   "bases": [
+    "pyleotups.core.BaseDataset.BaseDataset"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_data": {
+     "params": [
+      {
+       "name": "dataTableIDs",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "file_urls",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "list of pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_funding": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_geo": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_publications": {
+     "params": [
+      {
+       "name": "save",
+       "default": "False",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "path",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "verbose",
+       "default": "False",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "tuple (pybtex.database.BibliographyData, pandas.DataFrame)",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_sites": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_summary": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_tables": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "get_variables": {
+     "params": [
+      {
+       "name": "dataTableIDs",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    },
+    "search_studies": {
+     "params": [
+      {
+       "name": "xml_id",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "noaa_id",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "search_text",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "data_type_id",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "investigators",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "investigators_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "locations",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "locations_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "keywords",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "keywords_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "species",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "species_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "variable_name",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "variable_name_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "cv_materials",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "cv_materials_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "cv_seasonalities",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "cv_seasonalities_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "min_lat",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "max_lat",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "min_lon",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "max_lon",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "min_elevation",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "max_elevation",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "earliest_year",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "latest_year",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "time_format",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "time_method",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "reconstruction",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "recent",
+       "default": "False",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "limit",
+       "default": "100",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "skip",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "data_publisher",
+       "default": "'NOAA'",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.NOAADataset.NOAADataset"
+    }
+   }
+  },
+  "pyleotups.core.NOAADataset.UnsupportedFileTypeError": {
+   "bases": [
+    "builtins.Exception"
+   ],
+   "methods": {}
+  },
+  "pyleotups.core.PangaeaDataset.PangaeaDataset": {
+   "bases": [
+    "pyleotups.core.BaseDataset.BaseDataset"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "cache_dir",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "auth_token",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "convert_tups_to_pangaea": {
+     "params": [
+      {
+       "name": "tups_query",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "get_data": {
+     "params": [
+      {
+       "name": "study_id",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame or dict",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "get_funding": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "get_geo": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "get_publications": {
+     "params": [
+      {
+       "name": "save",
+       "default": "False",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "path",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "verbose",
+       "default": "False",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "tuple",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "get_summary": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "get_variables": {
+     "params": [
+      {
+       "name": "study_ids",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    },
+    "search_studies": {
+     "params": [
+      {
+       "name": "study_ids",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "topic",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "topic_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "search_text",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "investigators",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "investigators_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "variable_name",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "variable_name_and_or",
+       "default": "'or'",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "min_lat",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "max_lat",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "min_lon",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "max_lon",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "limit",
+       "default": "100",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "skip",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.core.PangaeaDataset.PangaeaDataset"
+    }
+   }
+  },
+  "pyleotups.utils.NOAAStudy.NOAAStudy": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "study_data",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.NOAAStudy.NOAAStudy"
+    },
+    "to_dict": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "dict",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.NOAAStudy.NOAAStudy"
+    }
+   }
+  },
+  "pyleotups.utils.PaleoData.PaleoData": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "paleo_data",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "study_id",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "site_id",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.PaleoData.PaleoData"
+    },
+    "to_dict": {
+     "params": [
+      {
+       "name": "file_obj",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "dict",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.PaleoData.PaleoData"
+    }
+   }
+  },
+  "pyleotups.utils.PangaeaStudy.PangaeaStudy": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "study_id",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "cache_dir",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "auth_token",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.PangaeaStudy.PangaeaStudy"
+    },
+    "get_data": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.PangaeaStudy.PangaeaStudy"
+    },
+    "get_funding": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.PangaeaStudy.PangaeaStudy"
+    },
+    "get_geo": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.PangaeaStudy.PangaeaStudy"
+    },
+    "get_variables": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.PangaeaStudy.PangaeaStudy"
+    },
+    "to_summary_dict": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "dict",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.PangaeaStudy.PangaeaStudy"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.ExcelParser.Block": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "idx",
+       "default": "-1",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "sheet_name",
+       "default": "''",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "sheet_idx",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "top",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "bottom",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "left",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "right",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "area",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "block_type",
+       "default": "<BlockType.NARRATIVE: 'narrative'>",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "headers",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "header_extent",
+       "default": "0",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "title",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "stats",
+       "default": "<factory>",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "df",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "delimiter",
+       "default": "'excel'",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.ExcelParser.Block"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.ExcelParser.BlockType": {
+   "bases": [
+    "builtins.str",
+    "enum.Enum"
+   ],
+   "methods": {}
+  },
+  "pyleotups.utils.Parser.ExcelParser.ExcelParser": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "file_path",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.ExcelParser.ExcelParser"
+    },
+    "parse": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "List[Block]",
+      "type": "Block"
+     },
+     "defined_in": "pyleotups.utils.Parser.ExcelParser.ExcelParser"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.ExcelParser.SheetGrid": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "name",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "sheet_idx",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "nrows",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "ncols",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "_values",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "merged_spans",
+       "default": "<factory>",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.ExcelParser.SheetGrid"
+    },
+    "get_value": {
+     "params": [
+      {
+       "name": "r",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "c",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.ExcelParser.SheetGrid"
+    },
+    "is_empty": {
+     "params": [
+      {
+       "name": "r",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "c",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.ExcelParser.SheetGrid"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParser.NonStandardParser": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "file_path",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "use_skip",
+       "default": "True",
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "use_refinement",
+       "default": "True",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.NonStandardParser.NonStandardParser"
+    },
+    "parse": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "list[Block]",
+      "type": "Block"
+     },
+     "defined_in": "pyleotups.utils.Parser.NonStandardParser.NonStandardParser"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.Block": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "idx",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "start",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "end",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.NonStandardParserUtils.Block"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.BlockType": {
+   "bases": [
+    "builtins.str",
+    "enum.Enum"
+   ],
+   "methods": {}
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.LineInfo": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "idx",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "text",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.NonStandardParserUtils.LineInfo"
+    }
+   }
+  },
+  "pyleotups.utils.Parser.StandardParser.ParsingError": {
+   "bases": [
+    "builtins.Exception"
+   ],
+   "methods": {}
+  },
+  "pyleotups.utils.Parser.StandardParser.StandardParser": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "url",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Parser.StandardParser.StandardParser"
+    },
+    "parse": {
+     "params": [
+      {
+       "name": "url",
+       "default": "None",
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "pandas.DataFrame",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.Parser.StandardParser.StandardParser"
+    }
+   }
+  },
+  "pyleotups.utils.Publication.Publication": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "pub_data",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Publication.Publication"
+    },
+    "get_citation_key": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "str",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.Publication.Publication"
+    },
+    "to_bibtex_entry": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Publication.Publication"
+    },
+    "to_dict": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": {
+      "text": "dict",
+      "type": null
+     },
+     "defined_in": "pyleotups.utils.Publication.Publication"
+    }
+   }
+  },
+  "pyleotups.utils.Site.Site": {
+   "bases": [
+    "builtins.object"
+   ],
+   "methods": {
+    "__init__": {
+     "params": [
+      {
+       "name": "site_data",
+       "default": null,
+       "kind": "positional_or_keyword"
+      },
+      {
+       "name": "study_id",
+       "default": null,
+       "kind": "positional_or_keyword"
+      }
+     ],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Site.Site"
+    },
+    "to_dict": {
+     "params": [],
+     "accepts_kwargs": false,
+     "accepts_args": false,
+     "returns": null,
+     "defined_in": "pyleotups.utils.Site.Site"
+    }
+   }
+  },
+  "pyleotups.utils.api.pangaea_credentials.CredentialError": {
+   "bases": [
+    "builtins.Exception"
+   ],
+   "methods": {}
+  },
+  "pyleotups.utils.api.validators.ValidationError": {
+   "bases": [
+    "builtins.ValueError"
+   ],
+   "methods": {}
+  }
+ },
+ "functions": {
+  "pyleotups.utils.Parser.NonStandardParserUtils.assign_tokens_by_overlap": {
+   "params": [
+    {
+     "name": "lines_info",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "delimiter",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "headers",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "header_extent",
+     "default": "0",
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "pd.DataFrame",
+    "type": null
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.auto_cast_df": {
+   "params": [
+    {
+     "name": "df",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.compute_interval_overlap": {
+   "params": [
+    {
+     "name": "interval1",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "interval2",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.count_tokens": {
+   "params": [
+    {
+     "name": "line",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "delimiter",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.generate_df": {
+   "params": [
+    {
+     "name": "lines_info",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "delimiter",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "headers",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "header_extent",
+     "default": "0",
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "pd.DataFrame",
+    "type": null
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.generate_row_pattern": {
+   "params": [
+    {
+     "name": "tokens",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.get_token_intervals_multi": {
+   "params": [
+    {
+     "name": "line",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "delimiter",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "list[dict]",
+    "type": null
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.intervals_overlap": {
+   "params": [
+    {
+     "name": "interval1",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "interval2",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.is_numeric": {
+   "params": [
+    {
+     "name": "token",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "bool",
+    "type": null
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.merge_headers_by_overlap": {
+   "params": [
+    {
+     "name": "token_maps",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "list[dict]",
+    "type": null
+   }
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.numeric_ratio": {
+   "params": [
+    {
+     "name": "line",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "delimiter",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.Parser.NonStandardParserUtils.refine_headers_by_correspondence": {
+   "params": [
+    {
+     "name": "header_lines",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "data_lines",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "delimiter",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "broadcast_identical",
+     "default": "False",
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "list[dict] or None",
+    "type": null
+   }
+  },
+  "pyleotups.utils.api.http.get": {
+   "params": [
+    {
+     "name": "url",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "params",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "retries",
+     "default": "2",
+     "kind": "keyword_only"
+    },
+    {
+     "name": "backoff",
+     "default": "0.8",
+     "kind": "keyword_only"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.pangaea_credentials.load_pangaea_credentials": {
+   "params": [],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "str",
+    "type": null
+   }
+  },
+  "pyleotups.utils.api.pangaea_credentials.remove_pangaea_credentials": {
+   "params": [],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.pangaea_credentials.save_pangaea_credentials": {
+   "params": [
+    {
+     "name": "api_key",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "overwrite",
+     "default": "False",
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.query_builder.build_noaa_payload": {
+   "params": [],
+   "accepts_kwargs": true,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.query_builder.build_pangaea_query": {
+   "params": [],
+   "accepts_kwargs": true,
+   "accepts_args": false,
+   "returns": {
+    "text": "dict",
+    "type": null
+   }
+  },
+  "pyleotups.utils.api.validators.normalize_investigator": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.normalize_passthrough": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.normalize_search_text": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.normalize_species_code": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.to_YN": {
+   "params": [
+    {
+     "name": "value",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_and_or": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_digits": {
+   "params": [
+    {
+     "name": "v",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_int": {
+   "params": [
+    {
+     "name": "name",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "v",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_int_range": {
+   "params": [
+    {
+     "name": "name",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "v",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "lo",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "hi",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_limit": {
+   "params": [
+    {
+     "name": "v",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "lo",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "hi",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_time_format": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.api.validators.validate_time_method": {
+   "params": [
+    {
+     "name": "s",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": null
+  },
+  "pyleotups.utils.helpers.assert_list": {
+   "params": [
+    {
+     "name": "input_item",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "list",
+    "type": null
+   }
+  },
+  "pyleotups.utils.helpers.params_validators": {
+   "params": [
+    {
+     "name": "key",
+     "default": null,
+     "kind": "positional_or_keyword"
+    },
+    {
+     "name": "value",
+     "default": null,
+     "kind": "positional_or_keyword"
+    }
+   ],
+   "accepts_kwargs": false,
+   "accepts_args": false,
+   "returns": {
+    "text": "None",
+    "type": null
+   }
+  }
+ }
+}

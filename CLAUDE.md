@@ -624,6 +624,16 @@ the old hand-ported file: 5 names gone from Pyleoclim (`corr_isopersist`, `corr_
 `bin(bin_size=…)` was rejected). Inherited methods name the parent's type (`GeoSeries.detrend` says
 `Series`): read it as "the receiver's type". **Switched (Deborah, 2026-11-18):** `api_validation.py`
 reads the new file (still by method name; class-aware later); the old file is removed.
+**PyLiPD and PyleoTUPS references built 2026-11-18** (after Deborah pulled main; both editable
+installs needed `pip install -e . --no-deps` to report their real versions): PyLiPD 1.5.4b0 (40 classes
+incl. the generated ontology classes, 613 methods, 31 functions; `pylipd.usage` is a script and is
+skipped), PyleoTUPS 1.1.0 (21 classes, 53 methods, 32 functions; few Returns sections). Return types
+that aren't a package class (e.g. `LiPD.get_timeseries_essentials` → `pandas.DataFrame`) are kept only
+as text so far; data loading will want them. **Deborah:** the generated ontology classes are for
+*creating* LiPD files, not reading them; teaching PaleoPAL that is a later goal (by June 2027).
+PyleoTUPS's returns are mostly `pandas.DataFrame`. Each data source's functionality gets the same
+step-by-step discussion as spectral did, before building. **Docs versioning (Deborah):** PyLiPD and PyleoTUPS follow
+Pyleoclim's rule: a `b` version is main, documented as `latest` on Read the Docs.
 **Reminder for Deborah:** add `add_GTS` (geologic time scale on a plot) to the plot guide as an
 example of what PaleoPAL can do.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
