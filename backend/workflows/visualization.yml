@@ -1,0 +1,171 @@
+# =============================================================================
+# PaleoPAL guide: visualization
+# -----------------------------------------------------------------------------
+# Status : v0.1 (2026-11-18). Rationale and statement texts approved by Deborah.
+# Purpose: How LinkedEarth plots Pyleoclim objects. Unlike the analysis guides,
+#          the entries are not an ordered sequence: each one is a kind of plot,
+#          chosen by the type of the object being plotted.
+# Verified against Pyleoclim 1.3.1b0.
+# =============================================================================
+
+schema_version: 0.1
+
+workflow:
+  id: visualization
+  title: Plotting Pyleoclim objects
+  goal: >
+    Plot a Pyleoclim object (a series, a collection of series, a spectrum, a
+    scalogram, PCA results or a coherence) with its own plotting method.
+  authority: curated
+
+rules:
+  - id: matplotlib_is_continuation_not_fallback
+    severity: discouraged
+    statement: >
+      Pyleoclim plotting methods return matplotlib handles (fig, ax). Further
+      customisation through those handles is the correct and intended path.
+      What is wrong is reaching matplotlib by dismantling the domain object:
+      extracting .time / .value (or .frequency / .amplitude) and calling plt
+      directly when a method exists.
+    correct: |
+      fig, ax = psd.plot()
+      ax.set_xlim(1e3, 1e4)
+    incorrect: |
+      plt.loglog(psd.frequency, psd.amplitude)
+    checkable: true
+
+# Each entry: its cell heading (`title`), the object types it plots (`for_types`), whether it is the
+# default plot for those types or only used when asked (`use`), and the
+# explanation written into the cell (`rationale`).
+steps:
+  - id: plot_series
+    title: Plot the series
+    for_types: [Series, GeoSeries]
+    use: default
+    core_api: pyleoclim.core.series.Series.plot
+    rationale: >
+      I plotted the series with its own plotting method, which labels the axes
+      from the series' names and units.
+
+  - id: geoseries_dashboard
+    title: Dashboard
+    for_types: [GeoSeries]
+    use: on_request
+    asked_as: [dashboard, summary of the GeoSeries]
+    core_api: pyleoclim.core.geoseries.GeoSeries.dashboard
+    rationale: >
+      I made a dashboard of the record: the series, the distribution of its
+      values, a map of its location and its spectrum. It's a quick summary of
+      the record. The spectrum in it is computed with a simplified workflow, so
+      please don't use it in place of a spectrum from a full spectral analysis
+      with the appropriate preprocessing steps. I'd be happy to help you set
+      that analysis up.
+
+  - id: stackplot
+    title: Stack plot
+    for_types: [MultipleSeries, MultipleGeoSeries]
+    use: default
+    core_api: pyleoclim.core.multipleseries.MultipleSeries.stackplot
+    rationale: >
+      I plotted each series on its own axis, stacked over a shared time axis,
+      so that records with different units and ranges stay readable side by
+      side.
+
+  - id: overlay_series
+    title: Plot on the same axes
+    for_types: [MultipleSeries, MultipleGeoSeries]
+    use: on_request
+    asked_as: [on the same plot, on the same axes, overlay]
+    core_api: pyleoclim.core.multipleseries.MultipleSeries.plot
+    rationale: >
+      I plotted all the series on the same axes, as you asked.
+
+  - id: plot_psd
+    title: Plot the spectrum
+    for_types: [PSD, MultiplePSD]
+    use: default
+    core_api: pyleoclim.core.psds.PSD.plot
+    container_api: pyleoclim.core.psds.MultiplePSD.plot
+    rationale: >
+      I plotted the spectrum using its own plotting method, with log-log axes
+      and period on the horizontal axis. These are conventional and easier to
+      interpret for paleoclimate spectra.
+    adds: [significance_lines]
+
+  - id: plot_scalogram
+    title: Plot the scalogram
+    for_types: [Scalogram]
+    use: default
+    core_api: pyleoclim.core.scalograms.Scalogram.plot
+    rationale: >
+      I plotted the scalogram with its own plotting method, which shows how
+      spectral power changes through time and across scales.
+    adds: [cone_of_influence, significance_lines]
+
+  - id: summary_plot
+    title: Summary plot
+    for_types: [Series, GeoSeries]
+    use: on_request
+    asked_as: [summary plot, series with its spectrum and scalogram]
+    needs: [PSD, Scalogram]
+    core_api: pyleoclim.core.series.Series.summary_plot
+    rationale: >
+      I made a summary plot of the series together with its spectrum and its
+      scalogram, both computed earlier in your notebook.
+    adds: [cone_of_influence, significance_lines]
+
+  - id: pca_dashboard
+    title: PCA dashboard
+    for_types: [MultivariateDecomp]
+    use: default
+    core_api: pyleoclim.core.multivardecomp.MultivariateDecomp.modeplot
+    rationale: >
+      I made a dashboard of the first mode: its principal component through
+      time, the spectrum of that component, and its loadings, on a map when
+      the records have locations.
+
+  - id: pca_screeplot
+    title: Scree plot
+    for_types: [MultivariateDecomp]
+    use: on_request
+    asked_as: [scree plot, eigenvalues]
+    core_api: pyleoclim.core.multivardecomp.MultivariateDecomp.screeplot
+    rationale: >
+      I made a scree plot, which shows the eigenvalue of each mode with its
+      uncertainty.
+
+  - id: coherence_dashboard
+    title: Cross-wavelet dashboard
+    for_types: [Coherence]
+    use: default
+    core_api: pyleoclim.core.coherences.Coherence.dashboard
+    rationale: >
+      I made the cross-wavelet dashboard: the two series, their wavelet
+      coherence and their cross-wavelet transform.
+    adds: [cone_of_influence, significance_lines]
+
+# Sentences Python adds to a plot's explanation, when they apply.
+statements:
+  cone_of_influence: >
+    The cone of influence, the faded region beyond the dashed line, is where
+    edge effects distort the wavelet transform of a finite record, so only the
+    areas outside it should be interpreted.
+  # Added only when the plotted object carries a significance test (a
+  # signif_test call on it in the cells). The method is the one stored in the
+  # object; Pyleoclim's default is ar1sim. {levels} comes from qs (default 95%).
+  significance_lines:
+    ar1sim: &ar1 >
+      The significance lines show the {levels} threshold of a test against an
+      AR(1) null hypothesis.
+    uar1: *ar1
+    ar1asym: *ar1
+    CN: >
+      The significance lines show the {levels} threshold of a test against a
+      colored-noise null hypothesis.
+    # Phase randomization is for relations between two series (coherence),
+    # never for a single series' spectrum or scalogram.
+    phaseran:
+      only_for: [coherence_dashboard]
+      text: >
+        The significance lines show the {levels} threshold of a test against
+        phase-randomized surrogates of the series, which keep their spectra.

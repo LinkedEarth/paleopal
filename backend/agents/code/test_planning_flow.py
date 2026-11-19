@@ -323,7 +323,7 @@ def writing_chain(meaning):
             return json.dumps(meaning)
         ids = [line.split("## Step: ")[1] for line in user.splitlines() if line.startswith("## Step: ")]
         current = system.split("Start from `")[1].split("`")[0]
-        method = system.split("use method='")[1].split("'")[0]
+        method = system.split("use method='")[1].split("'")[0] if "use method='" in system else None
         number = system.split("use number=")[1].split(" ")[0] if "use number=" in system else None
         calls = {"slice": "slice([0, 500])", "detrend": "detrend(method='linear')", "regrid": "interp()",
                  "standardize": "standardize()", "spectral_estimate": f"spectral(method='{method}')",

@@ -1,9 +1,16 @@
 {
  "pyleoclim_version": "1.3.1b0",
  "links": {
+  "Coherence.dashboard": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.coherences.Coherence.dashboard",
+  "GeoSeries.dashboard": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.geoseries.GeoSeries.dashboard",
+  "MultipleSeries.plot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.multipleseries.MultipleSeries.plot",
+  "MultipleSeries.stackplot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.multipleseries.MultipleSeries.stackplot",
+  "MultivariateDecomp.modeplot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.multivardecomp.MultivariateDecomp.modeplot",
+  "MultivariateDecomp.screeplot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.multivardecomp.MultivariateDecomp.screeplot",
   "PSD.beta_est": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.beta_est",
   "PSD.plot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.plot",
   "PSD.signif_test": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.psds.PSD.signif_test",
+  "Scalogram.plot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.scalograms.Scalogram.plot",
   "Series.bin": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.bin",
   "Series.detrend": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.detrend",
   "Series.interp": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.interp",
@@ -13,6 +20,7 @@
   "Series.slice": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.slice",
   "Series.spectral": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.spectral",
   "Series.standardize": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.standardize",
+  "Series.summary_plot": "https://pyleoclim-util.readthedocs.io/en/latest/core/api.html#pyleoclim.core.series.Series.summary_plot",
   "spectral.cwt_psd": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.cwt_psd",
   "spectral.lomb_scargle": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.lomb_scargle",
   "spectral.mtm": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.spectral.mtm",
@@ -24,6 +32,528 @@
   "tsutils.standardize": "https://pyleoclim-util.readthedocs.io/en/latest/utils/introduction.html#pyleoclim.utils.tsutils.standardize"
  },
  "methods": {
+  "pyleoclim.core.coherences.Coherence.dashboard": {
+   "parameters": [
+    {
+     "name": "title",
+     "type": "str, optional",
+     "definition": "Title of the plot. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "figsize",
+     "type": "list, optional",
+     "definition": "Figure size. The default is [9, 12], as this is an information-rich figure.",
+     "default": "[9, 12]"
+    },
+    {
+     "name": "overlap",
+     "type": "boolean, optional",
+     "definition": "whether to restrict the plot to the period of overlap between the series. Defaults to True",
+     "default": "True"
+    },
+    {
+     "name": "phase_style",
+     "type": "dict, optional",
+     "definition": "Arguments for the phase arrows. The default is {}. It includes: - 'pt': the default threshold above which phase arrows will be plotted - 'skip_x': the number of points to skip between phase arrows along the x-axis - 'skip_y':  the number of points to skip between phase arrows along the y-axis - 'scale': number of data units per arrow length unit (see matplotlib.pyplot.quiver) - 'width': shaft width in arrow units (see matplotlib.pyplot.quiver) - 'color': arrow color (see matplotlib.pyplot.quiver)",
+     "default": "{}"
+    },
+    {
+     "name": "line_colors",
+     "type": "list, optional",
+     "definition": "Colors for the 2 traces For nomenclature, see https://matplotlib.org/stable/gallery/color/named_colors.html",
+     "default": "['tab:blue', 'tab:orange']"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict, optional",
+     "definition": "The default is {}. the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "{}"
+    },
+    {
+     "name": "ts_plot_kwargs",
+     "type": "dict",
+     "definition": "arguments to be passed to the timeseries subplot, see pyleoclim.core.series.Series.plot for details",
+     "default": "None"
+    },
+    {
+     "name": "wavelet_plot_kwargs",
+     "type": "dict",
+     "definition": "arguments to be passed to the contour subplots (XWT and WTC), [see pyleoclim.core.coherence.Coherence.plot for details]",
+     "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.geoseries.GeoSeries.dashboard": {
+   "parameters": [
+    {
+     "name": "figsize",
+     "type": "list or tuple, optional",
+     "definition": "Figure size. The default is [11,8].",
+     "default": "[11, 8]"
+    },
+    {
+     "name": "gs",
+     "type": "matplotlib.gridspec object, optional",
+     "definition": "Requires at least two rows and 4 columns. - top row, left: timeseries - top row, right: histogram - bottom left: map - bottom right: PSD See [matplotlib.gridspec.GridSpec](https://matplotlib.org/stable/tutorials/intermediate/gridspec.html) for details.",
+     "default": "None"
+    },
+    {
+     "name": "plt_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments for the timeseries plot. See Series.plot() or EnsembleSeries.plot_envelope(). The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "histplt_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments for the distribution plot. See Series.histplot() or EnsembleSeries.plot_distplot(). The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "spectral_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments for the spectral method. Default is to use Lomb-Scargle method. See Series.spectral() or EnsembleSeries.spectral(). The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "spectralsignif_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments to estimate the significance of the power spectrum. See PSD.signif_test. Note that we currently do not support significance testing for ensembles. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "spectralfig_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments for the power spectrum figure. See PSD.plot() or MultiplePSD.plot_envelope(). The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "map_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments for map configuration - projection: str; Optional value for map projection. Default 'auto'. - proj_default: bool - lakes, land, ocean, rivers, borders, coastline, background: bool or dict; - lgd_kwargs: dict; Optional values for how the map legend is configured - gridspec_kwargs: dict; Optional values for adjusting the arrangement of the colorbar, map and legend in the map subplot - legend: bool; Whether to draw a legend on the figure. Default is True - colorbar: bool; Whether to draw a colorbar on the figure if the data associated with hue are numeric. Default is True The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "hue",
+     "type": "str, optional",
+     "definition": "Variable associated with color coding for points plotted on map. May correspond to a continuous or categorical variable. The default is 'archiveType'.",
+     "default": "'archiveType'"
+    },
+    {
+     "name": "marker",
+     "type": "string, optional",
+     "definition": "Grouping variable that will produce points with different markers. Can have a numeric dtype but will always be treated as categorical. The default is 'archiveType'.",
+     "default": "'archiveType'"
+    },
+    {
+     "name": "size",
+     "type": "str, optional",
+     "definition": "Variable associated with size. Must correspond to a continuous numeric variable. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "scatter_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments configuring how data are plotted on a map. See description of scatter_kwargs in pyleoclim.utils.mapping.scatter_map",
+     "default": "None"
+    },
+    {
+     "name": "gridspec_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional dictionary for configuring dashboard layout using gridspec For information about Gridspec configuration, refer to `Matplotlib documentation <https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.gridspec.GridSpec.html#matplotlib.gridspec.GridSpec>_. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict, optional",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}. The default is None.",
+     "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.multipleseries.MultipleSeries.plot": {
+   "parameters": [
+    {
+     "name": "figsize",
+     "type": "list, optional",
+     "definition": "Size of the figure. The default is [10, 4].",
+     "default": "[10, 4]"
+    },
+    {
+     "name": "marker",
+     "type": "str, optional",
+     "definition": "Marker type. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "markersize",
+     "type": "float, optional",
+     "definition": "Marker size. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "linestyle",
+     "type": "str, optional",
+     "definition": "Line style. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "linewidth",
+     "type": "float, optional",
+     "definition": "The width of the line. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "colors",
+     "type": "a list of, or one, Python supported color code (a string of hex code or a tuple of rgba values)",
+     "definition": "Colors for plotting. If None, the plotting will cycle the 'tab10' colormap; if only one color is specified, then all curves will be plotted with that single color; if a list of colors are specified, then the plotting will cycle that color list.",
+     "default": "None"
+    },
+    {
+     "name": "cmap",
+     "type": "str",
+     "definition": "The colormap to use when \"colors\" is None.",
+     "default": "'tab10'"
+    },
+    {
+     "name": "norm",
+     "type": "matplotlib.colors.Normalize",
+     "definition": "The normalization for the colormap. If None, a linear normalization will be used.",
+     "default": "None"
+    },
+    {
+     "name": "xlabel",
+     "type": "str, optional",
+     "definition": "x-axis label. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "ylabel",
+     "type": "str, optional",
+     "definition": "y-axis label. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "title",
+     "type": "str, optional",
+     "definition": "Title. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "time_unit",
+     "type": "str",
+     "definition": "the target time unit, possible input: { 'year', 'years', 'yr', 'yrs', 'y BP', 'yr BP', 'yrs BP', 'year BP', 'years BP', 'ky BP', 'kyr BP', 'kyrs BP', 'ka BP', 'ka', 'my BP', 'myr BP', 'myrs BP', 'ma BP', 'ma', } default is None, in which case the code picks the most common time unit in the collection. If no unambiguous winner can be found, the unit of the first series in the collection is used.",
+     "default": "None"
+    },
+    {
+     "name": "legend",
+     "type": "bool, optional",
+     "definition": "Whether the show the legend. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "plot_kwargs",
+     "type": "dict, optional",
+     "definition": "Plot parameters. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "lgd_kwargs",
+     "type": "dict, optional",
+     "definition": "Legend parameters. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dictionary, optional",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be any existing or non-existing path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"} The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "ax",
+     "type": "matplotlib.ax, optional",
+     "definition": "The matplotlib axis onto which to return the figure. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "invert_xaxis",
+     "type": "bool, optional",
+     "definition": "if True, the x-axis of the plot will be inverted",
+     "default": "False"
+    }
+   ]
+  },
+  "pyleoclim.core.multipleseries.MultipleSeries.stackplot": {
+   "parameters": [
+    {
+     "name": "figsize",
+     "type": "list",
+     "definition": "Size of the figure.",
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dictionary",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be any existing or non-existing path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"} The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "time_unit",
+     "type": "str",
+     "definition": "the target time unit, possible inputs: { 'year', 'years', 'yr', 'yrs', 'y BP', 'yr BP', 'yrs BP', 'year BP', 'years BP', 'ky BP', 'kyr BP', 'kyrs BP', 'ka BP', 'ka', 'my BP', 'myr BP', 'myrs BP', 'ma BP', 'ma', } default is None, in which case the code picks the most common time unit in the collection. If no discernible winner can be found, the unit of the first series in the collection is used.",
+     "default": "None"
+    },
+    {
+     "name": "xlim",
+     "type": "list",
+     "definition": "The x-axis limit.",
+     "default": "None"
+    },
+    {
+     "name": "fill_between_alpha",
+     "type": "float",
+     "definition": "The transparency for the fill_between shades.",
+     "default": "0.2"
+    },
+    {
+     "name": "colors",
+     "type": "a list of, or one, Python supported color code (a string of hex code or a tuple of rgba values)",
+     "definition": "Colors for plotting. If None, the plotting will cycle the 'tab10' colormap; if only one color is specified, then all curves will be plotted with that single color; if a list of colors are specified, then the plotting will cycle that color list.",
+     "default": "None"
+    },
+    {
+     "name": "cmap",
+     "type": "str",
+     "definition": "The colormap to use when \"colors\" is None.",
+     "default": "'tab10'"
+    },
+    {
+     "name": "norm",
+     "type": "matplotlib.colors.Normalize like",
+     "definition": "The normalization for the colormap. If None, a linear normalization will be used.",
+     "default": "None"
+    },
+    {
+     "name": "labels",
+     "type": "None, 'auto' or list",
+     "definition": "If None, doesn't add labels to the subplots If 'auto', uses the labels passed during the creation of pyleoclim.Series If list, pass a list of strings for each labels. Default is 'auto'",
+     "default": "'auto'"
+    },
+    {
+     "name": "ylabel_fontsize",
+     "type": "int",
+     "definition": "Size for ylabel font. Default is 8, to avoid crowding.",
+     "default": "8"
+    },
+    {
+     "name": "spine_lw",
+     "type": "float",
+     "definition": "The linewidth for the spines of the axes.",
+     "default": "1.5"
+    },
+    {
+     "name": "grid_lw",
+     "type": "float",
+     "definition": "The linewidth for the gridlines.",
+     "default": "0.5"
+    },
+    {
+     "name": "label_x_loc",
+     "type": "float",
+     "definition": "The x location for the label of each curve.",
+     "default": "-0.15"
+    },
+    {
+     "name": "v_shift_factor",
+     "type": "float",
+     "definition": "The factor for the vertical shift of each axis. The default value 3/4 means the top of the next axis will be located at 3/4 of the height of the previous one.",
+     "default": "0.75"
+    },
+    {
+     "name": "linewidth",
+     "type": "float",
+     "definition": "The linewidth for the curves.",
+     "default": "1.5"
+    },
+    {
+     "name": "yticks_minor",
+     "type": "bool",
+     "definition": "Whether the y axes should contain minor ticks (use sparingly!). Default: False",
+     "default": "False"
+    },
+    {
+     "name": "xticks_minor",
+     "type": "bool",
+     "definition": "Whether the x axis should contain minor ticks. Default: False",
+     "default": "False"
+    },
+    {
+     "name": "ylims",
+     "type": "str {'spacious', 'auto'}",
+     "definition": "Method for determining the limits of the y axes. Default is 'spacious', which is mean +/- 4 x std 'auto' activates the Matplotlib default",
+     "default": "'auto'"
+    },
+    {
+     "name": "plot_kwargs",
+     "type": "dict or list of dict",
+     "definition": "Arguments to further customize the plot from matplotlib.pyplot.plot. - Dictionary: Arguments will be applied to all lines in the stackplots - List of dictionaries: Allows to customize one line at a time.",
+     "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.multivardecomp.MultivariateDecomp.modeplot": {
+   "parameters": [
+    {
+     "name": "index",
+     "type": "int",
+     "definition": "the (0-based) index of the mode to visualize. Default is 0, corresponding to the first mode.",
+     "default": "0"
+    },
+    {
+     "name": "figsize",
+     "type": "list, optional",
+     "definition": "The figure size. The default is [8, 8].",
+     "default": "[8, 8]"
+    },
+    {
+     "name": "fig",
+     "type": null,
+     "definition": null,
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
+    },
+    {
+     "name": "gs",
+     "type": "matplotlib.gridspec object, optional",
+     "definition": "Requires at least two rows and two columns. - top row, left: timeseries of principle component - top row, right: PSD - bottom row: spaghetti plot or map See [matplotlib.gridspec.GridSpec](https://matplotlib.org/stable/tutorials/intermediate/gridspec.html) for details.",
+     "default": "None"
+    },
+    {
+     "name": "title",
+     "type": "str, optional",
+     "definition": "text for figure title",
+     "default": "None"
+    },
+    {
+     "name": "title_kwargs",
+     "type": "dict",
+     "definition": "the keyword arguments for ax.set_title()",
+     "default": "None"
+    },
+    {
+     "name": "spec_method",
+     "type": "str, optional",
+     "definition": "The name of the spectral method to be applied on the PC. Default: MTM Note that the data are evenly-spaced, so any spectral method that assumes even spacing is applicable here:  'mtm', 'welch', 'periodogram' 'wwz' is relevant if scaling exponents need to be estimated, but ill-advised otherwise, as it is very slow.",
+     "default": "'mtm'"
+    },
+    {
+     "name": "cmap",
+     "type": "str, optional",
+     "definition": "if 'hue' is specified, will be used for map scatter plot values. colormap name for the loadings (https://matplotlib.org/stable/tutorials/colors/colormaps.html)",
+     "default": "None"
+    },
+    {
+     "name": "hue",
+     "type": "str, optional",
+     "definition": "(only applicable if using scatter map) Variable associated with color coding for points plotted on map. May correspond to a continuous or categorical variable. The default is 'EOF'.",
+     "default": "'EOF'"
+    },
+    {
+     "name": "marker",
+     "type": "string, optional",
+     "definition": "(only applicable if using scatter map) Grouping variable that will produce points with different markers. Can have a numeric dtype but will always be treated as categorical. The default is None, which will produce circle markers. Alternatively, pass the name of a categorical variable, e.g. 'archiveType'. If 'archiveType' is specified, will attempt to use pyleoclim archiveType markers mapping, defaulting to '?' where values are unavailable. Caution: this is different from the `marker` argument in matplotlib. If you want to specify a marker style (e.g., cirle, square, triangle, use scatter_kwargs)",
+     "default": "None"
+    },
+    {
+     "name": "size",
+     "type": "str, optional",
+     "definition": "(only applicable if using scatter map) Variable associated with size. Must correspond to a continuous numeric variable. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "scatter_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments configuring how data are plotted on a map. This allows you to configure information about the style of markers (e.g., triangle, squares, circles), their size (through `markersize`), edgecolor, etc...) See description of scatter_kwargs in pyleoclim.utils.mapping.scatter_map",
+     "default": "None"
+    },
+    {
+     "name": "flip",
+     "type": null,
+     "definition": null,
+     "default": "False"
+    },
+    {
+     "name": "map_kwargs",
+     "type": "dict, optional",
+     "definition": "Optional arguments for map configuration - projection: str; Optional value for map projection. Default 'auto'. - proj_default: bool - lakes, land, ocean, rivers, borders, coastline, background: bool or dict; - lgd_kwargs: dict; Optional values for how the map legend is configured - gridspec_kwargs: dict; Optional values for adjusting the arrangement of the colorbar, map and legend in the map subplot - legend: bool; Whether to draw a legend on the figure. Default is True - colorbar: bool; Whether to draw a colorbar on the figure if the data associated with hue are numeric. Default is True - color_scale_type : str; Setting to \"discrete\" will force a discrete color scale with a default bin number of max(11, n) where n=number of unique values$^{ rac{1}{2}}$. Default is None - scalar_mappable: matplotlib.cm.ScalarMappable; can be used to pass a matplotlib scalar mappable. See pyleoclim.utils.plotting.make_scalar_mappable for documentation on using the Pyleoclim utility, or the `Matplotlib tutorial on customizing colorbars <https://matplotlib.org/stable/users/explain/colors/colorbar_only.html>`_.",
+     "default": "None"
+    },
+    {
+     "name": "gridspec_kwargs",
+     "type": "dict, optional",
+     "definition": "Dictionary with custom gridspec values. - wspace changes space between columns (default: wspace=0.05) - hspace changes space between rows (default: hspace=0.03) - width_ratios: relative width of each column (default: width_ratios=[5,1,3] where middle column serves as a spacer) - height_ratios: relative height of each row (default: height_ratios=[2,1,5] where middle row serves as a spacer)",
+     "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.multivardecomp.MultivariateDecomp.screeplot": {
+   "parameters": [
+    {
+     "name": "figsize",
+     "type": "list, optional",
+     "definition": "The figure size. The default is [6, 4].",
+     "default": "[6, 4]"
+    },
+    {
+     "name": "uq",
+     "type": "str, optional",
+     "definition": "Method used for uncertainty quantification of the eigenvalues. 'N82' uses the North et al \"rule of thumb\" [1] with effective sample size computed as in [2]. 'MC' uses Monte-Carlo simulations (e.g. MC-EOF). Returns an error if no ensemble is found.",
+     "default": "'N82'"
+    },
+    {
+     "name": "title",
+     "type": "str, optional",
+     "definition": "Plot title. The default is 'scree plot'.",
+     "default": "None"
+    },
+    {
+     "name": "ax",
+     "type": "matplotlib.axis, optional",
+     "definition": "the axis object from matplotlib See [matplotlib.axes](https://matplotlib.org/api/axes_api.html) for details.",
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
+    },
+    {
+     "name": "title_kwargs",
+     "type": "dict, optional",
+     "definition": "the keyword arguments for ax.set_title()",
+     "default": "None"
+    },
+    {
+     "name": "xlim",
+     "type": "list, optional",
+     "definition": "x-axis limits. The default is [0, 10] (first 10 eigenvalues)",
+     "default": "[0, 10]"
+    },
+    {
+     "name": "clr_eig",
+     "type": "str, optional",
+     "definition": "color to be used for plotting eigenvalues",
+     "default": "'C0'"
+    }
+   ]
+  },
   "pyleoclim.core.psds.PSD.beta_est": {
    "parameters": [
     {
@@ -147,7 +677,7 @@
     {
      "name": "savefig_settings",
      "type": "dict, optional",
-     "definition": "save settings options. The default is None. the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "definition": "save settings options. The default is None. the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
      "default": "None"
     },
     {
@@ -267,6 +797,118 @@
      "type": "pyleoclim.Scalogram object, optional",
      "definition": "Scalogram containing signif_scals exported during significance testing of scalogram. If number is None and signif_scals are present, will use length of scalogram list as number of significance tests",
      "default": "None"
+    }
+   ]
+  },
+  "pyleoclim.core.scalograms.Scalogram.plot": {
+   "parameters": [
+    {
+     "name": "variable",
+     "type": "{'amplitude','power'}",
+     "definition": "Whether to plot the amplitude or power. Default is amplitude",
+     "default": "'amplitude'"
+    },
+    {
+     "name": "in_scale",
+     "type": "bool, optional",
+     "definition": "Plot the in scale instead of frequency space. The default is True.",
+     "default": "True"
+    },
+    {
+     "name": "xlabel",
+     "type": "str, optional",
+     "definition": "Label for the x-axis. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "ylabel",
+     "type": "str, optional",
+     "definition": "Label for the y-axis. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "title",
+     "type": "str, optional",
+     "definition": "Title for the figure. The default is 'default', which auto-generates a title.",
+     "default": "None"
+    },
+    {
+     "name": "ylim",
+     "type": "list, optional",
+     "definition": "Limits for the y-axis. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "xlim",
+     "type": "list, optional",
+     "definition": "Limits for the x-axis. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "yticks",
+     "type": "list, optional",
+     "definition": "yticks label. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "figsize",
+     "type": "list, optional",
+     "definition": "Figure size The default is [10, 8].",
+     "default": "[10, 8]"
+    },
+    {
+     "name": "signif_clr",
+     "type": "str, optional",
+     "definition": "Color of the singificance line. The default is 'white'.",
+     "default": "'white'"
+    },
+    {
+     "name": "signif_linestyles",
+     "type": "str, optional",
+     "definition": "Linestyle of the significance line. The default is '-'.",
+     "default": "'-'"
+    },
+    {
+     "name": "signif_linewidths",
+     "type": "float, optional",
+     "definition": "Width for the significance line. The default is 1.",
+     "default": "1"
+    },
+    {
+     "name": "contourf_style",
+     "type": "dict, optional",
+     "definition": "Arguments for the contour plot. The default is {}.",
+     "default": "{}"
+    },
+    {
+     "name": "cbar_style",
+     "type": "dict, optional",
+     "definition": "Arguments for the colarbar. The default is {}.",
+     "default": "{}"
+    },
+    {
+     "name": "plot_cb",
+     "type": null,
+     "definition": null,
+     "default": "True"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict, optional",
+     "definition": "saving options for the figure. The default is {}.",
+     "default": "{}"
+    },
+    {
+     "name": "ax",
+     "type": "ax, optional",
+     "definition": "Matplotlib Axis on which to return the figure. The default is None.",
+     "default": "None"
+    },
+    {
+     "name": "signif_thresh",
+     "type": "float in [0, 1]",
+     "definition": "Significance threshold. Default is 0.95. If this quantile is not found in the qs field of the Coherence object, the closest quantile will be picked.",
+     "default": "0.95"
     }
    ]
   },
@@ -477,7 +1119,7 @@
     {
      "name": "savefigoutliers_settings",
      "type": "dict, optional",
-     "definition": "Saving options for the outlier plot. The default is None. - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "definition": "Saving options for the outlier plot. The default is None. - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
      "default": "None"
     },
     {
@@ -501,7 +1143,7 @@
     {
      "name": "savefigclusters_settings",
      "type": "dict, optional",
-     "definition": "Saving options for the cluster plot. The default is None. - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "definition": "Saving options for the cluster plot. The default is None. - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
      "default": "None"
     },
     {
@@ -619,7 +1261,7 @@
     {
      "name": "savefig_settings",
      "type": "dict",
-     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be any existed or non-existed path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
      "default": "None"
     },
     {
@@ -1248,6 +1890,124 @@
      "definition": "a threshold to determine if the standard deviation is too close to zero",
      "default": "0.001",
      "source": "tsutils.standardize"
+    }
+   ]
+  },
+  "pyleoclim.core.series.Series.summary_plot": {
+   "parameters": [
+    {
+     "name": "psd",
+     "type": "PSD",
+     "definition": "the PSD object of a Series.",
+     "default": null
+    },
+    {
+     "name": "scalogram",
+     "type": "Scalogram",
+     "definition": "the Scalogram object of a Series. If the passed scalogram object contains stored signif_scals these will be plotted.",
+     "default": null
+    },
+    {
+     "name": "figsize",
+     "type": "list",
+     "definition": "a list of two integers indicating the figure size",
+     "default": "[8, 10]"
+    },
+    {
+     "name": "title",
+     "type": "str",
+     "definition": "the title for the figure",
+     "default": "None"
+    },
+    {
+     "name": "time_lim",
+     "type": "list or tuple",
+     "definition": "the limitation of the time axis. This is for display purposes only, the scalogram and psd will still be calculated using the full time series.",
+     "default": "None"
+    },
+    {
+     "name": "value_lim",
+     "type": "list or tuple",
+     "definition": "the limitation of the value axis of the timeseries. This is for display purposes only, the scalogram and psd will still be calculated using the full time series.",
+     "default": "None"
+    },
+    {
+     "name": "period_lim",
+     "type": "list or tuple",
+     "definition": "the limitation of the period axis",
+     "default": "None"
+    },
+    {
+     "name": "psd_lim",
+     "type": "list or tuple",
+     "definition": "the limitation of the psd axis",
+     "default": "None"
+    },
+    {
+     "name": "time_label",
+     "type": "str",
+     "definition": "the label for the time axis",
+     "default": "None"
+    },
+    {
+     "name": "value_label",
+     "type": "str",
+     "definition": "the label for the value axis of the timeseries",
+     "default": "None"
+    },
+    {
+     "name": "period_label",
+     "type": "str",
+     "definition": "the label for the period axis",
+     "default": "None"
+    },
+    {
+     "name": "psd_label",
+     "type": "str",
+     "definition": "the label for the amplitude axis of PDS",
+     "default": "None"
+    },
+    {
+     "name": "ts_plot_kwargs",
+     "type": "dict",
+     "definition": "arguments to be passed to the timeseries subplot, see Series.plot for details",
+     "default": "None"
+    },
+    {
+     "name": "wavelet_plot_kwargs",
+     "type": "dict",
+     "definition": "arguments to be passed to the scalogram plot, see pyleoclim.Scalogram.plot for details",
+     "default": "None"
+    },
+    {
+     "name": "psd_plot_kwargs",
+     "type": "dict",
+     "definition": "arguments to be passed to the psd plot, see PSD.plot for details Certain psd plot settings are required by summary plot formatting. These include: - ylabel - legend - tick parameters These will be overriden by summary plot to prevent formatting errors",
+     "default": "None"
+    },
+    {
+     "name": "gridspec_kwargs",
+     "type": "dict",
+     "definition": "arguments used to build the specifications for gridspec configuration The plot is constructed with six slots: - slot [0] contains a subgridspec containing the timeseries and scalogram (shared x axis) - slot [1] contains a subgridspec containing an empty slot and the PSD plot (shared y axis with scalogram) - slot [2] and slot [3] are empty to allow ample room for xlabels for the scalogram and PSD plots - slot [4] contains the scalogram color bar - slot [5] is empty It is possible to tune the size and spacing of the various slots: - 'width_ratios': list of two values describing the relative widths of the column containig the timeseries/scalogram/colorbar and the column containig the PSD plot (default: [6, 1]) - 'height_ratios': list of three values describing the relative heights of the three timeseries, scalogram and colorbar (default: [2, 7, .35]) - 'hspace': vertical space between timeseries and scalogram (default: 0, however if either the scalogram xlabel or the PSD xlabel contain '\\n', .05) - 'wspace': lateral space between scalogram and psd plot (default: 0) - 'cbspace': vertical space between the scalogram and colorbar",
+     "default": "None"
+    },
+    {
+     "name": "y_label_loc",
+     "type": "float",
+     "definition": "Plot parameter to adjust horizontal location of y labels to avoid conflict with axis labels, default value is -0.15",
+     "default": "None"
+    },
+    {
+     "name": "legend",
+     "type": "bool",
+     "definition": "if set to True, a legend will be added to the open space above the psd plot",
+     "default": "None"
+    },
+    {
+     "name": "savefig_settings",
+     "type": "dict",
+     "definition": "the dictionary of arguments for plt.savefig(); some notes below: - \"path\" must be specified; it can be an existing or new path, with or without a suffix; if the suffix is not given in \"path\", it will follow \"format\" - \"format\" can be one of {\"pdf\", \"eps\", \"png\", \"ps\"}",
+     "default": "None"
     }
    ]
   }

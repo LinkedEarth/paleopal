@@ -319,7 +319,9 @@ def _sources_block(step: dict, plan: Plan, workflow: dict, snippets: dict[str, l
     lines = ["<details><summary>Sources</summary>", ""]
     if source:
         analysis = workflow["workflow"]["id"].replace("_", " ")
-        lines += [f"**PaleoPAL's guide to {analysis}, on the {_title(step)} step:**", "", f"> {source}", ""]
+        # A plot entry isn't a step of a sequence, so its guide is named without one.
+        where = "" if step.get("for_types") else f", on the {_title(step)} step"
+        lines += [f"**PaleoPAL's guide to {analysis}{where}:**", "", f"> {source}", ""]
     else:
         lines += ["No source text provided.", ""]
     names = [str(e.get("notebook") or e.get("symbol") or "unnamed example").rsplit("/", 1)[-1]
@@ -780,7 +782,9 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
     Pass `previous` and `problems` to ask the model to repair an earlier reply.
     """
     result = WriteResult()
-    rules = [f"- In the spectral step, use method='{plan.method}'."]
+    # A plot plan has no spectral step, so no estimator to pin.
+    rules = ([f"- In the spectral step, use method='{plan.method}'."]
+             if any(s["id"] == _SPECTRAL_STEP for s in plan.steps) else [])
     count = surrogate_count(plan, workflow)
     if any(s["id"] == "significance" for s in plan.steps):
         rules.append(f"- In the significance step, use number={count} unless the researcher's request gives a number."
@@ -822,8 +826,8 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         explanation = " ".join(str(reply.get("explanation", "")).split())
         if not explanation:
             result.problems.append(f"{step['id']}: the reply has no explanation")
-        title = step["id"].replace("_", " ").capitalize()
-        if step["requiredness"] == "recommended":
+        title = step.get("title") or step["id"].replace("_", " ").capitalize()
+        if step.get("requiredness") == "recommended":
             title += " (recommended)"
         parameters = _parameters_block(step, code, session_version=session_pyleoclim(plan.kernel),
                                        explain_version=not version_noted)
@@ -831,7 +835,7 @@ def write_workflow(plan: Plan, workflow: dict, snippets: dict[str, list[dict]],
         range_note = (_slice_note(code, plan.kernel, plan.series) if step["id"] == "slice"
                       else _surrogate_note(step, code) if step["id"] == "significance" else None)
         skip_note = (_skip_note(code, codes[number + 1])
-                     if step["requiredness"] == "recommended" and number + 1 < len(codes) else None)
+                     if step.get("requiredness") == "recommended" and number + 1 < len(codes) else None)
         lines = [f"### {title}", explanation, *plan.notes.get(step["id"], []),
                  *([range_note] if range_note else []), *([skip_note] if skip_note else []),
                  *([parameters] if parameters else []),

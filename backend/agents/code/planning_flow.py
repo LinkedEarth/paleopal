@@ -506,6 +506,19 @@ async def answer_uncovered(user_input: str, history: list[dict], workflow: dict,
             "checker_findings": answer.problems, "model_only": True}
 
 
+# Temporary, until both guides plan one request together (case 3). Never drop part of a request silently.
+_BOTH_GUIDES_CELL = {
+    "kind": "markdown", "step": None,
+    "text": "Your request also asks for a plot that my guide to spectral analysis doesn't make. I can't yet "
+            "combine my guide to visualization with an analysis in one request, so I did only the analysis. "
+            "Please ask me for that plot on its own, in a new request.\n\n"
+            + workflow_writer.AUTHORSHIP_MARKDOWN}
+
+
+def _first_after_intro(cells: list[dict]) -> int:
+    return 1 if cells and cells[0]["text"] == _INTRO else 0
+
+
 async def handle(request):
     """Adapter for the agent router. Returns an AgentResponse, or None for the old pipeline."""
     from agents.base_agent import AgentResponse, AgentStatus
@@ -521,14 +534,29 @@ async def handle(request):
     def call_model(system: str, user: str) -> str:
         return llm._call([SystemMessage(content=system), HumanMessage(content=user)])
 
+    from . import guide_router, plot_flow
     history = (request.context or {}).get("conversation_history", [])
-    workflow = workflow_detector.load_workflow()
-    result = await run(request.user_input, history, workflow, call_model,
-                       [search_service.search_snippets, search_service.search_code_examples],
-                       max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
-                       answers={r["id"]: r["answer"]
-                                for r in metadata.get("clarification_responses") or []},
-                       kernel=(request.notebook_context or {}).get("kernel"))
+    guides = guide_router.load_guides()
+    workflow = guides["spectral_analysis"]
+    kernel = (request.notebook_context or {}).get("kernel")
+    searches = [search_service.search_snippets, search_service.search_code_examples]
+    route = await asyncio.to_thread(guide_router.route_request, request.user_input, guides, call_model)
+    logger.info("Guide router chose %s (problems=%s)", route.guides, route.problems)
+    # An unreadable reply keeps today's behaviour: the spectral guide reads the request.
+    chosen = ["spectral_analysis"] if route.failed else route.guides
+    result = None
+    if "spectral_analysis" in chosen:
+        result = await run(request.user_input, history, workflow, call_model, searches,
+                           max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
+                           answers={r["id"]: r["answer"]
+                                    for r in metadata.get("clarification_responses") or []},
+                           kernel=kernel)
+        if result and result.get("cells") and not result["needs_user_input"] and "visualization" in chosen:
+            result["cells"].insert(_first_after_intro(result["cells"]), _BOTH_GUIDES_CELL)
+    elif "visualization" in chosen:
+        result = await plot_flow.run(request.user_input, history, guides["visualization"], call_model,
+                                     searches, max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
+                                     kernel=kernel)
     if result is None:
         result = await answer_uncovered(request.user_input, history, workflow,
                                         workflow_writer._parameter_reference(), call_model)

@@ -164,23 +164,26 @@ def _fetch(url: str) -> str:
         return reply.read().decode("utf-8", "replace")
 
 
-# Methods the chat is asked about that no guide step uses yet. The visualization guide will own these.
-_ALSO_DESCRIBED = ["pyleoclim.core.series.Series.plot"]
+# Methods the chat is asked about that no guide step uses yet.
+_ALSO_DESCRIBED: list[str] = []
+
+# Every guide whose steps' methods get described.
+_GUIDES = ["spectral_full.yml", "visualization.yml"]
 
 
-def workflow_methods(workflow: dict) -> list[str]:
+def workflow_methods(*workflows: dict) -> list[str]:
     apis: list[str] = list(_ALSO_DESCRIBED)
-    for step in workflow["steps"]:
-        core = step.get("core_api") or []
-        apis += core if isinstance(core, list) else [core]
+    for workflow in workflows:
+        for step in workflow["steps"]:
+            core = step.get("core_api") or []
+            apis += core if isinstance(core, list) else [core]
     return sorted(set(apis))
 
 
 def main() -> None:
     import pyleoclim
 
-    workflow = yaml.safe_load((_WORKFLOWS / "spectral_full.yml").read_text())
-    apis = workflow_methods(workflow)
+    apis = workflow_methods(*(yaml.safe_load((_WORKFLOWS / name).read_text()) for name in _GUIDES))
     utilities = {*(_PASSES_ARGUMENTS_TO.values()),
                  *(target for targets in _SETTINGS_GO_TO.values() for target in targets.values())}
     output = {"pyleoclim_version": pyleoclim.__version__,

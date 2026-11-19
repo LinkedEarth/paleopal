@@ -537,6 +537,41 @@ Plot types: series and intermediate series (`Series.plot`), spectrum (`PSD.plot`
 Pyleoclim 1.3.1b0. A plot of the series is good practice as part of an analysis anyway. Needs
 PaleoPAL to plan with two guides at once, the same problem data loading brings, so it's the smaller
 place to solve it first.
+**Added (Deborah, 2026-11-18):** dashboards beyond `Series.summary_plot`: `GeoSeries.dashboard` (asked
+as "show me a summary for the GeoSeries" or "create a dashboard"), PCA results
+(`MultivariateDecomp.modeplot`, a per-mode dashboard; also `screeplot`) and cross-wavelet results
+(`Coherence.dashboard`). **For a `MultipleSeries`, `stackplot` should be the default**; `.plot()`
+overlays. Checked in 1.3.1b0. Note: `GeoSeries.dashboard` computes a spectrum itself (Lomb-Scargle
+by default, `spectral_kwargs`) and a significance test (`spectralsignif_kwargs`). **Decided (Deborah):**
+treat it as a quick summary plot, as it is; dashboards need rethinking eventually, but that's beyond
+PaleoPAL's scope. **`Series.stripes`** (also `MultipleSeries.stripes`): never by default; if someone
+asks for it, rediscuss. **Examples:** a visualization tutorial (PyleoTutorials) or gallery notebook
+would become the priority source of plot examples (already a LinkedEarth GitHub issue, no one to
+write it yet; PaleoPAL doesn't wait for it); today's closest is `L1_figures_with_multiple_panels`
+(for `ax=`), with other plots scattered across tutorials.
+**Plot guide drafted 2026-11-18, wording approved by Deborah:** `backend/workflows/visualization.yml`,
+one entry per plot chosen by object type (`for_types`, `use: default | on_request`). PCA's default is
+`modeplot` (Pyleoclim's per-mode dashboard; there's no `dashboard` method). The GeoSeries dashboard's
+text says its spectrum comes from a simplified workflow and offers help with a full analysis. Python-
+added `statements`: the cone of influence (scalogram, summary plot, cross-wavelet dashboard; only the
+areas outside it should be interpreted) and the significance lines, by the method stored in the
+object (read from the `signif_test` call; default `ar1sim`; threshold from `qs`). **Phaseran never for
+a PSD or scalogram (Deborah: makes no sense for a single series)**, only the coherence dashboard. For
+the Pyleoclim list: `PSD.plot`'s significance-label table has no `phaseran` entry (likely `KeyError`;
+not run). `stripes` stays out of the guide.
+**Routing (Deborah chose (a), 2026-11-18):** `agents/code/guide_router.py` (tests
+`test_guide_router.py`): one model call picks the guides a request needs from their ids (Python rejects
+others); an analysis guide already plots its own result, so "run spectral analysis and plot it" is
+spectral only. The seed of the single front door. Not wired yet: wire it together with the plot flow
+(cases 1 and 2: a plot on its own; a plot of a result, its type from the kernel's variable types, else
+the cell text). Case 3 (both guides in one plan) after that.
+**Plot flow built and wired 2026-11-18** (`agents/code/plot_flow.py`, tests `test_plot_flow.py`): the
+router runs first on every `@agent code` request (an unreadable reply falls back to spectral); a plot
+request gets one cell pair from the plot guide, with Python's cone-of-influence and significance
+sentences and code-only checks. The Parameters reference now covers the plot methods (the build
+script reads both guides). Tested by Deborah ("works like a charm"); its questions (several objects,
+not found, not run, wrong type, missing results) and the interim note for a request needing both
+guides are approved. For the Pyleoclim list: `Series.plot`'s docstring doesn't define `xlim`/`ylim`.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
 → data loading. Editing a step: remind Deborah when we get there.
 **Chatbot / explanation (planned, never built):** a conversational mode
