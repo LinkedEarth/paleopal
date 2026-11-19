@@ -333,7 +333,11 @@ def _sources_block(step: dict, plan: Plan, workflow: dict, snippets: dict[str, l
         # A link lets the researcher open the notebook the example came from.
         entry = f"[{name}]({example['url']})" if example.get("url") else name
         if example.get("heading"):
-            entry += f", section \"{example['heading']}\""
+            # The published page's anchor lands right next to the cell; GitHub's view has none.
+            heading = re.sub(r"<[^>]+>", "", str(example["heading"])).strip()
+            section = example.get("section_url")
+            entry += (f", section [\"{heading}\"]({section})" if section and "#" in section
+                      else f", section \"{heading}\"")
         # The cell itself, so the researcher sees exactly what I was shown.
         code = "\n".join(str(example.get("code", "")).strip().splitlines()[:_QUOTED_LINES])
         shown.append(f"- {entry}:\n\n  ```python\n" + "\n".join(f"  {l}" for l in code.splitlines()) + "\n  ```")

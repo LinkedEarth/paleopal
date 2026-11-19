@@ -516,6 +516,10 @@ class SourceLinkTests(unittest.TestCase):
         block = w._sources_block(step, plan, {"workflow": {"id": "spectral_analysis"}, "steps": [step],
                                               "rules": [], "method_registry": []}, snippets)
         self.assertIn('- `L1.ipynb`, section "Detrending":', block)
+        snippets["detrend"][0]["section_url"] = "https://linked.earth/PyleoTutorials/notebooks/L1.html#detrending"
+        block = w._sources_block(step, plan, {"workflow": {"id": "spectral_analysis"}, "steps": [step],
+                                              "rules": [], "method_registry": []}, snippets)
+        self.assertIn('section ["Detrending"](https://linked.earth/PyleoTutorials/notebooks/L1.html#detrending)', block)
         self.assertIn("x14 = lr04.detrend()", block)
         self.assertNotIn("x15 = lr04.detrend()", block)
 

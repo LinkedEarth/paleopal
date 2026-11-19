@@ -21,7 +21,10 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import re
+import urllib.request
 from collections import Counter, defaultdict
+from html.parser import HTMLParser
 from pathlib import Path
 
 import yaml
@@ -227,12 +230,67 @@ def _without_magics(code: str) -> str:
     return "\n".join("" if line.lstrip().startswith(("%", "!")) else line for line in code.splitlines())
 
 
+# --- the rendered pages ----------------------------------------------------------------------
+# The tutorials and some PaleoBooks are published as Jupyter Book pages, where every heading has
+# an anchor. Linking there lands next to the example cell; GitHub's notebook view has no anchors.
+
+def _key(text: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", text.lower())
+
+
+class _Sections(HTMLParser):
+    """Each `<section id=...>`'s first heading text, read from the page itself."""
+
+    def __init__(self):
+        super().__init__()
+        self.ids, self._pending, self._in_heading, self._text = {}, None, False, []
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "section" and attrs.get("id"):
+            self._pending = attrs["id"]
+        elif tag in ("h1", "h2", "h3", "h4", "h5", "h6") and self._pending:
+            self._in_heading, self._text = True, []
+
+    def handle_endtag(self, tag):
+        if self._in_heading and tag.startswith("h") and len(tag) == 2:
+            self.ids.setdefault(_key("".join(self._text)), self._pending)
+            self._in_heading, self._pending = False, None
+
+    def handle_data(self, data):
+        if self._in_heading:
+            self._text.append(data)
+
+
+def rendered_page(entry: dict) -> tuple[str | None, dict[str, str]]:
+    """The notebook's published page, if it exists, and its heading-to-anchor map."""
+    url = f"https://linked.earth/{entry['repository']}/{entry['source_path'].rsplit('.', 1)[0]}.html"
+    try:
+        request = urllib.request.Request(url, headers={"User-Agent": "paleopal-build"})
+        with urllib.request.urlopen(request, timeout=30) as reply:
+            html = reply.read().decode("utf-8", "replace")
+    except Exception:
+        return None, {}
+    sections = _Sections()
+    sections.feed(html)
+    return url, sections.ids
+
+
+def _heading_text(markdown_heading: str) -> str:
+    """A markdown heading as the page shows it: no emphasis, code marks or link targets."""
+    text = re.sub(r"<[^>]+>", "", markdown_heading)  # e.g. <a name='age'> … </a>
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+    return re.sub(r"[*_`]", "", text)
+
+
 def _markdown(cell) -> str:
     return "".join(cell.get("source", "")) if isinstance(cell.get("source"), list) else cell.get("source", "")
 
 
-def read_notebook(path: Path, entry: dict, api: Api, steps: dict) -> list[dict]:
+def read_notebook(path: Path, entry: dict, api: Api, steps: dict,
+                  page: tuple[str | None, dict[str, str]] = (None, {})) -> list[dict]:
     notebook = json.loads(path.read_text())
+    page_url, anchors = page
     reader = Reader(api, steps)
     records, heading, markdown = [], None, []
     code_index = 0
@@ -257,6 +315,9 @@ def read_notebook(path: Path, entry: dict, api: Api, steps: dict) -> list[dict]:
             "cell": number, "code_cell": code_index, "heading": heading,
             "markdown": "\n\n".join(m for m in markdown if m)[-_MARKDOWN_CHARS:],
             "code": text, **facts,
+            "page_url": page_url,
+            "section_url": (f"{page_url}#{anchors[_key(_heading_text(heading))]}"
+                            if page_url and heading and _key(_heading_text(heading)) in anchors else page_url),
             "steps": sorted({s for c in facts["calls"] for s in c["steps"]}),
         })
         code_index += 1
@@ -303,6 +364,7 @@ def summarize(records: list[dict]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--no-pages", action="store_true", help="don't look up the published pages")
     args = parser.parse_args()
     api, steps = Api(), guide_steps()
     entries = json.loads((_LIBRARY / "_metadata" / "notebooks.json").read_text())
@@ -310,13 +372,15 @@ def main() -> None:
     for entry in entries:
         path = _LIBRARY / entry["destination_path"]
         if path.exists():
-            records += read_notebook(path, entry, api, steps)
+            page = (None, {}) if args.no_pages else rendered_page(entry)
+            records += read_notebook(path, entry, api, steps, page)
     args.out.mkdir(parents=True, exist_ok=True)
     with open(args.out / "catalog.jsonl", "w") as f:
         for record in records:
             f.write(json.dumps(record) + "\n")
     (args.out / "summary.md").write_text(summarize(records))
-    print(f"Wrote {len(records)} cells to {args.out}")
+    linked = sum(1 for r in records if r.get("section_url") and "#" in r["section_url"])
+    print(f"Wrote {len(records)} cells to {args.out}; {linked} link to their section on a published page")
 
 
 if __name__ == "__main__":

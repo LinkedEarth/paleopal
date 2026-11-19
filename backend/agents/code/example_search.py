@@ -24,6 +24,7 @@ def _as_example(hit: dict) -> dict:
     return {"code": hit.get("code", ""), "markdown_context": hit.get("markdown") or "",
             "notebook": hit.get("notebook"), "url": hit.get("url"), "kind": hit.get("kind"),
             "heading": hit.get("heading"), "example_id": hit.get("example_id"),
+            "section_url": hit.get("section_url"),
             "similarity_score": hit.get("score", 0.0)}
 
 

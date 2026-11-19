@@ -669,6 +669,15 @@ notebook link, its section heading, and the cell itself (first 15 lines). **Next
 to the section on the rendered pages (find each source's web address, e.g.
 `linked.earth/PyleoTutorials/notebooks/<name>.html`, and check how its heading anchors are formed;
 fall back to the GitHub link), then the per-notebook cap on examples, then the PyLiPD design.
+**Section links built 2026-11-19 (tested by Deborah):** the catalog builder fetches each
+notebook's published page (`https://linked.earth/<repository>/<source_path>.html`), reads its
+`<section id>` anchors from the page itself, and matches each cell's heading to one (HTML in headings
+is stripped). The pattern works for 62 of 132 notebooks: all Pyleoclim and PyLiPD tutorials and six
+PaleoBooks; the others are published elsewhere (other owners, e.g. `croppers/cropper_ecs`; `pens`
+builds from `docsrc/`) or not at all, and keep the GitHub link. 554 of the 747 example cells are on a
+published page, all now linked to their section. Sources show `section ["Detrending"](…#detrending)`.
+Later: look up the remaining PaleoBooks' pages one by one. Run the indexer from `/app/scripts` in the
+container (from `/tmp` it can't find the libraries).
 **Release watcher (Deborah chose (a), 2026-11-18; committed):**
 `.github/workflows/check-package-releases.yml` runs weekly (and by hand), runs
 `backend/scripts/check_package_releases.py` (PyPI's latest release vs each reference's `version`; a
