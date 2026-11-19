@@ -77,6 +77,8 @@ class Plan:
     fresh_chain: bool = False
     decisions: list[dict] = field(default_factory=list)  # the user's yes/no answers
     request: str = ""  # the researcher's words, which can set arguments but not steps
+    # What another guide writes for the same request, so this writer leaves it out.
+    also_planned: str | None = None
     # Facts read from the researcher's kernel. Its time axes are for Python's checks only and
     # must never reach a prompt.
     kernel: dict | None = None
@@ -494,6 +496,8 @@ def build_user_message(plan: Plan, workflow: dict, snippets: dict[str, list[dict
     parts = []
     if plan.request:
         parts.append(f"## The researcher's request\n{plan.request}")
+    if plan.also_planned:
+        parts.append(plan.also_planned)
     # Only the unit and the name of the time axis go to the model, never the time values.
     facts = _kernel_series(plan.kernel, plan.start, plan.series)
     if facts and facts.get("time_unit"):

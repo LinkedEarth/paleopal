@@ -91,14 +91,19 @@ def _parse_reply(reply: str) -> dict:
 
 def interpret_request(request: str, workflow: dict, series_names: list[str],
                       call_model: Callable[[str, str], str],
-                      settings: dict[str, list[str]] | None = None) -> Interpretation:
+                      settings: dict[str, list[str]] | None = None,
+                      also_planned: str | None = None) -> Interpretation:
     """`call_model(system_prompt, user_message)` returns the model's text reply.
 
-    `settings` maps a step id to the argument names its functions take.
+    `settings` maps a step id to the argument names its functions take. `also_planned` says what
+    another guide handles in the same request, so it isn't read as this analysis or as uncovered.
     """
     result = Interpretation()
+    system = build_system_prompt(workflow, series_names, settings)
+    if also_planned:
+        system += f"\n\n{also_planned}"
     try:
-        reply = _parse_reply(call_model(build_system_prompt(workflow, series_names, settings), request))
+        reply = _parse_reply(call_model(system, request))
     except ValueError as exc:
         result.problems.append(f"couldn't read the model's reply: {exc}")
         return result

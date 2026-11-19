@@ -596,6 +596,14 @@ credits). First try failed: the router, blind to the notebook, read "plot the de
 spectral steps (detrend + visualize) and plotted the PSD. Fixed: the router now gets the notebook's
 objects (names and types, never values) and a rule that plotting an existing object needs only the
 plot guide. Replayed live on her notebook: plot guide only, `lr04_detrended.plot()`, placed after cell 2.
+**Case 3 built 2026-11-18** (`run_both` in `planning_flow.py`): the spectral interpreter is told every
+plot except its own spectrum plot belongs to another guide; the plot flow gets the new analysis code
+as `pending` (its objects can be plotted, aren't asked about as not run, and aren't moved); the plot
+pair goes right after the new cell creating its object, else before or after the analysis cells by
+the router's order. A question from the analysis comes first (the plot is planned on the resend); a
+plot question goes under the analysis. Live: "run spectral analysis on lr04 and plot the detrended
+series" → detrend, plot of `lr04_detrended`, standardize, spectrum, its plot, the significance offer;
+one repair, because the spectral writer first put a plot in the detrend step (it sees the whole request).
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
 → data loading. Editing a step: remind Deborah when we get there.
 **Chatbot / explanation (planned, never built):** a conversational mode

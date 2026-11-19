@@ -38,6 +38,8 @@ for _name in ("api_validation", "verification", "workflow_detector", "request_in
               "step_snippets", "workflow_writer", "chat_session"):
     _load(_name)
 flow = _load("planning_flow")
+_load("plot_flow")
+GUIDES = _load("guide_router").load_guides()
 WORKFLOW = _pkg.workflow_detector.load_workflow()
 STEPS = ["detrend", "standardize", "spectral_estimate", "visualize"]
 GOOD_CODE = {
@@ -935,6 +937,85 @@ class NotRunTests(unittest.TestCase):
     def test_no_kernel_read_or_an_older_extension_goes_ahead(self):
         for kernel in (None, {"series": [self.HAD]}):
             self.assertIn("plan", self.flow(self.NOTEBOOK, kernel))
+
+
+def both_guides(meaning, plot_choice):
+    """The analysis stand-in, plus the plot interpreter's choice and a plot written from `start`."""
+    chain = writing_chain(meaning)
+    systems = []
+
+    def call(system, user):
+        systems.append(system)
+        if system.startswith("You read one plotting request"):
+            return json.dumps(plot_choice)
+        if "## Step: plot_" in user:
+            step = [l.split("## Step: ")[1] for l in user.splitlines() if l.startswith("## Step: ")][0]
+            start = system.split("Start from `")[1].split("`")[0]
+            return json.dumps({"steps": [{"id": step, "explanation": "P.", "code": f"fig2, ax2 = {start}.plot()"}]})
+        return chain(system, user)
+    call.systems = systems
+    return call
+
+
+class BothGuidesTests(unittest.TestCase):
+    """Case 3: the analysis first, then the plot guide against the notebook plus the new cells."""
+
+    def both(self, plot_choice, plot_first=False, notebook=None):
+        call = both_guides({**SPECTRAL, "whole_analysis": True}, plot_choice)
+        result = asyncio.run(flow.run_both("run spectral analysis on lr04 and plot the detrended series",
+                                           notebook or LR04, GUIDES, plot_first, call, [no_search]))
+        return result, call
+
+    def test_the_plot_goes_right_after_the_new_cell_it_shows(self):
+        result, _ = self.both({"object": "v0", "plot": None})
+        code = [c["text"].split("\n", 1)[1] for c in result["cells"] if c["kind"] == "code"]
+        self.assertEqual(code[0], "v0 = lr04.detrend(method='linear')")
+        self.assertEqual(code[1], "fig2, ax2 = v0.plot()")
+        self.assertEqual(code[2], "v1 = v0.standardize()")
+        self.assertNotIn("place_after_cell", result)
+        self.assertNotIn("I placed this plot", json.dumps(result))
+
+    def test_one_intro_on_a_fresh_notebook(self):
+        result, _ = self.both({"object": "v0", "plot": None}, notebook=NEW_NOTEBOOK)
+        self.assertEqual(sum("Working with PaleoPAL" in c["text"] for c in result["cells"]), 1)
+
+    def test_the_analysis_interpreter_is_told_plots_are_elsewhere(self):
+        _, call = self.both({"object": "v0", "plot": None})
+        reader = next(s for s in call.systems if s.startswith("You read one request"))
+        self.assertIn("Another of PaleoPAL's guides handles every plot", reader)
+
+    def test_the_analysis_writer_is_told_too(self):
+        users = []
+        inner = both_guides({**SPECTRAL, "whole_analysis": True}, {"object": "v0", "plot": None})
+
+        def call(system, user):
+            if system.startswith("You write the code"):
+                users.append(user)
+            return inner(system, user)
+        asyncio.run(flow.run_both("x", LR04, GUIDES, False, call, [no_search]))
+        self.assertIn("Another of PaleoPAL's guides handles every plot", users[0])
+        self.assertNotIn("Another of PaleoPAL's guides", users[-1])  # the plot writer isn't told
+
+    def test_an_existing_object_follows_the_request_order(self):
+        first, _ = self.both({"object": "lr04", "plot": None}, plot_first=True)
+        code = [c["text"] for c in first["cells"] if c["kind"] == "code"]
+        self.assertIn("lr04.plot()", code[0])
+        last, _ = self.both({"object": "lr04", "plot": None}, plot_first=False)
+        code = [c["text"] for c in last["cells"] if c["kind"] == "code"]
+        self.assertIn("lr04.plot()", code[-1])
+
+    def test_new_objects_are_not_asked_about_as_not_run(self):
+        call = both_guides({**SPECTRAL, "whole_analysis": True}, {"object": "v0", "plot": None})
+        kernel = {"variables": {"pyleo": "module", "lr04": "Series"}}
+        result = asyncio.run(flow.run_both("x", LR04, GUIDES, False, call, [no_search], kernel=kernel))
+        self.assertFalse(result["needs_user_input"])
+        self.assertTrue(any("v0.plot()" in c["text"] for c in result["cells"]))
+
+    def test_a_plot_question_comes_under_the_analysis(self):
+        result, _ = self.both({"object": "sst", "plot": None})
+        self.assertFalse(result["needs_user_input"])
+        self.assertIn("spectral_estimate", result["plan"]["steps"])
+        self.assertIn("I couldn't find `sst`", result["cells"][-1]["text"])
 
 
 if __name__ == "__main__":

@@ -311,14 +311,15 @@ def _has_paleopal_cells(history: list[dict]) -> bool:
 async def run(user_input: str, history: list[dict], workflow: dict,
               call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
               on_repair: Callable[[dict], None] | None = None,
-              answers: dict[str, str] | None = None, kernel: dict | None = None) -> dict | None:
+              answers: dict[str, str] | None = None, kernel: dict | None = None,
+              also_planned: str | None = None) -> dict | None:
     """Return the cells for this request, or None if it isn't covered yet.
 
     People rarely read the docs, so a notebook's first cells from PaleoPAL explain how to read them.
     """
     seen: dict = {}
     result = await _plan_and_write(user_input, history, workflow, call_model, searches,
-                                   max_repairs, on_repair, answers, seen, kernel)
+                                   max_repairs, on_repair, answers, seen, kernel, also_planned)
     if result and result.get("cells") and not result["needs_user_input"] and seen.get("not_covered"):
         result["cells"].insert(0, _not_covered_cell(seen["not_covered"], workflow))
     if result and result.get("cells") and not _has_paleopal_cells(history):
@@ -330,7 +331,7 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
                           call_model: Callable[[str, str], str], searches: list, max_repairs: int,
                           on_repair: Callable[[dict], None] | None,
                           answers: dict[str, str] | None, seen: dict,
-                          kernel: dict | None = None) -> dict | None:
+                          kernel: dict | None = None, also_planned: str | None = None) -> dict | None:
     cells = code_cells_from_history(history)
     series = workflow_detector.detect(cells, workflow).series
     if not series:
@@ -338,7 +339,7 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
 
     meaning = await asyncio.to_thread(
         request_interpreter.interpret_request, user_input, workflow, series, call_model,
-        step_settings(workflow, workflow_writer._parameter_reference()))
+        step_settings(workflow, workflow_writer._parameter_reference()), also_planned)
     seen["not_covered"] = meaning.not_covered
     # How the request was read, never any data: when a request goes to the wrong path, this says why.
     logger.info("Planning flow read the request as: analysis=%s steps=%s whole=%s method=%s problems=%s",
@@ -407,6 +408,7 @@ async def _plan_and_write(user_input: str, history: list[dict], workflow: dict,
         return None
     plan.notebook_code = cells
     plan.request = user_input
+    plan.also_planned = also_planned
     plan.kernel = kernel
     plan.version_noted = _version_noted(history)
     _note_regrid(plan, regrid)
@@ -506,17 +508,56 @@ async def answer_uncovered(user_input: str, history: list[dict], workflow: dict,
             "checker_findings": answer.problems, "model_only": True}
 
 
-# Temporary, until both guides plan one request together (case 3). Never drop part of a request silently.
-_BOTH_GUIDES_CELL = {
-    "kind": "markdown", "step": None,
-    "text": "Your request also asks for a plot that my guide to spectral analysis doesn't make. I can't yet "
-            "combine my guide to visualization with an analysis in one request, so I did only the analysis. "
-            "Please ask me for that plot on its own, in a new request.\n\n"
-            + workflow_writer.AUTHORSHIP_MARKDOWN}
+# --- both guides in one request (case 3, agreed 2026-11-18) ------------------------------------
+# The analysis is planned first; the plot guide then plans against the notebook plus the new cells.
+
+_PLOTS_ELSEWHERE = ("Another of PaleoPAL's guides handles every plot except this analysis's own plot of the "
+                    "spectrum, for example a plot of the series or of the detrended series. Don't list those "
+                    "plots under \"steps\" or \"not_covered\".")
+_NOTHING_TO_PLOT = ("I wrote the analysis, but I couldn't work out what to plot for the rest of your request. "
+                    "Could you ask me for that plot on its own?")
 
 
-def _first_after_intro(cells: list[dict]) -> int:
-    return 1 if cells and cells[0]["text"] == _INTRO else 0
+def _note_cell(text: str) -> dict:
+    return {"kind": "markdown", "text": f"{text}\n\n{workflow_writer.AUTHORSHIP_MARKDOWN}", "step": None}
+
+
+def _plot_position(cells: list[dict], name: str, plot_first: bool) -> int:
+    """Right after the new cell that creates what the plot shows; for an object that was already in
+    the notebook, before or after the analysis cells, as the request ordered them."""
+    from .plot_flow import _creates
+    creators = [i for i, c in enumerate(cells) if c["kind"] == "code" and _creates(c["text"], name)]
+    if creators:
+        return creators[-1] + 1
+    if plot_first:
+        return next((i for i, c in enumerate(cells) if c.get("step")), len(cells))
+    return len(cells)
+
+
+async def run_both(user_input: str, history: list[dict], guides: dict, plot_first: bool,
+                   call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
+                   on_repair: Callable[[dict], None] | None = None,
+                   answers: dict[str, str] | None = None, kernel: dict | None = None) -> dict | None:
+    from . import plot_flow
+    analysis = await run(user_input, history, guides["spectral_analysis"], call_model, searches,
+                         max_repairs, on_repair, answers, kernel, also_planned=_PLOTS_ELSEWHERE)
+    if not analysis or analysis["needs_user_input"] or not analysis.get("cells"):
+        return analysis  # a question about the analysis comes first; the plot is planned on the resend
+    new_code = [c["text"] for c in analysis["cells"] if c["kind"] == "code"]
+    plotted = await plot_flow.run(user_input, history, guides["visualization"], call_model, searches,
+                                  max_repairs, on_repair, kernel, pending=new_code)
+    cells = analysis["cells"]
+    if plotted is None:
+        cells.append(_note_cell(_NOTHING_TO_PLOT))
+    elif plotted["needs_user_input"]:
+        cells.append(plotted["cells"][0])  # the plot's question, under the analysis already written
+    else:
+        plot_cells = [c for c in plotted["cells"] if c["text"] != _INTRO]
+        at = _plot_position(cells, plotted["plan"]["series"], plot_first)
+        cells[at:at] = plot_cells
+        analysis["generated_code"] = "\n\n".join(c["text"] for c in cells if c["kind"] == "code")
+        analysis["checker_findings"] = analysis.get("checker_findings", []) + plotted["checker_findings"]
+    return analysis
 
 
 async def handle(request):
@@ -548,14 +589,16 @@ async def handle(request):
     # An unreadable reply keeps today's behaviour: the spectral guide reads the request.
     chosen = ["spectral_analysis"] if route.failed else route.guides
     result = None
-    if "spectral_analysis" in chosen:
+    answers = {r["id"]: r["answer"] for r in metadata.get("clarification_responses") or []}
+    if "spectral_analysis" in chosen and "visualization" in chosen:
+        result = await run_both(request.user_input, history, guides,
+                                chosen.index("visualization") < chosen.index("spectral_analysis"),
+                                call_model, searches, max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
+                                answers=answers, kernel=kernel)
+    elif "spectral_analysis" in chosen:
         result = await run(request.user_input, history, workflow, call_model, searches,
-                           max_repairs=MAX_REFINEMENTS, on_repair=record_repair,
-                           answers={r["id"]: r["answer"]
-                                    for r in metadata.get("clarification_responses") or []},
+                           max_repairs=MAX_REFINEMENTS, on_repair=record_repair, answers=answers,
                            kernel=kernel)
-        if result and result.get("cells") and not result["needs_user_input"] and "visualization" in chosen:
-            result["cells"].insert(_first_after_intro(result["cells"]), _BOTH_GUIDES_CELL)
     elif "visualization" in chosen:
         result = await plot_flow.run(request.user_input, history, guides["visualization"], call_model,
                                      searches, max_repairs=MAX_REFINEMENTS, on_repair=record_repair,

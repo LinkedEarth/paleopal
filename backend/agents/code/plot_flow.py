@@ -256,10 +256,17 @@ def _which(objects: dict[str, PlotObject]) -> str:
 async def run(user_input: str, history: list[dict], guide: dict,
               call_model: Callable[[str, str], str], searches: list, max_repairs: int = 3,
               on_repair: Callable[[dict], None] | None = None,
-              kernel: dict | None = None) -> dict | None:
-    """Cells for a plot request, a question, or None when there's nothing this guide can plot."""
+              kernel: dict | None = None, pending: list[str] | None = None) -> dict | None:
+    """Cells for a plot request, a question, or None when there's nothing this guide can plot.
+
+    `pending` is code another guide is writing in the same request: its objects can be plotted though
+    they don't exist yet, and the caller places the plot among those cells.
+    """
+    history = list(history or []) + [{"role": "assistant", "agent_type": "code", "generated_content": c}
+                                     for c in pending or []]
     cells = planning_flow.code_cells_from_history(history)
     objects = plottable(cells, guide, kernel)
+    new = {name for code in pending or [] for name in _assigned(code)}
     if not objects:
         return None
 
@@ -277,7 +284,7 @@ async def run(user_input: str, history: list[dict], guide: dict,
     item = objects[meaning.object] if meaning.object else next(iter(objects.values()))
 
     variables = (kernel or {}).get("variables")
-    if variables is not None and item.name not in variables:
+    if variables is not None and item.name not in variables and item.name not in new:
         return planning_flow._ask(f"The cell that creates `{item.name}` hasn't been run, so I couldn't "
                                   "check it. Could you run it, then ask me again?")
 
@@ -325,7 +332,7 @@ async def run(user_input: str, history: list[dict], guide: dict,
     sentences = statements_for(entry, plotted_objects(code, entry, objects), guide)
     # A plot goes right after the cell that creates what it shows, with the request moved along
     # (Deborah, 2026-11-18). Only the extension can move cells; this says where.
-    anchor = placement(history, item.name)
+    anchor = None if pending else placement(history, item.name)
     if anchor is not None:
         sentences.append(MOVED_NOTE.format(name=item.name))
     _add_statements(written.cells[0], sentences)
@@ -344,6 +351,15 @@ async def run(user_input: str, history: list[dict], guide: dict,
 
 MOVED_NOTE = ("I placed this plot, and your request, right after the cell that creates `{name}`, "
               "so the plot sits next to what it shows.")
+
+
+def _assigned(code: str) -> set[str]:
+    """Names a cell assigns at its top level."""
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return set()
+    return {t.id for s in tree.body if isinstance(s, ast.Assign) for t in s.targets if isinstance(t, ast.Name)}
 
 
 def _creates(code: str, name: str) -> bool:
