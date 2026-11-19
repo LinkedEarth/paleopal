@@ -80,5 +80,31 @@ class CatalogDedupeTests(unittest.TestCase):
         self.assertEqual(len(found), 1)
 
 
+class SpreadTests(unittest.TestCase):
+    def test_two_notebooks_come_before_a_second_cell_of_the_first(self):
+        found = s.spread_over_notebooks([
+            {"notebook": "a", "code": "a1"}, {"notebook": "a", "code": "a2"},
+            {"notebook": "b", "code": "b1"}])
+        self.assertEqual([f["code"] for f in found], ["a1", "b1", "a2"])
+
+    def test_at_most_two_from_one_notebook(self):
+        found = s.spread_over_notebooks([{"notebook": "a", "code": f"a{i}"} for i in range(4)])
+        self.assertEqual([f["code"] for f in found], ["a0", "a1"])
+
+    def test_examples_without_a_notebook_are_not_grouped(self):
+        found = s.spread_over_notebooks([{"code": "x"}, {"code": "y"}, {"code": "z"}])
+        self.assertEqual(len(found), 3)
+
+    def test_search_results_are_spread(self):
+        step = {"id": "detrend", "core_api": ["pyleoclim.core.series.Series.detrend"]}
+
+        async def search(query, top_k=10):
+            return [{"code": "t.detrend()", "notebook": "a", "example_id": "a#1", "similarity_score": 0.9},
+                    {"code": "u.detrend()", "notebook": "a", "example_id": "a#2", "similarity_score": 0.8},
+                    {"code": "v.detrend()", "notebook": "b", "example_id": "b#1", "similarity_score": 0.5}]
+        found = asyncio.run(s.find_step_snippets(step, [search]))
+        self.assertEqual([f["example_id"] for f in found], ["a#1", "b#1", "a#2"])
+
+
 if __name__ == "__main__":
     unittest.main()

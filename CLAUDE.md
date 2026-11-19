@@ -659,8 +659,10 @@ payload (`call_names`, `steps`, `kind`…). `agents/code/example_search.py` does
 step method (`call_names` = "Series.detrend") ranked by the researcher's request; it replaces both
 the old snippet search and the Read the Docs examples. Sources link each example to its notebook on
 GitHub (`source_url`). Live: "detrend lr04 with savitzky-golay" → the tutorial's Savitzky-Golay cell
-first, `lr04.detrend(method='savitzky-golay')` (no `preserve_mean` copied), no repairs. Not yet: at
-most one or two examples per notebook (several results often come from one tutorial).
+first, `lr04.detrend(method='savitzky-golay')` (no `preserve_mean` copied), no repairs. **Per-notebook
+cap built 2026-11-19 (tested by Deborah):** examples are spread over notebooks (each one's best cell
+first, at most two from one notebook, 10 cells searched per method), so a step's two examples come
+from different notebooks when two exist (`spread_over_notebooks` in `step_snippets.py`).
 **Refinement wanted (Deborah, 2026-11-18):** link a Sources entry to the actual snippet, not just the
 notebook. GitHub's notebook view has no per-cell anchors; options are quoting the cell in Sources, and
 linking to the rendered Jupyter Book page at the cell's section heading. **Deborah chose both.**

@@ -32,7 +32,27 @@ def calls_step(code: str, step: dict) -> bool:
     return any(re.search(rf"\.{re.escape(m)}\(", code) for m in methods)
 
 
-async def find_step_snippets(step: dict, searches: list[Search], top_k: int = 5) -> list[dict]:
+PER_NOTEBOOK = 2
+
+
+def spread_over_notebooks(results: list[dict], per_notebook: int = PER_NOTEBOOK) -> list[dict]:
+    """Best example of each notebook first, then each one's second best, and so on.
+
+    One tutorial often holds several cells calling the same method, so ranking by similarity
+    alone can show the writer two cells from one notebook. Spreading them shows two ways of
+    writing the step when two exist, and keeps at most `per_notebook` from any one notebook.
+    """
+    rank: dict[str, int] = {}
+    placed = []
+    for order, r in enumerate(results):
+        notebook = r.get("notebook") or f"unnamed-{order}"
+        rank[notebook] = rank.get(notebook, -1) + 1
+        if rank[notebook] < per_notebook:
+            placed.append((rank[notebook], order, r))
+    return [r for _, _, r in sorted(placed, key=lambda t: (t[0], t[1]))]
+
+
+async def find_step_snippets(step: dict, searches: list[Search], top_k: int = 10) -> list[dict]:
     """Run each search for one step and keep the results that call the step's method."""
     results = []
     for query in step_queries(step):
@@ -41,4 +61,5 @@ async def find_step_snippets(step: dict, searches: list[Search], top_k: int = 5)
     kept = [r for r in results if calls_step(r.get("code", ""), step)]
     # The same cell can match two of a step's methods; keep it once.
     unique = {(r.get("example_id") or r.get("code")): r for r in kept}
-    return sorted(unique.values(), key=lambda r: r.get("similarity_score", 0), reverse=True)
+    ranked = sorted(unique.values(), key=lambda r: r.get("similarity_score", 0), reverse=True)
+    return spread_over_notebooks(ranked)
