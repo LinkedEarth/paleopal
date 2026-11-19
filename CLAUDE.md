@@ -572,6 +572,11 @@ sentences and code-only checks. The Parameters reference now covers the plot met
 script reads both guides). Tested by Deborah ("works like a charm"); its questions (several objects,
 not found, not run, wrong type, missing results) and the interim note for a request needing both
 guides are approved. For the Pyleoclim list: `Series.plot`'s docstring doesn't define `xlim`/`ylim`.
+**Trigger renamed (Deborah, 2026-11-18; extension 0.1.13):** `@paleopal <request>` replaces
+`@agent code` (the router decides the guide, so "code" no longer chooses anything) and `@paleopal chat
+<question>` opens the chat. Under `@paleopal` only `chat` is a keyword ("@paleopal plot lr04" is a
+request). `@agent code|sparql|workflow|chat` keep working for older notebooks; SPARQL moves into the
+front door with the data work. Parser in `vscode-extension/src/trigger.ts`.
 **Order (Deborah, 2026-11-05):** chat v1 → kernel reads (and maybe the corpus) → visualization guide
 → data loading. Editing a step: remind Deborah when we get there.
 **Chatbot / explanation (planned, never built):** a conversational mode

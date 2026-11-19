@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { buildConversationHistoryFromNotebook, insertAgentCells, AgentCell } from './notebook';
 
-// A conversation about the notebook, opened by `@agent chat`. All reasoning is in the backend;
+// A conversation about the notebook, opened by `@paleopal chat`. All reasoning is in the backend;
 // this panel shows the replies, sends the researcher's messages and inserts the summary cells.
 // The conversation lives only in this panel: once it closes, only the summary remains.
 
@@ -19,7 +19,7 @@ interface Turn {
 export interface ChatOptions {
   question: string;
   notebook: vscode.NotebookDocument;
-  // The `@agent chat` cell; the summary goes below it, wherever it is by then.
+  // The `@paleopal chat` cell; the summary goes below it, wherever it is by then.
   anchor?: vscode.NotebookCell;
   apiBase: string;
   provider: string;
@@ -179,7 +179,7 @@ function chatHtml(webview: vscode.Webview): string {
   <div id="log"></div>
   <div id="offer" hidden>Shall I add a summary of what we decided to your notebook?
     <div><button id="offerYes">Yes, add it</button><button id="offerNo" class="secondary">Not yet</button></div></div>
-  <div id="done" hidden>I added the summary below your <code>@agent chat</code> cell. One undo removes it. You can close this panel.</div>
+  <div id="done" hidden>I added the summary below your chat request. One undo removes it. You can close this panel.</div>
   <div id="error" class="problems" hidden></div>
   <div id="bar">
     <div id="status" hidden>PaleoPAL is thinking…</div>

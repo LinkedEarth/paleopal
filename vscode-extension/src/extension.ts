@@ -4,6 +4,7 @@ import { createNotebook, buildConversationHistoryFromNotebook, appendMarkdownCel
 import { showClarificationPanel, ClarificationQuestion } from './clarifyPanel';
 import { openChatPanel } from './chatPanel';
 import { readKernelFacts } from './kernelFacts';
+import { parseTrigger } from './trigger';
 
 // Remembers that the kernel-access explanation was shown.
 let extensionState: vscode.Memento;
@@ -209,7 +210,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() {}
 
-// Command: Run Agent for current cell content if it starts with @agent
+// Command: run PaleoPAL for the current cell if it starts with @paleopal (or the older @agent)
 async function runAgentForCell() {
   const editor = vscode.window.activeNotebookEditor;
   if (!editor) {
@@ -223,25 +224,16 @@ async function runAgentForCell() {
   }
   const cell = editor.notebook.cellAt(idx);
   const text = cell.document.getText().trim();
-  // Allow leading whitespace and case-insensitive @agent
-  if (!/^\s*@agent\b/i.test(text)) {
-    vscode.window.showErrorMessage('Current cell does not start with @agent.');
+  const trigger = parseTrigger(text);
+  if (!trigger) {
+    vscode.window.showErrorMessage('Current cell does not start with @paleopal.');
     return;
   }
-  // parse: supports both "@agent <type> <request text>" in same line and multi-line body
-  const lines = text.split(/\n/);
-  const firstLine = lines[0];
-  const restBody = lines.slice(1).join('\n').trim();
-  const match = firstLine.match(/^\s*@agent(?:\s+(\w+))?(?:\s+(.+))?$/i);
-  const typeToken = (match && match[1]) ? match[1].toLowerCase() : 'code';
-  const inlineRequest = (match && match[2]) ? match[2].trim() : '';
-  const agentTypeRaw = (typeToken as any);
-  const agentType = (agentTypeRaw === 'workflow' ? 'workflow_generation' : agentTypeRaw) as any;
-  const combined = [inlineRequest, restBody].filter(Boolean).join('\n').trim();
-  const userText = combined;
+  const agentType = trigger.agentType as any;
+  const userText = trigger.request;
   if (agentType === 'chat') {
     if (!userText) {
-      vscode.window.showErrorMessage('Write your question after @agent chat.');
+      vscode.window.showErrorMessage('Write your question after @paleopal chat.');
       return;
     }
     const { baseUrl, provider, model } = getConfig();
